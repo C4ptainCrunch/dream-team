@@ -2,9 +2,9 @@ test:
   script:
     - uname -a
     - "gradle test"
-  tags:
-    - java
-    - gradle
+#  tags:
+#    - java
+#    - gradle
 
 cache:
   paths:

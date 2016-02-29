@@ -1,0 +1,6 @@
+- intellij: file -> settings -> plugins -> browse repositories
+- installer "Eclipse Code Formatter" et redémarrer
+- intellij: file -> settings -> other settings -> Eclipse code formatter
+- cocher "use the eclipse code formatter"
+- mettre le path vers formatter.xml dans la case du milieu
+- voilà :-)

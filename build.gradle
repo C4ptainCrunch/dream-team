@@ -7,6 +7,6 @@ repositories {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'hello.java.HelloWorld'
+        attributes 'Main-Class': 'Main'
     }
 }

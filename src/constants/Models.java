@@ -11,6 +11,7 @@ public final class Models {
         public static final int X = 0;
         public static final int Y = 0;
         public static final String LABEL = new String("");
+        public static final int WIDTH=1;
     }
 
 }

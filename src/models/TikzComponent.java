@@ -1,9 +1,16 @@
 package models;
 import java.awt.Color;
 
+import constants.Models;
+
 public abstract class TikzComponent {
     private Color color;
     private String label;
+
+    protected TikzComponent(){
+        this.color = Models.DEFAULT.COLOR;
+        this.label = Models.DEFAULT.LABEL;
+    }
 
     public Color getColor(){
         return color;

@@ -16,7 +16,7 @@ public class TikzUndirectedEdgeTest {
 
     @Before
     public void setUp() throws Exception {
-        first = new TikzRectancle();
+        first = new TikzRectangle();
         second = new TikzCircle();
         edge = new TikzUndirectedEdge(first, second);
     }

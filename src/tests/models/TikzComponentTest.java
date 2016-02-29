@@ -4,8 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
-
 import static java.awt.Color.black;
 import static org.junit.Assert.*;
 
@@ -19,7 +17,7 @@ public class TikzComponentTest {
 
     @Before
     public void setUp() throws Exception {
-        tikzComponent = new TikzRectancle();
+        tikzComponent = new TikzRectangle();
     }
 
     @After

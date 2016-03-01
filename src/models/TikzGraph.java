@@ -35,10 +35,10 @@ public class TikzGraph extends AbstractCollection<TikzNode> {
      * @param values Vector of TikzEdge to append
      * @return true if new mapping, else false
      */
-    public boolean addAll(TikzNode keyNode, Vector<TikzEdge> values){
+    public boolean addAll(TikzNode keyNode, Collection<TikzEdge> values){
         Vector<TikzEdge> edges = graph.get(keyNode);
         if(edges == null) {
-            graph.put(keyNode, values);
+            graph.put(keyNode, new Vector<TikzEdge>(values));
             return true;
         }
         else{

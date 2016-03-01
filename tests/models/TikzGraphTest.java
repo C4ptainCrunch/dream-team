@@ -114,7 +114,6 @@ public class TikzGraphTest {
             assertArrayEquals(graph.get(node).toArray(), edges.toArray());
         }
     }
-    }
 
     @Test
     public void testRemove2() throws Exception {
@@ -128,7 +127,7 @@ public class TikzGraphTest {
         graph.addAll(node, edges);
         for (int i = edges.size()-1; i >= 0 ; i--) {
             graph.remove(node, edges.get(i));
-            edges.remove(i)
+            edges.remove(i);
             assertArrayEquals(graph.get(node).toArray(), edges.toArray());
         }
     }

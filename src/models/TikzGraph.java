@@ -38,7 +38,7 @@ public class TikzGraph extends AbstractCollection<TikzNode> {
     public boolean addAll(TikzNode keyNode, Collection<TikzEdge> values){
         Vector<TikzEdge> edges = graph.get(keyNode);
         if(edges == null) {
-            graph.put(keyNode, new Vector<TikzEdge>(values));
+            edges.addAll(values);
             return true;
         }
         else{

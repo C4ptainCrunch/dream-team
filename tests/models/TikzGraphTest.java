@@ -61,7 +61,7 @@ public class TikzGraphTest {
 
     @Test
     public void testAddAllEdges() throws Exception {
-       
+
     }
 
     @Test

@@ -1,5 +1,6 @@
 package parser;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.codehaus.jparsec.Parsers;
 import org.codehaus.jparsec.Scanners;
 import org.codehaus.jparsec.Terminals;
 import org.codehaus.jparsec.functors.Map;
+import org.codehaus.jparsec.functors.Map3;
 import org.codehaus.jparsec.functors.Pair;
 import org.codehaus.jparsec.pattern.Patterns;
 
@@ -36,6 +38,20 @@ public class NodeParser {
 						return new Pair<>(Double.valueOf(splitted[0]), Double.valueOf(splitted[1]));
 					}
 				}), Scanners.string(")"));
+	}
+
+	public static Parser<String> nodeFromDraw() {
+		return Parsers.sequence(coordinates(),
+				Parsers.sequence(Scanners.WHITESPACES, Scanners.string("node"),
+						Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
+				Parsers.sequence(Scanners.WHITESPACES, label()),
+				new Map3<Pair<Double, Double>, List<String>, String, String>() {
+					@Override
+					public String map(Pair<Double, Double> doubleDoublePair, List<String> strings, String s) {
+						return "coord: " + doubleDoublePair.toString() + ", options: " + strings.toString()
+								+ ", label: " + s;
+					}
+				});
 	}
 
 }

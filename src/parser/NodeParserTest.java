@@ -33,4 +33,10 @@ public class NodeParserTest {
 	public void testCoordinates() throws Exception {
 		Assert.assertEquals(NodeParser.coordinates().parse("(5,4)"), new Pair<Double, Double>(5., 4.));
 	}
+
+    @Test
+    public void testNodeFromDraw() throws Exception {
+        Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node[draw] {a}"), "coord: (0.0, 0.0), options: [draw], label: a");
+        Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node {a}"), "coord: (0.0, 0.0), options: [], label: a");
+    }
 }

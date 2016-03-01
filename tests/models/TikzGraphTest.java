@@ -61,7 +61,10 @@ public class TikzGraphTest {
 
     @Test
     public void testAddAllEdges() throws Exception {
-
+        List<TikzEdge> edges = new ArrayList<TikzEdge>();
+        for (int i = 0; i < ; i++) {
+            
+        }
     }
 
     @Test

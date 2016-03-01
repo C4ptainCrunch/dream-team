@@ -52,17 +52,20 @@ public class TikzGraphTest {
     }
 
     @Test
-    public void testAdd() throws Exception {
+    public void testAddWithoutEdge() throws Exception {
+        TikzNode key = new TikzCircle();
+        assertTrue(graph.add(key));
+        assertFalse(graph.add(key));
+        assertEquals(graph.get(key), null);
+    }
+
+    @Test
+    public void testAddAllEdges() throws Exception {
 
     }
 
     @Test
-    public void testAddAll() throws Exception {
-
-    }
-
-    @Test
-    public void testAdd1() throws Exception {
+    public void testAddWithEdge() throws Exception {
 
     }
 

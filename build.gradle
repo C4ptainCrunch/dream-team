@@ -29,8 +29,3 @@ sourceSets {
         }
     }
 }
-
-sourceSets.all {
-    println name
-    println allSource.files
-}

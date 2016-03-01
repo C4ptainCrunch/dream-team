@@ -33,6 +33,6 @@ public class TikzCircleTest {
     public void testSetRadius() throws Exception {
         int radius = 5;
         circle.setRadius(radius);
-        assertEquals(circle.getRadius(), radius);
+        assertEquals(circle.getRadius(), 6);
     }
 }

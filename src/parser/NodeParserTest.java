@@ -39,4 +39,10 @@ public class NodeParserTest {
         Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node[draw] {a}"), "coord: (0.0, 0.0), options: [draw], label: a");
         Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node {a}"), "coord: (0.0, 0.0), options: [], label: a");
     }
+
+
+    @Test
+    public void testNodeFromNode() throws Exception {
+        Assert.assertEquals(NodeParser.nodeFromNode().parse("\\node[lolilol](nametest) at (15,46)"), "coord: (15.0, 46.0), options: [lolilol], label: , refnametest");
+    }
 }

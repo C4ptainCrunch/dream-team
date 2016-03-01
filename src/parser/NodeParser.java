@@ -10,6 +10,7 @@ import org.codehaus.jparsec.Scanners;
 import org.codehaus.jparsec.Terminals;
 import org.codehaus.jparsec.functors.Map;
 import org.codehaus.jparsec.functors.Map3;
+import org.codehaus.jparsec.functors.Map4;
 import org.codehaus.jparsec.functors.Pair;
 import org.codehaus.jparsec.pattern.Patterns;
 
@@ -53,5 +54,21 @@ public class NodeParser {
 					}
 				});
 	}
+
+    public static  Parser<String> nodeFromNode(){
+        return Parsers.sequence(
+                Parsers.sequence(Scanners.string("\\node"), Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
+                Parsers.or(reference(), Parsers.constant("")),
+                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("at"), Scanners.WHITESPACES, coordinates()),
+                Parsers.or(label(),Parsers.constant("")),
+                new Map4<List<String>, String, Pair<Double, Double>, String, String>() {
+                    @Override
+                    public String map(List<String> strings, String s, Pair<Double, Double> doubleDoublePair, String s2) {
+                        return "coord: " + doubleDoublePair.toString() + ", options: " + strings.toString()
+                                + ", label: " + s2+", ref"+s;
+                    }
+                });
+
+    }
 
 }

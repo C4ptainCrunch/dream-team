@@ -23,4 +23,14 @@ sourceSets {
             srcDirs = ["tests/"]
         }
     }
+    main {
+        java {
+            srcDir 'src/'
+        }
+    }
+}
+
+sourceSets.all {
+    println name
+    println allSource.files
 }

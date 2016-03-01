@@ -45,4 +45,9 @@ public class NodeParserTest {
     public void testNodeFromNode() throws Exception {
         Assert.assertEquals(NodeParser.nodeFromNode().parse("\\node[lolilol](nametest) at (15,46)"), "coord: (15.0, 46.0), options: [lolilol], label: , refnametest");
     }
+
+    @Test
+    public void testNodesFromDraw() throws Exception {
+        Assert.assertEquals(NodeParser.nodesFromDraw().parse("\\draw[zedjio] (0,0) node[draw] {a} -- (2,0) node[draw] {l} -- (0,5) node[draw] {p}"), "option [zedjio] premier nodecoord: (0.0, 0.0), options: [draw], label: aother Nodes[coord: (2.0, 0.0), options: [draw], label: l, coord: (0.0, 5.0), options: [draw], label: p]");
+    }
 }

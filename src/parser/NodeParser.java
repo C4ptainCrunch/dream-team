@@ -71,4 +71,21 @@ public class NodeParser {
 
     }
 
+    public static Parser<String> nodesFromDraw(){
+        return Parsers.sequence(
+                Parsers.sequence(Scanners.string("\\draw"), Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
+                Parsers.sequence(Scanners.WHITESPACES, nodeFromDraw()),
+
+                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, nodeFromDraw()).many(),
+                new Map3<List<String>, String, List<String>, String>() {
+                    @Override
+                    public String map(List<String> strings, String s, List<String> strings2) {
+                        return "option " + strings + " premier node" + s
+                                +"other Nodes"+strings2;
+                    }
+                }
+
+        );
+    }
+
 }

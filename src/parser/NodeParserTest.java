@@ -2,6 +2,7 @@ package parser;
 
 import java.util.ArrayList;
 
+import org.codehaus.jparsec.functors.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -26,5 +27,10 @@ public class NodeParserTest {
 		testarray.add("is");
 		testarray.add("trololo");
 		Assert.assertEquals(NodeParser.options().parse("[hello, my,name, is,   trololo]"), testarray);
+	}
+
+	@Test
+	public void testCoordinates() throws Exception {
+		Assert.assertEquals(NodeParser.coordinates().parse("(5,4)"), new Pair<Double, Double>(5., 4.));
 	}
 }

@@ -61,10 +61,16 @@ public class TikzGraphTest {
 
     @Test
     public void testAddAllEdges() throws Exception {
+        TikzNode firstNode = new TikzRectangle();
+        TikzNode secondNode = new TikzCircle();
         List<TikzEdge> edges = new ArrayList<TikzEdge>();
-        for (int i = 0; i < ; i++) {
-            
+        for (int i = 0; i < 5; i++) {
+            edges.add(new TikzUndirectedEdge(firstNode, secondNode));
         }
+
+        graph.addAll(firstNode, edges);
+        assertEquals(edges.toArray(), graph.get(firstNode).toArray());
+
     }
 
     @Test

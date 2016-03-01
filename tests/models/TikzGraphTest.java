@@ -94,7 +94,20 @@ public class TikzGraphTest {
 
     @Test
     public void testRemove1() throws Exception {
-
+        TikzNode node = new TikzRectangle();
+        List<TikzEdge> edges = new ArrayList<TikzEdge>();
+        for (int i = 0; i < 5; i++) {
+            TikzNode node1 = new TikzRectangle();
+            TikzNode node2 = new TikzCircle();
+            edges.add(new TikzDirectedEdge(node1,node2));
+        }
+        graph.addAll(node, edges);
+        for (int i = edges.size()-1; i >= 0 ; i--) {
+            graph.remove(node, i);
+            edges.remove(i);
+            assertArrayEquals(graph.get(node).toArray(), edges.toArray());
+        }
+    }
     }
 
     @Test
@@ -107,10 +120,10 @@ public class TikzGraphTest {
             edges.add(new TikzDirectedEdge(node1,node2));
         }
         graph.addAll(node, edges);
-        for (int i = 0; i <edges.size() ; i++) {
+        for (int i = edges.size()-1; i >= 0 ; i--) {
             graph.remove(node, edges.get(i));
+            edges.remove(i)
             assertArrayEquals(graph.get(node).toArray(), edges.toArray());
         }
-
     }
 }

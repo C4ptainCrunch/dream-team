@@ -26,7 +26,7 @@ public class TikzTriangleTest {
     @Test
     public void testGetSides() throws Exception {
         int[] sides = {Models.DEFAULT.LENGTH, Models.DEFAULT.LENGTH, Models.DEFAULT.LENGTH};
-        int[] triangleSides = triangle.getSides();
+        int[] triangleSides = {triangle.getSideA(), triangle.getSideB(), triangle.getSideC()};
         assertArrayEquals(sides, triangleSides);
     }
 
@@ -47,4 +47,5 @@ public class TikzTriangleTest {
         triangle.setSides(sides);
         assertArrayEquals(sides, triangle.getSides());
     }
+
 }

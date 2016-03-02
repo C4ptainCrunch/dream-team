@@ -1,5 +1,6 @@
 apply plugin: 'idea'
 apply plugin: 'java'
+apply plugin: 'maven'
 
 repositories {
     mavenCentral()
@@ -8,5 +9,23 @@ repositories {
 jar {
     manifest {
         attributes 'Main-Class': 'Main'
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
+
+
+sourceSets {
+    test {
+        java {
+            srcDirs = ["tests/"]
+        }
+    }
+    main {
+        java {
+            srcDir 'src/'
+        }
     }
 }

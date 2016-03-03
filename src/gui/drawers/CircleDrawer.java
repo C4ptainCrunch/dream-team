@@ -10,17 +10,20 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.util.Vector;
 
-public class CircleDrawer implements Drawer {
-    private TikzCircle tikzCircle;
+public class CircleDrawer extends ComponentDrawer {
 
-    public CircleDrawer(TikzCircle tikzCircle) {
-        this.tikzCircle = tikzCircle;
+    public CircleDrawer(TikzCircle component) {
+        this.component = component;
+    }
+
+    public TikzCircle getComponent(){
+        return (TikzCircle) this.component;
     }
 
     public Vector<Drawable> toDrawable(){
-        Vector<Drawable> vec = new Vector<>();
+        Vector<Drawable> vec = super.toDrawable();
 
-        float size = this.tikzCircle.getRadius() * 2;
+        float size = getComponent().getRadius() * 2;
         Drawable shape = new DrawableShape(
                 new Ellipse2D.Float(0, 0, size, size),
                 new BasicStroke(2),
@@ -28,14 +31,6 @@ public class CircleDrawer implements Drawer {
         );
 
         vec.add(shape);
-
-        if(this.tikzCircle.getLabel() != Models.DEFAULT.LABEL){
-            Drawable text = new DrawableText(
-                    this.tikzCircle.getLabel(),
-                    new Point(15, 20)
-            );
-            vec.add(text);
-        }
         return vec;
     }
 }

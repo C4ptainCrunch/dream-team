@@ -3,7 +3,7 @@ package gui.drawers;
 import gui.drawables.Drawable;
 import java.util.Vector;
 
-public class UnknownDrawer implements Drawer{
+public class UnknownDrawer extends ComponentDrawer{
     public Vector<Drawable> toDrawable(){
         return new Vector<>();
     }

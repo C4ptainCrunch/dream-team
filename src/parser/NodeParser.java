@@ -44,20 +44,11 @@ public class NodeParser {
 				}), Scanners.string(")"));
 	}
 
-	public static Parser<TikzNode> nodeFromDraw() {
+	public static Parser<Triple<Point, List<String>, String>> nodeFromDraw() {
 		return Parsers.sequence(coordinates(),
 				Parsers.sequence(Scanners.WHITESPACES, Scanners.string("node"),
 						Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
-				Parsers.sequence(Scanners.WHITESPACES, label()), new Map3<Point, List<String>, String, TikzNode>() {
-					@Override
-					public TikzNode map(Point point, List<String> strings, String s) {
-						if (strings.contains("circle"))
-							return new TikzCircle();
-						if (strings.contains("triangle"))
-							return new TikzTriangle();
-						return new TikzRectangle();
-					}
-				});
+				Parsers.sequence(Scanners.WHITESPACES, label()), (coord, options, label) -> new Triple<>(coord, options, label));
 	}
 
 	public static Parser<TikzNode> nodeFromNode() {
@@ -68,38 +59,90 @@ public class NodeParser {
 				Parsers.sequence(Scanners.WHITESPACES, Scanners.string("at"), Scanners.WHITESPACES, coordinates()),
 				Parsers.or(label(), Parsers.constant("")), new Map4<List<String>, String, Point, String, TikzNode>() {
 					@Override
-					public TikzNode map(List<String> strings, String s, Point point, String s2) {
-						if (strings.contains("circle"))
-							return new TikzCircle();
-						if (strings.contains("triangle"))
-							return new TikzTriangle();
-						return new TikzRectangle();
+					public TikzNode map(List<String> options, String ref, Point coord, String label) {
+						switch (NodeParser.getNodeShape(options)) {
+                            case "circle": return new TikzCircle();
+                            case "triangle": return new TikzTriangle();
+                            default: return new TikzRectangle();
+                        }
 					}
 				});
 	}
 
 	public static Parser<Void> nodesFromDraw(TikzGraph graph) {
 		return Parsers.sequence(
-				Parsers.sequence(Scanners.string("\\draw"),
-						Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
-				Parsers.sequence(Scanners.WHITESPACES, nodeFromDraw()),
-				Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, nodeFromDraw())
-						.many(),
-				new Map3<List<String>, TikzNode, List<TikzNode>, Void>() {
-					@Override
-					public Void map(List<String> options, TikzNode tikzNode, List<TikzNode> tikzNodes) {
-						String type = options.contains("triangle") ? "triangle"
-								: options.contains("circle") ? "circle" : "rectangle";
-						// missing downcast constructors
-						graph.add(tikzNode);
-						TikzNode previous = tikzNode;
-						for (TikzNode node : tikzNodes) {
-							graph.add(node);
-							graph.add(previous, new TikzUndirectedEdge(previous, node));
-							previous = node;
-						}
-						return null;
-					}
-				});
+                Parsers.sequence(Scanners.string("\\draw"),
+                        Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
+                Parsers.sequence(Scanners.WHITESPACES, nodeFromDraw()),
+                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, nodeFromDraw())
+                        .many(),
+                new Map3<List<String>, Triple<Point, List<String>, String>, List<Triple<Point, List<String>, String>>, Void>() {
+                    @Override
+                    public Void map(List<String> defaultOptions, Triple<Point, List<String>, String> firstNode, List<Triple<Point, List<String>, String>> restNode) {
+                        TikzNode previous, current;
+                        switch (NodeParser.getNodeShape(defaultOptions, firstNode.getOptions())) {
+                            case "circle": previous = new TikzCircle(); break;
+                            case "triangle": previous = new TikzTriangle(); break;                              /* Attention: missing specific constructors */
+                            default: previous = new TikzRectangle();
+                        }
+                        graph.add(previous);
+                        for (Triple<Point, List<String>, String> triple: restNode) {
+                            switch (NodeParser.getNodeShape(defaultOptions, triple.getOptions())) {
+                                case "circle": current = new TikzCircle(); break;
+                                case "triangle": current = new TikzTriangle(); break;
+                                default: current = new TikzRectangle();
+                            }
+                            graph.add(current);
+                            graph.add(previous, new TikzUndirectedEdge(previous, current));             /* TODO: parsing edges */
+                            previous = current;
+                        }
+                        return null;
+                    }
+                });
 	}
+
+    private static String getNodeShape(List<String> list) {
+        /* Testing for shape by priority in a string like "\draw[circle] (-0.2,0) -- (4.2,0) node[rectangle] {$x$};", rectangle by default*/
+        String[] shapes = new String[]{"circle", "triangle", "rectangle"};
+        for (String s: shapes)
+            if (list.contains(s)) return s;
+        return "rectangle";
+    }
+
+    private static String getNodeShape(List<String> list1, List<String> list2) {
+        /* Testing for shape by priority in a string like "\draw[circle] (-0.2,0) -- (4.2,0) node[rectangle] {$x$};", rectangle by default*/
+        String[] shapes = new String[]{"circle", "triangle", "rectangle"};
+        for (String s: shapes)
+            if (list2.contains(s)) return s;
+        for (String s: shapes)
+            if (list1.contains(s)) return s;
+        return "rectangle";
+    }
+}
+
+class Triple<S, T, U> {
+	private S coordinates;
+	private T options;
+	private U label;
+
+    public Triple(S s, T t, U u){
+        coordinates = s; options = t; label = u;
+    }
+
+	public S getCoordinates() {
+		return coordinates;
+	}
+
+	public T getOptions() {
+		return options;
+	}
+
+	public U getLabel() {
+		return label;
+	}
+
+    @Override
+    public String toString() {
+        return "Coordinates: " + coordinates.toString() + ", Options: " + options.toString() + ", Label: " + label.toString();
+    }
 }

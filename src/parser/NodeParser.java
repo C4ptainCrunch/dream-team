@@ -1,8 +1,11 @@
 package parser;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import models.*;
 
 import org.codehaus.jparsec.Parser;
 import org.codehaus.jparsec.Parsers;
@@ -11,7 +14,6 @@ import org.codehaus.jparsec.Terminals;
 import org.codehaus.jparsec.functors.Map;
 import org.codehaus.jparsec.functors.Map3;
 import org.codehaus.jparsec.functors.Map4;
-import org.codehaus.jparsec.functors.Pair;
 import org.codehaus.jparsec.pattern.Patterns;
 
 public class NodeParser {
@@ -30,62 +32,74 @@ public class NodeParser {
 				.map(s -> Arrays.asList(s.substring(1, s.length() - 1).split(", *")));
 	}
 
-	public static Parser<Pair<Double, Double>> coordinates() {
+	public static Parser<Point> coordinates() {
 		return Parsers.between(Scanners.string("("), Terminals.DecimalLiteral.TOKENIZER.next(Scanners.string(","))
-				.next(Terminals.DecimalLiteral.TOKENIZER).source().map(new Map<String, Pair<Double, Double>>() {
+				.next(Terminals.DecimalLiteral.TOKENIZER).source().map(new Map<String, Point>() {
 					@Override
-					public Pair<Double, Double> map(String s) {
+					public Point map(String s) {
 						String[] splitted = s.split(",");
-						return new Pair<>(Double.valueOf(splitted[0]), Double.valueOf(splitted[1]));
+						return new Point(Math.round(Float.valueOf(splitted[0])),
+								Math.round(Float.valueOf(splitted[1])));
 					}
 				}), Scanners.string(")"));
 	}
 
-	public static Parser<String> nodeFromDraw() {
+	public static Parser<TikzNode> nodeFromDraw() {
 		return Parsers.sequence(coordinates(),
 				Parsers.sequence(Scanners.WHITESPACES, Scanners.string("node"),
 						Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
-				Parsers.sequence(Scanners.WHITESPACES, label()),
-				new Map3<Pair<Double, Double>, List<String>, String, String>() {
+				Parsers.sequence(Scanners.WHITESPACES, label()), new Map3<Point, List<String>, String, TikzNode>() {
 					@Override
-					public String map(Pair<Double, Double> doubleDoublePair, List<String> strings, String s) {
-						return "coord: " + doubleDoublePair.toString() + ", options: " + strings.toString()
-								+ ", label: " + s;
+					public TikzNode map(Point point, List<String> strings, String s) {
+						if (strings.contains("circle"))
+							return new TikzCircle();
+						if (strings.contains("triangle"))
+							return new TikzTriangle();
+						return new TikzRectangle();
 					}
 				});
 	}
 
-    public static  Parser<String> nodeFromNode(){
-        return Parsers.sequence(
-                Parsers.sequence(Scanners.string("\\node"), Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
-                Parsers.or(reference(), Parsers.constant("")),
-                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("at"), Scanners.WHITESPACES, coordinates()),
-                Parsers.or(label(),Parsers.constant("")),
-                new Map4<List<String>, String, Pair<Double, Double>, String, String>() {
-                    @Override
-                    public String map(List<String> strings, String s, Pair<Double, Double> doubleDoublePair, String s2) {
-                        return "coord: " + doubleDoublePair.toString() + ", options: " + strings.toString()
-                                + ", label: " + s2+", ref"+s;
-                    }
-                });
+	public static Parser<TikzNode> nodeFromNode() {
+		return Parsers.sequence(
+				Parsers.sequence(Scanners.string("\\node"),
+						Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
+				Parsers.or(reference(), Parsers.constant("")),
+				Parsers.sequence(Scanners.WHITESPACES, Scanners.string("at"), Scanners.WHITESPACES, coordinates()),
+				Parsers.or(label(), Parsers.constant("")), new Map4<List<String>, String, Point, String, TikzNode>() {
+					@Override
+					public TikzNode map(List<String> strings, String s, Point point, String s2) {
+						if (strings.contains("circle"))
+							return new TikzCircle();
+						if (strings.contains("triangle"))
+							return new TikzTriangle();
+						return new TikzRectangle();
+					}
+				});
+	}
 
-    }
-
-    public static Parser<String> nodesFromDraw(){
-        return Parsers.sequence(
-                Parsers.sequence(Scanners.string("\\draw"), Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
-                Parsers.sequence(Scanners.WHITESPACES, nodeFromDraw()),
-
-                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, nodeFromDraw()).many(),
-                new Map3<List<String>, String, List<String>, String>() {
-                    @Override
-                    public String map(List<String> strings, String s, List<String> strings2) {
-                        return "option " + strings + " premier node" + s
-                                +"other Nodes"+strings2;
-                    }
-                }
-
-        );
-    }
-
+	public static Parser<Void> nodesFromDraw(TikzGraph graph) {
+		return Parsers.sequence(
+				Parsers.sequence(Scanners.string("\\draw"),
+						Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
+				Parsers.sequence(Scanners.WHITESPACES, nodeFromDraw()),
+				Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, nodeFromDraw())
+						.many(),
+				new Map3<List<String>, TikzNode, List<TikzNode>, Void>() {
+					@Override
+					public Void map(List<String> options, TikzNode tikzNode, List<TikzNode> tikzNodes) {
+						String type = options.contains("triangle") ? "triangle"
+								: options.contains("circle") ? "circle" : "rectangle";
+						// missing downcast constructors
+						graph.add(tikzNode);
+						TikzNode previous = tikzNode;
+						for (TikzNode node : tikzNodes) {
+							graph.add(node);
+							graph.add(previous, new TikzUndirectedEdge(previous, node));
+							previous = node;
+						}
+						return null;
+					}
+				});
+	}
 }

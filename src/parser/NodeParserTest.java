@@ -1,8 +1,12 @@
 package parser;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+
+import java.awt.*;
 import java.util.ArrayList;
 
-import org.codehaus.jparsec.functors.Pair;
+import models.TikzGraph;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -31,23 +35,32 @@ public class NodeParserTest {
 
 	@Test
 	public void testCoordinates() throws Exception {
-		Assert.assertEquals(NodeParser.coordinates().parse("(5,4)"), new Pair<Double, Double>(5., 4.));
+		Assert.assertEquals(NodeParser.coordinates().parse("(5,4)"), new Point(5, 4));
 	}
 
-    @Test
-    public void testNodeFromDraw() throws Exception {
-        Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node[draw] {a}"), "coord: (0.0, 0.0), options: [draw], label: a");
-        Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node {a}"), "coord: (0.0, 0.0), options: [], label: a");
-    }
+	@Test
+	public void testNodeFromDraw() throws Exception {
+		Assert.assertThat(NodeParser.nodeFromDraw().parse("(0,0) node[draw] {a}"),
+				instanceOf(models.TikzRectangle.class));
+		Assert.assertThat(NodeParser.nodeFromDraw().parse("(0,0) node {a}"), instanceOf(models.TikzRectangle.class));
+		Assert.assertThat(NodeParser.nodeFromDraw().parse("(0,0) node[circle, hello] {}"),
+				instanceOf(models.TikzCircle.class));
+	}
 
+	@Test
+	public void testNodeFromNode() throws Exception {
+		Assert.assertThat(NodeParser.nodeFromNode().parse("\\node[lolilol](nametest) at (15,46)"),
+				instanceOf(models.TikzRectangle.class));
+		Assert.assertThat(NodeParser.nodeFromNode().parse("\\node[lolilol, triangle](nametest) at (15,46)"),
+				instanceOf(models.TikzTriangle.class));
 
-    @Test
-    public void testNodeFromNode() throws Exception {
-        Assert.assertEquals(NodeParser.nodeFromNode().parse("\\node[lolilol](nametest) at (15,46)"), "coord: (15.0, 46.0), options: [lolilol], label: , refnametest");
-    }
+	}
 
-    @Test
-    public void testNodesFromDraw() throws Exception {
-        Assert.assertEquals(NodeParser.nodesFromDraw().parse("\\draw[zedjio] (0,0) node[draw] {a} -- (2,0) node[draw] {l} -- (0,5) node[draw] {p}"), "option [zedjio] premier nodecoord: (0.0, 0.0), options: [draw], label: aother Nodes[coord: (2.0, 0.0), options: [draw], label: l, coord: (0.0, 5.0), options: [draw], label: p]");
-    }
+	@Test
+	public void testNodesFromDraw() throws Exception {
+		TikzGraph graph = new TikzGraph();
+		NodeParser.nodesFromDraw(graph)
+				.parse("\\draw[zedjio] (0,0) node[draw] {a} -- (2,0) node[draw] {l} -- (0,5) node[draw] {p}");
+		Assert.assertEquals(graph.size(), 3);
+	}
 }

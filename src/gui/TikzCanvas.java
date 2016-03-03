@@ -40,7 +40,10 @@ public class TikzCanvas extends JPanel implements Observer {
                 drawer = new RectangleDrawer((TikzRectangle) node);
             }
             else if (node instanceof TikzTriangle) {
-                drawer = new PolygonDrawer((TikzTriangle) node);
+                drawer = new PolygonDrawer((TikzPolygon) node);
+            }
+            else if (node instanceof TikzCircle) {
+                drawer = new CircleDrawer((TikzCircle) node);
             }
             else {
                 drawer = new UnknownDrawer();

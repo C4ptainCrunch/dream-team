@@ -1,7 +1,5 @@
 package parser;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -40,18 +38,19 @@ public class NodeParserTest {
 
 	@Test
 	public void testNodeFromDraw() throws Exception {
-		Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node [draw] {a}").toString(),"Coordinates: java.awt.Point[x=0,y=0], Options: [draw], Label: a");
-		Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node {a}").toString(), "Coordinates: java.awt.Point[x=0,y=0], Options: [], Label: a");
-		Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node[circle, hello] {}").toString(), "Coordinates: java.awt.Point[x=0,y=0], Options: [circle, hello], Label: ");
+		Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node [draw] {a}").toString(),
+				"Coordinates: java.awt.Point[x=0,y=0], Options: [draw], Label: a");
+		Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node {a}").toString(),
+				"Coordinates: java.awt.Point[x=0,y=0], Options: [], Label: a");
+		Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node[circle, hello] {}").toString(),
+				"Coordinates: java.awt.Point[x=0,y=0], Options: [circle, hello], Label: ");
 	}
 
 	@Test
 	public void testNodeFromNode() throws Exception {
-		Assert.assertThat(NodeParser.nodeFromNode().parse("\\node[lolilol](nametest) at (15,46)"),
-				instanceOf(models.TikzRectangle.class));
-		Assert.assertThat(NodeParser.nodeFromNode().parse("\\node[lolilol, triangle](nametest) at (15,46)"),
-				instanceOf(models.TikzTriangle.class));
-
+		TikzGraph graph = new TikzGraph();
+		NodeParser.nodeFromNode(graph).parse("\\node[lolilol, triangle](nametest) at (15,46)");
+		Assert.assertEquals(graph.size(), 1);
 	}
 
 	@Test
@@ -65,8 +64,18 @@ public class NodeParserTest {
 	@Test
 	public void testEdgesFromDraw() throws Exception {
 		TikzGraph graph = new TikzGraph();
-		NodeParser.edgesFromDraw(graph)
-				.parse("\\draw[color=blue, ->] (0,0) -- (5,5) -- (5,7) -- (8,2)");
+		NodeParser.edgesFromDraw(graph).parse("\\draw[color=blue, ->] (0,0) -- (5,5) -- (5,7) -- (8,2)");
 		Assert.assertEquals(graph.size(), 4);
+	}
+
+	@Test
+	public void testParseDocument() throws Exception {
+		TikzGraph graph = new TikzGraph();
+		NodeParser.parseDocument(graph)
+				.parse("\\documentclass{article}\n" + "\\usepackage{tikz}\n" + "\\begin{document}\n"
+						+ "\\begin{tikzpicture}\n"
+						+ "\\draw[color=red] (0,0) node[draw] {a} -- (2,0) node[draw] {l} -- (0,5) node[draw] {p};"
+						+ "\\end{tikzpicture}\n" + "\\end{document}");
+		Assert.assertEquals(graph.size(), 3);
 	}
 }

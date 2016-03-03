@@ -152,6 +152,48 @@ public class NodeParser {
 				return s;
 		return "rectangle";
 	}
+
+    public static Parser<Void> edgesFromDraw(TikzGraph graph) {
+        return Parsers.sequence(
+                Parsers.sequence(Scanners.string("\\draw"),
+                        Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
+                Parsers.sequence(Scanners.WHITESPACES, coordinates()),
+                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, coordinates())
+                        .many(),
+                new Map3<List<String>, Point, List<Point>, Void>() {
+                    @Override
+                    public Void map(List<String> defaultOptions, Point firstCoord, List<Point> restCoord) {
+                        TikzVoid previous = new TikzVoid();
+                        TikzVoid current;
+                        TikzEdge edge;
+                        graph.add(previous);
+                        for(Point coord : restCoord){
+                            current = new TikzVoid();
+                            graph.add(current);
+                            switch(isDirected(defaultOptions)){
+                                case "directedRight" : edge = new TikzDirectedEdge(previous,current); break;
+                                case "directedLeft" : edge = new TikzDirectedEdge(current,previous); break;
+                                default : edge = new TikzUndirectedEdge(previous, current); break;
+                            }
+                            graph.add(current);
+                            graph.add(previous, edge);
+                            previous = current;
+                        }
+                        return null;
+                    }
+                });
+
+    }
+
+    private static String isDirected(List<String> options){
+        if(options.contains("->")){
+            return "directRight";
+        }
+        else if(options.contains("<-")){
+            return "directedLeft";
+        }
+        else{return("undirected");}
+    }
 }
 
 class DestructuredNode {

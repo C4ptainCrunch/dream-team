@@ -52,28 +52,30 @@ public class NodeParser {
 				Parsers.sequence(MAYBEWHITESPACES, label()), DestructuredNode::new);
 	}
 
-	public static Parser<TikzNode> nodeFromNode() {
+	public static Parser<Void> nodeFromNode(TikzGraph graph) {
 		return Parsers.sequence(
-				Parsers.sequence(Scanners.string("\\node"),
-						Parsers.sequence(MAYBEWHITESPACES,
-								Parsers.or(options(), Parsers.constant(new ArrayList<String>())))),
-				Parsers.sequence(MAYBEWHITESPACES, Parsers.or(reference(), Parsers.constant(""))),
-				Parsers.sequence(Scanners.WHITESPACES, Scanners.string("at"), Scanners.WHITESPACES, coordinates()),
-				Parsers.sequence(MAYBEWHITESPACES, Parsers.or(label(), Parsers.constant(""))),
-				new Map4<List<String>, String, Point, String, TikzNode>() {
-					@Override
-					public TikzNode map(List<String> options, String ref, Point coord, String label) {
-						switch (NodeParser.getNodeShape(options)) {
-						case "circle":
-							return new TikzCircle();
-						case "triangle":
-							return new TikzTriangle();
-						default:
-							return new TikzRectangle();
-						}
-					}
-				});
-	}
+                Parsers.sequence(Scanners.string("\\node"),
+                        Parsers.sequence(MAYBEWHITESPACES,
+                                Parsers.or(options(), Parsers.constant(new ArrayList<String>())))),
+                Parsers.sequence(MAYBEWHITESPACES, Parsers.or(reference(), Parsers.constant(""))),
+                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("at"), Scanners.WHITESPACES, coordinates()),
+                Parsers.sequence(MAYBEWHITESPACES, Parsers.or(label(), Parsers.constant(""))),
+                new Map4<List<String>, String, Point, String, Void>() {
+                    @Override
+                    public Void map(List<String> options, String ref, Point coord, String label) {
+                        TikzNode result;
+                        switch (NodeParser.getNodeShape(options)) {
+                            case "circle":
+                                graph.add(new TikzCircle());break;
+                            case "triangle":
+                                graph.add(new TikzTriangle());break;
+                            default:
+                                graph.add(new TikzRectangle());break;
+                        }
+                        return null;
+                    }
+                });
+    }
 
 	public static Parser<Void> nodesFromDraw(TikzGraph graph) {
         /* Attention: missing specific constructors */
@@ -120,6 +122,20 @@ public class NodeParser {
 					}
 				});
 	}
+
+
+    public static Parser<Void> parseDocument(TikzGraph graph){
+        return Parsers.between(
+                        Scanners.string("\\documentclass{article}\n" +
+                                "\\usepackage{tikz}\n" +
+                                "\\begin{document}\n" +
+                                "\\begin{tikzpicture}\n"),
+                Parsers.or(nodesFromDraw(graph), edgesFromDraw(graph), nodeFromNode(graph), Scanners.isChar(';')).many().cast(),
+                Scanners.string("\\end{tikzpicture}\n" +
+                        "\\end{document}"));
+
+    }
+
 
 	private static final Parser<Void> MAYBEWHITESPACES = Patterns.many(CharPredicates.IS_WHITESPACE)
 			.toScanner("maybe whitespaces");

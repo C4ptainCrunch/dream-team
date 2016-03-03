@@ -47,11 +47,10 @@ public class NodeParserTest {
 
 	@Test
 	public void testNodeFromNode() throws Exception {
-		Assert.assertThat(NodeParser.nodeFromNode().parse("\\node[lolilol](nametest) at (15,46)"),
-				instanceOf(models.TikzRectangle.class));
-		Assert.assertThat(NodeParser.nodeFromNode().parse("\\node[lolilol, triangle](nametest) at (15,46)"),
-				instanceOf(models.TikzTriangle.class));
-
+		TikzGraph graph = new TikzGraph();
+		NodeParser.nodeFromNode(graph)
+				.parse("\\node[lolilol, triangle](nametest) at (15,46)");
+		Assert.assertEquals(graph.size(), 1);
 	}
 
 	@Test
@@ -68,5 +67,20 @@ public class NodeParserTest {
 		NodeParser.edgesFromDraw(graph)
 				.parse("\\draw[color=blue, ->] (0,0) -- (5,5) -- (5,7) -- (8,2)");
 		Assert.assertEquals(graph.size(), 4);
+	}
+
+	@Test
+	public void testParseDocument() throws Exception {
+		TikzGraph graph = new TikzGraph();
+		NodeParser.parseDocument(graph).parse(
+				"\\documentclass{article}\n" +
+						"\\usepackage{tikz}\n" +
+						"\\begin{document}\n" +
+						"\\begin{tikzpicture}\n" +
+						"\\draw[color=red] (0,0) node[draw] {a} -- (2,0) node[draw] {l} -- (0,5) node[draw] {p};" +
+						"\\end{tikzpicture}\n" +
+						"\\end{document}"
+		);
+		Assert.assertEquals(graph.size(),3);
 	}
 }

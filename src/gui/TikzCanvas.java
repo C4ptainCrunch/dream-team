@@ -26,7 +26,7 @@ public class TikzCanvas extends JPanel implements Observer {
         TikzGraph graph = new TikzGraph();
         TikzNode nodeR = new TikzRectangle(100, 100);
         nodeR.setLabel("Demo Label");
-        nodeR.setPosition(new Point(100, 100));
+        nodeR.setPosition(new Point(200, 100));
         graph.add(nodeR);
 
         nodeR = new TikzCircle();

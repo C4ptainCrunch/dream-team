@@ -46,4 +46,8 @@ public class PolygonDrawer extends ComponentDrawer{
         Polygon p = new Polygon(x, y, vertices);
         return p;
     }
+
+    public Point getCenter(){
+        return new Point(getComponent().getLength(), getComponent().getLength());
+    }
 }

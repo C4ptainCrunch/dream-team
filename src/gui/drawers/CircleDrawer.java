@@ -33,4 +33,8 @@ public class CircleDrawer extends ComponentDrawer {
         vec.add(shape);
         return vec;
     }
+
+    public Point getCenter(){
+        return new Point(getComponent().getRadius(), getComponent().getRadius());
+    }
 }

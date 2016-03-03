@@ -30,4 +30,8 @@ public class RectangleDrawer extends ComponentDrawer {
         vec.add(shape);
         return vec;
     }
+
+    public Point getCenter(){
+        return new Point(getComponent().getWidth() / 2 , getComponent().getLength() / 2);
+    }
 }

@@ -44,11 +44,11 @@ public class NodeParser {
 				}), Scanners.string(")"));
 	}
 
-	public static Parser<Triple<Point, List<String>, String>> nodeFromDraw() {
+	public static Parser<DestructuredNode> nodeFromDraw() {
 		return Parsers.sequence(coordinates(),
 				Parsers.sequence(Scanners.WHITESPACES, Scanners.string("node"),
 						Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
-				Parsers.sequence(Scanners.WHITESPACES, label()), (coord, options, label) -> new Triple<>(coord, options, label));
+				Parsers.sequence(Scanners.WHITESPACES, label()), (coord, options, label) -> new DestructuredNode(coord, options, label));
 	}
 
 	public static Parser<TikzNode> nodeFromNode() {
@@ -76,9 +76,9 @@ public class NodeParser {
                 Parsers.sequence(Scanners.WHITESPACES, nodeFromDraw()),
                 Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, nodeFromDraw())
                         .many(),
-                new Map3<List<String>, Triple<Point, List<String>, String>, List<Triple<Point, List<String>, String>>, Void>() {
+                new Map3<List<String>, DestructuredNode, List<DestructuredNode>, Void>() {
                     @Override
-                    public Void map(List<String> defaultOptions, Triple<Point, List<String>, String> firstNode, List<Triple<Point, List<String>, String>> restNode) {
+                    public Void map(List<String> defaultOptions, DestructuredNode firstNode, List<DestructuredNode> restNode) {
                         TikzNode previous, current;
                         switch (NodeParser.getNodeShape(defaultOptions, firstNode.getOptions())) {
                             case "circle": previous = new TikzCircle(); break;
@@ -86,8 +86,8 @@ public class NodeParser {
                             default: previous = new TikzRectangle();
                         }
                         graph.add(previous);
-                        for (Triple<Point, List<String>, String> triple: restNode) {
-                            switch (NodeParser.getNodeShape(defaultOptions, triple.getOptions())) {
+                        for (DestructuredNode destructuredNode : restNode) {
+                            switch (NodeParser.getNodeShape(defaultOptions, destructuredNode.getOptions())) {
                                 case "circle": current = new TikzCircle(); break;
                                 case "triangle": current = new TikzTriangle(); break;
                                 default: current = new TikzRectangle();
@@ -120,24 +120,24 @@ public class NodeParser {
     }
 }
 
-class Triple<S, T, U> {
-	private S coordinates;
-	private T options;
-	private U label;
+class DestructuredNode {
+	private Point coordinates;
+	private List<String> options;
+	private String label;
 
-    public Triple(S s, T t, U u){
+    public DestructuredNode(Point s, List<String> t, String u){
         coordinates = s; options = t; label = u;
     }
 
-	public S getCoordinates() {
+	public Point getCoordinates() {
 		return coordinates;
 	}
 
-	public T getOptions() {
+	public List<String> getOptions() {
 		return options;
 	}
 
-	public U getLabel() {
+	public String getLabel() {
 		return label;
 	}
 

@@ -14,6 +14,7 @@ jar {
 
 dependencies {
     testCompile 'junit:junit:4.12'
+    compile 'org.jparsec:jparsec:2.2.1'
 }
 
 

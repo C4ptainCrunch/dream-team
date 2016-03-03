@@ -14,6 +14,7 @@ import org.codehaus.jparsec.Terminals;
 import org.codehaus.jparsec.functors.Map;
 import org.codehaus.jparsec.functors.Map3;
 import org.codehaus.jparsec.functors.Map4;
+import org.codehaus.jparsec.pattern.CharPredicates;
 import org.codehaus.jparsec.pattern.Patterns;
 
 public class NodeParser {
@@ -47,77 +48,110 @@ public class NodeParser {
 	public static Parser<DestructuredNode> nodeFromDraw() {
 		return Parsers.sequence(coordinates(),
 				Parsers.sequence(Scanners.WHITESPACES, Scanners.string("node"),
-						Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
-				Parsers.sequence(Scanners.WHITESPACES, label()), DestructuredNode::new);
+						Parsers.sequence(MAYBEWHITESPACES, Parsers.or(options(), Parsers.constant(new ArrayList<String>())))),
+				Parsers.sequence(MAYBEWHITESPACES, label()), DestructuredNode::new);
 	}
 
 	public static Parser<TikzNode> nodeFromNode() {
 		return Parsers.sequence(
 				Parsers.sequence(Scanners.string("\\node"),
-						Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
-				Parsers.or(reference(), Parsers.constant("")),
+						Parsers.sequence(MAYBEWHITESPACES,
+								Parsers.or(options(), Parsers.constant(new ArrayList<String>())))),
+				Parsers.sequence(MAYBEWHITESPACES, Parsers.or(reference(), Parsers.constant(""))),
 				Parsers.sequence(Scanners.WHITESPACES, Scanners.string("at"), Scanners.WHITESPACES, coordinates()),
-				Parsers.or(label(), Parsers.constant("")), new Map4<List<String>, String, Point, String, TikzNode>() {
+				Parsers.sequence(MAYBEWHITESPACES, Parsers.or(label(), Parsers.constant(""))),
+				new Map4<List<String>, String, Point, String, TikzNode>() {
 					@Override
 					public TikzNode map(List<String> options, String ref, Point coord, String label) {
 						switch (NodeParser.getNodeShape(options)) {
-                            case "circle": return new TikzCircle();
-                            case "triangle": return new TikzTriangle();
-                            default: return new TikzRectangle();
-                        }
+						case "circle":
+							return new TikzCircle();
+						case "triangle":
+							return new TikzTriangle();
+						default:
+							return new TikzRectangle();
+						}
 					}
 				});
 	}
 
 	public static Parser<Void> nodesFromDraw(TikzGraph graph) {
-		return Parsers.sequence(
-                Parsers.sequence(Scanners.string("\\draw"),
-                        Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
-                Parsers.sequence(Scanners.WHITESPACES, nodeFromDraw()),
-                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, nodeFromDraw())
-                        .many(),
-                new Map3<List<String>, DestructuredNode, List<DestructuredNode>, Void>() {
-                    @Override
-                    public Void map(List<String> defaultOptions, DestructuredNode firstNode, List<DestructuredNode> restNode) {
-                        TikzNode previous, current;
-                        switch (NodeParser.getNodeShape(defaultOptions, firstNode.getOptions())) {
-                            case "circle": previous = new TikzCircle(); break;
-                            case "triangle": previous = new TikzTriangle(); break;                              /* Attention: missing specific constructors */
-                            default: previous = new TikzRectangle();
-                        }
-                        graph.add(previous);
-                        for (DestructuredNode destructuredNode : restNode) {
-                            switch (NodeParser.getNodeShape(defaultOptions, destructuredNode.getOptions())) {
-                                case "circle": current = new TikzCircle(); break;
-                                case "triangle": current = new TikzTriangle(); break;
-                                default: current = new TikzRectangle();
-                            }
-                            graph.add(current);
-                            graph.add(previous, new TikzUndirectedEdge(previous, current));             /* TODO: parsing edges */
-                            previous = current;
-                        }
-                        return null;
-                    }
-                });
+        /* Attention: missing specific constructors */
+		return Parsers
+				.sequence(
+						Parsers.sequence(Scanners.string("\\draw"),
+								Parsers.sequence(MAYBEWHITESPACES, Parsers.or(options(), Parsers.constant(new ArrayList<String>())))),
+						Parsers.sequence(Scanners.WHITESPACES, nodeFromDraw()),
+						Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES,
+								nodeFromDraw()).many(),
+				new Map3<List<String>, DestructuredNode, List<DestructuredNode>, Void>() {
+					@Override
+					public Void map(List<String> defaultOptions, DestructuredNode firstNode,
+							List<DestructuredNode> restNode) {
+						TikzNode previous, current;
+						switch (NodeParser.getNodeShape(defaultOptions, firstNode.getOptions())) {
+						case "circle":
+							previous = new TikzCircle();
+							break;
+						case "triangle":
+							previous = new TikzTriangle();
+							break;
+						default:
+							previous = new TikzRectangle();
+						}
+						graph.add(previous);
+						for (DestructuredNode destructuredNode : restNode) {
+							switch (NodeParser.getNodeShape(defaultOptions, destructuredNode.getOptions())) {
+							case "circle":
+								current = new TikzCircle();
+								break;
+							case "triangle":
+								current = new TikzTriangle();
+								break;
+							default:
+								current = new TikzRectangle();
+							}
+							graph.add(current);
+							graph.add(previous, new TikzUndirectedEdge(previous,
+									current)); /* TODO: parsing edges */
+							previous = current;
+						}
+						return null;
+					}
+				});
 	}
 
-    private static String getNodeShape(List<String> list) {
-        /* Testing for shape by priority in a string like "\draw[circle] (-0.2,0) -- (4.2,0) node[rectangle] {$x$};", rectangle by default*/
-        String[] shapes = new String[]{"circle", "triangle", "rectangle"};
-        for (String s: shapes)
-            if (list.contains(s)) return s;
-        return "rectangle";
-    }
+	private static final Parser<Void> MAYBEWHITESPACES = Patterns.many(CharPredicates.IS_WHITESPACE)
+			.toScanner("maybe whitespaces");
 
-    private static String getNodeShape(List<String> list1, List<String> list2) {
-        /* Testing for shape by priority in a string like "\draw[circle] (-0.2,0) -- (4.2,0) node[rectangle] {$x$};", rectangle by default*/
-        String[] shapes = new String[]{"circle", "triangle", "rectangle"};
-        for (String s: shapes)
-            if (list2.contains(s)) return s;
-        for (String s: shapes)
-            if (list1.contains(s)) return s;
-        return "rectangle";
-    }
+	private static String getNodeShape(List<String> list) {
+		/*
+		 * Testing for shape by priority in a string like
+		 * "\draw[circle] (-0.2,0) -- (4.2,0) node[rectangle] {$x$};",
+		 * rectangle by default
+		 */
+		String[] shapes = new String[] { "circle", "triangle", "rectangle" };
+		for (String s : shapes)
+			if (list.contains(s))
+				return s;
+		return "rectangle";
+	}
+
+	private static String getNodeShape(List<String> list1, List<String> list2) {
+		/*
+		 * Testing for shape by priority in a string like
+		 * "\draw[circle] (-0.2,0) -- (4.2,0) node[rectangle] {$x$};",
+		 * rectangle by default
+		 */
+		String[] shapes = new String[] { "circle", "triangle", "rectangle" };
+		for (String s : shapes)
+			if (list2.contains(s))
+				return s;
+		for (String s : shapes)
+			if (list1.contains(s))
+				return s;
+		return "rectangle";
+	}
 }
 
 class DestructuredNode {
@@ -125,9 +159,11 @@ class DestructuredNode {
 	private List<String> options;
 	private String label;
 
-    public DestructuredNode(Point s, List<String> t, String u){
-        coordinates = s; options = t; label = u;
-    }
+	public DestructuredNode(Point s, List<String> t, String u) {
+		coordinates = s;
+		options = t;
+		label = u;
+	}
 
 	public Point getCoordinates() {
 		return coordinates;
@@ -141,8 +177,9 @@ class DestructuredNode {
 		return label;
 	}
 
-    @Override
-    public String toString() {
-        return "Coordinates: " + coordinates.toString() + ", Options: " + options.toString() + ", Label: " + label.toString();
-    }
+	@Override
+	public String toString() {
+		return "Coordinates: " + coordinates.toString() + ", Options: " + options.toString() + ", Label: "
+				+ label.toString();
+	}
 }

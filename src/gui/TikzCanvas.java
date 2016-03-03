@@ -39,6 +39,9 @@ public class TikzCanvas extends JPanel implements Observer {
             if (node instanceof TikzRectangle) {
                 drawer = new RectangleDrawer((TikzRectangle) node);
             }
+            else if (node instanceof TikzTriangle) {
+                drawer = new PolygonDrawer((TikzTriangle) node);
+            }
             else {
                 drawer = new UnknownDrawer();
             }

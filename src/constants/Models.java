@@ -13,6 +13,7 @@ public final class Models {
         public static final String LABEL = new String("");
         public static final int WIDTH=1;
         public static final int LENGTH = 1;
+        public static final int SIDES = 3;
     }
 
 }

@@ -29,9 +29,14 @@ public class TikzCanvas extends JPanel implements Observer {
         nodeR.setPosition(new Point(100, 100));
         graph.add(nodeR);
 
-        nodeR = new TikzRectangle(100, 200);
+        nodeR = new TikzCircle();
         nodeR.setLabel("Demo Label2");
         nodeR.setPosition(new Point(200, 500));
+        graph.add(nodeR);
+
+        nodeR = new TikzPolygon();
+        nodeR.setLabel("Polypocket");
+        nodeR.setPosition(new Point(10, 10));
         graph.add(nodeR);
 
         for(TikzNode node : graph){
@@ -39,7 +44,7 @@ public class TikzCanvas extends JPanel implements Observer {
             if (node instanceof TikzRectangle) {
                 drawer = new RectangleDrawer((TikzRectangle) node);
             }
-            else if (node instanceof TikzTriangle) {
+            else if (node instanceof TikzPolygon) {
                 drawer = new PolygonDrawer((TikzPolygon) node);
             }
             else if (node instanceof TikzCircle) {

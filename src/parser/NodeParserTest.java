@@ -61,4 +61,12 @@ public class NodeParserTest {
 				.parse("\\draw[zedjio] (0,0) node[draw] {a} -- (2,0) node[draw] {l} -- (0,5) node[draw] {p}");
 		Assert.assertEquals(graph.size(), 3);
 	}
+
+	@Test
+	public void testEdgesFromDraw() throws Exception {
+		TikzGraph graph = new TikzGraph();
+		NodeParser.edgesFromDraw(graph)
+				.parse("\\draw[color=blue, ->] (0,0) -- (5,5) -- (5,7) -- (8,2)");
+		Assert.assertEquals(graph.size(), 4);
+	}
 }

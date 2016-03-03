@@ -29,7 +29,7 @@ public class NodeParser {
 	public static Parser<List<String>> options() {
 		return Patterns.regex("[^]]").many().toScanner("options string")
 				.between(Scanners.isChar('['), Scanners.isChar(']')).source()
-				.map(s -> Arrays.asList(s.substring(1, s.length() - 1).split(", *")));
+				.map(s -> Arrays.asList(s.substring(1, s.length() - 1).split(",\\s*")));
 	}
 
 	public static Parser<Point> coordinates() {
@@ -37,7 +37,7 @@ public class NodeParser {
 				.next(Terminals.DecimalLiteral.TOKENIZER).source().map(new Map<String, Point>() {
 					@Override
 					public Point map(String s) {
-						String[] splitted = s.split(",");
+						String[] splitted = s.split(",\\s*");
 						return new Point(Math.round(Float.valueOf(splitted[0])),
 								Math.round(Float.valueOf(splitted[1])));
 					}
@@ -48,7 +48,7 @@ public class NodeParser {
 		return Parsers.sequence(coordinates(),
 				Parsers.sequence(Scanners.WHITESPACES, Scanners.string("node"),
 						Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
-				Parsers.sequence(Scanners.WHITESPACES, label()), (coord, options, label) -> new DestructuredNode(coord, options, label));
+				Parsers.sequence(Scanners.WHITESPACES, label()), DestructuredNode::new);
 	}
 
 	public static Parser<TikzNode> nodeFromNode() {

@@ -3,7 +3,7 @@ package gui;
 
 import gui.drawables.Drawable;
 import gui.drawers.Drawer;
-import gui.drawers.RectangleDrawer;
+import gui.drawers.*;
 import models.*;
 
 import javax.swing.*;
@@ -24,17 +24,30 @@ public class TikzCanvas extends JPanel implements Observer {
 
     public void drawGraph(Graphics g){
         TikzGraph graph = new TikzGraph();
-        TikzNode node = new TikzRectangle(100, 100);
-        node.setLabel("Demo Label");
-        node.setPosition(new Point(100, 100));
-        graph.add(node);
+        TikzNode nodeR = new TikzRectangle(100, 100);
+        nodeR.setLabel("Demo Label");
+        nodeR.setPosition(new Point(100, 100));
+        graph.add(nodeR);
 
-        Drawer drawer = new RectangleDrawer((TikzRectangle) node);
-        Vector<Drawable> drawables = drawer.toDrawable();
+        nodeR = new TikzRectangle(100, 200);
+        nodeR.setLabel("Demo Label2");
+        nodeR.setPosition(new Point(200, 500));
+        graph.add(nodeR);
 
-        for (Drawable drawable : drawables) {
-            drawable.translate(node.getPosition());
-            drawable.draw((Graphics2D) g);
+        for(TikzNode node : graph){
+            Drawer drawer;
+            if (node instanceof TikzRectangle) {
+                drawer = new RectangleDrawer((TikzRectangle) node);
+            }
+            else {
+                drawer = new UnknownDrawer();
+            }
+            Vector<Drawable> drawables = drawer.toDrawable();
+
+            for (Drawable drawable : drawables) {
+                drawable.translate(node.getPosition());
+                drawable.draw((Graphics2D) g);
+            }
         }
     }
 

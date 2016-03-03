@@ -1,6 +1,5 @@
 package gui.drawers;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import gui.drawables.Drawable;
 import gui.drawables.DrawableShape;
 import gui.drawables.DrawableText;
@@ -17,11 +16,23 @@ public class RectangleDrawer implements Drawer {
             this.tikzRectangle = tikzRectangle;
     }
 
-    public Vector<Drawable> draw(){
-        Vector<Drawable> vec = new Vector<Drawable>();
-        vec.add(new DrawableShape(new Rectangle(100, 20)));
+    public Vector<Drawable> toDrawable(){
+        Vector<Drawable> vec = new Vector<>();
+
+        Drawable shape = new DrawableShape(
+                new Rectangle(this.tikzRectangle.getWidth(), this.tikzRectangle.getLength()),
+                new BasicStroke(2),
+                new Color(0, 0, 0)
+        );
+
+        vec.add(shape);
+
         if(this.tikzRectangle.getLabel() != Models.DEFAULT.LABEL){
-            vec.add(new DrawableText(this.tikzRectangle.getLabel(), new Point(5, 5)));
+            Drawable text = new DrawableText(
+                    this.tikzRectangle.getLabel(),
+                    new Point(15, 20)
+            );
+            vec.add(text);
         }
         return vec;
     }

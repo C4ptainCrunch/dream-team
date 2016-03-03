@@ -145,13 +145,13 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
 
     @Override
     public void onShowGrid(){
-        canvas.setGridVisible(true);
+//        canvas.setGridVisible(true);
         canvas.repaint();
     }
 
     @Override
     public void onHideGrid(){
-        canvas.setGridVisible(false);
+//        canvas.setGridVisible(false);
         canvas.repaint();
     }
 }

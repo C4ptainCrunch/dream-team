@@ -31,7 +31,7 @@ public class TikzRectangleTest {
     @Test
     public void testSetWidth() throws Exception {
         int width = 7;
-        rectangle.setWidth(7);
+        rectangle.setWidth(width);
         assertEquals(rectangle.getWidth(), width);
 
     }
@@ -45,7 +45,7 @@ public class TikzRectangleTest {
     @Test
     public void testSetLength() throws Exception {
         int length = 9;
-        rectangle.setLength(9);
+        rectangle.setLength(length);
         assertEquals(rectangle.getLength(), length);
     }
 }

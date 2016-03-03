@@ -14,6 +14,12 @@ public class TikzRectangle extends TikzShape {
         length = Models.DEFAULT.LENGTH;
     }
 
+    public TikzRectangle(int width, int length){
+        super();
+        setWidth(width);
+        setLength(length);
+    }
+
     public int getWidth() {
         return width;
     }

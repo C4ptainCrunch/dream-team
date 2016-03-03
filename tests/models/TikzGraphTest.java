@@ -56,7 +56,7 @@ public class TikzGraphTest {
         TikzNode key = new TikzCircle();
         assertTrue(graph.add(key));
         assertFalse(graph.add(key));
-        assertEquals(graph.get(key), null);
+        assertEquals(graph.get(key), new ArrayList<TikzEdge>());
     }
 
     @Test

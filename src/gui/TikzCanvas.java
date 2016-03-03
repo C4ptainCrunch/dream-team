@@ -35,6 +35,7 @@ public class TikzCanvas extends JPanel implements Observer {
         graph.add(nodeR);
 
         nodeR = new TikzPolygon();
+        nodeR.setColor(Color.red);
         nodeR.setLabel("Polypocket");
         nodeR.setPosition(new Point(10, 10));
         graph.add(nodeR);

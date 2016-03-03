@@ -27,7 +27,7 @@ public class CircleDrawer extends ComponentDrawer {
         Drawable shape = new DrawableShape(
                 new Ellipse2D.Float(0, 0, size, size),
                 new BasicStroke(2),
-                new Color(0, 0, 0)
+                getComponent().getColor()
         );
 
         vec.add(shape);

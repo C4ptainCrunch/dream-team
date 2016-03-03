@@ -22,10 +22,9 @@ public class NodeParser {
 		return Parsers.between(Scanners.string("("), Terminals.Identifier.TOKENIZER.source(), Scanners.string(")"));
 	}
 
-	public static Parser<String> label() {
-		return Patterns.regex("[^}]").many().toScanner("name string")
-				.between(Scanners.isChar('{'), Scanners.isChar('}')).source().map(s -> s.substring(1, s.length() - 1));
-	}
+    public static Parser<String> label(){
+        return Parsers.between(Scanners.isChar('{'), Patterns.many(CharPredicates.notChar('}')).toScanner("label string").source(), Scanners.isChar('}'));
+    }
 
 	public static Parser<List<String>> options() {
 		return Patterns.regex("[^]]").many().toScanner("options string")
@@ -121,8 +120,7 @@ public class NodeParser {
 				});
 	}
 
-	private static final Parser<Void> MAYBEWHITESPACES = Patterns.many(CharPredicates.IS_WHITESPACE)
-			.toScanner("maybe whitespaces");
+	private static final Parser<Void> MAYBEWHITESPACES = Scanners.WHITESPACES.optional();
 
 	private static String getNodeShape(List<String> list) {
 		/*

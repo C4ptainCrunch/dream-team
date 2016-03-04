@@ -21,6 +21,8 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
     private JTextArea tikz_code_view;
     private JPanel link_button_pan;
     private JPanel node_button_pan;
+    private JPanel caracteristikz_main_pan;
+    private CaracteristikzOptionsPanel caracteristikz_options_pan;
     private TikzCanvas canvas;
     private Menu menu;
     private ButtonGroup button_group;
@@ -78,6 +80,8 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
         initMenu();
         node_button_pan.setLayout(new GridLayout(node_icons.length, 1));
         link_button_pan.setLayout(new GridLayout(link_icons.length, 1));
+        caracteristikz_options_pan = new CaracteristikzOptionsPanel();
+        caracteristikz_main_pan.add(caracteristikz_options_pan, BorderLayout.CENTER);
         initRadioGroup();
         initRadioButtons();
         addButtonsListener();

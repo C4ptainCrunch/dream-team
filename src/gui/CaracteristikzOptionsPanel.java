@@ -2,6 +2,7 @@ package gui;
 
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -12,7 +13,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 public class CaracteristikzOptionsPanel extends JPanel {
-    private static final int ROW_COUNT = 5;
+    private static final int ROW_COUNT = 7;
     private static final int COLUMN_COUNT = 1;
     private static final int MIN_WIDTH = 1;
     private static final int MAX_WIDTH = 100;
@@ -20,15 +21,18 @@ public class CaracteristikzOptionsPanel extends JPanel {
     private JButton color_chooser;
     private JLabel color_title;
     private JLabel stroke_width_title;
+    private JLabel node_label_title;
     private JSlider stroke_width_slider;
     private JFormattedTextField stroke_width_entry;
+    private JTextField node_label_entry;
 
     public CaracteristikzOptionsPanel(){
         this.setLayout(new GridLayout(ROW_COUNT, COLUMN_COUNT));
-        this.setBorder(new EtchedBorder());
+        this.setBorder(new BevelBorder(BevelBorder.LOWERED));
 
         initColorOptions();
         initStrokeOptions();
+        initNodeLabelOptions();
     }
 
     private void initColorOptions(){
@@ -42,6 +46,11 @@ public class CaracteristikzOptionsPanel extends JPanel {
         initStrokeWidthEntry();
         initStrokeWidthSlider();
         addStrokeWidthEntryListener();
+    }
+
+    private void initNodeLabelOptions(){
+        initNodeLabelTitle();
+        initNodeLabelEntry();
     }
 
     private void initColorTitle(){
@@ -103,5 +112,15 @@ public class CaracteristikzOptionsPanel extends JPanel {
                 }
             }
         });
+    }
+
+    private void initNodeLabelTitle(){
+        node_label_title = new JLabel("<HTML><U>Node Label</U><HTML>");
+        this.add(node_label_title, 5);
+    }
+
+    private void initNodeLabelEntry(){
+        node_label_entry = new JTextField();
+        this.add(node_label_entry, 6);
     }
 }

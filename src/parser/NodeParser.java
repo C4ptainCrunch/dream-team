@@ -2,7 +2,6 @@ package parser;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import models.*;
@@ -27,10 +26,16 @@ public class NodeParser {
 				Patterns.many(CharPredicates.notChar('}')).toScanner("label string").source(), Scanners.isChar('}'));
 	}
 
+	public static Parser<String> anOption() {
+		Parser<Void> decimalWithUnit = Scanners.DECIMAL.next(Scanners.IDENTIFIER.optional()).cast();
+		Parser<String> withEqual = Scanners.isChar('=').next(Parsers.or(Scanners.IDENTIFIER, decimalWithUnit)).source();
+		Parser<String> arrows = Scanners.among("><-").many1().source();
+		return Parsers.or(Scanners.IDENTIFIER.next(withEqual.optional()).source(), arrows);
+	}
+
 	public static Parser<List<String>> options() {
-        return Patterns.regex("[^]]").many().toScanner("options string")
-				.between(Scanners.isChar('['), Scanners.isChar(']')).source()
-				.map(s -> Arrays.asList(s.substring(1, s.length() - 1).split(",\\s*")));
+		Parser<Void> optionsDelimiter = Scanners.isChar(',').next(MAYBEWHITESPACES);
+		return Parsers.between(Scanners.isChar('['), anOption().sepBy(optionsDelimiter), Scanners.isChar(']'));
 	}
 
 	public static Parser<Point> coordinates() {

@@ -78,4 +78,12 @@ public class NodeParserTest {
 						+ "\\end{tikzpicture}\n" + "\\end{document}");
 		Assert.assertEquals(graph.size(), 3);
 	}
+
+	@Test
+	public void testAnOption() throws Exception {
+		Assert.assertEquals(NodeParser.anOption().parse("helloworld"), "helloworld");
+		Assert.assertEquals(NodeParser.anOption().parse("hello=world"), "hello=world");
+		Assert.assertEquals(NodeParser.anOption().parse("hello=35"), "hello=35");
+		Assert.assertEquals(NodeParser.anOption().parse("hello=54cm"), "hello=54cm");
+	}
 }

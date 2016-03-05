@@ -25,6 +25,7 @@ public class CaracteristikzOptionsPanel extends JPanel {
     private JSlider stroke_width_slider;
     private JFormattedTextField stroke_width_entry;
     private JTextField node_label_entry;
+    private Color chosen_color = Color.black;
 
     public CaracteristikzOptionsPanel(){
         this.setLayout(new GridLayout(ROW_COUNT, COLUMN_COUNT));
@@ -95,7 +96,7 @@ public class CaracteristikzOptionsPanel extends JPanel {
 
     private void initColorChooser(){
         color_chooser = new JButton();
-        color_chooser.setBackground(Color.BLACK);
+        color_chooser.setBackground(chosen_color);
         color_chooser.setBorderPainted(false);
         this.add(color_chooser, 1);
 
@@ -105,10 +106,10 @@ public class CaracteristikzOptionsPanel extends JPanel {
         color_chooser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Color color = JColorChooser.showDialog(CaracteristikzOptionsPanel.this, "Choose Stroke Color",
+                chosen_color = JColorChooser.showDialog(CaracteristikzOptionsPanel.this, "Choose Stroke Color",
                         color_chooser.getBackground());
-                if (color != null) {
-                    color_chooser.setBackground(color);
+                if (chosen_color != null) {
+                    color_chooser.setBackground(chosen_color);
                 }
             }
         });
@@ -122,5 +123,17 @@ public class CaracteristikzOptionsPanel extends JPanel {
     private void initNodeLabelEntry(){
         node_label_entry = new JTextField();
         this.add(node_label_entry, 6);
+    }
+
+    public String getNodeLabel(){
+        return node_label_entry.getText();
+    }
+
+    public Color getChosenColor(){
+        return chosen_color;
+    }
+
+    public int getStrokeWidth() {
+        return stroke_width_slider.getValue();
     }
 }

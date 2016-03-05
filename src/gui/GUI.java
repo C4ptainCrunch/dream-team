@@ -13,7 +13,7 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
     private static final Color button_background = new Color(238,238,238);
     private static final String icon_dir = "./././src/gui/toolbox/";
     private static final String[] node_icons = {"fill_circle.png", "fill_rect.png", "fill_triangle.png"};
-    private static final String[] link_icons = {"fill_line.png"};
+    private static final String[] link_icons = {"fill_line.png", "arrow.png"};
 
 
     private JPanel main_panel;

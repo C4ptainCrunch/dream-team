@@ -27,4 +27,5 @@ public abstract class TikzNode extends TikzComponent {
     public void move(int x, int y){
         setPosition(new Point(x,y));
     }
+
 }

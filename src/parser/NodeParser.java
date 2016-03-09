@@ -24,8 +24,9 @@ public class NodeParser {
 	}
 
 	public static Parser<String> label() {
-		return Parsers.between(Scanners.isChar('{'),
-				Patterns.many(CharPredicates.notChar('}')).toScanner("label string").source(), Scanners.isChar('}'));
+        final Parser<String> source = Patterns.many(CharPredicates.notChar('}')).toScanner("label string").source();
+        return Parsers.between(Scanners.isChar('{'),
+                source, Scanners.isChar('}'));
 	}
 
 	public static Parser<String> anOption() {
@@ -38,20 +39,19 @@ public class NodeParser {
 	}
 
 	public static Parser<List<String>> options() {
-		Parser<Void> optionsDelimiter = Scanners.isChar(',').next(MAYBEWHITESPACES);
+		final Parser<Void> optionsDelimiter = Scanners.isChar(',').next(MAYBEWHITESPACES);
 		return Parsers.between(Scanners.isChar('['), anOption().sepBy(optionsDelimiter), Scanners.isChar(']'));
 	}
 
 	public static Parser<Point> coordinates() {
-		return Parsers.between(Scanners.string("("), Terminals.DecimalLiteral.TOKENIZER.next(Scanners.string(","))
-				.next(Terminals.DecimalLiteral.TOKENIZER).source().map(new Map<String, Point>() {
-					@Override
-					public Point map(String s) {
-						String[] splitted = s.split(",\\s*");
-						return new Point(Math.round(Float.valueOf(splitted[0])),
-								Math.round(Float.valueOf(splitted[1])));
-					}
-				}), Scanners.string(")"));
+        final Parser<Point> coords = Terminals.DecimalLiteral.TOKENIZER.next(Scanners.string(",")).next(MAYBEWHITESPACES)
+                .next(Terminals.DecimalLiteral.TOKENIZER).source().map(s -> {
+                        String[] splitted = s.split(",\\s*");
+                        return new Point(Math.round(Float.valueOf(splitted[0])),
+                                Math.round(Float.valueOf(splitted[1])));
+                    }
+                );
+        return Parsers.between(Scanners.string("("), coords, Scanners.string(")"));
 	}
 
 	public static Parser<DestructuredNode> nodeFromDraw() {

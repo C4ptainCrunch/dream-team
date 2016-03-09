@@ -6,10 +6,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.*;
 import java.util.Enumeration;
-import java.io.IOException;
 import java.awt.Desktop;
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 
@@ -18,8 +17,8 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
     private static final String icon_dir = "./././src/gui/toolbox/";
     private static final String[] node_icons = {"fill_circle.png", "fill_rect.png", "fill_triangle.png"};
     private static final String[] link_icons = {"fill_line.png", "arrow.png"};
-    private static final String pathToTexFile="./././latex_files/test.tex";
-    private static final String pathToPDFFile="./././pdf_files/test.pdf";
+    private static final String pathToTexFile="./././latex_files/test2.tex";
+    private static final String pathToPDFFile="./././pdf_files/test2.pdf";
 
     private JPanel main_panel;
     private JScrollPane draw_zone;
@@ -164,6 +163,37 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
 
     @Override
     public void onBuildPDF(){
+
+        File latexDirectory = new File("latex_files");
+
+        // if the directory does not exist, create it
+        if (!latexDirectory.exists()) {
+            try{
+                latexDirectory.mkdir();
+            }
+            catch(SecurityException se){
+                // What should we log?
+            }
+        }
+
+        String tikz_code = tikz_code_view.getText();
+
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter( new FileWriter("latex_files/test2.tex"));
+            writer.write(tikz_code);
+        }
+        catch ( IOException e) {
+            // What should we log?
+        }
+        finally {
+            try {
+                if ( writer != null)
+                    writer.close( );
+            }
+            catch ( IOException e) {
+            }
+        }
 
         File pdfDirectory = new File("pdf_files");
 

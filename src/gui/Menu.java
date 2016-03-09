@@ -37,9 +37,10 @@ public class Menu extends JMenuBar{
         build_pdf = new JMenuItem(PDF);
         file_menu.add(save_item);
         file_menu.addSeparator();
-        file_menu.add(exit_item);
-        file_menu.addSeparator();
         file_menu.add(build_pdf);
+        file_menu.addSeparator();
+        file_menu.add(exit_item);
+
     }
 
     private void initViewMenu(){

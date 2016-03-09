@@ -19,13 +19,15 @@ import org.codehaus.jparsec.pattern.CharPredicates;
 import org.codehaus.jparsec.pattern.Patterns;
 
 public class NodeParser {
-	public static Parser<String> reference() {
+
+    public static Parser<String> reference() {
 		return Parsers.between(Scanners.string("("), Terminals.Identifier.TOKENIZER.source(), Scanners.string(")"));
 	}
 
 	public static Parser<String> label() {
-		return Parsers.between(Scanners.isChar('{'),
-				Patterns.many(CharPredicates.notChar('}')).toScanner("label string").source(), Scanners.isChar('}'));
+        final Parser<String> source = Patterns.many(CharPredicates.notChar('}')).toScanner("label string").source();
+        return Parsers.between(Scanners.isChar('{'),
+                source, Scanners.isChar('}'));
 	}
 
 	public static Parser<String> anOption() {
@@ -38,20 +40,19 @@ public class NodeParser {
 	}
 
 	public static Parser<List<String>> options() {
-		Parser<Void> optionsDelimiter = Scanners.isChar(',').next(MAYBEWHITESPACES);
+		final Parser<Void> optionsDelimiter = Scanners.isChar(',').next(MAYBEWHITESPACES);
 		return Parsers.between(Scanners.isChar('['), anOption().sepBy(optionsDelimiter), Scanners.isChar(']'));
 	}
 
 	public static Parser<Point> coordinates() {
-		return Parsers.between(Scanners.string("("), Terminals.DecimalLiteral.TOKENIZER.next(Scanners.string(","))
-				.next(Terminals.DecimalLiteral.TOKENIZER).source().map(new Map<String, Point>() {
-					@Override
-					public Point map(String s) {
-						String[] splitted = s.split(",\\s*");
-						return new Point(Math.round(Float.valueOf(splitted[0])),
-								Math.round(Float.valueOf(splitted[1])));
-					}
-				}), Scanners.string(")"));
+        final Parser<Point> coords = Terminals.DecimalLiteral.TOKENIZER.next(Scanners.string(",")).next(MAYBEWHITESPACES)
+                .next(Terminals.DecimalLiteral.TOKENIZER).source().map(s -> {
+                        String[] splitted = s.split(",\\s*");
+                        return new Point(Math.round(Float.valueOf(splitted[0])),
+                                Math.round(Float.valueOf(splitted[1])));
+                    }
+                );
+        return Parsers.between(Scanners.string("("), coords, Scanners.string(")"));
 	}
 
 	public static Parser<DestructuredNode> nodeFromDraw() {
@@ -63,62 +64,45 @@ public class NodeParser {
 	}
 
 	public static Parser<Void> nodeFromNode(TikzGraph graph) {
-		return Parsers.sequence(
-				Parsers.sequence(Scanners.string("\\node"),
-						Parsers.sequence(MAYBEWHITESPACES,
-								Parsers.or(options(), Parsers.constant(new ArrayList<String>())))),
-				Parsers.sequence(MAYBEWHITESPACES, Parsers.or(reference(), Parsers.constant(""))),
+
+        return Parsers.sequence(
+				Parsers.sequence(Scanners.string("\\node"), MAYBEWHITESPACES, maybeOptions),
+				Parsers.sequence(MAYBEWHITESPACES, maybeReference),
 				Parsers.sequence(Scanners.WHITESPACES, Scanners.string("at"), Scanners.WHITESPACES, coordinates()),
-				Parsers.sequence(MAYBEWHITESPACES, Parsers.or(label(), Parsers.constant(""))),
-				new Map4<List<String>, String, Point, String, Void>() {
-					@Override
-					public Void map(List<String> options, String ref, Point coord, String label) {
-						TikzNode result;
-						switch (NodeParser.getNodeShape(options)) {
-						case "circle":
-							graph.add(new TikzCircle());
-							break;
-						case "triangle":
-							graph.add(new TikzTriangle());
-							break;
-						default:
-							graph.add(new TikzRectangle());
-							break;
-						}
-						return null;
-					}
-				});
+				Parsers.sequence(MAYBEWHITESPACES, maybeLabel),
+                (options, ref, coord, label) -> {
+                    graph.add(createNode(new DestructuredNode(coord, options, label)));
+                    return null;
+                });
 	}
 
 	public static Parser<Void> nodesFromDraw(TikzGraph graph) {
 		return Parsers.sequence(
 				Parsers.sequence(Scanners.string("\\draw"),
-						Parsers.sequence(MAYBEWHITESPACES,
-								Parsers.or(options(), Parsers.constant(new ArrayList<String>())))),
+						Parsers.sequence(MAYBEWHITESPACES, maybeOptions)),
 				Parsers.sequence(Scanners.WHITESPACES, nodeFromDraw()),
 				Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, nodeFromDraw())
 						.many(),
-				new Map3<List<String>, DestructuredNode, List<DestructuredNode>, Void>() {
-					@Override
-					public Void map(List<String> defaultOptions, DestructuredNode firstNode,
-							List<DestructuredNode> restNode) {
-						TikzNode previous, current;
-						previous = createNode(defaultOptions, firstNode);
-						graph.add(previous);
-						for (DestructuredNode destructuredNode : restNode) {
-							current = createNode(defaultOptions, destructuredNode);
-							graph.add(current);
-							graph.add(previous, new TikzUndirectedEdge(previous,
-									current)); /* TODO: parsing edges */
-							previous = current;
-						}
-						return null;
-					}
-				});
+                (defaultOptions, firstNode, restNode) -> {
+                    TikzNode previous, current;
+                    previous = createNode(defaultOptions, firstNode);
+                    graph.add(previous);
+                    for (DestructuredNode destructuredNode : restNode) {
+                        current = createNode(defaultOptions, destructuredNode);
+                        graph.add(current);
+                        graph.add(previous, new TikzUndirectedEdge(previous,
+                                current)); /* TODO: parsing edges */
+                        previous = current;
+                    }
+                    return null;
+					});
 	}
 
 	private static final Parser<Void> MAYBEWHITESPACES = Scanners.WHITESPACES.optional();
     private static final Parser<Void> MAYBENEWLINES = Scanners.isChar('\n').optional();
+    private static final Parser<List<String>> maybeOptions =  Parsers.or(options(), Parsers.constant(new ArrayList<String>()));
+    private static final Parser<String> maybeReference = Parsers.or(reference(), Parsers.constant(""));
+    private static final Parser<String> maybeLabel = Parsers.or(label(), Parsers.constant(""));
 
 	public static Parser<Void> parseDocument(TikzGraph graph) {
 		return Parsers.between(
@@ -154,7 +138,7 @@ public class NodeParser {
 		 * "\draw[circle] (-0.2,0) -- (4.2,0) node[rectangle] {$x$};", rectangle
 		 * by default
 		 */
-		return getNodeShape(list, new ArrayList<String>());
+		return getNodeShape(list, new ArrayList<>());
 	}
 
 	private static String getNodeShape(List<String> list1, List<String> list2) {
@@ -179,36 +163,37 @@ public class NodeParser {
 				Parsers.sequence(Scanners.WHITESPACES, coordinates()),
 				Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, coordinates())
 						.many(),
-				new Map3<List<String>, Point, List<Point>, Void>() {
-					@Override
-					public Void map(List<String> defaultOptions, Point firstCoord, List<Point> restCoord) {
-						TikzVoid previous = new TikzVoid();
-						TikzVoid current;
-						TikzEdge edge;
-						graph.add(previous);
-						for (Point coord : restCoord) {
-							current = new TikzVoid();
-							graph.add(current);
-							switch (isDirected(defaultOptions)) {
-							case "directedRight":
-								edge = new TikzDirectedEdge(previous, current);
-								break;
-							case "directedLeft":
-								edge = new TikzDirectedEdge(current, previous);
-								break;
-							default:
-								edge = new TikzUndirectedEdge(previous, current);
-								break;
-							}
-							graph.add(current);
-							graph.add(previous, edge);
-							previous = current;
-						}
-						return null;
-					}
+                (defaultOptions, firstCoord, restCoord) -> {
+				    TikzVoid previous = new TikzVoid();
+                    TikzVoid current;
+                    TikzEdge edge;
+                    graph.add(previous);
+                    for (Point coord : restCoord) {
+                        current = new TikzVoid();
+                        graph.add(current);
+                        switch (isDirected(defaultOptions)) {
+                        case "directedRight":
+                            edge = new TikzDirectedEdge(previous, current);
+                            break;
+                        case "directedLeft":
+                            edge = new TikzDirectedEdge(current, previous);
+                            break;
+                        default:
+                            edge = new TikzUndirectedEdge(previous, current);
+                            break;
+                        }
+                        graph.add(current);
+                        graph.add(previous, edge);
+                        previous = current;
+                    }
+                    return null;
 				});
 
 	}
+
+    private static TikzNode createNode(DestructuredNode node){
+        return createNode(new ArrayList<>(), node);
+    }
 
 	private static TikzNode createNode(List<String> defaultOptions, DestructuredNode node) {
 		final String shape = getNodeShape(defaultOptions, node.getOptions());

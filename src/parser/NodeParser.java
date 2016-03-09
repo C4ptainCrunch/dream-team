@@ -2,6 +2,8 @@ package parser;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import models.*;
@@ -207,9 +209,25 @@ public class NodeParser {
 
 	}
 
-    private static TikzNode createNode(DestructuredNode node, List<String> defaultOptions){
+    private static TikzNode createNode(List<String> defaultOptions, DestructuredNode node){
         final String shape = getNodeShape(defaultOptions, node.getOptions());
-        return new TikzVoid();
+        TikzNode res;
+        final HashSet<String> rectangles = new HashSet<>(Arrays.asList("rectangle", "diamond"));
+        final HashSet<String> circles = new HashSet<>(Arrays.asList("circle", "ellipse", "circle split", "forbidden sign"));
+        final HashSet<String> polygons = new HashSet<>(Arrays.asList("regular polygon", "star"));
+        if (rectangles.contains(shape)) {
+            res = new TikzRectangle();
+        }
+        else if (circles.contains(shape)) {
+            res = new TikzCircle();
+        }
+        else if (polygons.contains(shape)) {
+            res = new TikzPolygon();
+        }
+        else res = new TikzVoid();
+        res.setPosition(node.getCoordinates());
+        res.setLabel(node.getLabel());
+        return res;
     }
 
 	private static String isDirected(List<String> options) {

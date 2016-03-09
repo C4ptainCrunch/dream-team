@@ -27,10 +27,11 @@ public class NodeParser {
 	}
 
 	public static Parser<String> anOption() {
-		Parser<Void> decimalWithUnit = Scanners.DECIMAL.next(Scanners.IDENTIFIER.optional()).cast();
-		Parser<String> withEqual = Scanners.isChar('=').next(Parsers.or(Scanners.IDENTIFIER, decimalWithUnit)).source();
-		Parser<String> arrows = Scanners.among("><-").many1().source();
-		return Parsers.or(Scanners.IDENTIFIER.next(withEqual.optional()).source(), arrows);
+		final Parser<String> argument = (Scanners.IDENTIFIER.next(MAYBEWHITESPACES)).many1().source();
+		final Parser<Void> decimalWithUnit = Scanners.DECIMAL.next(Scanners.IDENTIFIER.optional()).cast();
+		final Parser<String> withEqual = Scanners.isChar('=').next(Parsers.or(Scanners.IDENTIFIER, decimalWithUnit)).source();
+		final Parser<String> arrows = Scanners.among("><-").many1().source();
+		return Parsers.or(argument.next(withEqual.optional()).source(), arrows);
 	}
 
 	public static Parser<List<String>> options() {

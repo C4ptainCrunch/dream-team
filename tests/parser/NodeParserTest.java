@@ -42,8 +42,8 @@ public class NodeParserTest {
 				"Coordinates: java.awt.Point[x=0,y=0], Options: [draw], Label: a");
 		Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node {a}").toString(),
 				"Coordinates: java.awt.Point[x=0,y=0], Options: [], Label: a");
-		Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node[circle, hello] {}").toString(),
-				"Coordinates: java.awt.Point[x=0,y=0], Options: [circle, hello], Label: ");
+		Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node[circle split, hello] {}").toString(),
+				"Coordinates: java.awt.Point[x=0,y=0], Options: [circle split, hello], Label: ");
 	}
 
 	@Test
@@ -85,5 +85,6 @@ public class NodeParserTest {
 		Assert.assertEquals(NodeParser.anOption().parse("hello=world"), "hello=world");
 		Assert.assertEquals(NodeParser.anOption().parse("hello=35"), "hello=35");
 		Assert.assertEquals(NodeParser.anOption().parse("hello=54cm"), "hello=54cm");
+		Assert.assertEquals(NodeParser.anOption().parse("this is an argument=54.5"), "this is an argument=54.5");
 	}
 }

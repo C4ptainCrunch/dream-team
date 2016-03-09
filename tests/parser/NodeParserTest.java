@@ -72,10 +72,15 @@ public class NodeParserTest {
 	public void testParseDocument() throws Exception {
 		TikzGraph graph = new TikzGraph();
 		NodeParser.parseDocument(graph)
-				.parse("\\documentclass{article}\n" + "\\usepackage{tikz}\n" + "\\begin{document}\n"
-						+ "\\begin{tikzpicture}\n"
-						+ "\\draw[color=red] (0,0) node[draw] {a} -- (2,0) node[draw] {l} -- (0,5) node[draw] {p};"
-						+ "\\end{tikzpicture}\n" + "\\end{document}");
+				.parse("\\documentclass{article}\n" +
+						"\\usepackage{tikz}\n" +
+						"\\begin{document}\n" +
+						"\t\\begin{tikzpicture}\n" +
+						"\n" +
+						"\t\t\\draw[color=red] (0,0) node[draw] {a} -- (2,0) node[draw] {l} -- (0,5) node[draw] {p};\n" +
+						"\n" +
+						"\t\\end{tikzpicture}\n" +
+						"\\end{document}");
 		Assert.assertEquals(graph.size(), 3);
 	}
 
@@ -86,5 +91,33 @@ public class NodeParserTest {
 		Assert.assertEquals(NodeParser.anOption().parse("hello=35"), "hello=35");
 		Assert.assertEquals(NodeParser.anOption().parse("hello=54cm"), "hello=54cm");
 		Assert.assertEquals(NodeParser.anOption().parse("this is an argument=54.5"), "this is an argument=54.5");
+	}
+
+	@Test
+	public void testParseDocumentIntro() throws Exception {
+		Assert.assertEquals(NodeParser.parseDocumentIntro().source().parse(
+				"\t\\documentclass{article}\n" +
+						"\n" +
+						"\\usepackage{tikz}\n" +
+						"\n" +
+						"\\begin{document}\n" +
+						"\t\\begin{tikzpicture}\n"
+		),"\t\\documentclass{article}\n" +
+				"\n" +
+				"\\usepackage{tikz}\n" +
+				"\n" +
+				"\\begin{document}\n" +
+				"\t\\begin{tikzpicture}\n");
+	}
+
+	@Test
+	public void testParseDocumentOutro() throws Exception {
+		Assert.assertEquals(NodeParser.parseDocumentOutro().source().parse(
+				"\t\\end{tikzpicture}\n" +
+						"\\end{document}\n"
+		),"\t\\end{tikzpicture}\n" +
+				"\\end{document}\n");
+
+
 	}
 }

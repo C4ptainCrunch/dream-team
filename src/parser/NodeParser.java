@@ -118,16 +118,35 @@ public class NodeParser {
 	}
 
 	private static final Parser<Void> MAYBEWHITESPACES = Scanners.WHITESPACES.optional();
+    private static final Parser<Void> MAYBENEWLINES = Scanners.isChar('\n').optional();
 
 	public static Parser<Void> parseDocument(TikzGraph graph) {
 		return Parsers.between(
-				Scanners.string("\\documentclass{article}\n" + "\\usepackage{tikz}\n" + "\\begin{document}\n"
-						+ "\\begin{tikzpicture}\n"),
-				Parsers.or(nodesFromDraw(graph), edgesFromDraw(graph), nodeFromNode(graph), Scanners.isChar(';')).many()
+                parseDocumentIntro(),
+
+				Parsers.or(nodesFromDraw(graph), edgesFromDraw(graph), nodeFromNode(graph), Scanners.isChar(';'), MAYBEWHITESPACES).many()
 						.cast(),
-				Scanners.string("\\end{tikzpicture}\n" + "\\end{document}"));
+				parseDocumentOutro());
 
 	}
+
+    public static Parser<Void> parseDocumentIntro(){
+        return Parsers.sequence(
+                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(), Scanners.string("\\documentclass{article}\n"),
+                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(), Scanners.string("\\usepackage{tikz}\n"),
+                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(), Scanners.string("\\begin{document}\n"),
+                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(), Scanners.string("\\begin{tikzpicture}\n"),
+                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many()
+        ).cast();
+    }
+
+    public static Parser<Void> parseDocumentOutro(){
+        return Parsers.sequence(
+                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(), Scanners.string("\\end{tikzpicture}\n"),
+                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(), Scanners.string("\\end{document}"),
+                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many()
+        ).cast();
+    }
 
 	private static String getNodeShape(List<String> list) {
 		/*

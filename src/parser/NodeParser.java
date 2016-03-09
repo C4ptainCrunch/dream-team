@@ -151,11 +151,7 @@ public class NodeParser {
 		 * "\draw[circle] (-0.2,0) -- (4.2,0) node[rectangle] {$x$};", rectangle
 		 * by default
 		 */
-		String[] shapes = new String[] { "circle", "triangle", "rectangle" };
-		for (String s : shapes)
-			if (list.contains(s))
-				return s;
-		return "rectangle";
+		return getNodeShape(list, new ArrayList<String>());
 	}
 
 	private static String getNodeShape(List<String> list1, List<String> list2) {
@@ -164,14 +160,13 @@ public class NodeParser {
 		 * "\draw[circle] (-0.2,0) -- (4.2,0) node[rectangle] {$x$};", rectangle
 		 * by default
 		 */
-		String[] shapes = new String[] { "circle", "triangle", "rectangle" };
 		for (String s : shapes)
 			if (list2.contains(s))
 				return s;
 		for (String s : shapes)
 			if (list1.contains(s))
 				return s;
-		return "rectangle";
+		return "void";
 	}
 
 	public static Parser<Void> edgesFromDraw(TikzGraph graph) {
@@ -212,6 +207,11 @@ public class NodeParser {
 
 	}
 
+    private static TikzNode createNode(DestructuredNode node, List<String> defaultOptions){
+        final String shape = getNodeShape(defaultOptions, node.getOptions());
+        return new TikzVoid();
+    }
+
 	private static String isDirected(List<String> options) {
 		if (options.contains("->")) {
 			return "directRight";
@@ -221,6 +221,8 @@ public class NodeParser {
 			return ("undirected");
 		}
 	}
+
+    private static final String[] shapes = new String[]{"rectangle", "circle", "ellipse", "circle split", "forbidden sign", "diamond", "cross out", "strike out", "regular polygon", "ann", "star"};
 }
 
 class DestructuredNode {

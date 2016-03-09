@@ -9,12 +9,14 @@ import java.awt.event.ItemListener;
 public class Menu extends JMenuBar{
     private static final String FILE_MENU = "File";
     private static final String SAVE = "Save";
+    private static final String PDF = "Build PDF";
     private static final String EXIT = "Exit";
     private static final String VIEW_MENU = "View";
     private static final String GRID_VISIBILTY = "Show/Hide Grid";
 
     private JMenu file_menu;
     private JMenuItem save_item;
+    private JMenuItem build_pdf;
     private JMenuItem exit_item;
     private JMenu view_menu;
     private JCheckBoxMenuItem grid_item;
@@ -32,10 +34,12 @@ public class Menu extends JMenuBar{
         this.add(file_menu);
         save_item = new JMenuItem(SAVE);
         exit_item = new JMenuItem(EXIT);
+        build_pdf = new JMenuItem(PDF);
         file_menu.add(save_item);
         file_menu.addSeparator();
         file_menu.add(exit_item);
-
+        file_menu.addSeparator();
+        file_menu.add(build_pdf);
     }
 
     private void initViewMenu(){
@@ -44,13 +48,13 @@ public class Menu extends JMenuBar{
         grid_item = new JCheckBoxMenuItem(GRID_VISIBILTY);
         grid_item.setSelected(true);
         view_menu.add(grid_item);
-
     }
 
     public interface onItemClickListener{
         public void onExit();
         public void onShowGrid();
         public void onHideGrid();
+        public void onBuildPDF();
     }
 
     private void addExitListener(){
@@ -58,7 +62,6 @@ public class Menu extends JMenuBar{
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 listener.onExit();
-
             }
         });
     }
@@ -77,8 +80,18 @@ public class Menu extends JMenuBar{
         });
     }
 
+    private void addBuildPDFListener(){
+        build_pdf.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                listener.onBuildPDF();
+            }
+        });
+    }
+
     private void addListeners(){
         addExitListener();
         addGridListener();
+        addBuildPDFListener();
     }
 }

@@ -7,6 +7,10 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Enumeration;
+import java.io.IOException;
+import java.awt.Desktop;
+import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 
 public class GUI extends JFrame implements Menu.onItemClickListener {
@@ -14,6 +18,8 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
     private static final String icon_dir = "./././src/gui/toolbox/";
     private static final String[] node_icons = {"fill_circle.png", "fill_rect.png", "fill_triangle.png"};
     private static final String[] link_icons = {"fill_line.png", "arrow.png"};
+    private static final String pathToTexFile="./././latex_files/test.tex";
+    private static final String pathToPDFFile="././test.pdf";
 
 
     private JPanel main_panel;
@@ -157,6 +163,31 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
     public void onHideGrid(){
 //        canvas.setGridVisible(false);
         canvas.repaint();
+    }
+
+    @Override
+    public void onBuildPDF(){
+
+        try{
+            Process p = Runtime.getRuntime().exec(new String[]{"pdflatex",pathToTexFile});
+        } catch (IOException ex){
+            // What should we log?
+        }
+
+        try{
+            TimeUnit.SECONDS.sleep(1);
+        } catch(InterruptedException ex){
+            // What should we log?
+        }
+
+        if (Desktop.isDesktopSupported()) {
+            try {
+                File myFile = new File(pathToPDFFile);
+                Desktop.getDesktop().open(myFile);
+            } catch (IOException ex) {
+                // What should we log?
+            }
+        }
     }
 }
 

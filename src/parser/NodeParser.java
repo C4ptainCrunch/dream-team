@@ -31,7 +31,8 @@ public class NodeParser {
 	public static Parser<String> anOption() {
 		final Parser<String> argument = (Scanners.IDENTIFIER.next(MAYBEWHITESPACES)).many1().source();
 		final Parser<Void> decimalWithUnit = Scanners.DECIMAL.next(Scanners.IDENTIFIER.optional()).cast();
-		final Parser<String> withEqual = Scanners.isChar('=').next(Parsers.or(Scanners.IDENTIFIER, decimalWithUnit)).source();
+		final Parser<String> withEqual = Scanners.isChar('=').next(Parsers.or(Scanners.IDENTIFIER, decimalWithUnit))
+				.source();
 		final Parser<String> arrows = Scanners.among("><-").many1().source();
 		return Parsers.or(argument.next(withEqual.optional()).source(), arrows);
 	}
@@ -90,7 +91,6 @@ public class NodeParser {
 	}
 
 	public static Parser<Void> nodesFromDraw(TikzGraph graph) {
-		/* Attention: missing specific constructors */
 		return Parsers.sequence(
 				Parsers.sequence(Scanners.string("\\draw"),
 						Parsers.sequence(MAYBEWHITESPACES,
@@ -103,28 +103,10 @@ public class NodeParser {
 					public Void map(List<String> defaultOptions, DestructuredNode firstNode,
 							List<DestructuredNode> restNode) {
 						TikzNode previous, current;
-						switch (NodeParser.getNodeShape(defaultOptions, firstNode.getOptions())) {
-						case "circle":
-							previous = new TikzCircle();
-							break;
-						case "triangle":
-							previous = new TikzTriangle();
-							break;
-						default:
-							previous = new TikzRectangle();
-						}
+						previous = createNode(defaultOptions, firstNode);
 						graph.add(previous);
 						for (DestructuredNode destructuredNode : restNode) {
-							switch (NodeParser.getNodeShape(defaultOptions, destructuredNode.getOptions())) {
-							case "circle":
-								current = new TikzCircle();
-								break;
-							case "triangle":
-								current = new TikzTriangle();
-								break;
-							default:
-								current = new TikzRectangle();
-							}
+							current = createNode(defaultOptions, destructuredNode);
 							graph.add(current);
 							graph.add(previous, new TikzUndirectedEdge(previous,
 									current)); /* TODO: parsing edges */
@@ -209,26 +191,25 @@ public class NodeParser {
 
 	}
 
-    private static TikzNode createNode(List<String> defaultOptions, DestructuredNode node){
-        final String shape = getNodeShape(defaultOptions, node.getOptions());
-        TikzNode res;
-        final HashSet<String> rectangles = new HashSet<>(Arrays.asList("rectangle", "diamond"));
-        final HashSet<String> circles = new HashSet<>(Arrays.asList("circle", "ellipse", "circle split", "forbidden sign"));
-        final HashSet<String> polygons = new HashSet<>(Arrays.asList("regular polygon", "star"));
-        if (rectangles.contains(shape)) {
-            res = new TikzRectangle();
-        }
-        else if (circles.contains(shape)) {
-            res = new TikzCircle();
-        }
-        else if (polygons.contains(shape)) {
-            res = new TikzPolygon();
-        }
-        else res = new TikzVoid();
-        res.setPosition(node.getCoordinates());
-        res.setLabel(node.getLabel());
-        return res;
-    }
+	private static TikzNode createNode(List<String> defaultOptions, DestructuredNode node) {
+		final String shape = getNodeShape(defaultOptions, node.getOptions());
+		TikzNode res;
+		final HashSet<String> rectangles = new HashSet<>(Arrays.asList("rectangle", "diamond"));
+		final HashSet<String> circles = new HashSet<>(
+				Arrays.asList("circle", "ellipse", "circle split", "forbidden sign"));
+		final HashSet<String> polygons = new HashSet<>(Arrays.asList("regular polygon", "star"));
+		if (rectangles.contains(shape)) {
+			res = new TikzRectangle();
+		} else if (circles.contains(shape)) {
+			res = new TikzCircle();
+		} else if (polygons.contains(shape)) {
+			res = new TikzPolygon();
+		} else
+			res = new TikzVoid();
+		res.setPosition(node.getCoordinates());
+		res.setLabel(node.getLabel());
+		return res;
+	}
 
 	private static String isDirected(List<String> options) {
 		if (options.contains("->")) {
@@ -240,7 +221,8 @@ public class NodeParser {
 		}
 	}
 
-    private static final String[] shapes = new String[]{"rectangle", "circle", "ellipse", "circle split", "forbidden sign", "diamond", "cross out", "strike out", "regular polygon", "ann", "star"};
+	private static final String[] shapes = new String[] { "rectangle", "circle", "ellipse", "circle split",
+			"forbidden sign", "diamond", "cross out", "strike out", "regular polygon", "ann", "star" };
 }
 
 class DestructuredNode {

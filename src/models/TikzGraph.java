@@ -88,4 +88,17 @@ public class TikzGraph extends AbstractCollection<TikzNode> {
         }
     }
 
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        for (TikzNode node: getNodes())
+            res.append(node);
+        res.append("\n");
+        for (TikzNode node: getNodes())
+            for (TikzEdge edge: this.get(node))
+                if (node == edge.getFirstNode())
+                    res.append(edge);
+        return res.toString();
+    }
+
 }

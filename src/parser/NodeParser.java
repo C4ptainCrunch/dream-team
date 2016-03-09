@@ -74,17 +74,7 @@ public class NodeParser {
 					@Override
 					public Void map(List<String> options, String ref, Point coord, String label) {
 						TikzNode result;
-						switch (NodeParser.getNodeShape(options)) {
-						case "circle":
-							graph.add(new TikzCircle());
-							break;
-						case "triangle":
-							graph.add(new TikzTriangle());
-							break;
-						default:
-							graph.add(new TikzRectangle());
-							break;
-						}
+						graph.add(createNode(new DestructuredNode(coord, options, label)));
 						return null;
 					}
 				});
@@ -135,7 +125,7 @@ public class NodeParser {
 		 * "\draw[circle] (-0.2,0) -- (4.2,0) node[rectangle] {$x$};", rectangle
 		 * by default
 		 */
-		return getNodeShape(list, new ArrayList<String>());
+		return getNodeShape(list, new ArrayList<>());
 	}
 
 	private static String getNodeShape(List<String> list1, List<String> list2) {
@@ -190,6 +180,10 @@ public class NodeParser {
 				});
 
 	}
+
+    private static TikzNode createNode(DestructuredNode node){
+        return createNode(new ArrayList<>(), node);
+    }
 
 	private static TikzNode createNode(List<String> defaultOptions, DestructuredNode node) {
 		final String shape = getNodeShape(defaultOptions, node.getOptions());

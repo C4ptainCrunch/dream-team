@@ -19,8 +19,7 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
     private static final String[] node_icons = {"fill_circle.png", "fill_rect.png", "fill_triangle.png"};
     private static final String[] link_icons = {"fill_line.png", "arrow.png"};
     private static final String pathToTexFile="./././latex_files/test.tex";
-    private static final String pathToPDFFile="././test.pdf";
-
+    private static final String pathToPDFFile="./././pdf_files/test.pdf";
 
     private JPanel main_panel;
     private JScrollPane draw_zone;
@@ -107,13 +106,11 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
             button.setHorizontalAlignment(SwingConstants.CENTER);
             button_group.add(button);
         }
-
     }
 
     private void initMenu(){
         menu = new Menu(this);
         main_panel.add(menu, BorderLayout.NORTH);
-
     }
 
     private void initCanvas(){
@@ -168,8 +165,20 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
     @Override
     public void onBuildPDF(){
 
+        File pdfDirectory = new File("pdf_files");
+
+        // if the directory does not exist, create it
+        if (!pdfDirectory.exists()) {
+            try{
+                pdfDirectory.mkdir();
+            }
+            catch(SecurityException se){
+                // What should we log?
+            }
+        }
+
         try{
-            Process p = Runtime.getRuntime().exec(new String[]{"pdflatex",pathToTexFile});
+            Process p = Runtime.getRuntime().exec(new String[]{"pdflatex","-output-directory=pdf_files",pathToTexFile});
         } catch (IOException ex){
             // What should we log?
         }

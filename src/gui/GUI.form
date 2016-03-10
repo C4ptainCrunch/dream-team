@@ -99,7 +99,9 @@
       </grid>
       <grid id="fd722" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="East"/>
-        <properties/>
+        <properties>
+          <preferredSize width="300" height="198"/>
+        </properties>
         <border type="etched"/>
         <children>
           <component id="e6da3" class="javax.swing.JLabel">
@@ -118,7 +120,6 @@
                 <constraints/>
                 <properties>
                   <font size="14"/>
-                  <lineWrap value="false"/>
                   <text value="\documentclass{article}&#10;\usepackage{tikz}&#10;&#10;\begin{document}&#10;\begin{tikzpicture}&#10;&#10;&#10;&#10;\end{tikzpicture}&#10;\end{document}"/>
                 </properties>
               </component>

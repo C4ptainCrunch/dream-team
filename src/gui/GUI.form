@@ -117,7 +117,9 @@
               <component id="3c623" class="javax.swing.JTextArea" binding="tikz_code_view">
                 <constraints/>
                 <properties>
-                  <font name="Arial" size="20"/>
+                  <font size="14"/>
+                  <lineWrap value="false"/>
+                  <text value="\documentclass{article}&#10;\usepackage{tikz}&#10;&#10;\begin{document}&#10;\begin{tikzpicture}&#10;&#10;&#10;&#10;\end{tikzpicture}&#10;\end{document}"/>
                 </properties>
               </component>
             </children>

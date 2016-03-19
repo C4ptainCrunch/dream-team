@@ -40,6 +40,12 @@ public class TikzCanvas extends JPanel implements Observer {
         nodeR.setPosition(new Point(10, 10));
         graph.add(nodeR);
 
+        nodeR = new TikzPolygon();
+        nodeR.setColor(Color.blue);
+        nodeR.setLabel("Polypocket2");
+        nodeR.setPosition(new Point(20, 20));
+        graph.add(nodeR);
+
         for(TikzNode node : graph){
             Drawer drawer;
             if (node instanceof TikzRectangle) {

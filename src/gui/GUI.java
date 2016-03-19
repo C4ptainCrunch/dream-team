@@ -19,6 +19,7 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
     private static final String[] link_icons = {"fill_line.png", "arrow.png"};
     private static final String pathToTexFile="./././latex_files/test2.tex";
     private static final String pathToPDFFile="./././pdf_files/test2.pdf";
+    private static final String [] tex_compile_command = {"pdflatex","-output-directory=pdf_files",pathToTexFile};
 
     private JPanel main_panel;
     private JScrollPane draw_zone;
@@ -208,7 +209,7 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
         }
 
         try{
-            Process p = Runtime.getRuntime().exec(new String[]{"pdflatex","-output-directory=pdf_files",pathToTexFile});
+            Process p = Runtime.getRuntime().exec(tex_compile_command);
         } catch (IOException ex){
             // What should we log?
         }
@@ -227,6 +228,11 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
                 // What should we log?
             }
         }
+    }
+
+    @Override
+    public void onHelp(){
+        HelpPanel help = new HelpPanel();
     }
 }
 

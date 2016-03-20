@@ -13,6 +13,8 @@ public class Menu extends JMenuBar{
     private static final String EXIT = "Exit";
     private static final String VIEW_MENU = "View";
     private static final String GRID_VISIBILTY = "Show/Hide Grid";
+    private static final String HELP_MENU = "Help";
+    private static final String HELP = "See help panel";
 
     private JMenu file_menu;
     private JMenuItem save_item;
@@ -20,11 +22,14 @@ public class Menu extends JMenuBar{
     private JMenuItem exit_item;
     private JMenu view_menu;
     private JCheckBoxMenuItem grid_item;
+    private JMenu help_menu;
+    private JMenuItem help_panel;
     private onItemClickListener listener;
 
     public Menu(onItemClickListener listen){
         initFileMenu();
         initViewMenu();
+        initHelpMenu();
         addListeners();
         listener = listen;
     }
@@ -40,7 +45,6 @@ public class Menu extends JMenuBar{
         file_menu.add(build_pdf);
         file_menu.addSeparator();
         file_menu.add(exit_item);
-
     }
 
     private void initViewMenu(){
@@ -51,11 +55,19 @@ public class Menu extends JMenuBar{
         view_menu.add(grid_item);
     }
 
+    private void initHelpMenu(){
+        help_menu = new JMenu(HELP_MENU);
+        this.add(help_menu);
+        help_panel = new JMenuItem(HELP);
+        help_menu.add(help_panel);
+    }
+
     public interface onItemClickListener{
         public void onExit();
         public void onShowGrid();
         public void onHideGrid();
         public void onBuildPDF();
+        public void onHelp();
     }
 
     private void addExitListener(){
@@ -90,9 +102,19 @@ public class Menu extends JMenuBar{
         });
     }
 
+    private void addHelpListener(){
+        help_panel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                listener.onHelp();
+            }
+        });
+    }
+
     private void addListeners(){
         addExitListener();
         addGridListener();
         addBuildPDFListener();
+        addHelpListener();
     }
 }

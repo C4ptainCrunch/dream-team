@@ -27,27 +27,21 @@ public class TikzCanvas extends JPanel implements Observer {
         TikzGraph graph = new TikzGraph();
         TikzNode nodeR = new TikzRectangle(100, 100);
         nodeR.setLabel("Demo Label");
-        nodeR.setPosition(new Point(200, 100));
+        nodeR.setPosition(new Point(250, 200));
         graph.add(nodeR);
 
         TikzNode nodeR2 = new TikzCircle();
         nodeR2.setLabel("Demo Label2");
-        nodeR2.setPosition(new Point(200, 500));
+        nodeR2.setPosition(new Point(300, 600));
         graph.add(nodeR2);
 
-        TikzEdge myedge = new TikzUndirectedEdge(nodeR, nodeR2);
+        TikzEdge myedge = new TikzDirectedEdge(nodeR, nodeR2);
         graph.add(nodeR, myedge);
 
         nodeR = new TikzPolygon();
         nodeR.setColor(Color.red);
         nodeR.setLabel("Polypocket");
-        nodeR.setPosition(new Point(10, 10));
-        graph.add(nodeR);
-
-        nodeR = new TikzPolygon();
-        nodeR.setColor(Color.blue);
-        nodeR.setLabel("Polypocket2");
-        nodeR.setPosition(new Point(20, 20));
+        nodeR.setPosition(new Point(110, 110));
         graph.add(nodeR);
 
         for(TikzEdge edge : graph.getEdges()){

@@ -26,6 +26,7 @@ public class RectangleDrawer extends ComponentDrawer {
                 new Rectangle(getComponent().getWidth(), getComponent().getLength()),
                 new BasicStroke(2),
                 getComponent().getColor(),
+                getComponent().getBackground(),
                 true
         );
         vec.add(shape);

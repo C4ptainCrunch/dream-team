@@ -31,6 +31,7 @@ public abstract class EdgeDrawer extends ComponentDrawer {
         Drawable shape = new DrawableShape(
                 new Line2D.Float(start, end),
                 new BasicStroke(2),
+                this.getComponent().getColor(),
                 this.getComponent().getColor()
         );
 

@@ -6,15 +6,17 @@ public class DrawableShape implements Drawable{
     private Shape shape;
     private Stroke stroke;
     private Color color;
+    private Color background;
 
-    public DrawableShape(Shape shape, Stroke stroke, Color color){
+    public DrawableShape(Shape shape, Stroke stroke, Color color, Color background){
         this.shape = shape;
         this.stroke = stroke;
         this.color = color;
+        this.background = background;
     }
 
-    public DrawableShape(Shape shape, Stroke stroke, Color color, Boolean center){
-        this(shape, stroke, color);
+    public DrawableShape(Shape shape, Stroke stroke, Color color, Color background, Boolean center){
+        this(shape, stroke, color, background);
         if (center) {
             Rectangle bounds = this.shape.getBounds();
             this.translate(new Point(-bounds.width / 2, -bounds.height / 2));
@@ -28,7 +30,7 @@ public class DrawableShape implements Drawable{
 
         g.setStroke(this.stroke);
 
-        g.setColor(Color.cyan);
+        g.setColor(this.background);
         g.fill(this.shape);
 
         g.setColor(this.color);

@@ -28,6 +28,7 @@ public class CircleDrawer extends ComponentDrawer {
                 new Ellipse2D.Float(0, 0, size, size),
                 new BasicStroke(2),
                 getComponent().getColor(),
+                getComponent().getBackground(),
                 true
         );
 

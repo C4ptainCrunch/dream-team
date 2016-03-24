@@ -26,6 +26,7 @@ public class PolygonDrawer extends ComponentDrawer{
                 getAwtPolygon(),
                 new BasicStroke(2),
                 getComponent().getColor(),
+                getComponent().getBackground(),
                 true
         );
         vec.add(shape);

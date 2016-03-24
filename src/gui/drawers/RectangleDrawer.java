@@ -1,0 +1,37 @@
+package gui.drawers;
+
+import gui.drawables.Drawable;
+import gui.drawables.DrawableShape;
+import gui.drawables.DrawableText;
+import models.TikzRectangle;
+import constants.Models;
+
+import java.awt.*;
+import java.util.Vector;
+
+public class RectangleDrawer extends ComponentDrawer {
+
+    public RectangleDrawer(TikzRectangle component) {
+            this.component = component;
+    }
+
+    public TikzRectangle getComponent(){
+        return (TikzRectangle) this.component;
+    }
+
+    public Vector<Drawable> toDrawable(){
+        Vector<Drawable> vec = super.toDrawable();
+
+        Drawable shape = new DrawableShape(
+                new Rectangle(getComponent().getWidth(), getComponent().getLength()),
+                new BasicStroke(2),
+                getComponent().getColor()
+        );
+        vec.add(shape);
+        return vec;
+    }
+
+    public Point getCenter(){
+        return new Point(getComponent().getWidth() / 2 , getComponent().getLength() / 2);
+    }
+}

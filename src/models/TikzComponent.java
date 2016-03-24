@@ -1,9 +1,10 @@
 package models;
 import java.awt.Color;
+import java.util.Observable;
 
 import constants.Models;
 
-public abstract class TikzComponent {
+public abstract class TikzComponent extends Observable {
     private Color color;
     private String label;
 

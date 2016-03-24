@@ -12,16 +12,13 @@ import java.util.Vector;
 public abstract class ComponentDrawer implements Drawer {
     public TikzComponent component;
 
-    public abstract Point getCenter();
-
-
     public Vector<Drawable> toDrawable(){
         Vector<Drawable> vec = new Vector<>();
 
         if(this.component.getLabel() != Models.DEFAULT.LABEL){
             Drawable text = new DrawableText(
                     this.component.getLabel(),
-                    getCenter()
+                    new Point(0, 0)
             );
             vec.add(text);
         }

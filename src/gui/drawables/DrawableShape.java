@@ -13,13 +13,25 @@ public class DrawableShape implements Drawable{
         this.color = color;
     }
 
+    public DrawableShape(Shape shape, Stroke stroke, Color color, Boolean center){
+        this(shape, stroke, color);
+        if (center) {
+            Rectangle bounds = this.shape.getBounds();
+            this.translate(new Point(-bounds.width / 2, -bounds.height / 2));
+        }
+    }
+
     public void draw(Graphics2D g){
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         Stroke old_stroke = g.getStroke();
         Color old_color = g.getColor();
 
         g.setStroke(this.stroke);
-        g.setColor(this.color);
 
+        g.setColor(Color.cyan);
+        g.fill(this.shape);
+
+        g.setColor(this.color);
         g.draw(this.shape);
 
         g.setColor(old_color);

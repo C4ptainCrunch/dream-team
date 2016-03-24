@@ -27,14 +27,11 @@ public class CircleDrawer extends ComponentDrawer {
         Drawable shape = new DrawableShape(
                 new Ellipse2D.Float(0, 0, size, size),
                 new BasicStroke(2),
-                getComponent().getColor()
+                getComponent().getColor(),
+                true
         );
 
         vec.add(shape);
         return vec;
-    }
-
-    public Point getCenter(){
-        return new Point(getComponent().getRadius(), getComponent().getRadius());
     }
 }

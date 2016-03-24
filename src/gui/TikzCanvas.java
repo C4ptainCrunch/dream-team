@@ -44,6 +44,9 @@ public class TikzCanvas extends JPanel implements Observer {
         nodeR.setPosition(new Point(110, 110));
         graph.add(nodeR);
 
+        myedge = new TikzUndirectedEdge(nodeR2, nodeR);
+        graph.add(nodeR, myedge);
+
         for(TikzEdge edge : graph.getEdges()){
             Drawer drawer;
             if (edge instanceof TikzDirectedEdge) {

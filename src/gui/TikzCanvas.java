@@ -29,10 +29,13 @@ public class TikzCanvas extends JPanel implements Observer {
         nodeR.setPosition(new Point(200, 100));
         graph.add(nodeR);
 
-        nodeR = new TikzCircle();
-        nodeR.setLabel("Demo Label2");
-        nodeR.setPosition(new Point(200, 500));
-        graph.add(nodeR);
+        TikzNode nodeR2 = new TikzCircle();
+        nodeR2.setLabel("Demo Label2");
+        nodeR2.setPosition(new Point(200, 500));
+        graph.add(nodeR2);
+
+        TikzEdge myedge = new TikzUndirectedEdge(nodeR, nodeR2);
+        graph.add(nodeR, myedge);
 
         nodeR = new TikzPolygon();
         nodeR.setColor(Color.red);
@@ -64,6 +67,24 @@ public class TikzCanvas extends JPanel implements Observer {
 
             for (Drawable drawable : drawables) {
                 drawable.translate(node.getPosition());
+                drawable.draw((Graphics2D) g);
+            }
+        }
+
+        for(TikzEdge edge : graph.getEdges()){
+            Drawer drawer;
+            if (edge instanceof TikzDirectedEdge) {
+                drawer = new DirectedEdgeDrawer((TikzDirectedEdge) edge);
+            }
+            else if (edge instanceof TikzUndirectedEdge) {
+                drawer = new UndirectedEdgeDrawer((TikzUndirectedEdge) edge);
+            }
+            else {
+                drawer = new UnknownDrawer();
+            }
+
+            Vector<Drawable> drawables = drawer.toDrawable();
+            for (Drawable drawable : drawables) {
                 drawable.draw((Graphics2D) g);
             }
         }

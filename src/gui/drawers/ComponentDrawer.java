@@ -14,6 +14,7 @@ public abstract class ComponentDrawer implements Drawer {
 
     public abstract Point getCenter();
 
+
     public Vector<Drawable> toDrawable(){
         Vector<Drawable> vec = new Vector<>();
 

@@ -61,6 +61,15 @@ public class TikzGraph extends AbstractCollection<TikzNode> {
         return Collections.unmodifiableSet(graph.keySet());
     }
 
+    public  List<TikzEdge> getEdges(){
+        ArrayList<TikzEdge> edges = new ArrayList<TikzEdge>();
+        for (TikzNode node:this
+             ) {
+            edges.addAll(get(node));
+        }
+        return Collections.unmodifiableList(edges);
+    }
+
     public List<TikzEdge> get(TikzNode key){
         if(graph.containsKey(key))
             return Collections.unmodifiableList(graph.get(key));

@@ -9,7 +9,4 @@ public class UnknownDrawer extends ComponentDrawer{
     public Vector<Drawable> toDrawable(){
         return new Vector<>();
     }
-    public Point getCenter(){
-        return new Point(0, 0);
-    }
 }

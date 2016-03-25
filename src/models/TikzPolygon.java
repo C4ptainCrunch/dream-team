@@ -2,7 +2,7 @@ package models;
 
 import constants.Models;
 
-public class TikzPolygon extends TikzNode {
+public class TikzPolygon extends TikzShape {
     private int length;
     private int sides;
 

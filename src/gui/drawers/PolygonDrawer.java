@@ -25,7 +25,9 @@ public class PolygonDrawer extends ComponentDrawer{
         Drawable shape = new DrawableShape(
                 getAwtPolygon(),
                 new BasicStroke(2),
-                getComponent().getColor()
+                getComponent().getColor(),
+                getComponent().getBackground(),
+                true
         );
         vec.add(shape);
         return vec;
@@ -45,9 +47,5 @@ public class PolygonDrawer extends ComponentDrawer{
         }
         Polygon p = new Polygon(x, y, vertices);
         return p;
-    }
-
-    public Point getCenter(){
-        return new Point(getComponent().getLength(), getComponent().getLength());
     }
 }

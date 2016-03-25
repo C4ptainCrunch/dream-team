@@ -6,12 +6,14 @@ import java.awt.*;
 
 public abstract class TikzShape extends TikzNode {
     private Color outlineColor;
+    private Color backgroundColor;
     private int outlineWidth;
 
     protected TikzShape(){
         super();
         outlineColor = Models.DEFAULT.COLOR;
         outlineWidth = Models.DEFAULT.WIDTH;
+        backgroundColor = Models.DEFAULT.BACKGROUND_COLOR;
     }
 
     public Color getOutlineColor() {
@@ -28,5 +30,9 @@ public abstract class TikzShape extends TikzNode {
 
     public void setOutlineWidth(int outlineWidth) {
         this.outlineWidth = outlineWidth;
+    }
+
+    public Color getBackground() {
+        return backgroundColor;
     }
 }

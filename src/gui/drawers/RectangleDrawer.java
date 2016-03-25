@@ -25,13 +25,11 @@ public class RectangleDrawer extends ComponentDrawer {
         Drawable shape = new DrawableShape(
                 new Rectangle(getComponent().getWidth(), getComponent().getLength()),
                 new BasicStroke(2),
-                getComponent().getColor()
+                getComponent().getColor(),
+                getComponent().getBackground(),
+                true
         );
         vec.add(shape);
         return vec;
-    }
-
-    public Point getCenter(){
-        return new Point(getComponent().getWidth() / 2 , getComponent().getLength() / 2);
     }
 }

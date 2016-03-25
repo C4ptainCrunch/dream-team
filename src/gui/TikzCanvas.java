@@ -11,6 +11,7 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
+import java.util.Collections;
 
 public class TikzCanvas extends JPanel implements Observer {
 
@@ -26,25 +27,43 @@ public class TikzCanvas extends JPanel implements Observer {
         TikzGraph graph = new TikzGraph();
         TikzNode nodeR = new TikzRectangle(100, 100);
         nodeR.setLabel("Demo Label");
-        nodeR.setPosition(new Point(200, 100));
+        nodeR.setPosition(new Point(250, 200));
         graph.add(nodeR);
 
-        nodeR = new TikzCircle();
-        nodeR.setLabel("Demo Label2");
-        nodeR.setPosition(new Point(200, 500));
-        graph.add(nodeR);
+        TikzNode nodeR2 = new TikzCircle();
+        nodeR2.setLabel("Demo Label2");
+        nodeR2.setPosition(new Point(300, 600));
+        graph.add(nodeR2);
+
+        TikzEdge myedge = new TikzDirectedEdge(nodeR, nodeR2);
+        graph.add(nodeR, myedge);
 
         nodeR = new TikzPolygon();
         nodeR.setColor(Color.red);
         nodeR.setLabel("Polypocket");
-        nodeR.setPosition(new Point(10, 10));
+        nodeR.setPosition(new Point(110, 110));
         graph.add(nodeR);
 
-        nodeR = new TikzPolygon();
-        nodeR.setColor(Color.blue);
-        nodeR.setLabel("Polypocket2");
-        nodeR.setPosition(new Point(20, 20));
-        graph.add(nodeR);
+        myedge = new TikzUndirectedEdge(nodeR2, nodeR);
+        graph.add(nodeR, myedge);
+
+        for(TikzEdge edge : graph.getEdges()){
+            Drawer drawer;
+            if (edge instanceof TikzDirectedEdge) {
+                drawer = new DirectedEdgeDrawer((TikzDirectedEdge) edge);
+            }
+            else if (edge instanceof TikzUndirectedEdge) {
+                drawer = new UndirectedEdgeDrawer((TikzUndirectedEdge) edge);
+            }
+            else {
+                drawer = new UnknownDrawer();
+            }
+
+            Vector<Drawable> drawables = drawer.toDrawable();
+            for (Drawable drawable : drawables) {
+                drawable.draw((Graphics2D) g);
+            }
+        }
 
         for(TikzNode node : graph){
             Drawer drawer;
@@ -62,11 +81,14 @@ public class TikzCanvas extends JPanel implements Observer {
             }
             Vector<Drawable> drawables = drawer.toDrawable();
 
+            Collections.reverse(drawables);
             for (Drawable drawable : drawables) {
                 drawable.translate(node.getPosition());
                 drawable.draw((Graphics2D) g);
             }
         }
+
+
     }
 
     public void paintComponent(Graphics g){

@@ -2,19 +2,17 @@ package models;
 
 import java.util.*;
 
-public class TikzGraph extends AbstractCollection<TikzNode> {
+public class TikzGraph extends Observable implements Iterable<TikzNode> {
     private Map<TikzNode, Vector<TikzEdge>> graph;
 
     public TikzGraph(){
         graph = new HashMap<TikzNode, Vector<TikzEdge>>();
     }
 
-    @Override
     public int size(){
         return graph.size();
     }
 
-    @Override
     public Iterator<TikzNode> iterator(){
         return graph.keySet().iterator();
     }
@@ -23,7 +21,6 @@ public class TikzGraph extends AbstractCollection<TikzNode> {
      * @param node key to map to empty TIkzEdge vector.
      * @return true if no key is replaced, else false.
      */
-    @Override
     public boolean add(TikzNode node){
         if(graph.put(node, new Vector<TikzEdge>()) == null)
             return true;
@@ -63,8 +60,7 @@ public class TikzGraph extends AbstractCollection<TikzNode> {
 
     public  List<TikzEdge> getEdges(){
         ArrayList<TikzEdge> edges = new ArrayList<TikzEdge>();
-        for (TikzNode node:this
-             ) {
+        for (TikzNode node:this) {
             edges.addAll(get(node));
         }
         return Collections.unmodifiableList(edges);

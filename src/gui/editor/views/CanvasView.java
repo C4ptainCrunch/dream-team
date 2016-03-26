@@ -1,29 +1,52 @@
 package gui.editor.views;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.plaf.basic.BasicButtonListener;
 
 import gui.drawables.Drawable;
 import gui.drawers.*;
+import gui.editor.controllers.CanvasController;
 import models.*;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Collections;
 import java.util.Vector;
 
 public class CanvasView extends JPanel{
     private TikzGraph graph;
+    private CanvasController controller;
 
     public CanvasView(TikzGraph graph){
         this.graph = graph;
+        this.controller = new CanvasController(this, graph);
 
         this.render();
+        this.addListeners();
         this.setVisible(true);
     }
 
-    public void render(){}
+    private void addListeners(){
+        this.addMouseListener(new MouseInputAdapter(){
+            @Override
+            public void mousePressed(MouseEvent e){
+                TikzNode nodeR2 = new TikzCircle();
+                nodeR2.setLabel("Demo Label2");
+                nodeR2.setPosition(new Point(300, 600));
+                graph.add(nodeR2);
+                System.out.println("node added");
+                repaint();
+            }
+        });
+    }
+
+    private void render(){}
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        System.out.println("refresh");
 
         for(TikzEdge edge : graph.getEdges()){
             Drawer drawer;

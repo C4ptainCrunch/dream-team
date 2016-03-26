@@ -1,5 +1,6 @@
 package gui.editor.views;
 
+import gui.editor.controllers.*;
 import models.TikzGraph;
 import models.TikzNode;
 import models.TikzRectangle;
@@ -9,7 +10,9 @@ import java.awt.*;
 
 public class EditorView extends JFrame{
     private TikzGraph graph;
-    private CanvasView canvasView;
+
+    private CanvasView view;
+    private EditorController controller;
 
     public EditorView(){
         this(new TikzGraph());
@@ -23,7 +26,8 @@ public class EditorView extends JFrame{
     public EditorView(TikzGraph graph){
         this.graph = graph;
 
-        this.canvasView = new CanvasView(graph);
+        this.view = new CanvasView(graph);
+        this.controller = new EditorController(this, graph);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.render();
@@ -32,6 +36,6 @@ public class EditorView extends JFrame{
 
     public void render(){
         this.setTitle("CreaTikZ");
-        this.setContentPane(this.canvasView);
+        this.setContentPane(this.view);
     }
 }

@@ -22,9 +22,10 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
      * @return true if no key is replaced, else false.
      */
     public boolean add(TikzNode node){
-        if(graph.put(node, new Vector<TikzEdge>()) == null)
-            return true;
-        return false;
+        Boolean is_new_key = graph.put(node, new Vector<TikzEdge>()) == null;
+        setChanged();
+        notifyObservers();
+        return is_new_key;
     }
 
     /**
@@ -36,10 +37,14 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         Vector<TikzEdge> edges = graph.get(keyNode);
         if(edges == null) {
             graph.put(keyNode, new Vector<TikzEdge>(values));
+            setChanged();
+            notifyObservers();
             return true;
         }
         else{
             edges.addAll(values);
+            setChanged();
+            notifyObservers();
             return false;
         }
     }
@@ -81,6 +86,8 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         if(!graph.containsKey(key))
             return null;
         else{
+            setChanged();
+            notifyObservers();
             return graph.get(key).remove(pos);
         }
     }
@@ -89,6 +96,8 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         if(!graph.containsKey(key))
             return false;
         else{
+            setChanged();
+            notifyObservers();
             return graph.get(key).remove(value);
         }
     }

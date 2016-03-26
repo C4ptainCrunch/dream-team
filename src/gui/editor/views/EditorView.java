@@ -12,6 +12,8 @@ public class EditorView extends JFrame{
     private TikzGraph graph;
 
     private CanvasView canvasView;
+    private SourceView sourceView;
+
     private EditorController controller;
 
     public EditorView(){
@@ -27,6 +29,7 @@ public class EditorView extends JFrame{
         this.graph = graph;
 
         this.canvasView = new CanvasView(graph);
+        this.sourceView = new SourceView(graph);
         this.controller = new EditorController(this, graph);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,9 +41,9 @@ public class EditorView extends JFrame{
         this.setTitle("CreaTikZ");
 
         Container pane = getContentPane();
-        pane.setLayout(new BoxLayout(pane, BoxLayout.X_AXIS));
+        pane.setLayout(new GridLayout(1,2));
 
         pane.add(this.canvasView);
-        pane.add(new JButton("This is going to be the TikZ text view"));
+        pane.add(this.sourceView);
     }
 }

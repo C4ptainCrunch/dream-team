@@ -69,9 +69,9 @@ public class NodeParserTest {
 	}
 
 	@Test
-	public void testParseDocument() throws Exception {
+	public void testParseTexDocument() throws Exception {
 		TikzGraph graph = new TikzGraph();
-		NodeParser.parseDocument(graph)
+		NodeParser.parseTeXDocument(graph)
 				.parse("\\documentclass{article}\n" +
 						"\\usepackage{tikz}\n" +
 						"\\begin{document}\n" +
@@ -85,6 +85,38 @@ public class NodeParserTest {
 	}
 
 	@Test
+	public void testParseDocument() throws Exception {
+		TikzGraph graph = new TikzGraph();
+		NodeParser.parseDocument(graph)
+				.parse("\t\t\\draw[color=red] (0,0) node[draw] {a} -- (2,0) node[draw] {l} -- (0,5) node[draw] {p};\n");
+		Assert.assertEquals(graph.size(), 3);
+	}
+
+    @Test
+    public void testParseMinimalToString() throws Exception {
+        String text = "\\node[rectangle]() at (250,200){Demo Label};";
+        TikzGraph graph = new TikzGraph();
+        NodeParser.parseDocument(graph).parse(text);
+        Assert.assertEquals(graph.size(), 1);
+    }
+
+    @Test
+    public void testParseMinimal() throws Exception {
+        String text = "\\draw[color=red] (0,0) node[draw] {a};";
+        TikzGraph graph = new TikzGraph();
+        NodeParser.parseDocument(graph).parse(text);
+        Assert.assertEquals(graph.size(), 1);
+    }
+
+    @Test
+    public void testParseMinimalWithWhitespace() throws Exception {
+        String text = "\\draw[color=red] (0,0) node[draw] {a};\n \n \t";
+        TikzGraph graph = new TikzGraph();
+        NodeParser.parseDocument(graph).parse(text);
+        Assert.assertEquals(graph.size(), 1);
+    }
+
+	@Test
 	public void testAnOption() throws Exception {
 		Assert.assertEquals(NodeParser.anOption().parse("helloworld"), "helloworld");
 		Assert.assertEquals(NodeParser.anOption().parse("hello=world"), "hello=world");
@@ -95,7 +127,7 @@ public class NodeParserTest {
 
 	@Test
 	public void testParseDocumentIntro() throws Exception {
-		Assert.assertEquals(NodeParser.parseDocumentIntro().source().parse(
+		Assert.assertEquals(NodeParser.parseTexPrelude().source().parse(
 				"\t\\documentclass{article}\n" +
 						"\n" +
 						"\\usepackage{tikz}\n" +
@@ -112,7 +144,7 @@ public class NodeParserTest {
 
 	@Test
 	public void testParseDocumentOutro() throws Exception {
-		Assert.assertEquals(NodeParser.parseDocumentOutro().source().parse(
+		Assert.assertEquals(NodeParser.parseTexPostlude().source().parse(
 				"\t\\end{tikzpicture}\n" +
 						"\\end{document}\n"
 		),"\t\\end{tikzpicture}\n" +

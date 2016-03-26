@@ -20,8 +20,11 @@ public class SourceController {
     public void updateFromText(String text) {
         if(text.trim().length() != 0) {
             TikzGraph new_graph = new TikzGraph();
+            System.out.println("TEXT\n-------");
+            System.out.println(text);
+            System.out.println("-------");
             try {
-                NodeParser.parseTikzDocument(new_graph).parse(text);
+                NodeParser.parseDocument(new_graph).parse(text);
                 SwingUtilities.invokeLater(() -> {
                     graph.replace(new_graph);
                     System.out.println("Runnable done");

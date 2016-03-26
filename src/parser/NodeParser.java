@@ -12,9 +12,6 @@ import org.codehaus.jparsec.Parser;
 import org.codehaus.jparsec.Parsers;
 import org.codehaus.jparsec.Scanners;
 import org.codehaus.jparsec.Terminals;
-import org.codehaus.jparsec.functors.Map;
-import org.codehaus.jparsec.functors.Map3;
-import org.codehaus.jparsec.functors.Map4;
 import org.codehaus.jparsec.pattern.CharPredicates;
 import org.codehaus.jparsec.pattern.Patterns;
 
@@ -104,7 +101,7 @@ public class NodeParser {
     private static final Parser<String> maybeReference = Parsers.or(reference(), Parsers.constant(""));
     private static final Parser<String> maybeLabel = Parsers.or(label(), Parsers.constant(""));
 
-	public static Parser<Void> parseTikzDocument(TikzGraph graph) {
+	public static Parser<Void> parseDocument(TikzGraph graph) {
 		return Parsers.or(
 				nodesFromDraw(graph),
 				edgesFromDraw(graph),
@@ -115,16 +112,16 @@ public class NodeParser {
 
 	}
 
-	public static Parser<Void> parseDocument(TikzGraph graph) {
+	public static Parser<Void> parseTeXDocument(TikzGraph graph) {
 		return Parsers.between(
-                parseDocumentIntro(),
-				parseTikzDocument(graph),
-				parseDocumentOutro());
+                parseTexPrelude(),
+				parseDocument(graph),
+				parseTexPostlude());
 
 	}
 
 
-    public static Parser<Void> parseDocumentIntro(){
+    public static Parser<Void> parseTexPrelude(){
         return Parsers.sequence(
                 Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(), Scanners.string("\\documentclass{article}\n"),
                 Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(), Scanners.string("\\usepackage{tikz}\n"),
@@ -134,7 +131,7 @@ public class NodeParser {
         ).cast();
     }
 
-    public static Parser<Void> parseDocumentOutro(){
+    public static Parser<Void> parseTexPostlude(){
         return Parsers.sequence(
                 Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(), Scanners.string("\\end{tikzpicture}\n"),
                 Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(), Scanners.string("\\end{document}"),

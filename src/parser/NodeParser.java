@@ -18,7 +18,7 @@ import org.codehaus.jparsec.pattern.Patterns;
 public class NodeParser {
 
     public static Parser<String> reference() {
-		return Parsers.between(Scanners.string("("), Terminals.Identifier.TOKENIZER.source(), Scanners.string(")"));
+		return Parsers.between(Scanners.string("("), Parsers.or(Terminals.Identifier.TOKENIZER.source(), Parsers.constant("")), Scanners.string(")"));
 	}
 
 	public static Parser<String> label() {
@@ -64,7 +64,7 @@ public class NodeParser {
 
         return Parsers.sequence(
 				Parsers.sequence(Scanners.string("\\node"), MAYBEWHITESPACES, maybeOptions),
-				Parsers.sequence(MAYBEWHITESPACES, maybeReference),
+				Parsers.sequence(MAYBEWHITESPACES, reference()),
 				Parsers.sequence(Scanners.WHITESPACES, Scanners.string("at"), Scanners.WHITESPACES, coordinates()),
 				Parsers.sequence(MAYBEWHITESPACES, maybeLabel),
                 (options, ref, coord, label) -> {
@@ -98,7 +98,6 @@ public class NodeParser {
 	private static final Parser<Void> MAYBEWHITESPACES = Scanners.WHITESPACES.optional();
     private static final Parser<Void> MAYBENEWLINES = Scanners.isChar('\n').optional();
     private static final Parser<List<String>> maybeOptions =  Parsers.or(options(), Parsers.constant(new ArrayList<String>()));
-    private static final Parser<String> maybeReference = Parsers.or(reference(), Parsers.constant(""));
     private static final Parser<String> maybeLabel = Parsers.or(label(), Parsers.constant(""));
 
 	public static Parser<Void> parseDocument(TikzGraph graph) {

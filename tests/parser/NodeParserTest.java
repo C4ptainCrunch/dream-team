@@ -50,7 +50,11 @@ public class NodeParserTest {
 	public void testNodeFromNode() throws Exception {
 		TikzGraph graph = new TikzGraph();
 		NodeParser.nodeFromNode(graph).parse("\\node[lolilol, triangle](nametest) at (15,46)");
-		Assert.assertEquals(graph.size(), 1);
+		NodeParser.nodeFromNode(graph).parse("\\node[lolilol, triangle]() at (15,46)");
+		NodeParser.nodeFromNode(graph).parse("\\node[rectangle]() at (250,200){Demo Label}");
+		NodeParser.nodeFromNode(graph).parse("\\node[rectangle]() at (250,200){}");
+		NodeParser.nodeFromNode(graph).parse("\\node[]() at (250,200) {Demo Label}");
+		Assert.assertEquals(graph.size(), 5);
 	}
 
 	@Test

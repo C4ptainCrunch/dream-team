@@ -102,4 +102,21 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         }
     }
 
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        for (TikzNode node: getNodes()) {
+            res.append(node);
+            res.append('\n');
+        }
+        res.append("\n");
+        for (TikzNode node: getNodes())
+            for (TikzEdge edge: this.get(node))
+                if (node == edge.getFirstNode()) {
+                    res.append(edge);
+                    res.append('\n');
+                }
+        return res.toString();
+    }
+
 }

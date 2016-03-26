@@ -33,4 +33,10 @@ public class TikzPolygon extends TikzShape {
     public void setSides(int sides) {
         this.sides = sides;
     }
+
+    @Override
+    public String toString() {
+        String options = String.join(", ", new String[]{"regular polygon"}); //TODO: do this
+        return String.format("\\node[%s](%s) at (%.0f,%.0f){%s}", options, "", getPosition().getX(), getPosition().getY(), getLabel());
+    }
 }

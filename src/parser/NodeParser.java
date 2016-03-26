@@ -104,15 +104,25 @@ public class NodeParser {
     private static final Parser<String> maybeReference = Parsers.or(reference(), Parsers.constant(""));
     private static final Parser<String> maybeLabel = Parsers.or(label(), Parsers.constant(""));
 
+	public static Parser<Void> parseTikzDocument(TikzGraph graph) {
+		return Parsers.or(
+				nodesFromDraw(graph),
+				edgesFromDraw(graph),
+				nodeFromNode(graph),
+				Scanners.isChar(';'),
+				MAYBEWHITESPACES
+		).many().cast();
+
+	}
+
 	public static Parser<Void> parseDocument(TikzGraph graph) {
 		return Parsers.between(
                 parseDocumentIntro(),
-
-				Parsers.or(nodesFromDraw(graph), edgesFromDraw(graph), nodeFromNode(graph), Scanners.isChar(';'), MAYBEWHITESPACES).many()
-						.cast(),
+				parseTikzDocument(graph),
 				parseDocumentOutro());
 
 	}
+
 
     public static Parser<Void> parseDocumentIntro(){
         return Parsers.sequence(

@@ -17,6 +17,12 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         return graph.keySet().iterator();
     }
 
+    public void replace(TikzGraph other){
+        this.graph = other.graph;
+        setChanged();
+        notifyObservers();
+    }
+
     /**
      * @param node key to map to empty TIkzEdge vector.
      * @return true if no key is replaced, else false.
@@ -107,14 +113,14 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         StringBuilder res = new StringBuilder();
         for (TikzNode node: getNodes()) {
             res.append(node);
-            res.append('\n');
+            res.append(";\n");
         }
         res.append("\n");
         for (TikzNode node: getNodes())
             for (TikzEdge edge: this.get(node))
                 if (node == edge.getFirstNode()) {
                     res.append(edge);
-                    res.append('\n');
+                    res.append(";\n");
                 }
         return res.toString();
     }

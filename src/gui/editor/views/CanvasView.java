@@ -36,8 +36,8 @@ public class CanvasView extends JPanel implements Observer{
             @Override
             public void mousePressed(MouseEvent e){
                 TikzNode nodeR2 = new TikzCircle();
-                nodeR2.setLabel("Demo Label2");
-                nodeR2.setPosition(new Point(300, 600));
+                nodeR2.setLabel("Demo Label " + graph.getAll().size());
+                nodeR2.setPosition(e.getPoint());
                 graph.add(nodeR2);
             }
         });

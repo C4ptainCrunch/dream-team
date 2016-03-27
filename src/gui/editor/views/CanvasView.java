@@ -17,16 +17,14 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
 
-public class CanvasView extends JPanel implements Observer{
+public class CanvasView extends JPanel{
     private TikzGraph graph;
     private CanvasController controller;
 
     public CanvasView(TikzGraph graph){
         this.graph = graph;
-        this.graph.addObserver(this);
         this.controller = new CanvasController(this, graph);
 
-        this.render();
         this.addListeners();
         this.setVisible(true);
     }
@@ -35,15 +33,10 @@ public class CanvasView extends JPanel implements Observer{
         this.addMouseListener(new MouseInputAdapter(){
             @Override
             public void mousePressed(MouseEvent e){
-                TikzNode nodeR2 = new TikzCircle();
-                nodeR2.setLabel("Demo Label " + graph.getAll().size());
-                nodeR2.setPosition(e.getPoint());
-                graph.add(nodeR2);
+                controller.mousePressed(e);
             }
         });
     }
-
-    private void render(){}
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -89,9 +82,5 @@ public class CanvasView extends JPanel implements Observer{
             }
         }
 
-    }
-
-    public void update(Observable o, Object arg){
-        repaint();
     }
 }

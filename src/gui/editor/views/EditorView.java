@@ -19,11 +19,6 @@ public class EditorView extends JFrame{
 
     public EditorView(){
         this(new TikzGraph());
-
-        TikzNode nodeR = new TikzRectangle(100, 100);
-        nodeR.setLabel("Demo Label");
-        nodeR.setPosition(new Point(250, 200));
-        graph.add(nodeR);
     }
 
     public EditorView(TikzGraph graph){

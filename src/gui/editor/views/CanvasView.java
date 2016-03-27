@@ -4,11 +4,14 @@ import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 import gui.drawables.Drawable;
+import gui.drawables.DrawableShape;
 import gui.drawers.*;
 import gui.editor.controllers.CanvasController;
 import models.*;
 
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.util.Collections;
 import java.util.Vector;
@@ -17,14 +20,23 @@ public class CanvasView extends JPanel{
     private EditorView parentView;
     private TikzGraph graph;
     private CanvasController controller;
+    private boolean isFocused;
 
     public CanvasView(EditorView parentView, TikzGraph graph){
         this.parentView = parentView;
         this.graph = graph;
         this.controller = new CanvasController(this, graph);
+        this.isFocused = isFocusOwner();
+
+        this.render();
 
         this.addListeners();
         this.setVisible(true);
+    }
+
+    private void render() {
+        setFocusable(true);
+//        requestFocusInWindow();
     }
 
     private void addListeners(){
@@ -32,6 +44,18 @@ public class CanvasView extends JPanel{
             @Override
             public void mousePressed(MouseEvent e){
                 controller.mousePressed(e);
+            }
+        });
+
+        this.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent focusEvent) {
+                controller.focusGained();
+            }
+
+            @Override
+            public void focusLost(FocusEvent focusEvent) {
+                controller.focusLost();
             }
         });
     }
@@ -80,5 +104,23 @@ public class CanvasView extends JPanel{
             }
         }
 
+        if(!getIsFocused()){
+            Drawable drawable = new DrawableShape(
+                    new Rectangle(10000, 10000),
+                    new BasicStroke(0),
+                    Color.white,
+                    new Color(0, 0, 0, 64)
+            );
+            drawable.draw((Graphics2D) g);
+        }
+
+    }
+
+    public void setIsFocused(boolean isFocused) {
+        this.isFocused = isFocused;
+    }
+
+    public boolean getIsFocused() {
+        return isFocused;
     }
 }

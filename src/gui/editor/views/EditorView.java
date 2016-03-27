@@ -38,6 +38,9 @@ public class EditorView extends JFrame{
     public void render(){
         this.setTitle("CreaTikZ");
 
+        this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        this.setLocationRelativeTo(null);
+
         Container pane = getContentPane();
         pane.setLayout(new GridLayout(1,2));
 

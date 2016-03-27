@@ -1,4 +1,4 @@
-package gui;
+package legacy;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,10 +6,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.*;
 import java.util.Enumeration;
-import java.awt.Desktop;
-import java.util.concurrent.TimeUnit;
 
 
 public class GUI extends JFrame implements Menu.onItemClickListener {

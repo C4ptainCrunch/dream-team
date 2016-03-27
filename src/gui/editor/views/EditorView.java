@@ -24,9 +24,9 @@ public class EditorView extends JFrame{
     public EditorView(TikzGraph graph){
         this.graph = graph;
 
-        this.canvasView = new CanvasView(graph);
-        this.sourceView = new SourceView(graph);
-        this.menuView = new MenuView(graph);
+        this.canvasView = new CanvasView(this,graph);
+        this.sourceView = new SourceView(this, graph);
+        this.menuView = new MenuView(this, graph);
 
         this.controller = new EditorController(this, graph);
 

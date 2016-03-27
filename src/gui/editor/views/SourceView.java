@@ -17,8 +17,10 @@ public class SourceView extends JPanel{
     private JTextArea textArea;
     private SourceController controller;
     private Boolean isFocused = false;
+    private EditorView parentView;
 
-    public SourceView(TikzGraph graph){
+    public SourceView(EditorView parentView, TikzGraph graph){
+        this.parentView = parentView;
         this.graph = graph;
 
         this.controller = new SourceController(this, graph);

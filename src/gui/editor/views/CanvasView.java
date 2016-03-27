@@ -2,7 +2,6 @@ package gui.editor.views;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
-import javax.swing.plaf.basic.BasicButtonListener;
 
 import gui.drawables.Drawable;
 import gui.drawers.*;
@@ -11,17 +10,16 @@ import models.*;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Collections;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Vector;
 
 public class CanvasView extends JPanel{
+    private EditorView parentView;
     private TikzGraph graph;
     private CanvasController controller;
 
-    public CanvasView(TikzGraph graph){
+    public CanvasView(EditorView parentView, TikzGraph graph){
+        this.parentView = parentView;
         this.graph = graph;
         this.controller = new CanvasController(this, graph);
 

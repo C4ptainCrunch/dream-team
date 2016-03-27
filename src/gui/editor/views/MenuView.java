@@ -6,9 +6,11 @@ import models.TikzGraph;
 import javax.swing.*;
 
 public class MenuView extends JMenuBar {
+    private EditorView parentView;
     private TikzGraph graph;
 
-    public MenuView(TikzGraph graph){
+    public MenuView(EditorView parentView, TikzGraph graph){
+        this.parentView = parentView;
         this.graph = graph;
         this.render();
     }

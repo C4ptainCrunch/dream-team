@@ -165,69 +165,7 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
     @Override
     public void onBuildPDF(){
 
-        File latexDirectory = new File("latex_files");
 
-        // if the directory does not exist, create it
-        if (!latexDirectory.exists()) {
-            try{
-                latexDirectory.mkdir();
-            }
-            catch(SecurityException se){
-                // What should we log?
-            }
-        }
-
-        String tikz_code = tikz_code_view.getText();
-
-        BufferedWriter writer = null;
-        try {
-            writer = new BufferedWriter( new FileWriter("latex_files/test2.tex"));
-            writer.write(tikz_code);
-        }
-        catch ( IOException e) {
-            // What should we log?
-        }
-        finally {
-            try {
-                if ( writer != null)
-                    writer.close( );
-            }
-            catch ( IOException e) {
-            }
-        }
-
-        File pdfDirectory = new File("pdf_files");
-
-        // if the directory does not exist, create it
-        if (!pdfDirectory.exists()) {
-            try{
-                pdfDirectory.mkdir();
-            }
-            catch(SecurityException se){
-                // What should we log?
-            }
-        }
-
-        try{
-            Process p = Runtime.getRuntime().exec(tex_compile_command);
-        } catch (IOException ex){
-            // What should we log?
-        }
-
-        try{
-            TimeUnit.SECONDS.sleep(1);
-        } catch(InterruptedException ex){
-            // What should we log?
-        }
-
-        if (Desktop.isDesktopSupported()) {
-            try {
-                File myFile = new File(pathToPDFFile);
-                Desktop.getDesktop().open(myFile);
-            } catch (IOException ex) {
-                // What should we log?
-            }
-        }
     }
 
     @Override

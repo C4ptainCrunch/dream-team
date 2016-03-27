@@ -55,4 +55,10 @@ public class SourceController implements Observer{
         view.setIsFocused(false);
         this.updateFromText(view.getText());
     }
+
+    public void textIsUpdated() {
+        if(view.getIsFocused()){
+            this.updateFromText(view.getText());
+        }
+    }
 }

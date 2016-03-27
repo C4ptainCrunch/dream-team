@@ -49,6 +49,23 @@ public class SourceView extends JPanel{
                 controller.focusLost();
             }
         });
+
+        textArea.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                controller.textIsUpdated();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                controller.textIsUpdated();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+                controller.textIsUpdated();
+            }
+        });
     }
 
     public Boolean getIsFocused() {

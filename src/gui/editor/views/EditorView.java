@@ -13,6 +13,7 @@ public class EditorView extends JFrame{
 
     private CanvasView canvasView;
     private SourceView sourceView;
+    private MenuView menuView;
 
     private EditorController controller;
 
@@ -30,6 +31,8 @@ public class EditorView extends JFrame{
 
         this.canvasView = new CanvasView(graph);
         this.sourceView = new SourceView(graph);
+        this.menuView = new MenuView(graph);
+
         this.controller = new EditorController(this, graph);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,5 +48,7 @@ public class EditorView extends JFrame{
 
         pane.add(this.canvasView);
         pane.add(this.sourceView);
+
+        this.setJMenuBar(menuView);
     }
 }

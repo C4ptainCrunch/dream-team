@@ -7,32 +7,29 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Observable;
 import java.util.Observer;
 
-public class SourceView extends JPanel implements Observer{
+public class SourceView extends JPanel{
     private TikzGraph graph;
     private JTextArea textArea;
     private SourceController controller;
-    private Boolean textUpdateIsManual = true;
+    private Boolean isFocused = false;
 
     public SourceView(TikzGraph graph){
         this.graph = graph;
-        this.graph.addObserver(this);
 
         this.controller = new SourceController(this, graph);
-
         this.textArea = new JTextArea();
-
 
         this.addListeners();
         this.render();
     }
 
-    public void update(Observable o, Object arg){
-        textUpdateIsManual = false;
-        textArea.setText(this.graph.toString());
-        textUpdateIsManual = true;
+    public void setText(String text){
+        textArea.setText(text);
     }
 
     private void render(){
@@ -41,28 +38,28 @@ public class SourceView extends JPanel implements Observer{
     }
 
     private void addListeners(){
-        textArea.getDocument().addDocumentListener(new DocumentListener() {
-
+        textArea.addFocusListener(new FocusListener() {
             @Override
-            public void removeUpdate(DocumentEvent e) {
-                if (textUpdateIsManual){
-                    controller.updateFromText(textArea.getText());
-                }
+            public void focusGained(FocusEvent focusEvent) {
+                controller.focusGained();
             }
 
             @Override
-            public void insertUpdate(DocumentEvent e) {
-                if (textUpdateIsManual){
-                    controller.updateFromText(textArea.getText());
-                }
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent arg0) {
-                if (textUpdateIsManual){
-                    controller.updateFromText(textArea.getText());
-                }
+            public void focusLost(FocusEvent focusEvent) {
+                controller.focusLost();
             }
         });
+    }
+
+    public Boolean getIsFocused() {
+        return isFocused;
+    }
+
+    public void setIsFocused(boolean isFocused) {
+        this.isFocused = isFocused;
+    }
+
+    public String getText() {
+        return textArea.getText();
     }
 }

@@ -7,19 +7,29 @@ import org.codehaus.jparsec.error.ParserException;
 import parser.NodeParser;
 
 import javax.swing.*;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Logger;
 
-public class SourceController {
+public class SourceController implements Observer{
     private SourceView view;
     private TikzGraph graph;
     private static final Logger logger = Logger.getLogger("gui.editor.controllers.source");
 
     public SourceController(SourceView view, TikzGraph graph) {
         this.view = view;
+
         this.graph = graph;
+        this.graph.addObserver(this);
     }
 
-    public void updateFromText(String text) {
+    public void update(Observable o, Object arg){
+        if(!view.getIsFocused()){
+            view.setText(this.graph.toString());
+        }
+    }
+
+    private void updateFromText(String text) {
         text = text.trim();
         if(text.length() != 0) {
             TikzGraph new_graph = new TikzGraph();
@@ -35,5 +45,14 @@ public class SourceController {
                 logger.warning("Error during TikZ parsing : " + e.getMessage());
             }
         }
+    }
+
+    public void focusGained() {
+        view.setIsFocused(true);
+    }
+
+    public void focusLost() {
+        view.setIsFocused(false);
+        this.updateFromText(view.getText());
     }
 }

@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 import java.util.Enumeration;
 
 
-public class GUI extends JFrame implements Menu.onItemClickListener {
+public class GUI extends JFrame {
     private static final Color button_background = new Color(238,238,238);
     private static final String icon_dir = "./././src/gui/toolbox/";
     private static final String[] node_icons = {"fill_circle.png", "fill_rect.png", "fill_triangle.png"};
@@ -25,7 +25,6 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
     private JPanel node_button_pan;
     private JPanel caracteristikz_main_pan;
     private CaracteristikzOptionsPanel caracteristikz_options_pan;
-    private TikzCanvas canvas;
     private Menu menu;
     private ButtonGroup button_group;
 
@@ -78,8 +77,6 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
     }
 
     private void initUIComponents(){
-        initCanvas();
-        initMenu();
         node_button_pan.setLayout(new GridLayout(node_icons.length, 1));
         link_button_pan.setLayout(new GridLayout(link_icons.length, 1));
         caracteristikz_options_pan = new CaracteristikzOptionsPanel();
@@ -103,17 +100,6 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
             button.setHorizontalAlignment(SwingConstants.CENTER);
             button_group.add(button);
         }
-    }
-
-    private void initMenu(){
-        menu = new Menu(this);
-        main_panel.add(menu, BorderLayout.NORTH);
-    }
-
-    private void initCanvas(){
-        canvas = new TikzCanvas();
-        main_panel.add(draw_zone, BorderLayout.CENTER);
-        draw_zone.setViewportView(canvas);
     }
 
     private void initRadioGroup(){
@@ -142,32 +128,5 @@ public class GUI extends JFrame implements Menu.onItemClickListener {
         }
     }
 
-    @Override
-    public void onExit(){
-        this.dispose();
-    }
-
-    @Override
-    public void onShowGrid(){
-//        canvas.setGridVisible(true);
-        canvas.repaint();
-    }
-
-    @Override
-    public void onHideGrid(){
-//        canvas.setGridVisible(false);
-        canvas.repaint();
-    }
-
-    @Override
-    public void onBuildPDF(){
-
-
-    }
-
-    @Override
-    public void onHelp(){
-        HelpPanel help = new HelpPanel();
-    }
 }
 

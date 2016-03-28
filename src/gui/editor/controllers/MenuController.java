@@ -1,7 +1,7 @@
 package gui.editor.controllers;
 
 import gui.editor.views.MenuView;
-import help.views.HelpView;
+import gui.help.views.HelpView;
 import models.TikzGraph;
 import utils.PdfCompilationError;
 import utils.PdfRenderer;

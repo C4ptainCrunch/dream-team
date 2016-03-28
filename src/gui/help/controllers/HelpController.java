@@ -1,8 +1,7 @@
-package help.controllers;
+package gui.help.controllers;
 
-import help.views.HelpView;
+import gui.help.views.HelpView;
 
-import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
@@ -12,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Vector;
 import java.util.stream.Collectors;
 
 public class HelpController {

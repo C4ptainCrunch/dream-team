@@ -1,6 +1,6 @@
-package help.views;
+package gui.help.views;
 
-import help.controllers.HelpController;
+import gui.help.controllers.HelpController;
 import org.pegdown.PegDownProcessor;
 
 import javax.swing.*;

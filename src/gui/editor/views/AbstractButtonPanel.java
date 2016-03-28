@@ -23,6 +23,8 @@ public abstract class AbstractButtonPanel extends JPanel{
     }
 
     private void render() {
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
         HashMap<String, JPanel> options = this.getOptions();
         for (String name: options.keySet()) {
             JPanel panel = options.get(name);

@@ -6,7 +6,7 @@ import gui.editor.views.AbstractButtonPanel;
 import javax.swing.*;
 
 public abstract class AbstractButtonPanelController {
-    private final AbstractButtonPanel view;
+    protected final AbstractButtonPanel view;
 
     AbstractButtonPanelController(AbstractButtonPanel view){
         this.view = view;

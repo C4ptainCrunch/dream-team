@@ -16,6 +16,7 @@ public abstract class AbstractButtonPanel extends JPanel{
         this.buttonGroup = new ButtonGroup();
         this.contentPanel = new JPanel();
         this.controller = this.getController();
+        this.buttons_panels = new HashMap<>();
 
         this.render();
         this.addListeners();
@@ -42,9 +43,15 @@ public abstract class AbstractButtonPanel extends JPanel{
         JToggleButton currentTool = this.getCurrentTool();
         if(currentTool != null) {
             this.contentPanel.add(buttons_panels.get(currentTool));
+            System.out.println("Showing " + currentTool.getText() + " panel");
+        }
+        else {
+            this.contentPanel.add(this.getDelfaultPanel());
         }
         this.revalidate();
     }
+
+    abstract JPanel getDelfaultPanel();
 
     public JToggleButton getCurrentTool() {
         for (JToggleButton button: this.buttons_panels.keySet()) {

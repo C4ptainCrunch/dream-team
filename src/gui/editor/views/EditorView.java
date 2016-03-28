@@ -14,7 +14,7 @@ public class EditorView extends JFrame{
     private CanvasView canvasView;
     private SourceView sourceView;
     private MenuView menuView;
-    private ToolboxView toolboxView;
+    private ToolView toolView;
 
     private EditorController controller;
 
@@ -28,7 +28,7 @@ public class EditorView extends JFrame{
         this.canvasView = new CanvasView(this,graph);
         this.sourceView = new SourceView(this, graph);
         this.menuView = new MenuView(this, graph);
-        this.toolboxView = new ToolboxView(this);
+        this.toolView = new ToolView();
 
         this.controller = new EditorController(this, graph);
 
@@ -46,7 +46,7 @@ public class EditorView extends JFrame{
         Container pane = getContentPane();
         pane.setLayout(new GridLayout(1,3));
 
-        pane.add(this.toolboxView);
+        pane.add(this.toolView);
         pane.add(this.canvasView);
         pane.add(this.sourceView);
 

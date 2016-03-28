@@ -1,6 +1,5 @@
-package gui.drawers;
+package gui.editor.views.canvas.drawers;
 
-import models.TikzEdge;
 import models.TikzUndirectedEdge;
 
 public class UndirectedEdgeDrawer extends EdgeDrawer {

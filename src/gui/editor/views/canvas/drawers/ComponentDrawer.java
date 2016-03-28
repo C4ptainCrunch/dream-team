@@ -1,8 +1,8 @@
-package gui.drawers;
+package gui.editor.views.canvas.drawers;
 
 import constants.Models;
-import gui.drawables.Drawable;
-import gui.drawables.DrawableText;
+import gui.editor.views.canvas.drawables.Drawable;
+import gui.editor.views.canvas.drawables.DrawableText;
 import models.TikzComponent;
 
 import java.awt.*;

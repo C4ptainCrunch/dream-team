@@ -1,10 +1,8 @@
-package gui.drawers;
+package gui.editor.views.canvas.drawers;
 
-import gui.drawables.Drawable;
-import gui.drawables.DrawableShape;
-import models.TikzDirectedEdge;
+import gui.editor.views.canvas.drawables.Drawable;
+import gui.editor.views.canvas.drawables.DrawableShape;
 import models.TikzEdge;
-import models.TikzUndirectedEdge;
 
 import java.awt.*;
 

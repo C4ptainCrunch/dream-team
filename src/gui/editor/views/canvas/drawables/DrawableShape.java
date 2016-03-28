@@ -1,4 +1,4 @@
-package gui.drawables;
+package gui.editor.views.canvas.drawables;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 

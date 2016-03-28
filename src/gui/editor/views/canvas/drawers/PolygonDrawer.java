@@ -1,11 +1,8 @@
-package gui.drawers;
+package gui.editor.views.canvas.drawers;
 
-import gui.drawables.Drawable;
-import gui.drawables.DrawableShape;
-import gui.drawables.DrawableText;
-import models.TikzComponent;
+import gui.editor.views.canvas.drawables.Drawable;
+import gui.editor.views.canvas.drawables.DrawableShape;
 import models.TikzPolygon;
-import constants.Models;
 
 import java.awt.*;
 import java.util.Vector;

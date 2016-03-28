@@ -1,4 +1,4 @@
-package gui.drawables;
+package gui.editor.views.canvas.drawables;
 import java.awt.*;
 
 public class DrawableText implements Drawable{

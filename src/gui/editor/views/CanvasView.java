@@ -3,10 +3,10 @@ package gui.editor.views;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-import gui.drawables.Drawable;
-import gui.drawables.DrawableShape;
-import gui.drawers.*;
+import gui.editor.views.canvas.drawables.Drawable;
+import gui.editor.views.canvas.drawables.DrawableShape;
 import gui.editor.controllers.CanvasController;
+import gui.editor.views.canvas.drawers.*;
 import models.*;
 
 import java.awt.*;

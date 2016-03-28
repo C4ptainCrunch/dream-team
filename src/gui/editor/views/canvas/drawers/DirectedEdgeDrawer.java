@@ -1,13 +1,11 @@
-package gui.drawers;
+package gui.editor.views.canvas.drawers;
 
-import gui.drawables.Drawable;
-import gui.drawables.DrawableShape;
-import models.TikzEdge;
+import gui.editor.views.canvas.drawables.Drawable;
+import gui.editor.views.canvas.drawables.DrawableShape;
 import models.TikzDirectedEdge;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.util.Vector;
 
 public class DirectedEdgeDrawer extends EdgeDrawer {

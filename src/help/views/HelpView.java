@@ -1,15 +1,15 @@
 package help.views;
 
 import help.controllers.HelpController;
+import org.pegdown.PegDownProcessor;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 
 public class HelpView extends JFrame {
     private HelpController controller;
     private JTree tree;
-    private JTextArea textArea;
+    private JLabel htmlView;
 
     public HelpView() {
         this.controller = new HelpController(this);
@@ -33,13 +33,14 @@ public class HelpView extends JFrame {
         this.tree = new JTree(controller.getTree());
         this.add(tree);
 
-        this.textArea = new JTextArea();
-        this.add(textArea);
+        this.htmlView = new JLabel();
+        this.add(htmlView);
 
         this.pack();
     }
 
     public void setText(String text) {
-        textArea.setText(text);
+        PegDownProcessor pegDown = new PegDownProcessor();
+        htmlView.setText("<html>" + pegDown.markdownToHtml(text) + "</html>");
     }
 }

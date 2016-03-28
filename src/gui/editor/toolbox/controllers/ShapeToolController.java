@@ -1,11 +1,10 @@
-package gui.editor.controllers;
+package gui.editor.toolbox.controllers;
 
 import javax.swing.*;
 
-import gui.editor.views.ShapeToolView;
-import gui.editor.views.ToolView;
+import gui.editor.toolbox.views.ShapeToolView;
 
-public class ShapeToolController extends AbstractButtonPanelController{
+public class ShapeToolController extends AbstractButtonPanelController {
 
 
     public ShapeToolController(ShapeToolView view) {

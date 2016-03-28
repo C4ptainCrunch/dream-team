@@ -1,10 +1,9 @@
-package gui.editor.views;
+package gui.editor.toolbox.views;
 
-import gui.editor.controllers.AbstractButtonPanelController;
+import gui.editor.toolbox.controllers.AbstractButtonPanelController;
 
 import javax.swing.*;
 import java.util.HashMap;
-import java.util.List;
 
 public abstract class AbstractButtonPanel extends JPanel{
     private ButtonGroup buttonGroup;

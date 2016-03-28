@@ -1,12 +1,12 @@
-package gui.editor.views;
+package gui.editor.toolbox.views;
 
 import java.util.HashMap;
 
 import javax.swing.*;
 
-import gui.editor.controllers.AbstractButtonPanelController;
-import gui.editor.controllers.ShapeToolController;
-import gui.editor.controllers.ToolController;
+import gui.editor.toolbox.controllers.AbstractButtonPanelController;
+import gui.editor.toolbox.controllers.ShapeToolController;
+import gui.editor.toolbox.views.AbstractButtonPanel;
 
 public class ShapeToolView extends AbstractButtonPanel {
     @Override

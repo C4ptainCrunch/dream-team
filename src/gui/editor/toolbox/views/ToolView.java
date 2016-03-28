@@ -1,7 +1,9 @@
-package gui.editor.views;
+package gui.editor.toolbox.views;
 
-import gui.editor.controllers.AbstractButtonPanelController;
-import gui.editor.controllers.ToolController;
+import gui.editor.toolbox.controllers.AbstractButtonPanelController;
+import gui.editor.toolbox.controllers.ToolController;
+import gui.editor.toolbox.views.AbstractButtonPanel;
+import gui.editor.toolbox.views.ShapeToolView;
 
 import javax.swing.*;
 import java.util.HashMap;

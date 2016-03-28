@@ -1,7 +1,7 @@
-package gui.editor.controllers;
+package gui.editor.toolbox.controllers;
 
 
-import gui.editor.views.AbstractButtonPanel;
+import gui.editor.toolbox.views.AbstractButtonPanel;
 
 import javax.swing.*;
 

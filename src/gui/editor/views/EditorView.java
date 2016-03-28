@@ -1,9 +1,8 @@
 package gui.editor.views;
 
 import gui.editor.controllers.*;
+import gui.editor.toolbox.views.ToolView;
 import models.TikzGraph;
-import models.TikzNode;
-import models.TikzRectangle;
 
 import javax.swing.*;
 import java.awt.*;

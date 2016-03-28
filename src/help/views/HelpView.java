@@ -1,19 +1,18 @@
-package legacy;
-
+package help.views;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class HelpPanel extends JFrame {
+public class HelpView extends JFrame {
     private JTree tree;
     private JTextArea helpText;
 
-    public HelpPanel() {
+    public HelpView() {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
 
         DefaultMutableTreeNode shapesNode = new DefaultMutableTreeNode("Shapes");

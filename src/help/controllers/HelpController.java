@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class HelpController {
     private HelpView view;
-    private final static String HELP_ROOT = "./help_files/";
+    private final static String HELP_ROOT = "./assets/help_files/";
 
     public HelpController(HelpView view) {
         this.view = view;
@@ -33,7 +33,7 @@ public class HelpController {
                 .map(x -> x.toString())
                 .collect(Collectors.toList());
 
-        String filePath = String.join("/", path) + ".md";
+        String filePath = HELP_ROOT + String.join("/", path) + ".md";
 
         try{
             view.setText(new String(Files.readAllBytes(Paths.get(filePath))));
@@ -45,7 +45,7 @@ public class HelpController {
 
 
     public DefaultMutableTreeNode getTree() {
-        return Filewalker.walkToTree(HELP_ROOT);
+        return Filewalker.walkToTree(HELP_ROOT + "Help");
     }
 }
 

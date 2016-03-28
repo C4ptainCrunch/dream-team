@@ -1,49 +1,45 @@
 package help.views;
 
+import help.controllers.HelpController;
+
 import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
-import java.io.FileReader;
-import java.io.IOException;
 
 public class HelpView extends JFrame {
+    private HelpController controller;
     private JTree tree;
-    private JTextArea helpText;
+    private JTextArea textArea;
 
     public HelpView() {
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
+        this.controller = new HelpController(this);
+        this.render();
+        this.addListeners();
+        this.setVisible(true);
+    }
 
-        DefaultMutableTreeNode shapesNode = new DefaultMutableTreeNode("Shapes");
-        DefaultMutableTreeNode codeNode = new DefaultMutableTreeNode("Code");
-        root.add(shapesNode);
-        root.add(codeNode);
+    private void addListeners() {
+        this.tree.getSelectionModel().addTreeSelectionListener(e -> {
+            this.controller.treeClicked(e);
+        });
+    }
+
+    private void render() {
+        this.setTitle("Help");
+        this.getContentPane().setPreferredSize(new Dimension(500, 300));
 
         this.setLayout(new GridLayout(1, 2));
 
-        tree = new JTree(root);
-        helpText = new JTextArea();
-        add(tree);
-        add(helpText);
+        this.tree = new JTree(controller.getTree());
+        this.add(tree);
 
-        tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
-            @Override
-            public void valueChanged(TreeSelectionEvent e) {
-                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-                String filePath = "./help_files/"+ selectedNode.getUserObject().toString() + ".md";
-                try{
-                    helpText.read(new FileReader(filePath),null);
-                }
-                catch(IOException ioe){
-                    // As always, no idea what to catch here...
-                }
-            }
-        });
+        this.textArea = new JTextArea();
+        this.add(textArea);
 
-        this.setTitle("Help Panel");
-        this.getContentPane().setPreferredSize(new Dimension(500, 300));
         this.pack();
-        this.setVisible(true);
+    }
+
+    public void setText(String text) {
+        textArea.setText(text);
     }
 }

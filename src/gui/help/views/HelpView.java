@@ -19,9 +19,7 @@ public class HelpView extends JFrame {
     }
 
     private void addListeners() {
-        this.tree.getSelectionModel().addTreeSelectionListener(e -> {
-            this.controller.treeClicked(e);
-        });
+        this.tree.getSelectionModel().addTreeSelectionListener(this.controller::treeClicked);
     }
 
     private void render() {

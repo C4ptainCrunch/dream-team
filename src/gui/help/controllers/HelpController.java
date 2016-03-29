@@ -28,7 +28,7 @@ public class HelpController {
         // This is a simple map : [x.to_string() for x in clickedNode.getPath()]
         // We <3 Java
         List<String> path = Arrays.stream(clickedNode.getPath())
-                .map(x -> x.toString())
+                .map(Object::toString)
                 .collect(Collectors.toList());
 
         String filePath = HELP_ROOT + String.join("/", path) + ".md";

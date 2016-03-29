@@ -29,12 +29,7 @@ public class MenuView extends JMenuBar {
         file_menu.add(save_item);
 
         JMenuItem build_pdf = new JMenuItem(GUI.Text.PDF);
-        build_pdf.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                controller.compileAndOpen();
-            }
-        });
+        build_pdf.addActionListener(actionEvent -> controller.compileAndOpen());
         file_menu.add(build_pdf);
         file_menu.addSeparator();
 

@@ -2,8 +2,6 @@ package models;
 
 import constants.Models;
 
-import java.awt.*;
-
 public class TikzCircle extends TikzShape {
     private int radius;
     public TikzCircle(){

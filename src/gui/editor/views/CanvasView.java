@@ -1,20 +1,20 @@
 package gui.editor.views;
 
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-
-import gui.editor.views.canvas.drawables.Drawable;
-import gui.editor.views.canvas.drawables.DrawableShape;
-import gui.editor.controllers.CanvasController;
-import gui.editor.views.canvas.drawers.*;
-import models.*;
-
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.util.Collections;
 import java.util.Vector;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+
+import models.*;
+import gui.editor.controllers.CanvasController;
+import gui.editor.views.canvas.drawables.Drawable;
+import gui.editor.views.canvas.drawables.DrawableShape;
+import gui.editor.views.canvas.drawers.*;
 
 public class CanvasView extends JPanel{
     private EditorView parentView;

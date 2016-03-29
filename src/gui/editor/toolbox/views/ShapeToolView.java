@@ -6,7 +6,6 @@ import javax.swing.*;
 
 import gui.editor.toolbox.controllers.AbstractButtonPanelController;
 import gui.editor.toolbox.controllers.ShapeToolController;
-import gui.editor.toolbox.views.AbstractButtonPanel;
 
 public class ShapeToolView extends AbstractButtonPanel {
     @Override

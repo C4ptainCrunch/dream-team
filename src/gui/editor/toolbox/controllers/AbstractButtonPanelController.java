@@ -1,9 +1,9 @@
 package gui.editor.toolbox.controllers;
 
 
-import gui.editor.toolbox.views.AbstractButtonPanel;
-
 import javax.swing.*;
+
+import gui.editor.toolbox.views.AbstractButtonPanel;
 
 public abstract class AbstractButtonPanelController {
     protected final AbstractButtonPanel view;

@@ -1,8 +1,8 @@
 package models;
 
-import constants.Models;
-
 import java.awt.*;
+
+import constants.Models;
 
 public abstract class TikzShape extends TikzNode {
     private Color outlineColor;

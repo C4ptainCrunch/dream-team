@@ -1,8 +1,8 @@
 package gui.editor.toolbox.controllers;
 
-import gui.editor.toolbox.views.ToolView;
-
 import javax.swing.*;
+
+import gui.editor.toolbox.views.ToolView;
 
 public class ToolController extends AbstractButtonPanelController {
 

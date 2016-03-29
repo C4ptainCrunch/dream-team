@@ -1,13 +1,13 @@
 package gui.editor.controllers;
 
-import gui.editor.views.CanvasView;
-import models.TikzCircle;
-import models.TikzGraph;
-import models.TikzNode;
-
 import java.awt.event.MouseEvent;
 import java.util.Observable;
 import java.util.Observer;
+
+import models.TikzCircle;
+import models.TikzGraph;
+import models.TikzNode;
+import gui.editor.views.CanvasView;
 
 public class CanvasController implements Observer{
     private CanvasView view;

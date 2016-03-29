@@ -1,13 +1,14 @@
 package legacy;
 
 
-import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.event.TreeSelectionEvent;
 import java.awt.*;
 import java.io.FileReader;
 import java.io.IOException;
+
+import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 public class HelpPanel extends JFrame {
     private JTree tree;

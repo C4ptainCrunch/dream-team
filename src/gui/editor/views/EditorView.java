@@ -1,11 +1,12 @@
 package gui.editor.views;
 
-import gui.editor.controllers.*;
-import gui.editor.toolbox.views.ToolView;
-import models.TikzGraph;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
+
+import models.TikzGraph;
+import gui.editor.controllers.EditorController;
+import gui.editor.toolbox.views.ToolView;
 
 public class EditorView extends JFrame{
     private TikzGraph graph;

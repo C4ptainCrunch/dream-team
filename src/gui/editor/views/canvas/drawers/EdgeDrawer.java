@@ -1,13 +1,12 @@
 package gui.editor.views.canvas.drawers;
 
-import gui.editor.views.canvas.drawables.Drawable;
-import gui.editor.views.canvas.drawables.DrawableShape;
-import models.TikzEdge;
-
 import java.awt.*;
-
 import java.awt.geom.Line2D;
 import java.util.Vector;
+
+import models.TikzEdge;
+import gui.editor.views.canvas.drawables.Drawable;
+import gui.editor.views.canvas.drawables.DrawableShape;
 
 
 public abstract class EdgeDrawer extends ComponentDrawer {

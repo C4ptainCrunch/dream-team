@@ -1,16 +1,15 @@
 package gui.editor.views;
 
-import gui.editor.controllers.SourceController;
-import models.TikzGraph;
+import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.util.Observable;
-import java.util.Observer;
+
+import models.TikzGraph;
+import gui.editor.controllers.SourceController;
 
 public class SourceView extends JPanel{
     private TikzGraph graph;

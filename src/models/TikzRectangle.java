@@ -2,8 +2,6 @@ package models;
 
 import constants.Models;
 
-import java.awt.*;
-
 public class TikzRectangle extends TikzShape {
     private int width;
     private int length;

@@ -1,5 +1,6 @@
 package models;
-import java.awt.Color;
+
+import java.awt.*;
 import java.util.Observable;
 
 import constants.Models;

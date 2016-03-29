@@ -1,12 +1,12 @@
 package gui.editor.views.canvas.drawers;
 
+import java.awt.*;
+import java.util.Vector;
+
+import models.TikzComponent;
 import constants.Models;
 import gui.editor.views.canvas.drawables.Drawable;
 import gui.editor.views.canvas.drawables.DrawableText;
-import models.TikzComponent;
-
-import java.awt.*;
-import java.util.Vector;
 
 
 public abstract class ComponentDrawer implements Drawer {

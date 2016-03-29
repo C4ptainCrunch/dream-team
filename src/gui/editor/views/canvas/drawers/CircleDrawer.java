@@ -1,12 +1,12 @@
 package gui.editor.views.canvas.drawers;
 
-import gui.editor.views.canvas.drawables.Drawable;
-import gui.editor.views.canvas.drawables.DrawableShape;
-import models.TikzCircle;
-
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.util.Vector;
+
+import models.TikzCircle;
+import gui.editor.views.canvas.drawables.Drawable;
+import gui.editor.views.canvas.drawables.DrawableShape;
 
 public class CircleDrawer extends ComponentDrawer {
 

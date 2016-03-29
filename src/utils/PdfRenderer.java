@@ -1,12 +1,13 @@
 package utils;
 
-import models.TikzGraph;
+import static javax.swing.JOptionPane.showMessageDialog;
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 
-import static javax.swing.JOptionPane.showMessageDialog;
+import javax.swing.*;
+
+import models.TikzGraph;
 
 public class PdfRenderer {
 

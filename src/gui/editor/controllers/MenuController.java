@@ -1,16 +1,15 @@
 package gui.editor.controllers;
 
-import gui.editor.views.MenuView;
-import gui.editor.views.SourceView;
-import models.TikzGraph;
-import utils.PdfCompilationError;
-import utils.PdfRenderer;
+import static javax.swing.JOptionPane.showMessageDialog;
+
 import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Logger;
 
-import static javax.swing.JOptionPane.showMessageDialog;
+import models.TikzGraph;
+import utils.PdfCompilationError;
+import utils.PdfRenderer;
+import gui.editor.views.MenuView;
 
 public class MenuController implements Observer {
     private MenuView view;

@@ -1,12 +1,13 @@
 package gui.editor.views;
 
-import constants.GUI;
-import gui.editor.controllers.MenuController;
-import models.TikzGraph;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import models.TikzGraph;
+import constants.GUI;
+import gui.editor.controllers.MenuController;
 
 public class MenuView extends JMenuBar {
     private MenuController controller;

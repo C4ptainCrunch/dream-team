@@ -1,11 +1,11 @@
 package gui.editor.views.canvas.drawers;
 
-import gui.editor.views.canvas.drawables.Drawable;
-import gui.editor.views.canvas.drawables.DrawableShape;
-import models.TikzPolygon;
-
 import java.awt.*;
 import java.util.Vector;
+
+import models.TikzPolygon;
+import gui.editor.views.canvas.drawables.Drawable;
+import gui.editor.views.canvas.drawables.DrawableShape;
 
 public class PolygonDrawer extends ComponentDrawer{
     public PolygonDrawer(TikzPolygon component) {

@@ -9,9 +9,8 @@ import gui.editor.toolbox.controllers.ShapeToolController;
 
 public class ShapeToolView extends AbstractButtonPanel {
     @Override
-    JPanel getDelfaultPanel() {
-        JPanel panel = new JPanel();
-        panel.add(new JLabel("Choose a shape"));
+    AbstractButtonPanel getDelfaultPanel() {
+        TextPanel panel = new TextPanel("Choose a shape");
         return panel;
     }
 
@@ -21,19 +20,16 @@ public class ShapeToolView extends AbstractButtonPanel {
     }
 
     @Override
-    HashMap<String, JPanel> getOptions() {
-        HashMap<String, JPanel> ret = new HashMap<>();
+    protected HashMap<String, AbstractButtonPanel> getOptions() {
+        HashMap<String, AbstractButtonPanel> ret = new HashMap<>();
 
-        JPanel rectangle = new JPanel();
-        rectangle.add(new JLabel("Rectangle Box"));
+        TextPanel rectangle = new TextPanel("Rectangle Box");
         ret.put("Rectangle", rectangle);
 
-        JPanel circle = new JPanel();
-        circle.add(new JLabel("Circle Box"));
+        TextPanel circle = new TextPanel("Circle Box");
         ret.put("Circle", circle);
 
-        JPanel polygon = new JPanel();
-        polygon.add(new JLabel("Polygon Box"));
+        TextPanel polygon = new TextPanel("Polygon Box");
         ret.put("Polygon", polygon);
 
         return ret;

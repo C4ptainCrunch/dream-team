@@ -9,9 +9,8 @@ import gui.editor.toolbox.controllers.ToolController;
 
 public class ToolView extends AbstractButtonPanel {
     @Override
-    JPanel getDelfaultPanel() {
-        JPanel panel = new JPanel();
-        panel.add(new JLabel("Choose a tool"));
+    AbstractButtonPanel getDelfaultPanel() {
+        TextPanel panel = new TextPanel("Choose a tool");
         return panel;
     }
 
@@ -21,12 +20,11 @@ public class ToolView extends AbstractButtonPanel {
     }
 
     @Override
-    HashMap<String, JPanel> getOptions() {
-        HashMap<String, JPanel> ret = new HashMap<>();
+    protected HashMap<String, AbstractButtonPanel> getOptions() {
+        HashMap<String, AbstractButtonPanel> ret = new HashMap<>();
         ret.put("Node", new ShapeToolView());
 
-        JPanel edge = new JPanel();
-        edge.add(new JLabel("Edge"));
+        TextPanel edge = new TextPanel("Edge");
         ret.put("Edge", edge);
 
         return ret;

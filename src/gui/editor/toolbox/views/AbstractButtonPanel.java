@@ -9,7 +9,7 @@ import gui.editor.toolbox.controllers.AbstractButtonPanelController;
 public abstract class AbstractButtonPanel extends JPanel{
     private ButtonGroup buttonGroup;
     private JPanel contentPanel;
-    private HashMap<JToggleButton, JPanel> buttons_panels;
+    private HashMap<JToggleButton, AbstractButtonPanel> buttons_panels;
     private AbstractButtonPanelController controller;
 
     public AbstractButtonPanel(){
@@ -25,9 +25,9 @@ public abstract class AbstractButtonPanel extends JPanel{
     private void render() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        HashMap<String, JPanel> options = this.getOptions();
+        HashMap<String, AbstractButtonPanel> options = this.getOptions();
         for (String name: options.keySet()) {
-            JPanel panel = options.get(name);
+            AbstractButtonPanel panel = options.get(name);
 
             JToggleButton button = new JToggleButton(name);
             this.add(button);
@@ -48,12 +48,14 @@ public abstract class AbstractButtonPanel extends JPanel{
             System.out.println("Showing " + currentTool.getText() + " panel");
         }
         else {
-            this.contentPanel.add(this.getDelfaultPanel());
+            if(this.getDelfaultPanel() != null) {
+                this.contentPanel.add(this.getDelfaultPanel());
+            }
         }
         this.revalidate();
     }
 
-    abstract JPanel getDelfaultPanel();
+    abstract AbstractButtonPanel getDelfaultPanel();
 
     public JToggleButton getCurrentTool() {
         for (JToggleButton button: this.buttons_panels.keySet()) {
@@ -66,11 +68,16 @@ public abstract class AbstractButtonPanel extends JPanel{
 
     abstract AbstractButtonPanelController getController();
 
-    abstract HashMap<String, JPanel> getOptions();
+    protected HashMap<String, AbstractButtonPanel> getOptions(){
+        return new HashMap<>();
+    }
+
 
     private void addListeners() {
-        for (JToggleButton button: this.buttons_panels.keySet()) {
-            button.addActionListener(actionEvent -> controller.buttonClicked(button));
+        if(this.controller != null) {
+            for (JToggleButton button : this.buttons_panels.keySet()) {
+                button.addActionListener(actionEvent -> controller.buttonClicked(button));
+            }
         }
     }
 }

@@ -43,6 +43,10 @@ public class CanvasView extends JPanel{
         this.addMouseListener(new MouseInputAdapter(){
             @Override
             public void mousePressed(MouseEvent e){
+                for (Object o: parentView.getCurrentToolProperties().values()) {
+                    System.out.println((String) o);
+                }
+
                 if(SwingUtilities.isRightMouseButton(e)){}
                 else {
                     controller.mousePressed(e);

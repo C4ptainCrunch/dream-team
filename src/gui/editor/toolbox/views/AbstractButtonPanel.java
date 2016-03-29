@@ -72,6 +72,13 @@ public abstract class AbstractButtonPanel extends JPanel{
         return new HashMap<>();
     }
 
+    public HashMap<String, Object> getProperties(){
+        HashMap<String, Object> ret = new HashMap<>();
+        if(this.getCurrentPanel() != null) {
+            ret.putAll(this.getCurrentPanel().getProperties());
+        }
+        return ret;
+    }
 
     private void addListeners() {
         if(this.controller != null) {
@@ -79,5 +86,9 @@ public abstract class AbstractButtonPanel extends JPanel{
                 button.addActionListener(actionEvent -> controller.buttonClicked(button));
             }
         }
+    }
+
+    public AbstractButtonPanel getCurrentPanel() {
+        return this.buttons_panels.get(this.getCurrentTool());
     }
 }

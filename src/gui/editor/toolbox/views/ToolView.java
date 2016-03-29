@@ -29,4 +29,10 @@ public class ToolView extends AbstractButtonPanel {
 
         return ret;
     }
+
+    public HashMap<String, Object> getProperties(){
+        HashMap<String, Object> ret = super.getProperties();
+        ret.put("tool", "MYTOOL");
+        return ret;
+    }
 }

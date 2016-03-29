@@ -1,6 +1,7 @@
 package gui.editor.views;
 
 import java.awt.*;
+import java.util.HashMap;
 
 import javax.swing.*;
 
@@ -51,5 +52,9 @@ public class EditorView extends JFrame{
         pane.add(this.sourceView);
 
         this.setJMenuBar(menuView);
+    }
+
+    public HashMap<String, Object> getCurrentToolProperties(){
+        return this.toolView.getProperties();
     }
 }

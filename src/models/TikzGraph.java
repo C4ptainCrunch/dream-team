@@ -6,7 +6,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
     private Map<TikzNode, Vector<TikzEdge>> graph;
 
     public TikzGraph(){
-        graph = new HashMap<TikzNode, Vector<TikzEdge>>();
+        graph = new TreeMap<TikzNode, Vector<TikzEdge>>();
     }
 
     public int size(){

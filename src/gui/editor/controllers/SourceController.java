@@ -7,6 +7,7 @@ import org.codehaus.jparsec.error.ParserException;
 import parser.NodeParser;
 import utils.PdfCompilationError;
 import utils.PdfRenderer;
+import utils.SaverFactory;
 
 import javax.swing.*;
 import java.io.File;
@@ -18,21 +19,32 @@ public class SourceController implements Observer{
     private SourceView view;
     private TikzGraph graph;
     private static final Logger logger = Logger.getLogger("gui.editor.controllers.source");
+    private String originalText = "";
 
     public SourceController(SourceView view, TikzGraph graph) {
         this.view = view;
-
         this.graph = graph;
         this.graph.addObserver(this);
     }
 
     public void update(Observable o, Object arg){
+        System.out.println("update");
         if(!view.getIsFocused()){
-            view.setText(this.graph.toString());
+            String tmp = originalText;
+            String newText = this.graph.toString();
+            view.setText(newText);
+            Thread t = new Thread(() -> {
+                System.out.println(originalText);
+                new SaverFactory().writeToFile(tmp, newText);
+            });
+            t.start();
+            originalText = newText;
+
         }
     }
 
     private void updateFromText(String text) {
+        System.out.println("update_text");
         text = text.trim();
         if(text.length() != 0) {
             TikzGraph new_graph = new TikzGraph();
@@ -42,8 +54,9 @@ public class SourceController implements Observer{
                 logger.fine("Valid graph from TikzSource : " + graph.getNodes().size() + " nodes");
                 SwingUtilities.invokeLater(() -> {
                     graph.replace(new_graph);
-                   logger.fine("Runnable done: graph replace");
+                    logger.fine("Runnable done: graph replace");
                 });
+
             } catch (ParserException e) {
                 logger.warning("Error during TikZ parsing : " + e.getMessage());
             }

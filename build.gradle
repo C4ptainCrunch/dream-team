@@ -15,6 +15,7 @@ jar {
 dependencies {
     testCompile 'junit:junit:4.12'
     compile 'org.jparsec:jparsec:2.2.1'
+    compile 'org.bitbucket.cowwoc:diff-match-patch:1.1'
 }
 
 

@@ -3,22 +3,25 @@ package models;
 import java.util.*;
 
 public class TikzGraph extends Observable implements Iterable<TikzNode> {
-    private Map<TikzNode, Vector<TikzEdge>> graph;
+    private Vector<TikzEdge> edges;
+    private Vector<TikzNode> nodes;
 
     public TikzGraph(){
-        graph = new HashMap<TikzNode, Vector<TikzEdge>>();
+        nodes = new Vector<>();
+        edges = new Vector<>();
     }
 
     public int size(){
-        return graph.size();
+        return nodes.size();
     }
 
     public Iterator<TikzNode> iterator(){
-        return graph.keySet().iterator();
+        return nodes.iterator();
     }
 
     public void replace(TikzGraph other){
-        this.graph = other.graph;
+        this.edges = other.edges;
+        this.nodes = other.nodes;
         setChanged();
         notifyObservers();
     }
@@ -27,11 +30,12 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
      * @param node key to map to empty TIkzEdge vector.
      * @return true if no key is replaced, else false.
      */
-    public boolean add(TikzNode node){
-        Boolean is_new_key = graph.put(node, new Vector<TikzEdge>()) == null;
-        setChanged();
+    public void add(TikzNode node){
+        if(!this.nodes.contains(node)){
+            nodes.add(node);
+            setChanged();
+        }
         notifyObservers();
-        return is_new_key;
     }
 
     /**
@@ -39,73 +43,39 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
      * @param values Vector of TikzEdge to append
      * @return true if new mapping, else false
      */
-    public boolean addAll(TikzNode keyNode, Collection<TikzEdge> values){
-        Vector<TikzEdge> edges = graph.get(keyNode);
-        if(edges == null) {
-            graph.put(keyNode, new Vector<TikzEdge>(values));
-            setChanged();
-            notifyObservers();
-            return true;
+    public void addAll(Collection<TikzEdge> edges){
+        for (TikzEdge edge:edges) {
+            this.add(edge);
         }
-        else{
-            edges.addAll(values);
+        notifyObservers();
+    }
+
+    public void add(TikzEdge edge){
+        this.add(edge.getFirstNode());
+        this.add(edge.getSecondNode());
+        if(!this.edges.contains(edge)){
+            this.edges.add(edge);
             setChanged();
-            notifyObservers();
-            return false;
         }
+        notifyObservers();
     }
 
-    public boolean add(TikzNode key, TikzEdge value){
-        Vector<TikzEdge> toAdd = new Vector<TikzEdge>(1);
-        toAdd.add(value);
-        return addAll(key, toAdd);
-    }
-
-    public Map<TikzNode, Vector<TikzEdge>> getAll(){
-        return Collections.unmodifiableMap(graph);
-    }
-
-    public Set<TikzNode> getNodes(){
-        return Collections.unmodifiableSet(graph.keySet());
+    public List<TikzNode> getNodes(){
+        return Collections.unmodifiableList(this.nodes);
     }
 
     public  List<TikzEdge> getEdges(){
-        ArrayList<TikzEdge> edges = new ArrayList<TikzEdge>();
-        for (TikzNode node:this) {
-            edges.addAll(get(node));
+        return Collections.unmodifiableList(this.edges);
+    }
+
+    public List<TikzEdge> get(TikzNode node){
+        List<TikzEdge> edges = new ArrayList<>();
+        for (TikzEdge edge:this.edges) {
+            if(node == edge.getFirstNode() || node == edge.getSecondNode()){
+                edges.add(edge);
+            }
         }
-        return Collections.unmodifiableList(edges);
-    }
-
-    public List<TikzEdge> get(TikzNode key){
-        if(graph.containsKey(key))
-            return Collections.unmodifiableList(graph.get(key));
-        else
-            return null;
-    }
-
-    public Vector<TikzEdge> remove(TikzNode key){
-        return graph.remove(key);
-    }
-
-    public TikzEdge remove(TikzNode key, int pos){
-        if(!graph.containsKey(key))
-            return null;
-        else{
-            setChanged();
-            notifyObservers();
-            return graph.get(key).remove(pos);
-        }
-    }
-
-    public boolean remove(TikzNode key, TikzEdge value){
-        if(!graph.containsKey(key))
-            return false;
-        else{
-            setChanged();
-            notifyObservers();
-            return graph.get(key).remove(value);
-        }
+        return edges;
     }
 
     @Override
@@ -116,12 +86,10 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
             res.append(";\n");
         }
         res.append("\n");
-        for (TikzNode node: getNodes())
-            for (TikzEdge edge: this.get(node))
-                if (node == edge.getFirstNode()) {
-                    res.append(edge);
-                    res.append(";\n");
-                }
+        for (TikzEdge edge: this.getEdges()) {
+            res.append(edge);
+            res.append(";\n");
+        }
         return res.toString();
     }
 

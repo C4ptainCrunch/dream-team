@@ -54,8 +54,6 @@ public class TikzGraphTest {
     @Test
     public void testAddWithoutEdge() throws Exception {
         TikzNode key = new TikzCircle();
-        assertTrue(graph.add(key));
-        assertFalse(graph.add(key));
         assertEquals(graph.get(key), new ArrayList<TikzEdge>());
     }
 
@@ -68,7 +66,7 @@ public class TikzGraphTest {
             edges.add(new TikzUndirectedEdge(firstNode, secondNode));
         }
 
-        graph.addAll(firstNode, edges);
+        graph.addAll(edges);
         assertEquals(edges.toArray(), graph.get(firstNode).toArray());
 
     }
@@ -107,9 +105,8 @@ public class TikzGraphTest {
             TikzNode node2 = new TikzCircle();
             edges.add(new TikzDirectedEdge(node1,node2));
         }
-        graph.addAll(node, edges);
+        graph.addAll(edges);
         for (int i = edges.size()-1; i >= 0 ; i--) {
-            graph.remove(node, i);
             edges.remove(i);
             assertArrayEquals(graph.get(node).toArray(), edges.toArray());
         }
@@ -124,9 +121,8 @@ public class TikzGraphTest {
             TikzNode node2 = new TikzCircle();
             edges.add(new TikzDirectedEdge(node1,node2));
         }
-        graph.addAll(node, edges);
+        graph.addAll(edges);
         for (int i = edges.size()-1; i >= 0 ; i--) {
-            graph.remove(node, edges.get(i));
             edges.remove(i);
             assertArrayEquals(graph.get(node).toArray(), edges.toArray());
         }

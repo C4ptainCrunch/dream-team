@@ -93,4 +93,20 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         return res.toString();
     }
 
+    public void remove(TikzEdge edge){
+        this.edges.remove(edge);
+    }
+
+    public List<TikzEdge> remove(TikzNode node){
+        ArrayList<TikzEdge> edges = new ArrayList<>();
+        for (int i = 0; i < this.edges.size(); i++) {
+            TikzEdge edge = this.edges.get(i);
+            if(node == edge.getFirstNode() || node == edge.getSecondNode()){
+                edges.add(edge);
+                this.edges.remove(i);
+                i--;
+            }
+        }
+        return edges;
+    }
 }

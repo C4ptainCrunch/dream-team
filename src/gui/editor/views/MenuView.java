@@ -12,10 +12,12 @@ public class MenuView extends JMenuBar {
     private MenuController controller;
     private EditorView parentView;
     private TikzGraph graph;
+    private final String path;
 
-    public MenuView(EditorView parentView, TikzGraph graph){
+    public MenuView(EditorView parentView, TikzGraph graph, String path){
         this.parentView = parentView;
         this.graph = graph;
+        this.path = path;
         this.controller = new MenuController(this, graph);
         this.render();
     }
@@ -25,6 +27,12 @@ public class MenuView extends JMenuBar {
         this.add(file_menu);
 
         JMenuItem save_item = new JMenuItem(GUI.Text.SAVE);
+        save_item.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.save();
+            }
+        });
         file_menu.add(save_item);
 
         JMenuItem build_pdf = new JMenuItem(GUI.Text.PDF);
@@ -39,5 +47,9 @@ public class MenuView extends JMenuBar {
 
         JMenuItem exit_item = new JMenuItem(GUI.Text.EXIT);
         file_menu.add(exit_item);
+    }
+
+    public String getPath() {
+        return path;
     }
 }

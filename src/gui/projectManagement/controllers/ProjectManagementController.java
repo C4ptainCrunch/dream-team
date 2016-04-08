@@ -18,8 +18,20 @@ public class ProjectManagementController {
         java.io.File f = createPanel("Choose location to create your project", JFileChooser.DIRECTORIES_ONLY);
         if (f != null){
             String filePath = f.getAbsolutePath();
-            java.awt.EventQueue.invokeLater(()->new EditorView(filePath));
-            view.dispose(); 
+
+            if(!f.exists()){
+                try{
+                    f.mkdir();
+                    java.awt.EventQueue.invokeLater(()->new EditorView(filePath, false));
+                    view.dispose(); //Exit previous windows
+                }catch(SecurityException e){
+                    e.getStackTrace();
+                    //TODO: Alerte erreur
+                }
+            }
+            else{
+                //TODO:Alerte file already exists
+            }
         }
     }
 
@@ -27,6 +39,8 @@ public class ProjectManagementController {
         java.io.File f = createPanel("Choose location to import your project", JFileChooser.FILES_ONLY);
         if (f != null){
             String filePath = f.getAbsolutePath();
+            java.awt.EventQueue.invokeLater(()->new EditorView(filePath, true));
+            view.dispose(); //Exit previous windows
         }
     }
 

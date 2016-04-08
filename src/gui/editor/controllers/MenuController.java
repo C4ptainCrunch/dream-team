@@ -5,7 +5,11 @@ import gui.editor.views.SourceView;
 import models.TikzGraph;
 import utils.PdfCompilationError;
 import utils.PdfRenderer;
+
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
@@ -24,6 +28,20 @@ public class MenuController implements Observer {
     }
 
     public void update(Observable o, Object arg){}
+
+    public void save(){
+        String path = view.getPath();
+        String tikzText = graph.toString();
+
+        try{
+            FileWriter f = new FileWriter(path+"/tikz.save");
+            BufferedWriter bufferedWriter = new BufferedWriter(f);
+            bufferedWriter.write(tikzText);
+            bufferedWriter.close();
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void compileAndOpen(){
         try {

@@ -27,12 +27,12 @@ public class SaverFactory {
         return diff.patchToText(patches);
     }
 
-    public void writeToFile(String original,String revised){
+    public void writeToFile(String original,String revised, String path){
         final Date d = new Date();
         String currDate = dateFormat.format(d);
-        String filename = "test";
+        String filename = "diffs";
         try{
-            FileWriter f = new FileWriter("/home/end3rs/Musique/Bureau/"+filename, true);
+            FileWriter f = new FileWriter(path+"/"+filename, true);
             BufferedWriter bufferedWriter = new BufferedWriter(f);
             bufferedWriter.append(currDate);
             bufferedWriter.newLine();

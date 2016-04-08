@@ -35,16 +35,14 @@ public class SourceController implements Observer{
             view.setText(newText);
             Thread t = new Thread(() -> {
                 System.out.println(originalText);
-                new SaverFactory().writeToFile(tmp, newText);
+                new SaverFactory().writeToFile(tmp, newText, view.getPath());
             });
             t.start();
             originalText = newText;
-
         }
     }
 
     private void updateFromText(String text) {
-        System.out.println("update_text");
         text = text.trim();
         if(text.length() != 0) {
             TikzGraph new_graph = new TikzGraph();

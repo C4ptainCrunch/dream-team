@@ -4,9 +4,13 @@ import gui.editor.controllers.*;
 import models.TikzGraph;
 import models.TikzNode;
 import models.TikzRectangle;
+import parser.NodeParser;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class EditorView extends JFrame{
     private TikzGraph graph;
@@ -18,22 +22,22 @@ public class EditorView extends JFrame{
 
     private EditorController controller;
 
-    public EditorView(){
-        this(new TikzGraph());
-    }
-
-    public EditorView(String filePath){
-        this(new TikzGraph());
-    }
-
-    public EditorView(TikzGraph graph){
-        this.graph = graph;
+    public EditorView(String filePath, Boolean isImport){
+        this.path = filePath;
+        if(isImport){
+            this.graph = new TikzGraph(filePath);
+            this.path = Paths.get(path).getParent().toString();
+        }else{
+            this.graph = new TikzGraph();
+        }
 
         this.canvasView = new CanvasView(this,graph);
-        this.sourceView = new SourceView(this, graph);
-        this.menuView = new MenuView(this, graph);
+        this.sourceView = new SourceView(this, graph, path);
+        this.menuView = new MenuView(this, graph, path);
 
         this.controller = new EditorController(this, graph);
+
+        this.graph.replace(this.graph);//update du tikZ text
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.render();

@@ -38,6 +38,16 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         notifyObservers();
     }
 
+    public void add(TikzEdge edge){
+        this.add(edge.getFirstNode());
+        this.add(edge.getSecondNode());
+        if(!this.edges.contains(edge)){
+            this.edges.add(edge);
+            setChanged();
+        }
+        notifyObservers();
+    }
+
     /**
      * @param keyNode tikzNode to append a vector of TikzEdge
      * @param values Vector of TikzEdge to append
@@ -46,16 +56,6 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
     public void addAll(Collection<TikzEdge> edges){
         for (TikzEdge edge:edges) {
             this.add(edge);
-        }
-        notifyObservers();
-    }
-
-    public void add(TikzEdge edge){
-        this.add(edge.getFirstNode());
-        this.add(edge.getSecondNode());
-        if(!this.edges.contains(edge)){
-            this.edges.add(edge);
-            setChanged();
         }
         notifyObservers();
     }

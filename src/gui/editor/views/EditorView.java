@@ -14,10 +14,15 @@ public class EditorView extends JFrame{
     private CanvasView canvasView;
     private SourceView sourceView;
     private MenuView menuView;
+    private String path;
 
     private EditorController controller;
 
     public EditorView(){
+        this(new TikzGraph());
+    }
+
+    public EditorView(String filePath){
         this(new TikzGraph());
     }
 

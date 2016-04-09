@@ -49,9 +49,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
     }
 
     /**
-     * @param keyNode tikzNode to append a vector of TikzEdge
-     * @param values Vector of TikzEdge to append
-     * @return true if new mapping, else false
+     * @param edges Vector of TikzEdge to append
      */
     public void addAll(Collection<TikzEdge> edges){
         for (TikzEdge edge:edges) {
@@ -107,6 +105,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
                 i--;
             }
         }
+        nodes.remove(node);
         return edges;
     }
 }

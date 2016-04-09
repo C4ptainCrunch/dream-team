@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -106,25 +107,39 @@ public class TikzGraphTest {
             edges.add(new TikzDirectedEdge(node1,node2));
         }
         graph.addAll(edges);
-        for (int i = edges.size()-1; i >= 0 ; i--) {
-            edges.remove(i);
-            assertArrayEquals(graph.get(node).toArray(), edges.toArray());
+        while (!edges.isEmpty()){
+            TikzEdge edge = edges.remove(0);
+            edges.remove(edge);
+            graph.remove(edge);
+            assertArrayEquals(graph.getEdges().toArray(), edges.toArray());
         }
+        assertEquals(graph.get(node).toArray().length, 0);
     }
 
     @Test
     public void testRemove2() throws Exception {
-        TikzNode node = new TikzRectangle();
-        List<TikzEdge> edges = new ArrayList<TikzEdge>();
+        TikzNode node1 = new TikzRectangle();
+        List<TikzEdge> edges1 = new ArrayList<TikzEdge>();
         for (int i = 0; i < 5; i++) {
-            TikzNode node1 = new TikzRectangle();
-            TikzNode node2 = new TikzCircle();
-            edges.add(new TikzDirectedEdge(node1,node2));
+            TikzNode nodetmp = new TikzCircle();
+            edges1.add(new TikzDirectedEdge(node1,nodetmp));
         }
-        graph.addAll(edges);
-        for (int i = edges.size()-1; i >= 0 ; i--) {
-            edges.remove(i);
-            assertArrayEquals(graph.get(node).toArray(), edges.toArray());
+        graph.addAll(edges1);
+        assertArrayEquals(graph.get(node1).toArray(), edges1.toArray());
+
+        TikzNode node2 = new TikzRectangle();
+        List<TikzEdge> edges2 = new ArrayList<TikzEdge>();
+        for (int i = 0; i < 5; i++) {
+            TikzNode nodetmp = new TikzCircle();
+            edges2.add(new TikzDirectedEdge(node2,nodetmp));
         }
+        graph.addAll(edges2);
+        assertArrayEquals(graph.get(node2).toArray(), edges2.toArray());
+
+        graph.remove(node1);
+        assert graph.getNodes().contains(node2);
+        assert !graph.getNodes().contains(node1);
+        assertArrayEquals(graph.getEdges().toArray(), edges2.toArray());
+
     }
 }

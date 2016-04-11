@@ -55,6 +55,6 @@ public class EditorView extends JFrame{
     }
 
     public HashMap<String, Object> getCurrentToolProperties(){
-        return this.toolView.getProperties();
+        return null;
     }
 }

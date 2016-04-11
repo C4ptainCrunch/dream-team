@@ -7,7 +7,7 @@ import javax.swing.*;
 import static constants.GUI.Text.*;
 import models.TikzGraph;
 import gui.editor.controllers.EditorController;
-import gui.editor.toolbox.views.ToolView;
+import gui.editor.toolbox.views.ToolBoxView;
 
 public class EditorView extends JFrame{
     private TikzGraph graph;
@@ -15,7 +15,7 @@ public class EditorView extends JFrame{
     private CanvasView canvasView;
     private SourceView sourceView;
     private MenuView menuView;
-    private ToolView toolView;
+    private ToolBoxView toolBoxView;
 
     private EditorController controller;
 
@@ -29,7 +29,7 @@ public class EditorView extends JFrame{
         this.canvasView = new CanvasView(this,graph);
         this.sourceView = new SourceView(this, graph);
         this.menuView = new MenuView(this, graph);
-        this.toolView = new ToolView();
+        this.toolBoxView = new ToolBoxView();
 
         this.controller = new EditorController(this, graph);
 
@@ -47,7 +47,7 @@ public class EditorView extends JFrame{
         Container pane = getContentPane();
         pane.setLayout(new BorderLayout());
 
-        pane.add(this.toolView, BorderLayout.WEST);
+        pane.add(this.toolBoxView, BorderLayout.WEST);
         pane.add(this.canvasView, BorderLayout.CENTER);
         pane.add(this.sourceView, BorderLayout.EAST);
 

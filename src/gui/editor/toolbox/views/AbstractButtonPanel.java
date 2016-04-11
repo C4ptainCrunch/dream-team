@@ -28,7 +28,6 @@ public abstract class AbstractButtonPanel extends JPanel{
         HashMap<String, AbstractButtonPanel> options = this.getOptions();
         for (String name: options.keySet()) {
             AbstractButtonPanel panel = options.get(name);
-
             JToggleButton button = new JToggleButton(name);
             this.add(button);
             this.buttonGroup.add(button);
@@ -48,14 +47,14 @@ public abstract class AbstractButtonPanel extends JPanel{
             System.out.println("Showing " + currentTool.getText() + " panel");
         }
         else {
-            if(this.getDelfaultPanel() != null) {
-                this.contentPanel.add(this.getDelfaultPanel());
+            if(this.getDefaultPanel() != null) {
+                this.contentPanel.add(this.getDefaultPanel());
             }
         }
         this.revalidate();
     }
 
-    abstract AbstractButtonPanel getDelfaultPanel();
+    abstract AbstractButtonPanel getDefaultPanel();
 
     public JToggleButton getCurrentTool() {
         for (JToggleButton button: this.buttons_panels.keySet()) {

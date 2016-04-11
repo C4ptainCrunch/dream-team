@@ -11,7 +11,7 @@ public class TextPanel extends AbstractButtonPanel {
     }
 
     @Override
-    AbstractButtonPanel getDelfaultPanel() {
+    AbstractButtonPanel getDefaultPanel() {
         return null;
     }
 

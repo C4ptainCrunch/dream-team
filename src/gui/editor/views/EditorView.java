@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.HashMap;
 
 import javax.swing.*;
-
+import static constants.GUI.Text.*;
 import models.TikzGraph;
 import gui.editor.controllers.EditorController;
 import gui.editor.toolbox.views.ToolView;
@@ -39,17 +39,17 @@ public class EditorView extends JFrame{
     }
 
     public void render(){
-        this.setTitle("CreaTikZ");
+        this.setTitle(APP_NAME);
 
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         this.setLocationRelativeTo(null);
 
         Container pane = getContentPane();
-        pane.setLayout(new GridLayout(1,3));
+        pane.setLayout(new BorderLayout());
 
-        pane.add(this.toolView);
-        pane.add(this.canvasView);
-        pane.add(this.sourceView);
+        pane.add(this.toolView, BorderLayout.WEST);
+        pane.add(this.canvasView, BorderLayout.CENTER);
+        pane.add(this.sourceView, BorderLayout.EAST);
 
         this.setJMenuBar(menuView);
     }

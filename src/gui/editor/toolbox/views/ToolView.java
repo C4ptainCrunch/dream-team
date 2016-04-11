@@ -9,7 +9,7 @@ import gui.editor.toolbox.controllers.ToolController;
 
 public class ToolView extends AbstractButtonPanel {
     @Override
-    AbstractButtonPanel getDelfaultPanel() {
+    AbstractButtonPanel getDefaultPanel() {
         TextPanel panel = new TextPanel("Choose a tool");
         return panel;
     }

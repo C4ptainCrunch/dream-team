@@ -9,7 +9,7 @@ import gui.editor.toolbox.controllers.ShapeToolController;
 
 public class ShapeToolView extends AbstractButtonPanel {
     @Override
-    AbstractButtonPanel getDelfaultPanel() {
+    AbstractButtonPanel getDefaultPanel() {
         TextPanel panel = new TextPanel("Choose a shape");
         return panel;
     }

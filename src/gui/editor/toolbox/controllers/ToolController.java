@@ -7,9 +7,7 @@ import gui.editor.toolbox.views.ToolView;
 public class ToolController extends AbstractButtonPanelController {
 
 
-    public ToolController(ToolView view) {
-        super(view);
-    }
+    public ToolController(ToolView view) { super(view); }
 
     @Override
     public void buttonClicked(JToggleButton button) {

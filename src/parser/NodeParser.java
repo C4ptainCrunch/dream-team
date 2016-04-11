@@ -87,7 +87,7 @@ public class NodeParser {
                     for (DestructuredNode destructuredNode : restNode) {
                         current = createNode(defaultOptions, destructuredNode);
                         graph.add(current);
-                        graph.add(previous, new TikzUndirectedEdge(previous,
+                        graph.add(new TikzUndirectedEdge(previous,
                                 current)); /* TODO: parsing edges */
                         previous = current;
                     }
@@ -189,7 +189,7 @@ public class NodeParser {
                             break;
                         }
                         graph.add(current);
-                        graph.add(previous, edge);
+                        graph.add(edge);
                         previous = current;
                     }
                     return null;

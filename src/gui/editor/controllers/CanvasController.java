@@ -27,7 +27,7 @@ public class CanvasController implements Observer{
     public void mousePressed(MouseEvent e) {
         if(view.getIsFocused()){
             TikzNode nodeR2 = new TikzCircle();
-            nodeR2.setLabel("Demo Label " + graph.getAll().size());
+            nodeR2.setLabel("Demo Label " + graph.size());
             nodeR2.setPosition(e.getPoint());
             graph.add(nodeR2);
         }

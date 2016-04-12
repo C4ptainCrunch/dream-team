@@ -34,6 +34,13 @@ public class TikzTriangle extends TikzShape {
         setSideC(sides[2]);
     }
 
+    public void setEquilateral(int length){
+
+        setSideA(length);
+        setSideB(length);
+        setSideC(length);
+    }
+
     public void setSideA(int sideA){
         this.sideA = sideA;
     }

@@ -13,7 +13,7 @@ public class ToolView extends JPanel {
 
     private JTabbedPane tabbedSelector;
     private Selector nodeSelector;
-    private JPanel edgeSelector;
+    private Selector edgeSelector;
     private JPanel attributesSelector;
     private JPanel preview;
 
@@ -29,11 +29,16 @@ public class ToolView extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
+    private void setSelectorDimension(Selector selector){
+        selector.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/3));
+    }
+
     private void initSelectors(){
         tabbedSelector = new JTabbedPane();
-        nodeSelector = new Selector();
-        nodeSelector.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/3));
-        edgeSelector = new JPanel();
+        nodeSelector = new Selector(3);
+        edgeSelector = new Selector(2);
+        setSelectorDimension(nodeSelector);
+        setSelectorDimension(edgeSelector);
         attributesSelector = new JPanel();
         preview = new JPanel();
         tabbedSelector.addTab(NODE_TAB, nodeSelector);

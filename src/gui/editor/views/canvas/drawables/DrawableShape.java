@@ -1,6 +1,7 @@
 package gui.editor.views.canvas.drawables;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import javax.swing.JPanel;
 
 public class DrawableShape implements Drawable{
     private Shape shape;
@@ -43,6 +44,13 @@ public class DrawableShape implements Drawable{
     public void translate(Point translation){
         AffineTransform transform = new AffineTransform(
                 1, 0, 0, 1, translation.getX(), translation.getY()
+        );
+        this.shape = transform.createTransformedShape(this.shape);
+    }
+
+    public void translate(Point tikz_position, JPanel container){
+        AffineTransform transform = new AffineTransform(
+                1, 0, 0, 1, tikz_position.getX()+(container.getWidth()/2), tikz_position.getY()+(container.getHeight()/2)
         );
         this.shape = transform.createTransformedShape(this.shape);
     }

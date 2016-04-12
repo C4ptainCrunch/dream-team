@@ -1,4 +1,5 @@
 package gui.editor.views.canvas.drawables;
+import javax.swing.JPanel;
 import java.awt.*;
 
 public class DrawableText implements Drawable{
@@ -17,5 +18,9 @@ public class DrawableText implements Drawable{
 
     public void translate(Point translation){
         this.position.translate((int) translation.getX(), (int) translation.getY());
+    }
+
+    public void translate(Point tikz_position, JPanel container){
+
     }
 }

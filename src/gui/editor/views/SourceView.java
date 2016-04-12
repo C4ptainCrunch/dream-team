@@ -12,6 +12,8 @@ import models.TikzGraph;
 import gui.editor.controllers.SourceController;
 
 public class SourceView extends JPanel{
+    private static final int TEXT_AREA_WIDTH = 300;
+
     private TikzGraph graph;
     private JTextArea textArea;
     private SourceController controller;
@@ -24,6 +26,7 @@ public class SourceView extends JPanel{
 
         this.controller = new SourceController(this, graph);
         this.textArea = new JTextArea();
+        this.setPreferredSize(new Dimension(TEXT_AREA_WIDTH, this.getHeight()));
 
         this.addListeners();
         this.render();

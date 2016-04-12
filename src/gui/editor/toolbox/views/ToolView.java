@@ -15,8 +15,15 @@ public class ToolView extends JPanel {
     private JPanel preview;
 
     public ToolView(){
+        initLayout();
         initSelectors();
+        addSelectors();
+        drawNodeOptions();
 
+    }
+
+    private void initLayout(){
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
     private void initSelectors(){
@@ -31,11 +38,19 @@ public class ToolView extends JPanel {
         nodeSelector.add(txt);
         JLabel txt2 = new JLabel("Hello");
         edgeSelector.add(txt2);
+        tabbedSelector.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
+    }
+
+    private void addSelectors(){
         this.add(tabbedSelector);
-        this.add(nodeSelector);
-        this.add(edgeSelector);
+        tabbedSelector.addTab(NODE_TAB, nodeSelector);
+        tabbedSelector.addTab(EDGE_TAB, edgeSelector);
         this.add(attributesSelector);
         this.add(preview);
+    }
+
+    private void drawNodeOptions(){
+
     }
 
 

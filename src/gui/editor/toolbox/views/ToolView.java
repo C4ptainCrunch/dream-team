@@ -1,7 +1,10 @@
 package gui.editor.toolbox.views;
 
 
+import gui.editor.toolbox.Selector;
+
 import javax.swing.*;
+import java.awt.*;
 
 public class ToolView extends JPanel {
 
@@ -9,7 +12,7 @@ public class ToolView extends JPanel {
     private static final String EDGE_TAB = "Edge";
 
     private JTabbedPane tabbedSelector;
-    private JPanel nodeSelector;
+    private Selector nodeSelector;
     private JPanel edgeSelector;
     private JPanel attributesSelector;
     private JPanel preview;
@@ -28,16 +31,13 @@ public class ToolView extends JPanel {
 
     private void initSelectors(){
         tabbedSelector = new JTabbedPane();
-        nodeSelector = new JPanel();
+        nodeSelector = new Selector();
+        nodeSelector.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/3));
         edgeSelector = new JPanel();
         attributesSelector = new JPanel();
         preview = new JPanel();
         tabbedSelector.addTab(NODE_TAB, nodeSelector);
         tabbedSelector.addTab(EDGE_TAB, edgeSelector);
-        JLabel txt = new JLabel("Bonjour");
-        nodeSelector.add(txt);
-        JLabel txt2 = new JLabel("Hello");
-        edgeSelector.add(txt2);
         tabbedSelector.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
     }
 

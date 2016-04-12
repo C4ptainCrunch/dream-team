@@ -20,13 +20,6 @@ public class ProjectManagementView extends JFrame implements ActionListener {
         this.setTitle("Project");
 
         initButtonsPanel();
-
-        /*
-        bv.setOpaque(true);
-        this.setContentPane(bv);
-        this.pack();
-        this.setVisible(true);
-        */
     }
 
     private void initButtonsPanel(){

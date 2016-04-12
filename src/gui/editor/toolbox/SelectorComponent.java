@@ -13,19 +13,27 @@ public class SelectorComponent extends JPanel {
 
     private Drawer drawer;
     private TikzNode component;
+    private SelectorComponentListener listener;
 
-    public SelectorComponent(Drawer d, TikzNode comp){
+    public SelectorComponent(Drawer d, TikzNode comp, SelectorComponentListener lis){
         drawer = d;
         component = comp;
+        listener = lis;
 
-        initListener();
+        initMouseListener();
     }
 
-    private void initListener(){
+    public interface SelectorComponentListener{
+        void componentSelected(Drawer draw);
+    }
+
+    private void initMouseListener(){
         this.addMouseListener(new MouseInputAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-                if(SwingUtilities.isLeftMouseButton())
+                if(SwingUtilities.isLeftMouseButton(mouseEvent)){
+                    listener.componentSelected(drawer);
+                }
             }
         });
     }

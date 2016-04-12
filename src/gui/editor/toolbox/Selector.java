@@ -1,26 +1,28 @@
 package gui.editor.toolbox;
 
+import gui.editor.views.canvas.drawers.Drawer;
+
 import javax.swing.*;
 import java.awt.*;
-import gui.editor.views.canvas.drawers.CircleDrawer;
-import gui.editor.views.canvas.drawers.RectangleDrawer;
-import gui.editor.views.canvas.drawers.TriangleDrawer;
-import models.TikzCircle;
-import models.TikzRectangle;
-import models.TikzTriangle;
 
 /**
  * Created by aurelien on 12/04/16.
  */
-public class Selector extends JPanel {
+public class Selector extends JPanel implements SelectorComponent.SelectorComponentListener {
     private JScrollPane scrollzone;
     private JPanel options;
+    private SelectorListener listener;
 
-    public Selector() {
+    public Selector(SelectorListener lis) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         options = new JPanel(new GridLayout(1, 0));
         scrollzone = new JScrollPane(options);
+        listener = lis;
         this.add(scrollzone);
+    }
+
+    public interface SelectorListener{
+        void componentSelected(Drawer drawer);
     }
 
     protected void addComponent(SelectorComponent comp){
@@ -29,5 +31,11 @@ public class Selector extends JPanel {
 
     public void setComponentNbr(int nbr){
         ((GridLayout)options.getLayout()).setRows(nbr);
+    }
+
+    @Override
+    public void componentSelected(Drawer drawer){
+        listener.componentSelected(drawer);
+
     }
 }

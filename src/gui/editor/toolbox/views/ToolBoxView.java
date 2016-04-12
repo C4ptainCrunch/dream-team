@@ -2,6 +2,7 @@ package gui.editor.toolbox.views;
 
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 
 public class ToolBoxView extends JPanel {
@@ -14,6 +15,7 @@ public class ToolBoxView extends JPanel {
     public ToolBoxView(){
         creator = new ToolView();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBorder(new BevelBorder(BevelBorder.RAISED));
         this.add(creator);
         this.setPreferredSize(new Dimension(BOX_WIDTH, this.getHeight()));
     }

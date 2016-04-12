@@ -1,6 +1,6 @@
 package gui.editor.toolbox.views;
 
-
+import gui.editor.toolbox.AttributesChooser;
 import gui.editor.toolbox.Selector;
 
 import javax.swing.*;
@@ -8,18 +8,21 @@ import java.awt.*;
 
 public class ToolView extends JPanel {
 
+    private static final int TOOL_SIZE = 3;
+
     private static final String NODE_TAB = "Node";
     private static final String EDGE_TAB = "Edge";
 
     private JTabbedPane tabbedSelector;
     private Selector nodeSelector;
     private Selector edgeSelector;
-    private JPanel attributesSelector;
-    private JPanel preview;
+    private AttributesChooser attributesChooser;
+    private Preview preview;
 
     public ToolView(){
         initLayout();
         initSelectors();
+        setPanelsDimension();
         addSelectors();
         drawNodeOptions();
 
@@ -29,18 +32,23 @@ public class ToolView extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
-    private void setSelectorDimension(Selector selector){
-        selector.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/3));
+    private void setPanelDimension(JPanel pan){
+        pan.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/TOOL_SIZE));
+    }
+
+    private void setPanelsDimension(){
+        setPanelDimension(nodeSelector);
+        setPanelDimension(edgeSelector);
+        setPanelDimension(attributesChooser);
+        preview.setMinimumSize(new Dimension(this.getWidth(), this.getHeight()/TOOL_SIZE));
     }
 
     private void initSelectors(){
         tabbedSelector = new JTabbedPane();
         nodeSelector = new Selector(3);
         edgeSelector = new Selector(2);
-        setSelectorDimension(nodeSelector);
-        setSelectorDimension(edgeSelector);
-        attributesSelector = new JPanel();
-        preview = new JPanel();
+        attributesChooser = new AttributesChooser();
+        preview = new Preview();
         tabbedSelector.addTab(NODE_TAB, nodeSelector);
         tabbedSelector.addTab(EDGE_TAB, edgeSelector);
         tabbedSelector.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
@@ -50,7 +58,7 @@ public class ToolView extends JPanel {
         this.add(tabbedSelector);
         tabbedSelector.addTab(NODE_TAB, nodeSelector);
         tabbedSelector.addTab(EDGE_TAB, edgeSelector);
-        this.add(attributesSelector);
+        this.add(attributesChooser);
         this.add(preview);
     }
 

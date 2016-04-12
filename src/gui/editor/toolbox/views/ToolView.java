@@ -1,6 +1,8 @@
 package gui.editor.toolbox.views;
 
 import gui.editor.toolbox.AttributesChooser;
+import gui.editor.toolbox.EdgeSelector;
+import gui.editor.toolbox.NodeSelector;
 import gui.editor.toolbox.Selector;
 
 import javax.swing.*;
@@ -45,8 +47,8 @@ public class ToolView extends JPanel {
 
     private void initSelectors(){
         tabbedSelector = new JTabbedPane();
-        nodeSelector = new Selector(3);
-        edgeSelector = new Selector(2);
+        nodeSelector = new NodeSelector();
+        edgeSelector = new EdgeSelector();
         attributesChooser = new AttributesChooser();
         preview = new Preview();
         tabbedSelector.addTab(NODE_TAB, nodeSelector);

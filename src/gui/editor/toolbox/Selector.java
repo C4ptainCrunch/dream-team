@@ -18,7 +18,7 @@ public class Selector extends JPanel {
 
     public Selector() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        options = new JPanel(new GridLayout(0, 0));
+        options = new JPanel(new GridLayout(1, 0));
         scrollzone = new JScrollPane(options);
         this.add(scrollzone);
     }

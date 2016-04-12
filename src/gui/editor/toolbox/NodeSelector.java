@@ -12,7 +12,7 @@ import models.TikzTriangle;
  */
 public class NodeSelector extends Selector {
     private static final int SHAPE_SIZE = 100;
-    NodeSelector(){
+    public NodeSelector(){
         super();
         this.setComponentNbr(3);
         this.initComponents();

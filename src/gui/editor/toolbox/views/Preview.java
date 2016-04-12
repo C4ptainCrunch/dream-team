@@ -2,6 +2,7 @@ package gui.editor.toolbox.views;
 
 
 import javax.swing.JPanel;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 
 /**
@@ -9,7 +10,10 @@ import java.awt.*;
  */
 public class Preview extends JPanel {
 
+
     public Preview(){
+        this.setBackground(Color.WHITE);
+        this.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 
     }
 

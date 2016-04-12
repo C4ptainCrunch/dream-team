@@ -40,7 +40,7 @@ public class ToolView extends JPanel {
         setPanelDimension(nodeSelector);
         setPanelDimension(edgeSelector);
         setPanelDimension(attributesChooser);
-        preview.setMinimumSize(new Dimension(this.getWidth(), this.getHeight()/TOOL_SIZE));
+        setPanelDimension(preview);
     }
 
     private void initSelectors(){

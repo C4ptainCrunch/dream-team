@@ -45,7 +45,7 @@ public class MenuController implements Observer {
 
     public void compileAndOpen(){
         try {
-            PdfRenderer.compileAndOpen(new File("/home/acaccia/lol.pdf"), graph);
+            PdfRenderer.compileAndOpen(new File(view.getPath() + "/tikz.pdf"), graph);
         }
         catch (PdfCompilationError e){
             showMessageDialog(null, "Error during compilation");

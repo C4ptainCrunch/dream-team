@@ -39,11 +39,9 @@ public class TriangleDrawer extends ComponentDrawer {
         double a = comp.getSideA();
         double b = comp.getSideB();
         double c = comp.getSideC();
-
-        angles[0] = Math.acos((-Math.pow(c,2)+Math.pow(a, 2)+Math.pow(b,2))/(2*a*b));
-        angles[1] = Math.acos((-Math.pow(a,2)+Math.pow(b, 2)+Math.pow(c,2))/(2*b*c));
-        angles[2] = Math.acos((-Math.pow(b,2)+Math.pow(a, 2)+Math.pow(c,2))/(2*a*c));
-
+        angles[0] = Math.acos((-Math.pow(a,2)+Math.pow(b, 2)+Math.pow(c,2))/(2*b*c));
+        angles[1] = Math.acos((-Math.pow(b,2)+Math.pow(a, 2)+Math.pow(c,2))/(2*a*c));
+        angles[2] = Math.acos((-Math.pow(c,2)+Math.pow(a, 2)+Math.pow(b,2))/(2*a*b));
         return angles;
     }
 
@@ -55,12 +53,11 @@ public class TriangleDrawer extends ComponentDrawer {
         int[] sides = ((TikzTriangle) component).getSides();
         double[] angles = getAngles((TikzTriangle) component);
         x[0] = 0;
-        y[0] = 0;
-
-        for (int i = 1; i < 3; i++) {
-            x[i] = sides[i] + (int) (Math.cos(i * angles[i]) * sides[i]);
-            y[i] = sides[i] + (int) (Math.sin(i * angles[i]) * sides[i]);
-        }
+        y[0] = (int)(Math.sin(angles[1])*sides[1]);
+        x[1] = sides[0];
+        y[1] = (int)(Math.sin(angles[1])*sides[1]);;
+        x[2] = (int)(Math.cos(angles[0])*sides[2]);
+        y[2] = 0;
         Polygon p = new Polygon(x, y, 3);
         return p;
     }

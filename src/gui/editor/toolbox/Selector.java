@@ -49,9 +49,8 @@ public class Selector extends JPanel {
     }
 
     private void addTriangle(){
-
         TikzTriangle triangle = new TikzTriangle();
-        triangle.setEquilateral(SHAPE_SIZE/2);
+        triangle.setEquilateral(SHAPE_SIZE);
         triangle_panel = new SelectorComponent(new TriangleDrawer(triangle), triangle);
         options.add(triangle_panel);
     }

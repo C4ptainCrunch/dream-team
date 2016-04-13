@@ -16,8 +16,6 @@ public class PolygonDrawer extends ComponentDrawer{
         TikzPolygon polygon = (TikzPolygon)component;
         DrawableTikzComponent drawableComponent = super.toDrawable(polygon);
         drawableComponent.addShape(getAwtPolygon(polygon));
-        drawableComponent.setStroke(new BasicStroke(2));
-        drawableComponent.setColor(polygon.getColor());
         drawableComponent.setBackground(polygon.getBackground());
         return drawableComponent;
     }

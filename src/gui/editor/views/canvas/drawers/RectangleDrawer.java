@@ -17,8 +17,6 @@ public class RectangleDrawer extends ComponentDrawer {
         TikzRectangle rectangle = (TikzRectangle)component;
         DrawableTikzComponent drawableComponent = super.toDrawable(rectangle);
         drawableComponent.addShape( new Rectangle(rectangle.getWidth(), rectangle.getLength()));
-        drawableComponent.setStroke(new BasicStroke(2));
-        drawableComponent.setColor(rectangle.getColor());
         drawableComponent.setBackground(rectangle.getBackground());
         return drawableComponent;
 

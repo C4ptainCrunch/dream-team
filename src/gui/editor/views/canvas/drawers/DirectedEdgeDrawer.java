@@ -2,11 +2,13 @@ package gui.editor.views.canvas.drawers;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.util.Vector;
 
 import models.TikzDirectedEdge;
 import gui.editor.views.canvas.drawables.Drawable;
 import gui.editor.views.canvas.drawables.DrawableShape;
+import static constants.GUI.Config.*;
 
 public class DirectedEdgeDrawer extends EdgeDrawer {
     public DirectedEdgeDrawer(TikzDirectedEdge component) {
@@ -18,23 +20,37 @@ public class DirectedEdgeDrawer extends EdgeDrawer {
 
         Point start = this.getComponent().getFromPosition();
         Point end = this.getComponent().getToPosition();
+        double eucDist = Math.sqrt(Math.pow(end.getX() - start.getX(), 2) + Math.pow(end.getY() - start.getY(), 2));
+        double alpha = Math.asin(end.getY()/eucDist);
+        double beta = alpha - ARROW_ANGLE;
+        double gamma = Math.PI/2 - alpha - ARROW_ANGLE;
 
-        Point center = new Point(
-                (int) (start.getX() + end.getX()) / 2,
-                (int) (start.getY() + end.getY()) / 2
-        );
-
-        Drawable shape = new DrawableShape(
-                new Ellipse2D.Float((float) center.getX(), (float)  center.getY(), 10, 10),
+        // First arrow head segment.
+        double firstDeltaX = Math.cos(beta)*ARROW_LENGTH;
+        double firstDeltaY = Math.sin(beta)*ARROW_LENGTH;
+        Drawable firstHeadSegment = new DrawableShape(
+                new Line2D.Float(end, new Point((int) (end.getX() + firstDeltaX), (int)(end.getY() + firstDeltaY))),
                 new BasicStroke(2),
                 this.getComponent().getColor(),
-                this.getComponent().getColor(),
-                true
+                this.getComponent().getColor()
         );
-        vec.add(shape);
+
+        // Second arrow head segment.
+        double secondDeltaX = Math.sin(gamma)*ARROW_LENGTH;
+        double secondDeltaY = Math.cos(gamma)*ARROW_LENGTH;
+        Drawable secondHeadSegment = new DrawableShape(
+                new Line2D.Float(end, new Point((int) (end.getX() + secondDeltaX), (int)(end.getY() + secondDeltaY))),
+                new BasicStroke(2),
+                this.getComponent().getColor(),
+                this.getComponent().getColor()
+        );
+
+        vec.add(firstHeadSegment);
+        vec.add(secondHeadSegment);
 
         return vec;
     }
+
 
     public TikzDirectedEdge getComponent(){
         return (TikzDirectedEdge) super.getComponent();

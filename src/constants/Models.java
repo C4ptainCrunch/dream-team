@@ -15,6 +15,7 @@ public final class Models {
         public static final int LENGTH = 100;
         public static final int SIDES = 3;
         public static final Color BACKGROUND_COLOR = Color.white;
+        public static final int EDGE_X_LENGTH = 100;
     }
 
 }

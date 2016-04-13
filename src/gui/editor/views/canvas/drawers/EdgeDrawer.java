@@ -20,7 +20,7 @@ public abstract class EdgeDrawer extends ComponentDrawer {
     }
 
     public Vector<Drawable> toDrawable(){
-        return toDrawable(this.getComponent().getFirstNode().getPosition(), this.getComponent().getSecondNode().getPosition());
+        return toDrawable(this.getComponent().getFromPosition(), this.getComponent().getToPosition());
     }
 
     public Vector<Drawable> toDrawable(Point start, Point end){

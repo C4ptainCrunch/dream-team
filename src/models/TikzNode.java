@@ -1,6 +1,6 @@
 package models;
 
-import java.awt.*;
+import java.awt.Point;
 
 import constants.Models;
 

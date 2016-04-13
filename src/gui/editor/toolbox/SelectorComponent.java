@@ -3,6 +3,7 @@ package gui.editor.toolbox;
 import gui.editor.views.canvas.drawables.Drawable;
 import gui.editor.views.canvas.drawers.Drawer;
 import models.TikzComponent;
+import models.TikzEdge;
 import models.TikzNode;
 
 import javax.swing.*;
@@ -46,6 +47,11 @@ public class SelectorComponent extends JPanel {
         for (Drawable drawable: drawer.toDrawable()){
             if(component instanceof TikzNode){
                 drawable.translate(new Point(((TikzNode)component).getPosition()), this);
+            }
+            else if(component instanceof TikzEdge){
+                Point midEdge = ((TikzEdge)component).getPosition();
+                midEdge.setLocation(-midEdge.getX(), midEdge.getY());
+                drawable.translate(new Point(midEdge), this);
             }
             drawable.draw((Graphics2D)(g));
         }

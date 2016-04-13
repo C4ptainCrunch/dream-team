@@ -3,7 +3,9 @@ package gui.editor.toolbox.views;
 
 import gui.editor.drag.TikzTransferHandler;
 import gui.editor.views.canvas.drawables.Drawable;
+import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import gui.editor.views.canvas.drawers.ComponentDrawer;
+import gui.editor.views.canvas.drawers.Drawer;
 import models.TikzComponent;
 
 import javax.swing.*;
@@ -35,11 +37,18 @@ public class Preview extends JPanel {
         });
     }
 
+    public void setComponent(TikzComponent component){
+        this.component = component;
+    }
+
     public TikzComponent getComponent() {return component;}
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-
-
+        if(component != null) {
+            DrawableTikzComponent drawable = Drawer.toDrawable(component);
+            drawable.tikz2swing(this);
+            drawable.draw((Graphics2D) g);
+        }
     }
 }

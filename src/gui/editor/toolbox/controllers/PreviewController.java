@@ -2,6 +2,7 @@ package gui.editor.toolbox.controllers;
 
 import gui.editor.toolbox.views.Preview;
 import gui.editor.views.canvas.drawers.ComponentDrawer;
+import models.TikzComponent;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -19,6 +20,7 @@ public class PreviewController implements Observer {
 
     @Override
     public void update(Observable o, Object obj){
+        view.setComponent((TikzComponent)obj);
         view.repaint();
     }
 }

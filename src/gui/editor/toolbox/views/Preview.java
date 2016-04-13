@@ -16,31 +16,13 @@ import java.awt.event.MouseEvent;
  * Created by aurelien on 12/04/16.
  */
 public class Preview extends JPanel {
-<<<<<<< HEAD
-||||||| merged common ancestors
-
-    private Drawer drawer;
-
-
-=======
-
-    private ComponentDrawer drawer;
-
-
->>>>>>> 892a9086c0bf0311b0e053e3b289df4b7021c8d5
+    TikzComponent component;
     public Preview(){
         this.setBackground(Color.WHITE);
         this.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
         enableDrag();
     }
 
-<<<<<<< HEAD
-||||||| merged common ancestors
-    public void setDrawer(Drawer d){
-        drawer = d;
-    }
-
-=======
     private void enableDrag(){
         this.setTransferHandler(new TikzTransferHandler());
         this.addMouseListener(new MouseAdapter() {
@@ -53,24 +35,11 @@ public class Preview extends JPanel {
         });
     }
 
-    public void setDrawer(ComponentDrawer d){
-        drawer = d;
-    }
+    public TikzComponent getComponent() {return component;}
 
->>>>>>> 892a9086c0bf0311b0e053e3b289df4b7021c8d5
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
 
     }
-
-    public ComponentDrawer getComponentDrawer(){
-        return drawer;
-    }
-
-    public TikzComponent getComponent(){
-        return drawer.getComponent();
-    }
-
-
 }

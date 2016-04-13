@@ -33,9 +33,8 @@ public class CanvasController implements Observer{
         graph.add(node.getClone());
     }
 
-    public void mousePressed(MouseEvent e, ComponentDrawer drawer) {
+    public void mousePressed(MouseEvent e, TikzComponent comp) {
         if(view.getIsFocused()){
-            TikzComponent comp = drawer.getComponent();
             addNodeToModel(comp, e.getPoint());
         }
         else {

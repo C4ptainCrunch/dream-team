@@ -18,13 +18,8 @@ public class SelectorComponent extends JPanel {
     private SelectorComponentListener listener;
 
     public SelectorComponent(TikzComponent comp, SelectorComponentListener lis){
-    public SelectorComponent(Drawer d, TikzComponent comp, SelectorComponentListener lis){
-        drawer = d;
-    public SelectorComponent(ComponentDrawer d, TikzComponent comp, SelectorComponentListener lis){
-        drawer = d;
         component = comp;
         listener = lis;
-
         initMouseListener();
     }
 

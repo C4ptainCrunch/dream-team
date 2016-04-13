@@ -24,17 +24,17 @@ public class NodeSelector extends Selector {
     private void addCircle(){
         TikzCircle circle = new TikzCircle();
         circle.setRadius(SHAPE_SIZE/2);
-        this.addComponent(new SelectorComponent(new CircleDrawer(circle), circle, this));
+        this.addComponent(new SelectorComponent(circle, this));
     }
 
     private void addRectangle(){
         TikzRectangle rectangle = new TikzRectangle(SHAPE_SIZE, SHAPE_SIZE);
-        this.addComponent(new SelectorComponent(new RectangleDrawer(rectangle), rectangle, this));
+        this.addComponent(new SelectorComponent(rectangle, this));
     }
 
     private void addTriangle(){
         TikzTriangle triangle = new TikzTriangle();
         triangle.setEquilateral(SHAPE_SIZE);
-        this.addComponent(new SelectorComponent(new TriangleDrawer(triangle), triangle, this));
+        this.addComponent(new SelectorComponent(triangle, this));
     }
 }

@@ -7,6 +7,7 @@ import javax.swing.*;
 import static constants.GUI.Text.*;
 
 import gui.editor.views.canvas.drawers.ComponentDrawer;
+import models.TikzComponent;
 import models.TikzGraph;
 import gui.editor.controllers.EditorController;
 import gui.editor.toolbox.views.ToolBoxView;
@@ -60,7 +61,7 @@ public class EditorView extends JFrame{
         return null;
     }
 
-    public ComponentDrawer getSelectedTool(){
+    public TikzComponent getSelectedTool(){
         return toolBoxView.getSelectedTool();
     }
 }

@@ -2,6 +2,7 @@ package gui.editor.toolbox.views;
 
 
 import gui.editor.views.canvas.drawers.ComponentDrawer;
+import models.TikzComponent;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -22,7 +23,7 @@ public class ToolBoxView extends JPanel {
         this.setPreferredSize(new Dimension(BOX_WIDTH, this.getHeight()));
     }
 
-    public ComponentDrawer getSelectedTool(){
-        return creator.getComponentDrawer();
+    public TikzComponent getSelectedTool(){
+        return creator.getTikzComponent();
     }
 }

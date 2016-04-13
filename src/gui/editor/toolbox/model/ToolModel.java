@@ -10,18 +10,11 @@ import models.TikzComponent;
  */
 public class ToolModel extends Observable {
 
-    private ComponentDrawer drawer;
     private TikzComponent component;
-
-    public void setDrawer(ComponentDrawer draw){
-        this.drawer = draw;
-        component = draw.getComponent();
-        alertObservers();
-    }
 
     private void alertObservers(){
         this.setChanged();
-        notifyObservers(drawer);
+        notifyObservers(component);
     }
 
     public void setComponentLabel(String label){
@@ -34,12 +27,13 @@ public class ToolModel extends Observable {
         alertObservers();
     }
 
-    public ComponentDrawer getDrawer(){
-        return drawer;
-    }
-
     public TikzComponent getComponent(){
         return component;
+    }
+
+    public void setComponent(TikzComponent component) {
+        this.component = component;
+        alertObservers();
     }
 
 }

@@ -36,8 +36,8 @@ public class Selector extends JPanel implements SelectorComponent.SelectorCompon
     }
 
     @Override
-    public void componentSelected(ComponentDrawer drawer){
-        listener.componentSelected(drawer);
+    public void componentSelected(TikzComponent component){
+        listener.componentSelected(component);
 
     }
 }

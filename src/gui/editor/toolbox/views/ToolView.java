@@ -6,6 +6,7 @@ import gui.editor.toolbox.Selector;
 import gui.editor.toolbox.controllers.PreviewController;
 import gui.editor.toolbox.model.ToolModel;
 import gui.editor.views.canvas.drawers.ComponentDrawer;
+import models.TikzComponent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -76,13 +77,12 @@ public class ToolView extends JPanel implements Selector.SelectorListener {
     }
 
     @Override
-    public void componentSelected(ComponentDrawer drawer){
-        model.setDrawer(drawer);
+    public void componentSelected(TikzComponent component){
+        model.setComponent(component);
     }
 
-    public ComponentDrawer getComponentDrawer(){
-        return preview.getComponentDrawer();
+    public TikzComponent getTikzComponent(){
+        return preview.getComponent();
     }
-
 
 }

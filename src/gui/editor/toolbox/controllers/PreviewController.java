@@ -19,7 +19,6 @@ public class PreviewController implements Observer {
 
     @Override
     public void update(Observable o, Object obj){
-        view.setDrawer((ComponentDrawer) obj);
         view.repaint();
     }
 }

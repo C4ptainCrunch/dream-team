@@ -1,4 +1,7 @@
-package gui.editor.toolbox;
+package gui.editor.toolbox.views;
+
+import gui.editor.toolbox.controllers.AttributesChooserController;
+import gui.editor.toolbox.model.ToolModel;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -6,7 +9,7 @@ import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class AttributesChooser extends JPanel {
+public class AttributesChooserView extends JPanel {
 
     private static final int ATTRIBUTES_NUMBER = 3;
     private static final String COLOR_LABEL = "<HTML><U>Color</U></HTML>";
@@ -19,13 +22,15 @@ public class AttributesChooser extends JPanel {
     private Color chosen_color;
     private JTextField label_field;
     private JTextField stroke_width_field;
+    private AttributesChooserController controller;
 
-    public AttributesChooser(){
+    public AttributesChooserView(ToolModel model){
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         scrollzone = new JScrollPane();
         attributes = new JPanel(new GridLayout(ATTRIBUTES_NUMBER*2, 0));    // times 2 because of the describing labels.
         scrollzone = new JScrollPane(attributes);
         this.add(scrollzone);
+        controller = new AttributesChooserController(this, model);
 
         initColorChooser();
         initLabelField();
@@ -45,12 +50,17 @@ public class AttributesChooser extends JPanel {
             public void mousePressed(MouseEvent e){
                 if(SwingUtilities.isRightMouseButton(e)){}
                 else {
-                    chosen_color = JColorChooser.showDialog(AttributesChooser.this, "Choose Stroke Color",
+                    chosen_color = JColorChooser.showDialog(AttributesChooserView.this, "Choose Stroke Color",
                             color_chooser.getBackground());
                     color_chooser.setBackground(chosen_color);
+                    controller.colorSelected(chosen_color);
                 }
             }
         });
+    }
+
+    private void addLabelListener(){
+        label_field.addActionListener(actionEvent -> { this.controller.labelEntered(label_field.getText());});
     }
 
     private void initColorChooser(){
@@ -66,6 +76,7 @@ public class AttributesChooser extends JPanel {
         addLabel(TITLE_LABEL);
         label_field = new JTextField();
         attributes.add(label_field);
+        addLabelListener();
     }
 
     private void initStrokeField(){

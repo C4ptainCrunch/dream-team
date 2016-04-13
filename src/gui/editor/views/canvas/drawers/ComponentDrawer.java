@@ -16,4 +16,8 @@ public abstract class ComponentDrawer implements TikzDrawer {
         DrawableTikzComponent drawableComponent = new DrawableTikzComponent(component);
         return drawableComponent;
     }
+
+    public TikzComponent getComponent(){
+        return component;
+    }
 }

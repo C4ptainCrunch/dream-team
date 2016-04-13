@@ -23,4 +23,9 @@ public class TikzDirectedEdge extends TikzEdge {
 		return String.format("\\draw[%s] (%.0f, %.0f) -- (%.0f, %.0f)", options, first.getX(), first.getY(),
 				second.getX(), second.getY());
 	}
+
+	@Override
+	public TikzDirectedEdge getClone() {
+		return new TikzDirectedEdge(this);
+	}
 }

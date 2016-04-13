@@ -83,4 +83,15 @@ public class TikzTriangle extends TikzShape {
         int[] sides = {getSideA(), getSideB(), getSideC()};
         return sides;
     }
+
+    @Override
+    public String toString() {
+        String options = String.join(", ", new String[]{"regular polygon"}); //TODO: do this
+        return String.format("\\node[%s](%s) at (%.0f,%.0f){%s}", options, "", getPosition().getX(), getPosition().getY(), getLabel());
+    }
+
+    @Override
+    public TikzTriangle getClone(){
+        return new TikzTriangle(this);
+    }
 }

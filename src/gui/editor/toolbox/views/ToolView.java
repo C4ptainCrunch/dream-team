@@ -1,10 +1,11 @@
 package gui.editor.toolbox.views;
 
-import gui.editor.toolbox.AttributesChooser;
 import gui.editor.toolbox.EdgeSelector;
 import gui.editor.toolbox.NodeSelector;
 import gui.editor.toolbox.Selector;
-import gui.editor.views.canvas.drawers.Drawer;
+import gui.editor.toolbox.controllers.PreviewController;
+import gui.editor.toolbox.model.ToolModel;
+import gui.editor.views.canvas.drawers.ComponentDrawer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,16 +20,17 @@ public class ToolView extends JPanel implements Selector.SelectorListener {
     private JTabbedPane tabbedSelector;
     private Selector nodeSelector;
     private Selector edgeSelector;
-    private AttributesChooser attributesChooser;
+    private AttributesChooserView attributesChooserView;
     private Preview preview;
+    private ToolModel model;
 
     public ToolView(){
         initLayout();
+        initToolModel();
         initSelectors();
         setPanelsDimension();
         addSelectors();
-        drawNodeOptions();
-
+        addObservers();
     }
 
     private void initLayout(){
@@ -42,7 +44,7 @@ public class ToolView extends JPanel implements Selector.SelectorListener {
     private void setPanelsDimension(){
         setPanelDimension(nodeSelector);
         setPanelDimension(edgeSelector);
-        setPanelDimension(attributesChooser);
+        setPanelDimension(attributesChooserView);
         setPanelDimension(preview);
     }
 
@@ -50,7 +52,7 @@ public class ToolView extends JPanel implements Selector.SelectorListener {
         tabbedSelector = new JTabbedPane();
         nodeSelector = new NodeSelector(this);
         edgeSelector = new EdgeSelector(this);
-        attributesChooser = new AttributesChooser();
+        attributesChooserView = new AttributesChooserView(model);
         preview = new Preview();
         tabbedSelector.addTab(NODE_TAB, nodeSelector);
         tabbedSelector.addTab(EDGE_TAB, edgeSelector);
@@ -61,18 +63,25 @@ public class ToolView extends JPanel implements Selector.SelectorListener {
         this.add(tabbedSelector);
         tabbedSelector.addTab(NODE_TAB, nodeSelector);
         tabbedSelector.addTab(EDGE_TAB, edgeSelector);
-        this.add(attributesChooser);
+        this.add(attributesChooserView);
         this.add(preview);
     }
 
-    private void drawNodeOptions(){
+    private void initToolModel(){
+        model = new ToolModel();
+    }
 
+    private void addObservers(){
+        model.addObserver(new PreviewController(preview));
     }
 
     @Override
-    public void componentSelected(Drawer drawer){
-        preview.setDrawer(drawer);
-        preview.repaint();
+    public void componentSelected(ComponentDrawer drawer){
+        model.setDrawer(drawer);
+    }
+
+    public ComponentDrawer getComponentDrawer(){
+        return preview.getComponentDrawer();
     }
 
 

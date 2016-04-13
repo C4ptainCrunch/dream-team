@@ -10,6 +10,7 @@ import java.util.Vector;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
+import gui.editor.drag.TikzTransferHandler;
 import models.*;
 import gui.editor.controllers.CanvasController;
 import gui.editor.views.canvas.drawables.Drawable;
@@ -27,6 +28,7 @@ public class CanvasView extends JPanel{
         this.graph = graph;
         this.controller = new CanvasController(this, graph);
         this.isFocused = isFocusOwner();
+        this.setTransferHandler(new TikzTransferHandler());
 
         this.render();
 
@@ -43,13 +45,10 @@ public class CanvasView extends JPanel{
         this.addMouseListener(new MouseInputAdapter(){
             @Override
             public void mousePressed(MouseEvent e){
-                for (Object o: parentView.getCurrentToolProperties().values()) {
-                    System.out.println((String) o);
-                }
 
                 if(SwingUtilities.isRightMouseButton(e)){}
                 else {
-                    controller.mousePressed(e);
+                    controller.mousePressed(e, parentView.getSelectedTool());
                 }
             }
         });
@@ -101,5 +100,10 @@ public class CanvasView extends JPanel{
 
     public boolean getIsFocused() {
         return isFocused;
+    }
+
+    public void dragEvent(TikzComponent component, Point location){
+        controller.focusGained();
+        controller.mouseDropped(component, location);
     }
 }

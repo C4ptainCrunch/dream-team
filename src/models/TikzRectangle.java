@@ -45,4 +45,9 @@ public class TikzRectangle extends TikzShape {
         String options = String.join(", ", new String[]{"rectangle"}); //TODO: do this
         return String.format("\\node[%s](%s) at (%.0f,%.0f){%s}", options, "", getPosition().getX(), getPosition().getY(), getLabel());
     }
+
+    @Override
+    public TikzRectangle getClone() {
+        return new TikzRectangle(this);
+    }
 }

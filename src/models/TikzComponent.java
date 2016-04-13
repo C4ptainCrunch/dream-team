@@ -37,8 +37,14 @@ public abstract class TikzComponent extends Observable {
     public void setLabel(String label) {
         this.label = label;
     }
+<<<<<<< HEAD
 
     public int getStroke() { return this.stroke; }
 
     public void setStroke(int stroke) {this.stroke = stroke;}
+||||||| merged common ancestors
+=======
+
+    public abstract TikzComponent getClone();
+>>>>>>> 892a9086c0bf0311b0e053e3b289df4b7021c8d5
 }

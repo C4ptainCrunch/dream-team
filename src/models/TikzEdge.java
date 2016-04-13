@@ -50,4 +50,5 @@ public abstract class TikzEdge extends TikzComponent{
     public TikzNode getSecondNode(){
         return secondNode;
     }
+    public abstract TikzEdge getClone();
 }

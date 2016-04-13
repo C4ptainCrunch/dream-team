@@ -20,11 +20,11 @@ public abstract class EdgeDrawer extends ComponentDrawer {
     }
 
     public Vector<Drawable> toDrawable(){
+        return toDrawable(this.getComponent().getFirstNode().getPosition(), this.getComponent().getSecondNode().getPosition());
+    }
+
+    public Vector<Drawable> toDrawable(Point start, Point end){
         Vector<Drawable> vec = super.toDrawable();
-
-        Point start = this.getComponent().getFirstNode().getPosition();
-        Point end = this.getComponent().getSecondNode().getPosition();
-
         Drawable shape = new DrawableShape(
                 new Line2D.Float(start, end),
                 new BasicStroke(2),

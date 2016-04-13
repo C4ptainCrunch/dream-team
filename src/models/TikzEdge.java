@@ -10,6 +10,12 @@ public abstract class TikzEdge extends TikzComponent{
         secondNode = second;
     }
 
+    protected TikzEdge(){
+        super();
+        firstNode = null;
+        secondNode = null;
+    }
+
     public TikzNode getFirstNode(){
         return firstNode;
     }

@@ -6,6 +6,7 @@ public class TikzDirectedEdge extends TikzEdge {
 	public TikzDirectedEdge(TikzNode first, TikzNode second) {
 		super(first, second);
 	}
+	public TikzDirectedEdge() { super(); }
 
 	public TikzNode destination() {
 		return getSecondNode();

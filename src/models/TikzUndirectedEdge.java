@@ -6,6 +6,7 @@ public class TikzUndirectedEdge extends TikzEdge{
     public TikzUndirectedEdge(TikzNode first, TikzNode second) {
         super(first, second);
     }
+    public TikzUndirectedEdge() { super(); }
 
     @Override
     public String toString() {

@@ -2,6 +2,7 @@ package gui.editor.toolbox;
 
 import gui.editor.views.canvas.drawables.Drawable;
 import gui.editor.views.canvas.drawers.Drawer;
+import models.TikzComponent;
 import models.TikzNode;
 
 import javax.swing.*;
@@ -11,9 +12,9 @@ public class SelectorComponent extends JPanel {
 
     private Drawer drawer;
     private int shape_size;
-    private TikzNode component;
+    private TikzComponent component;
 
-    public SelectorComponent(Drawer d, TikzNode comp){
+    public SelectorComponent(Drawer d, TikzComponent comp){
         drawer = d;
         component = comp;
     }
@@ -22,7 +23,9 @@ public class SelectorComponent extends JPanel {
         super.paintComponent(g);
 
         for (Drawable drawable: drawer.toDrawable()){
-            drawable.translate(new Point(component.getPosition()), this);
+            if(component instanceof TikzNode){
+                drawable.translate(new Point(((TikzNode)component).getPosition()), this);
+            }
             drawable.draw((Graphics2D)(g));
         }
     }

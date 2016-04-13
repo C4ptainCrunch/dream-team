@@ -1,8 +1,12 @@
 package gui.editor.controllers;
 
 import gui.editor.views.MenuView;
+<<<<<<< HEAD
 import gui.editor.views.SourceView;
 import gui.projectManagement.views.HistoryView;
+=======
+import gui.help.views.HelpView;
+>>>>>>> origin/master
 import models.TikzGraph;
 import utils.PdfCompilationError;
 import utils.PdfRenderer;
@@ -14,7 +18,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Logger;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -57,5 +60,9 @@ public class MenuController implements Observer {
     public void openHistory() {
 
         HistoryView histView = new HistoryView(view.getPath());
+    }
+
+    public void showHelp(){
+        java.awt.EventQueue.invokeLater(HelpView::new);
     }
 }

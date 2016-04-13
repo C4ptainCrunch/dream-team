@@ -50,11 +50,12 @@ public class HistoryController {
 
 
     private void colorHelper(String str) {
+        if (str.isEmpty()) return;
         if (Pattern.matches("^\\d{4}\\/\\d\\d\\/\\d\\d \\d\\d:\\d\\d:\\d\\d$", str))
             currentColor = Color.BLACK;
-        else if (Pattern.matches("^\\+.*$", str))
+        else if (str.charAt(0) == '+')
             currentColor = Color.GREEN;
-        else if (Pattern.matches("^\\-.*$", str))
+        else if (str.charAt(0) == '-')
             currentColor = Color.RED;
     }
 

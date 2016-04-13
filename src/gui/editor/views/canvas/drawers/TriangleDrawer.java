@@ -21,7 +21,7 @@ public class TriangleDrawer extends ComponentDrawer {
         DrawableTikzComponent drawableComponent = super.toDrawable(triangle);
 
         drawableComponent.addShape(getAwtTriangle(triangle));
-        drawableComponent.setStroke(new BasicStroke(2));
+        drawableComponent.setStroke(new BasicStroke(triangle.getStroke()));
         drawableComponent.setColor(triangle.getColor());
         drawableComponent.setBackground(triangle.getBackground());
         return drawableComponent;

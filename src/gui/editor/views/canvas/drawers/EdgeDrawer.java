@@ -21,7 +21,7 @@ public abstract class EdgeDrawer extends ComponentDrawer {
         Point start = edge.getFromPosition();
         Point end = edge.getToPosition();
         drawableComponent.addShape(new Line2D.Float(start, end));
-        drawableComponent.setStroke( new BasicStroke(2));
+        drawableComponent.setStroke( new BasicStroke(edge.getStroke()));
         drawableComponent.setColor(edge.getColor());
         drawableComponent.setBackground(edge.getColor());
         return drawableComponent;

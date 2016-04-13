@@ -1,12 +1,9 @@
 package gui.editor.controllers;
 
 import gui.editor.views.MenuView;
-<<<<<<< HEAD
 import gui.editor.views.SourceView;
 import gui.projectManagement.views.HistoryView;
-=======
 import gui.help.views.HelpView;
->>>>>>> origin/master
 import models.TikzGraph;
 import utils.PdfCompilationError;
 import utils.PdfRenderer;

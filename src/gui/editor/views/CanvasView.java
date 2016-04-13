@@ -43,13 +43,10 @@ public class CanvasView extends JPanel{
         this.addMouseListener(new MouseInputAdapter(){
             @Override
             public void mousePressed(MouseEvent e){
-                for (Object o: parentView.getCurrentToolProperties().values()) {
-                    System.out.println((String) o);
-                }
 
                 if(SwingUtilities.isRightMouseButton(e)){}
                 else {
-                    controller.mousePressed(e);
+                    controller.mousePressed(e, parentView.getSelectedTool());
                 }
             }
         });
@@ -98,6 +95,9 @@ public class CanvasView extends JPanel{
             }
             else if (node instanceof TikzCircle) {
                 drawer = new CircleDrawer((TikzCircle) node);
+            }
+            else if (node instanceof TikzTriangle){
+                drawer = new TriangleDrawer((TikzTriangle) node);
             }
             else {
                 drawer = new UnknownDrawer();

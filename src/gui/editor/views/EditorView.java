@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import javax.swing.*;
 import static constants.GUI.Text.*;
+
+import gui.editor.views.canvas.drawers.ComponentDrawer;
 import models.TikzGraph;
 import gui.editor.controllers.EditorController;
 import gui.editor.toolbox.views.ToolBoxView;
@@ -56,5 +58,9 @@ public class EditorView extends JFrame{
 
     public HashMap<String, Object> getCurrentToolProperties(){
         return null;
+    }
+
+    public ComponentDrawer getSelectedTool(){
+        return toolBoxView.getSelectedTool();
     }
 }

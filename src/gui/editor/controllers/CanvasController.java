@@ -4,7 +4,9 @@ import java.awt.event.MouseEvent;
 import java.util.Observable;
 import java.util.Observer;
 
+import gui.editor.views.canvas.drawers.ComponentDrawer;
 import models.TikzCircle;
+import models.TikzComponent;
 import models.TikzGraph;
 import models.TikzNode;
 import gui.editor.views.CanvasView;
@@ -24,12 +26,12 @@ public class CanvasController implements Observer{
         view.repaint();
     }
 
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(MouseEvent e, ComponentDrawer drawer) {
         if(view.getIsFocused()){
-            TikzNode nodeR2 = new TikzCircle();
-            nodeR2.setLabel("Demo Label " + graph.size());
-            nodeR2.setPosition(e.getPoint());
-            graph.add(nodeR2);
+            TikzComponent comp = drawer.getComponent();
+            TikzNode node = (TikzNode) comp;
+            node.setPosition(e.getPoint());
+            graph.add(node.getClone());
         }
         else {
             view.requestFocusInWindow();

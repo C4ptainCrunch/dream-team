@@ -4,6 +4,7 @@ import gui.editor.toolbox.AttributesChooser;
 import gui.editor.toolbox.EdgeSelector;
 import gui.editor.toolbox.NodeSelector;
 import gui.editor.toolbox.Selector;
+import gui.editor.views.canvas.drawers.ComponentDrawer;
 import gui.editor.views.canvas.drawers.Drawer;
 
 import javax.swing.*;
@@ -73,6 +74,10 @@ public class ToolView extends JPanel implements Selector.SelectorListener {
     public void componentSelected(Drawer drawer){
         preview.setDrawer(drawer);
         preview.repaint();
+    }
+
+    public ComponentDrawer getComponentDrawer(){
+        return preview.getComponentDrawer();
     }
 
 

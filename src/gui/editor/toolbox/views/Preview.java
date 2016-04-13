@@ -2,6 +2,7 @@ package gui.editor.toolbox.views;
 
 
 import gui.editor.views.canvas.drawables.Drawable;
+import gui.editor.views.canvas.drawers.ComponentDrawer;
 import gui.editor.views.canvas.drawers.Drawer;
 
 import javax.swing.JPanel;
@@ -35,4 +36,10 @@ public class Preview extends JPanel {
             }
         }
     }
+
+    public ComponentDrawer getComponentDrawer(){
+        return (ComponentDrawer) drawer;
+    }
+
+
 }

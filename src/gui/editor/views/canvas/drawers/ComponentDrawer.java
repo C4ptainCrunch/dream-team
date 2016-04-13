@@ -25,4 +25,8 @@ public abstract class ComponentDrawer implements Drawer {
 
         return vec;
     }
+
+    public TikzComponent getComponent(){
+        return component;
+    }
 }

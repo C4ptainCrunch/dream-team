@@ -5,6 +5,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.Color;
+
 import static org.junit.Assert.*;
 
 /**
@@ -47,5 +49,16 @@ public class TikzRectangleTest {
         int length = 9;
         rectangle.setLength(length);
         assertEquals(rectangle.getLength(), length);
+    }
+
+    @Test
+    public void testCopy() throws Exception {
+        rectangle.setLength(5);
+        rectangle.setWidth(8);
+        rectangle.setColor(Color.BLACK);
+        TikzRectangle o_rectangle = new TikzRectangle(rectangle);
+        assertEquals(o_rectangle.getLength(), rectangle.getLength());
+        assertEquals(o_rectangle.getWidth(), rectangle.getWidth());
+        assertEquals(o_rectangle.getColor(), rectangle.getColor());
     }
 }

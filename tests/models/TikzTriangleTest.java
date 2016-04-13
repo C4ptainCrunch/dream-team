@@ -5,6 +5,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+
+import java.awt.*;
+
 import static org.junit.Assert.*;
 
 /**
@@ -46,6 +49,16 @@ public class TikzTriangleTest {
         int[] sides = {1,2,3};
         triangle.setSides(sides);
         assertArrayEquals(sides, triangle.getSides());
+    }
+
+    @Test
+    public void testCopy() throws Exception {
+        int[] sides = {1,2,3};
+        triangle.setSides(sides);
+        triangle.setPosition(new Point(2,2));
+        TikzTriangle o_triangle = new TikzTriangle(triangle);
+        assertArrayEquals(triangle.getSides(), o_triangle.getSides());
+        assertEquals(triangle.getPosition(), o_triangle.getPosition());
     }
 
 }

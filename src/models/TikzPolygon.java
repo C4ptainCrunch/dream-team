@@ -18,6 +18,12 @@ public class TikzPolygon extends TikzShape {
         this.sides = sides;
     }
 
+    public TikzPolygon(TikzPolygon o_polygon){
+        super(o_polygon);
+        this.length = o_polygon.getLength();
+        this.sides = o_polygon.getSides();
+    }
+
     public int getLength() {
         return length;
     }

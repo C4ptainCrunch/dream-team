@@ -8,6 +8,10 @@ public class TikzDirectedEdge extends TikzEdge {
 	}
 	public TikzDirectedEdge() { super(); }
 
+	public TikzDirectedEdge(TikzDirectedEdge o_edge){
+		super(o_edge);
+	}
+
 	public TikzNode destination() {
 		return getSecondNode();
 	}

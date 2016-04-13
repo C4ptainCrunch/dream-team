@@ -25,6 +25,11 @@ public class TikzTriangle extends TikzShape {
         setSides(sides);
     }
 
+    public TikzTriangle(TikzTriangle o_triangle){
+        super(o_triangle);
+        setSides(o_triangle.getSides());
+    }
+
     public void setSides(int[] sides) {
         if(sides.length != 3) {
             throw new IllegalArgumentException("The size of the sides array must equals 3.");

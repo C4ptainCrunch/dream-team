@@ -18,6 +18,12 @@ public class TikzRectangle extends TikzShape {
         setLength(length);
     }
 
+    public TikzRectangle(TikzRectangle o_rectangle){
+        super(o_rectangle);
+        width = o_rectangle.getWidth();
+        length = o_rectangle.getLength();
+    }
+
     public int getWidth() {
         return width;
     }

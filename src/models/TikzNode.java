@@ -17,6 +17,11 @@ public abstract class TikzNode extends TikzComponent {
         this.position = position;
     }
 
+    protected TikzNode(TikzNode o_node){
+        super(o_node);
+        this.position = o_node.getPosition();
+    }
+
     public Point getPosition() {
         return position;
     }

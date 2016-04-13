@@ -2,10 +2,8 @@ package utils;
 
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,8 +21,11 @@ public class SaverFactory {
     public String makeDiff(String original,String revised){
         DiffMatchPatch diff = new DiffMatchPatch();
         LinkedList<DiffMatchPatch.Patch> patches = diff.patchMake(original,revised);
-        System.out.println("Diff: "+diff.patchToText(patches));
-        return diff.patchToText(patches);
+        String s = diff.patchToText(patches);
+        System.out.println("diff brut: "+s);
+
+        System.out.println("diff propre: "+ diffDecoder(s));
+        return diffDecoder(s);
     }
 
     public void writeToFile(String original,String revised, String path){
@@ -37,8 +38,6 @@ public class SaverFactory {
             bufferedWriter.append(currDate);
             bufferedWriter.newLine();
             bufferedWriter.append(makeDiff(original, revised));
-            System.out.println("original: "+original);
-            System.out.println("revised: "+revised);
             bufferedWriter.newLine();
 
             bufferedWriter.close();
@@ -47,5 +46,20 @@ public class SaverFactory {
         }
     }
 
-
+    private String diffDecoder(String s){
+        StringBuilder res = new StringBuilder();
+        int pos = 0, sLen = s.length();
+        while (pos < sLen) {
+            char c = s.charAt(pos);
+            if (c == '%') {
+                int tmp = Integer.parseInt(s.substring(pos+1, pos+3), 16);
+                res.append((char) tmp);
+                pos += 3;
+            } else {
+                res.append(c);
+                ++pos;
+            }
+        }
+        return res.toString();
+    }
 }

@@ -1,6 +1,7 @@
 package gui.editor.toolbox;
 
 import gui.editor.views.canvas.drawables.Drawable;
+import gui.editor.views.canvas.drawers.ComponentDrawer;
 import gui.editor.views.canvas.drawers.Drawer;
 import models.TikzComponent;
 import models.TikzEdge;
@@ -13,12 +14,12 @@ import java.awt.event.MouseEvent;
 
 public class SelectorComponent extends JPanel {
 
-    private Drawer drawer;
+    private ComponentDrawer drawer;
     private TikzComponent component;
     private int shape_size;
     private SelectorComponentListener listener;
 
-    public SelectorComponent(Drawer d, TikzComponent comp, SelectorComponentListener lis){
+    public SelectorComponent(ComponentDrawer d, TikzComponent comp, SelectorComponentListener lis){
         drawer = d;
         component = comp;
         listener = lis;
@@ -27,7 +28,7 @@ public class SelectorComponent extends JPanel {
     }
 
     public interface SelectorComponentListener{
-        void componentSelected(Drawer draw);
+        void componentSelected(ComponentDrawer draw);
     }
 
     private void initMouseListener(){

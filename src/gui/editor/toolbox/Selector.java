@@ -1,6 +1,6 @@
 package gui.editor.toolbox;
 
-import gui.editor.views.canvas.drawers.Drawer;
+import gui.editor.views.canvas.drawers.ComponentDrawer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +22,7 @@ public class Selector extends JPanel implements SelectorComponent.SelectorCompon
     }
 
     public interface SelectorListener{
-        void componentSelected(Drawer drawer);
+        void componentSelected(ComponentDrawer drawer);
     }
 
     protected void addComponent(SelectorComponent comp){
@@ -34,7 +34,7 @@ public class Selector extends JPanel implements SelectorComponent.SelectorCompon
     }
 
     @Override
-    public void componentSelected(Drawer drawer){
+    public void componentSelected(ComponentDrawer drawer){
         listener.componentSelected(drawer);
 
     }

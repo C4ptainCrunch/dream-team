@@ -1,6 +1,7 @@
 package gui.editor.toolbox.controllers;
 
 import gui.editor.toolbox.views.Preview;
+import gui.editor.views.canvas.drawers.ComponentDrawer;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -18,6 +19,7 @@ public class PreviewController implements Observer {
 
     @Override
     public void update(Observable o, Object obj){
+        view.setDrawer((ComponentDrawer) obj);
         view.repaint();
     }
 }

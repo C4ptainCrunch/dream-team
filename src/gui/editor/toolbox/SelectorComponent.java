@@ -50,6 +50,7 @@ public class SelectorComponent extends JPanel {
             }
             else if(component instanceof TikzEdge){
                 Point midEdge = ((TikzEdge)component).getPosition();
+                // We center the edge, so we need to take the opposite of the center to start the drawing. This needs a huge refactor hehe
                 midEdge.setLocation(-midEdge.getX(), midEdge.getY());
                 drawable.translate(new Point(midEdge), this);
             }

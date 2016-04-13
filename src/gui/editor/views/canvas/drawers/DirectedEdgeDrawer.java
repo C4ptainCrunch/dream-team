@@ -16,8 +16,8 @@ public class DirectedEdgeDrawer extends EdgeDrawer {
     public Vector<Drawable> toDrawable(){
         Vector<Drawable> vec = super.toDrawable();
 
-        Point start = this.getComponent().getFirstNode().getPosition();
-        Point end = this.getComponent().getSecondNode().getPosition();
+        Point start = this.getComponent().getFromPosition();
+        Point end = this.getComponent().getToPosition();
 
         Point center = new Point(
                 (int) (start.getX() + end.getX()) / 2,

@@ -77,6 +77,7 @@ public class CanvasView extends JPanel{
         for(TikzNode node : graph){
             DrawableTikzComponent drawableComponent =  Drawer.toDrawable(node);
             drawableComponent.translate(node.getPosition());
+            drawableComponent.center();
             drawableComponent.draw((Graphics2D) g);
         }
 

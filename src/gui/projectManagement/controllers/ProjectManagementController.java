@@ -8,15 +8,9 @@ import constants.Utils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
-import java.io.Writer;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.FileOutputStream;
 
 public class ProjectManagementController {
     private ProjectManagementView view;
@@ -184,6 +178,31 @@ public class ProjectManagementController {
             }
             this.view.updateComboBox(newName);
         }
+    }
+
+    public String getLastRevision(){
+        String ch = "";
+
+        try{
+            String pathToRevisionFile = this.view.getSelectedPath();
+            ArrayList tmp = new ArrayList<String>();
+            FileReader fr = new FileReader(pathToRevisionFile+System.getProperty("file.separator")+"diffs");
+            BufferedReader br = new BufferedReader(fr);
+
+            do {
+                try{
+                    ch = br.readLine();
+                }
+                catch (IOException e){
+
+                }
+                tmp.add(ch);
+            } while (! ch.startsWith("2016"));
+        }
+        catch (FileNotFoundException e){
+            System.out.println("File not found.");
+        }
+        return ch;
     }
 
 

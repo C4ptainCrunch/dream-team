@@ -6,10 +6,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class ProjectManagementView extends JFrame implements ActionListener {
     private ProjectManagementController controller = new ProjectManagementController(this);
     private JComboBox<String> listSavedProjects;
+    private JTextPane textInfo;
 
     public ProjectManagementView(){
 
@@ -23,6 +29,7 @@ public class ProjectManagementView extends JFrame implements ActionListener {
 
         initButtonsPanel();
         initSavedProjectsPanel();
+        initInfoPanel();
 
         /*
         bv.setOpaque(true);
@@ -46,7 +53,13 @@ public class ProjectManagementView extends JFrame implements ActionListener {
         this.listSavedProjects = new JComboBox<>();
         this.listSavedProjects.setModel(new DefaultComboBoxModel(data));
 
-        this.add(listSavedProjects, BorderLayout.SOUTH);
+        this.listSavedProjects.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                updateInfoPanel();
+            }
+        });
+
+        this.add(listSavedProjects, BorderLayout.CENTER);
         this.pack();
         this.setVisible(true);
     }
@@ -82,6 +95,27 @@ public class ProjectManagementView extends JFrame implements ActionListener {
         this.add(buttons,BorderLayout.NORTH);
         this.pack();
         this.setVisible(true);
+    }
+
+    private void initInfoPanel(){
+        JPanel infoPanel = new JPanel();
+        this.textInfo = new JTextPane();
+        this.textInfo.setText("INFORMATION ABOUT SELECTED PROJECT:\nProject Name: \nUser: Local\nLast revision:\n");
+
+        infoPanel.add(this.textInfo);
+        this.add(this.textInfo,BorderLayout.EAST);
+        this.pack();
+        this.setVisible(true);
+    }
+
+    public void updateInfoPanel(){
+        String selectedProject = this.listSavedProjects.getSelectedItem().toString();
+        int endIndex = selectedProject.lastIndexOf("/");
+        String projectName = selectedProject.substring(endIndex+1, selectedProject.length());
+        String lastRevision = this.controller.getLastRevision();
+
+        this.textInfo.setText("INFORMATION ABOUT SELECTED PROJECT:\nProject Name: "+projectName+
+                      "\nUser: Local\nLast revision: "+ lastRevision+"\n");
     }
 
     @Override

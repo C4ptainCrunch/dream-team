@@ -60,7 +60,7 @@ public class AttributesChooserView extends JPanel {
     }
 
     private void addLabelListener(){
-        label_field.addActionListener(e -> { this.controller.labelEntered(label_field.getText());});
+        label_field.addActionListener(actionEvent -> { this.controller.labelEntered(label_field.getText());});
     }
 
     private void initColorChooser(){

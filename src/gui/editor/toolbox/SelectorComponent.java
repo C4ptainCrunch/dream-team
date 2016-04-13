@@ -16,7 +16,6 @@ public class SelectorComponent extends JPanel {
 
     private ComponentDrawer drawer;
     private TikzComponent component;
-    private int shape_size;
     private SelectorComponentListener listener;
 
     public SelectorComponent(ComponentDrawer d, TikzComponent comp, SelectorComponentListener lis){

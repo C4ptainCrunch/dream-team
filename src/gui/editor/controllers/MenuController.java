@@ -2,10 +2,12 @@ package gui.editor.controllers;
 
 import gui.editor.views.MenuView;
 import gui.editor.views.SourceView;
+import gui.projectManagement.views.HistoryView;
 import models.TikzGraph;
 import utils.PdfCompilationError;
 import utils.PdfRenderer;
 
+import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -50,5 +52,10 @@ public class MenuController implements Observer {
         catch (PdfCompilationError e){
             showMessageDialog(null, "Error during compilation");
         }
+    }
+
+    public void openHistory() {
+
+        HistoryView histView = new HistoryView(view.getPath());
     }
 }

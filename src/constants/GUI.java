@@ -13,5 +13,6 @@ public final class GUI {
         public static final String GRID_VISIBILTY = "Show/Hide Grid";
         public static final String HELP_MENU = "Help";
         public static final String HELP = "See help panel";
+        public static final String DIFF = "Show History";
     }
 }

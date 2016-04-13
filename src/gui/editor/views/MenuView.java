@@ -10,9 +10,9 @@ import java.awt.event.ActionListener;
 
 public class MenuView extends JMenuBar {
     private MenuController controller;
-    private EditorView parentView;
-    private TikzGraph graph;
     private final String path;
+    private TikzGraph graph;
+    private EditorView parentView;
 
     public MenuView(EditorView parentView, TikzGraph graph, String path){
         this.parentView = parentView;
@@ -27,22 +27,19 @@ public class MenuView extends JMenuBar {
         this.add(file_menu);
 
         JMenuItem save_item = new JMenuItem(GUI.Text.SAVE);
-        save_item.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.save();
-            }
-        });
+        save_item.addActionListener(e -> controller.save());
         file_menu.add(save_item);
 
+
         JMenuItem build_pdf = new JMenuItem(GUI.Text.PDF);
-        build_pdf.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                controller.compileAndOpen();
-            }
-        });
+        build_pdf.addActionListener(actionEvent -> controller.compileAndOpen());
         file_menu.add(build_pdf);
+
+
+        JMenuItem diff_item = new JMenuItem(GUI.Text.DIFF);
+        diff_item.addActionListener(actionEvent -> controller.openHistory());
+        file_menu.add(diff_item);
+
         file_menu.addSeparator();
 
         JMenuItem exit_item = new JMenuItem(GUI.Text.EXIT);

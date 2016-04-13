@@ -34,4 +34,6 @@ public abstract class TikzNode extends TikzComponent {
         setPosition(new Point(x,y));
     }
 
+    public abstract TikzNode getClone();
+
 }

@@ -18,4 +18,9 @@ public class TikzUndirectedEdge extends TikzEdge{
         String options = String.join(", ", new String[]{}); //TODO
         return String.format("\\draw[%s] (%.0f, %.0f) -- (%.0f, %.0f)", options, first.getX(), first.getY(), second.getX(), second.getY());
     }
+
+    @Override
+    public TikzUndirectedEdge getClone(){
+        return new TikzUndirectedEdge(this);
+    }
 }

@@ -34,4 +34,6 @@ public abstract class TikzComponent extends Observable {
     public void setLabel(String label) {
         this.label = label;
     }
+
+    public abstract TikzComponent getClone();
 }

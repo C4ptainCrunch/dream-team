@@ -83,4 +83,9 @@ public class TikzTriangle extends TikzShape {
         int[] sides = {getSideA(), getSideB(), getSideC()};
         return sides;
     }
+
+    @Override
+    public TikzTriangle getClone(){
+        return new TikzTriangle(this);
+    }
 }

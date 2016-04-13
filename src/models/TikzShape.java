@@ -42,4 +42,6 @@ public abstract class TikzShape extends TikzNode {
     public Color getBackground() {
         return backgroundColor;
     }
+
+    public abstract TikzShape getClone();
 }

@@ -31,16 +31,15 @@ public class DirectedEdgeDrawer extends EdgeDrawer {
 		// First arrow head segment.
 		double firstDeltaX = Math.cos(beta)*ARROW_LENGTH;
 		double firstDeltaY = Math.sin(beta)*ARROW_LENGTH;
-
 		Shape firstHeadSegment = new Line2D.Float(end, new Point((int) (end.getX() + firstDeltaX*corrX), (int)(end.getY() + firstDeltaY*corrY)));
-		drawablecomponent.addShape(firstHeadSegment);
 
 		// Second arrow head segment.
 		double secondDeltaX = Math.sin(gamma)*ARROW_LENGTH;
 		double secondDeltaY = Math.cos(gamma)*ARROW_LENGTH;
 		Shape secondHeadSegment = new Line2D.Float(end, new Point((int) (end.getX() + secondDeltaX*corrX), (int)(end.getY() + secondDeltaY*corrY)));
-		drawablecomponent.addShape(secondHeadSegment);
+
 		drawablecomponent.addShape(firstHeadSegment);
+		drawablecomponent.addShape(secondHeadSegment);
 		return drawablecomponent;
 	}
 

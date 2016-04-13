@@ -1,6 +1,8 @@
 package gui.editor.views.canvas.drawables;
 import constants.Models;
 import models.TikzComponent;
+import models.TikzEdge;
+import models.TikzNode;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -68,12 +70,38 @@ public class DrawableTikzComponent implements Drawable{
         }
     }
 
-    public void tikz2swing(Point tikz_position, JPanel container){
-        AffineTransform transform = new AffineTransform(
-                1, 0, 0, 1, tikz_position.getX()+(container.getWidth()/2), tikz_position.getY()+(container.getHeight()/2)
-        );
+    public void center() {
         for(int i = 0; i < shapes.size(); ++i){
+            Rectangle bounds = shapes.get(i).getBounds();
+            AffineTransform transform = new AffineTransform(
+                    1, 0, 0, 1, -bounds.width / 2, -bounds.height / 2
+            );
             shapes.set(i, transform.createTransformedShape(shapes.get(i)));
         }
+    }
+
+    public void tikz2swing(JPanel container){
+        Point tikz_position = new Point(0, 0);
+        if(component instanceof TikzNode) {
+            center();
+            tikz_position.setLocation(((TikzNode)component).getPosition());
+            AffineTransform transform = new AffineTransform(
+                    1, 0, 0, 1, tikz_position.getX()+(container.getWidth()/2), tikz_position.getY()+(container.getHeight()/2)
+            );
+            for(int i = 0; i < shapes.size(); ++i){
+                shapes.set(i, transform.createTransformedShape(shapes.get(i)));
+            }
+        }
+        else if(component instanceof TikzEdge){
+            tikz_position.setLocation(((TikzEdge)component).getPosition());
+            tikz_position.setLocation(-tikz_position.getX(), -tikz_position.getY());
+            AffineTransform transform = new AffineTransform(
+                    1, 0, 0, 1, tikz_position.getX()+(container.getWidth()/2), tikz_position.getY()+(container.getHeight()/2)
+            );
+            for(int i = 0; i < shapes.size(); ++i){
+                shapes.set(i, transform.createTransformedShape(shapes.get(i)));
+            }
+        }
+
     }
 }

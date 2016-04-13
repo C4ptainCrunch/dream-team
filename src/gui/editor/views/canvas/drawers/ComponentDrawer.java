@@ -1,6 +1,7 @@
 package gui.editor.views.canvas.drawers;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.Vector;
 
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;

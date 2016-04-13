@@ -35,4 +35,13 @@ public class TikzUndirectedEdgeTest {
     public void testGetSecondNode() throws Exception {
         assertEquals(second, edge.getSecondNode());
     }
+
+    @Test
+    public void testCopy() throws Exception{
+        TikzUndirectedEdge o_edge = new TikzUndirectedEdge(edge);
+        assertEquals(o_edge.getFirstNode(), edge.getFirstNode());
+        assertEquals(o_edge.getSecondNode(), edge.getSecondNode());
+        assertEquals(o_edge.getToPosition(), edge.getToPosition());
+        assertEquals(o_edge.getFromPosition(), edge.getFromPosition());
+    }
 }

@@ -14,6 +14,11 @@ public abstract class TikzComponent extends Observable {
         this.label = Models.DEFAULT.LABEL;
     }
 
+    protected TikzComponent(TikzComponent o_comp){
+        this.color = o_comp.getColor();
+        this.label = o_comp.getLabel();
+    }
+
     public Color getColor(){
         return color;
     }

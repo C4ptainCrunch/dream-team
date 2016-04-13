@@ -9,6 +9,11 @@ public class TikzCircle extends TikzShape {
         radius = Models.DEFAULT.LENGTH;
     }
 
+    public TikzCircle(TikzCircle o_circle){
+        super(o_circle);
+        this.radius = o_circle.getRadius();
+    }
+
     public int getRadius() {
         return radius;
     }

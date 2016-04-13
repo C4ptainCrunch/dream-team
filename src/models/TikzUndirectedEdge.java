@@ -8,6 +8,10 @@ public class TikzUndirectedEdge extends TikzEdge{
     }
     public TikzUndirectedEdge() { super(); }
 
+    public TikzUndirectedEdge(TikzUndirectedEdge o_edge){
+        super(o_edge);
+    }
+
     @Override
     public String toString() {
         Point first = getFirstNode().getPosition(), second = getSecondNode().getPosition();

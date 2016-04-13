@@ -17,6 +17,14 @@ public abstract class TikzEdge extends TikzComponent{
         toPosition = second.getPosition();
     }
 
+    protected TikzEdge(TikzEdge o_edge){
+        super(o_edge);
+        firstNode = o_edge.getFirstNode();
+        secondNode = o_edge.getSecondNode();
+        fromPosition = firstNode.getPosition();
+        toPosition = secondNode.getPosition();
+    }
+
     protected TikzEdge(){
         super();
         firstNode = null;

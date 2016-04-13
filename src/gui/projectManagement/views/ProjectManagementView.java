@@ -43,6 +43,8 @@ public class ProjectManagementView extends JFrame implements ActionListener {
         return this.listSavedProjects.getSelectedItem().toString();
     }
 
+    public int getSelectedPathIndex() { return this.listSavedProjects.getSelectedIndex(); }
+
     private String[] importSavedPaths(){
         return(controller.getStringListSavedPaths());
     }
@@ -65,7 +67,7 @@ public class ProjectManagementView extends JFrame implements ActionListener {
     }
 
     public void updateComboBox(String newDir){
-        int index = this.listSavedProjects.getSelectedIndex();
+        int index = getSelectedPathIndex();
         this.listSavedProjects.removeItem(this.listSavedProjects.getSelectedItem());
         this.listSavedProjects.insertItemAt(newDir,index);
         this.listSavedProjects.setSelectedIndex(index);

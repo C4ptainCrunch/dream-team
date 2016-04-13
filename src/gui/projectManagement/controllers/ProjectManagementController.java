@@ -19,7 +19,7 @@ public class ProjectManagementController {
         this.view = view;
     }
 
-    public String[] getStringListSavedPaths(){
+    private List<String> getArrayListSavedPaths() {
         String path = getSavedPath();
         List<String> lines = new ArrayList<>();
 
@@ -36,7 +36,11 @@ public class ProjectManagementController {
         }
         catch (IOException e){
         }
+        return lines;
+    }
 
+    public String[] getStringListSavedPaths(){
+        List<String> lines = getArrayListSavedPaths();
         return lines.toArray(new String[lines.size()]);
     }
 
@@ -88,6 +92,32 @@ public class ProjectManagementController {
         os.close();
     }
 
+    private boolean isInList(List<String> list, String path){
+        boolean res = false;
+        for(String s : list){
+            if (s.equals(path)){
+                res = true;
+            }
+        }
+        return res;
+    }
+
+    private void addProjectPathToSavedPathFile(String projectPath) {
+        List<String> paths = getArrayListSavedPaths();
+        if(!isInList(paths, projectPath)) {
+            String path = getSavedPath();
+            java.io.File savedPathsFile = getSavedPathsFileFromPath(path);
+
+            try (FileWriter fw = new FileWriter(savedPathsFile, true);
+                 BufferedWriter bw = new BufferedWriter(fw)
+            ) {
+                bw.append(projectPath + System.lineSeparator());
+            } catch (IOException e) {
+
+            }
+        }
+    }
+
     public void createProject() {
 
         java.io.File f = createPanel("Choose location to create your project", JFileChooser.DIRECTORIES_ONLY);
@@ -97,19 +127,7 @@ public class ProjectManagementController {
             if(!f.exists()){
                 try{
                     f.mkdir();
-                    String path =  getSavedPath();
-                    java.io.File savedPathsFile = getSavedPathsFileFromPath(path);
-
-                    try(FileWriter fw = new FileWriter(savedPathsFile, true);
-                        BufferedWriter bw = new BufferedWriter(fw)
-                        )
-                    {
-                        bw.append(filePath+System.lineSeparator());
-                    }
-                    catch (IOException e) {
-
-                    }
-
+                    addProjectPathToSavedPathFile(filePath);
                     java.awt.EventQueue.invokeLater(()->new EditorView(filePath, false));
                     view.dispose(); //Exit previous windows
                 }catch(SecurityException e){
@@ -128,6 +146,8 @@ public class ProjectManagementController {
             java.io.File f = createPanel("Choose location to import your project", JFileChooser.FILES_ONLY);
             if (f != null){
                 String filePath = f.getAbsolutePath();
+                int endIndex = filePath.lastIndexOf("/");
+                addProjectPathToSavedPathFile(filePath.substring(0,endIndex));
                 java.awt.EventQueue.invokeLater(()->new EditorView(filePath, true));
                 view.dispose(); //Exit previous windows
             }
@@ -160,11 +180,10 @@ public class ProjectManagementController {
     }
 
     public void renameProject() {
-
-        String selectedPath = this.view.getSelectedPath();
         int selectedPathIndex = this.view.getSelectedPathIndex();
-        int endIndex = selectedPath.lastIndexOf("/");
         if (selectedPathIndex != 0) {  //0 is the "Choose existing project... in JComboBox
+            String selectedPath = this.view.getSelectedPath();
+            int endIndex = selectedPath.lastIndexOf("/");
             java.io.File dir = new java.io.File(selectedPath);
             String newProjectName = JOptionPane.showInputDialog("New project name");
             String newName = selectedPath.substring(0, endIndex) + System.getProperty("file.separator") + newProjectName;

@@ -85,9 +85,11 @@ public class CanvasView extends JPanel{
             Stroke old_stroke = g2d.getStroke();
             Color old_color = g2d.getColor();
             g2d.setStroke(new BasicStroke(0));
-            g2d.setColor(Color.white);
-            g2d.fill(new Rectangle(10000, 10000));
             g2d.setColor(new Color(0, 0, 0, 64));
+            Shape s = new Rectangle(10000, 10000);
+            g2d.fill(s);
+            g2d.setColor(Color.white);
+            g2d.draw(s);
             g2d.setColor(old_color);
             g2d.setStroke(old_stroke);
         }

@@ -15,7 +15,10 @@ public class DrawableTikzComponent implements Drawable{
     private Color background;
     private TikzComponent component;
 
-    public DrawableTikzComponent(TikzComponent component) { this.component = component;}
+    public DrawableTikzComponent(TikzComponent component) {
+        this.component = component;
+        shapes = new ArrayList<>();
+    }
 
     public TikzComponent getComponent() { return component; }
 
@@ -23,7 +26,7 @@ public class DrawableTikzComponent implements Drawable{
     public ArrayList<Shape> getShapes() { return shapes; }
 
     public void setStroke(Stroke stroke) { this.stroke = stroke; }
-    public Stroke getStroke(Stroke stroke) { return this.stroke; }
+    public Stroke getStroke() { return this.stroke; }
 
     public void setColor(Color color) { this.color = color; }
     public Color getColor(Color color) { return this.color; }

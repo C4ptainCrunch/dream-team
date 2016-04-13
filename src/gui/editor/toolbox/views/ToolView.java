@@ -73,11 +73,6 @@ public class ToolView extends JPanel {
         model.addObserver(new PreviewController(preview));
     }
 
-    @Override
-    public void componentSelected(TikzComponent component){
-        model.setComponent(component);
-    }
-
     public TikzComponent getTikzComponent() {
         return preview.getComponent();
     }

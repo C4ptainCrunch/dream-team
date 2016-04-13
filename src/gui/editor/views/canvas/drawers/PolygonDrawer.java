@@ -3,6 +3,7 @@ package gui.editor.views.canvas.drawers;
 import java.awt.*;
 import java.util.Vector;
 
+import models.TikzComponent;
 import models.TikzPolygon;
 import gui.editor.views.canvas.drawables.Drawable;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
@@ -10,7 +11,9 @@ import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 public class PolygonDrawer extends ComponentDrawer{
     public PolygonDrawer(){}
 
-    public DrawableTikzComponent toDrawable(TikzPolygon polygon){
+    @Override
+    public DrawableTikzComponent toDrawable(TikzComponent component){
+        TikzPolygon polygon = (TikzPolygon)component;
         DrawableTikzComponent drawableComponent = super.toDrawable(polygon);
         drawableComponent.addShape(getAwtPolygon(polygon));
         drawableComponent.setStroke(new BasicStroke(2));

@@ -40,7 +40,9 @@ public class SelectorComponent extends JPanel {
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+
         DrawableTikzComponent drawable = Drawer.toDrawable(component);
+        System.out.println(drawable.getComponent().getClass().getName() + " stroke : " + (drawable.getStroke() == null));
         drawable.draw((Graphics2D)g);
     }
 }

@@ -13,11 +13,14 @@ public class CircleDrawer extends ComponentDrawer {
 
     public CircleDrawer() {}
 
-    public DrawableTikzComponent toDrawable(TikzCircle circle) {
+    @Override
+    public DrawableTikzComponent toDrawable(TikzComponent component) {
+        TikzCircle circle = (TikzCircle)component;
         DrawableTikzComponent drawableComponent = super.toDrawable(circle);
 
         float size = circle.getRadius() * 2;
         drawableComponent.addShape(new Ellipse2D.Float(0, 0, size, size));
+        drawableComponent.setStroke(new BasicStroke(2));
         drawableComponent.setColor(circle.getColor());
         drawableComponent.setBackground(circle.getBackground());
         return drawableComponent;

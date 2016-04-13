@@ -2,6 +2,7 @@ package gui.editor.views.canvas.drawers;
 
 import gui.editor.views.canvas.drawables.Drawable;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
+import models.TikzComponent;
 import models.TikzTriangle;
 
 import java.awt.*;
@@ -14,7 +15,9 @@ public class TriangleDrawer extends ComponentDrawer {
 
     public TriangleDrawer() {}
 
-    public DrawableTikzComponent toDrawable(TikzTriangle triangle){
+    @Override
+    public DrawableTikzComponent toDrawable(TikzComponent component){
+        TikzTriangle triangle = (TikzTriangle)component;
         DrawableTikzComponent drawableComponent = super.toDrawable(triangle);
 
         drawableComponent.addShape(getAwtTriangle(triangle));

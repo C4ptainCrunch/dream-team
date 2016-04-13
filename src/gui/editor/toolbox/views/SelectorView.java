@@ -1,5 +1,8 @@
-package gui.editor.toolbox;
+package gui.editor.toolbox.views;
 
+import gui.editor.toolbox.SelectorComponent;
+import gui.editor.toolbox.controllers.SelectorController;
+import gui.editor.toolbox.model.ToolModel;
 import gui.editor.views.canvas.drawers.ComponentDrawer;
 
 import javax.swing.*;
@@ -8,21 +11,17 @@ import java.awt.*;
 /**
  * Created by aurelien on 12/04/16.
  */
-public class Selector extends JPanel implements SelectorComponent.SelectorComponentListener {
+public class SelectorView extends JPanel implements SelectorComponent.SelectorComponentListener {
     private JScrollPane scrollzone;
     private JPanel options;
-    private SelectorListener listener;
+    private SelectorController controller;
 
-    public Selector(SelectorListener lis) {
+    public SelectorView(ToolModel model) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         options = new JPanel(new GridLayout(1, 0));
         scrollzone = new JScrollPane(options);
-        listener = lis;
         this.add(scrollzone);
-    }
-
-    public interface SelectorListener{
-        void componentSelected(ComponentDrawer drawer);
+        controller = new SelectorController(this, model);
     }
 
     protected void addComponent(SelectorComponent comp){
@@ -35,7 +34,7 @@ public class Selector extends JPanel implements SelectorComponent.SelectorCompon
 
     @Override
     public void componentSelected(ComponentDrawer drawer){
-        listener.componentSelected(drawer);
+        controller.itemSelected(drawer);
 
     }
 }

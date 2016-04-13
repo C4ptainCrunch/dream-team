@@ -1,18 +1,15 @@
-package gui.editor.toolbox;
+package gui.editor.toolbox.views;
 
-import gui.editor.views.canvas.drawers.CircleDrawer;
+import gui.editor.toolbox.SelectorComponent;
+import gui.editor.toolbox.model.ToolModel;
 import gui.editor.views.canvas.drawers.DirectedEdgeDrawer;
-import gui.editor.views.canvas.drawers.EdgeDrawer;
 import gui.editor.views.canvas.drawers.UndirectedEdgeDrawer;
 import models.TikzDirectedEdge;
-import models.TikzTriangle;
 import models.TikzUndirectedEdge;
 
-import java.awt.*;
-
-public class EdgeSelector extends Selector{
-    public EdgeSelector(SelectorListener lis){
-        super(lis);
+public class EdgeSelectorView extends SelectorView {
+    public EdgeSelectorView(ToolModel model){
+        super(model);
         this.setComponentNbr(2);
         this.initComponents();
     }

@@ -29,7 +29,7 @@ public class ProjectManagementController {
         String path = getSavedPath();
         List<String> lines = new ArrayList<>();
 
-        lines.add("Chose existing project from this list (if it exists) and press 'Import'");
+        lines.add("Choose existing project from this list (if it exists) and press 'Import'");
 
         try {
             FileReader fileReader = new FileReader(path);
@@ -130,7 +130,7 @@ public class ProjectManagementController {
     }
 
     public void importProject() {
-        if(this.view.getSelectedPath().startsWith("Chose")){
+        if(this.view.getSelectedPathIndex()==0){
             java.io.File f = createPanel("Choose location to import your project", JFileChooser.FILES_ONLY);
             if (f != null){
                 String filePath = f.getAbsolutePath();
@@ -168,21 +168,25 @@ public class ProjectManagementController {
     public void renameProject() {
 
         String selectedPath = this.view.getSelectedPath();
+        int selectedPathIndex = this.view.getSelectedPathIndex();
         int endIndex = selectedPath.lastIndexOf("/");
+        if (selectedPathIndex != 0) {  //0 is the "Choose existing project... in JComboBox
+            java.io.File dir = new java.io.File(selectedPath);
+            String newProjectName = JOptionPane.showInputDialog("New project name");
+            String newName = selectedPath.substring(0, endIndex) + System.getProperty("file.separator") + newProjectName;
+            java.io.File newDir = new java.io.File(newName);
+            if (dir.isDirectory() && newProjectName != null) {
+                dir.renameTo(newDir);
+                try {
+                    this.updateSavedProjectsFile(selectedPath, newName);
+                } catch (IOException e) {
 
-        java.io.File dir = new java.io.File(selectedPath);
-        String newProjectName = JOptionPane.showInputDialog("New project name");
-        String newName = selectedPath.substring(0, endIndex) + System.getProperty("file.separator") + newProjectName;
-        java.io.File newDir = new java.io.File(newName);
-        if (dir.isDirectory() && newProjectName != null) {
-            dir.renameTo(newDir);
-            try{
-                this.updateSavedProjectsFile(selectedPath,newName);
+                }
+                this.view.updateComboBox(newName);
             }
-            catch(IOException e){
-
-            }
-            this.view.updateComboBox(newName);
+        }
+        else {
+            JOptionPane.showMessageDialog(this.view,"Please select a project to rename first", "Rename Warning", JOptionPane.WARNING_MESSAGE);
         }
     }
 

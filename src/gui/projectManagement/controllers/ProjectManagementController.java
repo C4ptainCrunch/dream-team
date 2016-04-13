@@ -130,7 +130,6 @@ public class ProjectManagementController {
     }
 
     public void importProject() {
-        System.out.println(this.view.getSelectedPath());
         if(this.view.getSelectedPath().startsWith("Chose")){
             java.io.File f = createPanel("Choose location to import your project", JFileChooser.FILES_ONLY);
             if (f != null){

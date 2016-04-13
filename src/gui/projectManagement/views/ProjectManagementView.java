@@ -55,7 +55,7 @@ public class ProjectManagementView extends JFrame implements ActionListener {
         int index = this.listSavedProjects.getSelectedIndex();
         this.listSavedProjects.removeItem(this.listSavedProjects.getSelectedItem());
         this.listSavedProjects.insertItemAt(newDir,index);
-        this.listSavedProjects.setSelectedIndex(0);
+        this.listSavedProjects.setSelectedIndex(index);
         this.revalidate();
     }
 

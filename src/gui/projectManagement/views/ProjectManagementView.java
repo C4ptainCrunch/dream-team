@@ -3,23 +3,27 @@ package gui.projectManagement.views;
 import gui.projectManagement.controllers.ProjectManagementController;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class ProjectManagementView extends JFrame implements ActionListener {
     private ProjectManagementController controller = new ProjectManagementController(this);
+    private JComboBox<String> listSavedProjects;
 
     public ProjectManagementView(){
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         this.render();
     }
 
     public void render() {
         this.setTitle("Project");
+        this.setLayout(new BorderLayout());
 
         initButtonsPanel();
+        initSavedProjectsPanel();
 
         /*
         bv.setOpaque(true);
@@ -27,6 +31,23 @@ public class ProjectManagementView extends JFrame implements ActionListener {
         this.pack();
         this.setVisible(true);
         */
+    }
+
+    public String getSelectedPath(){
+        return this.listSavedProjects.getSelectedItem().toString();
+    }
+
+    private String[] importSavedPaths(){
+        return(controller.getStringListSavedPaths());
+    }
+
+    private void initSavedProjectsPanel(){
+        String[] data = importSavedPaths();
+
+        this.listSavedProjects = new JComboBox<>(data);
+        this.add(listSavedProjects, BorderLayout.SOUTH);
+        this.pack();
+        this.setVisible(true);
     }
 
     private void initButtonsPanel(){
@@ -44,7 +65,7 @@ public class ProjectManagementView extends JFrame implements ActionListener {
         buttons.add(importFrom);
 
         buttons.setOpaque(true);
-        this.setContentPane(buttons);
+        this.add(buttons,BorderLayout.NORTH);
         this.pack();
         this.setVisible(true);
     }

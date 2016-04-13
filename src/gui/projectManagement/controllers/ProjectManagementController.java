@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.io.Writer;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProjectManagementController {
     private ProjectManagementView view;
@@ -20,44 +24,53 @@ public class ProjectManagementController {
         this.view = view;
     }
 
-    private java.io.File getSavedPathsFileFromPath(String path){
+    public String[] getStringListSavedPaths(){
+        String path = getSavedPath();
+        List<String> lines = new ArrayList<>();
+
+        lines.add("Chose existing project from this list (if it exists) and press 'Import'");
+
+        try {
+            FileReader fileReader = new FileReader(path);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                lines.add(line);
+            }
+            bufferedReader.close();
+        }
+        catch (IOException e){
+        }
+
+        return lines.toArray(new String[lines.size()]);
+    }
+
+    private String getSavedPath(){
         String homeDir = System.getProperty("user.home");
-        path = homeDir + path;
         String fileSeparator = System.getProperty("file.separator");
-
-        java.io.File savedDir = new java.io.File(path);
         // Default for now, will receive current username when accounts exist.
-        java.io.File savedPathsFile = new java.io.File(path+fileSeparator+"default.paths");
+        String filename = fileSeparator+ "default.paths";
+        switch (System.getProperty("os.name")){
+            case "Linux":
+                return homeDir + Utils.LINUX_PATH + filename;
+            case "Mac OS X":
+                return homeDir + Utils.MAC_PATH + filename;
+            default:  // Unfortunately, default is Windows OS...
+                String windowsPath = Utils.WINDOWS_PATH_ONE + System.getProperty("user.name") + Utils.WINDOWS_PATH_TWO;
+                return homeDir + windowsPath + filename;
+        }
+    }
 
-        System.out.println(path);
-        System.out.println(path+fileSeparator+"default.paths");
+    private java.io.File getSavedPathsFileFromPath(String path){
+        java.io.File savedPathsFile = new java.io.File(path);
 
-        if(! savedDir.exists()){
-            savedDir.mkdirs();
+        if(! savedPathsFile.exists()){
             try {
+                savedPathsFile.getParentFile().mkdirs();
                 savedPathsFile.createNewFile();
             } catch (IOException e) {  // Not logical but necessary
                 System.err.println("Exists: " + e.getMessage());
             }
-        }
-
-        return savedPathsFile;
-    }
-
-    private java.io.File getSavedPathsFile(){
-        java.io.File savedPathsFile;
-
-        switch (System.getProperty("os.name")){
-            case "Linux":
-                savedPathsFile = getSavedPathsFileFromPath(Utils.LINUX_PATH);
-                break;
-            case "Mac OS X":
-                savedPathsFile = getSavedPathsFileFromPath(Utils.MAC_PATH);
-                break;
-            default:  // Unfortunately, default is Windows OS...
-                String windowsPath = Utils.WINDOWS_PATH_ONE + System.getProperty("user.name") + Utils.WINDOWS_PATH_TWO;
-                savedPathsFile = getSavedPathsFileFromPath(windowsPath);
-                break;
         }
 
         return savedPathsFile;
@@ -72,7 +85,8 @@ public class ProjectManagementController {
             if(!f.exists()){
                 try{
                     f.mkdir();
-                    java.io.File savedPathsFile = getSavedPathsFile();
+                    String path =  getSavedPath();
+                    java.io.File savedPathsFile = getSavedPathsFileFromPath(path);
 
                     try(FileWriter fw = new FileWriter(savedPathsFile, true);
                         BufferedWriter bw = new BufferedWriter(fw)
@@ -98,12 +112,20 @@ public class ProjectManagementController {
     }
 
     public void importProject() {
-        java.io.File f = createPanel("Choose location to import your project", JFileChooser.FILES_ONLY);
-        if (f != null){
-            String filePath = f.getAbsolutePath();
+        if(this.view.getSelectedPath() == null){
+            java.io.File f = createPanel("Choose location to import your project", JFileChooser.FILES_ONLY);
+            if (f != null){
+                String filePath = f.getAbsolutePath();
+                java.awt.EventQueue.invokeLater(()->new EditorView(filePath, true));
+                view.dispose(); //Exit previous windows
+            }
+        }
+        else{
+            String filePath = this.view.getSelectedPath() + System.getProperty("file.separator") + "tikz.save";
             java.awt.EventQueue.invokeLater(()->new EditorView(filePath, true));
             view.dispose(); //Exit previous windows
         }
+
     }
 
     private java.io.File createPanel(String title, int selectionMode) {

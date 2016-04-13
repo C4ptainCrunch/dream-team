@@ -23,7 +23,7 @@ public class ProjectManagementController {
         String path = getSavedPath();
         List<String> lines = new ArrayList<>();
 
-        lines.add("Choose existing project from this list (if it exists) and press 'Import'");
+        lines.add("Chose existing project from this list (if it exists) and press 'Import' or 'Rename'.");
 
         try {
             FileReader fileReader = new FileReader(path);

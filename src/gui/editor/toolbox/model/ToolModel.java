@@ -36,4 +36,9 @@ public class ToolModel extends Observable {
         alertObservers();
     }
 
+    public void setComponentStrokeWidth(int width){
+        component.setStroke(width);
+        alertObservers();
+    }
+
 }

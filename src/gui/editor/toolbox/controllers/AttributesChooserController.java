@@ -28,9 +28,12 @@ public class AttributesChooserController implements Observer {
         model.setComponentLabel(label);
     }
 
+    public void strokeWidth(int width){
+        model.setComponentStrokeWidth(width);
+    }
+
     @Override
     public void update(Observable o, Object obj){
 
     }
-
 }

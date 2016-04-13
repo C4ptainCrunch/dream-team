@@ -8,6 +8,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class AttributesChooserView extends JPanel {
 
@@ -21,7 +23,7 @@ public class AttributesChooserView extends JPanel {
     private JPanel color_chooser;
     private Color chosen_color;
     private JTextField label_field;
-    private JTextField stroke_width_field;
+    private JFormattedTextField stroke_width_field;
     private AttributesChooserController controller;
 
     public AttributesChooserView(ToolModel model){
@@ -63,6 +65,10 @@ public class AttributesChooserView extends JPanel {
         label_field.addActionListener(actionEvent -> { this.controller.labelEntered(label_field.getText());});
     }
 
+    private void addStrokeListener(){
+        stroke_width_field.addActionListener(actionEvent -> {this.controller.strokeWidth(Integer.parseInt(stroke_width_field.getText()));});
+    }
+
     private void initColorChooser(){
         addLabel(COLOR_LABEL);
         color_chooser = new JPanel();
@@ -81,7 +87,10 @@ public class AttributesChooserView extends JPanel {
 
     private void initStrokeField(){
         addLabel(STROKE_LABEL);
-        stroke_width_field = new JTextField();
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
+        numberFormat.setGroupingUsed(false);
+        stroke_width_field = new JFormattedTextField(numberFormat);
         attributes.add(stroke_width_field);
+        addStrokeListener();
     }
 }

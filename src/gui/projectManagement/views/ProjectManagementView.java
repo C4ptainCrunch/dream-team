@@ -53,11 +53,10 @@ public class ProjectManagementView extends JFrame implements ActionListener {
 
     public void updateComboBox(String newDir){
         int index = this.listSavedProjects.getSelectedIndex();
-        System.out.println(this.listSavedProjects.getSelectedItem());
         this.listSavedProjects.removeItem(this.listSavedProjects.getSelectedItem());
         this.listSavedProjects.insertItemAt(newDir,index);
-        this.listSavedProjects.setSelectedIndex(index);
-        this.render();
+        this.listSavedProjects.setSelectedIndex(0);
+        this.revalidate();
     }
 
     private void initButtonsPanel(){

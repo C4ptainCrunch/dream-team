@@ -5,29 +5,19 @@ import java.util.Vector;
 
 import models.TikzRectangle;
 import gui.editor.views.canvas.drawables.Drawable;
-import gui.editor.views.canvas.drawables.DrawableShape;
+import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public class RectangleDrawer extends ComponentDrawer {
 
-    public RectangleDrawer(TikzRectangle component) {
-            this.component = component;
-    }
+    public RectangleDrawer() {}
 
-    public TikzRectangle getComponent(){
-        return (TikzRectangle) this.component;
-    }
+    public DrawableTikzComponent toDrawable(TikzRectangle rectangle){
+        DrawableTikzComponent drawableComponent = super.toDrawable(rectangle);
+        drawableComponent.addShape( new Rectangle(rectangle.getWidth(), rectangle.getLength()));
+        drawableComponent.setStroke(new BasicStroke(2));
+        drawableComponent.setColor(rectangle.getColor());
+        drawableComponent.setBackground(rectangle.getBackground());
+        return drawableComponent;
 
-    public Vector<Drawable> toDrawable(){
-        Vector<Drawable> vec = super.toDrawable();
-
-        Drawable shape = new DrawableShape(
-                new Rectangle(getComponent().getWidth(), getComponent().getLength()),
-                new BasicStroke(2),
-                getComponent().getColor(),
-                getComponent().getBackground(),
-                true
-        );
-        vec.add(shape);
-        return vec;
     }
 }

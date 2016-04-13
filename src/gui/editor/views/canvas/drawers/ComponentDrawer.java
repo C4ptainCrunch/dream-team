@@ -3,26 +3,17 @@ package gui.editor.views.canvas.drawers;
 import java.awt.*;
 import java.util.Vector;
 
+import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import models.TikzComponent;
 import constants.Models;
 import gui.editor.views.canvas.drawables.Drawable;
 import gui.editor.views.canvas.drawables.DrawableText;
 
 
-public abstract class ComponentDrawer implements Drawer {
-    public TikzComponent component;
+public abstract class ComponentDrawer implements TikzDrawer {
 
-    public Vector<Drawable> toDrawable(){
-        Vector<Drawable> vec = new Vector<>();
-
-        if(this.component.getLabel() != Models.DEFAULT.LABEL){
-            Drawable text = new DrawableText(
-                    this.component.getLabel(),
-                    new Point(0, 0)
-            );
-            vec.add(text);
-        }
-
-        return vec;
+    public DrawableTikzComponent toDrawable(TikzComponent component){
+        DrawableTikzComponent drawableComponent = new DrawableTikzComponent(component);
+        return drawableComponent;
     }
 }

@@ -1,6 +1,7 @@
 package gui.editor.toolbox;
 
 import gui.editor.views.canvas.drawers.Drawer;
+import models.TikzComponent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +23,7 @@ public class Selector extends JPanel implements SelectorComponent.SelectorCompon
     }
 
     public interface SelectorListener{
-        void componentSelected(Drawer drawer);
+        void componentSelected(TikzComponent component);
     }
 
     protected void addComponent(SelectorComponent comp){

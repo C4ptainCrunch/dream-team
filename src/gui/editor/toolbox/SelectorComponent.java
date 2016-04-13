@@ -1,6 +1,7 @@
 package gui.editor.toolbox;
 
 import gui.editor.views.canvas.drawables.Drawable;
+import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import gui.editor.views.canvas.drawers.Drawer;
 import models.TikzComponent;
 import models.TikzEdge;
@@ -13,13 +14,11 @@ import java.awt.event.MouseEvent;
 
 public class SelectorComponent extends JPanel {
 
-    private Drawer drawer;
     private TikzComponent component;
     private int shape_size;
     private SelectorComponentListener listener;
 
-    public SelectorComponent(Drawer d, TikzComponent comp, SelectorComponentListener lis){
-        drawer = d;
+    public SelectorComponent(TikzComponent comp, SelectorComponentListener lis){
         component = comp;
         listener = lis;
 
@@ -27,7 +26,7 @@ public class SelectorComponent extends JPanel {
     }
 
     public interface SelectorComponentListener{
-        void componentSelected(Drawer draw);
+        void componentSelected(TikzComponent component);
     }
 
     private void initMouseListener(){
@@ -35,7 +34,7 @@ public class SelectorComponent extends JPanel {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 if(SwingUtilities.isLeftMouseButton(mouseEvent)){
-                    listener.componentSelected(drawer);
+                    listener.componentSelected(component);
                 }
             }
         });
@@ -43,18 +42,7 @@ public class SelectorComponent extends JPanel {
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-
-        for (Drawable drawable: drawer.toDrawable()){
-            if(component instanceof TikzNode){
-                drawable.translate(new Point(((TikzNode)component).getPosition()), this);
-            }
-            else if(component instanceof TikzEdge){
-                Point midEdge = ((TikzEdge)component).getPosition();
-                // We center the edge, so we need to take the opposite of the center to start the drawing. This needs a huge refactor hehe
-                midEdge.setLocation(-midEdge.getX(), -midEdge.getY());
-                drawable.translate(new Point(midEdge), this);
-            }
-            drawable.draw((Graphics2D)(g));
-        }
+        DrawableTikzComponent drawable = Drawer.toDrawable(component);
+        drawable.draw((Graphics2D)g);
     }
 }

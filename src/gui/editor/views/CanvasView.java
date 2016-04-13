@@ -13,7 +13,7 @@ import javax.swing.event.MouseInputAdapter;
 import models.*;
 import gui.editor.controllers.CanvasController;
 import gui.editor.views.canvas.drawables.Drawable;
-import gui.editor.views.canvas.drawables.DrawableShape;
+import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import gui.editor.views.canvas.drawers.*;
 
 public class CanvasView extends JPanel{
@@ -71,54 +71,26 @@ public class CanvasView extends JPanel{
         super.paintComponent(g);
 
         for(TikzEdge edge : graph.getEdges()){
-            Drawer drawer;
-            if (edge instanceof TikzDirectedEdge) {
-                drawer = new DirectedEdgeDrawer((TikzDirectedEdge) edge);
-            }
-            else if (edge instanceof TikzUndirectedEdge) {
-                drawer = new UndirectedEdgeDrawer((TikzUndirectedEdge) edge);
-            }
-            else {
-                drawer = new UnknownDrawer();
-            }
-
-            Vector<Drawable> drawables = drawer.toDrawable();
-            for (Drawable drawable : drawables) {
-                drawable.draw((Graphics2D) g);
-            }
+            DrawableTikzComponent drawableComponent =  Drawer.toDrawable(edge);
+            drawableComponent.draw((Graphics2D) g);
         }
 
         for(TikzNode node : graph){
-            Drawer drawer;
-            if (node instanceof TikzRectangle) {
-                drawer = new RectangleDrawer((TikzRectangle) node);
-            }
-            else if (node instanceof TikzPolygon) {
-                drawer = new PolygonDrawer((TikzPolygon) node);
-            }
-            else if (node instanceof TikzCircle) {
-                drawer = new CircleDrawer((TikzCircle) node);
-            }
-            else {
-                drawer = new UnknownDrawer();
-            }
-            Vector<Drawable> drawables = drawer.toDrawable();
-
-            Collections.reverse(drawables);
-            for (Drawable drawable : drawables) {
-                drawable.translate(node.getPosition());
-                drawable.draw((Graphics2D) g);
-            }
+            DrawableTikzComponent drawableComponent =  Drawer.toDrawable(node);
+            drawableComponent.draw((Graphics2D) g);
         }
 
         if(!getIsFocused()){
-            Drawable drawable = new DrawableShape(
-                    new Rectangle(10000, 10000),
-                    new BasicStroke(0),
-                    Color.white,
-                    new Color(0, 0, 0, 64)
-            );
-            drawable.draw((Graphics2D) g);
+            Graphics2D g2d = (Graphics2D)g;
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            Stroke old_stroke = g2d.getStroke();
+            Color old_color = g2d.getColor();
+            g2d.setStroke(new BasicStroke(0));
+            g2d.setColor(Color.white);
+            g2d.fill(new Rectangle(10000, 10000));
+            g2d.setColor(new Color(0, 0, 0, 64));
+            g2d.setColor(old_color);
+            g2d.setStroke(old_stroke);
         }
 
     }

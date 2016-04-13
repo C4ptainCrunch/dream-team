@@ -1,7 +1,7 @@
 package gui.editor.views.canvas.drawers;
 
 import gui.editor.views.canvas.drawables.Drawable;
-import gui.editor.views.canvas.drawables.DrawableShape;
+import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import models.TikzTriangle;
 
 import java.awt.*;
@@ -12,26 +12,16 @@ import java.util.Vector;
  */
 public class TriangleDrawer extends ComponentDrawer {
 
-    public TriangleDrawer(TikzTriangle component) {
-        this.component = component;
-    }
+    public TriangleDrawer() {}
 
-    public TikzTriangle getComponent(){
-        return (TikzTriangle) this.component;
-    }
+    public DrawableTikzComponent toDrawable(TikzTriangle triangle){
+        DrawableTikzComponent drawableComponent = super.toDrawable(triangle);
 
-    public Vector<Drawable> toDrawable(){
-        Vector<Drawable> vec = super.toDrawable();
-
-        Drawable shape = new DrawableShape(
-                getAwtPolygon(),
-                new BasicStroke(2),
-                getComponent().getColor(),
-                getComponent().getBackground(),
-                true
-        );
-        vec.add(shape);
-        return vec;
+        drawableComponent.addShape(getAwtTriangle(triangle));
+        drawableComponent.setStroke(new BasicStroke(2));
+        drawableComponent.setColor(triangle.getColor());
+        drawableComponent.setBackground(triangle.getBackground());
+        return drawableComponent;
     }
 
     private double[] getAngles(TikzTriangle comp){
@@ -46,12 +36,12 @@ public class TriangleDrawer extends ComponentDrawer {
     }
 
 
-    private Polygon getAwtPolygon() {
+    private Polygon getAwtTriangle(TikzTriangle triangle) {
 
         int[] x = new int[3];
         int[] y = new int[3];
-        int[] sides = ((TikzTriangle) component).getSides();
-        double[] angles = getAngles((TikzTriangle) component);
+        int[] sides = triangle.getSides();
+        double[] angles = getAngles(triangle);
         x[0] = 0;
         y[0] = (int)(Math.sin(angles[1])*sides[1]);
         x[1] = sides[0];

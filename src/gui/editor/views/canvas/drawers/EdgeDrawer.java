@@ -6,37 +6,21 @@ import java.util.Vector;
 
 import models.TikzEdge;
 import gui.editor.views.canvas.drawables.Drawable;
-import gui.editor.views.canvas.drawables.DrawableShape;
+import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 
 public abstract class EdgeDrawer extends ComponentDrawer {
 
-    public EdgeDrawer(TikzEdge component) {
-        this.component = component;
-    }
+    public EdgeDrawer() {}
 
-    public TikzEdge getComponent(){
-        return (TikzEdge) this.component;
-    }
-
-    public Vector<Drawable> toDrawable(){
-        return toDrawable(this.getComponent().getFromPosition(), this.getComponent().getToPosition());
-    }
-
-    public Vector<Drawable> toDrawable(Point start, Point end){
-        Vector<Drawable> vec = super.toDrawable();
-        Drawable shape = new DrawableShape(
-                new Line2D.Float(start, end),
-                new BasicStroke(2),
-                this.getComponent().getColor(),
-                this.getComponent().getColor()
-        );
-
-        vec.add(shape);
-        return vec;
-    }
-
-    public Point getCenter(){
-        return new Point(0, 0);
+    public DrawableTikzComponent toDrawable(TikzEdge edge){
+        Point start = edge.getFromPosition();
+        Point end = edge.getToPosition();
+        DrawableTikzComponent drawableComponent = super.toDrawable(edge);
+        drawableComponent.addShape( new Line2D.Float(start, end));
+        drawableComponent.setStroke( new BasicStroke(2));
+        drawableComponent.setColor(edge.getColor());
+        drawableComponent.setBackground(edge.getColor());
+        return drawableComponent;
     }
 }

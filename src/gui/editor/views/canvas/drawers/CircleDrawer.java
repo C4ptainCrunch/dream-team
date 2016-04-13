@@ -6,31 +6,20 @@ import java.util.Vector;
 
 import models.TikzCircle;
 import gui.editor.views.canvas.drawables.Drawable;
-import gui.editor.views.canvas.drawables.DrawableShape;
+import gui.editor.views.canvas.drawables.DrawableTikzComponent;
+import models.TikzComponent;
 
 public class CircleDrawer extends ComponentDrawer {
 
-    public CircleDrawer(TikzCircle component) {
-        this.component = component;
-    }
+    public CircleDrawer() {}
 
-    public TikzCircle getComponent(){
-        return (TikzCircle) this.component;
-    }
+    public DrawableTikzComponent toDrawable(TikzCircle circle) {
+        DrawableTikzComponent drawableComponent = super.toDrawable(circle);
 
-    public Vector<Drawable> toDrawable(){
-        Vector<Drawable> vec = super.toDrawable();
-
-        float size = getComponent().getRadius() * 2;
-        Drawable shape = new DrawableShape(
-                new Ellipse2D.Float(0, 0, size, size),
-                new BasicStroke(2),
-                getComponent().getColor(),
-                getComponent().getBackground(),
-                true
-        );
-
-        vec.add(shape);
-        return vec;
+        float size = circle.getRadius() * 2;
+        drawableComponent.addShape(new Ellipse2D.Float(0, 0, size, size));
+        drawableComponent.setColor(circle.getColor());
+        drawableComponent.setBackground(circle.getBackground());
+        return drawableComponent;
     }
 }

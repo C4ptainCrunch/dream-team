@@ -6,5 +6,5 @@ import java.awt.*;
 public interface Drawable {
     void draw(Graphics2D g);
     void translate(Point translation);
-    void translate(Point tikz_position, JPanel container);
+    void tikz2swing(Point tikz_position, JPanel container);
 }

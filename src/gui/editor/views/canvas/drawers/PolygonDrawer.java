@@ -5,35 +5,24 @@ import java.util.Vector;
 
 import models.TikzPolygon;
 import gui.editor.views.canvas.drawables.Drawable;
-import gui.editor.views.canvas.drawables.DrawableShape;
+import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public class PolygonDrawer extends ComponentDrawer{
-    public PolygonDrawer(TikzPolygon component) {
-        this.component = component;
-    }
+    public PolygonDrawer(){}
 
-    public TikzPolygon getComponent(){
-        return (TikzPolygon) this.component;
-    }
-
-    public Vector<Drawable> toDrawable(){
-        Vector<Drawable> vec = super.toDrawable();
-
-        Drawable shape = new DrawableShape(
-                getAwtPolygon(),
-                new BasicStroke(2),
-                getComponent().getColor(),
-                getComponent().getBackground(),
-                true
-        );
-        vec.add(shape);
-        return vec;
+    public DrawableTikzComponent toDrawable(TikzPolygon polygon){
+        DrawableTikzComponent drawableComponent = super.toDrawable(polygon);
+        drawableComponent.addShape(getAwtPolygon(polygon));
+        drawableComponent.setStroke(new BasicStroke(2));
+        drawableComponent.setColor(polygon.getColor());
+        drawableComponent.setBackground(polygon.getBackground());
+        return drawableComponent;
     }
 
     // Source : http://stackoverflow.com/a/29546432
-    private Polygon getAwtPolygon() {
-        int vertices = getComponent().getSides();
-        int size = getComponent().getLength();
+    private Polygon getAwtPolygon(TikzPolygon polygon) {
+        int vertices = polygon.getSides();
+        int size = polygon.getLength();
 
         double step = 2 * Math.PI / vertices;
         int[] x = new int[vertices];

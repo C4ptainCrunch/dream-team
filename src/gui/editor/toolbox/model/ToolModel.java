@@ -32,7 +32,7 @@ public class ToolModel extends Observable {
     }
 
     public void setComponent(TikzComponent component) {
-        this.component = component;
+        this.component = component.getClone();
         alertObservers();
     }
 

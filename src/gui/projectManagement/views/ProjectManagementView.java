@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public class ProjectManagementView extends JFrame implements ActionListener {
     private ProjectManagementController controller = new ProjectManagementController(this);
@@ -44,10 +43,20 @@ public class ProjectManagementView extends JFrame implements ActionListener {
     private void initSavedProjectsPanel(){
         String[] data = importSavedPaths();
 
-        this.listSavedProjects = new JComboBox<>(data);
+        this.listSavedProjects = new JComboBox<>();
+        this.listSavedProjects.setModel(new DefaultComboBoxModel(data));
+
         this.add(listSavedProjects, BorderLayout.SOUTH);
         this.pack();
         this.setVisible(true);
+    }
+
+    public void updateComboBox(String newDir){
+        int index = this.listSavedProjects.getSelectedIndex();
+        this.listSavedProjects.removeItem(this.listSavedProjects.getSelectedItem());
+        this.listSavedProjects.insertItemAt(newDir,index);
+        this.listSavedProjects.setSelectedIndex(index);
+        this.revalidate();
     }
 
     private void initButtonsPanel(){
@@ -58,11 +67,16 @@ public class ProjectManagementView extends JFrame implements ActionListener {
         JButton importFrom = new JButton("Import");
         importFrom.setActionCommand("import");
 
+        JButton rename = new JButton("Rename");
+        rename.setActionCommand("rename");
+
         create.addActionListener(this);
         importFrom.addActionListener(this);
+        rename.addActionListener(this);
 
         buttons.add(create);
         buttons.add(importFrom);
+        buttons.add(rename);
 
         buttons.setOpaque(true);
         this.add(buttons,BorderLayout.NORTH);
@@ -78,6 +92,9 @@ public class ProjectManagementView extends JFrame implements ActionListener {
                 break;
             case "import":
                 controller.importProject();
+                break;
+            case "rename":
+                controller.renameProject();
                 break;
             default:
                 break;

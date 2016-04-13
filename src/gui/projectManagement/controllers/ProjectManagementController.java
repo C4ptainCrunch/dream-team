@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.FileOutputStream;
 
 public class ProjectManagementController {
     private ProjectManagementView view;
@@ -76,6 +77,23 @@ public class ProjectManagementController {
         return savedPathsFile;
     }
 
+    private void updateSavedProjectsFile(String oldName, String newName) throws IOException{
+        BufferedReader file = new BufferedReader(new FileReader(getSavedPath()));
+        String line;
+        String input = "";
+
+        while ((line = file.readLine()) != null)
+            input += line + System.lineSeparator();
+
+        input = input.replace(oldName, newName);
+
+        FileOutputStream os = new FileOutputStream(getSavedPath());
+        os.write(input.getBytes());
+
+        file.close();
+        os.close();
+    }
+
     public void createProject() {
 
         java.io.File f = createPanel("Choose location to create your project", JFileChooser.DIRECTORIES_ONLY);
@@ -92,7 +110,7 @@ public class ProjectManagementController {
                         BufferedWriter bw = new BufferedWriter(fw)
                         )
                     {
-                        bw.append(filePath+"\r\n");
+                        bw.append(filePath+System.lineSeparator());
                     }
                     catch (IOException e) {
 
@@ -112,7 +130,7 @@ public class ProjectManagementController {
     }
 
     public void importProject() {
-        if(this.view.getSelectedPath() == null){
+        if(this.view.getSelectedPath().startsWith("Chose")){
             java.io.File f = createPanel("Choose location to import your project", JFileChooser.FILES_ONLY);
             if (f != null){
                 String filePath = f.getAbsolutePath();
@@ -144,6 +162,27 @@ public class ProjectManagementController {
         else {
             System.out.println("No Selection ");
             return null;
+        }
+    }
+
+    public void renameProject() {
+
+        String selectedPath = this.view.getSelectedPath();
+        int endIndex = selectedPath.lastIndexOf("/");
+
+        java.io.File dir = new java.io.File(selectedPath);
+        String newProjectName = JOptionPane.showInputDialog("New project name");
+        String newName = selectedPath.substring(0, endIndex) + System.getProperty("file.separator") + newProjectName;
+        java.io.File newDir = new java.io.File(newName);
+        if (dir.isDirectory() && newProjectName != null) {
+            dir.renameTo(newDir);
+            try{
+                this.updateSavedProjectsFile(selectedPath,newName);
+            }
+            catch(IOException e){
+
+            }
+            this.view.updateComboBox(newName);
         }
     }
 

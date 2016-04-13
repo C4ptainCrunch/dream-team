@@ -1,5 +1,6 @@
 package gui.editor.controllers;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.Observable;
 import java.util.Observer;
@@ -26,16 +27,25 @@ public class CanvasController implements Observer{
         view.repaint();
     }
 
+    private void addNodeToModel(TikzComponent component, Point position){
+        TikzNode node = (TikzNode) component;
+        node.setPosition(position);
+        graph.add(node.getClone());
+    }
+
     public void mousePressed(MouseEvent e, ComponentDrawer drawer) {
         if(view.getIsFocused()){
             TikzComponent comp = drawer.getComponent();
-            TikzNode node = (TikzNode) comp;
-            node.setPosition(e.getPoint());
-            graph.add(node.getClone());
+            addNodeToModel(comp, e.getPoint());
         }
         else {
             view.requestFocusInWindow();
         }
+    }
+
+    public void mouseDropped(TikzComponent component, Point location){
+        addNodeToModel(component, location);
+
     }
 
     public void focusGained() {

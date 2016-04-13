@@ -13,6 +13,8 @@ public abstract class ComponentDrawer implements TikzDrawer {
 
     public DrawableTikzComponent toDrawable(TikzComponent component){
         DrawableTikzComponent drawableComponent = new DrawableTikzComponent(component);
+        drawableComponent.setStroke(new BasicStroke(component.getStroke()));
+        drawableComponent.setColor(component.getColor());
         return drawableComponent;
     }
 }

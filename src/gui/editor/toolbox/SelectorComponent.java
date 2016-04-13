@@ -6,17 +6,38 @@ import models.TikzComponent;
 import models.TikzNode;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class SelectorComponent extends JPanel {
 
     private Drawer drawer;
-    private int shape_size;
     private TikzComponent component;
+    private int shape_size;
+    private SelectorComponentListener listener;
 
-    public SelectorComponent(Drawer d, TikzComponent comp){
+    public SelectorComponent(Drawer d, TikzComponent comp, SelectorComponentListener lis){
         drawer = d;
         component = comp;
+        listener = lis;
+
+        initMouseListener();
+    }
+
+    public interface SelectorComponentListener{
+        void componentSelected(Drawer draw);
+    }
+
+    private void initMouseListener(){
+        this.addMouseListener(new MouseInputAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                if(SwingUtilities.isLeftMouseButton(mouseEvent)){
+                    listener.componentSelected(drawer);
+                }
+            }
+        });
     }
 
     public void paintComponent(Graphics g){

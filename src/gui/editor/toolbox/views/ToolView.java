@@ -4,11 +4,12 @@ import gui.editor.toolbox.AttributesChooser;
 import gui.editor.toolbox.EdgeSelector;
 import gui.editor.toolbox.NodeSelector;
 import gui.editor.toolbox.Selector;
+import gui.editor.views.canvas.drawers.Drawer;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ToolView extends JPanel {
+public class ToolView extends JPanel implements Selector.SelectorListener {
 
     private static final int TOOL_SIZE = 3;
 
@@ -42,13 +43,13 @@ public class ToolView extends JPanel {
         setPanelDimension(nodeSelector);
         setPanelDimension(edgeSelector);
         setPanelDimension(attributesChooser);
-        preview.setMinimumSize(new Dimension(this.getWidth(), this.getHeight()/TOOL_SIZE));
+        setPanelDimension(preview);
     }
 
     private void initSelectors(){
         tabbedSelector = new JTabbedPane();
-        nodeSelector = new NodeSelector();
-        edgeSelector = new EdgeSelector();
+        nodeSelector = new NodeSelector(this);
+        edgeSelector = new EdgeSelector(this);
         attributesChooser = new AttributesChooser();
         preview = new Preview();
         tabbedSelector.addTab(NODE_TAB, nodeSelector);
@@ -66,6 +67,12 @@ public class ToolView extends JPanel {
 
     private void drawNodeOptions(){
 
+    }
+
+    @Override
+    public void componentSelected(Drawer drawer){
+        preview.setDrawer(drawer);
+        preview.repaint();
     }
 
 

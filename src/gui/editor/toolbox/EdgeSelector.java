@@ -12,8 +12,8 @@ import java.awt.*;
  * Created by jhellinckx on 12/04/16.
  */
 public class EdgeSelector extends Selector{
-    public EdgeSelector(){
-        super();
+    public EdgeSelector(SelectorListener lis){
+        super(lis);
         this.setComponentNbr(2);
         this.initComponents();
     }
@@ -24,7 +24,7 @@ public class EdgeSelector extends Selector{
 
     private void addUndirectedEdge(){
         TikzUndirectedEdge edge = new TikzUndirectedEdge();
-        this.addComponent(new SelectorComponent(new UndirectedEdgeDrawer(edge), edge));
+        this.addComponent(new SelectorComponent(new UndirectedEdgeDrawer(edge), edge, this));
     }
 
     private void addDirectedEdge(){

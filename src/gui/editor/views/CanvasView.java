@@ -4,16 +4,13 @@ import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
-import java.util.Collections;
-import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 import gui.editor.drag.TikzTransferHandler;
 import models.*;
-import gui.editor.controllers.CanvasController;
-import gui.editor.views.canvas.drawables.Drawable;
+import gui.editor.controllers.canvascontroller.CanvasController;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import gui.editor.views.canvas.drawers.*;
 
@@ -78,6 +75,7 @@ public class CanvasView extends JPanel{
             DrawableTikzComponent drawableComponent =  Drawer.toDrawable(node);
             drawableComponent.translate(node.getPosition());
             drawableComponent.center();
+            controller.addDrawableComponent(drawableComponent);
             drawableComponent.draw((Graphics2D) g);
         }
 

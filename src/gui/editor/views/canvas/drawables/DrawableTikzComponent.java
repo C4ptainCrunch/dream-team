@@ -102,6 +102,13 @@ public class DrawableTikzComponent implements Drawable{
                 shapes.set(i, transform.createTransformedShape(shapes.get(i)));
             }
         }
+    }
 
+    public boolean contains(Point point){
+        boolean contain = false;
+        for(int i = 0; !contain && i < shapes.size(); i++){
+            contain = shapes.get(i).contains(point);
+        }
+        return contain;
     }
 }

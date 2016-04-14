@@ -3,6 +3,7 @@ package gui.editor.drag;
 import gui.editor.views.CanvasView;
 import gui.editor.toolbox.views.Preview;
 import models.TikzComponent;
+import models.TikzEdge;
 import models.TikzVoid;
 
 import javax.swing.*;

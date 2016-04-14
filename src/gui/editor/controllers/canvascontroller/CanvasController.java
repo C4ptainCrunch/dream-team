@@ -82,8 +82,9 @@ public class CanvasController implements Observer{
     }
 
     public void mouseDropped(TikzComponent component, Point location){
-        addNodeToModel(component, location);
-
+        if (component instanceof TikzNode) {    // And this.
+            addNodeToModel(component, location);
+        }
     }
 
     public void focusGained() {

@@ -32,17 +32,6 @@ public class CanvasController implements Observer {
         view.repaint();
     }
 
-    private TikzComponent findComponentByPosition(Point position) {
-        TikzComponent comp = null;
-        for (DrawableTikzComponent draw : draws) {
-            if (draw.contains(position)) {
-                comp = draw.getComponent();
-                break;
-            }
-        }
-        return comp;
-    }
-
     private void addNodeToModel(TikzComponent component, Point position) {
         TikzNode node = (TikzNode) component;
         node.setPosition(position);
@@ -104,6 +93,18 @@ public class CanvasController implements Observer {
     public void addDrawableComponent(DrawableTikzComponent draw) {
         draws.add(draw);
     }
+
+    public TikzComponent findComponentByPosition(Point position) {
+        TikzComponent comp = null;
+        for (DrawableTikzComponent draw : draws) {
+            if (draw.contains(position)) {
+                comp = draw.getComponent();
+                break;
+            }
+        }
+        return comp;
+    }
+
 }
 
 // This Class allows the CanvasController to keep a state of one action (here, a

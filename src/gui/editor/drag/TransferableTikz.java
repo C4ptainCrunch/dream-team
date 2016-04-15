@@ -13,8 +13,12 @@ import models.TikzComponent;
 public class TransferableTikz implements Transferable {
 
     public static DataFlavor data; // Generic type for identifying data.
-    private TikzComponent component; // The "real" object that will be passed
+    protected TikzComponent component; // The "real" object that will be passed
                                         // through d&d.
+
+    protected TransferableTikz(){
+
+    }
 
     public TransferableTikz(TikzComponent comp) {
         String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=" + TikzComponent.class.getName(); // Identifier

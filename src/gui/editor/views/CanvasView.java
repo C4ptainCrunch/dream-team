@@ -3,17 +3,18 @@ package gui.editor.views;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
+import gui.editor.drag.CanvasTransfertHandler;
 import models.TikzComponent;
 import models.TikzEdge;
 import models.TikzGraph;
 import models.TikzNode;
 import gui.editor.controllers.CanvasController;
-import gui.editor.drag.TikzTransferHandler;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import gui.editor.views.canvas.drawers.Drawer;
 
@@ -28,11 +29,11 @@ public class CanvasView extends JPanel {
         this.graph = graph;
         this.controller = new CanvasController(this, graph);
         this.isFocused = isFocusOwner();
-        this.setTransferHandler(new TikzTransferHandler());
 
         this.render();
 
         this.addListeners();
+        this.enableDrag();
         this.setVisible(true);
     }
 
@@ -62,6 +63,18 @@ public class CanvasView extends JPanel {
             @Override
             public void focusLost(FocusEvent focusEvent) {
                 controller.focusLost();
+            }
+        });
+    }
+
+    private void enableDrag() {
+        this.setTransferHandler(new CanvasTransfertHandler());
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+                CanvasView view = (CanvasView) mouseEvent.getSource();
+                TransferHandler handler = view.getTransferHandler();
+                handler.exportAsDrag(view, mouseEvent, TransferHandler.MOVE);
             }
         });
     }
@@ -105,6 +118,10 @@ public class CanvasView extends JPanel {
 
     public void setIsFocused(boolean isFocused) {
         this.isFocused = isFocused;
+    }
+
+    public TikzComponent getSelectedComponent(){
+        return controller.findComponentByPosition(getMousePosition());
     }
 
     public void dragEvent(TikzComponent component, Point location) {

@@ -12,6 +12,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import constants.GUI.ProjectManagementText;
+import constants.Warnings;
 
 public class ProjectManagementController {
     private ProjectManagementView view;
@@ -123,12 +124,15 @@ public class ProjectManagementController {
                     java.awt.EventQueue.invokeLater(()->new EditorView(filePath, false));
                     view.dispose(); //Exit previous windows
                 }catch(SecurityException e){
-                    e.getStackTrace();
-                    //TODO: Alerte erreur
+                    JOptionPane.showMessageDialog(this.view,Warnings.PERMISSION_WARNING,
+                            String.format(Warnings.WARNING_TYPE,"Security"),
+                            JOptionPane.WARNING_MESSAGE);
                 }
             }
             else{
-                //TODO:Alerte file already exists
+                JOptionPane.showMessageDialog(this.view,Warnings.FILE_WARNING,
+                        String.format(Warnings.WARNING_TYPE,"File"),
+                        JOptionPane.WARNING_MESSAGE);
             }
         }
     }
@@ -190,7 +194,9 @@ public class ProjectManagementController {
             }
         }
         else {
-            JOptionPane.showMessageDialog(this.view,"Please select a project to rename first", "Rename Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this.view,Warnings.RENAME_WARNING,
+                                          String.format(Warnings.WARNING_TYPE,"Rename"),
+                                          JOptionPane.WARNING_MESSAGE);
         }
     }
 

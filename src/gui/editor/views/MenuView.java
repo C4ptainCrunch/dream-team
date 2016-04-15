@@ -1,13 +1,11 @@
 package gui.editor.views;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import constants.GUI;
+import gui.editor.controllers.MenuController;
+import models.TikzGraph;
 
 import javax.swing.*;
 
-import models.TikzGraph;
-import constants.GUI;
-import gui.editor.controllers.MenuController;
 
 public class MenuView extends JMenuBar {
     private MenuController controller;
@@ -35,5 +33,12 @@ public class MenuView extends JMenuBar {
 
         JMenuItem exit_item = new JMenuItem(GUI.Text.EXIT);
         file_menu.add(exit_item);
+
+        JMenu help_menu = new JMenu(GUI.Text.HELP_MENU);
+        this.add(help_menu);
+
+        JMenuItem help_item = new JMenuItem(GUI.Text.HELP);
+        help_item.addActionListener(actionEvent -> controller.showHelp());
+        help_menu.add(help_item);
     }
 }

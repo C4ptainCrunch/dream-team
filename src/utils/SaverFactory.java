@@ -8,10 +8,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import constants.Utils;
 
 
 public class SaverFactory {
-    private static DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    private static DateFormat dateFormat = new SimpleDateFormat(Utils.DATE_FORMAT);
 
 
     public SaverFactory(){

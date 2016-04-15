@@ -30,10 +30,11 @@ public class CanvasController implements Observer{
     }
 
     private TikzComponent findComponentByPosition(Point position){
-        TikzComponent comp = new TikzVoid();
+        TikzComponent comp = null;
         for (DrawableTikzComponent draw : draws){
             if (draw.contains(position)){
                 comp = draw.getComponent();
+                break;
             }
         }
         return comp;
@@ -54,15 +55,17 @@ public class CanvasController implements Observer{
     }
 
     private void addEdgeToModel(TikzComponent component, Point position){
-        if (!state.initialized()){
-            state.setComponent(component);
-            state.setRelatedComponent(findComponentByPosition(position));
-        }
-        else {
-            TikzComponent comp = findComponentByPosition(position);
-            TikzEdge edge = (TikzEdge) component;
-            addEdgeToGraph(edge,(TikzNode) state.getRelatedComponent(), (TikzNode) comp);
-            state.reset();
+        TikzComponent clickedComponent = findComponentByPosition(position);
+        if(clickedComponent != null){
+            if (!state.initialized()){
+                state.setComponent(component);
+                state.setRelatedComponent(clickedComponent);
+            }
+            else {
+                TikzEdge edge = (TikzEdge) component;
+                addEdgeToGraph(edge,(TikzNode) state.getRelatedComponent(), (TikzNode) clickedComponent);
+                state.reset();
+            }
         }
 
     }

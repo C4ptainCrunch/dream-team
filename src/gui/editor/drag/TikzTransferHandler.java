@@ -1,9 +1,8 @@
 package gui.editor.drag;
 
 import gui.editor.views.CanvasView;
-import gui.editor.toolbox.views.Preview;
+import gui.editor.toolbox.views.PreviewView;
 import models.TikzComponent;
-import models.TikzEdge;
 import models.TikzVoid;
 
 import javax.swing.*;
@@ -53,7 +52,7 @@ public class TikzTransferHandler extends TransferHandler {
 
     // Create a Transferable Object from the source that will be retrieved by the destination.
     protected Transferable createTransferable(JComponent c) {
-        return new TransferableTikz(((Preview)c).getComponent());
+        return new TransferableTikz(((PreviewView)c).getComponent());
     }
 
     // Defines the type of Action (MOVE, COPY, COPY_OR_MOVE, etc..).

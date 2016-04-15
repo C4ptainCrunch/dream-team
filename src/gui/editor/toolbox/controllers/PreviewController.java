@@ -1,7 +1,6 @@
 package gui.editor.toolbox.controllers;
 
-import gui.editor.toolbox.views.Preview;
-import gui.editor.views.canvas.drawers.ComponentDrawer;
+import gui.editor.toolbox.views.PreviewView;
 import models.TikzComponent;
 
 import java.util.Observable;
@@ -12,9 +11,9 @@ import java.util.Observer;
  */
 public class PreviewController implements Observer {
 
-    private Preview view;
+    private PreviewView view;
 
-    public PreviewController(Preview v){
+    public PreviewController(PreviewView v){
         view = v;
     }
 

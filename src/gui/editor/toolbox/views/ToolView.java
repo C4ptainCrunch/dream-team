@@ -2,7 +2,6 @@ package gui.editor.toolbox.views;
 
 import gui.editor.toolbox.controllers.PreviewController;
 import gui.editor.toolbox.model.ToolModel;
-import gui.editor.views.canvas.drawers.ComponentDrawer;
 import models.TikzComponent;
 
 import javax.swing.*;
@@ -19,7 +18,7 @@ public class ToolView extends JPanel {
     private SelectorView nodeSelectorView;
     private SelectorView edgeSelectorView;
     private AttributesChooserView attributesChooserView;
-    private Preview preview;
+    private PreviewView preview;
     private ToolModel model;
 
     public ToolView(){
@@ -51,7 +50,7 @@ public class ToolView extends JPanel {
         nodeSelectorView = new NodeSelectorView(model);
         edgeSelectorView = new EdgeSelectorView(model);
         attributesChooserView = new AttributesChooserView(model);
-        preview = new Preview();
+        preview = new PreviewView();
         tabbedSelector.addTab(NODE_TAB, nodeSelectorView);
         tabbedSelector.addTab(EDGE_TAB, edgeSelectorView);
         tabbedSelector.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);

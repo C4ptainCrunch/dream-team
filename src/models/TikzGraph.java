@@ -76,6 +76,13 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         notifyObservers();
     }
 
+    public void addAllNodes(Collection<TikzNode> nodes) {
+        for (TikzNode node : nodes) {
+            this.add(node);
+        }
+        notifyObservers();
+    }
+
     public List<TikzNode> getNodes() {
         return Collections.unmodifiableList(this.nodes);
     }

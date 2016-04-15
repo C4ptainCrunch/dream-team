@@ -94,18 +94,9 @@ public class ProjectManagementController {
         os.close();
     }
 
-    private boolean isInList(List<String> list, String path){
-        for(String s : list){
-            if (s.equals(path)){
-                return true;
-            }
-        }
-        return false;
-    }
-
     private void addProjectPathToSavedPathFile(String projectPath) {
         List<String> paths = getArrayListSavedPaths();
-        if(!isInList(paths, projectPath)) {
+        if(!paths.contains(projectPath)) {
             String path = getSavedPath();
             java.io.File savedPathsFile = getSavedPathsFileFromPath(path);
 

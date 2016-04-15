@@ -65,6 +65,13 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         notifyObservers();
     }
 
+    public void add(TikzGraph graph){
+        this.addAllNodes(graph.getNodes());
+        this.addAllEdges(graph.getEdges());
+        notifyObservers();
+    }
+
+
     /**
      * @param edges
      *            Vector of TikzEdge to append

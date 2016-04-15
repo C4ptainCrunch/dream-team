@@ -11,11 +11,12 @@ import gui.editor.views.canvas.drawables.DrawableTikzComponent;
  */
 public class TriangleDrawer extends ComponentDrawer {
 
-    public TriangleDrawer() {}
+    public TriangleDrawer() {
+    }
 
     @Override
-    public DrawableTikzComponent toDrawable(TikzComponent component){
-        TikzTriangle triangle = (TikzTriangle)component;
+    public DrawableTikzComponent toDrawable(TikzComponent component) {
+        TikzTriangle triangle = (TikzTriangle) component;
         DrawableTikzComponent drawableComponent = super.toDrawable(triangle);
 
         drawableComponent.addShape(getAwtTriangle(triangle));
@@ -23,17 +24,16 @@ public class TriangleDrawer extends ComponentDrawer {
         return drawableComponent;
     }
 
-    private double[] getAngles(TikzTriangle comp){
-        double [] angles = new double[3];
+    private double[] getAngles(TikzTriangle comp) {
+        double[] angles = new double[3];
         double a = comp.getSideA();
         double b = comp.getSideB();
         double c = comp.getSideC();
-        angles[0] = Math.acos((-Math.pow(a,2)+Math.pow(b, 2)+Math.pow(c,2))/(2*b*c));
-        angles[1] = Math.acos((-Math.pow(b,2)+Math.pow(a, 2)+Math.pow(c,2))/(2*a*c));
-        angles[2] = Math.acos((-Math.pow(c,2)+Math.pow(a, 2)+Math.pow(b,2))/(2*a*b));
+        angles[0] = Math.acos((-Math.pow(a, 2) + Math.pow(b, 2) + Math.pow(c, 2)) / (2 * b * c));
+        angles[1] = Math.acos((-Math.pow(b, 2) + Math.pow(a, 2) + Math.pow(c, 2)) / (2 * a * c));
+        angles[2] = Math.acos((-Math.pow(c, 2) + Math.pow(a, 2) + Math.pow(b, 2)) / (2 * a * b));
         return angles;
     }
-
 
     private Polygon getAwtTriangle(TikzTriangle triangle) {
 
@@ -42,10 +42,11 @@ public class TriangleDrawer extends ComponentDrawer {
         int[] sides = triangle.getSides();
         double[] angles = getAngles(triangle);
         x[0] = 0;
-        y[0] = (int)(Math.sin(angles[1])*sides[1]);
+        y[0] = (int) (Math.sin(angles[1]) * sides[1]);
         x[1] = sides[0];
-        y[1] = (int)(Math.sin(angles[1])*sides[1]);;
-        x[2] = (int)(Math.cos(angles[0])*sides[2]);
+        y[1] = (int) (Math.sin(angles[1]) * sides[1]);
+        ;
+        x[2] = (int) (Math.cos(angles[0]) * sides[2]);
         y[2] = 0;
         Polygon p = new Polygon(x, y, 3);
         return p;

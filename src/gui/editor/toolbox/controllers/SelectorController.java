@@ -15,18 +15,17 @@ public class SelectorController implements Observer {
     private SelectorView view;
     private ToolModel model;
 
-
-    public SelectorController(SelectorView v, ToolModel m){
+    public SelectorController(SelectorView v, ToolModel m) {
         view = v;
         model = m;
     }
 
-    public void itemSelected(TikzComponent component){
+    public void itemSelected(TikzComponent component) {
         model.setComponent(component);
     }
 
     @Override
-    public void update(Observable o, Object obj){
+    public void update(Observable o, Object obj) {
 
     }
 }

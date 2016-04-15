@@ -17,8 +17,8 @@ import gui.editor.views.CanvasView;
  */
 public class TikzTransferHandler extends TransferHandler {
 
-
-    // Check if the data imported are valid (according to the TransferHandler doc).
+    // Check if the data imported are valid (according to the TransferHandler
+    // doc).
     public boolean canImport(TransferHandler.TransferSupport info) {
         if (!info.isDataFlavorSupported(DataFlavor.stringFlavor)) {
             return false;
@@ -27,18 +27,26 @@ public class TikzTransferHandler extends TransferHandler {
     }
 
     // Import the data after a drop is detected.
-    public boolean importData(TransferHandler.TransferSupport support){
-        if(!canImport(support))
+    public boolean importData(TransferHandler.TransferSupport support) {
+        if (!canImport(support))
             return false;
 
-        Transferable data = support.getTransferable();  // The object passed through the d&d is an instance of Transferable.
+        Transferable data = support.getTransferable(); // The object passed
+                                                        // through the d&d is an
+                                                        // instance of
+                                                        // Transferable.
         TikzComponent component = new TikzVoid();
-        String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=" + TikzComponent.class.getName(); // Identifies the type of data passed.
-        try{
+        String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=" + TikzComponent.class.getName(); // Identifies
+                                                                                                                // the
+                                                                                                                // type
+                                                                                                                // of
+                                                                                                                // data
+                                                                                                                // passed.
+        try {
             DataFlavor import_data;
             import_data = new DataFlavor(mimeType);
             component = (TikzComponent) data.getTransferData(import_data);
-        } catch (ClassNotFoundException|IOException|UnsupportedFlavorException e){
+        } catch (ClassNotFoundException | IOException | UnsupportedFlavorException e) {
             e.printStackTrace();
         }
 
@@ -48,12 +56,15 @@ public class TikzTransferHandler extends TransferHandler {
         return true;
     }
 
-    // Action to do after the exportation (this defines what to do with the source of the d&d).
-    protected void exportDone(JComponent c, Transferable t, int action){}
+    // Action to do after the exportation (this defines what to do with the
+    // source of the d&d).
+    protected void exportDone(JComponent c, Transferable t, int action) {
+    }
 
-    // Create a Transferable Object from the source that will be retrieved by the destination.
+    // Create a Transferable Object from the source that will be retrieved by
+    // the destination.
     protected Transferable createTransferable(JComponent c) {
-        return new TransferableTikz(((PreviewView)c).getComponent());
+        return new TransferableTikz(((PreviewView) c).getComponent());
     }
 
     // Defines the type of Action (MOVE, COPY, COPY_OR_MOVE, etc..).

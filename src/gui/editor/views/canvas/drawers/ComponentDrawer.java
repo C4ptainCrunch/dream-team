@@ -7,7 +7,7 @@ import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public abstract class ComponentDrawer implements TikzDrawer {
 
-    public DrawableTikzComponent toDrawable(TikzComponent component){
+    public DrawableTikzComponent toDrawable(TikzComponent component) {
         DrawableTikzComponent drawableComponent = new DrawableTikzComponent(component);
         drawableComponent.setStroke(new BasicStroke(component.getStroke()));
         drawableComponent.setColor(component.getColor());

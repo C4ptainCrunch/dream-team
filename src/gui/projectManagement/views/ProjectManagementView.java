@@ -14,7 +14,7 @@ public class ProjectManagementView extends JFrame implements ActionListener {
     private JComboBox<String> listSavedProjects;
     private JTextPane textInfo;
 
-    public ProjectManagementView(){
+    public ProjectManagementView() {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.render();
@@ -29,17 +29,19 @@ public class ProjectManagementView extends JFrame implements ActionListener {
         initInfoPanel();
     }
 
-    public String getSelectedPath(){
+    public String getSelectedPath() {
         return this.listSavedProjects.getSelectedItem().toString();
     }
 
-    public int getSelectedPathIndex() { return this.listSavedProjects.getSelectedIndex(); }
-
-    private String[] importSavedPaths(){
-        return(controller.getStringListSavedPaths());
+    public int getSelectedPathIndex() {
+        return this.listSavedProjects.getSelectedIndex();
     }
 
-    private void initSavedProjectsPanel(){
+    private String[] importSavedPaths() {
+        return (controller.getStringListSavedPaths());
+    }
+
+    private void initSavedProjectsPanel() {
         String[] data = importSavedPaths();
 
         this.listSavedProjects = new JComboBox<>();
@@ -52,15 +54,15 @@ public class ProjectManagementView extends JFrame implements ActionListener {
         this.setVisible(true);
     }
 
-    public void updateComboBox(String newDir){
+    public void updateComboBox(String newDir) {
         int index = getSelectedPathIndex();
         this.listSavedProjects.removeItem(this.listSavedProjects.getSelectedItem());
-        this.listSavedProjects.insertItemAt(newDir,index);
+        this.listSavedProjects.insertItemAt(newDir, index);
         this.listSavedProjects.setSelectedIndex(index);
         this.revalidate();
     }
 
-    private void initButtonsPanel(){
+    private void initButtonsPanel() {
         JPanel buttons = new JPanel();
         JButton create = new JButton("Create Project");
         create.setActionCommand("create");
@@ -80,40 +82,36 @@ public class ProjectManagementView extends JFrame implements ActionListener {
         buttons.add(rename);
 
         buttons.setOpaque(true);
-        this.add(buttons,BorderLayout.NORTH);
+        this.add(buttons, BorderLayout.NORTH);
         this.pack();
         this.setVisible(true);
     }
 
-    private void initInfoPanel(){
+    private void initInfoPanel() {
         JPanel infoPanel = new JPanel();
         this.textInfo = new JTextPane();
-        this.textInfo.setText(
-                String.format(ProjectManagementText.BLANK_INFO_PANEL,
-                        "", "Local", ""
-                )
-        );
+        this.textInfo.setText(String.format(ProjectManagementText.BLANK_INFO_PANEL, "", "Local", ""));
 
         infoPanel.add(this.textInfo);
-        this.add(this.textInfo,BorderLayout.EAST);
+        this.add(this.textInfo, BorderLayout.EAST);
         this.pack();
         this.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand()){
-            case "create":
-                controller.createProject();
-                break;
-            case "import":
-                controller.importProject();
-                break;
-            case "rename":
-                controller.renameProject();
-                break;
-            default:
-                break;
+        switch (e.getActionCommand()) {
+        case "create":
+            controller.createProject();
+            break;
+        case "import":
+            controller.importProject();
+            break;
+        case "rename":
+            controller.renameProject();
+            break;
+        default:
+            break;
         }
 
     }

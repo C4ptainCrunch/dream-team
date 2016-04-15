@@ -7,14 +7,14 @@ import models.TikzComponent;
 import models.TikzEdge;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
-
 public abstract class EdgeDrawer extends ComponentDrawer {
 
-    public EdgeDrawer() {}
+    public EdgeDrawer() {
+    }
 
     @Override
     public DrawableTikzComponent toDrawable(TikzComponent component) {
-        TikzEdge edge = (TikzEdge)component;
+        TikzEdge edge = (TikzEdge) component;
         DrawableTikzComponent drawableComponent = super.toDrawable(edge);
         Point start = edge.getFromPosition();
         Point end = edge.getToPosition();

@@ -12,22 +12,22 @@ public class ToolModel extends Observable {
 
     private TikzComponent component;
 
-    private void alertObservers(){
+    private void alertObservers() {
         this.setChanged();
         notifyObservers(component);
     }
 
-    public void setComponentLabel(String label){
+    public void setComponentLabel(String label) {
         component.setLabel(label);
         alertObservers();
     }
 
-    public void setComponentColor(Color color){
+    public void setComponentColor(Color color) {
         component.setColor(color);
         alertObservers();
     }
 
-    public TikzComponent getComponent(){
+    public TikzComponent getComponent() {
         return component;
     }
 
@@ -36,7 +36,7 @@ public class ToolModel extends Observable {
         alertObservers();
     }
 
-    public void setComponentStrokeWidth(int width){
+    public void setComponentStrokeWidth(int width) {
         component.setStroke(width);
         alertObservers();
     }

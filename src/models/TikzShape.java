@@ -9,14 +9,14 @@ public abstract class TikzShape extends TikzNode {
     private Color backgroundColor;
     private int outlineWidth;
 
-    protected TikzShape(){
+    protected TikzShape() {
         super();
         outlineColor = Models.DEFAULT.COLOR;
         outlineWidth = Models.DEFAULT.WIDTH;
         backgroundColor = Models.DEFAULT.BACKGROUND_COLOR;
     }
 
-    protected TikzShape(TikzShape o_shape){
+    protected TikzShape(TikzShape o_shape) {
         super(o_shape);
         outlineColor = o_shape.getOutlineColor();
         outlineWidth = o_shape.getOutlineWidth();

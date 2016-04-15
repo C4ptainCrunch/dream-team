@@ -15,18 +15,18 @@ public class PreviewController implements Observer {
     private PreviewView view;
     private ToolModel model;
 
-    public PreviewController(PreviewView v, ToolModel m){
+    public PreviewController(PreviewView v, ToolModel m) {
         view = v;
         model = m;
         model.addObserver(this);
     }
 
-    public TikzComponent getComponent(){
+    public TikzComponent getComponent() {
         return model.getComponent();
     }
 
     @Override
-    public void update(Observable o, Object obj){
+    public void update(Observable o, Object obj) {
         view.setComponent(model.getComponent());
         view.repaint();
     }

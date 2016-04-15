@@ -13,7 +13,7 @@ import models.TikzNode;
 import gui.editor.views.CanvasView;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
-public class CanvasController implements Observer{
+public class CanvasController implements Observer {
     private CanvasView view;
     private TikzGraph graph;
     private HashSet<DrawableTikzComponent> draws;
@@ -28,14 +28,14 @@ public class CanvasController implements Observer{
         state = new CanvasState();
     }
 
-    public void update(Observable o, Object arg){
+    public void update(Observable o, Object arg) {
         view.repaint();
     }
 
-    private TikzComponent findComponentByPosition(Point position){
+    private TikzComponent findComponentByPosition(Point position) {
         TikzComponent comp = null;
-        for (DrawableTikzComponent draw : draws){
-            if (draw.contains(position)){
+        for (DrawableTikzComponent draw : draws) {
+            if (draw.contains(position)) {
                 comp = draw.getComponent();
                 break;
             }
@@ -43,13 +43,13 @@ public class CanvasController implements Observer{
         return comp;
     }
 
-    private void addNodeToModel(TikzComponent component, Point position){
+    private void addNodeToModel(TikzComponent component, Point position) {
         TikzNode node = (TikzNode) component;
         node.setPosition(position);
         graph.add(node.getClone());
     }
 
-    private void addEdgeToGraph(TikzEdge edge, TikzNode source, TikzNode destination){
+    private void addEdgeToGraph(TikzEdge edge, TikzNode source, TikzNode destination) {
         if ((source != null) && (destination != null)) {
             edge.setFirstNode(source);
             edge.setSecondNode(destination);
@@ -57,16 +57,15 @@ public class CanvasController implements Observer{
         }
     }
 
-    private void addEdgeToModel(TikzComponent component, Point position){
+    private void addEdgeToModel(TikzComponent component, Point position) {
         TikzComponent clickedComponent = findComponentByPosition(position);
-        if(clickedComponent != null){
-            if (!state.initialized()){
+        if (clickedComponent != null) {
+            if (!state.initialized()) {
                 state.setComponent(component);
                 state.setRelatedComponent(clickedComponent);
-            }
-            else {
+            } else {
                 TikzEdge edge = (TikzEdge) component;
-                addEdgeToGraph(edge,(TikzNode) state.getRelatedComponent(), (TikzNode) clickedComponent);
+                addEdgeToGraph(edge, (TikzNode) state.getRelatedComponent(), (TikzNode) clickedComponent);
                 state.reset();
             }
         }
@@ -74,21 +73,20 @@ public class CanvasController implements Observer{
     }
 
     public void mousePressed(MouseEvent e, TikzComponent selectedTool) {
-        if(view.getIsFocused()){
-            if (selectedTool instanceof TikzNode){ // TODO : Need to refactor this.
+        if (view.getIsFocused()) {
+            if (selectedTool instanceof TikzNode) { // TODO : Need to refactor
+                                                    // this.
                 addNodeToModel(selectedTool, e.getPoint());
-            }
-            else if (selectedTool instanceof TikzEdge) {
+            } else if (selectedTool instanceof TikzEdge) {
                 addEdgeToModel(selectedTool, e.getPoint());
             }
-        }
-        else {
+        } else {
             view.requestFocusInWindow();
         }
     }
 
-    public void mouseDropped(TikzComponent component, Point location){
-        if (component instanceof TikzNode) {    // TODO : And this.
+    public void mouseDropped(TikzComponent component, Point location) {
+        if (component instanceof TikzNode) { // TODO : And this.
             addNodeToModel(component, location);
         }
     }
@@ -103,59 +101,59 @@ public class CanvasController implements Observer{
         view.repaint();
     }
 
-    public void addDrawableComponent(DrawableTikzComponent draw){
+    public void addDrawableComponent(DrawableTikzComponent draw) {
         draws.add(draw);
     }
 }
 
-
-
-// This Class allows the CanvasController to keep a state of one action (here, a mouse clicked on a component).
+// This Class allows the CanvasController to keep a state of one action (here, a
+// mouse clicked on a component).
 
 class CanvasState {
 
     private TikzComponent component;
     private TikzComponent related_component;
 
-    public CanvasState(){
+    public CanvasState() {
         component = null;
         related_component = null;
     }
 
-    public CanvasState(TikzComponent comp, TikzComponent pos){
+    public CanvasState(TikzComponent comp, TikzComponent pos) {
         component = comp;
         related_component = pos;
     }
 
     public boolean equalsTo(CanvasState o_state) {
-        return ((o_state.getComponent() == this.component) && (o_state.getRelatedComponent() == this.getRelatedComponent()));
+        return ((o_state.getComponent() == this.component)
+                && (o_state.getRelatedComponent() == this.getRelatedComponent()));
     }
 
-    public boolean initialized(){
+    public boolean initialized() {
         return ((component != null) && (related_component != null));
     }
 
-    public boolean componentEqualsTo(TikzComponent comp){
+    public boolean componentEqualsTo(TikzComponent comp) {
         return (comp == this.component);
     }
 
-    public TikzComponent getComponent(){
+    public TikzComponent getComponent() {
         return component;
-    }
-
-    public TikzComponent getRelatedComponent() {
-        return related_component;
     }
 
     public void setComponent(TikzComponent component) {
         this.component = component;
     }
 
+    public TikzComponent getRelatedComponent() {
+        return related_component;
+    }
+
     public void setRelatedComponent(TikzComponent related_component) {
         this.related_component = related_component;
     }
 
-    public void reset(){
+    public void reset() {
         this.component = null;
         this.related_component = null;
     }

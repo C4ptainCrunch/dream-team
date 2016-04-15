@@ -1,6 +1,5 @@
 package gui.editor.toolbox.views;
 
-
 import java.awt.*;
 
 import javax.swing.*;
@@ -14,8 +13,7 @@ public class ToolBoxView extends JPanel {
 
     private ToolView tikzComponentCreator;
 
-
-    public ToolBoxView(){
+    public ToolBoxView() {
         tikzComponentCreator = new ToolView();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(new BevelBorder(BevelBorder.RAISED));
@@ -23,7 +21,7 @@ public class ToolBoxView extends JPanel {
         this.setPreferredSize(new Dimension(BOX_WIDTH, this.getHeight()));
     }
 
-    public TikzComponent getSelectedTool(){
+    public TikzComponent getSelectedTool() {
         return tikzComponentCreator.getTikzComponent().getClone();
     }
 }

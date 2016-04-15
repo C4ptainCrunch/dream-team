@@ -25,18 +25,16 @@ public class SelectorView extends JPanel implements SelectorComponent.SelectorCo
         controller = new SelectorController(this, model);
     }
 
-
-
-    protected void addComponent(SelectorComponent comp){
+    protected void addComponent(SelectorComponent comp) {
         options.add(comp);
     }
 
-    public void setComponentNbr(int nbr){
-        ((GridLayout)options.getLayout()).setRows(nbr);
+    public void setComponentNbr(int nbr) {
+        ((GridLayout) options.getLayout()).setRows(nbr);
     }
 
     @Override
-    public void componentSelected(TikzComponent component){
+    public void componentSelected(TikzComponent component) {
         controller.itemSelected(component);
     }
 }

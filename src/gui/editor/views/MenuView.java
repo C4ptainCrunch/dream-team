@@ -6,13 +6,12 @@ import models.TikzGraph;
 import constants.GUI;
 import gui.editor.controllers.MenuController;
 
-
 public class MenuView extends JMenuBar {
     private MenuController controller;
     private TikzGraph graph;
     private EditorView parentView;
 
-    public MenuView(EditorView parentView, TikzGraph graph){
+    public MenuView(EditorView parentView, TikzGraph graph) {
         this.parentView = parentView;
         this.graph = graph;
         this.controller = new MenuController(this, graph);
@@ -27,11 +26,9 @@ public class MenuView extends JMenuBar {
         save_item.addActionListener(e -> controller.save());
         file_menu.add(save_item);
 
-
         JMenuItem build_pdf = new JMenuItem(GUI.Text.PDF);
         build_pdf.addActionListener(actionEvent -> controller.compileAndOpen());
         file_menu.add(build_pdf);
-
 
         JMenuItem diff_item = new JMenuItem(GUI.Text.DIFF);
         diff_item.addActionListener(actionEvent -> controller.openHistory());
@@ -51,7 +48,7 @@ public class MenuView extends JMenuBar {
         help_menu.add(help_item);
     }
 
-    public void save(){
+    public void save() {
         controller.save();
     }
 

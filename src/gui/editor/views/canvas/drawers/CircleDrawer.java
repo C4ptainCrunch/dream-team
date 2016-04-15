@@ -8,11 +8,12 @@ import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public class CircleDrawer extends ComponentDrawer {
 
-    public CircleDrawer() {}
+    public CircleDrawer() {
+    }
 
     @Override
     public DrawableTikzComponent toDrawable(TikzComponent component) {
-        TikzCircle circle = (TikzCircle)component;
+        TikzCircle circle = (TikzCircle) component;
         DrawableTikzComponent drawableComponent = super.toDrawable(circle);
 
         float size = circle.getRadius() * 2;

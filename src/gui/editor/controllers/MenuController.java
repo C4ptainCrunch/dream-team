@@ -1,6 +1,5 @@
 package gui.editor.controllers;
 
-
 import static javax.swing.JOptionPane.showMessageDialog;
 
 import java.io.BufferedWriter;
@@ -18,7 +17,6 @@ import gui.editor.views.MenuView;
 import gui.help.views.HelpView;
 import gui.projectManagement.views.HistoryView;
 
-
 public class MenuController implements Observer {
     private MenuView view;
     private TikzGraph graph;
@@ -30,27 +28,27 @@ public class MenuController implements Observer {
         this.graph.addObserver(this);
     }
 
-    public void update(Observable o, Object arg){}
+    public void update(Observable o, Object arg) {
+    }
 
-    public void save(){
+    public void save() {
         String path = view.getProjectPath();
         String tikzText = graph.toString();
 
-        try{
-            FileWriter f = new FileWriter(path+"/tikz.save");
+        try {
+            FileWriter f = new FileWriter(path + "/tikz.save");
             BufferedWriter bufferedWriter = new BufferedWriter(f);
             bufferedWriter.write(tikzText);
             bufferedWriter.close();
-        }catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void compileAndOpen(){
+    public void compileAndOpen() {
         try {
             PdfRenderer.compileAndOpen(new File(view.getProjectPath() + "/tikz.pdf"), graph);
-        }
-        catch (PdfCompilationError e){
+        } catch (PdfCompilationError e) {
             showMessageDialog(null, "Error during compilation");
         }
     }
@@ -60,7 +58,7 @@ public class MenuController implements Observer {
         HistoryView histView = new HistoryView(view.getProjectPath());
     }
 
-    public void showHelp(){
+    public void showHelp() {
         java.awt.EventQueue.invokeLater(HelpView::new);
     }
 

@@ -1,6 +1,5 @@
 package gui.projectManagement.controllers;
 
-
 import java.awt.*;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -20,37 +19,36 @@ public class HistoryController {
     private String path;
     private Color currentColor = Color.BLACK;
 
-    public HistoryController(HistoryView view, String path){
+    public HistoryController(HistoryView view, String path) {
         this.path = path;
         this.view = view;
     }
 
     public void fillView() {
-        try{
-            Files.lines(Paths.get(path + "/diffs"), Charset.defaultCharset()).
-                    forEach(line -> {
-                        colorHelper(line);
-                        appendString(line + "\n", currentColor);
-                    });
-        }catch(IOException e){
+        try {
+            Files.lines(Paths.get(path + "/diffs"), Charset.defaultCharset()).forEach(line -> {
+                colorHelper(line);
+                appendString(line + "\n", currentColor);
+            });
+        } catch (IOException e) {
             e.getStackTrace();
         }
     }
 
-    private void appendString(String str, Color color){
+    private void appendString(String str, Color color) {
         StyledDocument document = (StyledDocument) view.getHistoryPane().getDocument();
-        Style style = document.addStyle("color",null);
+        Style style = document.addStyle("color", null);
         StyleConstants.setForeground(style, color);
         try {
             document.insertString(document.getLength(), str, style);
-        }catch(BadLocationException e){
+        } catch (BadLocationException e) {
             e.getStackTrace();
         }
     }
 
-
     private void colorHelper(String str) {
-        if (str.isEmpty()) return;
+        if (str.isEmpty())
+            return;
         if (Pattern.matches("^\\d{4}\\/\\d\\d\\/\\d\\d \\d\\d:\\d\\d:\\d\\d$", str))
             currentColor = Color.BLACK;
         else if (str.charAt(0) == '+')

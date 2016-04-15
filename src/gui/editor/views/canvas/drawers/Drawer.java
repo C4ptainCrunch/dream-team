@@ -7,8 +7,6 @@ import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public class Drawer {
 
-    private Drawer(){}
-
     private static HashMap<Class<? extends TikzComponent>, TikzDrawer> drawers = new HashMap<>();
 
     static {
@@ -20,7 +18,10 @@ public class Drawer {
         drawers.put(TikzUndirectedEdge.class, new UndirectedEdgeDrawer());
     }
 
-    public static DrawableTikzComponent toDrawable(TikzComponent component){
+    private Drawer() {
+    }
+
+    public static DrawableTikzComponent toDrawable(TikzComponent component) {
         return drawers.get(component.getClass()).toDrawable(component);
     }
 }

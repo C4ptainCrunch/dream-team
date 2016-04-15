@@ -20,31 +20,31 @@ public class AttributesChooserController implements Observer {
     private ToolModel model;
     private Color chosen_color;
 
-    public AttributesChooserController(AttributesChooserView v, ToolModel m){
+    public AttributesChooserController(AttributesChooserView v, ToolModel m) {
         view = v;
         model = m;
     }
 
-    private void colorSelected(Color color){
+    private void colorSelected(Color color) {
         model.setComponentColor(color);
     }
 
-    public void labelEntered(String label){
+    public void labelEntered(String label) {
         model.setComponentLabel(label);
     }
 
-    public void strokeWidth(int width){
+    public void strokeWidth(int width) {
         model.setComponentStrokeWidth(width);
     }
 
-    public void chooseColor(){
+    public void chooseColor() {
         chosen_color = JColorChooser.showDialog(this.view, COLOR_DIALOG_TITLE, Color.GRAY);
         view.setColorFieldColor(chosen_color);
         colorSelected(chosen_color);
     }
 
     @Override
-    public void update(Observable o, Object obj){
+    public void update(Observable o, Object obj) {
         view.repaint();
     }
 }

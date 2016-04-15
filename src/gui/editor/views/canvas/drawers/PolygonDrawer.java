@@ -6,12 +6,13 @@ import models.TikzComponent;
 import models.TikzPolygon;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
-public class PolygonDrawer extends ComponentDrawer{
-    public PolygonDrawer(){}
+public class PolygonDrawer extends ComponentDrawer {
+    public PolygonDrawer() {
+    }
 
     @Override
-    public DrawableTikzComponent toDrawable(TikzComponent component){
-        TikzPolygon polygon = (TikzPolygon)component;
+    public DrawableTikzComponent toDrawable(TikzComponent component) {
+        TikzPolygon polygon = (TikzPolygon) component;
         DrawableTikzComponent drawableComponent = super.toDrawable(polygon);
         drawableComponent.addShape(getAwtPolygon(polygon));
         drawableComponent.setBackground(polygon.getBackground());

@@ -51,7 +51,7 @@ public class ProjectManagementView extends JFrame implements ActionListener {
         this.listSavedProjects = new JComboBox<>();
         this.listSavedProjects.setModel(new DefaultComboBoxModel(data));
 
-        this.listSavedProjects.addActionListener(event -> updateInfoPanel());
+        this.listSavedProjects.addActionListener(e -> controller.dropdownSelected(e));
 
         this.add(listSavedProjects, BorderLayout.CENTER);
         this.pack();
@@ -94,21 +94,16 @@ public class ProjectManagementView extends JFrame implements ActionListener {
     private void initInfoPanel(){
         JPanel infoPanel = new JPanel();
         this.textInfo = new JTextPane();
-        this.textInfo.setText(String.format(ProjectManagementText.BLANK_INFO_PANEL,"","Local",""));
+        this.textInfo.setText(
+                String.format(ProjectManagementText.BLANK_INFO_PANEL,
+                        "", "Local", ""
+                )
+        );
 
         infoPanel.add(this.textInfo);
         this.add(this.textInfo,BorderLayout.EAST);
         this.pack();
         this.setVisible(true);
-    }
-
-    public void updateInfoPanel(){
-        String selectedProject = this.listSavedProjects.getSelectedItem().toString();
-        int endIndex = selectedProject.lastIndexOf("/");
-        String projectName = selectedProject.substring(endIndex+1, selectedProject.length());
-        String lastRevision = this.controller.getLastRevision();
-
-        this.textInfo.setText(String.format(ProjectManagementText.BLANK_INFO_PANEL,projectName,"Local",lastRevision));
     }
 
     @Override
@@ -127,5 +122,9 @@ public class ProjectManagementView extends JFrame implements ActionListener {
                 break;
         }
 
+    }
+
+    public void setInfoText(String infoText) {
+        this.textInfo.setText(infoText);
     }
 }

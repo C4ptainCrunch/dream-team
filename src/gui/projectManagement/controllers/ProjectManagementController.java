@@ -7,6 +7,7 @@ import constants.Utils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.ArrayList;
@@ -200,6 +201,7 @@ public class ProjectManagementController {
         }
     }
 
+    // TODO : move this to a model
     public String getLastRevision(){
         String ch = "";
 
@@ -226,4 +228,18 @@ public class ProjectManagementController {
     }
 
 
+    public void dropdownSelected(ActionEvent event) {
+        JComboBox comboBox = (JComboBox) event.getSource();
+        String selectedProject = comboBox.getSelectedItem().toString();
+
+        int endIndex = selectedProject.lastIndexOf("/");
+        String projectName = selectedProject.substring(endIndex+1, selectedProject.length());
+        String lastRevision = this.getLastRevision();
+
+        String text = String.format(
+                ProjectManagementText.BLANK_INFO_PANEL,
+                projectName, "Local", lastRevision
+        );
+        this.view.setInfoText(text);
+    }
 }

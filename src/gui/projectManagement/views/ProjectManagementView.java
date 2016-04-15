@@ -38,7 +38,7 @@ public class ProjectManagementView extends JFrame implements ActionListener {
     }
 
     private String[] importSavedPaths() {
-        return (controller.getStringListSavedPaths());
+        return controller.getStringListSavedPaths();
     }
 
     private void initSavedProjectsPanel() {

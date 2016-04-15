@@ -49,7 +49,8 @@ public class SaverFactory {
 
     private String diffDecoder(String s) {
         StringBuilder res = new StringBuilder();
-        int pos = 0, sLen = s.length();
+        int pos = 0;
+        int sLen = s.length();
         while (pos < sLen) {
             char c = s.charAt(pos);
             if (c == '%') {

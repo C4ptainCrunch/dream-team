@@ -55,7 +55,7 @@ public class MenuController implements Observer {
 
     public void openHistory() {
 
-        HistoryView histView = new HistoryView(view.getProjectPath());
+        HistoryView histView = new HistoryView(this.view.getProjectPath());
     }
 
     public void showHelp() {

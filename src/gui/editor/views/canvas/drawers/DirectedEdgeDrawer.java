@@ -25,7 +25,8 @@ public class DirectedEdgeDrawer extends EdgeDrawer {
         double beta = alpha - ARROW_ANGLE;
         double gamma = Math.PI / 2 - alpha - ARROW_ANGLE;
 
-        int corrX, corrY;
+        int corrX;
+        int corrY;
         corrX = (end.getX() > start.getX()) ? -1 : 1;
         corrY = (end.getY() > start.getY()) ? -1 : 1;
 

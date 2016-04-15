@@ -36,7 +36,7 @@ public class NodeParser {
     }
 
     public static Parser<String> anOption() {
-        final Parser<String> argument = (Scanners.IDENTIFIER.next(MAYBEWHITESPACES)).many1().source();
+        final Parser<String> argument = Scanners.IDENTIFIER.next(MAYBEWHITESPACES).many1().source();
         final Parser<Void> decimalWithUnit = Scanners.DECIMAL.next(Scanners.IDENTIFIER.optional()).cast();
         final Parser<String> withEqual = Scanners.isChar('=').next(Parsers.or(Scanners.IDENTIFIER, decimalWithUnit))
                 .source();
@@ -84,7 +84,8 @@ public class NodeParser {
                                 nodeFromDraw()),
                 Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, nodeFromDraw())
                         .many(), (defaultOptions, firstNode, restNode) -> {
-                            TikzNode previous, current;
+                            TikzNode previous;
+                            TikzNode current;
                             previous = createNode(defaultOptions, firstNode);
                             graph.add(previous);
                             for (DestructuredNode destructuredNode : restNode) {
@@ -217,7 +218,7 @@ public class NodeParser {
         } else if (options.contains("<-")) {
             return "directedLeft";
         } else {
-            return ("undirected");
+            return "undirected";
         }
     }
 }

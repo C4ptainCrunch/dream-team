@@ -138,12 +138,16 @@ public class NodeParser {
          * "\draw[circle] (-0.2,0) -- (4.2,0) node[rectangle] {$x$};", rectangle
          * by default
          */
-        for (String s : shapes)
-            if (list2.contains(s))
+		for (String s : shapes) {
+			if (list2.contains(s)) {
                 return s;
-        for (String s : shapes)
-            if (list1.contains(s))
+			}
+		}
+		for (String s : shapes) {
+			if (list1.contains(s)) {
                 return s;
+			}
+		}
         return "void";
     }
 
@@ -199,8 +203,9 @@ public class NodeParser {
             res = new TikzCircle();
         } else if (polygons.contains(shape)) {
             res = new TikzPolygon();
-        } else
+		} else {
             res = new TikzVoid();
+		}
         res.setPosition(node.getCoordinates());
         res.setLabel(node.getLabel());
         return res;

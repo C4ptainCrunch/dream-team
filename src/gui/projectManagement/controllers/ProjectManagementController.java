@@ -81,8 +81,9 @@ public class ProjectManagementController {
         String line;
         String input = "";
 
-        while ((line = file.readLine()) != null)
+		while ((line = file.readLine()) != null) {
             input += line + System.lineSeparator();
+		}
 
         input = input.replace(oldName, newName);
 

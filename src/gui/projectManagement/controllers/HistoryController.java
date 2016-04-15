@@ -47,14 +47,16 @@ public class HistoryController {
     }
 
     private void colorHelper(String str) {
-        if (str.isEmpty())
+		if (str.isEmpty()) {
             return;
-        if (Pattern.matches("^\\d{4}\\/\\d\\d\\/\\d\\d \\d\\d:\\d\\d:\\d\\d$", str))
+		}
+		if (Pattern.matches("^\\d{4}\\/\\d\\d\\/\\d\\d \\d\\d:\\d\\d:\\d\\d$", str)) {
             currentColor = Color.BLACK;
-        else if (str.charAt(0) == '+')
+		} else if (str.charAt(0) == '+') {
             currentColor = Color.GREEN;
-        else if (str.charAt(0) == '-')
+		} else if (str.charAt(0) == '-') {
             currentColor = Color.RED;
+		}
     }
 
 }

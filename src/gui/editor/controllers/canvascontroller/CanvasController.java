@@ -70,13 +70,13 @@ public class CanvasController implements Observer{
 
     }
 
-    public void mousePressed(MouseEvent e, TikzComponent comp) {
+    public void mousePressed(MouseEvent e, TikzComponent selectedTool) {
         if(view.getIsFocused()){
-            if (comp instanceof TikzNode){      // Need to refactor this.
-                addNodeToModel(comp, e.getPoint());
+            if (selectedTool instanceof TikzNode){ // TODO : Need to refactor this.
+                addNodeToModel(selectedTool, e.getPoint());
             }
-            else if (comp instanceof TikzEdge) {
-                addEdgeToModel(comp, e.getPoint());
+            else if (selectedTool instanceof TikzEdge) {
+                addEdgeToModel(selectedTool, e.getPoint());
             }
         }
         else {
@@ -85,7 +85,7 @@ public class CanvasController implements Observer{
     }
 
     public void mouseDropped(TikzComponent component, Point location){
-        if (component instanceof TikzNode) {    // And this.
+        if (component instanceof TikzNode) {    // TODO : And this.
             addNodeToModel(component, location);
         }
     }

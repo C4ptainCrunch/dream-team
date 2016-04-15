@@ -28,7 +28,7 @@ public abstract class TransferableTikz implements Transferable {
         // passed.
         try {
             data = new DataFlavor(mimeType);
-            component = comp.getClone();
+            component = comp;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

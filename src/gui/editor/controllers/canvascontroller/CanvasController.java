@@ -46,10 +46,10 @@ public class CanvasController implements Observer{
         graph.add(node.getClone());
     }
 
-    private void addEdgeToGraph(TikzEdge edge, TikzNode f_node, TikzNode s_node){
-        if ((f_node != null) && (s_node != null)) {
-            edge.setFirstNode(f_node);
-            edge.setSecondNode(s_node);
+    private void addEdgeToGraph(TikzEdge edge, TikzNode source, TikzNode destination){
+        if ((source != null) && (destination != null)) {
+            edge.setFirstNode(source);
+            edge.setSecondNode(destination);
             graph.add(edge);
         }
     }

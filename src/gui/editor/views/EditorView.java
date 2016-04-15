@@ -1,5 +1,6 @@
 package gui.editor.views;
 
+import constants.GUI;
 import gui.editor.controllers.*;
 import models.TikzGraph;
 
@@ -57,7 +58,7 @@ public class EditorView extends JFrame{
     }
 
     public void render(){
-        this.setTitle(APP_NAME);
+        this.setTitle(GUI.Text.APP_NAME);
 
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         this.setLocationRelativeTo(null);

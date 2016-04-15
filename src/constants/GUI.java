@@ -14,6 +14,7 @@ public final class GUI {
         public static final String HELP_MENU = "Help";
         public static final String HELP = "See help panel";
         public static final String DIFF = "Show History";
+        public static final String APP_NAME = "CreaTikZ";
     }
 
     public static final class ProjectManagementText {
@@ -24,7 +25,6 @@ public final class GUI {
         public static final String BLANK_INFO_PANEL = "INFORMATION ABOUT SELECTED PROJECT:\nProject Name: %s" +
                                                       "\nUser: %s\nLast revision: %s\n";
         public static final String DIFF_TEXT = "Diff History";
-        public static final String APP_NAME = "CreaTikZ";
     }
 
     public static final class Config {

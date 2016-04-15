@@ -41,6 +41,7 @@ public class MenuView extends JMenuBar {
         file_menu.addSeparator();
 
         JMenuItem exit_item = new JMenuItem(GUI.Text.EXIT);
+        exit_item.addActionListener(actionEvent -> controller.exit(parentView));
         file_menu.add(exit_item);
 
         JMenu help_menu = new JMenu(GUI.Text.HELP_MENU);
@@ -49,6 +50,10 @@ public class MenuView extends JMenuBar {
         JMenuItem help_item = new JMenuItem(GUI.Text.HELP);
         help_item.addActionListener(actionEvent -> controller.showHelp());
         help_menu.add(help_item);
+    }
+
+    public void save(){
+        controller.save();
     }
 
     public String getPath() {

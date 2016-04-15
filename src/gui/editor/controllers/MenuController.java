@@ -1,5 +1,6 @@
 package gui.editor.controllers;
 
+import gui.editor.views.EditorView;
 import gui.editor.views.MenuView;
 import gui.editor.views.SourceView;
 import gui.projectManagement.views.HistoryView;
@@ -61,5 +62,10 @@ public class MenuController implements Observer {
 
     public void showHelp(){
         java.awt.EventQueue.invokeLater(HelpView::new);
+    }
+
+    public void exit(EditorView parentView) {
+        save();
+        parentView.dispose();
     }
 }

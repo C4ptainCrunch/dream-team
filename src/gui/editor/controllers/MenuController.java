@@ -2,14 +2,12 @@ package gui.editor.controllers;
 
 import gui.editor.views.EditorView;
 import gui.editor.views.MenuView;
-import gui.editor.views.SourceView;
 import gui.projectManagement.views.HistoryView;
 import gui.help.views.HelpView;
 import models.TikzGraph;
 import utils.PdfCompilationError;
 import utils.PdfRenderer;
 
-import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -33,7 +31,7 @@ public class MenuController implements Observer {
     public void update(Observable o, Object arg){}
 
     public void save(){
-        String path = view.getPath();
+        String path = view.getProjectPath();
         String tikzText = graph.toString();
 
         try{
@@ -48,7 +46,7 @@ public class MenuController implements Observer {
 
     public void compileAndOpen(){
         try {
-            PdfRenderer.compileAndOpen(new File(view.getPath() + "/tikz.pdf"), graph);
+            PdfRenderer.compileAndOpen(new File(view.getProjectPath() + "/tikz.pdf"), graph);
         }
         catch (PdfCompilationError e){
             showMessageDialog(null, "Error during compilation");
@@ -57,7 +55,7 @@ public class MenuController implements Observer {
 
     public void openHistory() {
 
-        HistoryView histView = new HistoryView(view.getPath());
+        HistoryView histView = new HistoryView(view.getProjectPath());
     }
 
     public void showHelp(){

@@ -5,12 +5,9 @@ import gui.editor.views.SourceView;
 import models.TikzGraph;
 import org.codehaus.jparsec.error.ParserException;
 import parser.NodeParser;
-import utils.PdfCompilationError;
-import utils.PdfRenderer;
 import utils.SaverFactory;
 
 import javax.swing.*;
-import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
@@ -35,7 +32,7 @@ public class SourceController implements Observer{
             view.setText(newText);
             Thread t = new Thread(() -> {
                 System.out.println(originalText);
-                new SaverFactory().writeToFile(tmp, newText, view.getPath());
+                new SaverFactory().writeToFile(tmp, newText, view.getProjectPath());
             });
             t.start();
             originalText = newText;

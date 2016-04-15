@@ -8,14 +8,12 @@ import javax.swing.*;
 
 public class MenuView extends JMenuBar {
     private MenuController controller;
-    private final String path;
     private TikzGraph graph;
     private EditorView parentView;
 
-    public MenuView(EditorView parentView, TikzGraph graph, String path){
+    public MenuView(EditorView parentView, TikzGraph graph){
         this.parentView = parentView;
         this.graph = graph;
-        this.path = path;
         this.controller = new MenuController(this, graph);
         this.render();
     }
@@ -56,7 +54,7 @@ public class MenuView extends JMenuBar {
         controller.save();
     }
 
-    public String getPath() {
-        return path;
+    public String getProjectPath() {
+        return parentView.getProjectPath();
     }
 }

@@ -1,18 +1,19 @@
 package gui.editor.toolbox.views;
 
 
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.*;
+import javax.swing.border.EtchedBorder;
+
+import models.TikzComponent;
 import gui.editor.drag.TikzTransferHandler;
 import gui.editor.toolbox.controllers.PreviewController;
 import gui.editor.toolbox.model.ToolModel;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import gui.editor.views.canvas.drawers.Drawer;
-import models.TikzComponent;
-
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * Created by aurelien on 12/04/16.

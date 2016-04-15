@@ -1,13 +1,13 @@
 package gui.editor.toolbox.views;
 
-import gui.editor.views.canvas.drawers.Drawer;
+import java.awt.*;
+
+import javax.swing.*;
+
 import models.TikzComponent;
 import gui.editor.toolbox.SelectorComponent;
 import gui.editor.toolbox.controllers.SelectorController;
 import gui.editor.toolbox.model.ToolModel;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * Created by aurelien on 12/04/16.

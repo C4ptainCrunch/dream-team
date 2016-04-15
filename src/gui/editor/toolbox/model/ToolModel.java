@@ -2,7 +2,7 @@ package gui.editor.toolbox.model;
 
 import java.awt.*;
 import java.util.Observable;
-import gui.editor.views.canvas.drawers.ComponentDrawer;
+
 import models.TikzComponent;
 
 /**

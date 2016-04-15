@@ -1,7 +1,8 @@
 package models;
 
-import java.awt.Point;
 import static constants.Models.DEFAULT.*;
+
+import java.awt.*;
 
 public abstract class TikzEdge extends TikzComponent{
     private TikzNode firstNode;

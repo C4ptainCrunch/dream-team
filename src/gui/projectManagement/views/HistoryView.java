@@ -1,12 +1,12 @@
 package gui.projectManagement.views;
 
 
-import gui.projectManagement.controllers.HistoryController;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
-import java.io.IOException;
+
 import constants.GUI.ProjectManagementText;
+import gui.projectManagement.controllers.HistoryController;
 
 public class HistoryView extends JFrame{
     private HistoryController controller;

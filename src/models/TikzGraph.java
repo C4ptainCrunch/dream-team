@@ -1,11 +1,11 @@
 package models;
 
-import parser.NodeParser;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+
+import parser.NodeParser;
 
 public class TikzGraph extends Observable implements Iterable<TikzNode> {
     private Vector<TikzEdge> edges;

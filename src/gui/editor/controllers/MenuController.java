@@ -1,16 +1,7 @@
 package gui.editor.controllers;
 
 
-import gui.editor.views.EditorView;
-
 import static javax.swing.JOptionPane.showMessageDialog;
-
-import gui.editor.views.MenuView;
-import gui.projectManagement.views.HistoryView;
-import gui.help.views.HelpView;
-import models.TikzGraph;
-import utils.PdfCompilationError;
-import utils.PdfRenderer;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,6 +9,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+
+import models.TikzGraph;
+import utils.PdfCompilationError;
+import utils.PdfRenderer;
+import gui.editor.views.EditorView;
+import gui.editor.views.MenuView;
+import gui.help.views.HelpView;
+import gui.projectManagement.views.HistoryView;
 
 
 public class MenuController implements Observer {

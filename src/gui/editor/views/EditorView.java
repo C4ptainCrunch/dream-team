@@ -1,17 +1,16 @@
 package gui.editor.views;
 
-import constants.GUI;
-import gui.editor.controllers.*;
-import models.TikzGraph;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
+import javax.swing.*;
+
 import models.TikzComponent;
+import models.TikzGraph;
+import constants.GUI;
 import gui.editor.controllers.EditorController;
 import gui.editor.toolbox.views.ToolBoxView;
 

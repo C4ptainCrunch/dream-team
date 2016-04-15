@@ -1,14 +1,14 @@
 package gui.editor.views.canvas.drawers;
 
+import static constants.GUI.Config.ARROW_ANGLE;
+import static constants.GUI.Config.ARROW_LENGTH;
+
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.util.Vector;
 
 import models.TikzComponent;
 import models.TikzDirectedEdge;
-import gui.editor.views.canvas.drawables.Drawable;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
-import static constants.GUI.Config.*;
 
 public class DirectedEdgeDrawer extends EdgeDrawer {
 	public DirectedEdgeDrawer(){}

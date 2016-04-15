@@ -1,7 +1,8 @@
 package gui.editor.views.canvas.drawables;
 
-import javax.swing.JPanel;
 import java.awt.*;
+
+import javax.swing.*;
 
 public interface Drawable {
     void draw(Graphics2D g);

@@ -6,9 +6,12 @@ import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
 
-import gui.editor.views.canvas.drawables.DrawableTikzComponent;
-import models.*;
+import models.TikzComponent;
+import models.TikzEdge;
+import models.TikzGraph;
+import models.TikzNode;
 import gui.editor.views.CanvasView;
+import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public class CanvasController implements Observer{
     private CanvasView view;

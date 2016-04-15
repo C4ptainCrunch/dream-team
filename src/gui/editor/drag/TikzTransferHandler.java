@@ -1,15 +1,16 @@
 package gui.editor.drag;
 
-import gui.editor.views.CanvasView;
-import gui.editor.toolbox.views.PreviewView;
-import models.TikzComponent;
-import models.TikzVoid;
-
-import javax.swing.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+
+import javax.swing.*;
+
+import models.TikzComponent;
+import models.TikzVoid;
+import gui.editor.toolbox.views.PreviewView;
+import gui.editor.views.CanvasView;
 
 /**
  * Created by aurelien on 13/04/16.

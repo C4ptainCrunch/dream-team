@@ -1,11 +1,9 @@
 package gui.editor.views.canvas.drawers;
 
 import java.awt.*;
-import java.util.Vector;
 
 import models.TikzComponent;
 import models.TikzRectangle;
-import gui.editor.views.canvas.drawables.Drawable;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public class RectangleDrawer extends ComponentDrawer {

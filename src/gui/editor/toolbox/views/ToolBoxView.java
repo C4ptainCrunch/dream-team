@@ -1,11 +1,12 @@
 package gui.editor.toolbox.views;
 
 
-import models.TikzComponent;
+import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
-import java.awt.*;
+
+import models.TikzComponent;
 
 public class ToolBoxView extends JPanel {
 

@@ -1,11 +1,9 @@
 package gui.editor.toolbox.views;
 
-import gui.editor.toolbox.SelectorComponent;
-import gui.editor.toolbox.model.ToolModel;
-import gui.editor.views.canvas.drawers.DirectedEdgeDrawer;
-import gui.editor.views.canvas.drawers.UndirectedEdgeDrawer;
 import models.TikzDirectedEdge;
 import models.TikzUndirectedEdge;
+import gui.editor.toolbox.SelectorComponent;
+import gui.editor.toolbox.model.ToolModel;
 
 public class EdgeSelectorView extends SelectorView {
     public EdgeSelectorView(ToolModel model){

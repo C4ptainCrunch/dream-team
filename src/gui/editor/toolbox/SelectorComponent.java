@@ -1,17 +1,14 @@
 package gui.editor.toolbox;
 
-import gui.editor.views.canvas.drawables.Drawable;
-import gui.editor.views.canvas.drawables.DrawableTikzComponent;
-import gui.editor.views.canvas.drawers.ComponentDrawer;
-import gui.editor.views.canvas.drawers.Drawer;
-import models.TikzComponent;
-import models.TikzEdge;
-import models.TikzNode;
+import java.awt.*;
+import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
-import java.awt.event.MouseEvent;
+
+import models.TikzComponent;
+import gui.editor.views.canvas.drawables.DrawableTikzComponent;
+import gui.editor.views.canvas.drawers.Drawer;
 
 public class SelectorComponent extends JPanel {
     private TikzComponent component;

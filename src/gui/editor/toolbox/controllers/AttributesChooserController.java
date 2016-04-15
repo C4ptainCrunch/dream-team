@@ -1,12 +1,13 @@
 package gui.editor.toolbox.controllers;
 
-import gui.editor.toolbox.model.ToolModel;
-import gui.editor.toolbox.views.AttributesChooserView;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.*;
+
+import gui.editor.toolbox.model.ToolModel;
+import gui.editor.toolbox.views.AttributesChooserView;
 
 /**
  * Created by aurelien on 13/04/16.

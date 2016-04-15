@@ -3,8 +3,8 @@ package gui.editor.views.canvas.drawers;
 import java.awt.geom.Ellipse2D;
 
 import models.TikzCircle;
-import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import models.TikzComponent;
+import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public class CircleDrawer extends ComponentDrawer {
 

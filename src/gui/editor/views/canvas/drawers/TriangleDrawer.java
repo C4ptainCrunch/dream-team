@@ -1,12 +1,10 @@
 package gui.editor.views.canvas.drawers;
 
-import gui.editor.views.canvas.drawables.Drawable;
-import gui.editor.views.canvas.drawables.DrawableTikzComponent;
+import java.awt.*;
+
 import models.TikzComponent;
 import models.TikzTriangle;
-
-import java.awt.*;
-import java.util.Vector;
+import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 /**
  * Created by aurelien on 12/04/16.

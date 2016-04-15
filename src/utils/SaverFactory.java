@@ -1,13 +1,15 @@
 package utils;
 
-import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
-
-import java.io.*;
-import java.net.URLDecoder;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+
+import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
+
 import constants.Utils;
 
 

@@ -1,13 +1,10 @@
 package gui.editor.toolbox.views;
 
-import gui.editor.toolbox.SelectorComponent;
-import gui.editor.toolbox.model.ToolModel;
-import gui.editor.views.canvas.drawers.CircleDrawer;
-import gui.editor.views.canvas.drawers.RectangleDrawer;
-import gui.editor.views.canvas.drawers.TriangleDrawer;
 import models.TikzCircle;
 import models.TikzRectangle;
 import models.TikzTriangle;
+import gui.editor.toolbox.SelectorComponent;
+import gui.editor.toolbox.model.ToolModel;
 
 public class NodeSelectorView extends SelectorView {
     private static final int SHAPE_SIZE = 100;

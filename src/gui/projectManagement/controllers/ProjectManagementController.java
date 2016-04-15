@@ -1,19 +1,18 @@
 package gui.projectManagement.controllers;
 
 
-import gui.editor.views.EditorView;
-import gui.projectManagement.views.ProjectManagementView;
-import constants.Utils;
-
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.*;
+
 import constants.GUI.ProjectManagementText;
+import constants.Utils;
 import constants.Warnings;
+import gui.editor.views.EditorView;
+import gui.projectManagement.views.ProjectManagementView;
 
 public class ProjectManagementController {
     private ProjectManagementView view;

@@ -1,11 +1,11 @@
 package gui.editor.drag;
 
-import models.TikzComponent;
-
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+
+import models.TikzComponent;
 
 /**
  * Created by aurelien on 13/04/16.

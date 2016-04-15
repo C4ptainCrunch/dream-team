@@ -1,15 +1,16 @@
 package gui.editor.toolbox.views;
 
-import gui.editor.toolbox.controllers.AttributesChooserController;
-import gui.editor.toolbox.model.ToolModel;
-
-import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
 import java.util.Locale;
+
+import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.event.MouseInputAdapter;
+
+import gui.editor.toolbox.controllers.AttributesChooserController;
+import gui.editor.toolbox.model.ToolModel;
 
 public class AttributesChooserView extends JPanel {
 

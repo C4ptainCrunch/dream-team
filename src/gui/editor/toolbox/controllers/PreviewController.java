@@ -1,11 +1,11 @@
 package gui.editor.toolbox.controllers;
 
-import gui.editor.toolbox.model.ToolModel;
-import gui.editor.toolbox.views.PreviewView;
-import models.TikzComponent;
-
 import java.util.Observable;
 import java.util.Observer;
+
+import models.TikzComponent;
+import gui.editor.toolbox.model.ToolModel;
+import gui.editor.toolbox.views.PreviewView;
 
 /**
  * Created by aurelien on 12/04/16.

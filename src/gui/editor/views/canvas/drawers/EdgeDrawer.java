@@ -2,11 +2,9 @@ package gui.editor.views.canvas.drawers;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.util.Vector;
 
 import models.TikzComponent;
 import models.TikzEdge;
-import gui.editor.views.canvas.drawables.Drawable;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 

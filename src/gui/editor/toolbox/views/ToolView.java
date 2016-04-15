@@ -1,11 +1,11 @@
 package gui.editor.toolbox.views;
 
-import gui.editor.toolbox.controllers.PreviewController;
-import gui.editor.toolbox.model.ToolModel;
-import models.TikzComponent;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
+
+import models.TikzComponent;
+import gui.editor.toolbox.model.ToolModel;
 
 public class ToolView extends JPanel {
 

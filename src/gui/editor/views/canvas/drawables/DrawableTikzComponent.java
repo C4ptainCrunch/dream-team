@@ -1,14 +1,15 @@
 package gui.editor.views.canvas.drawables;
-import constants.Models;
-import models.TikzComponent;
-import models.TikzEdge;
-import models.TikzNode;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
 import java.util.ArrayList;
-import javax.swing.JPanel;
+
+import javax.swing.*;
+
+import models.TikzComponent;
+import models.TikzEdge;
+import models.TikzNode;
+import constants.Models;
 
 public class DrawableTikzComponent implements Drawable{
     private ArrayList<Shape> shapes;

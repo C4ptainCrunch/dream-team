@@ -8,11 +8,14 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-import gui.editor.drag.TikzTransferHandler;
-import models.*;
+import models.TikzComponent;
+import models.TikzEdge;
+import models.TikzGraph;
+import models.TikzNode;
 import gui.editor.controllers.CanvasController;
+import gui.editor.drag.TikzTransferHandler;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
-import gui.editor.views.canvas.drawers.*;
+import gui.editor.views.canvas.drawers.Drawer;
 
 public class CanvasView extends JPanel{
     private EditorView parentView;

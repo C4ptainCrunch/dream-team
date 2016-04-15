@@ -1,19 +1,19 @@
 package gui.projectManagement.controllers;
 
 
-import gui.projectManagement.views.HistoryView;
-
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
+
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+
+import gui.projectManagement.views.HistoryView;
 
 public class HistoryController {
     private HistoryView view;

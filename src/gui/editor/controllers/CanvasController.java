@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 
 import models.TikzComponent;
 import models.TikzEdge;
@@ -16,7 +17,7 @@ import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 public class CanvasController implements Observer {
     private CanvasView view;
     private TikzGraph graph;
-    private HashSet<DrawableTikzComponent> draws;
+    private Set<DrawableTikzComponent> draws;
     private CanvasState state;
 
     public CanvasController(CanvasView view, TikzGraph graph) {

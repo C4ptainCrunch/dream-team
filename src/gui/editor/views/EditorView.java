@@ -2,16 +2,11 @@ package gui.editor.views;
 
 import gui.editor.controllers.*;
 import models.TikzGraph;
-import models.TikzNode;
-import models.TikzRectangle;
-import parser.NodeParser;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class EditorView extends JFrame{
@@ -20,22 +15,22 @@ public class EditorView extends JFrame{
     private CanvasView canvasView;
     private SourceView sourceView;
     private MenuView menuView;
-    private String path;
+    private String projectPath;
 
     private EditorController controller;
 
     public EditorView(String filePath, Boolean isImport){
-        this.path = filePath;
+        this.projectPath = filePath;
         if(isImport){
             this.graph = new TikzGraph(filePath);
-            this.path = Paths.get(path).getParent().toString();
+            this.projectPath = Paths.get(getProjectPath()).getParent().toString();
         }else{
             this.graph = new TikzGraph();
         }
 
         this.canvasView = new CanvasView(this,graph);
-        this.sourceView = new SourceView(this, graph, path);
-        this.menuView = new MenuView(this, graph, path);
+        this.sourceView = new SourceView(this, graph);
+        this.menuView = new MenuView(this, graph);
 
         this.controller = new EditorController(this, graph);
 
@@ -69,4 +64,7 @@ public class EditorView extends JFrame{
         this.setJMenuBar(menuView);
     }
 
+    public String getProjectPath() {
+        return projectPath;
+    }
 }

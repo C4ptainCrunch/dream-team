@@ -18,12 +18,10 @@ public class SourceView extends JPanel{
     private SourceController controller;
     private Boolean isFocused = false;
     private EditorView parentView;
-    private String path;
 
-    public SourceView(EditorView parentView, TikzGraph graph, String path){
+    public SourceView(EditorView parentView, TikzGraph graph){
         this.parentView = parentView;
         this.graph = graph;
-        this.path = path;
 
         this.controller = new SourceController(this, graph);
         this.textArea = new JTextArea();
@@ -84,8 +82,7 @@ public class SourceView extends JPanel{
         return textArea.getText();
     }
 
-
-    public String getPath() {
-        return path;
+    public String getProjectPath() {
+        return parentView.getProjectPath();
     }
 }

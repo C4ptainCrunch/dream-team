@@ -25,7 +25,7 @@ public class HelpController {
     public void treeClicked(TreeSelectionEvent ev) {
         TreePath clickedNode = ev.getPath();
 
-        // This is a simple map : [x.to_string() for x in clickedNode.getPath()]
+        // This is a simple map : [x.to_string() for x in clickedNode.getProjectPath()]
         // We <3 Java
         List<String> path = Arrays.stream(clickedNode.getPath())
                 .map(Object::toString)

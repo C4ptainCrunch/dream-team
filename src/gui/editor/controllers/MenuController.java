@@ -1,13 +1,21 @@
 package gui.editor.controllers;
 
+
+import gui.editor.views.EditorView;
+
 import static javax.swing.JOptionPane.showMessageDialog;
 
 import gui.editor.views.MenuView;
+import gui.projectManagement.views.HistoryView;
 import gui.help.views.HelpView;
 import models.TikzGraph;
 import utils.PdfCompilationError;
 import utils.PdfRenderer;
+
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -25,16 +33,40 @@ public class MenuController implements Observer {
 
     public void update(Observable o, Object arg){}
 
+    public void save(){
+        String path = view.getProjectPath();
+        String tikzText = graph.toString();
+
+        try{
+            FileWriter f = new FileWriter(path+"/tikz.save");
+            BufferedWriter bufferedWriter = new BufferedWriter(f);
+            bufferedWriter.write(tikzText);
+            bufferedWriter.close();
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void compileAndOpen(){
         try {
-            PdfRenderer.compileAndOpen(new File("/home/nikita/lol.pdf"), graph);
+            PdfRenderer.compileAndOpen(new File(view.getProjectPath() + "/tikz.pdf"), graph);
         }
         catch (PdfCompilationError e){
             showMessageDialog(null, "Error during compilation");
         }
     }
 
+    public void openHistory() {
+
+        HistoryView histView = new HistoryView(view.getProjectPath());
+    }
+
     public void showHelp(){
         java.awt.EventQueue.invokeLater(HelpView::new);
+    }
+
+    public void exit(EditorView parentView) {
+        save();
+        parentView.dispose();
     }
 }

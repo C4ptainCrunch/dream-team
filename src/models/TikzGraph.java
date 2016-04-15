@@ -1,5 +1,10 @@
 package models;
 
+import parser.NodeParser;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class TikzGraph extends Observable implements Iterable<TikzNode> {
@@ -10,6 +15,17 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         nodes = new Vector<>();
         edges = new Vector<>();
     }
+
+    public TikzGraph(String filePath) { //TODO
+        nodes = new Vector<>();
+        edges = new Vector<>();
+        try{
+            String stringGraph = new String(Files.readAllBytes(Paths.get(filePath)));
+            NodeParser.parseDocument(this).parse(stringGraph);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+      }
 
     public int size(){
         return nodes.size();

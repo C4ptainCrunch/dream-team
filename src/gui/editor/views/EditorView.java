@@ -1,14 +1,17 @@
 package gui.editor.views;
 
-import java.awt.*;
-import java.util.HashMap;
+import constants.GUI;
+import gui.editor.controllers.*;
+import models.TikzGraph;
 
 import javax.swing.*;
-import static constants.GUI.Text.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.nio.file.Paths;
+import java.util.HashMap;
 
-import gui.editor.views.canvas.drawers.ComponentDrawer;
 import models.TikzComponent;
-import models.TikzGraph;
 import gui.editor.controllers.EditorController;
 import gui.editor.toolbox.views.ToolBoxView;
 
@@ -18,16 +21,19 @@ public class EditorView extends JFrame{
     private CanvasView canvasView;
     private SourceView sourceView;
     private MenuView menuView;
+    private String projectPath;
     private ToolBoxView toolBoxView;
 
     private EditorController controller;
 
-    public EditorView(){
-        this(new TikzGraph());
-    }
-
-    public EditorView(TikzGraph graph){
-        this.graph = graph;
+    public EditorView(String filePath, Boolean isImport){
+        this.projectPath = filePath;
+        if(isImport){
+            this.graph = new TikzGraph(filePath);
+            this.projectPath = Paths.get(getProjectPath()).getParent().toString();
+        }else{
+            this.graph = new TikzGraph();
+        }
 
         this.canvasView = new CanvasView(this,graph);
         this.sourceView = new SourceView(this, graph);
@@ -36,13 +42,23 @@ public class EditorView extends JFrame{
 
         this.controller = new EditorController(this, graph);
 
+        this.graph.replace(this.graph);//update du tikZ text
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                menuView.save();
+                super.windowClosing(windowEvent);
+            }
+        });
+
         this.render();
         this.setVisible(true);
     }
 
     public void render(){
-        this.setTitle(APP_NAME);
+        this.setTitle(GUI.Text.APP_NAME);
 
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         this.setLocationRelativeTo(null);
@@ -55,6 +71,10 @@ public class EditorView extends JFrame{
         pane.add(this.sourceView, BorderLayout.EAST);
 
         this.setJMenuBar(menuView);
+    }
+
+    public String getProjectPath() {
+        return projectPath;
     }
 
     public HashMap<String, Object> getCurrentToolProperties(){

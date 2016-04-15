@@ -5,7 +5,7 @@ import java.util.Observable;
 
 import constants.Models;
 
-public abstract class TikzComponent extends Observable {
+public abstract class TikzComponent extends Observable{
     private Color color;
     private String label;
     private int stroke;
@@ -37,7 +37,6 @@ public abstract class TikzComponent extends Observable {
     public void setLabel(String label) {
         this.label = label;
     }
-
 
     public int getStroke() { return this.stroke; }
 

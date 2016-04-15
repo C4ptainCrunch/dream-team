@@ -1,34 +1,42 @@
 package gui.editor.controllers;
 
 
+import gui.editor.views.SourceView;
+import models.TikzGraph;
+import org.codehaus.jparsec.error.ParserException;
+import parser.NodeParser;
+import utils.SaverFactory;
+
+import javax.swing.*;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
-import javax.swing.*;
-
-import models.TikzGraph;
-
-import org.codehaus.jparsec.error.ParserException;
-
-import parser.NodeParser;
-import gui.editor.views.SourceView;
 
 public class SourceController implements Observer{
     private SourceView view;
     private TikzGraph graph;
     private static final Logger logger = Logger.getLogger("gui.editor.controllers.source");
+    private String originalText = "";
 
     public SourceController(SourceView view, TikzGraph graph) {
         this.view = view;
-
         this.graph = graph;
         this.graph.addObserver(this);
     }
 
     public void update(Observable o, Object arg){
+        System.out.println("update");
         if(!view.getIsFocused()){
-            view.setText(this.graph.toString());
+            String tmp = originalText;
+            String newText = this.graph.toString();
+            view.setText(newText);
+            Thread t = new Thread(() -> {
+                System.out.println(originalText);
+                new SaverFactory().writeToFile(tmp, newText, view.getProjectPath());
+            });
+            t.start();
+            originalText = newText;
         }
     }
 
@@ -42,8 +50,9 @@ public class SourceController implements Observer{
                 logger.fine("Valid graph from TikzSource : " + graph.getNodes().size() + " nodes");
                 SwingUtilities.invokeLater(() -> {
                     graph.replace(new_graph);
-                   logger.fine("Runnable done: graph replace");
+                    logger.fine("Runnable done: graph replace");
                 });
+
             } catch (ParserException e) {
                 logger.warning("Error during TikZ parsing : " + e.getMessage());
             }

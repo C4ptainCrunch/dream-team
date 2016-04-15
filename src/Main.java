@@ -1,7 +1,8 @@
-import gui.editor.views.EditorView;
+import gui.projectManagement.views.ProjectManagementView;
 
 public class Main {
     public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(EditorView::new);
+        java.awt.EventQueue.invokeLater(ProjectManagementView::new);
+
     }
 }

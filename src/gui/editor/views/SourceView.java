@@ -83,4 +83,8 @@ public class SourceView extends JPanel{
     public String getText() {
         return textArea.getText();
     }
+
+    public String getProjectPath() {
+        return parentView.getProjectPath();
+    }
 }

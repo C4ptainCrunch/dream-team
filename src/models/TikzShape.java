@@ -1,8 +1,8 @@
 package models;
 
-import constants.Models;
-
 import java.awt.*;
+
+import constants.Models;
 
 public abstract class TikzShape extends TikzNode {
     private Color outlineColor;
@@ -14,6 +14,13 @@ public abstract class TikzShape extends TikzNode {
         outlineColor = Models.DEFAULT.COLOR;
         outlineWidth = Models.DEFAULT.WIDTH;
         backgroundColor = Models.DEFAULT.BACKGROUND_COLOR;
+    }
+
+    protected TikzShape(TikzShape o_shape){
+        super(o_shape);
+        outlineColor = o_shape.getOutlineColor();
+        outlineWidth = o_shape.getOutlineWidth();
+        backgroundColor = o_shape.getBackground();
     }
 
     public Color getOutlineColor() {
@@ -35,4 +42,6 @@ public abstract class TikzShape extends TikzNode {
     public Color getBackground() {
         return backgroundColor;
     }
+
+    public abstract TikzShape getClone();
 }

@@ -1,9 +1,8 @@
-package gui.drawers;
+package gui.editor.views.canvas.drawers;
 
-import gui.drawables.Drawable;
-
-import java.awt.*;
 import java.util.Vector;
+
+import gui.editor.views.canvas.drawables.Drawable;
 
 public class UnknownDrawer extends ComponentDrawer{
     public Vector<Drawable> toDrawable(){

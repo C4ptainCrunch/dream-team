@@ -1,6 +1,10 @@
 package gui.editor.controllers;
 
+
 import gui.editor.views.EditorView;
+
+import static javax.swing.JOptionPane.showMessageDialog;
+
 import gui.editor.views.MenuView;
 import gui.projectManagement.views.HistoryView;
 import gui.help.views.HelpView;
@@ -15,7 +19,6 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
-import static javax.swing.JOptionPane.showMessageDialog;
 
 public class MenuController implements Observer {
     private MenuView view;

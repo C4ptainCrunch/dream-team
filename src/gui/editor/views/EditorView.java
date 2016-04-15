@@ -8,6 +8,11 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.nio.file.Paths;
+import java.util.HashMap;
+
+import models.TikzComponent;
+import gui.editor.controllers.EditorController;
+import gui.editor.toolbox.views.ToolBoxView;
 
 public class EditorView extends JFrame{
     private TikzGraph graph;
@@ -16,6 +21,7 @@ public class EditorView extends JFrame{
     private SourceView sourceView;
     private MenuView menuView;
     private String projectPath;
+    private ToolBoxView toolBoxView;
 
     private EditorController controller;
 
@@ -31,6 +37,7 @@ public class EditorView extends JFrame{
         this.canvasView = new CanvasView(this,graph);
         this.sourceView = new SourceView(this, graph);
         this.menuView = new MenuView(this, graph);
+        this.toolBoxView = new ToolBoxView();
 
         this.controller = new EditorController(this, graph);
 
@@ -50,21 +57,30 @@ public class EditorView extends JFrame{
     }
 
     public void render(){
-        this.setTitle("CreaTikZ");
+        this.setTitle(APP_NAME);
 
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         this.setLocationRelativeTo(null);
 
         Container pane = getContentPane();
-        pane.setLayout(new GridLayout(1,2));
+        pane.setLayout(new BorderLayout());
 
-        pane.add(this.canvasView);
-        pane.add(this.sourceView);
+        pane.add(this.toolBoxView, BorderLayout.WEST);
+        pane.add(this.canvasView, BorderLayout.CENTER);
+        pane.add(this.sourceView, BorderLayout.EAST);
 
         this.setJMenuBar(menuView);
     }
 
     public String getProjectPath() {
         return projectPath;
+    }
+
+    public HashMap<String, Object> getCurrentToolProperties(){
+        return null;
+    }
+
+    public TikzComponent getSelectedTool(){
+        return toolBoxView.getSelectedTool();
     }
 }

@@ -24,5 +24,11 @@ public final class GUI {
         public static final String BLANK_INFO_PANEL = "INFORMATION ABOUT SELECTED PROJECT:\nProject Name: %s" +
                                                       "\nUser: %s\nLast revision: %s\n";
         public static final String DIFF_TEXT = "Diff History";
+        public static final String APP_NAME = "CreaTikZ";
+    }
+
+    public static final class Config {
+        public static final double ARROW_LENGTH = 30;
+        public static final double ARROW_ANGLE = Math.PI/6;
     }
 }

@@ -6,6 +6,7 @@ import models.TikzGraph;
 
 import javax.swing.*;
 
+
 public class MenuView extends JMenuBar {
     private MenuController controller;
     private TikzGraph graph;

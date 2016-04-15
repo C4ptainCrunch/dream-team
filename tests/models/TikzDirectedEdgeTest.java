@@ -40,4 +40,13 @@ public class TikzDirectedEdgeTest {
     public void testDestination() throws Exception {
         assertEquals(secondNode, testDirectedEdge.destination());
     }
+
+    @Test
+    public void testCopy() throws Exception{
+        TikzDirectedEdge o_edge = new TikzDirectedEdge(testDirectedEdge);
+        assertEquals(o_edge.getFirstNode(), testDirectedEdge.getFirstNode());
+        assertEquals(o_edge.getSecondNode(), testDirectedEdge.getSecondNode());
+        assertEquals(o_edge.getToPosition(), testDirectedEdge.getToPosition());
+        assertEquals(o_edge.getFromPosition(), testDirectedEdge.getFromPosition());
+    }
 }

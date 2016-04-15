@@ -18,6 +18,12 @@ public class TikzPolygon extends TikzShape {
         this.sides = sides;
     }
 
+    public TikzPolygon(TikzPolygon o_polygon){
+        super(o_polygon);
+        this.length = o_polygon.getLength();
+        this.sides = o_polygon.getSides();
+    }
+
     public int getLength() {
         return length;
     }
@@ -39,5 +45,10 @@ public class TikzPolygon extends TikzShape {
         String options = String.join(", ", new String[]{"regular polygon"}); //TODO: do this
         if (!options.contains("draw")) options += ", draw";
         return String.format("\\node[%s](%s) at (%.0f,%.0f){%s}", options, "", getPosition().getX(), getPosition().getY(), getLabel());
+    }
+
+    @Override
+    public TikzPolygon getClone() {
+        return new TikzPolygon(this);
     }
 }

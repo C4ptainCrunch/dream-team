@@ -2,8 +2,6 @@ package models;
 
 import constants.Models;
 
-import java.awt.*;
-
 public class TikzCircle extends TikzShape {
     private int radius;
     public TikzCircle(){
@@ -11,9 +9,14 @@ public class TikzCircle extends TikzShape {
         radius = Models.DEFAULT.LENGTH;
     }
 
-    public TikzCircle(int radius){
+    public TikzCircle(int radius) {
         super();
         this.radius = radius;
+    }
+
+    public TikzCircle(TikzCircle o_circle){
+        super(o_circle);
+        this.radius = o_circle.getRadius();
     }
 
     public int getRadius() {
@@ -29,5 +32,10 @@ public class TikzCircle extends TikzShape {
         String options = String.join(", ", new String[]{"circle"}); //TODO: do this
         if (!options.contains("draw")) options += ", draw";
         return String.format("\\node[%s](%s) at (%.0f,%.0f){%s}", options, "", getPosition().getX(), getPosition().getY(), getLabel());
+    }
+
+    @Override
+    public TikzCircle getClone(){
+        return new TikzCircle(this);
     }
 }

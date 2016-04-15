@@ -1,7 +1,7 @@
 package gui.editor.controllers;
 
-import gui.editor.views.EditorView;
 import models.TikzGraph;
+import gui.editor.views.EditorView;
 
 public class EditorController {
     private EditorView view;

@@ -95,13 +95,12 @@ public class ProjectManagementController {
     }
 
     private boolean isInList(List<String> list, String path){
-        boolean res = false;
         for(String s : list){
             if (s.equals(path)){
-                res = true;
+                return true;
             }
         }
-        return res;
+        return false;
     }
 
     private void addProjectPathToSavedPathFile(String projectPath) {

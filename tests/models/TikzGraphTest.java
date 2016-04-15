@@ -141,4 +141,22 @@ public class TikzGraphTest {
         assertArrayEquals(graph.getEdges().toArray(), edges2.toArray());
 
     }
+
+    @Test
+    public void testAddNode() throws Exception {
+        int length = 4;
+        TikzGraph graph = new TikzGraph();
+        ArrayList<TikzNode> nodes = new ArrayList<>();
+        for (int i = 0; i < length; i++) {
+            TikzNode node = new TikzCircle();
+            graph.add(node);
+            nodes.add(node);
+            assert graph.getNodes().contains(node);
+        }
+        for (TikzNode node:nodes) {
+            graph.add(node);
+        }
+
+        assertEquals(graph.getNodes().size(), length);
+    }
 }

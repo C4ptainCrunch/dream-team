@@ -159,4 +159,26 @@ public class TikzGraphTest {
 
         assertEquals(graph.getNodes().size(), length);
     }
+
+    @Test
+    public void testAddEdge() throws Exception {
+        TikzGraph graph = new TikzGraph();
+        TikzNode node1 = new TikzCircle();
+        TikzNode node2 = new TikzCircle();
+        TikzEdge edge = new TikzDirectedEdge(node1, node2);
+        graph.add(node1);
+        graph.add(node2);
+        graph.add(edge);
+        assert graph.getEdges().contains(edge);
+        assertEquals(graph.getNodes().size(), 2);
+        graph.add(edge);
+        assertEquals(graph.getEdges().size(), 1);
+
+        TikzNode node3 = new TikzPolygon();
+        TikzNode node4 = new TikzText();
+        TikzEdge edge2 = new TikzUndirectedEdge(node3, node4);
+        graph.add(edge2);
+        assert graph.getNodes().contains(node3);
+        assert graph.getNodes().contains(node4);
+    }
 }

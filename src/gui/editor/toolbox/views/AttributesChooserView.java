@@ -21,7 +21,6 @@ public class AttributesChooserView extends JPanel {
     private JScrollPane scrollzone;
     private JPanel attributes;
     private JPanel color_chooser;
-    private Color chosen_color;
     private JTextField label_field;
     private JFormattedTextField stroke_width_field;
     private AttributesChooserController controller;
@@ -52,10 +51,7 @@ public class AttributesChooserView extends JPanel {
             public void mousePressed(MouseEvent e){
                 if(SwingUtilities.isRightMouseButton(e)){}
                 else {
-                    chosen_color = JColorChooser.showDialog(AttributesChooserView.this, "Choose Stroke Color",
-                            color_chooser.getBackground());
-                    color_chooser.setBackground(chosen_color);
-                    controller.colorSelected(chosen_color);
+                    controller.chooseColor();
                 }
             }
         });
@@ -92,5 +88,9 @@ public class AttributesChooserView extends JPanel {
         stroke_width_field = new JFormattedTextField(numberFormat);
         attributes.add(stroke_width_field);
         addStrokeListener();
+    }
+
+    public void setColorFieldColor(Color color){
+        color_chooser.setBackground(color);
     }
 }

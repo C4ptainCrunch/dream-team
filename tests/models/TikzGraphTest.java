@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -67,7 +66,7 @@ public class TikzGraphTest {
             edges.add(new TikzUndirectedEdge(firstNode, secondNode));
         }
 
-        graph.addAll(edges);
+        graph.addAllEdges(edges);
         assertEquals(edges.toArray(), graph.get(firstNode).toArray());
 
     }
@@ -106,7 +105,7 @@ public class TikzGraphTest {
             TikzNode node2 = new TikzCircle();
             edges.add(new TikzDirectedEdge(node1,node2));
         }
-        graph.addAll(edges);
+        graph.addAllEdges(edges);
         while (!edges.isEmpty()){
             TikzEdge edge = edges.remove(0);
             edges.remove(edge);
@@ -124,7 +123,7 @@ public class TikzGraphTest {
             TikzNode nodetmp = new TikzCircle();
             edges1.add(new TikzDirectedEdge(node1,nodetmp));
         }
-        graph.addAll(edges1);
+        graph.addAllEdges(edges1);
         assertArrayEquals(graph.get(node1).toArray(), edges1.toArray());
 
         TikzNode node2 = new TikzRectangle();
@@ -133,7 +132,7 @@ public class TikzGraphTest {
             TikzNode nodetmp = new TikzCircle();
             edges2.add(new TikzDirectedEdge(node2,nodetmp));
         }
-        graph.addAll(edges2);
+        graph.addAllEdges(edges2);
         assertArrayEquals(graph.get(node2).toArray(), edges2.toArray());
 
         graph.remove(node1);

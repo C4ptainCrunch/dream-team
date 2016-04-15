@@ -69,7 +69,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
      * @param edges
      *            Vector of TikzEdge to append
      */
-    public void addAll(Collection<TikzEdge> edges) {
+    public void addAllEdges(Collection<TikzEdge> edges) {
         for (TikzEdge edge : edges) {
             this.add(edge);
         }

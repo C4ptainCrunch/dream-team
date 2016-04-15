@@ -1,4 +1,4 @@
-package gui.editor.controllers.canvascontroller;
+package gui.editor.controllers;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -14,7 +14,7 @@ public class CanvasController implements Observer{
     private CanvasView view;
     private TikzGraph graph;
     private HashSet<DrawableTikzComponent> draws;
-    private CanvasControllerState state;
+    private CanvasState state;
 
     public CanvasController(CanvasView view, TikzGraph graph) {
         this.view = view;
@@ -22,7 +22,7 @@ public class CanvasController implements Observer{
         this.graph = graph;
         this.graph.addObserver(this);
         draws = new HashSet<>();
-        state = new CanvasControllerState();
+        state = new CanvasState();
     }
 
     public void update(Observable o, Object arg){
@@ -102,5 +102,58 @@ public class CanvasController implements Observer{
 
     public void addDrawableComponent(DrawableTikzComponent draw){
         draws.add(draw);
+    }
+}
+
+
+
+// This Class allows the CanvasController to keep a state of one action (here, a mouse clicked on a component).
+
+class CanvasState {
+
+    private TikzComponent component;
+    private TikzComponent related_component;
+
+    public CanvasState(){
+        component = null;
+        related_component = null;
+    }
+
+    public CanvasState(TikzComponent comp, TikzComponent pos){
+        component = comp;
+        related_component = pos;
+    }
+
+    public boolean equalsTo(CanvasState o_state) {
+        return ((o_state.getComponent() == this.component) && (o_state.getRelatedComponent() == this.getRelatedComponent()));
+    }
+
+    public boolean initialized(){
+        return ((component != null) && (related_component != null));
+    }
+
+    public boolean componentEqualsTo(TikzComponent comp){
+        return (comp == this.component);
+    }
+
+    public TikzComponent getComponent(){
+        return component;
+    }
+
+    public TikzComponent getRelatedComponent() {
+        return related_component;
+    }
+
+    public void setComponent(TikzComponent component) {
+        this.component = component;
+    }
+
+    public void setRelatedComponent(TikzComponent related_component) {
+        this.related_component = related_component;
+    }
+
+    public void reset(){
+        this.component = null;
+        this.related_component = null;
     }
 }

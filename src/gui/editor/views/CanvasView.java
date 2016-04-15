@@ -10,7 +10,7 @@ import javax.swing.event.MouseInputAdapter;
 
 import gui.editor.drag.TikzTransferHandler;
 import models.*;
-import gui.editor.controllers.canvascontroller.CanvasController;
+import gui.editor.controllers.CanvasController;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import gui.editor.views.canvas.drawers.*;
 

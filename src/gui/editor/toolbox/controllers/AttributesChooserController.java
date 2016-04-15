@@ -44,6 +44,6 @@ public class AttributesChooserController implements Observer {
 
     @Override
     public void update(Observable o, Object obj){
-
+        view.repaint();
     }
 }

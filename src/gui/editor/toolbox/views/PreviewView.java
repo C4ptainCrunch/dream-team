@@ -2,6 +2,8 @@ package gui.editor.toolbox.views;
 
 
 import gui.editor.drag.TikzTransferHandler;
+import gui.editor.toolbox.controllers.PreviewController;
+import gui.editor.toolbox.model.ToolModel;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import gui.editor.views.canvas.drawers.Drawer;
 import models.TikzComponent;
@@ -17,9 +19,12 @@ import java.awt.event.MouseEvent;
  */
 public class PreviewView extends JPanel {
     TikzComponent component;
-    public PreviewView(){
+    PreviewController controller;
+
+    public PreviewView(ToolModel model){
         this.setBackground(Color.WHITE);
         this.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+        this.controller = new PreviewController(this, model);
         enableDrag();
     }
 
@@ -39,7 +44,9 @@ public class PreviewView extends JPanel {
         this.component = component;
     }
 
-    public TikzComponent getComponent() {return component;}
+    public TikzComponent getComponent(){
+        return this.controller.getComponent();
+    }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);

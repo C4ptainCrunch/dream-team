@@ -27,7 +27,6 @@ public class ToolView extends JPanel {
         initSelectors();
         setPanelsDimension();
         addSelectors();
-        addObservers();
     }
 
     private void initLayout(){
@@ -50,7 +49,7 @@ public class ToolView extends JPanel {
         nodeSelectorView = new NodeSelectorView(model);
         edgeSelectorView = new EdgeSelectorView(model);
         attributesChooserView = new AttributesChooserView(model);
-        preview = new PreviewView();
+        preview = new PreviewView(model);
         tabbedSelector.addTab(NODE_TAB, nodeSelectorView);
         tabbedSelector.addTab(EDGE_TAB, edgeSelectorView);
         tabbedSelector.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
@@ -68,12 +67,9 @@ public class ToolView extends JPanel {
         model = new ToolModel();
     }
 
-    private void addObservers(){
-        model.addObserver(new PreviewController(preview));
-    }
 
     public TikzComponent getTikzComponent() {
-        return preview.getComponent();
+        return model.getComponent();
     }
 
 }

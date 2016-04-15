@@ -8,6 +8,8 @@ import parser.NodeParser;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -40,6 +42,14 @@ public class EditorView extends JFrame{
         this.graph.replace(this.graph);//update du tikZ text
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                menuView.save();
+                super.windowClosing(windowEvent);
+            }
+        });
+
         this.render();
         this.setVisible(true);
     }
@@ -58,4 +68,5 @@ public class EditorView extends JFrame{
 
         this.setJMenuBar(menuView);
     }
+
 }

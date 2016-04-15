@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -30,13 +32,6 @@ public class ProjectManagementView extends JFrame implements ActionListener {
         initButtonsPanel();
         initSavedProjectsPanel();
         initInfoPanel();
-
-        /*
-        bv.setOpaque(true);
-        this.setContentPane(bv);
-        this.pack();
-        this.setVisible(true);
-        */
     }
 
     public String getSelectedPath(){
@@ -55,11 +50,7 @@ public class ProjectManagementView extends JFrame implements ActionListener {
         this.listSavedProjects = new JComboBox<>();
         this.listSavedProjects.setModel(new DefaultComboBoxModel(data));
 
-        this.listSavedProjects.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                updateInfoPanel();
-            }
-        });
+        this.listSavedProjects.addActionListener(event -> updateInfoPanel());
 
         this.add(listSavedProjects, BorderLayout.CENTER);
         this.pack();

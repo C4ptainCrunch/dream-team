@@ -1,18 +1,18 @@
 package gui.editor.controllers;
 
 
-import gui.editor.views.SourceView;
-import models.TikzGraph;
-import org.codehaus.jparsec.error.ParserException;
-import parser.NodeParser;
-import utils.PdfCompilationError;
-import utils.PdfRenderer;
-
-import javax.swing.*;
-import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
+
+import javax.swing.*;
+
+import models.TikzGraph;
+
+import org.codehaus.jparsec.error.ParserException;
+
+import parser.NodeParser;
+import gui.editor.views.SourceView;
 
 public class SourceController implements Observer{
     private SourceView view;

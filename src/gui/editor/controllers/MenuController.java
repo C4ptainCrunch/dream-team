@@ -1,5 +1,7 @@
 package gui.editor.controllers;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 import gui.editor.views.MenuView;
 import gui.help.views.HelpView;
 import models.TikzGraph;
@@ -9,7 +11,6 @@ import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 
-import static javax.swing.JOptionPane.showMessageDialog;
 
 public class MenuController implements Observer {
     private MenuView view;

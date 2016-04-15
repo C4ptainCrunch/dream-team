@@ -1,6 +1,7 @@
 package models;
 
 import java.awt.Point;
+
 import constants.Models;
 
 public abstract class TikzNode extends TikzComponent {
@@ -16,6 +17,11 @@ public abstract class TikzNode extends TikzComponent {
         this.position = position;
     }
 
+    protected TikzNode(TikzNode o_node){
+        super(o_node);
+        this.position = o_node.getPosition();
+    }
+
     public Point getPosition() {
         return position;
     }
@@ -27,5 +33,7 @@ public abstract class TikzNode extends TikzComponent {
     public void move(int x, int y){
         setPosition(new Point(x,y));
     }
+
+    public abstract TikzNode getClone();
 
 }

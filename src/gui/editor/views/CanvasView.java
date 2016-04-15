@@ -1,20 +1,18 @@
 package gui.editor.views;
 
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-
-import gui.drawables.Drawable;
-import gui.drawables.DrawableShape;
-import gui.drawers.*;
-import gui.editor.controllers.CanvasController;
-import models.*;
-
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
-import java.util.Collections;
-import java.util.Vector;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+
+import gui.editor.drag.TikzTransferHandler;
+import models.*;
+import gui.editor.controllers.CanvasController;
+import gui.editor.views.canvas.drawables.DrawableTikzComponent;
+import gui.editor.views.canvas.drawers.*;
 
 public class CanvasView extends JPanel{
     private EditorView parentView;
@@ -27,6 +25,7 @@ public class CanvasView extends JPanel{
         this.graph = graph;
         this.controller = new CanvasController(this, graph);
         this.isFocused = isFocusOwner();
+        this.setTransferHandler(new TikzTransferHandler());
 
         this.render();
 
@@ -43,9 +42,10 @@ public class CanvasView extends JPanel{
         this.addMouseListener(new MouseInputAdapter(){
             @Override
             public void mousePressed(MouseEvent e){
+
                 if(SwingUtilities.isRightMouseButton(e)){}
                 else {
-                    controller.mousePressed(e);
+                    controller.mousePressed(e, parentView.getSelectedTool());
                 }
             }
         });
@@ -67,54 +67,31 @@ public class CanvasView extends JPanel{
         super.paintComponent(g);
 
         for(TikzEdge edge : graph.getEdges()){
-            Drawer drawer;
-            if (edge instanceof TikzDirectedEdge) {
-                drawer = new DirectedEdgeDrawer((TikzDirectedEdge) edge);
-            }
-            else if (edge instanceof TikzUndirectedEdge) {
-                drawer = new UndirectedEdgeDrawer((TikzUndirectedEdge) edge);
-            }
-            else {
-                drawer = new UnknownDrawer();
-            }
-
-            Vector<Drawable> drawables = drawer.toDrawable();
-            for (Drawable drawable : drawables) {
-                drawable.draw((Graphics2D) g);
-            }
+            DrawableTikzComponent drawableComponent =  Drawer.toDrawable(edge);
+            drawableComponent.draw((Graphics2D) g);
         }
 
         for(TikzNode node : graph){
-            Drawer drawer;
-            if (node instanceof TikzRectangle) {
-                drawer = new RectangleDrawer((TikzRectangle) node);
-            }
-            else if (node instanceof TikzPolygon) {
-                drawer = new PolygonDrawer((TikzPolygon) node);
-            }
-            else if (node instanceof TikzCircle) {
-                drawer = new CircleDrawer((TikzCircle) node);
-            }
-            else {
-                drawer = new UnknownDrawer();
-            }
-            Vector<Drawable> drawables = drawer.toDrawable();
-
-            Collections.reverse(drawables);
-            for (Drawable drawable : drawables) {
-                drawable.translate(node.getPosition());
-                drawable.draw((Graphics2D) g);
-            }
+            DrawableTikzComponent drawableComponent =  Drawer.toDrawable(node);
+            drawableComponent.translate(node.getPosition());
+            drawableComponent.center();
+            controller.addDrawableComponent(drawableComponent);
+            drawableComponent.draw((Graphics2D) g);
         }
 
         if(!getIsFocused()){
-            Drawable drawable = new DrawableShape(
-                    new Rectangle(10000, 10000),
-                    new BasicStroke(0),
-                    Color.white,
-                    new Color(0, 0, 0, 64)
-            );
-            drawable.draw((Graphics2D) g);
+            Graphics2D g2d = (Graphics2D)g;
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            Stroke old_stroke = g2d.getStroke();
+            Color old_color = g2d.getColor();
+            g2d.setStroke(new BasicStroke(0));
+            g2d.setColor(new Color(0, 0, 0, 64));
+            Shape s = new Rectangle(10000, 10000);
+            g2d.fill(s);
+            g2d.setColor(Color.white);
+            g2d.draw(s);
+            g2d.setColor(old_color);
+            g2d.setStroke(old_stroke);
         }
 
     }
@@ -125,5 +102,10 @@ public class CanvasView extends JPanel{
 
     public boolean getIsFocused() {
         return isFocused;
+    }
+
+    public void dragEvent(TikzComponent component, Point location){
+        controller.focusGained();
+        controller.mouseDropped(component, location);
     }
 }

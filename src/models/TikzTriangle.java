@@ -25,6 +25,11 @@ public class TikzTriangle extends TikzShape {
         setSides(sides);
     }
 
+    public TikzTriangle(TikzTriangle o_triangle){
+        super(o_triangle);
+        setSides(o_triangle.getSides());
+    }
+
     public void setSides(int[] sides) {
         if(sides.length != 3) {
             throw new IllegalArgumentException("The size of the sides array must equals 3.");
@@ -32,6 +37,13 @@ public class TikzTriangle extends TikzShape {
         setSideA(sides[0]);
         setSideB(sides[1]);
         setSideC(sides[2]);
+    }
+
+    public void setEquilateral(int length){
+
+        setSideA(length);
+        setSideB(length);
+        setSideC(length);
     }
 
     public void setSideA(int sideA){
@@ -70,5 +82,16 @@ public class TikzTriangle extends TikzShape {
     public int[] getSides(){
         int[] sides = {getSideA(), getSideB(), getSideC()};
         return sides;
+    }
+
+    @Override
+    public String toString() {
+        String options = String.join(", ", new String[]{"regular polygon"}); //TODO: do this
+        return String.format("\\node[%s](%s) at (%.0f,%.0f){%s}", options, "", getPosition().getX(), getPosition().getY(), getLabel());
+    }
+
+    @Override
+    public TikzTriangle getClone(){
+        return new TikzTriangle(this);
     }
 }

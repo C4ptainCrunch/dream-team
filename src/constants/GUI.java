@@ -13,5 +13,10 @@ public final class GUI {
         public static final String GRID_VISIBILTY = "Show/Hide Grid";
         public static final String HELP_MENU = "Help";
         public static final String HELP = "See help panel";
+        public static final String APP_NAME = "CreaTikZ";
+    }
+    public static final class Config {
+        public static final double ARROW_LENGTH = 30;
+        public static final double ARROW_ANGLE = Math.PI/6;
     }
 }

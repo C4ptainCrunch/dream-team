@@ -105,7 +105,7 @@ public class CanvasView extends JPanel{
     }
 
     public void dragEvent(TikzComponent component, Point location){
-        controller.focusGained();
+        this.requestFocus();
         controller.mouseDropped(component, location);
     }
 }

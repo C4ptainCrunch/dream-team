@@ -1,11 +1,11 @@
 package gui.editor.toolbox.views;
 
-import gui.editor.toolbox.controllers.PreviewController;
-import gui.editor.toolbox.model.ToolModel;
-import models.TikzComponent;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
+
+import models.TikzComponent;
+import gui.editor.toolbox.model.ToolModel;
 
 public class ToolView extends JPanel {
 
@@ -21,7 +21,7 @@ public class ToolView extends JPanel {
     private PreviewView preview;
     private ToolModel model;
 
-    public ToolView(){
+    public ToolView() {
         initLayout();
         initToolModel();
         initSelectors();
@@ -29,22 +29,22 @@ public class ToolView extends JPanel {
         addSelectors();
     }
 
-    private void initLayout(){
+    private void initLayout() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
-    private void setPanelDimension(JPanel pan){
-        pan.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/TOOL_SIZE));
+    private void setPanelDimension(JPanel pan) {
+        pan.setPreferredSize(new Dimension(this.getWidth(), this.getHeight() / TOOL_SIZE));
     }
 
-    private void setPanelsDimension(){
+    private void setPanelsDimension() {
         setPanelDimension(nodeSelectorView);
         setPanelDimension(edgeSelectorView);
         setPanelDimension(attributesChooserView);
         setPanelDimension(preview);
     }
 
-    private void initSelectors(){
+    private void initSelectors() {
         tabbedSelector = new JTabbedPane();
         nodeSelectorView = new NodeSelectorView(model);
         edgeSelectorView = new EdgeSelectorView(model);
@@ -55,7 +55,7 @@ public class ToolView extends JPanel {
         tabbedSelector.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
     }
 
-    private void addSelectors(){
+    private void addSelectors() {
         this.add(tabbedSelector);
         tabbedSelector.addTab(NODE_TAB, nodeSelectorView);
         tabbedSelector.addTab(EDGE_TAB, edgeSelectorView);
@@ -63,10 +63,9 @@ public class ToolView extends JPanel {
         this.add(preview);
     }
 
-    private void initToolModel(){
+    private void initToolModel() {
         model = new ToolModel();
     }
-
 
     public TikzComponent getTikzComponent() {
         return model.getComponent();

@@ -1,22 +1,23 @@
 package gui.editor.controllers;
 
-
-import gui.editor.views.SourceView;
-import models.TikzGraph;
-import org.codehaus.jparsec.error.ParserException;
-import parser.NodeParser;
-import utils.SaverFactory;
-
-import javax.swing.*;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
+import javax.swing.*;
 
-public class SourceController implements Observer{
+import models.TikzGraph;
+
+import org.codehaus.jparsec.error.ParserException;
+
+import parser.NodeParser;
+import utils.SaverFactory;
+import gui.editor.views.SourceView;
+
+public class SourceController implements Observer {
+    private static final Logger logger = Logger.getLogger("gui.editor.controllers.source");
     private SourceView view;
     private TikzGraph graph;
-    private static final Logger logger = Logger.getLogger("gui.editor.controllers.source");
     private String originalText = "";
 
     public SourceController(SourceView view, TikzGraph graph) {
@@ -25,9 +26,9 @@ public class SourceController implements Observer{
         this.graph.addObserver(this);
     }
 
-    public void update(Observable o, Object arg){
+    public void update(Observable o, Object arg) {
         System.out.println("update");
-        if(!view.getIsFocused()){
+        if (!view.getIsFocused()) {
             String tmp = originalText;
             String newText = this.graph.toString();
             view.setText(newText);
@@ -42,7 +43,7 @@ public class SourceController implements Observer{
 
     private void updateFromText(String text) {
         text = text.trim();
-        if(text.length() != 0) {
+        if (text.length() != 0) {
             TikzGraph new_graph = new TikzGraph();
             logger.fine("TikZ updated event. New TikZ : " + text);
             try {
@@ -69,7 +70,7 @@ public class SourceController implements Observer{
     }
 
     public void textIsUpdated() {
-        if(view.getIsFocused()){
+        if (view.getIsFocused()) {
             this.updateFromText(view.getText());
         }
     }

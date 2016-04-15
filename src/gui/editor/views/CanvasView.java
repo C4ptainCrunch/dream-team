@@ -8,19 +8,22 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-import gui.editor.drag.TikzTransferHandler;
-import models.*;
+import models.TikzComponent;
+import models.TikzEdge;
+import models.TikzGraph;
+import models.TikzNode;
 import gui.editor.controllers.CanvasController;
+import gui.editor.drag.TikzTransferHandler;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
-import gui.editor.views.canvas.drawers.*;
+import gui.editor.views.canvas.drawers.Drawer;
 
-public class CanvasView extends JPanel{
+public class CanvasView extends JPanel {
     private EditorView parentView;
     private TikzGraph graph;
     private CanvasController controller;
     private boolean isFocused;
 
-    public CanvasView(EditorView parentView, TikzGraph graph){
+    public CanvasView(EditorView parentView, TikzGraph graph) {
         this.parentView = parentView;
         this.graph = graph;
         this.controller = new CanvasController(this, graph);
@@ -35,16 +38,16 @@ public class CanvasView extends JPanel{
 
     private void render() {
         setFocusable(true);
-//        requestFocusInWindow();
+        // requestFocusInWindow();
     }
 
-    private void addListeners(){
-        this.addMouseListener(new MouseInputAdapter(){
+    private void addListeners() {
+        this.addMouseListener(new MouseInputAdapter() {
             @Override
-            public void mousePressed(MouseEvent e){
+            public void mousePressed(MouseEvent e) {
 
-                if(SwingUtilities.isRightMouseButton(e)){}
-                else {
+                if (SwingUtilities.isRightMouseButton(e)) {
+                } else {
                     controller.mousePressed(e, parentView.getSelectedTool());
                 }
             }
@@ -63,24 +66,24 @@ public class CanvasView extends JPanel{
         });
     }
 
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for(TikzEdge edge : graph.getEdges()){
-            DrawableTikzComponent drawableComponent =  Drawer.toDrawable(edge);
+        for (TikzEdge edge : graph.getEdges()) {
+            DrawableTikzComponent drawableComponent = Drawer.toDrawable(edge);
             drawableComponent.draw((Graphics2D) g);
         }
 
-        for(TikzNode node : graph){
-            DrawableTikzComponent drawableComponent =  Drawer.toDrawable(node);
+        for (TikzNode node : graph) {
+            DrawableTikzComponent drawableComponent = Drawer.toDrawable(node);
             drawableComponent.translate(node.getPosition());
             drawableComponent.center();
             controller.addDrawableComponent(drawableComponent);
             drawableComponent.draw((Graphics2D) g);
         }
 
-        if(!getIsFocused()){
-            Graphics2D g2d = (Graphics2D)g;
+        if (!getIsFocused()) {
+            Graphics2D g2d = (Graphics2D) g;
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             Stroke old_stroke = g2d.getStroke();
             Color old_color = g2d.getColor();
@@ -96,15 +99,15 @@ public class CanvasView extends JPanel{
 
     }
 
-    public void setIsFocused(boolean isFocused) {
-        this.isFocused = isFocused;
-    }
-
     public boolean getIsFocused() {
         return isFocused;
     }
 
-    public void dragEvent(TikzComponent component, Point location){
+    public void setIsFocused(boolean isFocused) {
+        this.isFocused = isFocused;
+    }
+
+    public void dragEvent(TikzComponent component, Point location) {
         this.requestFocus();
         controller.mouseDropped(component, location);
     }

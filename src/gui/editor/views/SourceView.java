@@ -11,7 +11,7 @@ import javax.swing.event.DocumentListener;
 import models.TikzGraph;
 import gui.editor.controllers.SourceController;
 
-public class SourceView extends JPanel{
+public class SourceView extends JPanel {
     private static final int TEXT_AREA_WIDTH = 300;
 
     private TikzGraph graph;
@@ -20,7 +20,7 @@ public class SourceView extends JPanel{
     private Boolean isFocused = false;
     private EditorView parentView;
 
-    public SourceView(EditorView parentView, TikzGraph graph){
+    public SourceView(EditorView parentView, TikzGraph graph) {
         this.parentView = parentView;
         this.graph = graph;
 
@@ -32,16 +32,12 @@ public class SourceView extends JPanel{
         this.render();
     }
 
-    public void setText(String text){
-        textArea.setText(text);
-    }
-
-    private void render(){
+    private void render() {
         this.setLayout(new BorderLayout());
         this.add(new JScrollPane(textArea), BorderLayout.CENTER);
     }
 
-    private void addListeners(){
+    private void addListeners() {
         textArea.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent focusEvent) {
@@ -82,6 +78,10 @@ public class SourceView extends JPanel{
 
     public String getText() {
         return textArea.getText();
+    }
+
+    public void setText(String text) {
+        textArea.setText(text);
     }
 
     public String getProjectPath() {

@@ -1,7 +1,7 @@
 package gui.editor.views.canvas.drawers;
 
-import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import models.TikzComponent;
+import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 /**
  * Created by jhellinckx on 13/04/16.

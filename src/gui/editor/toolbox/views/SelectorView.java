@@ -1,13 +1,13 @@
 package gui.editor.toolbox.views;
 
-import gui.editor.views.canvas.drawers.Drawer;
+import java.awt.*;
+
+import javax.swing.*;
+
 import models.TikzComponent;
 import gui.editor.toolbox.SelectorComponent;
 import gui.editor.toolbox.controllers.SelectorController;
 import gui.editor.toolbox.model.ToolModel;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * Created by aurelien on 12/04/16.
@@ -25,18 +25,16 @@ public class SelectorView extends JPanel implements SelectorComponent.SelectorCo
         controller = new SelectorController(this, model);
     }
 
-
-
-    protected void addComponent(SelectorComponent comp){
+    protected void addComponent(SelectorComponent comp) {
         options.add(comp);
     }
 
-    public void setComponentNbr(int nbr){
-        ((GridLayout)options.getLayout()).setRows(nbr);
+    public void setComponentNbr(int nbr) {
+        ((GridLayout) options.getLayout()).setRows(nbr);
     }
 
     @Override
-    public void componentSelected(TikzComponent component){
+    public void componentSelected(TikzComponent component) {
         controller.itemSelected(component);
     }
 }

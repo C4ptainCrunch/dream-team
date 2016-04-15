@@ -1,10 +1,5 @@
 package gui.help.controllers;
 
-import gui.help.views.HelpView;
-
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreePath;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,34 +8,36 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
+
+import gui.help.views.HelpView;
+
 public class HelpController {
-    private HelpView view;
     private final static String HELP_ROOT = "./assets/help_files/";
+    private HelpView view;
 
     public HelpController(HelpView view) {
         this.view = view;
     }
 
-
     public void treeClicked(TreeSelectionEvent ev) {
         TreePath clickedNode = ev.getPath();
 
-        // This is a simple map : [x.to_string() for x in clickedNode.getProjectPath()]
+        // This is a simple map : [x.to_string() for x in
+        // clickedNode.getProjectPath()]
         // We <3 Java
-        List<String> path = Arrays.stream(clickedNode.getPath())
-                .map(Object::toString)
-                .collect(Collectors.toList());
+        List<String> path = Arrays.stream(clickedNode.getPath()).map(Object::toString).collect(Collectors.toList());
 
         String filePath = HELP_ROOT + String.join("/", path) + ".md";
 
-        try{
+        try {
             view.setText(new String(Files.readAllBytes(Paths.get(filePath))));
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
     public DefaultMutableTreeNode getTree() {
         return Filewalker.walkToTree(HELP_ROOT + "Help");
@@ -53,23 +50,22 @@ class Filewalker {
         File[] list = root.listFiles();
 
         DefaultMutableTreeNode out = new DefaultMutableTreeNode(root.getName());
-        if (list == null) return out;
+        if (list == null)
+            return out;
 
-        for ( File f : list ) {
-            if ( f.isDirectory() ) {
+        for (File f : list) {
+            if (f.isDirectory()) {
                 out.add(walkToTree(f.getAbsolutePath()));
-            }
-            else {
+            } else {
                 String name = f.getName();
                 int dot = name.lastIndexOf('.');
                 if (dot > 0) {
                     name = name.substring(0, dot);
                     File equivalentDir = new File(f.getParent(), name);
-                    if(!equivalentDir.isDirectory()){
+                    if (!equivalentDir.isDirectory()) {
                         out.add(new DefaultMutableTreeNode(name));
                     }
-                }
-                else{
+                } else {
                     out.add(new DefaultMutableTreeNode(name));
                 }
 

@@ -4,7 +4,8 @@ import constants.Models;
 
 public class TikzCircle extends TikzShape {
     private int radius;
-    public TikzCircle(){
+
+    public TikzCircle() {
         super();
         radius = Models.DEFAULT.LENGTH;
     }
@@ -14,7 +15,7 @@ public class TikzCircle extends TikzShape {
         this.radius = radius;
     }
 
-    public TikzCircle(TikzCircle o_circle){
+    public TikzCircle(TikzCircle o_circle) {
         super(o_circle);
         this.radius = o_circle.getRadius();
     }
@@ -29,13 +30,17 @@ public class TikzCircle extends TikzShape {
 
     @Override
     public String toString() {
-        String options = String.join(", ", new String[]{"circle"}); //TODO: do this
-        if (!options.contains("draw")) options += ", draw";
-        return String.format("\\node[%s](%s) at (%.0f,%.0f){%s}", options, "", getPosition().getX(), getPosition().getY(), getLabel());
+        String options = String.join(", ", new String[] { "circle" }); // TODO:
+                                                                        // do
+                                                                        // this
+        if (!options.contains("draw"))
+            options += ", draw";
+        return String.format("\\node[%s](%s) at (%.0f,%.0f){%s}", options, "", getPosition().getX(),
+                getPosition().getY(), getLabel());
     }
 
     @Override
-    public TikzCircle getClone(){
+    public TikzCircle getClone() {
         return new TikzCircle(this);
     }
 }

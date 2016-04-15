@@ -1,10 +1,12 @@
 package gui.help.views;
 
-import gui.help.controllers.HelpController;
-import org.pegdown.PegDownProcessor;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
+
+import org.pegdown.PegDownProcessor;
+
+import gui.help.controllers.HelpController;
 
 public class HelpView extends JFrame {
     private HelpController controller;

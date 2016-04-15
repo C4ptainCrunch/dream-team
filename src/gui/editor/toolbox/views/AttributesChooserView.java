@@ -1,15 +1,16 @@
 package gui.editor.toolbox.views;
 
-import gui.editor.toolbox.controllers.AttributesChooserController;
-import gui.editor.toolbox.model.ToolModel;
-
-import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
 import java.util.Locale;
+
+import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.event.MouseInputAdapter;
+
+import gui.editor.toolbox.controllers.AttributesChooserController;
+import gui.editor.toolbox.model.ToolModel;
 
 public class AttributesChooserView extends JPanel {
 
@@ -25,10 +26,16 @@ public class AttributesChooserView extends JPanel {
     private JFormattedTextField stroke_width_field;
     private AttributesChooserController controller;
 
-    public AttributesChooserView(ToolModel model){
+    public AttributesChooserView(ToolModel model) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         scrollzone = new JScrollPane();
-        attributes = new JPanel(new GridLayout(ATTRIBUTES_NUMBER*2, 0));    // times 2 because of the describing labels.
+        attributes = new JPanel(new GridLayout(ATTRIBUTES_NUMBER * 2, 0)); // times
+                                                                            // 2
+                                                                            // because
+                                                                            // of
+                                                                            // the
+                                                                            // describing
+                                                                            // labels.
         scrollzone = new JScrollPane(attributes);
         this.add(scrollzone);
         controller = new AttributesChooserController(this, model);
@@ -38,34 +45,38 @@ public class AttributesChooserView extends JPanel {
         initStrokeField();
     }
 
-    private void addLabel(String text){
+    private void addLabel(String text) {
         JLabel label = new JLabel(text);
         label.setHorizontalAlignment(JLabel.CENTER);
         attributes.add(label);
     }
 
-    private void addColorListener(){
+    private void addColorListener() {
 
-        color_chooser.addMouseListener(new MouseInputAdapter(){
+        color_chooser.addMouseListener(new MouseInputAdapter() {
             @Override
-            public void mousePressed(MouseEvent e){
-                if(SwingUtilities.isRightMouseButton(e)){}
-                else {
+            public void mousePressed(MouseEvent e) {
+                if (SwingUtilities.isRightMouseButton(e)) {
+                } else {
                     controller.chooseColor();
                 }
             }
         });
     }
 
-    private void addLabelListener(){
-        label_field.addActionListener(actionEvent -> { this.controller.labelEntered(label_field.getText());});
+    private void addLabelListener() {
+        label_field.addActionListener(actionEvent -> {
+            this.controller.labelEntered(label_field.getText());
+        });
     }
 
-    private void addStrokeListener(){
-        stroke_width_field.addActionListener(actionEvent -> {this.controller.strokeWidth(Integer.parseInt(stroke_width_field.getText()));});
+    private void addStrokeListener() {
+        stroke_width_field.addActionListener(actionEvent -> {
+            this.controller.strokeWidth(Integer.parseInt(stroke_width_field.getText()));
+        });
     }
 
-    private void initColorChooser(){
+    private void initColorChooser() {
         addLabel(COLOR_LABEL);
         color_chooser = new JPanel();
         color_chooser.setBackground(Color.WHITE);
@@ -74,14 +85,14 @@ public class AttributesChooserView extends JPanel {
         attributes.add(color_chooser);
     }
 
-    private void initLabelField(){
+    private void initLabelField() {
         addLabel(TITLE_LABEL);
         label_field = new JTextField();
         attributes.add(label_field);
         addLabelListener();
     }
 
-    private void initStrokeField(){
+    private void initStrokeField() {
         addLabel(STROKE_LABEL);
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
         numberFormat.setGroupingUsed(false);
@@ -90,7 +101,7 @@ public class AttributesChooserView extends JPanel {
         addStrokeListener();
     }
 
-    public void setColorFieldColor(Color color){
+    public void setColorFieldColor(Color color) {
         color_chooser.setBackground(color);
     }
 }

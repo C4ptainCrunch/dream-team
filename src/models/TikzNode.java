@@ -1,23 +1,23 @@
 package models;
 
-import java.awt.Point;
+import java.awt.*;
 
 import constants.Models;
 
 public abstract class TikzNode extends TikzComponent {
     private Point position;
 
-    protected TikzNode(){
+    protected TikzNode() {
         super();
         position = new Point(Models.DEFAULT.X, Models.DEFAULT.Y);
     }
 
-    protected TikzNode(Point position){
+    protected TikzNode(Point position) {
         super();
         this.position = position;
     }
 
-    protected TikzNode(TikzNode o_node){
+    protected TikzNode(TikzNode o_node) {
         super(o_node);
         this.position = o_node.getPosition();
     }
@@ -30,8 +30,8 @@ public abstract class TikzNode extends TikzComponent {
         this.position = position;
     }
 
-    public void move(int x, int y){
-        setPosition(new Point(x,y));
+    public void move(int x, int y) {
+        setPosition(new Point(x, y));
     }
 
     public abstract TikzNode getClone();

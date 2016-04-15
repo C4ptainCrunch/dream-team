@@ -1,21 +1,20 @@
 package gui.editor.views;
 
-import constants.GUI;
-import gui.editor.controllers.*;
-import models.TikzGraph;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
+import javax.swing.*;
+
 import models.TikzComponent;
+import models.TikzGraph;
+import constants.GUI;
 import gui.editor.controllers.EditorController;
 import gui.editor.toolbox.views.ToolBoxView;
 
-public class EditorView extends JFrame{
+public class EditorView extends JFrame {
     private TikzGraph graph;
 
     private CanvasView canvasView;
@@ -26,23 +25,23 @@ public class EditorView extends JFrame{
 
     private EditorController controller;
 
-    public EditorView(String filePath, Boolean isImport){
+    public EditorView(String filePath, Boolean isImport) {
         this.projectPath = filePath;
-        if(isImport){
+        if (isImport) {
             this.graph = new TikzGraph(filePath);
             this.projectPath = Paths.get(getProjectPath()).getParent().toString();
-        }else{
+        } else {
             this.graph = new TikzGraph();
         }
 
-        this.canvasView = new CanvasView(this,graph);
+        this.canvasView = new CanvasView(this, graph);
         this.sourceView = new SourceView(this, graph);
         this.menuView = new MenuView(this, graph);
         this.toolBoxView = new ToolBoxView();
 
         this.controller = new EditorController(this, graph);
 
-        this.graph.replace(this.graph);//update du tikZ text
+        this.graph.replace(this.graph);// update du tikZ text
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -57,7 +56,7 @@ public class EditorView extends JFrame{
         this.setVisible(true);
     }
 
-    public void render(){
+    public void render() {
         this.setTitle(GUI.Text.APP_NAME);
 
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -77,11 +76,11 @@ public class EditorView extends JFrame{
         return projectPath;
     }
 
-    public HashMap<String, Object> getCurrentToolProperties(){
+    public HashMap<String, Object> getCurrentToolProperties() {
         return null;
     }
 
-    public TikzComponent getSelectedTool(){
+    public TikzComponent getSelectedTool() {
         return toolBoxView.getSelectedTool();
     }
 }

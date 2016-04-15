@@ -3,29 +3,32 @@ package models;
 import java.awt.*;
 
 public class TikzDirectedEdge extends TikzEdge {
-	public TikzDirectedEdge(TikzNode first, TikzNode second) {
-		super(first, second);
-	}
-	public TikzDirectedEdge() { super(); }
+    public TikzDirectedEdge(TikzNode first, TikzNode second) {
+        super(first, second);
+    }
 
-	public TikzDirectedEdge(TikzDirectedEdge o_edge){
-		super(o_edge);
-	}
+    public TikzDirectedEdge() {
+        super();
+    }
 
-	public TikzNode destination() {
-		return getSecondNode();
-	}
+    public TikzDirectedEdge(TikzDirectedEdge o_edge) {
+        super(o_edge);
+    }
 
-	@Override
-	public String toString() {
-		Point first = getFirstNode().getPosition(), second = getSecondNode().getPosition();
-		String options = String.join(", ", new String[] { "->" }); // TODO
-		return String.format("\\draw[%s] (%.0f, %.0f) -- (%.0f, %.0f)", options, first.getX(), first.getY(),
-				second.getX(), second.getY());
-	}
+    public TikzNode destination() {
+        return getSecondNode();
+    }
 
-	@Override
-	public TikzDirectedEdge getClone() {
-		return new TikzDirectedEdge(this);
-	}
+    @Override
+    public String toString() {
+        Point first = getFirstNode().getPosition(), second = getSecondNode().getPosition();
+        String options = String.join(", ", new String[] { "->" }); // TODO
+        return String.format("\\draw[%s] (%.0f, %.0f) -- (%.0f, %.0f)", options, first.getX(), first.getY(),
+                second.getX(), second.getY());
+    }
+
+    @Override
+    public TikzDirectedEdge getClone() {
+        return new TikzDirectedEdge(this);
+    }
 }

@@ -1,5 +1,6 @@
 package gui.projectManagement.views;
 
+import constants.GUI.ProjectManagementText;
 import gui.projectManagement.controllers.ProjectManagementController;
 
 import javax.swing.*;
@@ -102,7 +103,7 @@ public class ProjectManagementView extends JFrame implements ActionListener {
     private void initInfoPanel(){
         JPanel infoPanel = new JPanel();
         this.textInfo = new JTextPane();
-        this.textInfo.setText("INFORMATION ABOUT SELECTED PROJECT:\nProject Name: \nUser: Local\nLast revision:\n");
+        this.textInfo.setText(String.format(ProjectManagementText.BLANK_INFO_PANEL,"","Local",""));
 
         infoPanel.add(this.textInfo);
         this.add(this.textInfo,BorderLayout.EAST);
@@ -116,8 +117,7 @@ public class ProjectManagementView extends JFrame implements ActionListener {
         String projectName = selectedProject.substring(endIndex+1, selectedProject.length());
         String lastRevision = this.controller.getLastRevision();
 
-        this.textInfo.setText("INFORMATION ABOUT SELECTED PROJECT:\nProject Name: "+projectName+
-                      "\nUser: Local\nLast revision: "+ lastRevision+"\n");
+        this.textInfo.setText(String.format(ProjectManagementText.BLANK_INFO_PANEL,projectName,"Local",lastRevision));
     }
 
     @Override

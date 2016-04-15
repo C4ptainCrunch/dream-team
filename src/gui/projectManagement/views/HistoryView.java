@@ -6,6 +6,7 @@ import gui.projectManagement.controllers.HistoryController;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import constants.GUI.ProjectManagementText;
 
 public class HistoryView extends JFrame{
     private HistoryController controller;
@@ -16,7 +17,7 @@ public class HistoryView extends JFrame{
     public HistoryView(String path){
         controller = new HistoryController(this, path);
 
-        this.setTitle("Diff History");
+        this.setTitle(ProjectManagementText.DIFF_TEXT);
         this.setSize(800,600);
         this.setLocationRelativeTo(null);
         this.getContentPane().add(scroll, BorderLayout.CENTER);

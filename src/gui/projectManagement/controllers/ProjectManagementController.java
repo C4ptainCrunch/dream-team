@@ -11,6 +11,7 @@ import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import constants.GUI.ProjectManagementText;
 
 public class ProjectManagementController {
     private ProjectManagementView view;
@@ -23,7 +24,7 @@ public class ProjectManagementController {
         String path = getSavedPath();
         List<String> lines = new ArrayList<>();
 
-        lines.add("Chose existing project from this list (if it exists) and press 'Import' or 'Rename'.");
+        lines.add(ProjectManagementText.DROPDOWN_HEADER);
 
         try {
             FileReader fileReader = new FileReader(path);
@@ -35,6 +36,7 @@ public class ProjectManagementController {
             bufferedReader.close();
         }
         catch (IOException e){
+            e.getStackTrace();
         }
         return lines;
     }
@@ -68,7 +70,7 @@ public class ProjectManagementController {
                 savedPathsFile.getParentFile().mkdirs();
                 savedPathsFile.createNewFile();
             } catch (IOException e) {  // Not logical but necessary
-                System.err.println("Exists: " + e.getMessage());
+                e.getStackTrace();
             }
         }
 
@@ -109,18 +111,18 @@ public class ProjectManagementController {
             java.io.File savedPathsFile = getSavedPathsFileFromPath(path);
 
             try (FileWriter fw = new FileWriter(savedPathsFile, true);
-                 BufferedWriter bw = new BufferedWriter(fw)
-            ) {
+                 BufferedWriter bw = new BufferedWriter(fw) )
+            {
                 bw.append(projectPath + System.lineSeparator());
             } catch (IOException e) {
-
+                e.getStackTrace();
             }
         }
     }
 
     public void createProject() {
 
-        java.io.File f = createPanel("Choose location to create your project", JFileChooser.DIRECTORIES_ONLY);
+        java.io.File f = createPanel(ProjectManagementText.CREATE_PANEL, JFileChooser.DIRECTORIES_ONLY);
         if (f != null){
             String filePath = f.getAbsolutePath();
 
@@ -143,7 +145,7 @@ public class ProjectManagementController {
 
     public void importProject() {
         if(this.view.getSelectedPathIndex()==0){
-            java.io.File f = createPanel("Choose location to import your project", JFileChooser.FILES_ONLY);
+            java.io.File f = createPanel(ProjectManagementText.IMPORT_PANEL, JFileChooser.FILES_ONLY);
             if (f != null){
                 String filePath = f.getAbsolutePath();
                 int endIndex = filePath.lastIndexOf("/");
@@ -157,7 +159,6 @@ public class ProjectManagementController {
             java.awt.EventQueue.invokeLater(()->new EditorView(filePath, true));
             view.dispose(); //Exit previous windows
         }
-
     }
 
     private java.io.File createPanel(String title, int selectionMode) {
@@ -193,7 +194,7 @@ public class ProjectManagementController {
                 try {
                     this.updateSavedProjectsFile(selectedPath, newName);
                 } catch (IOException e) {
-
+                    e.getStackTrace();
                 }
                 this.view.updateComboBox(newName);
             }
@@ -217,13 +218,13 @@ public class ProjectManagementController {
                     ch = br.readLine();
                 }
                 catch (IOException e){
-
+                    e.getStackTrace();
                 }
                 tmp.add(ch);
             } while (! ch.startsWith("2016"));
         }
         catch (FileNotFoundException e){
-            System.out.println("File not found.");
+            e.getStackTrace();
         }
         return ch;
     }

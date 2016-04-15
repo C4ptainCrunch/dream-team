@@ -15,4 +15,14 @@ public final class GUI {
         public static final String HELP = "See help panel";
         public static final String DIFF = "Show History";
     }
+
+    public static final class ProjectManagementText {
+        public static final String CREATE_PANEL = "Chose location to create your project";
+        public static final String IMPORT_PANEL = "Chose location to import your project";
+        public static final String DROPDOWN_HEADER = "Chose existing project from this list (if it exists) " +
+                                                     "and press 'Import' or 'Rename'.";
+        public static final String BLANK_INFO_PANEL = "INFORMATION ABOUT SELECTED PROJECT:\nProject Name: %s" +
+                                                      "\nUser: %s\nLast revision: %s\n";
+        public static final String DIFF_TEXT = "Diff History";
+    }
 }

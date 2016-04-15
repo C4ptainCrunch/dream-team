@@ -24,7 +24,7 @@ public class HelpView extends JFrame {
 
     private void render() {
         this.setTitle("Help");
-        this.getContentPane().setPreferredSize(new Dimension(500, 300));
+        this.getContentPane().setPreferredSize(new Dimension(600, 400));
 
         this.setLayout(new GridLayout(1, 2));
 

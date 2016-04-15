@@ -7,8 +7,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
+import gui.editor.drag.handler.PreviewTransferHandler;
 import models.TikzComponent;
-import gui.editor.drag.TikzTransferHandler;
 import gui.editor.toolbox.controllers.PreviewController;
 import gui.editor.toolbox.model.ToolModel;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
@@ -29,7 +29,7 @@ public class PreviewView extends JPanel {
     }
 
     private void enableDrag() {
-        this.setTransferHandler(new TikzTransferHandler());
+        this.setTransferHandler(new PreviewTransferHandler());
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent mouseEvent) {

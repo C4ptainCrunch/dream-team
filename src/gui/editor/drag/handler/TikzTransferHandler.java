@@ -1,4 +1,4 @@
-package gui.editor.drag;
+package gui.editor.drag.handler;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import gui.editor.drag.transferable.TransferableTikz;
 import models.TikzComponent;
 import models.TikzVoid;
 import gui.editor.toolbox.views.PreviewView;
@@ -15,7 +16,7 @@ import gui.editor.views.CanvasView;
 /**
  * Created by aurelien on 13/04/16.
  */
-public class TikzTransferHandler extends TransferHandler {
+public abstract class TikzTransferHandler extends TransferHandler {
 
     // Check if the data imported are valid (according to the TransferHandler
     // doc).
@@ -63,9 +64,7 @@ public class TikzTransferHandler extends TransferHandler {
 
     // Create a Transferable Object from the source that will be retrieved by
     // the destination.
-    protected Transferable createTransferable(JComponent c) {
-        return new TransferableTikz(((PreviewView) c).getComponent());
-    }
+    protected abstract Transferable createTransferable(JComponent c);
 
     // Defines the type of Action (MOVE, COPY, COPY_OR_MOVE, etc..).
     public int getSourceActions(JComponent c) {

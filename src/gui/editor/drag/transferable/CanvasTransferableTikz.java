@@ -1,4 +1,4 @@
-package gui.editor.drag;
+package gui.editor.drag.transferable;
 
 import models.TikzComponent;
 

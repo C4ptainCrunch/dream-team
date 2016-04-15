@@ -1,4 +1,4 @@
-package gui.editor.drag;
+package gui.editor.drag.transferable;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -10,7 +10,7 @@ import models.TikzComponent;
 /**
  * Created by aurelien on 13/04/16.
  */
-public class TransferableTikz implements Transferable {
+public abstract class TransferableTikz implements Transferable {
 
     public static DataFlavor data; // Generic type for identifying data.
     protected TikzComponent component; // The "real" object that will be passed
@@ -20,18 +20,22 @@ public class TransferableTikz implements Transferable {
 
     }
 
-    public TransferableTikz(TikzComponent comp) {
+    protected void initializeDataAndComponent(TikzComponent comp){
         String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=" + TikzComponent.class.getName(); // Identifier
-                                                                                                                // for
-                                                                                                                // the
-                                                                                                                // data
-                                                                                                                // passed.
+        // for
+        // the
+        // data
+        // passed.
         try {
             data = new DataFlavor(mimeType);
             component = comp.getClone();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public TransferableTikz(TikzComponent comp) {
+        initializeDataAndComponent(comp);
     }
 
     public DataFlavor[] getTransferDataFlavors() {

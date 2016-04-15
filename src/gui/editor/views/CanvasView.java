@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-import gui.editor.drag.CanvasTransfertHandler;
+import gui.editor.drag.handler.CanvasTransferHandler;
 import models.TikzComponent;
 import models.TikzEdge;
 import models.TikzGraph;
@@ -68,7 +68,7 @@ public class CanvasView extends JPanel {
     }
 
     private void enableDrag() {
-        this.setTransferHandler(new CanvasTransfertHandler());
+        this.setTransferHandler(new CanvasTransferHandler());
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent mouseEvent) {

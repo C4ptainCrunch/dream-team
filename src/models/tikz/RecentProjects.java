@@ -56,12 +56,13 @@ public class RecentProjects {
     }
 
     private static void writeToDisk(Vector<Project> projects) throws IOException {
-        FileWriter fw = new FileWriter(getFilePath().toFile(), true);
+        FileWriter fw = new FileWriter(getFilePath().toFile());
         BufferedWriter bw = new BufferedWriter(fw);
 
         List<String> projectPaths = projects.stream().map(Project::getPath).collect(Collectors.toList());
         String txt = String.join(System.lineSeparator(), projectPaths);
 
         bw.write(txt);
+        bw.close();
     }
 }

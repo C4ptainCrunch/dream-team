@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
+import constants.Models;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 
 import constants.Utils;
@@ -29,22 +30,20 @@ public class SaverUtil {
         return diffDecoder(s);
     }
 
-    public static void writeToFile(String original, String revised, String path) {
+    public static void writeDiffToFile(String original, String revised, String path) throws IOException {
         final Date d = new Date();
         String currDate = dateFormat.format(d);
-        String filename = "diffs";
-        try {
-            FileWriter f = new FileWriter(path + "/" + filename, true);
-            BufferedWriter bufferedWriter = new BufferedWriter(f);
-            bufferedWriter.append(currDate);
-            bufferedWriter.newLine();
-            bufferedWriter.append(makeDiff(original, revised));
-            bufferedWriter.newLine();
+        String filename = Models.Project.DIFF_FILE;
 
-            bufferedWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileWriter f = new FileWriter(path + "/" + filename, true);
+        BufferedWriter bufferedWriter = new BufferedWriter(f);
+        bufferedWriter.append(currDate);
+        bufferedWriter.newLine();
+        bufferedWriter.append(makeDiff(original, revised));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
     }
 
     private static String diffDecoder(String s) {

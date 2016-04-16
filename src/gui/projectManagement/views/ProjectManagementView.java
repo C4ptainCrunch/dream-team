@@ -2,6 +2,7 @@ package gui.projectManagement.views;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Vector;
 
 import javax.swing.*;
@@ -61,6 +62,7 @@ public class ProjectManagementView extends JFrame {
         Vector<Project> recentProjects = null;
         try {
             recentProjects = RecentProjects.getRecentProjects();
+            Collections.reverse(recentProjects);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -22,6 +22,6 @@ public class Dirs {
                 break;
         }
 
-        return base.resolve(tail);
+        return Paths.get(base.toString(), tail.toString());
     }
 }

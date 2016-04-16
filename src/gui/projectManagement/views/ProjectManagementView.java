@@ -10,6 +10,7 @@ import constants.GUI;
 import constants.GUI.ProjectManagement;
 import gui.projectManagement.controllers.ProjectManagementController;
 import models.Project;
+import models.tikz.RecentProjects;
 
 public class ProjectManagementView extends JFrame {
     private ProjectManagementController controller = new ProjectManagementController(this);
@@ -32,19 +33,19 @@ public class ProjectManagementView extends JFrame {
 
     private void createButtonsPanel() {
         JPanel buttons = new JPanel();
+//
+//        JButton create = new JButton(GUI.ProjectManagement.CREATE_BUTTON);
+//        create.addActionListener(e -> controller.createProject());
+//
+//        JButton open = new JButton(GUI.ProjectManagement.OPEN_BUTTON);
+//        open.addActionListener(e -> controller.openProject());
+//
+//        JButton rename = new JButton(GUI.ProjectManagement.RENAME_BUTTON);
+//        rename.addActionListener(e -> controller.renameProject());
 
-        JButton create = new JButton(GUI.ProjectManagement.CREATE_BUTTON);
-        create.addActionListener(e -> controller.createProject());
-
-        JButton open = new JButton(GUI.ProjectManagement.OPEN_BUTTON);
-        open.addActionListener(e -> controller.openProject());
-
-        JButton rename = new JButton(GUI.ProjectManagement.RENAME_BUTTON);
-        rename.addActionListener(e -> controller.renameProject());
-
-        buttons.add(create);
-        buttons.add(open);
-        buttons.add(rename);
+//        buttons.add(create);
+//        buttons.add(open);
+//        buttons.add(rename);
 
         buttons.setOpaque(true);
         this.add(buttons, BorderLayout.CENTER);
@@ -59,7 +60,7 @@ public class ProjectManagementView extends JFrame {
 
         Vector<Project> recentProjects = null;
         try {
-            recentProjects = Project.getRecentProjects();
+            recentProjects = RecentProjects.getRecentProjects();
         } catch (IOException e) {
             e.printStackTrace();
         }

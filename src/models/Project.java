@@ -1,16 +1,14 @@
 package models;
 
+import models.tikz.RecentProjects;
 import models.tikz.TikzGraph;
-import utils.Dirs;
 import utils.SaverUtil;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class Project {
     private String path;
@@ -22,9 +20,14 @@ public class Project {
     }
 
     public static Project fromPath(String path) throws IOException {
-        TikzGraph graph = new TikzGraph(path);
+        TikzGraph graph = new TikzGraph(Paths.get(path, "save.tikz").toString());
         Project p = new Project(path, graph);
         return p;
+    }
+
+    @Override
+    public String toString() {
+        return this.getName();
     }
 
     public TikzGraph getGraph() {
@@ -35,8 +38,17 @@ public class Project {
         return path;
     }
 
+    public Path getRevisionPath() {
+        return Paths.get(this.getPath(), "diffs");
+    }
+
+    public String getName() {
+        return this.path;
+    }
+
     public void save() throws IOException {
         SaverUtil.writeToFile(this.getDiskTikz(), this.graph.toString(), this.path);
+        RecentProjects.addProject(this);
     }
 
     public String getDiskTikz() throws IOException {
@@ -51,26 +63,30 @@ public class Project {
         return Paths.get(this.path + "/diffs");
     }
 
+    public void rename(Path newPath) throws IOException {
+        RecentProjects.addProject(this);
+    }
 
-    public static Vector<Project> getRecentProjects() throws IOException {
-        Vector<Project> projects = new Vector<>();
+    // TODO : André : refactor this asap
+    public String getLastRevision() {
+        String ch = "";
 
-        Path rectentProjectsPath = Dirs.getDataDir().relativize(Paths.get("recent.paths"));
+        try {
+            ArrayList tmp = new ArrayList<String>();
+            FileReader fr = new FileReader(this.getRevisionPath().toFile());
+            BufferedReader br = new BufferedReader(fr);
 
-        FileReader fileReader = new FileReader(rectentProjectsPath.toFile());
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            try {
-                projects.add(Project.fromPath(line));
-            } catch (IOException e) {
-                // If there is an error while loading the project
-                // we can safely ignore it
-                // TODO : log the error (logger.debug)
-            }
+            do {
+                try {
+                    ch = br.readLine();
+                } catch (IOException e) {
+                    e.getStackTrace();
+                }
+                tmp.add(ch);
+            } while (!ch.startsWith("2016"));
+        } catch (FileNotFoundException e) {
+            e.getStackTrace();
         }
-        bufferedReader.close();
-
-        return projects;
+        return ch;
     }
 }

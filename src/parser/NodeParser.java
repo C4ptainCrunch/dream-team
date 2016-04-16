@@ -16,10 +16,6 @@ import org.codehaus.jparsec.pattern.CharPredicates;
 import org.codehaus.jparsec.pattern.Patterns;
 
 public class NodeParser {
-
-    private NodeParser() {
-    }
-
     private static final Parser<Void> MAYBEWHITESPACES = Scanners.WHITESPACES.optional();
     private static final Parser<Void> MAYBENEWLINES = Scanners.isChar('\n').optional();
     private static final Parser<List<String>> maybeOptions = Parsers.or(options(),
@@ -27,6 +23,9 @@ public class NodeParser {
     private static final Parser<String> maybeLabel = Parsers.or(label(), Parsers.constant(""));
     private static final String[] shapes = new String[] { "rectangle", "circle", "ellipse", "circle split",
             "forbidden sign", "diamond", "cross out", "strike out", "regular polygon", "ann", "star" };
+
+    private NodeParser() {
+    }
 
     public static Parser<String> reference() {
         return Parsers.between(Scanners.string("("),

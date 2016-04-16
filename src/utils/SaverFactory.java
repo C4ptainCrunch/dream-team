@@ -16,7 +16,7 @@ public class SaverFactory {
     private static DateFormat dateFormat = new SimpleDateFormat(Utils.DATE_FORMAT);
 
     public SaverFactory() {
-
+        // this was left intentionally blank
     }
 
     public String makeDiff(String original, String revised) {

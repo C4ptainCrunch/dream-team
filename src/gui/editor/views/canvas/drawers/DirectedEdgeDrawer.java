@@ -12,6 +12,7 @@ import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public class DirectedEdgeDrawer extends EdgeDrawer {
     public DirectedEdgeDrawer() {
+        // this was left intentionally blank
     }
 
     @Override

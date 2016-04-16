@@ -12,6 +12,7 @@ import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 public class TriangleDrawer extends ComponentDrawer {
 
     public TriangleDrawer() {
+        // this was left intentionally blank
     }
 
     @Override

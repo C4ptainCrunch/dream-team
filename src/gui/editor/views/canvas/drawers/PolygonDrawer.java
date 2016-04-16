@@ -8,6 +8,7 @@ import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public class PolygonDrawer extends ComponentDrawer {
     public PolygonDrawer() {
+        // this was left intentionally blank
     }
 
     @Override

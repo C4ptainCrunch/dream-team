@@ -20,7 +20,7 @@ public class ProjectManagementView extends JFrame implements ActionListener {
         this.render();
     }
 
-    public void render() {
+    public final void render() {
         this.setTitle("Project");
         this.setLayout(new BorderLayout());
 

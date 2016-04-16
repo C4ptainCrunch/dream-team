@@ -14,7 +14,7 @@ public class TikzTriangle extends TikzShape {
         sideC = Models.DEFAULT.LENGTH;
     }
 
-    public TikzTriangle(int[] sides) {
+    public TikzTriangle(int... sides) {
         super();
         setSides(sides);
     }
@@ -75,7 +75,7 @@ public class TikzTriangle extends TikzShape {
         return sides;
     }
 
-    public void setSides(int[] sides) {
+    public void setSides(int... sides) {
         if (sides.length != 3) {
             throw new IllegalArgumentException("The size of the sides array must equals 3.");
         }

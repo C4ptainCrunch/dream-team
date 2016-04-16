@@ -43,6 +43,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
     }
 
     /**
+     *
      * @param node
      *            key to map to empty TIkzEdge vector.
      * @return true if no key is replaced, else false.
@@ -55,6 +56,10 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         notifyObservers();
     }
 
+    /**
+     *
+     * @param edge
+     */
     public void add(TikzEdge edge) {
         this.add(edge.getFirstNode());
         this.add(edge.getSecondNode());

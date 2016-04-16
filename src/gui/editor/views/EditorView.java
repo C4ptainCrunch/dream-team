@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.*;

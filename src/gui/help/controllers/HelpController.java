@@ -53,9 +53,9 @@ class Filewalker {
         File[] list = root.listFiles();
 
         DefaultMutableTreeNode out = new DefaultMutableTreeNode(root.getName());
-		if (list == null) {
+        if (list == null) {
             return out;
-		}
+        }
 
         for (File f : list) {
             if (f.isDirectory()) {

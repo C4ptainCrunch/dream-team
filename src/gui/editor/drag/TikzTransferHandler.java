@@ -28,9 +28,9 @@ public class TikzTransferHandler extends TransferHandler {
 
     // Import the data after a drop is detected.
     public boolean importData(TransferHandler.TransferSupport support) {
-		if (!canImport(support)) {
+        if (!canImport(support)) {
             return false;
-		}
+        }
 
         Transferable data = support.getTransferable(); // The object passed
                                                         // through the d&d is an

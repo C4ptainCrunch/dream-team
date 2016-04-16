@@ -43,7 +43,7 @@ public abstract class TransferableTikz implements Transferable {
     }
 
     public boolean isDataFlavorSupported(DataFlavor df) {
-        return (df.equals(data)) || df.equals(DataFlavor.stringFlavor);
+        return df.equals(data) || df.equals(DataFlavor.stringFlavor);
     }
 
     public Object getTransferData(DataFlavor df) throws UnsupportedFlavorException, IOException {

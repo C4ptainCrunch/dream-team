@@ -19,9 +19,9 @@ import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import gui.editor.views.canvas.drawers.Drawer;
 
 public class CanvasView extends JPanel {
-    private EditorView parentView;
-    private TikzGraph graph;
-    private CanvasController controller;
+    private final EditorView parentView;
+    private final TikzGraph graph;
+    private final CanvasController controller;
     private boolean isFocused;
 
     public CanvasView(EditorView parentView, TikzGraph graph) {

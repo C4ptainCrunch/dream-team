@@ -12,6 +12,7 @@ import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 public class TriangleDrawer extends ComponentDrawer {
 
     public TriangleDrawer() {
+        // this was left intentionally blank
     }
 
     @Override
@@ -48,8 +49,8 @@ public class TriangleDrawer extends ComponentDrawer {
         ;
         x[2] = (int) (Math.cos(angles[0]) * sides[2]);
         y[2] = 0;
-        Polygon p = new Polygon(x, y, 3);
-        return p;
+
+        return new Polygon(x, y, 3);
     }
 
 }

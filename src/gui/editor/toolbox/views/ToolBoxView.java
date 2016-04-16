@@ -11,7 +11,7 @@ public class ToolBoxView extends JPanel {
 
     private static final int BOX_WIDTH = 200;
 
-    private ToolView tikzComponentCreator;
+    private final ToolView tikzComponentCreator;
 
     public ToolBoxView() {
         tikzComponentCreator = new ToolView();

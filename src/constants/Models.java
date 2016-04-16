@@ -11,7 +11,7 @@ public final class Models {
         public static final int STROKE = 3;
         public static final int X = 0;
         public static final int Y = 0;
-        public static final String LABEL = new String("");
+        public static final String LABEL = "";
         public static final int WIDTH = 1;
         public static final int LENGTH = 100;
         public static final int SIDES = 3;

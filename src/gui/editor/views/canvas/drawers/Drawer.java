@@ -1,13 +1,14 @@
 package gui.editor.views.canvas.drawers;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import models.*;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
-public class Drawer {
+public final class Drawer {
 
-    private static HashMap<Class<? extends TikzComponent>, TikzDrawer> drawers = new HashMap<>();
+    private static Map<Class<? extends TikzComponent>, TikzDrawer> drawers = new HashMap<>();
 
     static {
         drawers.put(TikzTriangle.class, new TriangleDrawer());

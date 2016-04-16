@@ -41,8 +41,8 @@ public class SourceController implements Observer {
         }
     }
 
-    private void updateFromText(String text) {
-        text = text.trim();
+    private void updateFromText(String raw_text) {
+        String text = raw_text.trim();
         if (text.length() != 0) {
             TikzGraph new_graph = new TikzGraph();
             logger.fine("TikZ updated event. New TikZ : " + text);

@@ -26,6 +26,6 @@ public class SelectorController implements Observer {
 
     @Override
     public void update(Observable o, Object obj) {
-
+        // this was left intentionally blank
     }
 }

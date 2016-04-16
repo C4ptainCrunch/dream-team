@@ -60,6 +60,7 @@ public class TikzTransferHandler extends TransferHandler {
     // Action to do after the exportation (this defines what to do with the
     // source of the d&d).
     protected void exportDone(JComponent c, Transferable t, int action) {
+        // this was left intentionally blank
     }
 
     // Create a Transferable Object from the source that will be retrieved by

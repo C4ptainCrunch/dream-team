@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
-import models.TikzComponent;
+import models.tikz.TikzComponent;
 import gui.editor.drag.TikzTransferHandler;
 import gui.editor.toolbox.controllers.PreviewController;
 import gui.editor.toolbox.model.ToolModel;

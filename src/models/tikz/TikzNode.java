@@ -1,4 +1,4 @@
-package models;
+package models.tikz;
 
 import java.awt.*;
 

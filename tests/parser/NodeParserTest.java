@@ -3,7 +3,7 @@ package parser;
 import java.awt.*;
 import java.util.ArrayList;
 
-import models.TikzGraph;
+import models.tikz.TikzGraph;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -1,11 +1,11 @@
 package models;
 
 import constants.Models;
+import models.tikz.TikzCircle;
+import models.tikz.TikzShape;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import java.awt.*;
 

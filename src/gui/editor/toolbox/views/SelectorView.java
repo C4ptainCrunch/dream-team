@@ -4,7 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import models.TikzComponent;
+import models.tikz.TikzComponent;
 import gui.editor.toolbox.SelectorComponent;
 import gui.editor.toolbox.controllers.SelectorController;
 import gui.editor.toolbox.model.ToolModel;

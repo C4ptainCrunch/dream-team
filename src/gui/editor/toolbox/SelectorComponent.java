@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-import models.TikzComponent;
+import models.tikz.TikzComponent;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import gui.editor.views.canvas.drawers.Drawer;
 

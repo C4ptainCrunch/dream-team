@@ -6,8 +6,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import models.*;
-
+import models.tikz.*;
 import org.codehaus.jparsec.Parser;
 import org.codehaus.jparsec.Parsers;
 import org.codehaus.jparsec.Scanners;

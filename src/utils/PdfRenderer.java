@@ -7,7 +7,7 @@ import java.io.*;
 
 import javax.swing.*;
 
-import models.TikzGraph;
+import models.tikz.TikzGraph;
 
 public class PdfRenderer {
 

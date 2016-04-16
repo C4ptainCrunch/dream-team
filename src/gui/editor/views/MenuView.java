@@ -2,7 +2,7 @@ package gui.editor.views;
 
 import javax.swing.*;
 
-import models.TikzGraph;
+import models.tikz.TikzGraph;
 import constants.GUI;
 import gui.editor.controllers.MenuController;
 

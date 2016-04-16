@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
-import models.TikzGraph;
+import models.tikz.TikzGraph;
 import utils.PdfCompilationError;
 import utils.PdfRenderer;
 import gui.editor.views.EditorView;

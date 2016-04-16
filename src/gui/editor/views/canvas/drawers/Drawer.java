@@ -2,8 +2,8 @@ package gui.editor.views.canvas.drawers;
 
 import java.util.HashMap;
 
-import models.*;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
+import models.tikz.*;
 
 public class Drawer {
 

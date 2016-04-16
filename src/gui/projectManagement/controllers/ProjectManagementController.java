@@ -12,6 +12,7 @@ import constants.Utils;
 import constants.Warnings;
 import gui.editor.views.EditorView;
 import gui.projectManagement.views.ProjectManagementView;
+import models.Project;
 
 public class ProjectManagementController {
     private ProjectManagementView view;
@@ -20,12 +21,11 @@ public class ProjectManagementController {
         this.view = view;
     }
 
-    private List<String> getArrayListSavedPaths() {
-        String path = getSavedPath();
+    private List<String> getSavedPaths() {
         List<String> lines = new ArrayList<>();
 
         try {
-            FileReader fileReader = new FileReader(path);
+            FileReader fileReader = new FileReader(this.getProjectsListFilePath());
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
@@ -39,11 +39,11 @@ public class ProjectManagementController {
     }
 
     public String[] getStringListSavedPaths() {
-        List<String> lines = getArrayListSavedPaths();
+        List<String> lines = getSavedPaths();
         return lines.toArray(new String[lines.size()]);
     }
 
-    private String getSavedPath() {
+    private String getProjectsListFilePath() {
         String homeDir = System.getProperty("user.home");
         String fileSeparator = System.getProperty("file.separator");
         // Default for now, will receive current username when accounts exist.
@@ -75,7 +75,7 @@ public class ProjectManagementController {
     }
 
     private void updateSavedProjectsFile(String oldName, String newName) throws IOException {
-        BufferedReader file = new BufferedReader(new FileReader(getSavedPath()));
+        BufferedReader file = new BufferedReader(new FileReader(getProjectsListFilePath()));
         String line;
         String input = "";
 
@@ -84,7 +84,7 @@ public class ProjectManagementController {
 
         input = input.replace(oldName, newName);
 
-        FileOutputStream os = new FileOutputStream(getSavedPath());
+        FileOutputStream os = new FileOutputStream(getProjectsListFilePath());
         os.write(input.getBytes());
 
         file.close();
@@ -92,9 +92,9 @@ public class ProjectManagementController {
     }
 
     private void addProjectPathToSavedPathFile(String projectPath) {
-        List<String> paths = getArrayListSavedPaths();
+        List<String> paths = getSavedPaths();
         if (!paths.contains(projectPath)) {
-            String path = getSavedPath();
+            String path = getProjectsListFilePath();
             java.io.File savedPathsFile = getSavedPathsFileFromPath(path);
 
             try (FileWriter fw = new FileWriter(savedPathsFile, true); BufferedWriter bw = new BufferedWriter(fw)) {
@@ -105,11 +105,16 @@ public class ProjectManagementController {
         }
     }
 
-    public void createProject() {
+    public void openProject(String path) {
+        Project project = Project.fromPath(path);
+        java.awt.EventQueue.invokeLater(() -> new EditorView(project));
+    }
 
+    public String choosePath(){
         java.io.File f = createPanel(ProjectManagement.CREATE_PANEL, JFileChooser.DIRECTORIES_ONLY);
         if (f != null) {
-            String filePath = f.getAbsolutePath();
+
+        String path = f.getAbsolutePath();
 
             if (!f.exists()) {
                 try {

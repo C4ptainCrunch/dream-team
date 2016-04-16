@@ -12,14 +12,13 @@ import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 
 import constants.Utils;
 
-public class SaverFactory {
+public class SaverUtil {
     private static DateFormat dateFormat = new SimpleDateFormat(Utils.DATE_FORMAT);
 
-    public SaverFactory() {
-
+    private SaverUtil() {
     }
 
-    public String makeDiff(String original, String revised) {
+    public static String makeDiff(String original, String revised) {
         DiffMatchPatch diff = new DiffMatchPatch();
         LinkedList<DiffMatchPatch.Patch> patches = diff.patchMake(original, revised);
         String s = diff.patchToText(patches);
@@ -29,7 +28,7 @@ public class SaverFactory {
         return diffDecoder(s);
     }
 
-    public void writeToFile(String original, String revised, String path) {
+    public static void writeToFile(String original, String revised, String path) {
         final Date d = new Date();
         String currDate = dateFormat.format(d);
         String filename = "diffs";
@@ -47,7 +46,7 @@ public class SaverFactory {
         }
     }
 
-    private String diffDecoder(String s) {
+    private static String diffDecoder(String s) {
         StringBuilder res = new StringBuilder();
         int pos = 0, sLen = s.length();
         while (pos < sLen) {

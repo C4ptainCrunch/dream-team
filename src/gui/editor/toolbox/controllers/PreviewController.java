@@ -22,12 +22,12 @@ public class PreviewController implements Observer {
     }
 
     public TikzComponent getComponent() {
-        return model.getComponent();
+        return model.getComponentClone();
     }
 
     @Override
     public void update(Observable o, Object obj) {
-        view.setComponent(model.getComponent());
+        view.setComponent(model.getComponentClone());
         view.repaint();
     }
 }

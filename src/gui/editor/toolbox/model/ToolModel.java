@@ -27,8 +27,11 @@ public class ToolModel extends Observable {
         alertObservers();
     }
 
-    public TikzComponent getComponent() {
-        return component;
+    public TikzComponent getComponentClone() {
+        if (component == null){
+            return component;
+        }
+        return component.getClone();
     }
 
     public void setComponent(TikzComponent component) {

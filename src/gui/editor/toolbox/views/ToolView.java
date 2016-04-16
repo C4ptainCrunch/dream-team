@@ -68,7 +68,7 @@ public class ToolView extends JPanel {
     }
 
     public TikzComponent getTikzComponent() {
-        return model.getComponent();
+        return model.getComponentClone();
     }
 
 }

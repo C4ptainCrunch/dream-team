@@ -16,8 +16,8 @@ import gui.editor.views.SourceView;
 
 public class SourceController implements Observer {
     private static final Logger logger = Logger.getLogger("gui.editor.controllers.source");
-    private SourceView view;
-    private TikzGraph graph;
+    private final SourceView view;
+    private final TikzGraph graph;
     private String originalText = "";
 
     public SourceController(SourceView view, TikzGraph graph) {
@@ -41,8 +41,8 @@ public class SourceController implements Observer {
         }
     }
 
-    private void updateFromText(String text) {
-        text = text.trim();
+    private void updateFromText(String raw_text) {
+        String text = raw_text.trim();
         if (text.length() != 0) {
             TikzGraph new_graph = new TikzGraph();
             logger.fine("TikZ updated event. New TikZ : " + text);

@@ -8,8 +8,8 @@ import java.util.*;
 import parser.NodeParser;
 
 public class TikzGraph extends Observable implements Iterable<TikzNode> {
-    private Vector<TikzEdge> edges;
-    private Vector<TikzNode> nodes;
+    private List<TikzEdge> edges;
+    private List<TikzNode> nodes;
 
     public TikzGraph() {
         nodes = new Vector<>();
@@ -115,7 +115,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
             res.append(node);
             res.append(";\n");
         }
-        res.append("\n");
+        res.append('\n');
         for (TikzEdge edge : this.getEdges()) {
             res.append(edge);
             res.append(";\n");

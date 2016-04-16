@@ -16,8 +16,8 @@ public class AttributesChooserController implements Observer {
 
     private static final String COLOR_DIALOG_TITLE = "Choose Stroke Color";
 
-    private AttributesChooserView view;
-    private ToolModel model;
+    private final AttributesChooserView view;
+    private final ToolModel model;
     private Color chosen_color;
 
     public AttributesChooserController(AttributesChooserView v, ToolModel m) {

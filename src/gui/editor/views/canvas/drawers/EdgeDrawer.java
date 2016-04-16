@@ -10,6 +10,7 @@ import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 public abstract class EdgeDrawer extends ComponentDrawer {
 
     public EdgeDrawer() {
+        // this was left intentionally blank
     }
 
     @Override

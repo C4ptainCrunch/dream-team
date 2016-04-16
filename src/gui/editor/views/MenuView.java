@@ -8,9 +8,9 @@ import constants.GUI;
 import gui.editor.controllers.MenuController;
 
 public class MenuView extends JMenuBar {
-    private MenuController controller;
-    private Project project;
-    private EditorView parentView;
+    private final MenuController controller;
+    private final Project project;
+    private final EditorView parentView;
 
     public MenuView(EditorView parentView, Project project) {
         this.parentView = parentView;

@@ -16,6 +16,7 @@ public class SaverUtil {
     private static DateFormat dateFormat = new SimpleDateFormat(Utils.DATE_FORMAT);
 
     private SaverUtil() {
+        // this was left intentionally blank
     }
 
     public static String makeDiff(String original, String revised) {
@@ -48,7 +49,8 @@ public class SaverUtil {
 
     private static String diffDecoder(String s) {
         StringBuilder res = new StringBuilder();
-        int pos = 0, sLen = s.length();
+        int pos = 0;
+        int sLen = s.length();
         while (pos < sLen) {
             char c = s.charAt(pos);
             if (c == '%') {

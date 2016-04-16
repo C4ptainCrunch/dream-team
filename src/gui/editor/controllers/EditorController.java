@@ -1,7 +1,6 @@
 package gui.editor.controllers;
 
 import models.Project;
-import models.tikz.TikzGraph;
 import gui.editor.views.EditorView;
 
 import java.io.IOException;
@@ -9,8 +8,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class EditorController implements Observer{
-    private EditorView view;
-    private Project project;
+    private final EditorView view;
+    private final Project project;
 
     public EditorController(EditorView view, Project project) {
         this.view = view;

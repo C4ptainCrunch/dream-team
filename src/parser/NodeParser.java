@@ -15,7 +15,6 @@ import org.codehaus.jparsec.pattern.CharPredicates;
 import org.codehaus.jparsec.pattern.Patterns;
 
 public class NodeParser {
-
     private static final Parser<Void> MAYBEWHITESPACES = Scanners.WHITESPACES.optional();
     private static final Parser<Void> MAYBENEWLINES = Scanners.isChar('\n').optional();
     private static final Parser<List<String>> maybeOptions = Parsers.or(options(),
@@ -23,6 +22,9 @@ public class NodeParser {
     private static final Parser<String> maybeLabel = Parsers.or(label(), Parsers.constant(""));
     private static final String[] shapes = new String[] { "rectangle", "circle", "ellipse", "circle split",
             "forbidden sign", "diamond", "cross out", "strike out", "regular polygon", "ann", "star" };
+
+    private NodeParser() {
+    }
 
     public static Parser<String> reference() {
         return Parsers.between(Scanners.string("("),
@@ -35,7 +37,7 @@ public class NodeParser {
     }
 
     public static Parser<String> anOption() {
-        final Parser<String> argument = (Scanners.IDENTIFIER.next(MAYBEWHITESPACES)).many1().source();
+        final Parser<String> argument = Scanners.IDENTIFIER.next(MAYBEWHITESPACES).many1().source();
         final Parser<Void> decimalWithUnit = Scanners.DECIMAL.next(Scanners.IDENTIFIER.optional()).cast();
         final Parser<String> withEqual = Scanners.isChar('=').next(Parsers.or(Scanners.IDENTIFIER, decimalWithUnit))
                 .source();
@@ -83,7 +85,8 @@ public class NodeParser {
                                 nodeFromDraw()),
                 Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, nodeFromDraw())
                         .many(), (defaultOptions, firstNode, restNode) -> {
-                            TikzNode previous, current;
+                            TikzNode previous;
+                            TikzNode current;
                             previous = createNode(defaultOptions, firstNode);
                             graph.add(previous);
                             for (DestructuredNode destructuredNode : restNode) {
@@ -137,12 +140,16 @@ public class NodeParser {
          * "\draw[circle] (-0.2,0) -- (4.2,0) node[rectangle] {$x$};", rectangle
          * by default
          */
-        for (String s : shapes)
-            if (list2.contains(s))
+        for (String s : shapes) {
+            if (list2.contains(s)) {
                 return s;
-        for (String s : shapes)
-            if (list1.contains(s))
+            }
+        }
+        for (String s : shapes) {
+            if (list1.contains(s)) {
                 return s;
+            }
+        }
         return "void";
     }
 
@@ -198,8 +205,9 @@ public class NodeParser {
             res = new TikzCircle();
         } else if (polygons.contains(shape)) {
             res = new TikzPolygon();
-        } else
+        } else {
             res = new TikzVoid();
+        }
         res.setPosition(node.getCoordinates());
         res.setLabel(node.getLabel());
         return res;
@@ -211,15 +219,15 @@ public class NodeParser {
         } else if (options.contains("<-")) {
             return "directedLeft";
         } else {
-            return ("undirected");
+            return "undirected";
         }
     }
 }
 
 class DestructuredNode {
-    private Point coordinates;
-    private List<String> options;
-    private String label;
+    private final Point coordinates;
+    private final List<String> options;
+    private final String label;
 
     public DestructuredNode(Point s, List<String> t, String u) {
         coordinates = s;
@@ -242,6 +250,6 @@ class DestructuredNode {
     @Override
     public String toString() {
         return "Coordinates: " + coordinates.toString() + ", Options: " + options.toString() + ", Label: "
-                + label.toString();
+                + label;
     }
 }

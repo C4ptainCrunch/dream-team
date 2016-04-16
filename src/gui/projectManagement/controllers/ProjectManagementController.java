@@ -15,7 +15,7 @@ import gui.projectManagement.views.ProjectManagementView;
 import models.Project;
 
 public class ProjectManagementController {
-    private ProjectManagementView view;
+    private final ProjectManagementView view;
 
     public ProjectManagementController(ProjectManagementView view) {
         this.view = view;
@@ -79,8 +79,9 @@ public class ProjectManagementController {
         String line;
         String input = "";
 
-        while ((line = file.readLine()) != null)
+        while ((line = file.readLine()) != null) {
             input += line + System.lineSeparator();
+        }
 
         input = input.replace(oldName, newName);
 
@@ -116,7 +117,10 @@ public class ProjectManagementController {
 
         String path = f.getAbsolutePath();
 
-            if (!f.exists()) {
+            if (f.exists()) {
+                JOptionPane.showMessageDialog(this.view, Warnings.FILE_WARNING,
+                        String.format(Warnings.WARNING_TYPE, "File"), JOptionPane.WARNING_MESSAGE);
+            } else {
                 try {
                     f.mkdir();
                     addProjectPathToSavedPathFile(filePath);
@@ -126,9 +130,6 @@ public class ProjectManagementController {
                     JOptionPane.showMessageDialog(this.view, Warnings.PERMISSION_WARNING,
                             String.format(Warnings.WARNING_TYPE, "Security"), JOptionPane.WARNING_MESSAGE);
                 }
-            } else {
-                JOptionPane.showMessageDialog(this.view, Warnings.FILE_WARNING,
-                        String.format(Warnings.WARNING_TYPE, "File"), JOptionPane.WARNING_MESSAGE);
             }
         }
     }
@@ -222,5 +223,9 @@ public class ProjectManagementController {
 
         String text = String.format(ProjectManagement.BLANK_INFO_PANEL, projectName, "Local", lastRevision);
         this.view.setInfoText(text);
+    }
+
+    public void createProject() {
+
     }
 }

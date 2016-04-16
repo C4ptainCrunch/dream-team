@@ -9,7 +9,7 @@ import org.pegdown.PegDownProcessor;
 import gui.help.controllers.HelpController;
 
 public class HelpView extends JFrame {
-    private HelpController controller;
+    private final HelpController controller;
     private JTree tree;
     private JLabel htmlView;
 

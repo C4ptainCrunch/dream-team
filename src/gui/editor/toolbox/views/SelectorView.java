@@ -13,9 +13,9 @@ import gui.editor.toolbox.model.ToolModel;
  * Created by aurelien on 12/04/16.
  */
 public class SelectorView extends JPanel implements SelectorComponent.SelectorComponentListener {
-    private JScrollPane scrollzone;
-    private JPanel options;
-    private SelectorController controller;
+    private final JScrollPane scrollzone;
+    private final JPanel options;
+    private final SelectorController controller;
 
     public SelectorView(ToolModel model) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

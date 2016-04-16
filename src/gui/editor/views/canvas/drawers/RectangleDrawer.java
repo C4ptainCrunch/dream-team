@@ -9,6 +9,7 @@ import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 public class RectangleDrawer extends ComponentDrawer {
 
     public RectangleDrawer() {
+        // this was left intentionally blank
     }
 
     @Override

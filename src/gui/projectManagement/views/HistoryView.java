@@ -9,10 +9,10 @@ import gui.projectManagement.controllers.HistoryController;
 import models.Project;
 
 public class HistoryView extends JFrame {
-    private HistoryController controller;
+    private final HistoryController controller;
     private Project project;
-    private JTextPane historyPane = new JTextPane();
-    private JScrollPane scroll = new JScrollPane(getHistoryPane());
+    private final JTextPane historyPane = new JTextPane();
+    private final JScrollPane scroll = new JScrollPane(getHistoryPane());
 
     public HistoryView(Project project) {
         this.project = project;

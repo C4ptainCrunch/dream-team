@@ -9,6 +9,7 @@ import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 public class CircleDrawer extends ComponentDrawer {
 
     public CircleDrawer() {
+        // this was left intentionally blank
     }
 
     @Override

@@ -8,6 +8,7 @@ import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public class PolygonDrawer extends ComponentDrawer {
     public PolygonDrawer() {
+        // this was left intentionally blank
     }
 
     @Override
@@ -31,7 +32,7 @@ public class PolygonDrawer extends ComponentDrawer {
             x[i] = size + (int) (Math.cos(i * step) * size);
             y[i] = size + (int) (Math.sin(i * step) * size);
         }
-        Polygon p = new Polygon(x, y, vertices);
-        return p;
+
+        return new Polygon(x, y, vertices);
     }
 }

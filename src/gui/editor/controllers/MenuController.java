@@ -19,8 +19,8 @@ import gui.help.views.HelpView;
 import gui.projectManagement.views.HistoryView;
 
 public class MenuController implements Observer {
-    private MenuView view;
-    private Project project;
+    private final MenuView view;
+    private final Project project;
 
     public MenuController(MenuView view, Project project) {
         this.view = view;
@@ -30,6 +30,7 @@ public class MenuController implements Observer {
     }
 
     public void update(Observable o, Object arg) {
+        // this was left intentionally blank
     }
 
     public void save() {

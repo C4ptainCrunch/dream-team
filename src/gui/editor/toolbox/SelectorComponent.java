@@ -11,8 +11,8 @@ import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import gui.editor.views.canvas.drawers.Drawer;
 
 public class SelectorComponent extends JPanel {
-    private TikzComponent component;
-    private SelectorComponentListener listener;
+    private final TikzComponent component;
+    private final SelectorComponentListener listener;
 
     public SelectorComponent(TikzComponent comp, SelectorComponentListener lis) {
         component = comp;

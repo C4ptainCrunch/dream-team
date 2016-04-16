@@ -14,11 +14,11 @@ import gui.editor.controllers.SourceController;
 public class SourceView extends JPanel {
     private static final int TEXT_AREA_WIDTH = 300;
 
-    private TikzGraph graph;
-    private JTextArea textArea;
-    private SourceController controller;
+    private final TikzGraph graph;
+    private final JTextArea textArea;
+    private final SourceController controller;
     private Boolean isFocused = false;
-    private EditorView parentView;
+    private final EditorView parentView;
 
     public SourceView(EditorView parentView, TikzGraph graph) {
         this.parentView = parentView;
@@ -84,7 +84,4 @@ public class SourceView extends JPanel {
         textArea.setText(text);
     }
 
-    public String getProjectPath() {
-        return parentView.getProjectPath();
-    }
 }

@@ -12,8 +12,8 @@ import gui.editor.toolbox.views.PreviewView;
  */
 public class PreviewController implements Observer {
 
-    private PreviewView view;
-    private ToolModel model;
+    private final PreviewView view;
+    private final ToolModel model;
 
     public PreviewController(PreviewView v, ToolModel m) {
         view = v;

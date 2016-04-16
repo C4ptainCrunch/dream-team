@@ -16,8 +16,8 @@ import gui.projectManagement.views.HistoryView;
 import models.Project;
 
 public class HistoryController {
-    private HistoryView view;
-    private Project project;
+    private final HistoryView view;
+    private final Project project;
     private Color currentColor = Color.BLACK;
 
     public HistoryController(HistoryView view, Project project) {
@@ -48,14 +48,16 @@ public class HistoryController {
     }
 
     private void colorHelper(String str) {
-        if (str.isEmpty())
+        if (str.isEmpty()) {
             return;
-        if (Pattern.matches("^\\d{4}\\/\\d\\d\\/\\d\\d \\d\\d:\\d\\d:\\d\\d$", str))
+        }
+        if (Pattern.matches("^\\d{4}\\/\\d\\d\\/\\d\\d \\d\\d:\\d\\d:\\d\\d$", str)) {
             currentColor = Color.BLACK;
-        else if (str.charAt(0) == '+')
+        } else if (str.charAt(0) == '+') {
             currentColor = Color.GREEN;
-        else if (str.charAt(0) == '-')
+        } else if (str.charAt(0) == '-') {
             currentColor = Color.RED;
+        }
     }
 
 }

@@ -33,8 +33,9 @@ public class TikzCircle extends TikzShape {
         String options = String.join(", ", new String[] { "circle" }); // TODO:
                                                                         // do
                                                                         // this
-        if (!options.contains("draw"))
+        if (!options.contains("draw")) {
             options += ", draw";
+        }
         return String.format("\\node[%s](%s) at (%.0f,%.0f){%s}", options, "", getPosition().getX(),
                 getPosition().getY(), getLabel());
     }

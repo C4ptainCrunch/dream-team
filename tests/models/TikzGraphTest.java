@@ -67,7 +67,7 @@ public class TikzGraphTest {
             edges.add(new TikzUndirectedEdge(firstNode, secondNode));
         }
 
-        graph.addAll(edges);
+        graph.addAllEdges(edges);
         assertEquals(edges.toArray(), graph.get(firstNode).toArray());
 
     }
@@ -106,7 +106,7 @@ public class TikzGraphTest {
             TikzNode node2 = new TikzCircle();
             edges.add(new TikzDirectedEdge(node1,node2));
         }
-        graph.addAll(edges);
+        graph.addAllEdges(edges);
         while (!edges.isEmpty()){
             TikzEdge edge = edges.remove(0);
             edges.remove(edge);
@@ -124,7 +124,7 @@ public class TikzGraphTest {
             TikzNode nodetmp = new TikzCircle();
             edges1.add(new TikzDirectedEdge(node1,nodetmp));
         }
-        graph.addAll(edges1);
+        graph.addAllEdges(edges1);
         assertArrayEquals(graph.get(node1).toArray(), edges1.toArray());
 
         TikzNode node2 = new TikzRectangle();
@@ -133,13 +133,111 @@ public class TikzGraphTest {
             TikzNode nodetmp = new TikzCircle();
             edges2.add(new TikzDirectedEdge(node2,nodetmp));
         }
-        graph.addAll(edges2);
+        graph.addAllEdges(edges2);
         assertArrayEquals(graph.get(node2).toArray(), edges2.toArray());
 
         graph.remove(node1);
         assert graph.getNodes().contains(node2);
         assert !graph.getNodes().contains(node1);
         assertArrayEquals(graph.getEdges().toArray(), edges2.toArray());
+
+    }
+
+    @Test
+    public void testAddNode() throws Exception {
+        int length = 4;
+        TikzGraph graph = new TikzGraph();
+        ArrayList<TikzNode> nodes = new ArrayList<>();
+        for (int i = 0; i < length; i++) {
+            TikzNode node = new TikzCircle();
+            graph.add(node);
+            nodes.add(node);
+            assert graph.getNodes().contains(node);
+        }
+        for (TikzNode node:nodes) {
+            graph.add(node);
+        }
+
+        assertEquals(graph.getNodes().size(), length);
+    }
+
+    @Test
+    public void testAddEdge() throws Exception {
+        TikzGraph graph = new TikzGraph();
+        TikzNode node1 = new TikzCircle();
+        TikzNode node2 = new TikzCircle();
+        TikzEdge edge = new TikzDirectedEdge(node1, node2);
+        graph.add(node1);
+        graph.add(node2);
+        graph.add(edge);
+        assert graph.getEdges().contains(edge);
+        assertEquals(graph.getNodes().size(), 2);
+        graph.add(edge);
+        assertEquals(graph.getEdges().size(), 1);
+
+        TikzNode node3 = new TikzPolygon();
+        TikzNode node4 = new TikzText();
+        TikzEdge edge2 = new TikzUndirectedEdge(node3, node4);
+        graph.add(edge2);
+        assert graph.getNodes().contains(node3);
+        assert graph.getNodes().contains(node4);
+    }
+
+    @Test
+    public void testAddGraph() throws Exception {
+        int length = 5;
+        TikzGraph graph1 = new TikzGraph();
+        TikzGraph graph2 = new TikzGraph();
+
+        for (int i = 0; i < length; i++) {
+            TikzEdge edge = new TikzDirectedEdge(new TikzRectangle(), new TikzCircle());
+            graph1.add(edge);
+        }
+
+        for (int i = 0; i < length; i++) {
+            TikzEdge edge = new TikzDirectedEdge(new TikzRectangle(), new TikzCircle());
+            graph2.add(edge);
+        }
+
+        graph2.add(graph1);
+        assert graph2.getEdges().containsAll(graph1.getEdges());
+        assert graph2.getNodes().containsAll(graph1.getNodes());
+
+        assertEquals(graph2.getEdges().size(), length*2);
+
+    }
+
+    @Test
+    public void testGetEdges() throws Exception {
+        int length = 4;
+        ArrayList<TikzEdge> edges = new ArrayList<>();
+        TikzGraph graph = new TikzGraph();
+        for (int i = 0; i < length; i++) {
+            TikzNode node1 = new TikzCircle();
+            TikzNode node2 = new TikzRectangle();
+            TikzEdge edge = new TikzDirectedEdge(node1, node2);
+            graph.add(edge);
+            edges.add(edge);
+        }
+
+        assertArrayEquals(graph.getEdges().toArray(), edges.toArray());
+
+    }
+
+    @Test
+    public void testAddAllNodes() throws Exception {
+        int length = 4;
+        ArrayList<TikzNode> nodes = new ArrayList<>();
+        TikzGraph graph = new TikzGraph();
+
+        for (int i = 0; i < length; i++) {
+            nodes.add(new TikzCircle());
+        }
+
+        graph.addAllNodes(nodes);
+
+        assertArrayEquals(graph.getNodes().toArray(), nodes.toArray());
+
 
     }
 }

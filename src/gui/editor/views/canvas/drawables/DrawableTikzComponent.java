@@ -12,11 +12,11 @@ import models.tikz.TikzNode;
 import constants.Models;
 
 public class DrawableTikzComponent implements Drawable {
-    private ArrayList<Shape> shapes;
+    private final java.util.List<Shape> shapes;
     private Stroke stroke;
     private Color color;
     private Color background;
-    private TikzComponent component;
+    private final TikzComponent component;
 
     public DrawableTikzComponent(TikzComponent component) {
         this.component = component;
@@ -31,7 +31,7 @@ public class DrawableTikzComponent implements Drawable {
         shapes.add(shape);
     }
 
-    public ArrayList<Shape> getShapes() {
+    public java.util.List<Shape> getShapes() {
         return shapes;
     }
 

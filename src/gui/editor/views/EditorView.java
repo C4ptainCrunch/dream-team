@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.nio.file.Paths;
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.*;
 
@@ -18,10 +18,10 @@ import gui.editor.toolbox.views.ToolBoxView;
 public class EditorView extends JFrame {
     private Project project;
 
-    private CanvasView canvasView;
-    private SourceView sourceView;
-    private MenuView menuView;
-    private ToolBoxView toolBoxView;
+    private final CanvasView canvasView;
+    private final SourceView sourceView;
+    private final MenuView menuView;
+    private final ToolBoxView toolBoxView;
 
     private EditorController controller;
 
@@ -49,7 +49,7 @@ public class EditorView extends JFrame {
         this.setVisible(true);
     }
 
-    public void render() {
+    public final void render() {
         this.setTitle(GUI.MenuBar.APP_NAME);
 
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -65,15 +65,11 @@ public class EditorView extends JFrame {
         this.setJMenuBar(menuView);
     }
 
-    public String getProjectPath() {
-        return this.project.getPath();
-    }
-
-    public HashMap<String, Object> getCurrentToolProperties() {
+    public final Map<String, Object> getCurrentToolProperties() {
         return null;
     }
 
-    public TikzComponent getSelectedTool() {
+    public final TikzComponent getSelectedTool() {
         return toolBoxView.getSelectedTool();
     }
 }

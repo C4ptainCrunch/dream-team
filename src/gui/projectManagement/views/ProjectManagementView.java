@@ -21,7 +21,8 @@ public class ProjectManagementView extends JFrame {
         this.render();
     }
 
-    public void render() {
+    public final void render() {
+        this.setTitle("Project");
         this.setLayout(new BorderLayout());
 
         initButtonsPanel();
@@ -38,7 +39,7 @@ public class ProjectManagementView extends JFrame {
     }
 
     private String[] importSavedPaths() {
-        return (controller.getStringListSavedPaths());
+        return controller.getStringListSavedPaths();
     }
 
     private void initSavedProjectsPanel() {

@@ -20,16 +20,14 @@ public class TikzTransferHandler extends TransferHandler {
     // Check if the data imported are valid (according to the TransferHandler
     // doc).
     public boolean canImport(TransferHandler.TransferSupport info) {
-        if (!info.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-            return false;
-        }
-        return true;
+        return info.isDataFlavorSupported(DataFlavor.stringFlavor);
     }
 
     // Import the data after a drop is detected.
     public boolean importData(TransferHandler.TransferSupport support) {
-        if (!canImport(support))
+        if (!canImport(support)) {
             return false;
+        }
 
         Transferable data = support.getTransferable(); // The object passed
                                                         // through the d&d is an
@@ -59,6 +57,7 @@ public class TikzTransferHandler extends TransferHandler {
     // Action to do after the exportation (this defines what to do with the
     // source of the d&d).
     protected void exportDone(JComponent c, Transferable t, int action) {
+        // this was left intentionally blank
     }
 
     // Create a Transferable Object from the source that will be retrieved by

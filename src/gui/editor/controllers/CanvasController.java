@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 
 import models.tikz.TikzComponent;
 import models.tikz.TikzEdge;
@@ -14,10 +15,10 @@ import gui.editor.views.CanvasView;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public class CanvasController implements Observer {
-    private CanvasView view;
-    private TikzGraph graph;
-    private HashSet<DrawableTikzComponent> draws;
-    private CanvasState state;
+    private final CanvasView view;
+    private final TikzGraph graph;
+    private final Set<DrawableTikzComponent> draws;
+    private final CanvasState state;
 
     public CanvasController(CanvasView view, TikzGraph graph) {
         this.view = view;
@@ -60,13 +61,13 @@ public class CanvasController implements Observer {
     private void addEdgeToModel(TikzComponent component, Point position) {
         TikzComponent clickedComponent = findComponentByPosition(position);
         if (clickedComponent != null) {
-            if (!state.initialized()) {
-                state.setComponent(component);
-                state.setRelatedComponent(clickedComponent);
-            } else {
+            if (state.initialized()) {
                 TikzEdge edge = (TikzEdge) component;
                 addEdgeToGraph(edge, (TikzNode) state.getRelatedComponent(), (TikzNode) clickedComponent);
                 state.reset();
+            } else {
+                state.setComponent(component);
+                state.setRelatedComponent(clickedComponent);
             }
         }
 
@@ -134,7 +135,7 @@ class CanvasState {
     }
 
     public boolean componentEqualsTo(TikzComponent comp) {
-        return (comp == this.component);
+        return comp == this.component;
     }
 
     public TikzComponent getComponent() {

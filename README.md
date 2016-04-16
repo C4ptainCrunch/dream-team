@@ -1,7 +1,9 @@
 # CreaTikZ : projet de génie logiciel et gestion de projet (info-f-307)
 
 CreaTikZ est une application graphique écrite en Java/Swing permettant de créer en WYSIWYG des diagrammes TikZ.
-Ce projet est écrit dans de cadre du cours "Génie logiciel et gestion de projets" (info-f-307) donné en bachelier en sciences informatiques à l'ULB.
+
+Ce projet est écrit dans de cadre du cours "Génie logiciel et gestion de projets" (info-f-307)
+donné en bachelier en sciences informatiques à l'ULB.
 
 # Utilisation
 

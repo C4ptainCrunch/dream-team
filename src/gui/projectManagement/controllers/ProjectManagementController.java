@@ -8,7 +8,6 @@ import java.util.List;
 import javax.swing.*;
 
 import constants.GUI.ProjectManagement;
-import constants.Utils;
 import constants.Warnings;
 import gui.editor.views.EditorView;
 import gui.projectManagement.views.ProjectManagementView;
@@ -19,59 +18,6 @@ public class ProjectManagementController {
 
     public ProjectManagementController(ProjectManagementView view) {
         this.view = view;
-    }
-
-    private List<String> getSavedPaths() {
-        List<String> lines = new ArrayList<>();
-
-        try {
-            FileReader fileReader = new FileReader(this.getProjectsListFilePath());
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                lines.add(line);
-            }
-            bufferedReader.close();
-        } catch (IOException e) {
-            e.getStackTrace();
-        }
-        return lines;
-    }
-
-    public String[] getStringListSavedPaths() {
-        List<String> lines = getSavedPaths();
-        return lines.toArray(new String[lines.size()]);
-    }
-
-    private String getProjectsListFilePath() {
-        String homeDir = System.getProperty("user.home");
-        String fileSeparator = System.getProperty("file.separator");
-        // Default for now, will receive current username when accounts exist.
-        String filename = fileSeparator + "default.paths";
-        switch (System.getProperty("os.name")) {
-        case "Linux":
-            return homeDir + Utils.LINUX_PATH + filename;
-        case "Mac OS X":
-            return homeDir + Utils.MAC_PATH + filename;
-        default: // Unfortunately, default is Windows OS...
-            String windowsPath = Utils.WINDOWS_PATH_ONE + System.getProperty("user.name") + Utils.WINDOWS_PATH_TWO;
-            return homeDir + windowsPath + filename;
-        }
-    }
-
-    private java.io.File getSavedPathsFileFromPath(String path) {
-        java.io.File savedPathsFile = new java.io.File(path);
-
-        if (!savedPathsFile.exists()) {
-            try {
-                savedPathsFile.getParentFile().mkdirs();
-                savedPathsFile.createNewFile();
-            } catch (IOException e) { // Not logical but necessary
-                e.getStackTrace();
-            }
-        }
-
-        return savedPathsFile;
     }
 
     private void updateSavedProjectsFile(String oldName, String newName) throws IOException {

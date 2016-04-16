@@ -1,12 +1,16 @@
 package models;
 
 import models.tikz.TikzGraph;
+import utils.Dirs;
 import utils.SaverUtil;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Vector;
 
 public class Project {
     private String path;
@@ -45,5 +49,28 @@ public class Project {
 
     public Path getDiffPath() {
         return Paths.get(this.path + "/diffs");
+    }
+
+
+    public static Vector<Project> getRecentProjects() throws IOException {
+        Vector<Project> projects = new Vector<>();
+
+        Path rectentProjectsPath = Dirs.getDataDir().relativize(Paths.get("recent.paths"));
+
+        FileReader fileReader = new FileReader(rectentProjectsPath.toFile());
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            try {
+                projects.add(Project.fromPath(line));
+            } catch (IOException e) {
+                // If there is an error while loading the project
+                // we can safely ignore it
+                // TODO : log the error (logger.debug)
+            }
+        }
+        bufferedReader.close();
+
+        return projects;
     }
 }

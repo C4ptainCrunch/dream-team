@@ -1,75 +1,36 @@
 package gui.projectManagement.views;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.Vector;
 
 import javax.swing.*;
 
 import constants.GUI;
 import constants.GUI.ProjectManagement;
 import gui.projectManagement.controllers.ProjectManagementController;
+import models.Project;
 
 public class ProjectManagementView extends JFrame {
     private ProjectManagementController controller = new ProjectManagementController(this);
-    private JComboBox<String> listSavedProjects;
-    private JTextPane textInfo;
+    private JComboBox<Project> projectChooser;
+    private JTextPane infoPanel;
 
     public ProjectManagementView() {
-
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.render();
     }
 
     public final void render() {
-        this.setTitle("Project");
+        this.setTitle("TikzCreator : choose a project");
         this.setLayout(new BorderLayout());
 
-        initButtonsPanel();
-        initSavedProjectsPanel();
-        initInfoPanel();
+        createButtonsPanel();
+        createChooserPanel();
+        createInfoPanel();
     }
 
-    public String getSelectedPath() {
-        return this.listSavedProjects.getSelectedItem().toString();
-    }
-
-    public int getSelectedPathIndex() {
-        return this.listSavedProjects.getSelectedIndex();
-    }
-
-    private String[] importSavedPaths() {
-        return controller.getStringListSavedPaths();
-    }
-
-    private void initSavedProjectsPanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        this.add(panel, BorderLayout.CENTER);
-
-        String[] data = importSavedPaths();
-
-        this.listSavedProjects = new JComboBox<>();
-        this.listSavedProjects.setModel(new DefaultComboBoxModel(data));
-
-        this.listSavedProjects.addActionListener(e -> controller.dropdownSelected(e));
-
-        panel.add(new JLabel(GUI.ProjectManagement.DROPDOWN_HEADER));
-        panel.add(listSavedProjects);
-
-        this.pack();
-        this.setVisible(true);
-    }
-
-    public void updateComboBox(String newDir) {
-        int index = getSelectedPathIndex();
-        this.listSavedProjects.removeItem(this.listSavedProjects.getSelectedItem());
-        this.listSavedProjects.insertItemAt(newDir, index);
-        this.listSavedProjects.setSelectedIndex(index);
-        this.revalidate();
-    }
-
-    private void initButtonsPanel() {
+    private void createButtonsPanel() {
         JPanel buttons = new JPanel();
 
         JButton create = new JButton(GUI.ProjectManagement.CREATE_BUTTON);
@@ -86,23 +47,46 @@ public class ProjectManagementView extends JFrame {
         buttons.add(rename);
 
         buttons.setOpaque(true);
-        this.add(buttons, BorderLayout.NORTH);
+        this.add(buttons, BorderLayout.CENTER);
         this.pack();
         this.setVisible(true);
     }
 
-    private void initInfoPanel() {
-        JPanel infoPanel = new JPanel();
-        this.textInfo = new JTextPane();
-        this.textInfo.setText(String.format(ProjectManagement.BLANK_INFO_PANEL, "", "Local", ""));
+    private void createChooserPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        this.add(panel, BorderLayout.CENTER);
 
-        infoPanel.add(this.textInfo);
-        this.add(this.textInfo, BorderLayout.EAST);
+        Vector<Project> recentProjects = null;
+        try {
+            recentProjects = Project.getRecentProjects();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        this.projectChooser = new JComboBox<>();
+        this.projectChooser.setModel(new DefaultComboBoxModel(recentProjects));
+
+        this.projectChooser.addActionListener(e -> controller.dropdownSelected(e));
+
+        panel.add(new JLabel(GUI.ProjectManagement.DROPDOWN_HEADER));
+        panel.add(projectChooser);
+
+        this.pack();
+        this.setVisible(true);
+    }
+
+    private void createInfoPanel() {
+        JPanel infoPanel = new JPanel();
+        this.infoPanel = new JTextPane();
+
+        infoPanel.add(this.infoPanel);
+        this.add(this.infoPanel, BorderLayout.EAST);
         this.pack();
         this.setVisible(true);
     }
 
     public void setInfoText(String infoText) {
-        this.textInfo.setText(infoText);
+        this.infoPanel.setText(infoText);
     }
 }

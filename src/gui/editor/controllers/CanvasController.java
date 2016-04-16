@@ -135,7 +135,7 @@ class CanvasState {
     }
 
     public boolean componentEqualsTo(TikzComponent comp) {
-        return (comp == this.component);
+        return comp == this.component;
     }
 
     public TikzComponent getComponent() {

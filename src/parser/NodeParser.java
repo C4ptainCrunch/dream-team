@@ -251,6 +251,6 @@ class DestructuredNode {
     @Override
     public String toString() {
         return "Coordinates: " + coordinates.toString() + ", Options: " + options.toString() + ", Label: "
-                + label.toString();
+                + label;
     }
 }

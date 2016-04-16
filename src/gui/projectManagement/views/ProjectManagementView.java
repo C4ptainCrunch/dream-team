@@ -22,7 +22,6 @@ public class ProjectManagementView extends JFrame {
     }
 
     public void render() {
-        this.setTitle("Project");
         this.setLayout(new BorderLayout());
 
         initButtonsPanel();
@@ -43,6 +42,10 @@ public class ProjectManagementView extends JFrame {
     }
 
     private void initSavedProjectsPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        this.add(panel, BorderLayout.CENTER);
+
         String[] data = importSavedPaths();
 
         this.listSavedProjects = new JComboBox<>();
@@ -50,7 +53,9 @@ public class ProjectManagementView extends JFrame {
 
         this.listSavedProjects.addActionListener(e -> controller.dropdownSelected(e));
 
-        this.add(listSavedProjects, BorderLayout.CENTER);
+        panel.add(new JLabel(GUI.ProjectManagement.DROPDOWN_HEADER));
+        panel.add(listSavedProjects);
+
         this.pack();
         this.setVisible(true);
     }
@@ -70,7 +75,7 @@ public class ProjectManagementView extends JFrame {
         create.addActionListener(e -> controller.createProject());
 
         JButton open = new JButton(GUI.ProjectManagement.OPEN_BUTTON);
-        open.addActionListener(e -> controller.importProject());
+        open.addActionListener(e -> controller.openProject());
 
         JButton rename = new JButton(GUI.ProjectManagement.RENAME_BUTTON);
         rename.addActionListener(e -> controller.renameProject());

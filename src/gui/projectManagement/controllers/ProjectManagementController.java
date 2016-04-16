@@ -24,8 +24,6 @@ public class ProjectManagementController {
         String path = getSavedPath();
         List<String> lines = new ArrayList<>();
 
-        lines.add(ProjectManagement.DROPDOWN_HEADER);
-
         try {
             FileReader fileReader = new FileReader(path);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -131,7 +129,6 @@ public class ProjectManagementController {
     }
 
     public void importProject() {
-        if (this.view.getSelectedPathIndex() == 0) {
             java.io.File f = createPanel(ProjectManagement.IMPORT_PANEL, JFileChooser.FILES_ONLY);
             if (f != null) {
                 String filePath = f.getAbsolutePath();
@@ -140,11 +137,12 @@ public class ProjectManagementController {
                 java.awt.EventQueue.invokeLater(() -> new EditorView(filePath, true));
                 view.dispose(); // Exit previous windows
             }
-        } else {
+    }
+
+    public void openProject() {
             String filePath = this.view.getSelectedPath() + System.getProperty("file.separator") + "tikz.save";
             java.awt.EventQueue.invokeLater(() -> new EditorView(filePath, true));
             view.dispose(); // Exit previous windows
-        }
     }
 
     private java.io.File createPanel(String title, int selectionMode) {
@@ -166,29 +164,23 @@ public class ProjectManagementController {
     }
 
     public void renameProject() {
-        int selectedPathIndex = this.view.getSelectedPathIndex();
-        if (selectedPathIndex != 0) { // 0 is the "Choose existing project... in
-                                        // JComboBox
-            String selectedPath = this.view.getSelectedPath();
-            int endIndex = selectedPath.lastIndexOf("/");
-            java.io.File dir = new java.io.File(selectedPath);
-            String newProjectName = JOptionPane.showInputDialog("New project name");
-            String newName = selectedPath.substring(0, endIndex) + System.getProperty("file.separator")
-                    + newProjectName;
-            java.io.File newDir = new java.io.File(newName);
-            if (dir.isDirectory() && newProjectName != null) {
-                dir.renameTo(newDir);
-                try {
-                    this.updateSavedProjectsFile(selectedPath, newName);
-                } catch (IOException e) {
-                    e.getStackTrace();
-                }
-                this.view.updateComboBox(newName);
+        String selectedPath = this.view.getSelectedPath();
+        int endIndex = selectedPath.lastIndexOf("/");
+        java.io.File dir = new java.io.File(selectedPath);
+        String newProjectName = JOptionPane.showInputDialog("New project name");
+        String newName = selectedPath.substring(0, endIndex) + System.getProperty("file.separator")
+                + newProjectName;
+        java.io.File newDir = new java.io.File(newName);
+        if (dir.isDirectory() && newProjectName != null) {
+            dir.renameTo(newDir);
+            try {
+                this.updateSavedProjectsFile(selectedPath, newName);
+            } catch (IOException e) {
+                e.getStackTrace();
             }
-        } else {
-            JOptionPane.showMessageDialog(this.view, Warnings.RENAME_WARNING,
-                    String.format(Warnings.WARNING_TYPE, "Rename"), JOptionPane.WARNING_MESSAGE);
+            this.view.updateComboBox(newName);
         }
+
     }
 
     // TODO : move this to a model

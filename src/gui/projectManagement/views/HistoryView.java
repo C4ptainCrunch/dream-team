@@ -6,14 +6,17 @@ import javax.swing.*;
 
 import constants.GUI.ProjectManagement;
 import gui.projectManagement.controllers.HistoryController;
+import models.Project;
 
 public class HistoryView extends JFrame {
     private HistoryController controller;
+    private Project project;
     private JTextPane historyPane = new JTextPane();
     private JScrollPane scroll = new JScrollPane(getHistoryPane());
 
-    public HistoryView(String path) {
-        controller = new HistoryController(this, path);
+    public HistoryView(Project project) {
+        this.project = project;
+        controller = new HistoryController(this, project);
 
         this.setTitle(ProjectManagement.DIFF_TEXT);
         this.setSize(800, 600);

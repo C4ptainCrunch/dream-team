@@ -28,11 +28,11 @@ public class EditorView extends JFrame {
     public EditorView(Project project){
         TikzGraph graph = project.getGraph();
         this.project = project;
-        this.controller = new EditorController(this, graph);
+        this.controller = new EditorController(this, project);
 
         this.canvasView = new CanvasView(this, graph);
         this.sourceView = new SourceView(this, graph);
-        this.menuView = new MenuView(this, graph);
+        this.menuView = new MenuView(this, project);
         this.toolBoxView = new ToolBoxView();
 
 

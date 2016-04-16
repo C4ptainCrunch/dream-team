@@ -2,19 +2,20 @@ package gui.editor.views;
 
 import javax.swing.*;
 
+import models.Project;
 import models.tikz.TikzGraph;
 import constants.GUI;
 import gui.editor.controllers.MenuController;
 
 public class MenuView extends JMenuBar {
     private MenuController controller;
-    private TikzGraph graph;
+    private Project project;
     private EditorView parentView;
 
-    public MenuView(EditorView parentView, TikzGraph graph) {
+    public MenuView(EditorView parentView, Project project) {
         this.parentView = parentView;
-        this.graph = graph;
-        this.controller = new MenuController(this, graph);
+        this.project = project;
+        this.controller = new MenuController(this, project);
         this.render();
     }
 
@@ -50,9 +51,5 @@ public class MenuView extends JMenuBar {
 
     public void save() {
         controller.save();
-    }
-
-    public String getProjectPath() {
-        return parentView.getProjectPath();
     }
 }

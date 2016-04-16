@@ -5,6 +5,7 @@ import utils.SaverUtil;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Project {
@@ -40,5 +41,9 @@ public class Project {
 
     public String getTikzPath() {
         return this.path + "/tikz.save"; // TODO : be windows compliant
+    }
+
+    public Path getDiffPath() {
+        return Paths.get(this.path + "/diffs");
     }
 }

@@ -13,20 +13,21 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import gui.projectManagement.views.HistoryView;
+import models.Project;
 
 public class HistoryController {
     private HistoryView view;
-    private String path;
+    private Project project;
     private Color currentColor = Color.BLACK;
 
-    public HistoryController(HistoryView view, String path) {
-        this.path = path;
+    public HistoryController(HistoryView view, Project project) {
+        this.project = project;
         this.view = view;
     }
 
     public void fillView() {
         try {
-            Files.lines(Paths.get(path + "/diffs"), Charset.defaultCharset()).forEach(line -> {
+            Files.lines(project.getDiffPath(), Charset.defaultCharset()).forEach(line -> {
                 colorHelper(line);
                 appendString(line + "\n", currentColor);
             });

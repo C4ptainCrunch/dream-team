@@ -4,7 +4,7 @@ package constants;
  * Created by nikita on 3/27/16.
  */
 public final class GUI {
-    public static final class Text {
+    public static final class MenuBar {
         public static final String FILE_MENU = "File";
         public static final String SAVE = "Save";
         public static final String PDF = "Build PDF";
@@ -17,7 +17,10 @@ public final class GUI {
         public static final String APP_NAME = "CreaTikZ";
     }
 
-    public static final class ProjectManagementText {
+    public static final class ProjectManagement {
+        public static final String CREATE_BUTTON = "Create";
+        public static final String OPEN_BUTTON = "Open";
+        public static final String RENAME_BUTTON = "Rename";
         public static final String CREATE_PANEL = "Chose location to create your project";
         public static final String IMPORT_PANEL = "Chose location to import your project";
         public static final String DROPDOWN_HEADER = "Chose existing project from this list (if it exists) "

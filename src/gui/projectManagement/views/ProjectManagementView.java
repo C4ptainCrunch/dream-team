@@ -6,10 +6,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import constants.GUI.ProjectManagementText;
+import constants.GUI;
+import constants.GUI.ProjectManagement;
 import gui.projectManagement.controllers.ProjectManagementController;
 
-public class ProjectManagementView extends JFrame implements ActionListener {
+public class ProjectManagementView extends JFrame {
     private ProjectManagementController controller = new ProjectManagementController(this);
     private JComboBox<String> listSavedProjects;
     private JTextPane textInfo;
@@ -64,21 +65,18 @@ public class ProjectManagementView extends JFrame implements ActionListener {
 
     private void initButtonsPanel() {
         JPanel buttons = new JPanel();
-        JButton create = new JButton("Create Project");
-        create.setActionCommand("create");
 
-        JButton importFrom = new JButton("Import");
-        importFrom.setActionCommand("import");
+        JButton create = new JButton(GUI.ProjectManagement.CREATE_BUTTON);
+        create.addActionListener(e -> controller.createProject());
 
-        JButton rename = new JButton("Rename");
-        rename.setActionCommand("rename");
+        JButton open = new JButton(GUI.ProjectManagement.OPEN_BUTTON);
+        open.addActionListener(e -> controller.importProject());
 
-        create.addActionListener(this);
-        importFrom.addActionListener(this);
-        rename.addActionListener(this);
+        JButton rename = new JButton(GUI.ProjectManagement.RENAME_BUTTON);
+        rename.addActionListener(e -> controller.renameProject());
 
         buttons.add(create);
-        buttons.add(importFrom);
+        buttons.add(open);
         buttons.add(rename);
 
         buttons.setOpaque(true);
@@ -90,30 +88,12 @@ public class ProjectManagementView extends JFrame implements ActionListener {
     private void initInfoPanel() {
         JPanel infoPanel = new JPanel();
         this.textInfo = new JTextPane();
-        this.textInfo.setText(String.format(ProjectManagementText.BLANK_INFO_PANEL, "", "Local", ""));
+        this.textInfo.setText(String.format(ProjectManagement.BLANK_INFO_PANEL, "", "Local", ""));
 
         infoPanel.add(this.textInfo);
         this.add(this.textInfo, BorderLayout.EAST);
         this.pack();
         this.setVisible(true);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand()) {
-        case "create":
-            controller.createProject();
-            break;
-        case "import":
-            controller.importProject();
-            break;
-        case "rename":
-            controller.renameProject();
-            break;
-        default:
-            break;
-        }
-
     }
 
     public void setInfoText(String infoText) {

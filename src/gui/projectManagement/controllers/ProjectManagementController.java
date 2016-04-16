@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.swing.*;
 
-import constants.GUI.ProjectManagementText;
+import constants.GUI.ProjectManagement;
 import constants.Utils;
 import constants.Warnings;
 import gui.editor.views.EditorView;
@@ -24,7 +24,7 @@ public class ProjectManagementController {
         String path = getSavedPath();
         List<String> lines = new ArrayList<>();
 
-        lines.add(ProjectManagementText.DROPDOWN_HEADER);
+        lines.add(ProjectManagement.DROPDOWN_HEADER);
 
         try {
             FileReader fileReader = new FileReader(path);
@@ -109,7 +109,7 @@ public class ProjectManagementController {
 
     public void createProject() {
 
-        java.io.File f = createPanel(ProjectManagementText.CREATE_PANEL, JFileChooser.DIRECTORIES_ONLY);
+        java.io.File f = createPanel(ProjectManagement.CREATE_PANEL, JFileChooser.DIRECTORIES_ONLY);
         if (f != null) {
             String filePath = f.getAbsolutePath();
 
@@ -132,7 +132,7 @@ public class ProjectManagementController {
 
     public void importProject() {
         if (this.view.getSelectedPathIndex() == 0) {
-            java.io.File f = createPanel(ProjectManagementText.IMPORT_PANEL, JFileChooser.FILES_ONLY);
+            java.io.File f = createPanel(ProjectManagement.IMPORT_PANEL, JFileChooser.FILES_ONLY);
             if (f != null) {
                 String filePath = f.getAbsolutePath();
                 int endIndex = filePath.lastIndexOf("/");
@@ -223,7 +223,7 @@ public class ProjectManagementController {
         String projectName = selectedProject.substring(endIndex + 1, selectedProject.length());
         String lastRevision = this.getLastRevision();
 
-        String text = String.format(ProjectManagementText.BLANK_INFO_PANEL, projectName, "Local", lastRevision);
+        String text = String.format(ProjectManagement.BLANK_INFO_PANEL, projectName, "Local", lastRevision);
         this.view.setInfoText(text);
     }
 }

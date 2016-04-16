@@ -33,22 +33,22 @@ public class ProjectManagementView extends JFrame {
 
     private void createButtonsPanel() {
         JPanel buttons = new JPanel();
-//
-//        JButton create = new JButton(GUI.ProjectManagement.CREATE_BUTTON);
-//        create.addActionListener(e -> controller.createProject());
-//
-//        JButton open = new JButton(GUI.ProjectManagement.OPEN_BUTTON);
+
+        JButton create = new JButton(GUI.ProjectManagement.CREATE_BUTTON);
+        create.addActionListener(e -> controller.createProject());
+
+        JButton open = new JButton(GUI.ProjectManagement.OPEN_BUTTON);
 //        open.addActionListener(e -> controller.openProject());
-//
-//        JButton rename = new JButton(GUI.ProjectManagement.RENAME_BUTTON);
+
+        JButton rename = new JButton(GUI.ProjectManagement.RENAME_BUTTON);
 //        rename.addActionListener(e -> controller.renameProject());
 
-//        buttons.add(create);
-//        buttons.add(open);
-//        buttons.add(rename);
+        buttons.add(create);
+        buttons.add(open);
+        buttons.add(rename);
 
         buttons.setOpaque(true);
-        this.add(buttons, BorderLayout.CENTER);
+        this.add(buttons, BorderLayout.NORTH);
         this.pack();
         this.setVisible(true);
     }
@@ -82,7 +82,7 @@ public class ProjectManagementView extends JFrame {
         this.infoPanel = new JTextPane();
 
         infoPanel.add(this.infoPanel);
-        this.add(this.infoPanel, BorderLayout.EAST);
+        this.add(this.infoPanel, BorderLayout.SOUTH);
         this.pack();
         this.setVisible(true);
     }

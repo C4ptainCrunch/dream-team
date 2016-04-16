@@ -20,9 +20,15 @@ public class Project {
     }
 
     public static Project fromPath(String path) throws IOException {
-        TikzGraph graph = new TikzGraph(Paths.get(path, "save.tikz").toString());
+        TikzGraph graph = new TikzGraph(Paths.get(path, constants.Models.Project.SAVE_FILE).toString());
         Project p = new Project(path, graph);
         return p;
+    }
+
+    public static void initialize(File dir) throws IOException {
+        dir.mkdir();
+        Path path = dir.toPath();
+        new FileOutputStream(path.resolve(constants.Models.Project.SAVE_FILE).toFile()).close();
     }
 
     @Override
@@ -39,7 +45,7 @@ public class Project {
     }
 
     public Path getRevisionPath() {
-        return Paths.get(this.getPath(), "diffs");
+        return Paths.get(this.getPath(), constants.Models.Project.DIFF_FILE);
     }
 
     public String getName() {
@@ -56,11 +62,11 @@ public class Project {
     }
 
     public String getTikzPath() {
-        return this.path + "/tikz.save"; // TODO : be windows compliant
+        return this.path + "/" + constants.Models.Project.SAVE_FILE; // TODO : be windows compliant
     }
 
     public Path getDiffPath() {
-        return Paths.get(this.path + "/diffs");
+        return Paths.get(this.path + "/" + constants.Models.Project.DIFF_FILE);
     }
 
     public void rename(Path newPath) throws IOException {

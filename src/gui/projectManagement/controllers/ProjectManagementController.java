@@ -1,15 +1,17 @@
 package gui.projectManagement.controllers;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.*;
 
 import constants.GUI.ProjectManagement;
-import constants.Warnings;
 import gui.editor.views.EditorView;
+import gui.projectManagement.views.FileChooseView;
 import gui.projectManagement.views.ProjectManagementView;
 import models.Project;
+import models.tikz.RecentProjects;
 
 public class ProjectManagementController {
     private final ProjectManagementView view;
@@ -20,6 +22,8 @@ public class ProjectManagementController {
 
     public void editProject(String path) throws IOException {
         Project project = Project.fromPath(path);
+        RecentProjects.addProject(project);
+
         java.awt.EventQueue.invokeLater(() -> new EditorView(project));
         view.dispose(); // Exit previous windows
     }
@@ -59,23 +63,7 @@ public class ProjectManagementController {
 //    }
 //
 //
-//    private java.io.File createPanel(String title, int selectionMode) {
-//        System.out.println("create panel");
-//        JPanel panel = new JPanel();
-//        JFileChooser fileChooser = new JFileChooser();
-//        fileChooser.setCurrentDirectory(new java.io.File("."));
-//        fileChooser.setDialogTitle(title);
-//        fileChooser.setFileSelectionMode(selectionMode);
-//
-//        if (fileChooser.showOpenDialog(panel) == JFileChooser.APPROVE_OPTION) {
-//            System.out.println("getCurrentDirectory(): " + fileChooser.getCurrentDirectory());
-//            System.out.println("getSelectedFile() : " + fileChooser.getSelectedFile());
-//            return fileChooser.getSelectedFile();
-//        } else {
-//            System.out.println("No Selection ");
-//            return null;
-//        }
-//    }
+
 
     public void dropdownSelected(ActionEvent event) {
         JComboBox comboBox = (JComboBox) event.getSource();
@@ -91,6 +79,16 @@ public class ProjectManagementController {
     }
 
     public void createProject() {
-
+        FileChooseView choose = new FileChooseView("Create project", JFileChooser.DIRECTORIES_ONLY);
+        File path = choose.ask();
+        if(path != null) {
+            try {
+                Project.initialize(path);
+                editProject(path.getPath().toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+                // TODO : warn user
+            }
+        }
     }
 }

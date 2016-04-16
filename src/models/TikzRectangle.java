@@ -30,6 +30,8 @@ public class TikzRectangle extends TikzShape {
 
     public void setWidth(int width) {
         this.width = width;
+        setChanged();
+        notifyObservers();
     }
 
     public int getLength() {
@@ -38,6 +40,8 @@ public class TikzRectangle extends TikzShape {
 
     public void setLength(int length) {
         this.length = length;
+        setChanged();
+        notifyObservers();
     }
 
     @Override

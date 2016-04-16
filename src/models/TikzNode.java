@@ -28,10 +28,14 @@ public abstract class TikzNode extends TikzComponent {
 
     public void setPosition(Point position) {
         this.position = position;
+        setChanged();
+        notifyObservers();
     }
 
     public void move(int x, int y) {
         setPosition(new Point(x, y));
+        setChanged();
+        notifyObservers();
     }
 
     public abstract TikzNode getClone();

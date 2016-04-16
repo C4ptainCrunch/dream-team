@@ -17,6 +17,9 @@ import org.codehaus.jparsec.pattern.Patterns;
 
 public class NodeParser {
 
+    private NodeParser() {
+    }
+
     private static final Parser<Void> MAYBEWHITESPACES = Scanners.WHITESPACES.optional();
     private static final Parser<Void> MAYBENEWLINES = Scanners.isChar('\n').optional();
     private static final Parser<List<String>> maybeOptions = Parsers.or(options(),

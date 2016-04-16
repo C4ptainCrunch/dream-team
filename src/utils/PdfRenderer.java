@@ -10,6 +10,8 @@ import javax.swing.*;
 import models.TikzGraph;
 
 public class PdfRenderer {
+    private PdfRenderer() {
+    }
 
     private static void toSourceFile(File filename, TikzGraph graph)
             throws FileNotFoundException, UnsupportedEncodingException {

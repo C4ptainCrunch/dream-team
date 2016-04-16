@@ -45,6 +45,9 @@ public class HelpController {
 }
 
 class Filewalker {
+    private Filewalker() {
+    }
+
     public static DefaultMutableTreeNode walkToTree(String path) {
         File root = new File(path);
         File[] list = root.listFiles();

@@ -14,7 +14,7 @@ import gui.editor.views.EditorView;
 import gui.projectManagement.views.ProjectManagementView;
 
 public class ProjectManagementController {
-    private ProjectManagementView view;
+    private final ProjectManagementView view;
 
     public ProjectManagementController(ProjectManagementView view) {
         this.view = view;
@@ -81,8 +81,9 @@ public class ProjectManagementController {
         String line;
         String input = "";
 
-        while ((line = file.readLine()) != null)
+        while ((line = file.readLine()) != null) {
             input += line + System.lineSeparator();
+        }
 
         input = input.replace(oldName, newName);
 
@@ -113,7 +114,10 @@ public class ProjectManagementController {
         if (f != null) {
             String filePath = f.getAbsolutePath();
 
-            if (!f.exists()) {
+            if (f.exists()) {
+                JOptionPane.showMessageDialog(this.view, Warnings.FILE_WARNING,
+                        String.format(Warnings.WARNING_TYPE, "File"), JOptionPane.WARNING_MESSAGE);
+            } else {
                 try {
                     f.mkdir();
                     addProjectPathToSavedPathFile(filePath);
@@ -123,9 +127,6 @@ public class ProjectManagementController {
                     JOptionPane.showMessageDialog(this.view, Warnings.PERMISSION_WARNING,
                             String.format(Warnings.WARNING_TYPE, "Security"), JOptionPane.WARNING_MESSAGE);
                 }
-            } else {
-                JOptionPane.showMessageDialog(this.view, Warnings.FILE_WARNING,
-                        String.format(Warnings.WARNING_TYPE, "File"), JOptionPane.WARNING_MESSAGE);
             }
         }
     }
@@ -167,8 +168,11 @@ public class ProjectManagementController {
 
     public void renameProject() {
         int selectedPathIndex = this.view.getSelectedPathIndex();
-        if (selectedPathIndex != 0) { // 0 is the "Choose existing project... in
-                                        // JComboBox
+        // 0 is the "Choose existing project..." in JComboBox
+        if (selectedPathIndex == 0) {
+            JOptionPane.showMessageDialog(this.view, Warnings.RENAME_WARNING,
+                    String.format(Warnings.WARNING_TYPE, "Rename"), JOptionPane.WARNING_MESSAGE);
+        } else {
             String selectedPath = this.view.getSelectedPath();
             int endIndex = selectedPath.lastIndexOf("/");
             java.io.File dir = new java.io.File(selectedPath);
@@ -185,9 +189,6 @@ public class ProjectManagementController {
                 }
                 this.view.updateComboBox(newName);
             }
-        } else {
-            JOptionPane.showMessageDialog(this.view, Warnings.RENAME_WARNING,
-                    String.format(Warnings.WARNING_TYPE, "Rename"), JOptionPane.WARNING_MESSAGE);
         }
     }
 

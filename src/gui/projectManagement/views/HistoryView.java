@@ -8,9 +8,9 @@ import constants.GUI.ProjectManagementText;
 import gui.projectManagement.controllers.HistoryController;
 
 public class HistoryView extends JFrame {
-    private HistoryController controller;
-    private JTextPane historyPane = new JTextPane();
-    private JScrollPane scroll = new JScrollPane(getHistoryPane());
+    private final HistoryController controller;
+    private final JTextPane historyPane = new JTextPane();
+    private final JScrollPane scroll = new JScrollPane(getHistoryPane());
 
     public HistoryView(String path) {
         controller = new HistoryController(this, path);

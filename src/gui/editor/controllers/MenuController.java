@@ -18,8 +18,8 @@ import gui.help.views.HelpView;
 import gui.projectManagement.views.HistoryView;
 
 public class MenuController implements Observer {
-    private MenuView view;
-    private TikzGraph graph;
+    private final MenuView view;
+    private final TikzGraph graph;
 
     public MenuController(MenuView view, TikzGraph graph) {
         this.view = view;
@@ -29,6 +29,7 @@ public class MenuController implements Observer {
     }
 
     public void update(Observable o, Object arg) {
+        // this was left intentionally blank
     }
 
     public void save() {
@@ -55,7 +56,7 @@ public class MenuController implements Observer {
 
     public void openHistory() {
 
-        HistoryView histView = new HistoryView(view.getProjectPath());
+        HistoryView histView = new HistoryView(this.view.getProjectPath());
     }
 
     public void showHelp() {

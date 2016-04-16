@@ -7,9 +7,9 @@ import constants.GUI;
 import gui.editor.controllers.MenuController;
 
 public class MenuView extends JMenuBar {
-    private MenuController controller;
-    private TikzGraph graph;
-    private EditorView parentView;
+    private final MenuController controller;
+    private final TikzGraph graph;
+    private final EditorView parentView;
 
     public MenuView(EditorView parentView, TikzGraph graph) {
         this.parentView = parentView;

@@ -16,7 +16,7 @@ import gui.help.views.HelpView;
 
 public class HelpController {
     private final static String HELP_ROOT = "./assets/help_files/";
-    private HelpView view;
+    private final HelpView view;
 
     public HelpController(HelpView view) {
         this.view = view;
@@ -45,13 +45,17 @@ public class HelpController {
 }
 
 class Filewalker {
+    private Filewalker() {
+    }
+
     public static DefaultMutableTreeNode walkToTree(String path) {
         File root = new File(path);
         File[] list = root.listFiles();
 
         DefaultMutableTreeNode out = new DefaultMutableTreeNode(root.getName());
-        if (list == null)
+        if (list == null) {
             return out;
+        }
 
         for (File f : list) {
             if (f.isDirectory()) {

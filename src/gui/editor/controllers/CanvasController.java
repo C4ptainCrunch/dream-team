@@ -25,7 +25,7 @@ public class CanvasController implements Observer {
     private final CanvasState state;
 
     /**
-     * Constructs a new Controller (from the MVC architecural pattern) for the Canvas,
+     * Constructs a new Controller for the Canvas,
      * with a given TikzGraph and CanvasView
      * @param view The CanvasView which is associated with this controller
      * @param graph The TikzGraph
@@ -51,7 +51,7 @@ public class CanvasController implements Observer {
     }
 
     /**
-     * Finds a compenent of the graph by its position
+     * Finds a component of the graph by its position
      *
      * @param position The position
      * @return a tikz component

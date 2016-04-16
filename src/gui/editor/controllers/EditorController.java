@@ -12,7 +12,7 @@ public class EditorController {
     private final TikzGraph graph;
 
     /**
-     * Constructs a new Controller (from the MVC architecural pattern) for the Editor,
+     * Constructs a new Controller for the Editor,
      * with a given TikzGraph and EditorView
      * @param view The EditorView which is associated with this controller
      * @param graph The TikzGraph

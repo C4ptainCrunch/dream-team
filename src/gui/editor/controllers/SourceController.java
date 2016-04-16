@@ -15,7 +15,7 @@ import utils.SaverFactory;
 import gui.editor.views.SourceView;
 
 /**
- * Implementation of the Controller (from the MVC architectural pattern) for the Source.
+ * Implementation of the Controller for the Source.
  * The Source is the area of the GUI where the Tikz is edited.
  */
 public class SourceController implements Observer {

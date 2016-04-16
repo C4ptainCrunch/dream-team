@@ -14,6 +14,10 @@ import constants.GUI;
 import gui.editor.controllers.EditorController;
 import gui.editor.toolbox.views.ToolBoxView;
 
+/**
+ * Implementation of the View (from the MVC architectural pattern) for the Editor.
+ * The Editor is the main element of the GUI which contains the other elements of the GUI.
+ */
 public class EditorView extends JFrame {
     private TikzGraph graph;
 
@@ -25,6 +29,14 @@ public class EditorView extends JFrame {
 
     private EditorController controller;
 
+    /**
+     * Constructs a new View for the Editor,
+     * with a given file path and the information whether the view
+     * is constructed with an imported project or a new one.
+     * Creates all the views that are contained within this view.
+     * @param filePath The path where the project is located
+     * @param isImport The boolean that tells whether the project is imported or created
+     */
     public EditorView(String filePath, Boolean isImport) {
         this.projectPath = filePath;
         if (isImport) {
@@ -56,6 +68,10 @@ public class EditorView extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Renders the view by initializing it and its pane, corresponding
+     * to the views that are contained within this view
+     */
     public final void render() {
         this.setTitle(GUI.Text.APP_NAME);
 
@@ -72,14 +88,26 @@ public class EditorView extends JFrame {
         this.setJMenuBar(menuView);
     }
 
+    /**
+     * Getter for the current project path
+     * @return The path of the current project
+     */
     public final String getProjectPath() {
         return projectPath;
     }
 
+    /**
+     * Getter for the current tool properties
+     * @return TODO null?
+     */
     public final Map<String, Object> getCurrentToolProperties() {
         return null;
     }
 
+    /**
+     * Getter for the selected tool
+     * @return the tikz component that has been selected from the toolbox
+     */
     public final TikzComponent getSelectedTool() {
         return toolBoxView.getSelectedTool();
     }

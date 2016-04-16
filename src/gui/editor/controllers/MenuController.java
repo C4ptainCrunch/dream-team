@@ -19,14 +19,14 @@ import gui.projectManagement.views.HistoryView;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the Menu.
- * the Menu is the menu bar of the GUI.
+ * The Menu is the menu bar of the GUI.
  */
 public class MenuController implements Observer {
     private final MenuView view;
     private final TikzGraph graph;
 
     /**
-     * Constructs a new Controller (from the MVC architecural pattern) for the Menu,
+     * Constructs a new Controller for the Menu,
      * with a given TikzGraph and EditorView
      * @param view The MenuView which is associated with this controller
      * @param graph The TikzGraph

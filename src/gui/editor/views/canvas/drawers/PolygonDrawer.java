@@ -31,7 +31,7 @@ public class PolygonDrawer extends ComponentDrawer {
             x[i] = size + (int) (Math.cos(i * step) * size);
             y[i] = size + (int) (Math.sin(i * step) * size);
         }
-        Polygon p = new Polygon(x, y, vertices);
-        return p;
+
+        return new Polygon(x, y, vertices);
     }
 }

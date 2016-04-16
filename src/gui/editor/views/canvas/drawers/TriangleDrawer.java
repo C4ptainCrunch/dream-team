@@ -48,8 +48,8 @@ public class TriangleDrawer extends ComponentDrawer {
         ;
         x[2] = (int) (Math.cos(angles[0]) * sides[2]);
         y[2] = 0;
-        Polygon p = new Polygon(x, y, 3);
-        return p;
+
+        return new Polygon(x, y, 3);
     }
 
 }

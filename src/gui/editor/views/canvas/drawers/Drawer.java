@@ -6,7 +6,7 @@ import java.util.Map;
 import models.*;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
-public class Drawer {
+public final class Drawer {
 
     private static Map<Class<? extends TikzComponent>, TikzDrawer> drawers = new HashMap<>();
 

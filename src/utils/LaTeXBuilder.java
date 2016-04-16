@@ -2,7 +2,7 @@ package utils;
 
 import models.TikzGraph;
 
-public class LaTeXBuilder {
+public final class LaTeXBuilder {
     private LaTeXBuilder() {
     }
 

@@ -57,7 +57,7 @@ public class EditorView extends JFrame {
         this.setVisible(true);
     }
 
-    public void render() {
+    public final void render() {
         this.setTitle(GUI.Text.APP_NAME);
 
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -73,15 +73,15 @@ public class EditorView extends JFrame {
         this.setJMenuBar(menuView);
     }
 
-    public String getProjectPath() {
+    public final String getProjectPath() {
         return projectPath;
     }
 
-    public Map<String, Object> getCurrentToolProperties() {
+    public final Map<String, Object> getCurrentToolProperties() {
         return null;
     }
 
-    public TikzComponent getSelectedTool() {
+    public final TikzComponent getSelectedTool() {
         return toolBoxView.getSelectedTool();
     }
 }

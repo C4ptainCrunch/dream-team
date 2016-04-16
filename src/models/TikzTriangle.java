@@ -71,8 +71,7 @@ public class TikzTriangle extends TikzShape {
     }
 
     public int[] getSides() {
-        int[] sides = { getSideA(), getSideB(), getSideC() };
-        return sides;
+        return new int[] { getSideA(), getSideB(), getSideC() };
     }
 
     public void setSides(int... sides) {

@@ -9,7 +9,7 @@ import javax.swing.*;
 
 import models.TikzGraph;
 
-public class PdfRenderer {
+public final class PdfRenderer {
     private PdfRenderer() {
     }
 

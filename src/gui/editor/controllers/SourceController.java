@@ -16,8 +16,8 @@ import gui.editor.views.SourceView;
 
 public class SourceController implements Observer {
     private static final Logger logger = Logger.getLogger("gui.editor.controllers.source");
-    private SourceView view;
-    private TikzGraph graph;
+    private final SourceView view;
+    private final TikzGraph graph;
     private String originalText = "";
 
     public SourceController(SourceView view, TikzGraph graph) {

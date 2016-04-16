@@ -16,7 +16,7 @@ import gui.help.views.HelpView;
 
 public class HelpController {
     private final static String HELP_ROOT = "./assets/help_files/";
-    private HelpView view;
+    private final HelpView view;
 
     public HelpController(HelpView view) {
         this.view = view;

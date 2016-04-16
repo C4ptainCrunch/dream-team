@@ -18,11 +18,11 @@ import gui.editor.toolbox.views.ToolBoxView;
 public class EditorView extends JFrame {
     private TikzGraph graph;
 
-    private CanvasView canvasView;
-    private SourceView sourceView;
-    private MenuView menuView;
+    private final CanvasView canvasView;
+    private final SourceView sourceView;
+    private final MenuView menuView;
     private String projectPath;
-    private ToolBoxView toolBoxView;
+    private final ToolBoxView toolBoxView;
 
     private EditorController controller;
 

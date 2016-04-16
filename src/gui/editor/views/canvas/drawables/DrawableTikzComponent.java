@@ -12,11 +12,11 @@ import models.TikzNode;
 import constants.Models;
 
 public class DrawableTikzComponent implements Drawable {
-    private java.util.List<Shape> shapes;
+    private final java.util.List<Shape> shapes;
     private Stroke stroke;
     private Color color;
     private Color background;
-    private TikzComponent component;
+    private final TikzComponent component;
 
     public DrawableTikzComponent(TikzComponent component) {
         this.component = component;

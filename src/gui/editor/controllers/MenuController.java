@@ -18,8 +18,8 @@ import gui.help.views.HelpView;
 import gui.projectManagement.views.HistoryView;
 
 public class MenuController implements Observer {
-    private MenuView view;
-    private TikzGraph graph;
+    private final MenuView view;
+    private final TikzGraph graph;
 
     public MenuController(MenuView view, TikzGraph graph) {
         this.view = view;

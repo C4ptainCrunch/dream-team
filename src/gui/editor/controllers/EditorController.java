@@ -4,8 +4,8 @@ import models.TikzGraph;
 import gui.editor.views.EditorView;
 
 public class EditorController {
-    private EditorView view;
-    private TikzGraph graph;
+    private final EditorView view;
+    private final TikzGraph graph;
 
     public EditorController(EditorView view, TikzGraph graph) {
         this.view = view;

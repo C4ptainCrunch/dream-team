@@ -12,8 +12,8 @@ import gui.editor.toolbox.views.SelectorView;
  */
 public class SelectorController implements Observer {
 
-    private SelectorView view;
-    private ToolModel model;
+    private final SelectorView view;
+    private final ToolModel model;
 
     public SelectorController(SelectorView v, ToolModel m) {
         view = v;

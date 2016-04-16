@@ -15,10 +15,10 @@ import gui.editor.views.CanvasView;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public class CanvasController implements Observer {
-    private CanvasView view;
-    private TikzGraph graph;
-    private Set<DrawableTikzComponent> draws;
-    private CanvasState state;
+    private final CanvasView view;
+    private final TikzGraph graph;
+    private final Set<DrawableTikzComponent> draws;
+    private final CanvasState state;
 
     public CanvasController(CanvasView view, TikzGraph graph) {
         this.view = view;

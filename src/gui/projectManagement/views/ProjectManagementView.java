@@ -10,7 +10,7 @@ import constants.GUI.ProjectManagementText;
 import gui.projectManagement.controllers.ProjectManagementController;
 
 public class ProjectManagementView extends JFrame implements ActionListener {
-    private ProjectManagementController controller = new ProjectManagementController(this);
+    private final ProjectManagementController controller = new ProjectManagementController(this);
     private JComboBox<String> listSavedProjects;
     private JTextPane textInfo;
 

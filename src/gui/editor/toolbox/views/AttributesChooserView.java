@@ -20,11 +20,11 @@ public class AttributesChooserView extends JPanel {
     private static final String TITLE_LABEL = "<HTML><U>Label</U></HTML>";
 
     private JScrollPane scrollzone;
-    private JPanel attributes;
+    private final JPanel attributes;
     private JPanel color_chooser;
     private JTextField label_field;
     private JFormattedTextField stroke_width_field;
-    private AttributesChooserController controller;
+    private final AttributesChooserController controller;
 
     public AttributesChooserView(ToolModel model) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

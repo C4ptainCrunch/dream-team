@@ -15,8 +15,8 @@ import javax.swing.text.StyledDocument;
 import gui.projectManagement.views.HistoryView;
 
 public class HistoryController {
-    private HistoryView view;
-    private String path;
+    private final HistoryView view;
+    private final String path; // TODO acaccia : could we use EditorView.getProjectPath() here ?
     private Color currentColor = Color.BLACK;
 
     public HistoryController(HistoryView view, String path) {

@@ -227,9 +227,9 @@ public class NodeParser {
 }
 
 class DestructuredNode {
-    private Point coordinates;
-    private List<String> options;
-    private String label;
+    private final Point coordinates;
+    private final List<String> options;
+    private final String label;
 
     public DestructuredNode(Point s, List<String> t, String u) {
         coordinates = s;

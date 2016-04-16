@@ -14,7 +14,7 @@ import gui.editor.views.EditorView;
 import gui.projectManagement.views.ProjectManagementView;
 
 public class ProjectManagementController {
-    private ProjectManagementView view;
+    private final ProjectManagementView view;
 
     public ProjectManagementController(ProjectManagementView view) {
         this.view = view;

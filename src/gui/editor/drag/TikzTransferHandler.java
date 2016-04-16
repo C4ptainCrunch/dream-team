@@ -20,10 +20,7 @@ public class TikzTransferHandler extends TransferHandler {
     // Check if the data imported are valid (according to the TransferHandler
     // doc).
     public boolean canImport(TransferHandler.TransferSupport info) {
-        if (!info.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-            return false;
-        }
-        return true;
+        return info.isDataFlavorSupported(DataFlavor.stringFlavor);
     }
 
     // Import the data after a drop is detected.

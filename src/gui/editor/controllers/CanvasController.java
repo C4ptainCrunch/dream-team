@@ -61,13 +61,13 @@ public class CanvasController implements Observer {
     private void addEdgeToModel(TikzComponent component, Point position) {
         TikzComponent clickedComponent = findComponentByPosition(position);
         if (clickedComponent != null) {
-            if (!state.initialized()) {
-                state.setComponent(component);
-                state.setRelatedComponent(clickedComponent);
-            } else {
+            if (state.initialized()) {
                 TikzEdge edge = (TikzEdge) component;
                 addEdgeToGraph(edge, (TikzNode) state.getRelatedComponent(), (TikzNode) clickedComponent);
                 state.reset();
+            } else {
+                state.setComponent(component);
+                state.setRelatedComponent(clickedComponent);
             }
         }
 

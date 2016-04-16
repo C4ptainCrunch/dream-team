@@ -23,6 +23,10 @@ Ils sont aussi exécutés automatiquement pour chaque commit et avant chaque mer
 
 # Misc
 
+## Développement
+
+Ce projet est développé avec IntelliJ.
+
 ## Screenshot
 
 ![a](http://i.imgur.com/Lb8OelD.png)

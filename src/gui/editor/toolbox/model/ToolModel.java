@@ -36,6 +36,7 @@ public class ToolModel extends Observable {
 
     public void reset(){
         component = null;
+        alertObservers();
     }
 
     public void setComponent(TikzComponent component) {

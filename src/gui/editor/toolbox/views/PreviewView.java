@@ -33,9 +33,11 @@ public class PreviewView extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
-                PreviewView view = (PreviewView) mouseEvent.getSource();
-                TransferHandler handler = view.getTransferHandler();
-                handler.exportAsDrag(view, mouseEvent, TransferHandler.MOVE);
+                if (SwingUtilities.isLeftMouseButton(mouseEvent)) {
+                    PreviewView view = (PreviewView) mouseEvent.getSource();
+                    TransferHandler handler = view.getTransferHandler();
+                    handler.exportAsDrag(view, mouseEvent, TransferHandler.MOVE);
+                }
             }
         });
     }

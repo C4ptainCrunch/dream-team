@@ -49,6 +49,9 @@ public class CanvasView extends JPanel {
 
                 if (SwingUtilities.isRightMouseButton(e)) {
                 } else {
+                    CanvasView view = (CanvasView) e.getSource();
+                    TransferHandler handler = view.getTransferHandler();
+                    handler.exportAsDrag(view, e, TransferHandler.MOVE);
                     controller.mousePressed(e, parentView.getSelectedTool());
                 }
             }
@@ -69,14 +72,6 @@ public class CanvasView extends JPanel {
 
     private void enableDrag() {
         this.setTransferHandler(new CanvasTransferHandler());
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent mouseEvent) {
-                CanvasView view = (CanvasView) mouseEvent.getSource();
-                TransferHandler handler = view.getTransferHandler();
-                handler.exportAsDrag(view, mouseEvent, TransferHandler.MOVE);
-            }
-        });
     }
 
     public void paintComponent(Graphics g) {

@@ -34,6 +34,10 @@ public class ToolModel extends Observable {
         return component.getClone();
     }
 
+    public void reset(){
+        component = null;
+    }
+
     public void setComponent(TikzComponent component) {
         this.component = component.getClone();
         alertObservers();

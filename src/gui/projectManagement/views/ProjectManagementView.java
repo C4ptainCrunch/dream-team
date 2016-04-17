@@ -30,10 +30,16 @@ public class ProjectManagementView extends JFrame {
         this.setLocationRelativeTo(null);
 
         Container pane = getContentPane();
-        pane.setLayout(new BorderLayout());
+        pane.setLayout(new GridLayout());
 
-        createButtonsPanel(pane);
-        createChooserPanel(pane);
+        JPanel left = new JPanel(new GridLayout());
+        JPanel right = new JPanel(new GridLayout());
+
+        pane.add(left);
+        pane.add(right);
+
+        createButtonsPanel(right);
+        createChooserPanel(left);
         createInfoPanel(pane);
 
         this.setVisible(true);
@@ -41,7 +47,7 @@ public class ProjectManagementView extends JFrame {
 
     private void createButtonsPanel(Container pane) {
         JPanel buttons = new JPanel();
-        buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
+        buttons.setLayout(new BoxLayout(buttons, BoxLayout.XAXIS));
 
         JButton create = new JButton(GUI.ProjectManagement.CREATE_BUTTON);
         create.addActionListener(e -> controller.createProject());
@@ -56,15 +62,10 @@ public class ProjectManagementView extends JFrame {
         buttons.add(open);
         buttons.add(rename);
 
-//        buttons.setOpaque(true);
-        pane.add(buttons, BorderLayout.WEST);
+        pane.add(buttons);
     }
 
     private void createChooserPanel(Container pane) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        pane.add(panel);
-
         Vector<Project> recentProjects = null;
         try {
             recentProjects = RecentProjects.getRecentProjects();
@@ -78,8 +79,8 @@ public class ProjectManagementView extends JFrame {
 
         this.projectChooser.addActionListener(e -> controller.dropdownSelected(e));
 
-        panel.add(new JLabel(GUI.ProjectManagement.DROPDOWN_HEADER));
-        panel.add(projectChooser, BorderLayout.CENTER);
+        pane.add(new JLabel(GUI.ProjectManagement.DROPDOWN_HEADER));
+        pane.add(projectChooser);
 
     }
 

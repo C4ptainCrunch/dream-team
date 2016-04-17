@@ -2,16 +2,16 @@ package gui.projectManagement.views;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Vector;
 
 import javax.swing.*;
 
 import constants.GUI;
-import constants.GUI.ProjectManagement;
 import gui.projectManagement.controllers.ProjectManagementController;
 import models.Project;
-import models.tikz.RecentProjects;
+import models.RecentProjects;
 
 public class ProjectManagementView extends JFrame {
     private ProjectManagementController controller = new ProjectManagementController(this);
@@ -68,7 +68,7 @@ public class ProjectManagementView extends JFrame {
     private void createChooserPanel(Container pane) {
         Vector<Project> recentProjects = null;
         try {
-            recentProjects = RecentProjects.getRecentProjects();
+            recentProjects = new Vector<>(RecentProjects.getRecentProjects());
             Collections.reverse(recentProjects);
         } catch (IOException e) {
             e.printStackTrace();

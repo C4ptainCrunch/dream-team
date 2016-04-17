@@ -1,14 +1,14 @@
-package models.tikz;
+package models;
 
 
-import models.Project;
 import utils.Dirs;
 
 import java.io.*;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
@@ -17,11 +17,11 @@ public class RecentProjects {
     private static Path getFilePath() {
         return Dirs.getDataDir().resolve(Paths.get("recent.paths"));
     }
-    public static Vector<Project> getRecentProjects() throws IOException {
-        Vector<Project> projects = new Vector<>();
+    public static SortedSet<Project> getRecentProjects() throws IOException {
+        TreeSet<Project> projects = new TreeSet<>();
 
         Path rectentProjectsPath = getFilePath();
-        FileReader fileReader = null;
+        FileReader fileReader;
         try {
             fileReader = new FileReader(rectentProjectsPath.toFile());
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -46,7 +46,7 @@ public class RecentProjects {
     }
 
     public static void addProject(Project project) throws IOException {
-        Vector<Project> projects = getRecentProjects();
+        SortedSet<Project> projects = getRecentProjects();
 
         // Add the project to the end (and don't have it twice in the list)
         projects.remove(project);
@@ -55,7 +55,7 @@ public class RecentProjects {
         writeToDisk(projects);
     }
 
-    private static void writeToDisk(Vector<Project> projects) throws IOException {
+    private static void writeToDisk(SortedSet<Project> projects) throws IOException {
         FileWriter fw = new FileWriter(getFilePath().toFile());
         BufferedWriter bw = new BufferedWriter(fw);
 

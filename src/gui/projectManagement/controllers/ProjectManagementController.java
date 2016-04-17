@@ -11,7 +11,7 @@ import gui.editor.views.EditorView;
 import gui.projectManagement.views.FileChooseView;
 import gui.projectManagement.views.ProjectManagementView;
 import models.Project;
-import models.tikz.RecentProjects;
+import models.RecentProjects;
 
 public class ProjectManagementController {
     private final ProjectManagementView view;

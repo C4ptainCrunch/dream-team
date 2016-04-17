@@ -15,12 +15,19 @@ import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import gui.editor.views.canvas.drawers.Drawer;
 
 /**
- * Created by aurelien on 12/04/16.
+ * Implementation of the View (from the MVC architectural pattern) for the Preview.
+ * The Preview is part of the toolbox used to show
+ * a preview of the component being edited.
  */
 public class PreviewView extends JPanel {
     TikzComponent component;
     PreviewController controller;
 
+    /**
+     * Constructs a new view for the Preview
+     * with a given ToolModel
+     * @param model the tool model
+     */
     public PreviewView(ToolModel model) {
         this.setBackground(Color.WHITE);
         this.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
@@ -28,6 +35,9 @@ public class PreviewView extends JPanel {
         enableDrag();
     }
 
+    /**
+     * Enables the drag&drop action for the preview component
+     */
     private void enableDrag() {
         this.setTransferHandler(new TikzTransferHandler());
         this.addMouseListener(new MouseAdapter() {
@@ -40,14 +50,26 @@ public class PreviewView extends JPanel {
         });
     }
 
+    /**
+     * Getter for the component being previewed
+     * @return The component being previewed
+     */
     public TikzComponent getComponent() {
         return this.controller.getComponent();
     }
 
+    /**
+     * Setter for the component being previewed
+     * @param component the component to be set for the preview
+     */
     public void setComponent(TikzComponent component) {
         this.component = component;
     }
 
+    /**
+     * Paints the component being previewed
+     * @param g The Graphics to be painted
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (component != null) {

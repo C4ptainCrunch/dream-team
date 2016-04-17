@@ -53,7 +53,7 @@ public class CanvasView extends JPanel {
                     requestFocusInWindow();
                     CanvasView view = (CanvasView) e.getSource();
                     TikzComponent component = view.getSelectedComponent();
-                    if (view.getSelectedComponent() != null) {
+                    if (component != null) {
                         popupMenu.show(view, e.getX(), e.getY());
                         popupMenu.setComponent(component);
                     }

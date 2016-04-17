@@ -125,6 +125,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
 
     public void remove(TikzEdge edge) {
         this.edges.remove(edge);
+        notifyObservers();
     }
 
     public List<TikzEdge> remove(TikzNode node) {
@@ -138,6 +139,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
             }
         }
         nodes.remove(node);
+        notifyObservers();
         return edges;
     }
 }

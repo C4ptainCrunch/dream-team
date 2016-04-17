@@ -106,6 +106,16 @@ public class CanvasController implements Observer {
         return comp;
     }
 
+    public void deleteItem(TikzComponent itemToDelete) {
+        if (itemToDelete != null){
+            if (itemToDelete instanceof TikzNode) {
+                this.graph.remove((TikzNode) itemToDelete);
+            }else {
+                this.graph.remove((TikzEdge) itemToDelete);
+            }
+        }
+    }
+
 }
 
 // This Class allows the CanvasController to keep a state of one action (here, a

@@ -23,17 +23,19 @@ public class CanvasView extends JPanel {
     private final TikzGraph graph;
     private final CanvasController controller;
     private boolean isFocused;
+    private PopupMenuView popupMenu;
 
     public CanvasView(EditorView parentView, TikzGraph graph) {
         this.parentView = parentView;
         this.graph = graph;
         this.controller = new CanvasController(this, graph);
         this.isFocused = isFocusOwner();
+        this.popupMenu = new PopupMenuView(controller);
 
         this.render();
-
         this.addListeners();
         this.enableDrag();
+
         this.setVisible(true);
     }
 
@@ -43,11 +45,18 @@ public class CanvasView extends JPanel {
     }
 
     private void addListeners() {
-        this.addMouseListener(new MouseInputAdapter() {
+        this.addMouseListener(new MouseAdapter() {
+
             @Override
             public void mousePressed(MouseEvent e) {
-
                 if (SwingUtilities.isRightMouseButton(e)) {
+                    requestFocusInWindow();
+                    CanvasView view = (CanvasView) e.getSource();
+                    TikzComponent component = view.getSelectedComponent();
+                    if (view.getSelectedComponent() != null) {
+                        popupMenu.show(view, e.getX(), e.getY());
+                        popupMenu.setComponent(component);
+                    }
                 } else {
                     CanvasView view = (CanvasView) e.getSource();
                     TransferHandler handler = view.getTransferHandler();
@@ -55,7 +64,9 @@ public class CanvasView extends JPanel {
                     controller.mousePressed(e, parentView.getSelectedTool());
                 }
             }
+
         });
+
 
         this.addFocusListener(new FocusListener() {
             @Override
@@ -123,4 +134,5 @@ public class CanvasView extends JPanel {
         this.requestFocus();
         controller.mouseDropped(component, location);
     }
+
 }

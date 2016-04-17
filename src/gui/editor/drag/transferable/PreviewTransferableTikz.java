@@ -8,7 +8,7 @@ import models.TikzComponent;
 public class PreviewTransferableTikz extends TransferableTikz {
 
     public PreviewTransferableTikz(TikzComponent comp){
-        super(comp.getClone());
+        super(comp);
     }
 
 }

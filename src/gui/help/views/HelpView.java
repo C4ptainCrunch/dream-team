@@ -57,7 +57,7 @@ public class HelpView extends JFrame {
      * @param text The help text
      */
     public void setText(String text) {
-        PegDownProcessor pegDown = new PegDownProcessor();git status
+        PegDownProcessor pegDown = new PegDownProcessor();
 
         htmlView.setText("<html>" + pegDown.markdownToHtml(text) + "</html>");
     }

@@ -46,7 +46,6 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
      *
      * @param node
      *            key to map to empty TIkzEdge vector.
-     * @return true if no key is replaced, else false.
      */
     public void add(TikzNode node) {
         if (!this.nodes.contains(node)) {

@@ -136,8 +136,8 @@ public class CanvasView extends JPanel {
     }
 
     /**
-     * Informs the controller where the component being dragged&dropped has been dropped on the canvas.
-     * @param component The selected component being dragged&dropped
+     * Informs the controller where the component being dragged and dropped has been dropped on the canvas
+     * @param component The selected component being dragged and dropped
      * @param location The location where the component has been dropped
      */
     public void dragEvent(TikzComponent component, Point location) {

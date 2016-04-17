@@ -67,7 +67,7 @@ public class TikzTransferHandler extends TransferHandler {
 
     /**
      * Action to do after the exportation (this defines what to do with the
-     * source of the d&d).
+     * source of the drad and drop)
      * @param c The component that was the source of the data
      * @param t The data that was transferred or possibly null if the action is NONE
      * @param action the actual action that was performed

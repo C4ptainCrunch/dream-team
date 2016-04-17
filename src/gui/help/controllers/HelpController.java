@@ -33,7 +33,7 @@ public class HelpController {
 
     /**
      * Displays the help text depending on the file tree selected
-     * with a given tree slection event
+     * with a given tree selection event
      * @param ev The tree selection event
      */
     public void treeClicked(TreeSelectionEvent ev) {

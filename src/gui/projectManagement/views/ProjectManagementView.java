@@ -47,7 +47,7 @@ public class ProjectManagementView extends JFrame {
 
     private void createButtonsPanel(Container pane) {
         JPanel buttons = new JPanel();
-        buttons.setLayout(new BoxLayout(buttons, BoxLayout.XAXIS));
+        buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
 
         JButton create = new JButton(GUI.ProjectManagement.CREATE_BUTTON);
         create.addActionListener(e -> controller.createProject());

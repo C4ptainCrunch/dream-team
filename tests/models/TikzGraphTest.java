@@ -239,4 +239,17 @@ public class TikzGraphTest {
 
 
     }
+
+    @Test
+    public void testObservableConstructor() throws Exception {
+        assertTrue(!graph.hasChanged());
+        assertEquals(0,graph.countObservers());
+    }
+
+    @Test
+    public void testNodeAddedAsObserved() throws Exception {
+        TikzCircle testNode = new TikzCircle();
+        graph.add(testNode);
+        assertEquals(1,testNode.countObservers());
+    }
 }

@@ -25,6 +25,10 @@ public class PreviewController implements Observer {
         return model.getComponentClone();
     }
 
+    public void resetModel(){
+        model.reset();
+    }
+
     @Override
     public void update(Observable o, Object obj) {
         view.setComponent(model.getComponentClone());

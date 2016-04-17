@@ -46,6 +46,10 @@ public class PreviewView extends JPanel {
         return this.controller.getComponent();
     }
 
+    public void reset(){
+        controller.resetModel();
+    }
+
     public void setComponent(TikzComponent component) {
         this.component = component;
     }

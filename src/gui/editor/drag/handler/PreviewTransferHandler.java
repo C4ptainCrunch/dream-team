@@ -14,4 +14,8 @@ public class PreviewTransferHandler extends TikzTransferHandler {
     protected Transferable createTransferable(JComponent c) {
         return new PreviewTransferableTikz(((PreviewView) c).getComponent());
     }
+
+    protected void exportDone(JComponent c, Transferable t, int action) {
+        ((PreviewView)c).reset();
+    }
 }

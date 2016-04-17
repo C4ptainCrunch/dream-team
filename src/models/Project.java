@@ -1,7 +1,5 @@
 package models;
 
-import constants.Models;
-import models.tikz.RecentProjects;
 import models.tikz.TikzGraph;
 import utils.SaverUtil;
 
@@ -11,7 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class Project {
+public class Project implements Comparable<Project>{
     private String path;
     private TikzGraph graph;
 
@@ -112,5 +110,10 @@ public class Project {
 
     public void setGraph(TikzGraph graph) {
         this.graph = graph;
+    }
+
+    @Override
+    public int compareTo(Project other) {
+        return this.getPath().compareTo(other.getPath());
     }
 }

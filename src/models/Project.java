@@ -80,7 +80,10 @@ public class Project {
         return Paths.get(this.path + "/" + constants.Models.Project.DIFF_FILE);
     }
 
-    public void rename(Path newPath) throws IOException {
+    public void rename(File newDir) throws IOException {
+        File original = new File(this.getPath());
+        original.renameTo(newDir);
+        this.path = newDir.toPath().toString();
         RecentProjects.addProject(this);
     }
 

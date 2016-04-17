@@ -5,6 +5,7 @@ import models.Project;
 import utils.Dirs;
 
 import java.io.*;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -32,7 +33,6 @@ public class RecentProjects {
                     // If there is an error while loading the project
                     // we can safely ignore it
                     // TODO : log the error (logger.debug)
-                    e.printStackTrace();
                 }
             }
             bufferedReader.close();

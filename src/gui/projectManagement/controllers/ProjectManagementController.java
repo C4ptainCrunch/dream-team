@@ -27,43 +27,6 @@ public class ProjectManagementController {
         java.awt.EventQueue.invokeLater(() -> new EditorView(project));
         view.dispose(); // Exit previous windows
     }
-//
-//    public String choosePath(){
-//        java.io.File f = createPanel(ProjectManagement.CREATE_PANEL, JFileChooser.DIRECTORIES_ONLY);
-//        if (f != null) {
-//
-//        String path = f.getAbsolutePath();
-//
-//            if (f.exists()) {
-//                JOptionPane.showMessageDialog(this.view, Warnings.FILE_WARNING,
-//                        String.format(Warnings.WARNING_TYPE, "File"), JOptionPane.WARNING_MESSAGE);
-//            } else {
-//                try {
-//                    f.mkdir();
-//                    addProjectPathToSavedPathFile(filePath);
-//                    java.awt.EventQueue.invokeLater(() -> new EditorView(filePath, false));
-//                    view.dispose(); // Exit previous windows
-//                } catch (SecurityException e) {
-//                    JOptionPane.showMessageDialog(this.view, Warnings.PERMISSION_WARNING,
-//                            String.format(Warnings.WARNING_TYPE, "Security"), JOptionPane.WARNING_MESSAGE);
-//                }
-//            }
-//        }
-//    }
-//
-//    public void importProject() {
-//            java.io.File f = createPanel(ProjectManagement.IMPORT_PANEL, JFileChooser.FILES_ONLY);
-//            if (f != null) {
-//                String filePath = f.getAbsolutePath();
-//                int endIndex = filePath.lastIndexOf("/");
-//                addProjectPathToSavedPathFile(filePath.substring(0, endIndex));
-//                java.awt.EventQueue.invokeLater(() -> new EditorView(filePath, true));
-//                view.dispose(); // Exit previous windows
-//            }
-//    }
-//
-//
-
 
     public void dropdownSelected(ActionEvent event) {
         JComboBox comboBox = (JComboBox) event.getSource();
@@ -85,6 +48,37 @@ public class ProjectManagementController {
             try {
                 Project.initialize(path);
                 editProject(path.getPath().toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+                // TODO : warn user
+            }
+        }
+    }
+
+    public void openProject() {
+        Project project = view.getSelectedProject();
+        if(project != null) {
+            try {
+                editProject(project.getPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+                // TODO : warn user
+            }
+        }
+    }
+
+    public void renameProject() {
+        Project project = view.getSelectedProject();
+        if(project == null) {
+            // TODO : log this
+            return ;
+        }
+
+        FileChooseView choose = new FileChooseView("Rename project", JFileChooser.DIRECTORIES_ONLY);
+        File path = choose.ask();
+        if(path != null) {
+            try {
+                project.rename(path);
             } catch (IOException e) {
                 e.printStackTrace();
                 // TODO : warn user

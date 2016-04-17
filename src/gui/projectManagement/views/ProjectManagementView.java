@@ -47,10 +47,10 @@ public class ProjectManagementView extends JFrame {
         create.addActionListener(e -> controller.createProject());
 
         JButton open = new JButton(GUI.ProjectManagement.OPEN_BUTTON);
-//        open.addActionListener(e -> controller.openProject());
+        open.addActionListener(e -> controller.openProject());
 
         JButton rename = new JButton(GUI.ProjectManagement.RENAME_BUTTON);
-//        rename.addActionListener(e -> controller.renameProject());
+        rename.addActionListener(e -> controller.renameProject());
 
         buttons.add(create);
         buttons.add(open);
@@ -90,6 +90,10 @@ public class ProjectManagementView extends JFrame {
 
         infoPanel.add(this.infoPanel);
         pane.add(this.infoPanel, BorderLayout.EAST);
+    }
+
+    public Project getSelectedProject() {
+        return (Project) this.projectChooser.getSelectedItem();
     }
 
     public void setInfoText(String infoText) {

@@ -7,15 +7,29 @@ import java.util.*;
 
 import parser.NodeParser;
 
+/**
+ * Implementation of the Graph Model (from the MVC architectural pattern)
+ * This class represents all the elements(nodes + edges) composing the graph
+ * being used in the current project
+ */
 public class TikzGraph extends Observable implements Iterable<TikzNode> {
     private List<TikzEdge> edges;
     private List<TikzNode> nodes;
 
+    /**
+     * Constructs an empty graph
+     */
     public TikzGraph() {
         nodes = new Vector<>();
         edges = new Vector<>();
     }
 
+    /**
+     * Constructs a graph from a file from a given file path
+     * The file contains the tikz code that represents the graph,
+     * which can be parsed and transformed into nodes and edges objects
+     * @param filePath The file path
+     */
     public TikzGraph(String filePath) { // TODO
         nodes = new Vector<>();
         edges = new Vector<>();
@@ -27,14 +41,27 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         }
     }
 
+    /**
+     * Getter for the number of nodes composing the graph
+     * @return The number of nodes
+     */
     public int size() {
         return nodes.size();
     }
 
+    /**
+     * Getter for an iterator object of the nodes composing the graph
+     * @return The iterator of the nodes
+     */
     public Iterator<TikzNode> iterator() {
         return nodes.iterator();
     }
 
+    /**
+     * Replaces this graph with a given graph by
+     * copying its attributes
+     * @param other The tikz graph to be copied from
+     */
     public void replace(TikzGraph other) {
         this.edges = other.edges;
         this.nodes = other.nodes;
@@ -43,9 +70,10 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
     }
 
     /**
+     * Adds a node to this graph
+     * and notifies its observers
+     * @param node The node to be added
      *
-     * @param node
-     *            key to map to empty TIkzEdge vector.
      */
     public void add(TikzNode node) {
         if (!this.nodes.contains(node)) {
@@ -56,8 +84,9 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
     }
 
     /**
-     *
-     * @param edge
+     *Adds an edge to this graph
+     * and notifies its observers
+     * @param edge The edge to be added
      */
     public void add(TikzEdge edge) {
         this.add(edge.getFirstNode());
@@ -69,6 +98,11 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         notifyObservers();
     }
 
+    /**
+     * Adds a graph to this graph
+     * and notifies its observers
+     * @param graph The graph to be added
+     */
     public void add(TikzGraph graph){
         this.addAllNodes(graph.getNodes());
         this.addAllEdges(graph.getEdges());
@@ -77,8 +111,9 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
 
 
     /**
-     * @param edges
-     *            Vector of TikzEdge to append
+     * Adds a collection of edges to this graph
+     * and notifies its observers
+     * @param edges The edges to be added
      */
     public void addAllEdges(Collection<TikzEdge> edges) {
         for (TikzEdge edge : edges) {
@@ -87,6 +122,11 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         notifyObservers();
     }
 
+    /**
+     * Adds a collection of nodes to this graph
+     * and notifies its observers
+     * @param nodes The nodes to be added
+     */
     public void addAllNodes(Collection<TikzNode> nodes) {
         for (TikzNode node : nodes) {
             this.add(node);
@@ -94,14 +134,27 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         notifyObservers();
     }
 
+    /**
+     * Getter for the nodes composing the graph
+     * @return All the nodes composing the graph
+     */
     public List<TikzNode> getNodes() {
         return Collections.unmodifiableList(this.nodes);
     }
 
+    /**
+     * Getter for the edges composing the graph
+     * @return All the edges composing the graph
+     */
     public List<TikzEdge> getEdges() {
         return Collections.unmodifiableList(this.edges);
     }
 
+    /**
+     * Getter for the edges linked to a given node composing the graph
+     * @param node The node
+     * @return the edges
+     */
     public List<TikzEdge> get(TikzNode node) {
         List<TikzEdge> edges = new ArrayList<>();
         for (TikzEdge edge : this.edges) {
@@ -112,6 +165,10 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         return edges;
     }
 
+    /**
+     * Transforms this graph into tikz code string
+     * @return The tikz code string
+     */
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
@@ -127,10 +184,20 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         return res.toString();
     }
 
+    /**
+     * Removes the given edge from this graph
+     * @param edge The edge to be deleted
+     */
     public void remove(TikzEdge edge) {
         this.edges.remove(edge);
     }
 
+    /**
+     * Removes the given node from this graph.
+     * If edges are linked to the node, they are removed too
+     * @param node The node to be removed
+     * @return The edges linked to the node to be removed
+     */
     public List<TikzEdge> remove(TikzNode node) {
         ArrayList<TikzEdge> edges = new ArrayList<>();
         for (int i = 0; i < this.edges.size(); i++) {

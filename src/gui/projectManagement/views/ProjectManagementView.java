@@ -25,15 +25,23 @@ public class ProjectManagementView extends JFrame {
 
     public final void render() {
         this.setTitle("TikzCreator : choose a project");
-        this.setLayout(new BorderLayout());
 
-        createButtonsPanel();
-        createChooserPanel();
-        createInfoPanel();
+        this.setSize(new Dimension(1000, 200));
+        this.setLocationRelativeTo(null);
+
+        Container pane = getContentPane();
+        pane.setLayout(new BorderLayout());
+
+        createButtonsPanel(pane);
+        createChooserPanel(pane);
+        createInfoPanel(pane);
+
+        this.setVisible(true);
     }
 
-    private void createButtonsPanel() {
+    private void createButtonsPanel(Container pane) {
         JPanel buttons = new JPanel();
+        buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
 
         JButton create = new JButton(GUI.ProjectManagement.CREATE_BUTTON);
         create.addActionListener(e -> controller.createProject());
@@ -48,16 +56,14 @@ public class ProjectManagementView extends JFrame {
         buttons.add(open);
         buttons.add(rename);
 
-        buttons.setOpaque(true);
-        this.add(buttons, BorderLayout.NORTH);
-        this.pack();
-        this.setVisible(true);
+//        buttons.setOpaque(true);
+        pane.add(buttons, BorderLayout.WEST);
     }
 
-    private void createChooserPanel() {
+    private void createChooserPanel(Container pane) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        this.add(panel, BorderLayout.CENTER);
+        pane.add(panel);
 
         Vector<Project> recentProjects = null;
         try {
@@ -73,20 +79,17 @@ public class ProjectManagementView extends JFrame {
         this.projectChooser.addActionListener(e -> controller.dropdownSelected(e));
 
         panel.add(new JLabel(GUI.ProjectManagement.DROPDOWN_HEADER));
-        panel.add(projectChooser);
+        panel.add(projectChooser, BorderLayout.CENTER);
 
-        this.pack();
-        this.setVisible(true);
     }
 
-    private void createInfoPanel() {
+    private void createInfoPanel(Container pane) {
         JPanel infoPanel = new JPanel();
         this.infoPanel = new JTextPane();
+        this.setInfoText("                                                        ");
 
         infoPanel.add(this.infoPanel);
-        this.add(this.infoPanel, BorderLayout.SOUTH);
-        this.pack();
-        this.setVisible(true);
+        pane.add(this.infoPanel, BorderLayout.EAST);
     }
 
     public void setInfoText(String infoText) {

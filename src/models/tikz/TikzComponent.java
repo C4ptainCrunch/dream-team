@@ -1,7 +1,6 @@
 package models.tikz;
 
 import java.awt.*;
-import java.rmi.server.UID;
 import java.util.Observable;
 import java.util.UUID;
 

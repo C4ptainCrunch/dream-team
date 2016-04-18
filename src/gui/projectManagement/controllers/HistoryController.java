@@ -8,11 +8,13 @@ import java.nio.file.Paths;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import constants.Errors;
 import gui.projectManagement.views.HistoryView;
 import models.Project;
 import utils.Log;
@@ -50,7 +52,7 @@ public class HistoryController {
                 appendString(line + "\n", currentColor);
             });
         } catch (IOException e) {
-            // TODO : warn the user with a modal
+            JOptionPane.showMessageDialog(view, Errors.FILL_VIEW_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
             logger.severe("Error while reading diff file: " + e.getMessage());
         }
     }

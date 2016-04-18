@@ -70,7 +70,7 @@ public class ProjectManagementController {
             try {
                 editProject(project.getPath());
             } catch (IOException e) {
-                // TODO : warn user with a modal
+                JOptionPane.showMessageDialog(view, Errors.OPEN_ERROR , Errors.ERROR, JOptionPane.ERROR_MESSAGE);
                 logger.severe("Failed to open the project: " + e.getMessage());
             }
         }
@@ -88,7 +88,7 @@ public class ProjectManagementController {
             try {
                 project.rename(path);
             } catch (IOException e) {
-                // TODO : warn user with a modal
+                JOptionPane.showMessageDialog(view, Errors.RENAME_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
                 logger.severe("Failed to rename the project: " + e.getMessage());
             }
         }

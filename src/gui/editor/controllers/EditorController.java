@@ -1,10 +1,12 @@
 package gui.editor.controllers;
 
+import constants.Errors;
 import models.Project;
 import gui.editor.views.EditorView;
 import models.tikz.TikzPolygon;
 import utils.Log;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
@@ -36,7 +38,7 @@ public class EditorController implements Observer{
         try {
             this.project.save();
         } catch (IOException e) {
-            // TODO : warn the user that the save failed with a modal
+            JOptionPane.showMessageDialog(view, Errors.SAVE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
             logger.severe("Project saved failed : " + e.getMessage());
         }
     }

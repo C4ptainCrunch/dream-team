@@ -20,8 +20,7 @@ public class NodeParser {
     private static final Parser<List<String>> maybeOptions = Parsers.or(options(),
             Parsers.constant(new ArrayList<String>()));
     private static final Parser<String> maybeLabel = Parsers.or(label(), Parsers.constant(""));
-    private static final String[] shapes = new String[] { "rectangle", "circle", "ellipse", "circle split",
-            "forbidden sign", "diamond", "cross out", "strike out", "regular polygon", "ann", "star" };
+
 
     private NodeParser() {
     }
@@ -50,7 +49,7 @@ public class NodeParser {
         return Parsers.or(argument.next(withEqual.optional()).source(), arrows);
     }
 
-    public static Parser<HashMap<String, String>> optionsParser () {
+    public static Parser<HashMap<String, String>> optionsParser() {
         final Parser<Void> sep = Scanners.isChar(',').next(MAYBEWHITESPACES);
         final Parser<List<String>> options = Parsers.between(Scanners.isChar('['), anOption().sepBy(sep), Scanners.isChar(']'));
         return options.map(strings -> {
@@ -98,8 +97,8 @@ public class NodeParser {
                 .sequence(Parsers.sequence(Scanners.string("\\draw"), Parsers.sequence(MAYBEWHITESPACES, maybeOptions)),
                         Parsers.sequence(Scanners.WHITESPACES,
                                 nodeFromDraw()),
-                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, nodeFromDraw())
-                        .many(), (defaultOptions, firstNode, restNode) -> {
+                        Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, nodeFromDraw())
+                                .many(), (defaultOptions, firstNode, restNode) -> {
                             TikzNode previous;
                             TikzNode current;
                             previous = createNode(defaultOptions, firstNode);
@@ -139,107 +138,11 @@ public class NodeParser {
                 Scanners.string("\\end{tikzpicture}\n"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(),
                 Scanners.string("\\end{document}"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many()).cast();
     }
-
-    private static String getNodeShape(List<String> list) {
-        /*
-         * Testing for shape by priority in a string like
-         * "\draw[circle] (-0.2,0) -- (4.2,0) node[rectangle] {$x$};", rectangle
-         * by default
-         */
-        return getNodeShape(list, new ArrayList<>());
-    }
-
-    private static String getNodeShape(List<String> list1, List<String> list2) {
-        /*
-         * Testing for shape by priority in a string like
-         * "\draw[circle] (-0.2,0) -- (4.2,0) node[rectangle] {$x$};", rectangle
-         * by default
-         */
-        for (String s : shapes) {
-            if (list2.contains(s)) {
-                return s;
-            }
-        }
-        for (String s : shapes) {
-            if (list1.contains(s)) {
-                return s;
-            }
-        }
-        return "void";
-    }
-
-    public static Parser<Void> edgesFromDraw(TikzGraph graph) {
-        return Parsers.sequence(
-                Parsers.sequence(Scanners.string("\\draw"),
-                        Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
-                Parsers.sequence(Scanners.WHITESPACES, coordinates()),
-                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, coordinates())
-                        .many(),
-                (defaultOptions, firstCoord, restCoord) -> {
-                    TikzVoid previous = new TikzVoid();
-                    TikzVoid current;
-                    TikzEdge edge;
-                    graph.add(previous);
-                    for (Point coord : restCoord) {
-                        current = new TikzVoid();
-                        graph.add(current);
-                        switch (isDirected(defaultOptions)) {
-                        case "directedRight":
-                            edge = new TikzDirectedEdge(previous, current);
-                            break;
-                        case "directedLeft":
-                            edge = new TikzDirectedEdge(current, previous);
-                            break;
-                        default:
-                            edge = new TikzUndirectedEdge(previous, current);
-                            break;
-                        }
-                        graph.add(current);
-                        graph.add(edge);
-                        previous = current;
-                    }
-                    return null;
-                });
-
-    }
-
-    private static TikzNode createNode(DestructuredNode node) {
-        return createNode(new ArrayList<>(), node);
-    }
-
-    private static TikzNode createNode(List<String> defaultOptions, DestructuredNode node) {
-        final String shape = getNodeShape(defaultOptions, node.getOptions());
-        TikzNode res;
-        final HashSet<String> rectangles = new HashSet<>(Arrays.asList("rectangle", "diamond"));
-        final HashSet<String> circles = new HashSet<>(
-                Arrays.asList("circle", "ellipse", "circle split", "forbidden sign"));
-        final HashSet<String> polygons = new HashSet<>(Arrays.asList("regular polygon", "star"));
-        if (rectangles.contains(shape)) {
-            res = new TikzRectangle();
-        } else if (circles.contains(shape)) {
-            res = new TikzCircle();
-        } else if (polygons.contains(shape)) {
-            res = new TikzPolygon();
-        } else {
-            res = new TikzVoid();
-        }
-        res.setPosition(node.getCoordinates());
-        res.setLabel(node.getLabel());
-        return res;
-    }
-
-    private static String isDirected(List<String> options) {
-        if (options.contains("->")) {
-            return "directRight";
-        } else if (options.contains("<-")) {
-            return "directedLeft";
-        } else {
-            return "undirected";
-        }
-    }
 }
 
-class DestructuredNode {
+
+
+/*class DestructuredNode {
     private final Point coordinates;
     private final List<String> options;
     private final String label;
@@ -267,4 +170,4 @@ class DestructuredNode {
         return "Coordinates: " + coordinates.toString() + ", Options: " + options.toString() + ", Label: "
                 + label;
     }
-}
+}*/

@@ -271,6 +271,7 @@ public class TikzGraphTest {
 
         TikzCircle testNode = new TikzCircle();
         anonymous.add(testNode);
+        assertFalse((boolean)anonymous.getClass().getMethod("getFlag").invoke(anonymous));
         testNode.move(2,2);
         assertTrue((boolean)anonymous.getClass().getMethod("getFlag").invoke(anonymous));
     }

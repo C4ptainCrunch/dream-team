@@ -6,19 +6,18 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
-import models.TikzGraph;
+import models.tikz.TikzGraph;
 
 import org.codehaus.jparsec.error.ParserException;
 
 import parser.NodeParser;
-import utils.SaverFactory;
+import utils.SaverUtil;
 import gui.editor.views.SourceView;
 
 public class SourceController implements Observer {
     private static final Logger logger = Logger.getLogger("gui.editor.controllers.source");
     private final SourceView view;
     private final TikzGraph graph;
-    private String originalText = "";
 
     public SourceController(SourceView view, TikzGraph graph) {
         this.view = view;
@@ -27,17 +26,9 @@ public class SourceController implements Observer {
     }
 
     public void update(Observable o, Object arg) {
-        System.out.println("update");
         if (!view.getIsFocused()) {
-            String tmp = originalText;
-            String newText = this.graph.toString();
-            view.setText(newText);
-            Thread t = new Thread(() -> {
-                System.out.println(originalText);
-                new SaverFactory().writeToFile(tmp, newText, view.getProjectPath());
-            });
-            t.start();
-            originalText = newText;
+            String tikz = this.graph.toString();
+            view.setText(tikz);
         }
     }
 

@@ -4,9 +4,9 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import models.TikzComponent;
+import models.tikz.TikzComponent;
 import gui.editor.toolbox.model.ToolModel;
-import models.TikzEdge;
+import models.tikz.TikzEdge;
 
 public class ToolView extends JPanel {
 

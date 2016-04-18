@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
 import gui.editor.drag.handler.PreviewTransferHandler;
-import models.TikzComponent;
+import models.tikz.TikzComponent;
 import gui.editor.toolbox.controllers.PreviewController;
 import gui.editor.toolbox.model.ToolModel;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;

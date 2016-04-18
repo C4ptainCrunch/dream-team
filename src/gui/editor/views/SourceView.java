@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import models.TikzGraph;
+import models.tikz.TikzGraph;
 import gui.editor.controllers.SourceController;
 
 public class SourceView extends JPanel {
@@ -84,7 +84,4 @@ public class SourceView extends JPanel {
         textArea.setText(text);
     }
 
-    public String getProjectPath() {
-        return parentView.getProjectPath();
-    }
 }

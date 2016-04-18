@@ -11,10 +11,10 @@ import javax.swing.event.MouseInputAdapter;
 
 import gui.editor.drag.handler.CanvasTransferHandler;
 import gui.editor.drag.transfertdata.TransferTikz;
-import models.TikzComponent;
-import models.TikzEdge;
-import models.TikzGraph;
-import models.TikzNode;
+import models.tikz.TikzComponent;
+import models.tikz.TikzEdge;
+import models.tikz.TikzGraph;
+import models.tikz.TikzNode;
 import gui.editor.controllers.CanvasController;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import gui.editor.views.canvas.drawers.Drawer;

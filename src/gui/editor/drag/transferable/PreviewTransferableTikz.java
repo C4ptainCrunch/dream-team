@@ -1,7 +1,7 @@
 package gui.editor.drag.transferable;
 
 import constants.GUI;
-import models.TikzComponent;
+import models.tikz.TikzComponent;
 
 /**
  * Created by aurelien on 15/04/16.

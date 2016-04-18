@@ -1,14 +1,28 @@
 package gui.editor.controllers;
 
-import models.TikzGraph;
+import models.Project;
 import gui.editor.views.EditorView;
 
-public class EditorController {
-    private final EditorView view;
-    private final TikzGraph graph;
+import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 
-    public EditorController(EditorView view, TikzGraph graph) {
+public class EditorController implements Observer{
+    private final EditorView view;
+    private final Project project;
+
+    public EditorController(EditorView view, Project project) {
         this.view = view;
-        this.graph = graph;
+        this.project = project;
+        this.project.getGraph().addObserver(this);
+    }
+
+    public void update(Observable o, Object arg) {
+        try {
+            this.project.save();
+        } catch (IOException e) {
+            // TODO : warn the user that the save failed
+            e.printStackTrace();
+        }
     }
 }

@@ -9,9 +9,6 @@ import javax.swing.*;
 
 import gui.editor.drag.transferable.TransferableTikz;
 import gui.editor.drag.transfertdata.TransferTikz;
-import models.TikzComponent;
-import models.TikzVoid;
-import gui.editor.toolbox.views.PreviewView;
 import gui.editor.views.CanvasView;
 
 /**

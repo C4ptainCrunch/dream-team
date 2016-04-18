@@ -1,122 +1,100 @@
 package gui.projectManagement.views;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Vector;
 
 import javax.swing.*;
 
-import constants.GUI.ProjectManagementText;
+import constants.GUI;
 import gui.projectManagement.controllers.ProjectManagementController;
+import models.Project;
+import models.RecentProjects;
 
-public class ProjectManagementView extends JFrame implements ActionListener {
-    private final ProjectManagementController controller = new ProjectManagementController(this);
-    private JComboBox<String> listSavedProjects;
-    private JTextPane textInfo;
+public class ProjectManagementView extends JFrame {
+    private ProjectManagementController controller = new ProjectManagementController(this);
+    private JComboBox<Project> projectChooser;
+    private JTextPane infoPanel;
 
     public ProjectManagementView() {
-
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.render();
     }
 
     public final void render() {
-        this.setTitle("Project");
+        this.setTitle("TikzCreator : choose a project");
+        this.setPreferredSize(new Dimension(900, 200));
+        this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
 
-        initButtonsPanel();
-        initSavedProjectsPanel();
-        initInfoPanel();
-    }
+        createButtonsPanel();
+        createChooserPanel();
+        createInfoPanel();
 
-    public String getSelectedPath() {
-        return this.listSavedProjects.getSelectedItem().toString();
-    }
-
-    public int getSelectedPathIndex() {
-        return this.listSavedProjects.getSelectedIndex();
-    }
-
-    private String[] importSavedPaths() {
-        return controller.getStringListSavedPaths();
-    }
-
-    private void initSavedProjectsPanel() {
-        String[] data = importSavedPaths();
-
-        this.listSavedProjects = new JComboBox<>();
-        this.listSavedProjects.setModel(new DefaultComboBoxModel(data));
-
-        this.listSavedProjects.addActionListener(e -> controller.dropdownSelected(e));
-
-        this.add(listSavedProjects, BorderLayout.CENTER);
         this.pack();
         this.setVisible(true);
     }
 
-    public void updateComboBox(String newDir) {
-        int index = getSelectedPathIndex();
-        this.listSavedProjects.removeItem(this.listSavedProjects.getSelectedItem());
-        this.listSavedProjects.insertItemAt(newDir, index);
-        this.listSavedProjects.setSelectedIndex(index);
-        this.revalidate();
-    }
-
-    private void initButtonsPanel() {
+    private void createButtonsPanel() {
         JPanel buttons = new JPanel();
-        JButton create = new JButton("Create Project");
-        create.setActionCommand("create");
+        buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
 
-        JButton importFrom = new JButton("Import");
-        importFrom.setActionCommand("import");
+        JButton create = new JButton(GUI.ProjectManagement.CREATE_BUTTON);
+        create.addActionListener(e -> controller.createProject());
 
-        JButton rename = new JButton("Rename");
-        rename.setActionCommand("rename");
+        JButton open = new JButton(GUI.ProjectManagement.OPEN_BUTTON);
+        open.addActionListener(e -> controller.openProject());
 
-        create.addActionListener(this);
-        importFrom.addActionListener(this);
-        rename.addActionListener(this);
+        JButton rename = new JButton(GUI.ProjectManagement.RENAME_BUTTON);
+        rename.addActionListener(e -> controller.renameProject());
 
         buttons.add(create);
-        buttons.add(importFrom);
+        buttons.add(open);
         buttons.add(rename);
 
-        buttons.setOpaque(true);
         this.add(buttons, BorderLayout.NORTH);
-        this.pack();
-        this.setVisible(true);
     }
 
-    private void initInfoPanel() {
-        JPanel infoPanel = new JPanel();
-        this.textInfo = new JTextPane();
-        this.textInfo.setText(String.format(ProjectManagementText.BLANK_INFO_PANEL, "", "Local", ""));
+    private void createChooserPanel() {
+        JPanel chooserPanel = new JPanel();
+        chooserPanel.setLayout(new BorderLayout());
 
-        infoPanel.add(this.textInfo);
-        this.add(this.textInfo, BorderLayout.EAST);
-        this.pack();
-        this.setVisible(true);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand()) {
-        case "create":
-            controller.createProject();
-            break;
-        case "import":
-            controller.importProject();
-            break;
-        case "rename":
-            controller.renameProject();
-            break;
-        default:
-            break;
+        Vector<Project> recentProjects = null;
+        try {
+            recentProjects = new Vector<>(RecentProjects.getRecentProjects());
+            Collections.reverse(recentProjects);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
+        this.projectChooser = new JComboBox<>();
+        this.projectChooser.setModel(new DefaultComboBoxModel(recentProjects));
+
+        this.projectChooser.addActionListener(e -> controller.dropdownSelected(e));
+
+        chooserPanel.add(new JLabel(GUI.ProjectManagement.DROPDOWN_HEADER), BorderLayout.NORTH);
+        chooserPanel.add(this.projectChooser, BorderLayout.CENTER);
+
+        this.add(chooserPanel, BorderLayout.CENTER);
+
+    }
+
+    private void createInfoPanel() {
+        JPanel infoPanel = new JPanel();
+        this.infoPanel = new JTextPane();
+        this.setInfoText("                                                        ");
+
+        infoPanel.add(this.infoPanel);
+        this.add(this.infoPanel, BorderLayout.EAST);
+    }
+
+    public Project getSelectedProject() {
+        return (Project) this.projectChooser.getSelectedItem();
     }
 
     public void setInfoText(String infoText) {
-        this.textInfo.setText(infoText);
+        this.infoPanel.setText(infoText);
     }
 }

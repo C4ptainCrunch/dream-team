@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
-import models.TikzComponent;
+import models.tikz.TikzComponent;
 
 public class ToolBoxView extends JPanel {
 

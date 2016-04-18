@@ -1,7 +1,7 @@
 package gui.editor.views;
 
 import gui.editor.controllers.CanvasController;
-import models.TikzComponent;
+import models.tikz.TikzComponent;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

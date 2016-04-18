@@ -1,4 +1,4 @@
-package models;
+package models.tikz;
 
 public class TikzVoid extends TikzNode {
     public TikzVoid() {

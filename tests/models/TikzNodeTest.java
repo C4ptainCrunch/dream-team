@@ -1,5 +1,7 @@
 package models;
 
+import models.tikz.TikzCircle;
+import models.tikz.TikzNode;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

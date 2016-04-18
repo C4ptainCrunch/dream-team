@@ -59,7 +59,7 @@ public class ProjectManagementController {
         Project project = view.getSelectedProject();
         if(project != null) {
             try {
-                editProject(project.getPath());
+                editProject(project.getPath().toString());
             } catch (IOException e) {
                 e.printStackTrace();
                 // TODO : warn user

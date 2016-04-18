@@ -3,6 +3,7 @@ package utils;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,12 +31,12 @@ public class SaverUtil {
         return diffDecoder(s);
     }
 
-    public static void writeDiffToFile(String original, String revised, String path) throws IOException {
+    public static void writeDiffToFile(String original, String revised, Path path) throws IOException {
         final Date d = new Date();
         String currDate = dateFormat.format(d);
         String filename = Models.Project.DIFF_FILE;
 
-        FileWriter f = new FileWriter(path + "/" + filename, true);
+        FileWriter f = new FileWriter(path.resolve(filename).toFile(), true);
         BufferedWriter bufferedWriter = new BufferedWriter(f);
         bufferedWriter.append(currDate);
         bufferedWriter.newLine();

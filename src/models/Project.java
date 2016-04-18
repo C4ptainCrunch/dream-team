@@ -10,11 +10,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Project implements Comparable<Project>{
-    private String path;
+    private Path path;
     private TikzGraph graph;
 
     public Project(String path, TikzGraph graph) {
-        this.path = path;
+        this.path = Paths.get(path);
         this.graph = graph;
     }
 
@@ -43,16 +43,16 @@ public class Project implements Comparable<Project>{
         return graph;
     }
 
-    public String getPath() {
+    public Path getPath() {
         return path;
     }
 
     public Path getRevisionPath() {
-        return Paths.get(this.getPath(), constants.Models.Project.DIFF_FILE);
+        return this.getPath().resolve(constants.Models.Project.DIFF_FILE);
     }
 
     public String getName() {
-        return this.path;
+        return this.path.getFileName().toString();
     }
 
     public void save() throws IOException {
@@ -71,7 +71,7 @@ public class Project implements Comparable<Project>{
     }
 
     public Path getTikzPath() {
-        return Paths.get(this.path, constants.Models.Project.SAVE_FILE); // TODO : be windows compliant
+        return this.path.resolve(constants.Models.Project.SAVE_FILE);
     }
 
     public Path getDiffPath() {
@@ -79,9 +79,9 @@ public class Project implements Comparable<Project>{
     }
 
     public void rename(File newDir) throws IOException {
-        File original = new File(this.getPath());
+        File original = this.getPath().toFile();
         original.renameTo(newDir);
-        this.path = newDir.toPath().toString();
+        this.path = newDir.toPath();
         RecentProjects.addProject(this);
     }
 

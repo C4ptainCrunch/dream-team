@@ -1,7 +1,9 @@
 package models.tikz;
 
 import java.awt.*;
+import java.rmi.server.UID;
 import java.util.Observable;
+import java.util.UUID;
 
 import constants.Models;
 
@@ -12,6 +14,7 @@ public abstract class TikzComponent extends Observable {
     private Color color;
     private String label;
     private int stroke;
+    private final String reference;
 
     /**
      * Constructs a default tikz component
@@ -20,6 +23,7 @@ public abstract class TikzComponent extends Observable {
         this.color = Models.DEFAULT.COLOR;
         this.label = Models.DEFAULT.LABEL;
         this.stroke = Models.DEFAULT.STROKE;
+        this.reference = UUID.randomUUID().toString();
     }
 
     /**
@@ -30,6 +34,15 @@ public abstract class TikzComponent extends Observable {
         this.color = o_comp.getColor();
         this.label = o_comp.getLabel();
         this.stroke = o_comp.getStroke();
+        this.reference = UUID.randomUUID().toString();
+    }
+
+    protected TikzComponent(String reference){
+
+        this.color = Models.DEFAULT.COLOR;
+        this.label = Models.DEFAULT.LABEL;
+        this.stroke = Models.DEFAULT.STROKE;
+        this.reference = reference;
     }
 
     /**
@@ -87,4 +100,13 @@ public abstract class TikzComponent extends Observable {
      * @return A new object that is the copy of the current object
      */
     public abstract TikzComponent getClone();
+
+
+    /**
+     * Getter for the reference of this tikz component
+     * @return the reference
+     */
+    public String getReference() {
+        return this.reference;
+    }
 }

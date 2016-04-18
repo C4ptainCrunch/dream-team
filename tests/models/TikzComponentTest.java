@@ -1,7 +1,6 @@
 package models;
 
-import models.tikz.TikzComponent;
-import models.tikz.TikzRectangle;
+import models.tikz.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,5 +38,16 @@ public class TikzComponentTest {
         String label = "slt";
         tikzComponent.setLabel(label);
         assertEquals(tikzComponent.getLabel(), label);
+    }
+
+    @Test
+    public void testGetReference() throws Exception {
+        TikzRectangle rectangle = new TikzRectangle();
+        TikzCircle circle = new TikzCircle();
+        TikzEdge edge = new TikzDirectedEdge(rectangle, circle);
+
+        assertNotEquals(rectangle.getReference(), circle.getReference());
+        assertNotEquals(edge.getReference(), circle.getReference());
+        assertNotEquals(edge.getReference(), rectangle.getReference());
     }
 }

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
+import constants.Errors;
 import constants.GUI;
 import constants.GUI.ProjectManagement;
 import gui.editor.views.EditorView;
@@ -57,7 +58,7 @@ public class ProjectManagementController {
                 Project.initialize(path);
                 editProject(path.getPath().toString());
             } catch (IOException e) {
-                // TODO : warn user with a modal
+                JOptionPane.showMessageDialog(view, Errors.CREATE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
                 logger.severe("Failed to create new project: " + e.getMessage());
             }
         }
@@ -69,7 +70,7 @@ public class ProjectManagementController {
             try {
                 editProject(project.getPath());
             } catch (IOException e) {
-                // TODO : warn user with a modal
+                JOptionPane.showMessageDialog(view, Errors.OPEN_ERROR , Errors.ERROR, JOptionPane.ERROR_MESSAGE);
                 logger.severe("Failed to open the project: " + e.getMessage());
             }
         }
@@ -87,7 +88,7 @@ public class ProjectManagementController {
             try {
                 project.rename(path);
             } catch (IOException e) {
-                // TODO : warn user with a modal
+                JOptionPane.showMessageDialog(view, Errors.RENAME_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
                 logger.severe("Failed to rename the project: " + e.getMessage());
             }
         }

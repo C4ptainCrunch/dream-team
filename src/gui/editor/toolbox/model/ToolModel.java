@@ -27,8 +27,10 @@ public class ToolModel extends Observable {
      * @param label The label
      */
     public void setComponentLabel(String label) {
-        component.setLabel(label);
-        alertObservers();
+        if (component != null) {
+            component.setLabel(label);
+            alertObservers();
+        }
     }
 
     /**
@@ -37,8 +39,10 @@ public class ToolModel extends Observable {
      * @param color The color
      */
     public void setComponentColor(Color color) {
-        component.setColor(color);
-        alertObservers();
+        if (component != null) {
+            component.setColor(color);
+            alertObservers();
+        }
     }
 
     /**
@@ -73,8 +77,10 @@ public class ToolModel extends Observable {
      * @param width The width
      */
     public void setComponentStrokeWidth(int width) {
-        component.setStroke(width);
-        alertObservers();
+        if (component != null) {
+            component.setStroke(width);
+            alertObservers();
+        }
     }
 
 }

@@ -5,6 +5,7 @@ import gui.editor.views.MenuView;
 import gui.help.views.HelpView;
 import gui.projectManagement.views.HistoryView;
 import models.Project;
+import utils.Log;
 import utils.PdfCompilationError;
 import utils.PdfRenderer;
 
@@ -12,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Logger;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -22,6 +24,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class MenuController implements Observer {
     private final MenuView view;
     private final Project project;
+    private final static Logger logger = Log.getLogger(MenuController.class);
 
     /**
      * Constructs a new Controller for the Menu,
@@ -52,7 +55,8 @@ public class MenuController implements Observer {
         try {
             this.project.save();
         } catch (IOException e) {
-            e.printStackTrace();
+            // TODO : warn the user that the save failed with a modal
+            logger.severe("Project saved failed : " + e.getMessage());
         }
     }
 

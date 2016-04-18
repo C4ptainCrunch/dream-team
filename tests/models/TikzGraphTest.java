@@ -68,7 +68,7 @@ public class TikzGraphTest {
         }
 
         graph.addAllEdges(edges);
-        assertEquals(edges.toArray(), graph.get(firstNode).toArray());
+        assertArrayEquals(edges.toArray(), graph.get(firstNode).toArray());
 
     }
 

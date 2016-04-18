@@ -7,22 +7,32 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import gui.editor.drag.transferable.TransferableTikz;
 import gui.editor.drag.transfertdata.TransferTikz;
 import gui.editor.views.CanvasView;
 
 /**
- * Created by aurelien on 13/04/16.
+ * Class used to handle the transfer of a TransferableTikz to and from Swing components.
  */
 public abstract class TikzTransferHandler extends TransferHandler {
 
-    // Check if the data imported are valid (according to the TransferHandler
-    // doc).
+    /**
+     * This method is called repeatedly during a drag and drop operation to
+     * allow the developer to configure properties of, and to return the acceptability of transfers;
+     * with a return value of true indicating that the transfer represented by
+     * the given TransferSupport (which contains all of the details of the transfer)
+     * is acceptable at the current time, and a value of false rejecting the transfer.
+     * @param info The object containing the details of the drag and drop transfer to be checked
+     * @return true if the import can happen, false otherwise
+     */
     public boolean canImport(TransferHandler.TransferSupport info) {
         return info.isDataFlavorSupported(DataFlavor.stringFlavor);
     }
 
-    // Import the data after a drop is detected.
+    /**
+     * Imports the data after a drop is detected
+     * @param support The object which contains the details of the drag and drop transfer
+     * @return true if the import has been successful
+     */
     public boolean importData(TransferHandler.TransferSupport support) {
         if (!canImport(support)) {
             return false;
@@ -53,17 +63,32 @@ public abstract class TikzTransferHandler extends TransferHandler {
         return true;
     }
 
-    // Action to do after the exportation (this defines what to do with the
-    // source of the d&d).
+    /**
+     * Action to do after the exportation (this defines what to do with the
+     * source of the drad and drop)
+     * @param c The component that was the source of the data
+     * @param t The data that was transferred or possibly null if the action is NONE
+     * @param action the actual action that was performed
+     */
     protected void exportDone(JComponent c, Transferable t, int action) {
         // this was left intentionally blank
     }
 
-    // Create a Transferable Object from the source that will be retrieved by
-    // the destination.
+    /**
+     * Create a Transferable Object from the source that will be retrieved by
+     * the destination.
+     * @param c The component holding the data to be transferred, provided to enable sharing of TransferHandlers
+     * @return the representation of the data to be transferred, or null if the property associated with c is null
+     */
+
     protected abstract Transferable createTransferable(JComponent c);
 
-    // Defines the type of Action (MOVE, COPY, COPY_OR_MOVE, etc..).
+
+    /**
+     * Defines the type of Action (MOVE, COPY, COPY_OR_MOVE, etc..).
+     * @param c the component holding the data to be transferred; provided to enable sharing of TransferHandlers
+     * @return MOVE
+     */
     public int getSourceActions(JComponent c) {
         return MOVE;
     }

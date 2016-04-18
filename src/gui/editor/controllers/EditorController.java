@@ -2,15 +2,25 @@ package gui.editor.controllers;
 
 import models.Project;
 import gui.editor.views.EditorView;
-
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * Implementation of the Controller (from the MVC architectural pattern) for the Editor.
+ * The Editor is the main element of the GUI which contains the other elements of the GUI.
+ */
 public class EditorController implements Observer{
     private final EditorView view;
     private final Project project;
 
+
+    /**
+     * Constructs a new Controller for the Editor,
+     * with a given Project and EditorView
+     * @param view The EditorView which is associated with this controller
+     * @param project The Project
+     */
     public EditorController(EditorView view, Project project) {
         this.view = view;
         this.project = project;

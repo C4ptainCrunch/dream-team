@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 
 import gui.editor.drag.handler.CanvasTransferHandler;
 import gui.editor.drag.transfertdata.TransferTikz;
@@ -19,6 +18,10 @@ import gui.editor.controllers.CanvasController;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import gui.editor.views.canvas.drawers.Drawer;
 
+/**
+ * Implementation of the View (from the MVC architectural pattern) for the Canvas.
+ * The Canvas is the area of the GUI where the graph is painted.
+ */
 public class CanvasView extends JPanel {
     private final EditorView parentView;
     private final TikzGraph graph;
@@ -26,6 +29,12 @@ public class CanvasView extends JPanel {
     private boolean isFocused;
     private PopupMenuView popupMenu;
 
+    /**
+     * Constructs a new View for the Canvas,
+     * with a given TikzGraph and parentView
+     * @param parentView The view which contains this view (ie. EditorView)
+     * @param graph The TikzGraph
+     */
     public CanvasView(EditorView parentView, TikzGraph graph) {
         this.parentView = parentView;
         this.graph = graph;
@@ -40,11 +49,17 @@ public class CanvasView extends JPanel {
         this.setVisible(true);
     }
 
+    /**
+     * Renders the view by putting it on focus
+     */
     private void render() {
         setFocusable(true);
         // requestFocusInWindow();
     }
 
+    /**
+     * Adds listeners for mouse events to the view
+     */
     private void addListeners() {
         this.addMouseListener(new MouseAdapter() {
 
@@ -86,6 +101,10 @@ public class CanvasView extends JPanel {
         this.setTransferHandler(new CanvasTransferHandler());
     }
 
+    /**
+     * Paints the components composing the graph
+     * @param g Graphics to be drawn
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -119,10 +138,18 @@ public class CanvasView extends JPanel {
 
     }
 
+    /**
+     * Returns true if this view is focused
+     * @return true if this view is focused
+     */
     public boolean getIsFocused() {
         return isFocused;
     }
 
+    /**
+     * Sets whether the view is focused or not
+     * @param isFocused The boolean to set whether the view is focused or not
+     */
     public void setIsFocused(boolean isFocused) {
         this.isFocused = isFocused;
     }
@@ -130,6 +157,12 @@ public class CanvasView extends JPanel {
     public TikzComponent getSelectedComponent(){
         return controller.findComponentByPosition(getMousePosition());
     }
+
+    /**
+     * Informs the controller where the component being dragged and dropped has been dropped on the canvas
+     * @param transfer_data The selected component being dragged and dropped
+     * @param location The location where the component has been dropped
+     */
 
     public void dragEvent(TransferTikz transfer_data, Point location) {
         this.requestFocus();

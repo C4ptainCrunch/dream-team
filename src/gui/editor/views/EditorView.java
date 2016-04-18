@@ -59,7 +59,12 @@ public class EditorView extends JFrame {
     public final void render() {
         this.setTitle(GUI.Text.APP_NAME);
 
-        this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        DisplayMode gd = GraphicsEnvironment.
+                getLocalGraphicsEnvironment().
+                getDefaultScreenDevice().
+                getDisplayMode();
+
+        this.setSize(new Dimension(gd.getWidth(), gd.getHeight()));
         this.setLocationRelativeTo(null);
 
         Container pane = getContentPane();

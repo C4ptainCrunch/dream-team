@@ -75,6 +75,8 @@ public abstract class TikzEdge extends TikzComponent {
      */
     public void setFromPosition(Point point) {
         fromPosition = point;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -91,6 +93,8 @@ public abstract class TikzEdge extends TikzComponent {
      */
     public void setToPosition(Point point) {
         toPosition = point;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -108,6 +112,8 @@ public abstract class TikzEdge extends TikzComponent {
     public void setFirstNode(TikzNode node) {
         firstNode = node;
         fromPosition = node.getPosition();
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -125,6 +131,8 @@ public abstract class TikzEdge extends TikzComponent {
     public void setSecondNode(TikzNode node) {
         secondNode = node;
         toPosition = node.getPosition();
+        setChanged();
+        notifyObservers();
     }
 
     /**

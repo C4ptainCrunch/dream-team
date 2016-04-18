@@ -12,9 +12,9 @@ import parser.NodeParser;
  * This class represents all the elements(nodes + edges) composing the graph
  * being used in the current project
  */
-public class TikzGraph extends Observable implements Iterable<TikzNode> {
-    private List<TikzEdge> edges = new Vector<>();
-    private List<TikzNode> nodes = new Vector<>();
+public class TikzGraph extends Observable implements Iterable<TikzNode>, Observer {
+    private List<TikzEdge> edges;
+    private List<TikzNode> nodes;
 
     /**
      * Constructs an empty graph

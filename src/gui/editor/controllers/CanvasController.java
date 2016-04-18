@@ -7,10 +7,10 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
-import models.TikzComponent;
-import models.TikzEdge;
-import models.TikzGraph;
-import models.TikzNode;
+import models.tikz.TikzComponent;
+import models.tikz.TikzEdge;
+import models.tikz.TikzGraph;
+import models.tikz.TikzNode;
 import gui.editor.views.CanvasView;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 

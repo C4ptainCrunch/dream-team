@@ -9,7 +9,8 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
-import models.TikzGraph;
+import models.Project;
+import models.tikz.TikzGraph;
 import utils.PdfCompilationError;
 import utils.PdfRenderer;
 import gui.editor.views.EditorView;
@@ -19,13 +20,13 @@ import gui.projectManagement.views.HistoryView;
 
 public class MenuController implements Observer {
     private final MenuView view;
-    private final TikzGraph graph;
+    private final Project project;
 
-    public MenuController(MenuView view, TikzGraph graph) {
+    public MenuController(MenuView view, Project project) {
         this.view = view;
 
-        this.graph = graph;
-        this.graph.addObserver(this);
+        this.project = project;
+        this.project.getGraph().addObserver(this);
     }
 
     public void update(Observable o, Object arg) {
@@ -33,30 +34,24 @@ public class MenuController implements Observer {
     }
 
     public void save() {
-        String path = view.getProjectPath();
-        String tikzText = graph.toString();
-
         try {
-            FileWriter f = new FileWriter(path + "/tikz.save");
-            BufferedWriter bufferedWriter = new BufferedWriter(f);
-            bufferedWriter.write(tikzText);
-            bufferedWriter.close();
+            this.project.save();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void compileAndOpen() {
+        // TODO : should we move this to the model ?
         try {
-            PdfRenderer.compileAndOpen(new File(view.getProjectPath() + "/tikz.pdf"), graph);
+            PdfRenderer.compileAndOpen(new File(this.project.getPath() + "/tikz.pdf"), this.project.getGraph());
         } catch (PdfCompilationError e) {
             showMessageDialog(null, "Error during compilation");
         }
     }
 
     public void openHistory() {
-
-        HistoryView histView = new HistoryView(this.view.getProjectPath());
+        HistoryView histView = new HistoryView(this.project);
     }
 
     public void showHelp() {

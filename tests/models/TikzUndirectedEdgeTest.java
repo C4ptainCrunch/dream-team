@@ -1,5 +1,9 @@
 package models;
 
+import models.tikz.TikzCircle;
+import models.tikz.TikzNode;
+import models.tikz.TikzRectangle;
+import models.tikz.TikzUndirectedEdge;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

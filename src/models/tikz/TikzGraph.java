@@ -1,4 +1,4 @@
-package models;
+package models.tikz;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,23 +8,15 @@ import java.util.*;
 import parser.NodeParser;
 
 public class TikzGraph extends Observable implements Iterable<TikzNode> {
-    private List<TikzEdge> edges;
-    private List<TikzNode> nodes;
+    private List<TikzEdge> edges = new Vector<>();
+    private List<TikzNode> nodes = new Vector<>();
 
     public TikzGraph() {
-        nodes = new Vector<>();
-        edges = new Vector<>();
     }
 
-    public TikzGraph(String filePath) { // TODO
-        nodes = new Vector<>();
-        edges = new Vector<>();
-        try {
-            String stringGraph = new String(Files.readAllBytes(Paths.get(filePath)));
-            NodeParser.parseDocument(this).parse(stringGraph);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public TikzGraph(String filePath) throws IOException {
+        String stringGraph = new String(Files.readAllBytes(Paths.get(filePath)));
+        NodeParser.parseDocument(this).parse(stringGraph);
     }
 
     public int size() {

@@ -2,8 +2,8 @@ package gui.editor.views.canvas.drawers;
 
 import java.awt.geom.Ellipse2D;
 
-import models.TikzCircle;
-import models.TikzComponent;
+import models.tikz.TikzCircle;
+import models.tikz.TikzComponent;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public class CircleDrawer extends ComponentDrawer {

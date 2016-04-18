@@ -2,8 +2,8 @@ package gui.editor.views.canvas.drawers;
 
 import java.awt.*;
 
-import models.TikzComponent;
-import models.TikzTriangle;
+import models.tikz.TikzComponent;
+import models.tikz.TikzTriangle;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 /**

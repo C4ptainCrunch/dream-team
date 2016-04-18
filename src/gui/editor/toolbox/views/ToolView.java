@@ -4,7 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import models.TikzComponent;
+import models.tikz.TikzComponent;
 import gui.editor.toolbox.model.ToolModel;
 
 public class ToolView extends JPanel {

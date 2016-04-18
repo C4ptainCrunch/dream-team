@@ -1,4 +1,4 @@
-package models;
+package models.tikz;
 
 public class TikzText extends TikzNode {
     public TikzText() {

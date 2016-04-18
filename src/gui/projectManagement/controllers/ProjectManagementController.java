@@ -36,9 +36,8 @@ public class ProjectManagementController {
         JComboBox comboBox = (JComboBox) event.getSource();
         Project selectedProject = (Project) comboBox.getSelectedItem();
 
-        String text = null;
         try {
-            text = String.format(
+            String text = String.format(
                     ProjectManagement.BLANK_INFO_PANEL,
                     selectedProject.getName(),
                     "Local",

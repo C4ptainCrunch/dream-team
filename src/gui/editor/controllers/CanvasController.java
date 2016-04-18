@@ -95,13 +95,13 @@ public class CanvasController implements Observer {
         }
     }
 
-    public void mouseDropped(TransferTikz component, Point location) {
-        switch (component.getOption()){
+    public void mouseDropped(TransferTikz transfer_data, Point location) {
+        switch (transfer_data.getOption()){
             case MOVE:
-                moveComponent(component.getComponent(), location);
+                moveComponent(transfer_data.getComponent(), location);
                 break;
             case ADD:
-                addComponent(component.getComponent(), location);
+                addComponent(transfer_data.getComponent(), location);
                 break;
             default:
                 break;

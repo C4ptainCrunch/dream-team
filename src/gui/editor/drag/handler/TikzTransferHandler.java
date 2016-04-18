@@ -35,7 +35,7 @@ public abstract class TikzTransferHandler extends TransferHandler {
                                                         // through the d&d is an
                                                         // instance of
                                                         // Transferable.
-        TransferTikz component = new TransferTikz();
+        TransferTikz transfer_data = new TransferTikz();
         String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=" + TransferTikz.class.getName(); // Identifies
                                                                                                                 // the
                                                                                                                 // type
@@ -45,13 +45,13 @@ public abstract class TikzTransferHandler extends TransferHandler {
         try {
             DataFlavor import_data;
             import_data = new DataFlavor(mimeType);
-            component = (TransferTikz) data.getTransferData(import_data);
+            transfer_data = (TransferTikz) data.getTransferData(import_data);
         } catch (ClassNotFoundException | IOException | UnsupportedFlavorException e) {
             e.printStackTrace();
         }
 
         CanvasView view = (CanvasView) support.getComponent();
-        view.dragEvent(component, support.getDropLocation().getDropPoint());
+        view.dragEvent(transfer_data, support.getDropLocation().getDropPoint());
 
         return true;
     }

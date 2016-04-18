@@ -131,9 +131,9 @@ public class CanvasView extends JPanel {
         return controller.findComponentByPosition(getMousePosition());
     }
 
-    public void dragEvent(TransferTikz component, Point location) {
+    public void dragEvent(TransferTikz transfer_data, Point location) {
         this.requestFocus();
-        controller.mouseDropped(component, location);
+        controller.mouseDropped(transfer_data, location);
     }
 
     public void resetTool() {

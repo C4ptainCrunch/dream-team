@@ -15,7 +15,7 @@ import models.TikzComponent;
 public abstract class TransferableTikz implements Transferable {
 
     public static DataFlavor data; // Generic type for identifying data.
-    protected TransferTikz component; // The "real" object that will be passed
+    protected TransferTikz transfert_data; // The "real" object that will be passed
                                         // through d&d.
 
     protected TransferableTikz(){
@@ -30,7 +30,7 @@ public abstract class TransferableTikz implements Transferable {
         // passed.
         try {
             data = new DataFlavor(mimeType);
-            component = new TransferTikz(comp, opt);
+            transfert_data = new TransferTikz(comp, opt);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -54,10 +54,10 @@ public abstract class TransferableTikz implements Transferable {
         }
         if (df.equals(data)) { // this checked if the identifier of the source
                                 // is an particular object (cf. mimeType above).
-            return component;
+            return transfert_data;
         }
         if (df.equals(DataFlavor.stringFlavor)) {
-            return component.toString();
+            return transfert_data.toString();
         } else {
             throw new UnsupportedFlavorException(df);
         }

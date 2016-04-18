@@ -11,11 +11,12 @@ import models.TikzGraph;
 import org.codehaus.jparsec.error.ParserException;
 
 import parser.NodeParser;
+import utils.Log;
 import utils.SaverFactory;
 import gui.editor.views.SourceView;
 
 public class SourceController implements Observer {
-    private static final Logger logger = Logger.getLogger("gui.editor.controllers.source");
+    private static final Logger logger = Log.getLogger(SourceController.class);
     private final SourceView view;
     private final TikzGraph graph;
     private String originalText = "";
@@ -27,13 +28,12 @@ public class SourceController implements Observer {
     }
 
     public void update(Observable o, Object arg) {
-        System.out.println("update");
+        logger.finest("Got an update event");
         if (!view.getIsFocused()) {
             String tmp = originalText;
             String newText = this.graph.toString();
             view.setText(newText);
             Thread t = new Thread(() -> {
-                System.out.println(originalText);
                 new SaverFactory().writeToFile(tmp, newText, view.getProjectPath());
             });
             t.start();
@@ -41,37 +41,37 @@ public class SourceController implements Observer {
         }
     }
 
-    private void updateFromText(String raw_text) {
+    private void updateGraphFromText(String raw_text) {
         String text = raw_text.trim();
         if (text.length() != 0) {
             TikzGraph new_graph = new TikzGraph();
-            logger.fine("TikZ updated event. New TikZ : " + text);
             try {
                 NodeParser.parseDocument(new_graph).parse(text);
-                logger.fine("Valid graph from TikzSource : " + graph.getNodes().size() + " nodes");
+                logger.fine("Valid graph from TikzSource");
                 SwingUtilities.invokeLater(() -> {
                     graph.replace(new_graph);
-                    logger.fine("Runnable done: graph replace");
                 });
 
             } catch (ParserException e) {
-                logger.warning("Error during TikZ parsing : " + e.getMessage());
+                logger.info("Error during TikZ parsing : " + e.getMessage());
             }
         }
     }
 
     public void focusGained() {
+        logger.finest("Focus gained");
         view.setIsFocused(true);
     }
 
     public void focusLost() {
+        logger.finest("Focus lost");
         view.setIsFocused(false);
-        this.updateFromText(view.getText());
+        this.updateGraphFromText(view.getText());
     }
 
-    public void textIsUpdated() {
+    public void textWasUpdated() {
         if (view.getIsFocused()) {
-            this.updateFromText(view.getText());
+            this.updateGraphFromText(view.getText());
         }
     }
 }

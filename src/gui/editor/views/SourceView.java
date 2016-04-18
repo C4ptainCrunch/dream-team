@@ -53,17 +53,17 @@ public class SourceView extends JPanel {
         textArea.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent documentEvent) {
-                controller.textIsUpdated();
+                controller.textWasUpdated();
             }
 
             @Override
             public void removeUpdate(DocumentEvent documentEvent) {
-                controller.textIsUpdated();
+                controller.textWasUpdated();
             }
 
             @Override
             public void changedUpdate(DocumentEvent documentEvent) {
-                controller.textIsUpdated();
+                controller.textWasUpdated();
             }
         });
     }

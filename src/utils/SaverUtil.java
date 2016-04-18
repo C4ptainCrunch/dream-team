@@ -7,47 +7,44 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.logging.Logger;
 
+import constants.Models;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 
 import constants.Utils;
 
-public class SaverFactory {
+public class SaverUtil {
     private static DateFormat dateFormat = new SimpleDateFormat(Utils.DATE_FORMAT);
 
-    public SaverFactory() {
+    private SaverUtil() {
         // this was left intentionally blank
     }
 
-    public String makeDiff(String original, String revised) {
+    public static String makeDiff(String original, String revised) {
         DiffMatchPatch diff = new DiffMatchPatch();
         LinkedList<DiffMatchPatch.Patch> patches = diff.patchMake(original, revised);
         String s = diff.patchToText(patches);
-        System.out.println("diff brut: " + s);
-
-        System.out.println("diff propre: " + diffDecoder(s));
         return diffDecoder(s);
     }
 
-    public void writeToFile(String original, String revised, String path) {
+    public static void writeDiffToFile(String original, String revised, String path) throws IOException {
         final Date d = new Date();
         String currDate = dateFormat.format(d);
-        String filename = "diffs";
-        try {
-            FileWriter f = new FileWriter(path + "/" + filename, true);
-            BufferedWriter bufferedWriter = new BufferedWriter(f);
-            bufferedWriter.append(currDate);
-            bufferedWriter.newLine();
-            bufferedWriter.append(makeDiff(original, revised));
-            bufferedWriter.newLine();
+        String filename = Models.Project.DIFF_FILE;
 
-            bufferedWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileWriter f = new FileWriter(path + "/" + filename, true);
+        BufferedWriter bufferedWriter = new BufferedWriter(f);
+        bufferedWriter.append(currDate);
+        bufferedWriter.newLine();
+        bufferedWriter.append(makeDiff(original, revised));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
     }
 
-    private String diffDecoder(String s) {
+    private static String diffDecoder(String s) {
         StringBuilder res = new StringBuilder();
         int pos = 0;
         int sLen = s.length();

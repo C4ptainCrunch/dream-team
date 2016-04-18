@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import models.TikzGraph;
+import models.tikz.TikzGraph;
 
 import org.junit.Assert;
 import org.junit.Test;

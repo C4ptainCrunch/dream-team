@@ -6,72 +6,97 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
-import models.TikzGraph;
+import models.tikz.TikzGraph;
 
 import org.codehaus.jparsec.error.ParserException;
 
 import parser.NodeParser;
-import utils.SaverFactory;
+import utils.Log;
 import gui.editor.views.SourceView;
 
+/**
+ * Implementation of the Controller for the Source.
+ * The Source is the area of the GUI where the Tikz is edited.
+ */
 public class SourceController implements Observer {
-    private static final Logger logger = Logger.getLogger("gui.editor.controllers.source");
+    private static final Logger logger = Log.getLogger(SourceController.class);
     private final SourceView view;
     private final TikzGraph graph;
-    private String originalText = "";
 
+    /**
+     *Constructs a new Controller (from the MVC architecural pattern) for the Source,
+     * with a given TikzGraph and SourceView
+     *
+     * @param view  The SourceView which is associated with this controller
+     * @param graph The TikzGraph
+     */
     public SourceController(SourceView view, TikzGraph graph) {
         this.view = view;
         this.graph = graph;
         this.graph.addObserver(this);
     }
 
+    /**
+     * Called when Observables linked to this Observer call notify(),
+     * updates the Tikz text and saves the modifications
+     *
+     * @param o The Observable
+     * @param arg The arguments given by the Observable
+     */
     public void update(Observable o, Object arg) {
-        System.out.println("update");
+        logger.finest("Got an update event");
         if (!view.getIsFocused()) {
-            String tmp = originalText;
-            String newText = this.graph.toString();
-            view.setText(newText);
-            Thread t = new Thread(() -> {
-                System.out.println(originalText);
-                new SaverFactory().writeToFile(tmp, newText, view.getProjectPath());
-            });
-            t.start();
-            originalText = newText;
+            String tikz = this.graph.toString();
+            view.setText(tikz);
         }
     }
 
-    private void updateFromText(String raw_text) {
+    /**
+     * Updates the graph if modifications occured in the Tikz text
+     *
+     * @param raw_text The new Tikz text
+     */
+        private void updateGraphFromText(String raw_text) {
         String text = raw_text.trim();
         if (text.length() != 0) {
             TikzGraph new_graph = new TikzGraph();
-            logger.fine("TikZ updated event. New TikZ : " + text);
             try {
                 NodeParser.parseDocument(new_graph).parse(text);
-                logger.fine("Valid graph from TikzSource : " + graph.getNodes().size() + " nodes");
+                logger.fine("Valid graph from TikzSource");
                 SwingUtilities.invokeLater(() -> {
                     graph.replace(new_graph);
-                    logger.fine("Runnable done: graph replace");
                 });
 
             } catch (ParserException e) {
-                logger.warning("Error during TikZ parsing : " + e.getMessage());
+                logger.info("Error during TikZ parsing : " + e.getMessage());
             }
         }
     }
 
+    /**
+     * Sets the focus of the view at true meaning that the user has clicked in the text area
+     */
     public void focusGained() {
+        logger.finest("Focus gained");
         view.setIsFocused(true);
     }
 
+    /**
+     * Sets the focus of the view at false meaning that the user has clicked out of the text area
+     * and updates from text
+     */
     public void focusLost() {
+        logger.finest("Focus lost");
         view.setIsFocused(false);
-        this.updateFromText(view.getText());
+        this.updateGraphFromText(view.getText());
     }
 
-    public void textIsUpdated() {
+    /**
+     * Updates the graph from text if the view is focused
+     */
+    public void updateGraphIfFocused() {
         if (view.getIsFocused()) {
-            this.updateFromText(view.getText());
+            this.updateGraphFromText(view.getText());
         }
     }
 }

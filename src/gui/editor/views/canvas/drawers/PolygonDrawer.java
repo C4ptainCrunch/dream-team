@@ -2,8 +2,8 @@ package gui.editor.views.canvas.drawers;
 
 import java.awt.*;
 
-import models.TikzComponent;
-import models.TikzPolygon;
+import models.tikz.TikzComponent;
+import models.tikz.TikzPolygon;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public class PolygonDrawer extends ComponentDrawer {
@@ -16,7 +16,7 @@ public class PolygonDrawer extends ComponentDrawer {
         TikzPolygon polygon = (TikzPolygon) component;
         DrawableTikzComponent drawableComponent = super.toDrawable(polygon);
         drawableComponent.addShape(getAwtPolygon(polygon));
-        drawableComponent.setBackground(polygon.getBackground());
+        drawableComponent.setBackground(polygon.getBackgroundColor());
         return drawableComponent;
     }
 

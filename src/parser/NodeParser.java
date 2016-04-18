@@ -4,8 +4,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-import models.*;
-
+import models.tikz.*;
 import org.codehaus.jparsec.Parser;
 import org.codehaus.jparsec.Parsers;
 import org.codehaus.jparsec.Scanners;

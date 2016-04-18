@@ -1,6 +1,6 @@
 package gui.editor.views.canvas.drawers;
 
-import models.TikzComponent;
+import models.tikz.TikzComponent;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 /**

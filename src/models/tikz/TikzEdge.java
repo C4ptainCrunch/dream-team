@@ -51,6 +51,33 @@ public abstract class TikzEdge extends TikzComponent {
     }
 
     /**
+     * Constructs an edge with two given nodes and a given reference
+     * @param first The first node from which the edge is linked
+     * @param second The second node from which the edge is linked
+     * @param reference The reference of the TikzEdge
+     */
+    public TikzEdge(TikzNode first, TikzNode second, String reference) {
+        super(reference);
+        this.firstNode = first;
+        this.secondNode = second;
+        fromPosition = first.getPosition();
+        toPosition = second.getPosition();
+    }
+
+    /**
+     * Constructs an edge by copying an other edge with specified reference
+     * @param o_edge The edge to be copied from
+     * @param reference the reference of the edge
+     */
+    public TikzEdge(TikzEdge o_edge, String reference) {
+        super(o_edge, reference);
+        firstNode = o_edge.getFirstNode();
+        secondNode = o_edge.getSecondNode();
+        fromPosition = o_edge.getFromPosition();
+        toPosition = o_edge.getToPosition();
+    }
+
+    /**
      * Getter for the mid position of the edge between the two linked nodes
      * using the mid point formula
      * @return The mid point of the edge
@@ -75,6 +102,8 @@ public abstract class TikzEdge extends TikzComponent {
      */
     public void setFromPosition(Point point) {
         fromPosition = point;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -91,6 +120,8 @@ public abstract class TikzEdge extends TikzComponent {
      */
     public void setToPosition(Point point) {
         toPosition = point;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -108,6 +139,8 @@ public abstract class TikzEdge extends TikzComponent {
     public void setFirstNode(TikzNode node) {
         firstNode = node;
         fromPosition = node.getPosition();
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -125,6 +158,8 @@ public abstract class TikzEdge extends TikzComponent {
     public void setSecondNode(TikzNode node) {
         secondNode = node;
         toPosition = node.getPosition();
+        setChanged();
+        notifyObservers();
     }
 
     /**

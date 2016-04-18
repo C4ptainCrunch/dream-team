@@ -1,8 +1,6 @@
 package gui.projectManagement.views;
 
 import java.awt.*;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Vector;
 
@@ -61,13 +59,9 @@ public class ProjectManagementView extends JFrame {
         JPanel chooserPanel = new JPanel();
         chooserPanel.setLayout(new BorderLayout());
 
-        Vector<Project> recentProjects = null;
-        try {
-            recentProjects = new Vector<>(RecentProjects.getRecentProjects());
-            Collections.reverse(recentProjects);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Vector<Project> recentProjects = new Vector<>(RecentProjects.getRecentProjects());
+        Collections.reverse(recentProjects);
+
 
         this.projectChooser = new JComboBox<>();
         this.projectChooser.setModel(new DefaultComboBoxModel(recentProjects));

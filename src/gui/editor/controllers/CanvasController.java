@@ -7,6 +7,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
+import constants.GUI;
+import gui.editor.drag.transfertdata.TransferTikz;
 import models.TikzComponent;
 import models.TikzEdge;
 import models.TikzGraph;
@@ -36,7 +38,7 @@ public class CanvasController implements Observer {
     private void addNodeToModel(TikzComponent component, Point position) {
         TikzNode node = (TikzNode) component;
         node.setPosition(position);
-        graph.add(node.getClone());
+        graph.add(node);
         view.resetTool();
     }
 
@@ -64,6 +66,22 @@ public class CanvasController implements Observer {
 
     }
 
+    private void addComponent(TikzComponent comp, Point location){
+        if (comp instanceof TikzNode){
+            addNodeToModel(comp, location);     //TODO: Refactor this
+        }
+        else if (comp instanceof TikzEdge){
+            addEdgeToModel(comp, location);
+        }
+    }
+
+    private void moveComponent(TikzComponent comp, Point location){
+        if (comp instanceof TikzNode){      // TODO: Refactor this
+            ((TikzNode)comp).setPosition(location);
+            view.repaint();
+        }
+    }
+
     public void mousePressed(MouseEvent e, TikzComponent selectedTool) {
         if (view.getIsFocused()) {
             if (selectedTool instanceof TikzNode) { // TODO : Need to refactor
@@ -77,9 +95,16 @@ public class CanvasController implements Observer {
         }
     }
 
-    public void mouseDropped(TikzComponent component, Point location) {
-        if (component instanceof TikzNode) { // TODO : And this.
-            addNodeToModel(component, location);
+    public void mouseDropped(TransferTikz component, Point location) {
+        switch (component.getOption()){
+            case MOVE:
+                moveComponent(component.getComponent(), location);
+                break;
+            case ADD:
+                addComponent(component.getComponent(), location);
+                break;
+            default:
+                break;
         }
     }
 

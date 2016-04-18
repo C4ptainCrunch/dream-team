@@ -1,5 +1,6 @@
 package gui.editor.drag.handler;
 
+import constants.GUI;
 import gui.editor.drag.transferable.CanvasTransferableTikz;
 import gui.editor.views.CanvasView;
 
@@ -16,6 +17,6 @@ public class CanvasTransferHandler extends TikzTransferHandler {
 
     @Override
     protected Transferable createTransferable(JComponent c) {
-        return new CanvasTransferableTikz(((CanvasView) c).getSelectedComponent());
+        return new CanvasTransferableTikz(((CanvasView) c).getSelectedComponent(), GUI.Drag.DropOptions.MOVE);
     }
 }

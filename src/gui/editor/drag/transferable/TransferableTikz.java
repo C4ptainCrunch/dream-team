@@ -5,6 +5,8 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
+import constants.GUI;
+import gui.editor.drag.transfertdata.TransferTikz;
 import models.TikzComponent;
 
 /**
@@ -13,29 +15,29 @@ import models.TikzComponent;
 public abstract class TransferableTikz implements Transferable {
 
     public static DataFlavor data; // Generic type for identifying data.
-    protected TikzComponent component; // The "real" object that will be passed
+    protected TransferTikz component; // The "real" object that will be passed
                                         // through d&d.
 
     protected TransferableTikz(){
 
     }
 
-    protected void initializeDataAndComponent(TikzComponent comp){
-        String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=" + TikzComponent.class.getName(); // Identifier
+    protected void initializeDataAndComponent(TikzComponent comp, GUI.Drag.DropOptions opt){
+        String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=" + TransferTikz.class.getName(); // Identifier
         // for
         // the
         // data
         // passed.
         try {
             data = new DataFlavor(mimeType);
-            component = comp;
+            component = new TransferTikz(comp, opt);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public TransferableTikz(TikzComponent comp) {
-        initializeDataAndComponent(comp);
+    protected TransferableTikz(TikzComponent comp, GUI.Drag.DropOptions opt) {
+        initializeDataAndComponent(comp, opt);
     }
 
     public DataFlavor[] getTransferDataFlavors() {
@@ -60,5 +62,4 @@ public abstract class TransferableTikz implements Transferable {
             throw new UnsupportedFlavorException(df);
         }
     }
-
 }

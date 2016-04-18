@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 import gui.editor.drag.handler.CanvasTransferHandler;
+import gui.editor.drag.transfertdata.TransferTikz;
 import models.TikzComponent;
 import models.TikzEdge;
 import models.TikzGraph;
@@ -130,7 +131,7 @@ public class CanvasView extends JPanel {
         return controller.findComponentByPosition(getMousePosition());
     }
 
-    public void dragEvent(TikzComponent component, Point location) {
+    public void dragEvent(TransferTikz component, Point location) {
         this.requestFocus();
         controller.mouseDropped(component, location);
     }

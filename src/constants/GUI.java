@@ -31,4 +31,11 @@ public final class GUI {
         public static final double ARROW_LENGTH = 30;
         public static final double ARROW_ANGLE = Math.PI / 6;
     }
+
+    public static final class Drag {
+        public enum DropOptions {
+            MOVE, ADD;
+        }
+
+    }
 }

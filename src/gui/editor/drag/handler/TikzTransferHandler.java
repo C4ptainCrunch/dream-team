@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.swing.*;
 
 import gui.editor.drag.transferable.TransferableTikz;
+import gui.editor.drag.transfertdata.TransferTikz;
 import models.TikzComponent;
 import models.TikzVoid;
 import gui.editor.toolbox.views.PreviewView;
@@ -34,8 +35,8 @@ public abstract class TikzTransferHandler extends TransferHandler {
                                                         // through the d&d is an
                                                         // instance of
                                                         // Transferable.
-        TikzComponent component = new TikzVoid();
-        String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=" + TikzComponent.class.getName(); // Identifies
+        TransferTikz component = new TransferTikz();
+        String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=" + TransferTikz.class.getName(); // Identifies
                                                                                                                 // the
                                                                                                                 // type
                                                                                                                 // of
@@ -44,7 +45,7 @@ public abstract class TikzTransferHandler extends TransferHandler {
         try {
             DataFlavor import_data;
             import_data = new DataFlavor(mimeType);
-            component = (TikzComponent) data.getTransferData(import_data);
+            component = (TransferTikz) data.getTransferData(import_data);
         } catch (ClassNotFoundException | IOException | UnsupportedFlavorException e) {
             e.printStackTrace();
         }

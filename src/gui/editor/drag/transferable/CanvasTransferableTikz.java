@@ -1,5 +1,6 @@
 package gui.editor.drag.transferable;
 
+import constants.GUI;
 import models.TikzComponent;
 
 /**
@@ -7,7 +8,7 @@ import models.TikzComponent;
  */
 public class CanvasTransferableTikz extends TransferableTikz {
 
-    public CanvasTransferableTikz(TikzComponent comp) {
-        super(comp);
+    public CanvasTransferableTikz(TikzComponent comp, GUI.Drag.DropOptions opt) {
+        super(comp, opt);
     }
 }

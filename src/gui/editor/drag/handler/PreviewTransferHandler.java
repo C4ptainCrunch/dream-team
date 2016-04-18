@@ -1,5 +1,6 @@
 package gui.editor.drag.handler;
 
+import constants.GUI;
 import gui.editor.drag.transferable.PreviewTransferableTikz;
 import gui.editor.toolbox.views.PreviewView;
 
@@ -12,7 +13,7 @@ import java.awt.datatransfer.Transferable;
 public class PreviewTransferHandler extends TikzTransferHandler {
 
     protected Transferable createTransferable(JComponent c) {
-        return new PreviewTransferableTikz(((PreviewView) c).getComponent());
+        return new PreviewTransferableTikz(((PreviewView) c).getComponent(), GUI.Drag.DropOptions.ADD);
     }
 
     protected void exportDone(JComponent c, Transferable t, int action) {

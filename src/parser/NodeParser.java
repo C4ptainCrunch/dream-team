@@ -1,9 +1,7 @@
 package parser;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
 
 import models.*;
@@ -12,6 +10,8 @@ import org.codehaus.jparsec.Parser;
 import org.codehaus.jparsec.Parsers;
 import org.codehaus.jparsec.Scanners;
 import org.codehaus.jparsec.Terminals;
+import org.codehaus.jparsec.functors.*;
+import org.codehaus.jparsec.functors.Map;
 import org.codehaus.jparsec.pattern.CharPredicates;
 import org.codehaus.jparsec.pattern.Patterns;
 
@@ -45,10 +45,23 @@ public class NodeParser {
     public static Parser<String> anOption() {
         final Parser<String> argument = Scanners.IDENTIFIER.next(MAYBEWHITESPACES).many1().source();
         final Parser<Void> decimalWithUnit = Scanners.DECIMAL.next(Scanners.IDENTIFIER.optional()).cast();
-        final Parser<String> withEqual = Scanners.isChar('=').next(Parsers.or(Scanners.IDENTIFIER, decimalWithUnit))
+        final Parser<String> withEqual = Scanners.isChar('=').next(MAYBEWHITESPACES).next(Parsers.or(Scanners.IDENTIFIER, decimalWithUnit))
                 .source();
         final Parser<String> arrows = Scanners.among("><-").many1().source();
         return Parsers.or(argument.next(withEqual.optional()).source(), arrows);
+    }
+
+    public static Parser<HashMap<String, String>> optionsParser () {
+        final Parser<Void> sep = Scanners.isChar(',').next(MAYBEWHITESPACES);
+        final Parser<List<String>> options = Parsers.between(Scanners.isChar('['), anOption().sepBy(sep), Scanners.isChar(']'));
+        return options.map(strings -> {
+            HashMap<String, String> res = new HashMap<>();
+            strings.stream().forEach(s -> {
+                String[] split = s.split("\\s*=\\s*");
+                res.put(split[0], split.length == 1 ? "" : split[1]);
+            });
+            return res;
+        });
     }
 
     public static Parser<List<String>> options() {
@@ -66,7 +79,7 @@ public class NodeParser {
         return Parsers.sequence(coordinates(),
                 Parsers.sequence(Scanners.WHITESPACES, Scanners.string("node"),
                         Parsers.sequence(MAYBEWHITESPACES,
-                                Parsers.or(options(), Parsers.constant(new ArrayList<String>())))),
+                                Parsers.or(options(), Parsers.constant(new ArrayList<>())))),
                 Parsers.sequence(MAYBEWHITESPACES, label()), DestructuredNode::new);
     }
 

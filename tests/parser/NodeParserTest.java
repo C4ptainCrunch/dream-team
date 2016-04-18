@@ -2,6 +2,7 @@ package parser;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import models.TikzGraph;
 
@@ -36,6 +37,14 @@ public class NodeParserTest {
         testarray.add("is");
         testarray.add("trololo");
         Assert.assertEquals(NodeParser.options().parse("[hello, my,name, is,   trololo]"), testarray);
+    }
+
+    @Test
+    public void testOptionsParser() throws Exception {
+        final HashMap<String, String> parse = NodeParser.optionsParser().parse("[hello, my,name, is,   trololo = 421]");
+        Assert.assertEquals(parse.size(), 5);
+        Assert.assertEquals(parse.get("hello"), "");
+        Assert.assertEquals(parse.get("trololo"), "421");
     }
 
     @Test

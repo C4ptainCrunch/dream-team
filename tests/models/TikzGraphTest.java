@@ -252,4 +252,28 @@ public class TikzGraphTest {
         graph.add(testNode);
         assertEquals(1,testNode.countObservers());
     }
+
+    @Test
+    public void testNodeNotifiesGraph() throws Exception {
+
+        TikzGraph anonymous = new TikzGraph() {
+            boolean changed = false;
+
+            @Override
+            protected void setChanged(){
+                changed = true;
+            }
+
+            public boolean getChanged(){
+                return changed;
+            }
+        };
+
+        TikzCircle testNode = new TikzCircle();
+        anonymous.add(testNode);
+        testNode.move(2,2);
+        assertTrue((boolean)anonymous.getClass().getMethod("getChanged").invoke(anonymous));
+    }
+
+
 }

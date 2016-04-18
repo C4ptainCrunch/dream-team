@@ -70,11 +70,6 @@ public class ToolView extends JPanel {
 
     public TikzComponent getTikzComponent() {
         TikzComponent comp = model.getComponentClone();
-        if (comp instanceof TikzEdge) {
-            if (((TikzEdge) comp).getFirstNode()== null || ((TikzEdge) comp).getSecondNode() == null) {
-               return comp;
-            }
-        }
         return comp;
     }
 

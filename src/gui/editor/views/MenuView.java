@@ -7,11 +7,21 @@ import models.tikz.TikzGraph;
 import constants.GUI;
 import gui.editor.controllers.MenuController;
 
+/**
+ * Implementation of the View (from the MVC architectural pattern) for the Menu.
+ * The Menu is the menu bar of the GUI.
+ */
 public class MenuView extends JMenuBar {
     private final MenuController controller;
     private final Project project;
     private final EditorView parentView;
 
+    /**
+     * Constructs a new View for the Menu,
+     * with a given Project and parentView
+     * @param parentView The view which contains this view (ie. EditorView)
+     * @param project The Project
+     */
     public MenuView(EditorView parentView, Project project) {
         this.parentView = parentView;
         this.project = project;
@@ -19,6 +29,9 @@ public class MenuView extends JMenuBar {
         this.render();
     }
 
+    /**
+     * Renders the view by setting the different buttons composing the menu
+     */
     private void render() {
         JMenu file_menu = new JMenu(GUI.MenuBar.FILE_MENU);
         this.add(file_menu);
@@ -49,6 +62,10 @@ public class MenuView extends JMenuBar {
         help_menu.add(help_item);
     }
 
+    /**
+     * Calls the save function of the controller of this view.
+     * This will save the tikz text into a file in the current project's file
+     */
     public void save() {
         controller.save();
     }

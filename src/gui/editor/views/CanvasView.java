@@ -17,12 +17,22 @@ import gui.editor.drag.TikzTransferHandler;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import gui.editor.views.canvas.drawers.Drawer;
 
+/**
+ * Implementation of the View (from the MVC architectural pattern) for the Canvas.
+ * The Canvas is the area of the GUI where the graph is painted.
+ */
 public class CanvasView extends JPanel {
     private final EditorView parentView;
     private final TikzGraph graph;
     private final CanvasController controller;
     private boolean isFocused;
 
+    /**
+     * Constructs a new View for the Canvas,
+     * with a given TikzGraph and parentView
+     * @param parentView The view which contains this view (ie. EditorView)
+     * @param graph The TikzGraph
+     */
     public CanvasView(EditorView parentView, TikzGraph graph) {
         this.parentView = parentView;
         this.graph = graph;
@@ -36,11 +46,17 @@ public class CanvasView extends JPanel {
         this.setVisible(true);
     }
 
+    /**
+     * Renders the view by putting it on focus
+     */
     private void render() {
         setFocusable(true);
         // requestFocusInWindow();
     }
 
+    /**
+     * Adds listeners for mouse events to the view
+     */
     private void addListeners() {
         this.addMouseListener(new MouseInputAdapter() {
             @Override
@@ -66,6 +82,10 @@ public class CanvasView extends JPanel {
         });
     }
 
+    /**
+     * Paints the components composing the graph
+     * @param g Graphics to be drawn
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -99,14 +119,27 @@ public class CanvasView extends JPanel {
 
     }
 
+    /**
+     * Returns true if this view is focused
+     * @return true if this view is focused
+     */
     public boolean getIsFocused() {
         return isFocused;
     }
 
+    /**
+     * Sets whether the view is focused or not
+     * @param isFocused The boolean to set whether the view is focused or not
+     */
     public void setIsFocused(boolean isFocused) {
         this.isFocused = isFocused;
     }
 
+    /**
+     * Informs the controller where the component being dragged and dropped has been dropped on the canvas
+     * @param component The selected component being dragged and dropped
+     * @param location The location where the component has been dropped
+     */
     public void dragEvent(TikzComponent component, Point location) {
         this.requestFocus();
         controller.mouseDropped(component, location);

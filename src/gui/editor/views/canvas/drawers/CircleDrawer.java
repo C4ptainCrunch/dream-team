@@ -19,7 +19,7 @@ public class CircleDrawer extends ComponentDrawer {
 
         float size = circle.getRadius() * 2;
         drawableComponent.addShape(new Ellipse2D.Float(0, 0, size, size));
-        drawableComponent.setBackground(circle.getBackground());
+        drawableComponent.setBackground(circle.getBackgroundColor());
         return drawableComponent;
     }
 }

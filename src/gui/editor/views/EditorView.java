@@ -15,6 +15,10 @@ import constants.GUI;
 import gui.editor.controllers.EditorController;
 import gui.editor.toolbox.views.ToolBoxView;
 
+/**
+ * Implementation of the View (from the MVC architectural pattern) for the Editor.
+ * The Editor is the main element of the GUI which contains the other elements of the GUI.
+ */
 public class EditorView extends JFrame {
     private Project project;
 
@@ -25,6 +29,12 @@ public class EditorView extends JFrame {
 
     private EditorController controller;
 
+    /**
+     * Constructs a new View for the Editor,
+     * with a given Project.
+     * Creates all the views that are contained within this view.
+     * @param project The project
+     */
     public EditorView(Project project){
         TikzGraph graph = project.getGraph();
         this.project = project;
@@ -49,6 +59,10 @@ public class EditorView extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Renders the view by initializing it and its pane, corresponding
+     * to the views that are contained within this view
+     */
     public final void render() {
         this.setTitle(GUI.MenuBar.APP_NAME);
 
@@ -69,6 +83,10 @@ public class EditorView extends JFrame {
         return null;
     }
 
+    /**
+     * Getter for the selected tool
+     * @return the tikz component that has been selected from the toolbox
+     */
     public final TikzComponent getSelectedTool() {
         return toolBoxView.getSelectedTool();
     }

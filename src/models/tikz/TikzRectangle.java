@@ -40,6 +40,39 @@ public class TikzRectangle extends TikzShape {
         width = o_rectangle.getWidth();
         length = o_rectangle.getLength();
     }
+    /**
+     *Constructs a default tikz rectangle with a given reference
+     * @param reference the reference
+     */
+    public TikzRectangle(String reference) {
+        super(reference);
+        width = Models.DEFAULT.LENGTH;
+        length = Models.DEFAULT.LENGTH;
+    }
+
+    /**
+     * Constructs a tikz rectangle with a given
+     * width and length and reference
+     * @param width The width of the rectangle
+     * @param length The length of the rectangle
+     * @param reference the reference
+     */
+    public TikzRectangle(int width, int length, String reference) {
+        super(reference);
+        setWidth(width);
+        setLength(length);
+    }
+
+    /**
+     * Constructs a tikz rectangle by copying an other tikz rectangle with a given reference
+     * @param o_rectangle The tikz rectangle to be copied from
+     * @param reference the reference
+     */
+    public TikzRectangle(TikzRectangle o_rectangle, String reference) {
+        super(o_rectangle, reference);
+        width = o_rectangle.getWidth();
+        length = o_rectangle.getLength();
+    }
 
     /**
      * Getter for the width of the tikz rectangle

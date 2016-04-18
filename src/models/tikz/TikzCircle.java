@@ -36,6 +36,35 @@ public class TikzCircle extends TikzShape {
     }
 
     /**
+     *Constructs a default tikz circle with a given reference
+     * @param reference  the reference
+     */
+    public TikzCircle(String reference) {
+        super(reference);
+        radius = Models.DEFAULT.LENGTH;
+    }
+
+    /**
+     * Constructs a tikz circle with a given radius and reference
+     * @param radius The radius of the circle
+     * @param reference  the reference
+     */
+    public TikzCircle(int radius, String reference) {
+        super(reference);
+        this.radius = radius;
+    }
+
+    /**
+     * Constructs a tikz circle by copying an other tikz circle with a given reference
+     * @param o_circle The tikz circle to be copied from
+     * @param reference  the reference
+     */
+    public TikzCircle(TikzCircle o_circle, String reference) {
+        super(o_circle, reference);
+        this.radius = o_circle.getRadius();
+    }
+
+    /**
      * Getter for the radius of the tikz circle
      * @return The radius
      */

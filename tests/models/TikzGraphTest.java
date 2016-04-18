@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observable;
 
 import static org.junit.Assert.*;
 
@@ -258,22 +259,20 @@ public class TikzGraphTest {
     public void testNodeNotifiesGraph() throws Exception {
 
         TikzGraph anonymous = new TikzGraph() {
-            boolean changed = false;
+            boolean flag = false;
 
             @Override
-            protected void setChanged(){
-                changed = true;
-            }
+            public void update(Observable obs, Object o){ flag = true; }
 
-            public boolean getChanged(){
-                return changed;
+            public boolean getFlag(){
+                return flag;
             }
         };
 
         TikzCircle testNode = new TikzCircle();
         anonymous.add(testNode);
         testNode.move(2,2);
-        assertTrue((boolean)anonymous.getClass().getMethod("getChanged").invoke(anonymous));
+        assertTrue((boolean)anonymous.getClass().getMethod("getFlag").invoke(anonymous));
     }
 
 

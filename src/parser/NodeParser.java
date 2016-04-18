@@ -32,6 +32,11 @@ public class NodeParser {
                 Parsers.or(Terminals.Identifier.TOKENIZER.source(), Parsers.constant("")), Scanners.string(")"));
     }
 
+    public static Parser<Integer> decimal() {
+        return Parsers.sequence(Scanners.string("-").optional().source(), MAYBEWHITESPACES.next(Terminals.DecimalLiteral.TOKENIZER).source(),
+                (minus, nums) -> Math.round(Float.parseFloat(minus + nums)));
+    }
+
     public static Parser<String> label() {
         final Parser<String> source = Patterns.many(CharPredicates.notChar('}')).toScanner("label string").source();
         return Parsers.between(Scanners.isChar('{'), source, Scanners.isChar('}'));
@@ -52,12 +57,9 @@ public class NodeParser {
     }
 
     public static Parser<Point> coordinates() {
-        final Parser<Point> coords = Terminals.DecimalLiteral.TOKENIZER.next(Scanners.string(","))
-                .next(MAYBEWHITESPACES).next(Terminals.DecimalLiteral.TOKENIZER).source().map(s -> {
-                    String[] splitted = s.split(",\\s*");
-                    return new Point(Math.round(Float.valueOf(splitted[0])), Math.round(Float.valueOf(splitted[1])));
-                });
-        return Parsers.between(Scanners.string("("), coords, Scanners.string(")"));
+        final Parser<Void> sep = Parsers.sequence(MAYBEWHITESPACES, Scanners.isChar(','), MAYBEWHITESPACES);
+        final Parser<Point> coord = Parsers.sequence(decimal(), sep.next(decimal()), Point::new);
+        return Parsers.between(Scanners.isChar('('), coord, Scanners.isChar(')'));
     }
 
     public static Parser<DestructuredNode> nodeFromDraw() {

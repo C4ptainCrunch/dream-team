@@ -9,6 +9,13 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class NodeParserTest {
+    @Test
+    public void testDecimal() throws Exception {
+        Assert.assertEquals(NodeParser.decimal().parse("-457"), new Integer(-457));
+        Assert.assertEquals(NodeParser.decimal().parse("457"), new Integer(457));
+        Assert.assertEquals(NodeParser.decimal().parse("-457.97"), new Integer(-458));
+        Assert.assertEquals(NodeParser.decimal().parse("457.97"), new Integer(458));
+    }
 
     @org.junit.Test
     public void testReference() throws Exception {
@@ -50,9 +57,9 @@ public class NodeParserTest {
     public void testNodeFromNode() throws Exception {
         TikzGraph graph = new TikzGraph();
         NodeParser.nodeFromNode(graph).parse("\\node[lolilol, triangle](nametest) at (15,46)");
-        NodeParser.nodeFromNode(graph).parse("\\node[lolilol, triangle]() at (15,46)");
-        NodeParser.nodeFromNode(graph).parse("\\node[rectangle]() at (250,200){Demo Label}");
-        NodeParser.nodeFromNode(graph).parse("\\node[rectangle]() at (250,200){}");
+        NodeParser.nodeFromNode(graph).parse("\\node[lolilol, triangle]() at (-15,46)");
+        NodeParser.nodeFromNode(graph).parse("\\node[rectangle]() at (250,-200){Demo Label}");
+        NodeParser.nodeFromNode(graph).parse("\\node[rectangle]() at (-250,200){}");
         NodeParser.nodeFromNode(graph).parse("\\node[]() at (250,200) {Demo Label}");
         Assert.assertEquals(graph.size(), 5);
     }

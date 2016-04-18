@@ -8,10 +8,10 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-import models.TikzComponent;
-import models.TikzEdge;
-import models.TikzGraph;
-import models.TikzNode;
+import models.tikz.TikzComponent;
+import models.tikz.TikzEdge;
+import models.tikz.TikzGraph;
+import models.tikz.TikzNode;
 import gui.editor.controllers.CanvasController;
 import gui.editor.drag.TikzTransferHandler;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;

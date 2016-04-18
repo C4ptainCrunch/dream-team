@@ -1,6 +1,6 @@
 package utils;
 
-import models.TikzGraph;
+import models.tikz.TikzGraph;
 
 public final class LaTeXBuilder {
     private final static String begin = "\\documentclass{article}\n\\usepackage{tikz}\n\\begin{document}\n\\begin{tikzpicture}\n";

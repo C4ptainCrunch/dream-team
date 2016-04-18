@@ -139,35 +139,3 @@ public class NodeParser {
                 Scanners.string("\\end{document}"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many()).cast();
     }
 }
-
-
-
-/*class DestructuredNode {
-    private final Point coordinates;
-    private final List<String> options;
-    private final String label;
-
-    public DestructuredNode(Point s, List<String> t, String u) {
-        coordinates = s;
-        options = t;
-        label = u;
-    }
-
-    public Point getCoordinates() {
-        return coordinates;
-    }
-
-    public List<String> getOptions() {
-        return options;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    @Override
-    public String toString() {
-        return "Coordinates: " + coordinates.toString() + ", Options: " + options.toString() + ", Label: "
-                + label;
-    }
-}*/

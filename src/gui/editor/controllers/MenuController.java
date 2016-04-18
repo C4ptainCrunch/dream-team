@@ -1,21 +1,19 @@
 package gui.editor.controllers;
 
-import static javax.swing.JOptionPane.showMessageDialog;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Observable;
-import java.util.Observer;
-
-import models.TikzGraph;
-import utils.PdfCompilationError;
-import utils.PdfRenderer;
 import gui.editor.views.EditorView;
 import gui.editor.views.MenuView;
 import gui.help.views.HelpView;
 import gui.projectManagement.views.HistoryView;
+import models.Project;
+import utils.PdfCompilationError;
+import utils.PdfRenderer;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the Menu.
@@ -23,19 +21,19 @@ import gui.projectManagement.views.HistoryView;
  */
 public class MenuController implements Observer {
     private final MenuView view;
-    private final TikzGraph graph;
+    private final Project project;
 
     /**
      * Constructs a new Controller for the Menu,
-     * with a given TikzGraph and EditorView
+     * with a given Project and EditorView
      * @param view The MenuView which is associated with this controller
-     * @param graph The TikzGraph
+     * @param project The Project
      */
-    public MenuController(MenuView view, TikzGraph graph) {
+    public MenuController(MenuView view, Project project) {
         this.view = view;
 
-        this.graph = graph;
-        this.graph.addObserver(this);
+        this.project = project;
+        this.project.getGraph().addObserver(this);
     }
 
     /**
@@ -51,14 +49,8 @@ public class MenuController implements Observer {
      * Saves the Tikz text into a file
      */
     public void save() {
-        String path = view.getProjectPath();
-        String tikzText = graph.toString();
-
         try {
-            FileWriter f = new FileWriter(path + "/tikz.save");
-            BufferedWriter bufferedWriter = new BufferedWriter(f);
-            bufferedWriter.write(tikzText);
-            bufferedWriter.close();
+            this.project.save();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,8 +60,9 @@ public class MenuController implements Observer {
      * Compiles and renders the Tikz into a PDF file
      */
     public void compileAndOpen() {
+        // TODO : should we move this to the model ?
         try {
-            PdfRenderer.compileAndOpen(new File(view.getProjectPath() + "/tikz.pdf"), graph);
+            PdfRenderer.compileAndOpen(new File(this.project.getPath() + "/tikz.pdf"), this.project.getGraph());
         } catch (PdfCompilationError e) {
             showMessageDialog(null, "Error during compilation");
         }
@@ -79,8 +72,7 @@ public class MenuController implements Observer {
      * Opens the History window whichs shows the modifications done on the working project
      */
     public void openHistory() {
-
-        HistoryView histView = new HistoryView(this.view.getProjectPath());
+        HistoryView histView = new HistoryView(this.project);
     }
 
     /**

@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
-import models.TikzComponent;
+import models.tikz.TikzComponent;
 
 /**
  * Implementation of the View (from the MVC architectural pattern) for the ToolBox.

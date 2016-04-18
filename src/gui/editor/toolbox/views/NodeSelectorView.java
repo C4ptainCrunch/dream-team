@@ -1,8 +1,8 @@
 package gui.editor.toolbox.views;
 
-import models.TikzCircle;
-import models.TikzRectangle;
-import models.TikzTriangle;
+import models.tikz.TikzCircle;
+import models.tikz.TikzRectangle;
+import models.tikz.TikzTriangle;
 import gui.editor.toolbox.SelectorComponent;
 import gui.editor.toolbox.model.ToolModel;
 

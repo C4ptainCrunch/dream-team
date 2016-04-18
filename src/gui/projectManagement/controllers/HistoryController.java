@@ -13,6 +13,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import gui.projectManagement.views.HistoryView;
+import models.Project;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the History.
@@ -21,17 +22,17 @@ import gui.projectManagement.views.HistoryView;
  */
 public class HistoryController {
     private final HistoryView view;
-    private final String path; // TODO acaccia : could we use EditorView.getProjectPath() here ?
+    private final Project project;
     private Color currentColor = Color.BLACK;
 
     /**
      * Constructs a new controller for the History,
-     * with a given Historyview and a path to the history file
+     * with a given Historyview and Project
      * @param view The HistoryView which is associated with this controller
-     * @param path The history file path
+     * @param project The project
      */
-    public HistoryController(HistoryView view, String path) {
-        this.path = path;
+    public HistoryController(HistoryView view, Project project) {
+        this.project = project;
         this.view = view;
     }
 
@@ -41,7 +42,7 @@ public class HistoryController {
      */
     public void fillView() {
         try {
-            Files.lines(Paths.get(path + "/diffs"), Charset.defaultCharset()).forEach(line -> {
+            Files.lines(project.getDiffPath(), Charset.defaultCharset()).forEach(line -> {
                 colorHelper(line);
                 appendString(line + "\n", currentColor);
             });

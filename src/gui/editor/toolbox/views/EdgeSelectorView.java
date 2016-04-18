@@ -1,7 +1,7 @@
 package gui.editor.toolbox.views;
 
-import models.TikzDirectedEdge;
-import models.TikzUndirectedEdge;
+import models.tikz.TikzDirectedEdge;
+import models.tikz.TikzUndirectedEdge;
 import gui.editor.toolbox.SelectorComponent;
 import gui.editor.toolbox.model.ToolModel;
 

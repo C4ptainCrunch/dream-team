@@ -1,4 +1,4 @@
-package models;
+package models.tikz;
 
 /**
  * Implementation of the Text Model (from the MVC architectural pattern)

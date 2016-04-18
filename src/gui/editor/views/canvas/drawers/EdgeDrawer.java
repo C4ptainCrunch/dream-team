@@ -3,8 +3,8 @@ package gui.editor.views.canvas.drawers;
 import java.awt.*;
 import java.awt.geom.Line2D;
 
-import models.TikzComponent;
-import models.TikzEdge;
+import models.tikz.TikzComponent;
+import models.tikz.TikzEdge;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public abstract class EdgeDrawer extends ComponentDrawer {

@@ -1,5 +1,7 @@
 package models;
 
+import models.tikz.TikzComponent;
+import models.tikz.TikzRectangle;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

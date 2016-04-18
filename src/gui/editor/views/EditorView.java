@@ -8,8 +8,9 @@ import java.util.Map;
 
 import javax.swing.*;
 
-import models.TikzComponent;
-import models.TikzGraph;
+import models.Project;
+import models.tikz.TikzComponent;
+import models.tikz.TikzGraph;
 import constants.GUI;
 import gui.editor.controllers.EditorController;
 import gui.editor.toolbox.views.ToolBoxView;
@@ -19,41 +20,31 @@ import gui.editor.toolbox.views.ToolBoxView;
  * The Editor is the main element of the GUI which contains the other elements of the GUI.
  */
 public class EditorView extends JFrame {
-    private TikzGraph graph;
+    private Project project;
 
     private final CanvasView canvasView;
     private final SourceView sourceView;
     private final MenuView menuView;
-    private String projectPath;
     private final ToolBoxView toolBoxView;
 
     private EditorController controller;
 
     /**
      * Constructs a new View for the Editor,
-     * with a given file path and the information whether the view
-     * is constructed with an imported project or a new one.
+     * with a given Project.
      * Creates all the views that are contained within this view.
-     * @param filePath The path where the project is located
-     * @param isImport The boolean that tells whether the project is imported or created
+     * @param project The project
      */
-    public EditorView(String filePath, Boolean isImport) {
-        this.projectPath = filePath;
-        if (isImport) {
-            this.graph = new TikzGraph(filePath);
-            this.projectPath = Paths.get(getProjectPath()).getParent().toString();
-        } else {
-            this.graph = new TikzGraph();
-        }
+    public EditorView(Project project){
+        TikzGraph graph = project.getGraph();
+        this.project = project;
+        this.controller = new EditorController(this, project);
 
         this.canvasView = new CanvasView(this, graph);
         this.sourceView = new SourceView(this, graph);
-        this.menuView = new MenuView(this, graph);
+        this.menuView = new MenuView(this, project);
         this.toolBoxView = new ToolBoxView();
 
-        this.controller = new EditorController(this, graph);
-
-        this.graph.replace(this.graph);// update du tikZ text
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -73,7 +64,7 @@ public class EditorView extends JFrame {
      * to the views that are contained within this view
      */
     public final void render() {
-        this.setTitle(GUI.Text.APP_NAME);
+        this.setTitle(GUI.MenuBar.APP_NAME);
 
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         this.setLocationRelativeTo(null);
@@ -88,18 +79,6 @@ public class EditorView extends JFrame {
         this.setJMenuBar(menuView);
     }
 
-    /**
-     * Getter for the current project path
-     * @return The path of the current project
-     */
-    public final String getProjectPath() {
-        return projectPath;
-    }
-
-    /**
-     * Getter for the current tool properties
-     * @return TODO null?
-     */
     public final Map<String, Object> getCurrentToolProperties() {
         return null;
     }

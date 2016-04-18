@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import models.TikzComponent;
-import models.TikzEdge;
-import models.TikzNode;
+import models.tikz.TikzComponent;
+import models.tikz.TikzEdge;
+import models.tikz.TikzNode;
 import constants.Models;
 
 public class DrawableTikzComponent implements Drawable {

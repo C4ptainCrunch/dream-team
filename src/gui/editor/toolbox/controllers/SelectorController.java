@@ -3,7 +3,7 @@ package gui.editor.toolbox.controllers;
 import java.util.Observable;
 import java.util.Observer;
 
-import models.TikzComponent;
+import models.tikz.TikzComponent;
 import gui.editor.toolbox.model.ToolModel;
 import gui.editor.toolbox.views.SelectorView;
 

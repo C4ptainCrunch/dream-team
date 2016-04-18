@@ -7,8 +7,8 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import models.TikzComponent;
-import models.TikzVoid;
+import models.tikz.TikzComponent;
+import models.tikz.TikzVoid;
 import gui.editor.toolbox.views.PreviewView;
 import gui.editor.views.CanvasView;
 

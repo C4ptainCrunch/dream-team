@@ -1,4 +1,4 @@
-package models;
+package models.tikz;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,15 +13,13 @@ import parser.NodeParser;
  * being used in the current project
  */
 public class TikzGraph extends Observable implements Iterable<TikzNode> {
-    private List<TikzEdge> edges;
-    private List<TikzNode> nodes;
+    private List<TikzEdge> edges = new Vector<>();
+    private List<TikzNode> nodes = new Vector<>();
 
     /**
      * Constructs an empty graph
      */
     public TikzGraph() {
-        nodes = new Vector<>();
-        edges = new Vector<>();
     }
 
     /**
@@ -30,15 +28,9 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
      * which can be parsed and transformed into nodes and edges objects
      * @param filePath The file path
      */
-    public TikzGraph(String filePath) { // TODO
-        nodes = new Vector<>();
-        edges = new Vector<>();
-        try {
-            String stringGraph = new String(Files.readAllBytes(Paths.get(filePath)));
-            NodeParser.parseDocument(this).parse(stringGraph);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public TikzGraph(String filePath) throws IOException {
+        String stringGraph = new String(Files.readAllBytes(Paths.get(filePath)));
+        NodeParser.parseDocument(this).parse(stringGraph);
     }
 
     /**

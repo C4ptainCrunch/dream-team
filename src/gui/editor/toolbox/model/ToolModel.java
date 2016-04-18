@@ -3,7 +3,7 @@ package gui.editor.toolbox.model;
 import java.awt.*;
 import java.util.Observable;
 
-import models.TikzComponent;
+import models.tikz.TikzComponent;
 
 /**
  * Implementation of the Model (from the MVC architectural pattern) for the ToolBox.

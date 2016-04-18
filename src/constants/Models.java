@@ -19,4 +19,8 @@ public final class Models {
         public static final int EDGE_X_LENGTH = 100;
     }
 
+    public class Project {
+        public static final String SAVE_FILE = "save.tikz";
+        public static final String DIFF_FILE = "diffs";
+    }
 }

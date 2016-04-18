@@ -24,4 +24,8 @@ public class ToolBoxView extends JPanel {
     public TikzComponent getSelectedTool() {
         return tikzComponentCreator.getTikzComponent();
     }
+
+    public void resetTool() {
+        tikzComponentCreator.resetTool();
+    }
 }

@@ -83,4 +83,6 @@ public class EditorView extends JFrame {
     public final TikzComponent getSelectedTool() {
         return toolBoxView.getSelectedTool();
     }
+
+    public final void resetTool() { toolBoxView.resetTool(); };
 }

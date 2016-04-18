@@ -135,4 +135,8 @@ public class CanvasView extends JPanel {
         controller.mouseDropped(component, location);
     }
 
+    public void resetTool() {
+        parentView.resetTool();
+    }
+
 }

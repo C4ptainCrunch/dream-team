@@ -37,6 +37,7 @@ public class CanvasController implements Observer {
         TikzNode node = (TikzNode) component;
         node.setPosition(position);
         graph.add(node.getClone());
+        view.resetTool();
     }
 
     private void addEdgeToGraph(TikzEdge edge, TikzNode source, TikzNode destination) {
@@ -54,6 +55,7 @@ public class CanvasController implements Observer {
                 TikzEdge edge = (TikzEdge) component;
                 addEdgeToGraph(edge, (TikzNode) state.getRelatedComponent(), (TikzNode) clickedComponent);
                 state.reset();
+                view.resetTool();
             } else {
                 state.setComponent(component);
                 state.setRelatedComponent(clickedComponent);

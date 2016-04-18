@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import models.TikzComponent;
 import gui.editor.toolbox.model.ToolModel;
+import models.TikzEdge;
 
 public class ToolView extends JPanel {
 
@@ -69,8 +70,16 @@ public class ToolView extends JPanel {
 
     public TikzComponent getTikzComponent() {
         TikzComponent comp = model.getComponentClone();
-        model.reset();
+        if (comp instanceof TikzEdge) {
+            if (((TikzEdge) comp).getFirstNode()== null || ((TikzEdge) comp).getSecondNode() == null) {
+               return comp;
+            }
+        }
         return comp;
+    }
+
+    public void resetTool() {
+        model.reset();
     }
 
 }

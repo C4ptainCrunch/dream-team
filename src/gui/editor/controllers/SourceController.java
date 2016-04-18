@@ -92,9 +92,9 @@ public class SourceController implements Observer {
     }
 
     /**
-     * Updates from text if the view is focused
+     * Updates the graph from text if the view is focused
      */
-    public void textWasUpdated() {
+    public void updateGraphIfFocused() {
         if (view.getIsFocused()) {
             this.updateGraphFromText(view.getText());
         }

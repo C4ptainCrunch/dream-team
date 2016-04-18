@@ -1,6 +1,8 @@
 package models;
 
 import constants.Models;
+import models.tikz.TikzCircle;
+import models.tikz.TikzGraph;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -8,6 +10,7 @@ import org.junit.rules.TemporaryFolder;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Paths;
 
 import static org.junit.Assert.*;
 
@@ -86,41 +89,67 @@ public class ProjectTest {
 
     @Test
     public void testSave() throws Exception {
-        
+        // TODO
     }
 
     @Test
     public void testGetDiskTikz() throws Exception {
+        File save = folder.newFile(Models.Project.SAVE_FILE);
+        PrintWriter writer = new PrintWriter(save);
+        final String tikz = "\\node[circle, draw]() at (0,0) {test-label}";
+        writer.print(tikz);
+        writer.close();
 
+        Project p = Project.fromPath(folder.getRoot().toString());
+        TikzGraph g  = p.getGraph();
+        g.add(new TikzCircle(10));
+
+        assertEquals(tikz, p.getDiskTikz());
+        assertNotEquals(tikz, g.toString());
     }
 
     @Test
     public void testGetTikzPath() throws Exception {
-
+        Project p = getEmptyProject();
+        File projectPath = new File(folder.getRoot(), "my-project");
+        assertEquals(
+                p.getTikzPath().toString(),
+                new File(projectPath, Models.Project.SAVE_FILE).toString()
+        );
     }
 
     @Test
     public void testGetDiffPath() throws Exception {
-
+        Project p = getEmptyProject();
+        File projectPath = new File(folder.getRoot(), "my-project");
+        assertEquals(
+                p.getDiffPath().toString(),
+                new File(projectPath, Models.Project.DIFF_FILE).toString()
+        );
     }
 
     @Test
     public void testRename() throws Exception {
-
+        // TODO
     }
 
     @Test
     public void testGetLastRevision() throws Exception {
-
+        // TODO
     }
 
     @Test
-    public void testSetGraph() throws Exception {
-
+    public void testCompareToSame() throws Exception {
+        Project p1 = new Project("abc", new TikzGraph());
+        Project p2 = new Project("abc", new TikzGraph());
+        assertEquals(p1.compareTo(p2), 0);
     }
 
     @Test
-    public void testCompareTo() throws Exception {
-
+    public void testCompareToDifferent() throws Exception {
+        Project p1 = new Project("abc", new TikzGraph());
+        Project p2 = new Project("def", new TikzGraph());
+        assertTrue (p1.compareTo(p2) < 0);
+        assertTrue(p2.compareTo(p1) > 0);
     }
 }

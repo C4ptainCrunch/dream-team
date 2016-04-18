@@ -6,8 +6,8 @@ import static constants.GUI.Config.ARROW_LENGTH;
 import java.awt.*;
 import java.awt.geom.Line2D;
 
-import models.TikzComponent;
-import models.TikzDirectedEdge;
+import models.tikz.TikzComponent;
+import models.tikz.TikzDirectedEdge;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public class DirectedEdgeDrawer extends EdgeDrawer {

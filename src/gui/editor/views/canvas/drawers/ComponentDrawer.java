@@ -2,7 +2,7 @@ package gui.editor.views.canvas.drawers;
 
 import java.awt.*;
 
-import models.TikzComponent;
+import models.tikz.TikzComponent;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 
 public abstract class ComponentDrawer implements TikzDrawer {

@@ -3,8 +3,8 @@ package gui.editor.views.canvas.drawers;
 import java.util.HashMap;
 import java.util.Map;
 
-import models.*;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
+import models.tikz.*;
 
 public final class Drawer {
 

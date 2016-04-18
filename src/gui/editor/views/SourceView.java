@@ -8,9 +8,13 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import models.TikzGraph;
+import models.tikz.TikzGraph;
 import gui.editor.controllers.SourceController;
 
+/**
+ * Implementation of the View (from the MVC architectural pattern) for the Source.
+ * The Source is the area of the GUI where the Tikz is edited.
+ */
 public class SourceView extends JPanel {
     private static final int TEXT_AREA_WIDTH = 300;
 
@@ -20,6 +24,12 @@ public class SourceView extends JPanel {
     private Boolean isFocused = false;
     private final EditorView parentView;
 
+    /**
+     * Constructs a new View for the Source,
+     * with a given TikzGraph and parentView
+     * @param parentView The view which contains this view (ie. EditorView)
+     * @param graph The TikzGraph
+     */
     public SourceView(EditorView parentView, TikzGraph graph) {
         this.parentView = parentView;
         this.graph = graph;
@@ -32,11 +42,19 @@ public class SourceView extends JPanel {
         this.render();
     }
 
+    /**
+     * Renders the view by setting its layout and adding a scroll pane
+     */
     private void render() {
         this.setLayout(new BorderLayout());
         this.add(new JScrollPane(textArea), BorderLayout.CENTER);
     }
 
+    /**
+     * Adds listeners for focus and document events to the view
+     * Reacts to a loss/gain of focus
+     * Reacts to a modification to the text area
+     */
     private void addListeners() {
         textArea.addFocusListener(new FocusListener() {
             @Override
@@ -68,23 +86,35 @@ public class SourceView extends JPanel {
         });
     }
 
+    /**
+     * Returns true if this view is focused
+     * @return true if this view is focused
+     */
     public Boolean getIsFocused() {
         return isFocused;
     }
 
+    /**
+     * Sets whether the view is focused or not
+     * @param isFocused The boolean to set whether the view is focused or not
+     */
     public void setIsFocused(boolean isFocused) {
         this.isFocused = isFocused;
     }
 
+    /**
+     * Getter for the text area which contains the tikz text
+     * @return the tikz text contained in the text area
+     */
     public String getText() {
         return textArea.getText();
     }
 
+    /**
+     * Setter for the text area which contains the tikz text
+     * @param text The tikz text which will be contained in the text area
+     */
     public void setText(String text) {
         textArea.setText(text);
-    }
-
-    public String getProjectPath() {
-        return parentView.getProjectPath();
     }
 }

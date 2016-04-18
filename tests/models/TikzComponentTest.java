@@ -50,4 +50,11 @@ public class TikzComponentTest {
         assertNotEquals(edge.getReference(), circle.getReference());
         assertNotEquals(edge.getReference(), rectangle.getReference());
     }
+
+    @Test
+    public void testGetReferenceWithDefaultConstructor() throws Exception {
+        String reference = "My reference a moi";
+        TikzPolygon polygon = new TikzPolygon(reference);
+        assertEquals(polygon.getReference(), reference);
+    }
 }

@@ -41,6 +41,38 @@ public class TikzPolygon extends TikzShape {
         this.length = o_polygon.getLength();
         this.sides = o_polygon.getSides();
     }
+    /**
+     * Constructs a default polygon with a given reference
+     * @param reference the reference
+     */
+    public TikzPolygon(String reference) {
+        super(reference);
+        length = Models.DEFAULT.LENGTH;
+        sides = Models.DEFAULT.SIDES;
+    }
+
+    /**
+     * Constructs a polygon with a given length and a given number of sides and reference.
+     * @param length The length of one side
+     * @param sides The number of sides
+     * @param reference the reference
+     */
+    public TikzPolygon(int length, int sides, String reference) {
+        super(reference);
+        this.length = length;
+        this.sides = sides;
+    }
+
+    /**
+     * Constructs a tikz polygon by copying an other tikz polygon with a given reference
+     * @param o_polygon The tikz polygon to be copied from
+     * @param reference the reference
+     */
+    public TikzPolygon(TikzPolygon o_polygon, String reference) {
+        super(o_polygon, reference);
+        this.length = o_polygon.getLength();
+        this.sides = o_polygon.getSides();
+    }
 
     /**
      * Getter for the length of the sides

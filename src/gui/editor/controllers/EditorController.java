@@ -2,9 +2,12 @@ package gui.editor.controllers;
 
 import models.Project;
 import gui.editor.views.EditorView;
+import utils.Log;
+
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Logger;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the Editor.
@@ -13,6 +16,7 @@ import java.util.Observer;
 public class EditorController implements Observer{
     private final EditorView view;
     private final Project project;
+    private final static Logger logger = Log.getLogger(EditorController.class);
 
 
     /**
@@ -31,8 +35,8 @@ public class EditorController implements Observer{
         try {
             this.project.save();
         } catch (IOException e) {
-            // TODO : warn the user that the save failed
-            e.printStackTrace();
+            // TODO : warn the user that the save failed with a modal
+            logger.severe("Project saved failed : " + e.getMessage());
         }
     }
 }

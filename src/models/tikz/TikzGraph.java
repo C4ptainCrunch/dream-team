@@ -13,8 +13,8 @@ import parser.NodeParser;
  * being used in the current project
  */
 public class TikzGraph extends Observable implements Iterable<TikzNode>, Observer {
-    private List<TikzEdge> edges;
-    private List<TikzNode> nodes;
+    private List<TikzEdge> edges = new Vector<>();
+    private List<TikzNode> nodes = new Vector<>();
 
     /**
      * Constructs an empty graph

@@ -70,6 +70,8 @@ public abstract class TikzShape extends TikzNode {
      */
     public void setOutlineColor(Color outlineColor) {
         this.outlineColor = outlineColor;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -86,6 +88,8 @@ public abstract class TikzShape extends TikzNode {
      */
     public void setOutlineWidth(int outlineWidth) {
         this.outlineWidth = outlineWidth;
+        setChanged();
+        notifyObservers();
     }
 
     /**

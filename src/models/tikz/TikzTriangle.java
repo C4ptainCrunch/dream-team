@@ -35,6 +35,8 @@ public class TikzTriangle extends TikzShape {
         setSideA(length);
         setSideB(length);
         setSideC(length);
+        setChanged();
+        notifyObservers();
     }
 
     public int getSideA() {
@@ -43,6 +45,8 @@ public class TikzTriangle extends TikzShape {
 
     public void setSideA(int sideA) {
         this.sideA = sideA;
+        setChanged();
+        notifyObservers();
     }
 
     public int getSideB() {
@@ -51,6 +55,8 @@ public class TikzTriangle extends TikzShape {
 
     public void setSideB(int sideB) {
         this.sideB = sideB;
+        setChanged();
+        notifyObservers();
     }
 
     public int getSideC() {
@@ -59,6 +65,8 @@ public class TikzTriangle extends TikzShape {
 
     public void setSideC(int sideC) {
         this.sideC = sideC;
+        setChanged();
+        notifyObservers();
     }
 
     public double triangleArea() {
@@ -81,6 +89,8 @@ public class TikzTriangle extends TikzShape {
         setSideA(sides[0]);
         setSideB(sides[1]);
         setSideC(sides[2]);
+        setChanged();
+        notifyObservers();
     }
 
     @Override

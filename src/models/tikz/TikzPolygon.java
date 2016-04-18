@@ -88,6 +88,8 @@ public class TikzPolygon extends TikzShape {
      */
     public void setLength(int length) {
         this.length = length;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -104,6 +106,8 @@ public class TikzPolygon extends TikzShape {
      */
     public void setSides(int sides) {
         this.sides = sides;
+        setChanged();
+        notifyObservers();
     }
 
     /**

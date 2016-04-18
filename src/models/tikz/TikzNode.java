@@ -80,6 +80,8 @@ public abstract class TikzNode extends TikzComponent {
      */
     public void setPosition(Point position) {
         this.position = position;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -90,6 +92,8 @@ public abstract class TikzNode extends TikzComponent {
      */
     public void move(int x, int y) {
         setPosition(new Point(x, y));
+        setChanged();
+        notifyObservers();
     }
 
     /**

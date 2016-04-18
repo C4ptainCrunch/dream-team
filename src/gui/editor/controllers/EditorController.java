@@ -2,6 +2,7 @@ package gui.editor.controllers;
 
 import models.Project;
 import gui.editor.views.EditorView;
+import models.tikz.TikzPolygon;
 import utils.Log;
 
 import java.io.IOException;

@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.swing.event.TreeSelectionEvent;
@@ -13,6 +14,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import gui.help.views.HelpView;
+import utils.Log;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the Help.
@@ -21,6 +23,7 @@ import gui.help.views.HelpView;
 public class HelpController {
     private final static String HELP_ROOT = "./assets/help_files/";
     private final HelpView view;
+    private final static Logger logger = Log.getLogger(HelpController.class);
 
     /**
      * Constructs a new controller for the Help
@@ -49,7 +52,7 @@ public class HelpController {
         try {
             view.setText(new String(Files.readAllBytes(Paths.get(filePath))));
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.severe("Error while loading markdown: " + e.getMessage());
         }
     }
 

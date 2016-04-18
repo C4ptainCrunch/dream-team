@@ -2,6 +2,7 @@ package models;
 
 
 import utils.Dirs;
+import utils.Log;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -10,20 +11,24 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Vector;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 // TODO : this class is not really a model but i don't want to place it in Utils... Where should it go ?
 public class RecentProjects {
+    private final static Logger logger = Log.getLogger(RecentProjects.class);
+
     private static Path getFilePath() {
         return Dirs.getDataDir().resolve(Paths.get("recent.paths"));
     }
-    public static SortedSet<Project> getRecentProjects() throws IOException {
+
+    public static SortedSet<Project> getRecentProjects() {
         TreeSet<Project> projects = new TreeSet<>();
 
-        Path rectentProjectsPath = getFilePath();
+        Path recentProjectsPath = getFilePath();
         FileReader fileReader;
         try {
-            fileReader = new FileReader(rectentProjectsPath.toFile());
+            fileReader = new FileReader(recentProjectsPath.toFile());
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
@@ -32,13 +37,12 @@ public class RecentProjects {
                 } catch (IOException e) {
                     // If there is an error while loading the project
                     // we can safely ignore it
-                    // TODO : log the error (logger.debug)
+                    logger.finest("Project " + line + " does not exist anymore");
                 }
             }
             bufferedReader.close();
-        } catch (FileNotFoundException e) {
-            // TODO : log the fact that the file does not exist
-            e.printStackTrace();
+        } catch (IOException e) {
+            logger.info("Failed to read recent projects file");
             return projects;
         }
 

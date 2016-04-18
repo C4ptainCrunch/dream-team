@@ -14,6 +14,14 @@ public class TikzVoid extends TikzNode {
     }
 
     /**
+     * Constructs a default void node with a given reference
+     * @param reference the reference
+     */
+    public TikzVoid(String reference) {
+        super(reference);
+    }
+
+    /**
      * Transforms this void node into tikz code string
      * @return The tikz code string
      */

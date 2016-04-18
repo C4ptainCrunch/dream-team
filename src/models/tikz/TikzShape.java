@@ -34,6 +34,29 @@ public abstract class TikzShape extends TikzNode {
     }
 
     /**
+     * Constructs a default tikz shape with a given reference
+     * @param reference the reference
+     */
+    protected TikzShape(String reference) {
+        super(reference);
+        outlineColor = Models.DEFAULT.COLOR;
+        outlineWidth = Models.DEFAULT.WIDTH;
+        backgroundColor = Models.DEFAULT.BACKGROUND_COLOR;
+    }
+
+    /**
+     * Constructs a tikz shape by copying an other tikz shape with a given reference
+     * @param o_shape The tikz shape to be copied from
+     * @param reference the reference
+     */
+    protected TikzShape(TikzShape o_shape, String reference) {
+        super(o_shape, reference);
+        outlineColor = o_shape.getOutlineColor();
+        outlineWidth = o_shape.getOutlineWidth();
+        backgroundColor = o_shape.getBackgroundColor();
+    }
+
+    /**
      * Getter for the outline color
      * @return the outline color
      */
@@ -47,6 +70,8 @@ public abstract class TikzShape extends TikzNode {
      */
     public void setOutlineColor(Color outlineColor) {
         this.outlineColor = outlineColor;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -63,6 +88,8 @@ public abstract class TikzShape extends TikzNode {
      */
     public void setOutlineWidth(int outlineWidth) {
         this.outlineWidth = outlineWidth;
+        setChanged();
+        notifyObservers();
     }
 
     /**

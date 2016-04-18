@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 public class PopupMenuView extends JPopupMenu {
     private CanvasController controller;
     private JMenuItem delete;
+    private JMenuItem edit;
     private TikzComponent component;
 
     public PopupMenuView(CanvasController controller) {
@@ -23,7 +24,12 @@ public class PopupMenuView extends JPopupMenu {
 
     private void initMenuItems() {
         this.delete = new JMenuItem("Delete");
+        this.edit = new JMenuItem("Edit");
+
         this.delete.addActionListener(actionEvent -> controller.deleteItem(component));
+        this.edit.addActionListener(actionEvent -> controller.editItem(component));
+        
+        add(edit);
         add(delete);
     }
 

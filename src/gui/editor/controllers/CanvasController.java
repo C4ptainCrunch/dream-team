@@ -9,6 +9,7 @@ import java.util.Set;
 
 import constants.GUI;
 import gui.editor.drag.transfertdata.TransferTikz;
+import gui.editor.views.NodeEditionView;
 import models.tikz.TikzComponent;
 import models.tikz.TikzEdge;
 import models.tikz.TikzGraph;
@@ -211,6 +212,10 @@ public class CanvasController implements Observer {
                 this.graph.remove((TikzEdge) itemToDelete);
             }
         }
+    }
+
+    public void editItem(TikzComponent itemToEdit){
+        new NodeEditionView(itemToEdit);
     }
 
 }

@@ -12,6 +12,14 @@ public class ToolModel extends Observable {
 
     private TikzComponent component;
 
+    public ToolModel() {
+        this.component = null;
+    }
+
+    public ToolModel(TikzComponent component) {
+        this.component = component;
+    }
+
     /**
      * Notifies the Observers that are linked to this Observable
      * with a given tkz component

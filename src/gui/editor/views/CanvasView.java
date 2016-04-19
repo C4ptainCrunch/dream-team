@@ -82,7 +82,6 @@ public class CanvasView extends JPanel {
                     controller.mousePressed(e, parentView.getSelectedTool());
                 }
             }
-
         });
 
 

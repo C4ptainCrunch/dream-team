@@ -83,8 +83,10 @@ public abstract class TikzEdge extends TikzComponent {
      * @return The mid point of the edge
      */
     public Point getPosition() {
-        int midX = (int) ((fromPosition.getX() + toPosition.getX()) / 2);
-        int midY = (int) ((fromPosition.getY() + toPosition.getY()) / 2);
+        Point f_pos = (firstNode == null ? fromPosition: firstNode.getPosition());
+        Point to_pos = (secondNode == null ? toPosition: secondNode.getPosition());
+        int midX = (int) ((f_pos.getX() + to_pos.getX()) / 2);
+        int midY = (int) ((f_pos.getY() + to_pos.getY()) / 2);
         return new Point(midX, midY);
     }
 
@@ -93,7 +95,8 @@ public abstract class TikzEdge extends TikzComponent {
      * @return the position from which the edge starts
      */
     public Point getFromPosition() {
-        return fromPosition;
+        Point pos = (firstNode == null ? fromPosition: firstNode.getPosition());
+        return pos;
     }
 
     /**
@@ -111,7 +114,8 @@ public abstract class TikzEdge extends TikzComponent {
      * @return the position to which the edge ends
      */
     public Point getToPosition() {
-        return toPosition;
+        Point pos = (secondNode == null ? toPosition : secondNode.getPosition());
+        return pos;
     }
 
     /**

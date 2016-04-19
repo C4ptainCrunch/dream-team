@@ -54,16 +54,16 @@ public class DirsTest {
         assertEquals(fakePath,Dirs.getDataDir());
     }
 
-    /*@Test
+    @Test
     public void testWindows() throws Exception {
-        System.setProperty("os.name","Windows 7");
-        System.setProperty("user.home", "C:\\");
+        System.setProperty("user.home", "C:/");
         System.setProperty("user.name","LocalUser");
 
-        String fakePathString = "C:\\Documents and Settings\\LocalUser\\Application Data\\" +
-                                "Local Settings\\GroupeUn\\CreaTiKz";
+        String fakePathString = "C:/Documents and Settings/LocalUser/Application Data/" +
+                                "Local Settings/GroupeUn/CreaTiKz";
         Path fakePath = Paths.get(fakePathString);
+        System.setProperty("os.name","Windows 7");
 
         assertEquals(fakePath,Dirs.getDataDir());
-    }*/
+    }
 }

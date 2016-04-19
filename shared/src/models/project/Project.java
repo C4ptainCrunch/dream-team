@@ -1,4 +1,4 @@
-package models;
+package models.project;
 
 import constants.Models;
 import models.tikz.TikzGraph;

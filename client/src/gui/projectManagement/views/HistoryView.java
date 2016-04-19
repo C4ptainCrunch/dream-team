@@ -6,7 +6,7 @@ import javax.swing.*;
 
 import constants.GUI.ProjectManagement;
 import gui.projectManagement.controllers.HistoryController;
-import models.Project;
+import models.project.Project;
 
 /**
  * Implementation of the View (from the MVC architectural pattern) for the History.

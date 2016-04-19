@@ -12,8 +12,8 @@ import constants.GUI.ProjectManagement;
 import gui.editor.views.EditorView;
 import gui.projectManagement.views.FileChooseView;
 import gui.projectManagement.views.ProjectManagementView;
-import models.Project;
-import models.RecentProjects;
+import models.project.Project;
+import models.project.RecentProjects;
 import utils.Log;
 
 public class ProjectManagementController {

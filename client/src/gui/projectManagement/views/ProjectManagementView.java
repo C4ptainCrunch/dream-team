@@ -8,8 +8,8 @@ import javax.swing.*;
 
 import constants.GUI;
 import gui.projectManagement.controllers.ProjectManagementController;
-import models.Project;
-import models.RecentProjects;
+import models.project.Project;
+import models.project.RecentProjects;
 
 public class ProjectManagementView extends JFrame {
     private ProjectManagementController controller = new ProjectManagementController(this);

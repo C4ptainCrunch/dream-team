@@ -1,6 +1,8 @@
 package models;
 
 import constants.Models;
+import models.project.Diff;
+import models.project.Project;
 import models.tikz.TikzCircle;
 import models.tikz.TikzGraph;
 import org.junit.Rule;

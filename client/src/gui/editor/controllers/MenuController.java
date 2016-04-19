@@ -5,7 +5,7 @@ import gui.editor.views.EditorView;
 import gui.editor.views.MenuView;
 import gui.help.views.HelpView;
 import gui.projectManagement.views.HistoryView;
-import models.Project;
+import models.project.Project;
 import utils.Log;
 import utils.PdfCompilationError;
 import utils.PdfRenderer;

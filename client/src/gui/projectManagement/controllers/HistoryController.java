@@ -11,8 +11,8 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import gui.projectManagement.views.HistoryView;
-import models.Diff;
-import models.Project;
+import models.project.Diff;
+import models.project.Project;
 import utils.Log;
 
 /**

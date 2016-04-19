@@ -7,7 +7,7 @@ import java.util.Map;
 
 import javax.swing.*;
 
-import models.Project;
+import models.project.Project;
 import models.tikz.TikzComponent;
 import models.tikz.TikzGraph;
 import constants.GUI;

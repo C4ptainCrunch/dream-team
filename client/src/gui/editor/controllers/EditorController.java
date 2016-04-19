@@ -1,7 +1,7 @@
 package gui.editor.controllers;
 
 import constants.Errors;
-import models.Project;
+import models.project.Project;
 import gui.editor.views.EditorView;
 import utils.Log;
 

@@ -2,7 +2,7 @@ package gui.editor.views;
 
 import javax.swing.*;
 
-import models.Project;
+import models.project.Project;
 import constants.GUI;
 import gui.editor.controllers.MenuController;
 

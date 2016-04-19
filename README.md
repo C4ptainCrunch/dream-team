@@ -12,9 +12,14 @@ CreaTikZ utilise `gradle` comme système de build et Java8, assurez vous d'avoir
 Compilation:
 
     gradle assemble # installation des dépendances java
-    gradle jar # Création du jar
+   
+Démarrage : 
+
+    gradle run
     
-Démarrage : `java -jar build/libs/genie.jar`
+Crétion d'un package self-contained (.zip) dans `build/distributions/`: 
+
+    gradle distZip
 
 # Tests
 

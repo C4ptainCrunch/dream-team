@@ -4,10 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Observable;
 
 import static org.junit.Assert.*;
 
@@ -276,4 +275,31 @@ public class TikzGraphTest {
     }
 
 
+    @Test
+    public void testTranslation() throws Exception {
+        List<TikzNode> nodes = new ArrayList<>();
+        List<Point> starts = new ArrayList<>();
+        int dx = -7;
+        int dy = 3;
+        int len = 4;
+
+        for (int i = 0; i < len; i++) {
+            Point p = new Point(i+6, i-2);
+            TikzNode node = new TikzPolygon();
+            node.setPosition(new Point(p));
+            nodes.add(node);
+            starts.add(p);
+        }
+        graph.addAllNodes(nodes);
+
+        graph.translation(dx, dy);
+
+        for (int i = 0; i < len; i++) {
+            TikzNode node = graph.getNodes().get(i);
+            Point p = node.getPosition();
+            Point start =starts.get(i);
+            assertEquals(start.x + dx, p.x);
+            assertEquals(start.y + dy, p.y);
+        }
+    }
 }

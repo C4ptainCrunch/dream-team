@@ -11,7 +11,6 @@ public final class Drawer {
     private static Map<Class<? extends TikzComponent>, TikzDrawer> drawers = new HashMap<>();
 
     static {
-        drawers.put(TikzTriangle.class, new TriangleDrawer());
         drawers.put(TikzRectangle.class, new RectangleDrawer());
         drawers.put(TikzCircle.class, new CircleDrawer());
         drawers.put(TikzPolygon.class, new PolygonDrawer());

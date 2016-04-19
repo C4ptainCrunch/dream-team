@@ -3,6 +3,7 @@ package gui.editor.controllers;
 import constants.Errors;
 import models.Project;
 import gui.editor.views.EditorView;
+import models.tikz.TikzPolygon;
 import utils.Log;
 
 import javax.swing.*;

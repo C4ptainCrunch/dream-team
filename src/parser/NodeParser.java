@@ -9,16 +9,14 @@ import org.codehaus.jparsec.Parser;
 import org.codehaus.jparsec.Parsers;
 import org.codehaus.jparsec.Scanners;
 import org.codehaus.jparsec.Terminals;
-import org.codehaus.jparsec.functors.*;
-import org.codehaus.jparsec.functors.Map;
 import org.codehaus.jparsec.pattern.CharPredicates;
 import org.codehaus.jparsec.pattern.Patterns;
 
 public class NodeParser {
     private static final Parser<Void> MAYBEWHITESPACES = Scanners.WHITESPACES.optional();
     private static final Parser<Void> MAYBENEWLINES = Scanners.isChar('\n').optional();
-    private static final Parser<List<String>> maybeOptions = Parsers.or(options(),
-            Parsers.constant(new ArrayList<String>()));
+    private static final Parser<HashMap<String, String>> maybeOptions = Parsers.or(optionsParser(),
+            Parsers.constant(new HashMap<>()));
     private static final Parser<String> maybeLabel = Parsers.or(label(), Parsers.constant(""));
 
 
@@ -75,19 +73,16 @@ public class NodeParser {
 
     public static Parser<DestructuredNode> nodeFromDraw() {
         return Parsers.sequence(coordinates(),
-                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("node"),
-                        Parsers.sequence(MAYBEWHITESPACES,
-                                Parsers.or(options(), Parsers.constant(new ArrayList<>())))),
+                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("node"), MAYBEWHITESPACES, maybeOptions),
                 Parsers.sequence(MAYBEWHITESPACES, label()), DestructuredNode::new);
     }
 
     public static Parser<Void> nodeFromNode(TikzGraph graph) {
-
         return Parsers.sequence(Parsers.sequence(Scanners.string("\\node"), MAYBEWHITESPACES, maybeOptions),
                 Parsers.sequence(MAYBEWHITESPACES, reference()),
                 Parsers.sequence(Scanners.WHITESPACES, Scanners.string("at"), Scanners.WHITESPACES, coordinates()),
                 Parsers.sequence(MAYBEWHITESPACES, maybeLabel), (options, ref, coord, label) -> {
-                    graph.add(createNode(new DestructuredNode(coord, options, label)));
+                    graph.add(Utils.createNode(new DestructuredNode(options, ref, coord, label)));
                     return null;
                 });
     }
@@ -101,10 +96,10 @@ public class NodeParser {
                                 .many(), (defaultOptions, firstNode, restNode) -> {
                             TikzNode previous;
                             TikzNode current;
-                            previous = createNode(defaultOptions, firstNode);
+                            previous = Utils.createNode(defaultOptions, firstNode);
                             graph.add(previous);
                             for (DestructuredNode destructuredNode : restNode) {
-                                current = createNode(defaultOptions, destructuredNode);
+                                current = Utils.createNode(defaultOptions, destructuredNode);
                                 graph.add(current);
                                 graph.add(new TikzUndirectedEdge(previous,
                                         current)); /* TODO: parsing edges */
@@ -112,6 +107,41 @@ public class NodeParser {
                             }
                             return null;
                         });
+    }
+
+    public static Parser<Void> edgesFromDraw(TikzGraph graph) {
+        return Parsers.sequence(
+                Parsers.sequence(Scanners.string("\\draw"),
+                        Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
+                Parsers.sequence(Scanners.WHITESPACES, coordinates()),
+                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, coordinates())
+                        .many(),
+                (defaultOptions, firstCoord, restCoord) -> {
+                    TikzVoid previous = new TikzVoid();
+                    TikzVoid current;
+                    TikzEdge edge;
+                    graph.add(previous);
+                    for (Point coord : restCoord) {
+                        current = new TikzVoid();
+                        graph.add(current);
+                        switch (Utils.isDirected(defaultOptions)) {
+                            case "directedRight":
+                                edge = new TikzDirectedEdge(previous, current);
+                                break;
+                            case "directedLeft":
+                                edge = new TikzDirectedEdge(current, previous);
+                                break;
+                            default:
+                                edge = new TikzUndirectedEdge(previous, current);
+                                break;
+                        }
+                        graph.add(current);
+                        graph.add(edge);
+                        previous = current;
+                    }
+                    return null;
+                });
+
     }
 
     public static Parser<Void> parseDocument(TikzGraph graph) {

@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.List;
 
-public class Utils {
+class Utils {
     private static final String[] shapes = new String[] { "rectangle", "circle", "ellipse", "circle split",
             "forbidden sign", "diamond", "cross out", "strike out", "regular polygon" };
     private final static Set<String> rectangles = new HashSet<>(Arrays.asList("rectangle", "diamond"));
@@ -32,7 +32,7 @@ public class Utils {
     }
 
     private static Optional<String> getColorShape(Map<String, String> map) {
-        if (map.containsKey("color")) {return Optional.of(map.get("color"))}
+        if (map.containsKey("color")) {return Optional.of(map.get("color"));}
         for (String c : colors) {
             if (map.containsKey(c)) {
                 return Optional.of(c);
@@ -59,7 +59,7 @@ public class Utils {
         return Optional.empty();
     }
 
-    private static Optional<Integer> getOptionInt((String opt, Map<String, String> m1, Map<String, String> m2) {
+    private static Optional<Integer> getOptionInt(String opt, Map<String, String> m1, Map<String, String> m2) {
         if (m1.containsKey(opt)) {return Optional.of(Integer.parseInt(m1.get(opt)));}
         if (m2.containsKey(opt)) {return Optional.of(Integer.parseInt(m2.get(opt)));}
         return Optional.empty();
@@ -82,7 +82,7 @@ public class Utils {
         return optionStroke.isPresent() ? optionStroke : getOptionStroke(m2);
     }
 
-    private static TikzNode createNode(Map<String, String> defaultOptions, DestructuredNode node){
+    public static TikzNode createNode(Map<String, String> defaultOptions, DestructuredNode node){
         final String shape = getNodeShape(defaultOptions, node.getOptions()).orElse("void");
         final String color = getColorShape(defaultOptions, node.getOptions()).orElse("black");
         TikzNode res;
@@ -102,10 +102,15 @@ public class Utils {
         res.setLabel(node.getLabel());
         res.setColor(stringToColor(color));
         res.setStroke(getOptionStroke(defaultOptions, node.getOptions()).orElse(Models.DEFAULT.STROKE));
-        return res; //TODO: ref
+        if (node.getRef().isPresent()) {res.setReference(node.getRef().get());}
+        return res;
     }
 
-    private static String isDirected(List<String> options) {
+    public static TikzNode createNode(DestructuredNode node) {
+        return createNode(new HashMap<>(), node);
+    }
+
+    public static String isDirected(List<String> options) {
         if (options.contains("->")) {
             return "directRight";
         } else if (options.contains("<-")) {

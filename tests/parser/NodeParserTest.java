@@ -55,11 +55,11 @@ public class NodeParserTest {
     @Test
     public void testNodeFromDraw() throws Exception {
         Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node [draw] {a}").toString(),
-                "Coordinates: java.awt.Point[x=0,y=0], Options: [draw], Label: a");
+                "Coordinates: java.awt.Point[x=0,y=0], Options: {draw=}, Label: a");
         Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node {a}").toString(),
-                "Coordinates: java.awt.Point[x=0,y=0], Options: [], Label: a");
+                "Coordinates: java.awt.Point[x=0,y=0], Options: {}, Label: a");
         Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node[circle split, hello] {}").toString(),
-                "Coordinates: java.awt.Point[x=0,y=0], Options: [circle split, hello], Label: ");
+                "Coordinates: java.awt.Point[x=0,y=0], Options: {hello=, circle split=}, Label: ");
     }
 
     @Test

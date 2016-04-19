@@ -21,7 +21,7 @@ class DestructuredNode {
         ref = Optional.empty();
     }
 
-    public DestructuredNode(Point coordinates, Map<String, String> options, String label, String ref) {
+    public DestructuredNode(Map<String, String> options, String ref, Point coordinates, String label) {
         this.coordinates = coordinates;
         this.options = options;
         this.label = label;

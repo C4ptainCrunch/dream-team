@@ -5,22 +5,20 @@ import java.util.logging.Logger;
 
 import models.tikz.TikzComponent;
 import models.tikz.TikzPolygon;
-import views.editor.canvas.drawables.DrawableTikzComponent;
 import utils.Log;
+import views.editor.canvas.drawables.DrawableTikzNode;
 
-public class PolygonDrawer extends ComponentDrawer {
+public class PolygonDrawer extends NodeDrawer {
     private final static Logger logger = Log.getLogger(PolygonDrawer.class);
-
     public PolygonDrawer() {
         // this was left intentionally blank
     }
 
     @Override
-    public DrawableTikzComponent toDrawable(TikzComponent component) {
+    public DrawableTikzNode toDrawable(TikzComponent component) {
         TikzPolygon polygon = (TikzPolygon) component;
-        DrawableTikzComponent drawableComponent = super.toDrawable(polygon);
+        DrawableTikzNode drawableComponent = super.toDrawable(polygon);
         drawableComponent.addShape(getAwtPolygon(polygon));
-        drawableComponent.setBackground(polygon.getBackgroundColor());
         return drawableComponent;
     }
 

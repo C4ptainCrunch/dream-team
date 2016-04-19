@@ -173,4 +173,9 @@ public abstract class TikzEdge extends TikzComponent {
      * @return A new object that is the copy of the current object
      */
     public abstract TikzEdge getClone();
+
+    @Override
+    public boolean isEdge() {
+        return true;
+    }
 }

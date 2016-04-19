@@ -115,4 +115,13 @@ public abstract class TikzNode extends TikzComponent {
         notifyObservers();
     }
 
+    @Override
+    public boolean isNode() {
+        return true;
+    }
+
+    public boolean isShape(){
+        return false;
+    }
+
 }

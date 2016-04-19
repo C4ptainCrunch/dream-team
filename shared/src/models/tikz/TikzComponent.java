@@ -119,4 +119,12 @@ public abstract class TikzComponent extends Observable {
     }
 
     public void setReference(String ref) {this.reference = ref;}
+
+    public boolean isNode() {
+        return false;
+    }
+
+    public boolean isEdge() {
+        return false;
+    }
 }

@@ -1,5 +1,6 @@
 package views.editor.canvas.drawers;
 
+
 import static constants.GUI.Config.ARROW_ANGLE;
 import static constants.GUI.Config.ARROW_LENGTH;
 
@@ -8,7 +9,7 @@ import java.awt.geom.Line2D;
 
 import models.tikz.TikzComponent;
 import models.tikz.TikzDirectedEdge;
-import views.editor.canvas.drawables.DrawableTikzComponent;
+import views.editor.canvas.drawables.DrawableTikzEdge;
 
 public class DirectedEdgeDrawer extends EdgeDrawer {
     public DirectedEdgeDrawer() {
@@ -16,9 +17,9 @@ public class DirectedEdgeDrawer extends EdgeDrawer {
     }
 
     @Override
-    public DrawableTikzComponent toDrawable(TikzComponent component) {
+    public DrawableTikzEdge toDrawable(TikzComponent component) {
         TikzDirectedEdge edge = (TikzDirectedEdge) component;
-        DrawableTikzComponent drawablecomponent = super.toDrawable(edge);
+        DrawableTikzEdge drawablecomponent = super.toDrawable(edge);
         Point start = edge.getFromPosition();
         Point end = edge.getToPosition();
         double eucDist = Math.sqrt(Math.pow(end.getX() - start.getX(), 2) + Math.pow(end.getY() - start.getY(), 2));

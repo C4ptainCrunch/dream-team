@@ -146,6 +146,13 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
         return Collections.unmodifiableList(this.edges);
     }
 
+    public List<TikzComponent> getComponents() {
+        List<TikzComponent> components = new ArrayList<>();
+        components.addAll(this.nodes);
+        components.addAll(this.edges);
+        return Collections.unmodifiableList(components);
+    }
+
     /**
      * Getter for the edges linked to a given node composing the graph
      * @param node The node

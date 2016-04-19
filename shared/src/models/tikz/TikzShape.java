@@ -107,4 +107,8 @@ public abstract class TikzShape extends TikzNode {
      * @return A new object that is the copy of the current object
      */
     public abstract TikzShape getClone();
+
+    public boolean isShape(){
+        return true;
+    }
 }

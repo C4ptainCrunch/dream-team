@@ -51,8 +51,7 @@ public class SelectorComponent extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         DrawableTikzComponent drawable = Drawer.toDrawable(component);
-        drawable.tikz2swing(this);
-        drawable.draw((Graphics2D) g);
+        drawable.draw((Graphics2D) g, this);
     }
 
     public interface SelectorComponentListener {

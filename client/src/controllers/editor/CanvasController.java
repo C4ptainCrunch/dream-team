@@ -1,13 +1,12 @@
 package controllers.editor;
 
 import java.awt.*;
+import java.awt.List;
 import java.awt.event.MouseEvent;
-import java.util.HashSet;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
+import java.util.*;
 
 import misc.drag.transfertdata.TransferTikz;
+import misc.utils.Converter;
 import views.editor.canvas.NodeEditionView;
 import models.tikz.TikzComponent;
 import models.tikz.TikzEdge;
@@ -15,6 +14,7 @@ import models.tikz.TikzGraph;
 import models.tikz.TikzNode;
 import views.editor.CanvasView;
 import views.editor.canvas.drawables.DrawableTikzComponent;
+import views.editor.canvas.drawers.Drawer;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the Canvas.
@@ -23,7 +23,7 @@ import views.editor.canvas.drawables.DrawableTikzComponent;
 public class CanvasController implements Observer {
     private final CanvasView view;
     private final TikzGraph graph;
-    private final Set<DrawableTikzComponent> draws;
+    private final java.util.List<DrawableTikzComponent> drawables;
     private final CanvasState state;
 
     /**
@@ -37,7 +37,7 @@ public class CanvasController implements Observer {
 
         this.graph = graph;
         this.graph.addObserver(this);
-        draws = new HashSet<>();
+        drawables = new ArrayList<>();
         state = new CanvasState();
     }
 
@@ -49,9 +49,20 @@ public class CanvasController implements Observer {
      * @param arg The arguments given by the Observable
      */
     public void update(Observable o, Object arg) {
+        updateDrawables();
         view.repaint();
     }
 
+    public void updateDrawables(){
+        drawables.clear();
+        for(TikzComponent component : graph.getComponents()){
+            drawables.add(Drawer.toDrawable(component));
+        }
+    }
+
+    public java.util.List<DrawableTikzComponent> getDrawables(){
+        return drawables;
+    }
     /**
      * Finds a component of the graph by its position
      *
@@ -60,7 +71,7 @@ public class CanvasController implements Observer {
      */
     public TikzComponent findComponentByPosition(Point position) {
         TikzComponent comp = null;
-        for (DrawableTikzComponent draw : draws) {
+        for (DrawableTikzComponent draw : drawables) {
             if (draw.contains(position)) {
                 comp = draw.getComponent();
                 break;
@@ -87,7 +98,7 @@ public class CanvasController implements Observer {
      * Adds a node to the graph
      *
      * @param component The component to be added
-     * @param position The position where the component will be added
+     * @param position The tikz position where the component will be added
      */
 
     private void addNodeToModel(TikzComponent component, Point position) {
@@ -135,12 +146,16 @@ public class CanvasController implements Observer {
 
     }
 
+    // Location has to be a swing position !
     private void addGraph(TikzGraph g, Point location){
+        location.setLocation(Converter.swing2tikz(location, view));
         g.translation((int) location.getX(), (int) location.getY());
         graph.add(g);
     }
 
+    // Location has to be a swing position !!
     private void moveComponent(TikzComponent comp, Point location){
+        location.setLocation(Converter.swing2tikz(location, view));
         if (comp instanceof TikzNode){      // TODO: Refactor this
             ((TikzNode)comp).setPosition(location);
             view.repaint();
@@ -157,9 +172,9 @@ public class CanvasController implements Observer {
         if (view.getIsFocused()) {
             if (selectedTool instanceof TikzNode) { // TODO : Need to refactor
                                                     // this.
-                addNodeToModel(selectedTool, e.getPoint());
+                addNodeToModel(selectedTool,Converter.swing2tikz(e.getPoint(),view));
             } else if (selectedTool instanceof TikzEdge) {
-                addEdgeToModel(selectedTool, e.getPoint());
+                addEdgeToModel(selectedTool,Converter.swing2tikz(e.getPoint(), view));
             }
         } else {
             view.requestFocusInWindow();
@@ -206,11 +221,11 @@ public class CanvasController implements Observer {
     }
 
     /**
-     * Adds a drawable tikz component to the draws set
+     * Adds a drawable tikz component to the drawables set
      * @param draw The DrawableTikzComponent to be added
      */
     public void addDrawableComponent(DrawableTikzComponent draw) {
-        draws.add(draw);
+        drawables.add(draw);
     }
 
     public void deleteItem(TikzComponent itemToDelete) {

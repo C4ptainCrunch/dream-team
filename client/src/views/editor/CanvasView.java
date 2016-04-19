@@ -110,17 +110,8 @@ public class CanvasView extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for (TikzEdge edge : graph.getEdges()) {
-            DrawableTikzComponent drawableComponent = Drawer.toDrawable(edge);
-            drawableComponent.draw((Graphics2D) g);
-        }
-
-        for (TikzNode node : graph) {
-            DrawableTikzComponent drawableComponent = Drawer.toDrawable(node);
-            drawableComponent.translate(node.getPosition());
-            drawableComponent.center();
-            controller.addDrawableComponent(drawableComponent);
-            drawableComponent.draw((Graphics2D) g);
+        for(DrawableTikzComponent drawable : controller.getDrawables()){
+            drawable.draw((Graphics2D)g, this);
         }
 
         if (!getIsFocused()) {
@@ -130,7 +121,7 @@ public class CanvasView extends JPanel {
             Color old_color = g2d.getColor();
             g2d.setStroke(new BasicStroke(0));
             g2d.setColor(new Color(0, 0, 0, 64));
-            Shape s = new Rectangle(10000, 10000);
+            Shape s = new Rectangle(this.getWidth(), this.getHeight());
             g2d.fill(s);
             g2d.setColor(Color.white);
             g2d.draw(s);

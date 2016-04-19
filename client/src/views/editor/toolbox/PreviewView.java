@@ -81,8 +81,7 @@ public class PreviewView extends JPanel {
         super.paintComponent(g);
         if (component != null) {
             DrawableTikzComponent drawable = Drawer.toDrawable(component);
-            drawable.tikz2swing(this);
-            drawable.draw((Graphics2D) g);
+            drawable.draw((Graphics2D) g, this);
         }
     }
 }

@@ -7,10 +7,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Paths;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -135,7 +135,24 @@ public class ProjectTest {
 
     @Test
     public void testGetLastRevision() throws Exception {
-        // TODO
+        File save = folder.newFile(Models.Project.SAVE_FILE);
+        PrintWriter writer = new PrintWriter(save);
+        writer.print("\\node[circle, draw]() at (0,0) {test-label}");
+        writer.close();
+
+        save = folder.newFile(Models.Project.DIFF_FILE);
+        writer = new PrintWriter(save);
+        writer.println("2016/04/18 14:02:02");
+        writer.println("@@ -332,16 +332,104 @@");
+        writer.println("+\\node[circle, draw]() at (358,595){};");
+        writer.println("2016/05/18 14:02:02");
+        writer.println("@@ -332,16 +332,104 @@");
+        writer.println("+\\node[circle, draw]() at (358,595){};");
+        writer.close();
+
+        Project p = Project.fromPath(folder.getRoot().toString());
+
+        assertEquals("2016/04/18 14:02:02", p.getLastChange());
     }
 
     @Test
@@ -151,5 +168,40 @@ public class ProjectTest {
         Project p2 = new Project("def", new TikzGraph());
         assertTrue (p1.compareTo(p2) < 0);
         assertTrue(p2.compareTo(p1) > 0);
+    }
+
+    @Test
+    public void testGetDiffs() throws Exception {
+        Project p = getEmptyProject();
+        List<Diff> diffs = new ArrayList<>();
+        diffs.add(new Diff(new Date(0), "diff one"));
+
+        FileOutputStream fs = new FileOutputStream(p.getDiffPath().toFile());
+        ObjectOutputStream os = new ObjectOutputStream(fs);
+        os.writeObject(diffs);
+        os.close();
+        fs.close();
+
+        List<Diff> readDiffs = p.getDiffs();
+        assertEquals(readDiffs.get(0).getDate(), new Date(0));
+        assertEquals(readDiffs.get(0).getPatch(), "diff one");
+    }
+
+    @Test
+    public void testWriteDiffs() throws Exception {
+        Project p = getEmptyProject();
+        List<Diff> diffs = new ArrayList<>();
+        diffs.add(new Diff(new Date(0), "diff one"));
+
+        p.writeDiffs(diffs);
+
+        FileInputStream fs = new FileInputStream(p.getDiffPath().toFile());
+        ObjectInputStream os = new ObjectInputStream(fs);
+        List<Diff> writtenDiffs = (List<Diff>) os.readObject();
+        os.close();
+        fs.close();
+
+        assertEquals(writtenDiffs.get(0).getDate(), new Date(0));
+        assertEquals(writtenDiffs.get(0).getPatch(), "diff one");
     }
 }

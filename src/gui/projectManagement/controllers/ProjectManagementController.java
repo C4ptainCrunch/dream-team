@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
-import constants.GUI;
 import constants.GUI.ProjectManagement;
 import gui.editor.views.EditorView;
 import gui.projectManagement.views.FileChooseView;
@@ -41,11 +40,11 @@ public class ProjectManagementController {
                     ProjectManagement.BLANK_INFO_PANEL,
                     selectedProject.getName(),
                     "Local",
-                    selectedProject.getLastRevision()
+                    selectedProject.getLastChange().toString()
             );
             this.view.setInfoText(text);
-        } catch (IOException e) {
-            logger.severe("Error while reading the diff file: " + e.getMessage());
+        } catch (IOException | ClassNotFoundException e) {
+            logger.severe("Error while reading the diff file: " + e.toString());
         }
     }
 

@@ -36,7 +36,10 @@ public class EditorController implements Observer{
             this.project.save();
         } catch (IOException e) {
             // TODO : warn the user that the save failed with a modal
-            logger.severe("Project saved failed : " + e.getMessage());
+            logger.severe("Project saved failed  IOERROR : " + e.toString());
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

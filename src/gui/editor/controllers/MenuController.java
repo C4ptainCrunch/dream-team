@@ -54,9 +54,9 @@ public class MenuController implements Observer {
     public void save() {
         try {
             this.project.save();
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             // TODO : warn the user that the save failed with a modal
-            logger.severe("Project saved failed : " + e.getMessage());
+            logger.severe("Project saved failed : " + e.toString());
         }
     }
 

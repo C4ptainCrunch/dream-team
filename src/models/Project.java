@@ -1,17 +1,21 @@
 package models;
 
+import constants.Models;
 import models.tikz.TikzGraph;
-import utils.SaverUtil;
+import utils.DiffUtil;
+import utils.Log;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.logging.Logger;
 
 public class Project implements Comparable<Project>{
     private Path path;
     private TikzGraph graph;
+    private final static Logger logger = Log.getLogger(Project.class);
 
     public Project(String path, TikzGraph graph) {
         this.path = Paths.get(path);
@@ -31,6 +35,11 @@ public class Project implements Comparable<Project>{
         File saveFile = path.resolve(constants.Models.Project.SAVE_FILE).toFile();
         if(!saveFile.exists()){
             new FileOutputStream(saveFile).close();
+        }
+
+        File diffFile = path.resolve(Models.Project.DIFF_FILE).toFile();
+        if(!diffFile.exists()){
+            new FileOutputStream(diffFile).close();
         }
     }
 
@@ -55,14 +64,27 @@ public class Project implements Comparable<Project>{
         return this.path.getFileName().toString();
     }
 
-    public void save() throws IOException {
-        SaverUtil.writeDiffToFile(this.getDiskTikz(), this.graph.toString(), this.path);
+    public void save()  throws IOException, ClassNotFoundException{
+        List<Diff> diffs = null;
+        try {
+            diffs = this.getDiffs();
+        } catch (IOException | ClassNotFoundException e) {
+            logger.fine("Warning while reading the diff file : " + e.toString());
+            diffs = new ArrayList<>();
+        }
 
-        FileWriter f = new FileWriter(this.getTikzPath().toFile());
-        BufferedWriter bufferedWriter = new BufferedWriter(f);
-        bufferedWriter.append(this.graph.toString());
-        bufferedWriter.close();
+        String originalTikz = "";
+        try {
+            originalTikz = this.getDiskTikz();
+        } catch (IOException e) {
+            logger.fine("Warning while reading the save file : " + e.toString());
+        }
 
+        String diffString = DiffUtil.diff(originalTikz, this.graph.toString());
+        diffs.add(new Diff(new Date(), diffString));
+
+        this.writeDiffs(diffs);
+        this.writeTikz(this.graph.toString());
         RecentProjects.addProject(this);
     }
 
@@ -85,20 +107,29 @@ public class Project implements Comparable<Project>{
         RecentProjects.addProject(this);
     }
 
-    // TODO : André : refactor this asap
-    public String getLastRevision() throws IOException {
-        String ch = "";
+    public List<Diff> getDiffs() throws IOException, ClassNotFoundException {
+        FileInputStream fs = new FileInputStream(this.getDiffPath().toFile());
+        ObjectInputStream os = new ObjectInputStream(fs);
+        List<Diff> diffs = (List<Diff>) os.readObject();
+        os.close();
+        fs.close();
 
-        ArrayList tmp = new ArrayList<String>();
-        FileReader fr = new FileReader(this.getRevisionPath().toFile());
-        BufferedReader br = new BufferedReader(fr);
+        return diffs;
+    }
 
-        do {
-            ch = br.readLine();
-            tmp.add(ch);
-        } while (!ch.startsWith("2016"));
+    public void writeDiffs(List<Diff> diffs) throws IOException {
+        FileOutputStream fs = new FileOutputStream(this.getDiffPath().toFile());
+        ObjectOutputStream os = new ObjectOutputStream(fs);
+        os.writeObject(diffs);
 
-        return ch;
+        os.close();
+        fs.close();
+    }
+
+    public void writeTikz(String tikz) throws IOException {
+        PrintWriter sourceWriter = new PrintWriter(this.getTikzPath().toFile());
+        sourceWriter.println(tikz);
+        sourceWriter.close();
     }
 
     public void setGraph(TikzGraph graph) {
@@ -108,5 +139,13 @@ public class Project implements Comparable<Project>{
     @Override
     public int compareTo(Project other) {
         return this.getPath().compareTo(other.getPath());
+    }
+
+    public Date getLastChange() throws IOException, ClassNotFoundException {
+        List<Diff> diffs = this.getDiffs();
+        if(diffs.size() == 0){
+            return null;
+        }
+        return diffs.get(diffs.size() - 1).getDate();
     }
 }

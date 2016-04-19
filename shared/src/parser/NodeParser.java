@@ -206,10 +206,10 @@ public class NodeParser {
      */
     public static Parser<Void> parseTexPrelude() {
         return Parsers.sequence(Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(),
-                Scanners.string("\\documentclass{article}\n"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(),
-                Scanners.string("\\usepackage{tikz}\n"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(),
-                Scanners.string("\\begin{document}\n"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(),
-                Scanners.string("\\begin{tikzpicture}\n"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many()).cast();
+                Scanners.string("\\documentclass{article}\n"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES),
+                Scanners.string("\\usepackage{tikz}\n"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES),
+                Scanners.string("\\begin{document}\n"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES),
+                Scanners.string("\\begin{tikzpicture}\n"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES)).cast();
     }
 
     /**
@@ -219,9 +219,9 @@ public class NodeParser {
      * @return a void parser object
      */
     public static Parser<Void> parseTexPostlude() {
-        return Parsers.sequence(Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(),
-                Scanners.string("\\end{tikzpicture}\n"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(),
-                Scanners.string("\\end{document}"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many()).cast();
+        return Parsers.sequence(Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES),
+                Scanners.string("\\end{tikzpicture}\n"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES),
+                Scanners.string("\\end{document}"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES)).cast();
     }
 
     /**

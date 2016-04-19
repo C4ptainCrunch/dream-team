@@ -1,6 +1,5 @@
 package models.tikz;
 
-import models.tikz.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

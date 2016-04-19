@@ -1,4 +1,4 @@
-import gui.projectManagement.views.ProjectManagementView;
+import views.management.ProjectManagementView;
 import utils.Log;
 
 import java.util.logging.*;

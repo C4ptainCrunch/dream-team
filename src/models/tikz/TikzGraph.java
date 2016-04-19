@@ -1,9 +1,11 @@
 package models.tikz;
 
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.List;
 
 import parser.NodeParser;
 
@@ -217,5 +219,16 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
     public void update(Observable observable, Object o) {
         setChanged();
         notifyObservers();
+    }
+
+    /**
+     * Apply a translation with x and y as offset to all nodes in the graph
+     * @param x
+     * @param y
+     */
+    public void translation(int x, int y){
+        for (TikzNode node:this) {
+            node.translate(x, y);
+        }
     }
 }

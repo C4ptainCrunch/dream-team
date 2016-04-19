@@ -2,6 +2,7 @@ package parser;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import models.tikz.TikzGraph;
 
@@ -9,6 +10,13 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class NodeParserTest {
+    @Test
+    public void testDecimal() throws Exception {
+        Assert.assertEquals(NodeParser.decimal().parse("-457"), new Integer(-457));
+        Assert.assertEquals(NodeParser.decimal().parse("457"), new Integer(457));
+        Assert.assertEquals(NodeParser.decimal().parse("-457.97"), new Integer(-458));
+        Assert.assertEquals(NodeParser.decimal().parse("457.97"), new Integer(458));
+    }
 
     @org.junit.Test
     public void testReference() throws Exception {
@@ -21,14 +29,11 @@ public class NodeParserTest {
     }
 
     @Test
-    public void testOptions() throws Exception {
-        ArrayList<String> testarray = new ArrayList<>();
-        testarray.add("hello");
-        testarray.add("my");
-        testarray.add("name");
-        testarray.add("is");
-        testarray.add("trololo");
-        Assert.assertEquals(NodeParser.options().parse("[hello, my,name, is,   trololo]"), testarray);
+    public void testOptionsParser() throws Exception {
+        final HashMap<String, String> parse = NodeParser.optionsParser().parse("[hello, my,name, is,   trololo = 421]");
+        Assert.assertEquals(parse.size(), 5);
+        Assert.assertEquals(parse.get("hello"), "");
+        Assert.assertEquals(parse.get("trololo"), "421");
     }
 
     @Test
@@ -39,20 +44,20 @@ public class NodeParserTest {
     @Test
     public void testNodeFromDraw() throws Exception {
         Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node [draw] {a}").toString(),
-                "Coordinates: java.awt.Point[x=0,y=0], Options: [draw], Label: a");
+                "Coordinates: java.awt.Point[x=0,y=0], Options: {draw=}, Label: a");
         Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node {a}").toString(),
-                "Coordinates: java.awt.Point[x=0,y=0], Options: [], Label: a");
+                "Coordinates: java.awt.Point[x=0,y=0], Options: {}, Label: a");
         Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node[circle split, hello] {}").toString(),
-                "Coordinates: java.awt.Point[x=0,y=0], Options: [circle split, hello], Label: ");
+                "Coordinates: java.awt.Point[x=0,y=0], Options: {hello=, circle split=}, Label: ");
     }
 
     @Test
     public void testNodeFromNode() throws Exception {
         TikzGraph graph = new TikzGraph();
         NodeParser.nodeFromNode(graph).parse("\\node[lolilol, triangle](nametest) at (15,46)");
-        NodeParser.nodeFromNode(graph).parse("\\node[lolilol, triangle]() at (15,46)");
-        NodeParser.nodeFromNode(graph).parse("\\node[rectangle]() at (250,200){Demo Label}");
-        NodeParser.nodeFromNode(graph).parse("\\node[rectangle]() at (250,200){}");
+        NodeParser.nodeFromNode(graph).parse("\\node[lolilol, triangle]() at (-15,46)");
+        NodeParser.nodeFromNode(graph).parse("\\node[rectangle]() at (250,-200){Demo Label}");
+        NodeParser.nodeFromNode(graph).parse("\\node[rectangle]() at (-250,200){}");
         NodeParser.nodeFromNode(graph).parse("\\node[]() at (250,200) {Demo Label}");
         Assert.assertEquals(graph.size(), 5);
     }

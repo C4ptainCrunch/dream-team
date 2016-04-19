@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.Vector;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -63,7 +62,10 @@ public class RecentProjects {
         FileWriter fw = new FileWriter(getFilePath().toFile());
         BufferedWriter bw = new BufferedWriter(fw);
 
-        List<String> projectPaths = projects.stream().map(Project::getPath).collect(Collectors.toList());
+        List<String> projectPaths = projects.stream()
+                .map(Project::getPath)
+                .map(Object::toString)
+                .collect(Collectors.toList());
         String txt = String.join(System.lineSeparator(), projectPaths);
 
         bw.write(txt);

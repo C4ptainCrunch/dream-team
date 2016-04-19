@@ -1,4 +1,4 @@
-package models;
+package models.tikz;
 
 import models.tikz.*;
 import org.junit.After;

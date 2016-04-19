@@ -56,9 +56,9 @@ public class MenuController implements Observer {
     public void save() {
         try {
             this.project.save();
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(view, Errors.SAVE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
-            logger.severe("Project saved failed : " + e.getMessage());
+            logger.severe("Project saved failed : " + e.toString());
         }
     }
 

@@ -104,4 +104,15 @@ public abstract class TikzNode extends TikzComponent {
      */
     public abstract TikzNode getClone();
 
+    /**
+     * Move this tikz node by adding x and y to its coordinates.
+     * @param x
+     * @param y
+     */
+    public void translate(int x, int y){
+        this.position.translate(x, y);
+        setChanged();
+        notifyObservers();
+    }
+
 }

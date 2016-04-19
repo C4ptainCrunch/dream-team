@@ -13,7 +13,7 @@ public abstract class TikzComponent extends Observable {
     private Color color;
     private String label;
     private int stroke;
-    private final String reference;
+    private String reference;
 
     /**
      * Constructs a default tikz component
@@ -117,4 +117,6 @@ public abstract class TikzComponent extends Observable {
     public String getReference() {
         return this.reference;
     }
+
+    public void setReference(String ref) {this.reference = ref;}
 }

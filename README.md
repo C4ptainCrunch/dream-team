@@ -15,11 +15,8 @@ Compilation:
    
 Démarrage : 
 
-    gradle run
+    gradle :client:run
     
-Crétion d'un package self-contained (.zip) dans `build/distributions/`: 
-
-    gradle distZip
 
 # Tests
 

@@ -24,8 +24,8 @@ public class TransferTikz {
     /**
      * Constructor taking two parameters.
      *
-     * As one can see, there are no setters methods defined in this class.
-     * As so, the only way to initialize private data members is to call this constructor.
+     * As one can see, there are no setter methods defined in this class.
+     * As so, the only way to initialize private data members is by calling this constructor.
      *
      * @param comp The component that will be transferred through drag an drop.
      * @param opt An option defining which drop process will be done.

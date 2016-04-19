@@ -74,9 +74,11 @@ public class CanvasView extends JPanel {
                         popupMenu.setComponent(component);
                     }
                 } else {
-                    CanvasView view = (CanvasView) e.getSource();
-                    TransferHandler handler = view.getTransferHandler();
-                    handler.exportAsDrag(view, e, TransferHandler.MOVE);
+                    if (controller.hasComponentAtPosition(e.getPoint())) {
+                        CanvasView view = (CanvasView) e.getSource();
+                        TransferHandler handler = view.getTransferHandler();
+                        handler.exportAsDrag(view, e, TransferHandler.MOVE);
+                    }
                     controller.mousePressed(e, parentView.getSelectedTool());
                 }
             }

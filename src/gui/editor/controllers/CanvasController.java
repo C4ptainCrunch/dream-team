@@ -71,6 +71,20 @@ public class CanvasController implements Observer {
     }
 
     /**
+     * Return true if there is a component of the graph at the given position
+     *
+     * @param position The position
+     * @return A boolean value
+     */
+
+    public boolean hasComponentAtPosition(Point position) {
+        if (findComponentByPosition(position) != null){
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Adds a node to the graph
      *
      * @param component The component to be added

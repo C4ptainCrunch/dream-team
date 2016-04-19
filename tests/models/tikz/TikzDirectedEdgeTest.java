@@ -1,5 +1,6 @@
 package models.tikz;
 
+import models.tikz.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +18,7 @@ public class TikzDirectedEdgeTest {
     @Before
     public void setUp() throws Exception {
         firstNode = new TikzCircle();
-        secondNode = new TikzTriangle();
+        secondNode = new TikzPolygon();
         testDirectedEdge = new TikzDirectedEdge(firstNode, secondNode);
     }
 

@@ -10,6 +10,7 @@ import java.util.Set;
 import constants.GUI;
 import gui.editor.drag.transfertdata.TransferTikz;
 import gui.editor.views.NodeEditionView;
+import models.casters.NodeToGraphCaster;
 import models.tikz.TikzComponent;
 import models.tikz.TikzEdge;
 import models.tikz.TikzGraph;
@@ -136,13 +137,9 @@ public class CanvasController implements Observer {
 
     }
 
-    private void addComponent(TikzComponent comp, Point location){
-        if (comp instanceof TikzNode){
-            addNodeToModel(comp, location);     //TODO: Refactor this
-        }
-        else if (comp instanceof TikzEdge){
-            addEdgeToModel(comp, location);
-        }
+    private void addGraph(TikzGraph g, Point location){
+        g.translation((int) location.getX(), (int) location.getY());
+        graph.add(g);
     }
 
     private void moveComponent(TikzComponent comp, Point location){
@@ -184,7 +181,7 @@ public class CanvasController implements Observer {
                 moveComponent(transfer_data.getComponent(), location);
                 break;
             case ADD:
-                addComponent(transfer_data.getComponent(), location);
+                addGraph(transfer_data.getGraph(), location);
                 break;
             default:
                 break;

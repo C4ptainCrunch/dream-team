@@ -13,7 +13,7 @@ import java.awt.datatransfer.Transferable;
 public class PreviewTransferHandler extends TikzTransferHandler {
 
     protected Transferable createTransferable(JComponent c) {
-        return new PreviewTransferableTikz(((PreviewView) c).getComponent(), GUI.Drag.DropOptions.ADD);
+        return new PreviewTransferableTikz(((PreviewView) c).getComponentAsGraph(), GUI.Drag.DropOptions.ADD);
     }
 
     protected void exportDone(JComponent c, Transferable t, int action) {

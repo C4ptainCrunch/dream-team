@@ -159,6 +159,7 @@ public class CanvasView extends JPanel {
         return controller.findComponentByPosition(getMousePosition());
     }
 
+
     /**
      * Informs the controller where the component being dragged and dropped has been dropped on the canvas
      * @param transfer_data The selected component being dragged and dropped

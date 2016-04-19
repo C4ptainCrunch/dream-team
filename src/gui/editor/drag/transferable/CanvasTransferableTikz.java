@@ -1,6 +1,7 @@
 package gui.editor.drag.transferable;
 
 import constants.GUI;
+import gui.editor.drag.transfertdata.TransferTikz;
 import models.tikz.TikzComponent;
 
 /**
@@ -9,6 +10,11 @@ import models.tikz.TikzComponent;
 public class CanvasTransferableTikz extends TransferableTikz {
 
     public CanvasTransferableTikz(TikzComponent comp, GUI.Drag.DropOptions opt) {
-        super(comp, opt);
+        try{
+            initializeData();
+            transfert_data = new TransferTikz(comp, opt);
+        } catch(ClassNotFoundException e){
+            e.printStackTrace();
+        }
     }
 }

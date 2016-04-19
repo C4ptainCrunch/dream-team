@@ -13,6 +13,7 @@ import gui.editor.toolbox.controllers.PreviewController;
 import gui.editor.toolbox.model.ToolModel;
 import gui.editor.views.canvas.drawables.DrawableTikzComponent;
 import gui.editor.views.canvas.drawers.Drawer;
+import models.tikz.TikzGraph;
 
 /**
  * Implementation of the View (from the MVC architectural pattern) for the Preview.
@@ -56,8 +57,8 @@ public class PreviewView extends JPanel {
      * Getter for the component being previewed
      * @return The component being previewed
      */
-    public TikzComponent getComponent() {
-        return this.controller.getComponent();
+    public TikzGraph getComponentAsGraph() {
+        return this.controller.getModelAsGraph();
     }
 
     public void reset(){

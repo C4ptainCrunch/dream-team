@@ -3,9 +3,11 @@ package gui.editor.toolbox.controllers;
 import java.util.Observable;
 import java.util.Observer;
 
-import models.tikz.TikzComponent;
 import gui.editor.toolbox.model.ToolModel;
 import gui.editor.toolbox.views.PreviewView;
+import models.casters.NodeToGraphCaster;
+import models.tikz.TikzGraph;
+import models.tikz.TikzNode;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the Preview.
@@ -33,8 +35,9 @@ public class PreviewController implements Observer {
      * Getter for the component that is being edited
      * @return The component being edited
      */
-    public TikzComponent getComponent() {
-        return model.getComponentClone();
+    public TikzGraph getModelAsGraph() {
+        TikzNode node = (TikzNode) model.getComponentClone();      // TODO: Refactor this.
+        return NodeToGraphCaster.cast(node);
     }
 
     public void resetModel(){

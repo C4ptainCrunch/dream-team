@@ -2,6 +2,7 @@ package gui.editor.drag.transfertdata;
 
 import constants.GUI;
 import models.tikz.TikzComponent;
+import models.tikz.TikzGraph;
 
 /**
  * A TransferTikz is an object that will be transferred through drag and drop.
@@ -11,6 +12,7 @@ public class TransferTikz {
 
     private TikzComponent component;
     private GUI.Drag.DropOptions option;
+    private TikzGraph graph;
 
     /**
      * Default constructor.
@@ -32,8 +34,15 @@ public class TransferTikz {
      */
 
     public TransferTikz(TikzComponent comp, GUI.Drag.DropOptions opt){
-        component = comp;
-        option = opt;
+        this.component = comp;
+        this.option = opt;
+        this.graph = null;
+    }
+
+    public TransferTikz(TikzGraph graph, GUI.Drag.DropOptions opt){
+        this.component = null;
+        this.graph = graph;
+        this.option = opt;
     }
 
     /**
@@ -44,6 +53,10 @@ public class TransferTikz {
 
     public TikzComponent getComponent(){
         return component;
+    }
+
+    public TikzGraph getGraph(){
+        return graph;
     }
 
     /**

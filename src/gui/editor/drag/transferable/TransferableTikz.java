@@ -7,6 +7,7 @@ import java.io.IOException;
 import constants.GUI;
 import gui.editor.drag.transfertdata.TransferTikz;
 import models.tikz.TikzComponent;
+import models.tikz.TikzGraph;
 
 /**
  * Implementation of the Transferable interface that can be used
@@ -18,33 +19,14 @@ public abstract class TransferableTikz implements Transferable {
     protected TransferTikz transfert_data; // The "real" object that will be passed
                                         // through d&d.
 
-    protected TransferableTikz(){
-
-    }
-
-    /**
-     * Constructs a TransferableTikz with a given TikzComponent
-     * @param comp the tikz component
-     * @param opt drag and drop option
-     */
-
-    protected void initializeDataAndComponent(TikzComponent comp, GUI.Drag.DropOptions opt){
+    protected void initializeData() throws ClassNotFoundException{
         String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=" + TransferTikz.class.getName(); // Identifier
         // for
         // the
         // data
         // passed.
 
-        try {
-            data = new DataFlavor(mimeType);
-            transfert_data = new TransferTikz(comp, opt);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    protected TransferableTikz(TikzComponent comp, GUI.Drag.DropOptions opt) {
-        initializeDataAndComponent(comp, opt);
+        data = new DataFlavor(mimeType);
     }
 
     /**

@@ -134,25 +134,18 @@ public class ProjectTest {
     }
 
     @Test
-    public void testGetLastRevision() throws Exception {
-        File save = folder.newFile(Models.Project.SAVE_FILE);
-        PrintWriter writer = new PrintWriter(save);
-        writer.print("\\node[circle, draw]() at (0,0) {test-label}");
-        writer.close();
+    public void testGetLastChange() throws Exception {
+        Project p = getEmptyProject();
+        List<Diff> diffs = new ArrayList<>();
+        Date d = new Date(1000);
+        diffs.add(new Diff(d, "diff one"));
 
-        save = folder.newFile(Models.Project.DIFF_FILE);
-        writer = new PrintWriter(save);
-        writer.println("2016/04/18 14:02:02");
-        writer.println("@@ -332,16 +332,104 @@");
-        writer.println("+\\node[circle, draw]() at (358,595){};");
-        writer.println("2016/05/18 14:02:02");
-        writer.println("@@ -332,16 +332,104 @@");
-        writer.println("+\\node[circle, draw]() at (358,595){};");
-        writer.close();
+        Date d2 = new Date(2000);
+        diffs.add(new Diff(d2, "diff 2"));
 
-        Project p = Project.fromPath(folder.getRoot().toString());
+        p.writeDiffs(diffs);
 
-        assertEquals("2016/04/18 14:02:02", p.getLastChange());
+        assertEquals(d2, p.getLastChange());
     }
 
     @Test

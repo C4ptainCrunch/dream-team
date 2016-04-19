@@ -200,7 +200,7 @@ public class Project implements Comparable<Project>{
     /**
      * Serializes the diffs to the diff file
      * @param diffs
-     * @throws IOException when wrinting to the file failed
+     * @throws IOException when writing to the file failed
      */
     public void writeDiffs(List<Diff> diffs) throws IOException {
         FileOutputStream fs = new FileOutputStream(this.getDiffPath().toFile());
@@ -214,7 +214,7 @@ public class Project implements Comparable<Project>{
     /**
      * Writes the tikz source of the project to the save file
      * @param  tikz : the tikz source
-     * @throws IOException when wrinting failed
+     * @throws IOException when writing failed
      */
     public void writeTikz(String tikz) throws IOException {
         PrintWriter sourceWriter = new PrintWriter(this.getTikzPath().toFile());

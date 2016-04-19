@@ -2,9 +2,6 @@ package gui.projectManagement.controllers;
 
 import java.awt.*;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
@@ -14,6 +11,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import gui.projectManagement.views.HistoryView;
+import models.Diff;
 import models.Project;
 import utils.Log;
 
@@ -25,7 +23,6 @@ import utils.Log;
 public class HistoryController {
     private final HistoryView view;
     private final Project project;
-    private Color currentColor = Color.BLACK;
     private final static Logger logger = Log.getLogger(HistoryController.class);
 
     /**
@@ -45,13 +42,16 @@ public class HistoryController {
      */
     public void fillView() {
         try {
-            Files.lines(project.getDiffPath(), Charset.defaultCharset()).forEach(line -> {
-                colorHelper(line);
-                appendString(line + "\n", currentColor);
-            });
-        } catch (IOException e) {
-            // TODO : warn the user with a modal
-            logger.severe("Error while reading diff file: " + e.getMessage());
+            for (Diff diff : project.getDiffs()) {
+                this.appendString(diff.getDate().toString() + "\n", Color.green);
+
+                for (String s: diff.getPatch().split(System.getProperty("line.separator"))) {
+                    Color color = colorHelper(s);
+                    this.appendString(s + "\n", color);
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            logger.severe("Error while reading diff file: " + e.toString());
         }
     }
 
@@ -80,18 +80,20 @@ public class HistoryController {
      * Red for deletion
      * Black for not a modification (applied when a date is encountered)
      * @param str The string
+     * @return Color The color
      */
-    private void colorHelper(String str) {
+    private static Color colorHelper(String str) {
         if (str.isEmpty()) {
-            return;
+            return Color.BLACK;
         }
         if (Pattern.matches("^\\d{4}\\/\\d\\d\\/\\d\\d \\d\\d:\\d\\d:\\d\\d$", str)) {
-            currentColor = Color.BLACK;
+            return Color.BLACK;
         } else if (str.charAt(0) == '+') {
-            currentColor = Color.GREEN;
+            return Color.GREEN;
         } else if (str.charAt(0) == '-') {
-            currentColor = Color.RED;
+            return Color.RED;
         }
+        return Color.BLACK;
     }
 
 }

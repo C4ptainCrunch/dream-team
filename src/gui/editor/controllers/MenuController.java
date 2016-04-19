@@ -1,5 +1,6 @@
 package gui.editor.controllers;
 
+import constants.Errors;
 import gui.editor.views.EditorView;
 import gui.editor.views.MenuView;
 import gui.help.views.HelpView;
@@ -9,6 +10,7 @@ import utils.Log;
 import utils.PdfCompilationError;
 import utils.PdfRenderer;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
@@ -55,7 +57,7 @@ public class MenuController implements Observer {
         try {
             this.project.save();
         } catch (IOException | ClassNotFoundException e) {
-            // TODO : warn the user that the save failed with a modal
+            JOptionPane.showMessageDialog(view, Errors.SAVE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
             logger.severe("Project saved failed : " + e.toString());
         }
     }

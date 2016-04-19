@@ -27,7 +27,6 @@ import utils.Log;
 public class HistoryController {
     private final HistoryView view;
     private final Project project;
-    private Color currentColor = Color.BLACK;
     private final static Logger logger = Log.getLogger(HistoryController.class);
 
     /**
@@ -48,12 +47,10 @@ public class HistoryController {
     public void fillView() {
         try {
             for (Diff diff : project.getDiffs()) {
-                String line = diff.getDate().toString();
-                Color color = colorHelper(line);
-                this.appendString(line + "\n", color);
+                this.appendString(diff.getDate().toString() + "\n", Color.green);
 
                 for (String s: diff.getPatch().split(System.getProperty("line.separator"))) {
-                    color = colorHelper(s);
+                    Color color = colorHelper(s);
                     this.appendString(s + "\n", color);
                 }
             }

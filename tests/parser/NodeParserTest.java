@@ -29,17 +29,6 @@ public class NodeParserTest {
     }
 
     @Test
-    public void testOptions() throws Exception {
-        ArrayList<String> testarray = new ArrayList<>();
-        testarray.add("hello");
-        testarray.add("my");
-        testarray.add("name");
-        testarray.add("is");
-        testarray.add("trololo");
-        Assert.assertEquals(NodeParser.options().parse("[hello, my,name, is,   trololo]"), testarray);
-    }
-
-    @Test
     public void testOptionsParser() throws Exception {
         final HashMap<String, String> parse = NodeParser.optionsParser().parse("[hello, my,name, is,   trololo = 421]");
         Assert.assertEquals(parse.size(), 5);

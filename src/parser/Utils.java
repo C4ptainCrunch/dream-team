@@ -16,6 +16,7 @@ class Utils {
             Arrays.asList("circle", "ellipse", "circle split", "forbidden sign"));
     private final static Set<String> polygons = new HashSet<>(Arrays.asList("regular polygon", "star"));
     private final static Set<String> colors = new HashSet<>(Arrays.asList("red", "green", "blue", "cyan ", "magenta", "yellow", "black", "gray", "darkgray", "lightgray", "brown", "lime", "olive", "orange", "pink", "purple", "teal", "violet", "white"));
+    private enum EDGEDIR {UNDIRECTED, RIGHTDIRECTED, LEFTDIRECTED};
 
     private static Optional<String> getNodeShape(Map<String, String> m1) {
         for (String s: shapes) {
@@ -102,7 +103,8 @@ class Utils {
         res.setLabel(node.getLabel());
         res.setColor(stringToColor(color));
         res.setStroke(getOptionStroke(defaultOptions, node.getOptions()).orElse(Models.DEFAULT.STROKE));
-        if (node.getRef().isPresent()) {res.setReference(node.getRef().get());}
+        final Optional<String> ref = node.getRef();
+        if (ref.isPresent()) {res.setReference(ref.get());}
         return res;
     }
 
@@ -110,13 +112,31 @@ class Utils {
         return createNode(new HashMap<>(), node);
     }
 
-    public static String isDirected(List<String> options) {
-        if (options.contains("->")) {
-            return "directRight";
-        } else if (options.contains("<-")) {
-            return "directedLeft";
+    public static TikzEdge createEdge(HashMap<String, String> options, TikzNode n1, TikzNode n2){
+        final String color = getColorShape(options).orElse(Models.DEFAULT.COLOR.toString());
+        TikzEdge res;
+        switch (isDirected(options)){
+            case RIGHTDIRECTED:
+                res = new TikzDirectedEdge(n1, n2);
+                break;
+            case LEFTDIRECTED:
+                res = new TikzDirectedEdge(n2, n1);
+                break;
+            default:
+                res = new TikzUndirectedEdge(n1, n2);
+                break;
+        }
+        res.setColor(stringToColor(color));
+        return res;
+    }
+
+    public static EDGEDIR isDirected(Map<String, String> options) {
+        if (options.containsKey("->")) {
+            return EDGEDIR.RIGHTDIRECTED;
+        } else if (options.containsKey("<-")) {
+            return EDGEDIR.LEFTDIRECTED;
         } else {
-            return "undirected";
+            return EDGEDIR.UNDIRECTED;
         }
     }
 }

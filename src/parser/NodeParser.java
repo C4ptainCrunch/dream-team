@@ -60,11 +60,6 @@ public class NodeParser {
         });
     }
 
-    public static Parser<List<String>> options() {
-        final Parser<Void> optionsDelimiter = Scanners.isChar(',').next(MAYBEWHITESPACES);
-        return Parsers.between(Scanners.isChar('['), anOption().sepBy(optionsDelimiter), Scanners.isChar(']'));
-    }
-
     public static Parser<Point> coordinates() {
         final Parser<Void> sep = Parsers.sequence(MAYBEWHITESPACES, Scanners.isChar(','), MAYBEWHITESPACES);
         final Parser<Point> coord = Parsers.sequence(decimal(), sep.next(decimal()), Point::new);
@@ -112,7 +107,7 @@ public class NodeParser {
     public static Parser<Void> edgesFromDraw(TikzGraph graph) {
         return Parsers.sequence(
                 Parsers.sequence(Scanners.string("\\draw"),
-                        Parsers.or(options(), Parsers.constant(new ArrayList<String>()))),
+                        maybeOptions),
                 Parsers.sequence(Scanners.WHITESPACES, coordinates()),
                 Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, coordinates())
                         .many(),
@@ -124,17 +119,7 @@ public class NodeParser {
                     for (Point coord : restCoord) {
                         current = new TikzVoid();
                         graph.add(current);
-                        switch (Utils.isDirected(defaultOptions)) {
-                            case "directedRight":
-                                edge = new TikzDirectedEdge(previous, current);
-                                break;
-                            case "directedLeft":
-                                edge = new TikzDirectedEdge(current, previous);
-                                break;
-                            default:
-                                edge = new TikzUndirectedEdge(previous, current);
-                                break;
-                        }
+                        edge = Utils.createEdge(defaultOptions, previous, current);
                         graph.add(current);
                         graph.add(edge);
                         previous = current;

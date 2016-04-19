@@ -158,30 +158,22 @@ public class Project implements Comparable<Project>{
     }
 
     // TODO : André : refactor this asap
-
     /**
      * Getter for the last revision of this project
      * @return the last revision
      */
-    public String getLastRevision() {
+    public String getLastRevision() throws IOException {
         String ch = "";
 
-        try {
-            ArrayList tmp = new ArrayList<String>();
-            FileReader fr = new FileReader(this.getRevisionPath().toFile());
-            BufferedReader br = new BufferedReader(fr);
+        ArrayList tmp = new ArrayList<String>();
+        FileReader fr = new FileReader(this.getRevisionPath().toFile());
+        BufferedReader br = new BufferedReader(fr);
 
-            do {
-                try {
-                    ch = br.readLine();
-                } catch (IOException e) {
-                    e.getStackTrace();
-                }
-                tmp.add(ch);
-            } while (!ch.startsWith("2016"));
-        } catch (FileNotFoundException e) {
-            e.getStackTrace();
-        }
+        do {
+            ch = br.readLine();
+            tmp.add(ch);
+        } while (!ch.startsWith("2016"));
+
         return ch;
     }
 

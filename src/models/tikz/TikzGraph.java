@@ -12,7 +12,7 @@ import parser.NodeParser;
  * This class represents all the elements(nodes + edges) composing the graph
  * being used in the current project
  */
-public class TikzGraph extends Observable implements Iterable<TikzNode> {
+public class TikzGraph extends Observable implements Iterable<TikzNode>, Observer {
     private List<TikzEdge> edges = new Vector<>();
     private List<TikzNode> nodes = new Vector<>();
 
@@ -70,6 +70,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
     public void add(TikzNode node) {
         if (!this.nodes.contains(node)) {
             nodes.add(node);
+            node.addObserver(this);
             setChanged();
         }
         notifyObservers();
@@ -85,6 +86,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
         this.add(edge.getSecondNode());
         if (!this.edges.contains(edge)) {
             this.edges.add(edge);
+            edge.addObserver(this);
             setChanged();
         }
         notifyObservers();
@@ -182,6 +184,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
      */
     public void remove(TikzEdge edge) {
         this.edges.remove(edge);
+        edge.deleteObserver(this);
     }
 
     /**
@@ -197,10 +200,18 @@ public class TikzGraph extends Observable implements Iterable<TikzNode> {
             if (node == edge.getFirstNode() || node == edge.getSecondNode()) {
                 edges.add(edge);
                 this.edges.remove(i);
+                edge.deleteObserver(this);
                 i--;
             }
         }
         nodes.remove(node);
+        node.deleteObserver(this);
         return edges;
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        setChanged();
+        notifyObservers();
     }
 }

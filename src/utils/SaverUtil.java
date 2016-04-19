@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.logging.Logger;
 
 import constants.Models;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
@@ -24,9 +25,6 @@ public class SaverUtil {
         DiffMatchPatch diff = new DiffMatchPatch();
         LinkedList<DiffMatchPatch.Patch> patches = diff.patchMake(original, revised);
         String s = diff.patchToText(patches);
-        System.out.println("diff brut: " + s);
-
-        System.out.println("diff propre: " + diffDecoder(s));
         return diffDecoder(s);
     }
 

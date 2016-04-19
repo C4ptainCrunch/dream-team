@@ -11,7 +11,7 @@ import models.tikz.TikzGraph;
 import org.codehaus.jparsec.error.ParserException;
 
 import parser.NodeParser;
-import utils.SaverUtil;
+import utils.Log;
 import gui.editor.views.SourceView;
 
 /**
@@ -19,7 +19,7 @@ import gui.editor.views.SourceView;
  * The Source is the area of the GUI where the Tikz is edited.
  */
 public class SourceController implements Observer {
-    private static final Logger logger = Logger.getLogger("gui.editor.controllers.source");
+    private static final Logger logger = Log.getLogger(SourceController.class);
     private final SourceView view;
     private final TikzGraph graph;
 
@@ -44,6 +44,7 @@ public class SourceController implements Observer {
      * @param arg The arguments given by the Observable
      */
     public void update(Observable o, Object arg) {
+        logger.finest("Got an update event");
         if (!view.getIsFocused()) {
             String tikz = this.graph.toString();
             view.setText(tikz);
@@ -55,21 +56,19 @@ public class SourceController implements Observer {
      *
      * @param raw_text The new Tikz text
      */
-    private void updateFromText(String raw_text) {
+        private void updateGraphFromText(String raw_text) {
         String text = raw_text.trim();
         if (text.length() != 0) {
             TikzGraph new_graph = new TikzGraph();
-            logger.fine("TikZ updated event. New TikZ : " + text);
             try {
                 NodeParser.parseDocument(new_graph).parse(text);
-                logger.fine("Valid graph from TikzSource : " + graph.getNodes().size() + " nodes");
+                logger.fine("Valid graph from TikzSource");
                 SwingUtilities.invokeLater(() -> {
                     graph.replace(new_graph);
-                    logger.fine("Runnable done: graph replace");
                 });
 
             } catch (ParserException e) {
-                logger.warning("Error during TikZ parsing : " + e.getMessage());
+                logger.info("Error during TikZ parsing : " + e.getMessage());
             }
         }
     }
@@ -78,6 +77,7 @@ public class SourceController implements Observer {
      * Sets the focus of the view at true meaning that the user has clicked in the text area
      */
     public void focusGained() {
+        logger.finest("Focus gained");
         view.setIsFocused(true);
     }
 
@@ -86,16 +86,17 @@ public class SourceController implements Observer {
      * and updates from text
      */
     public void focusLost() {
+        logger.finest("Focus lost");
         view.setIsFocused(false);
-        this.updateFromText(view.getText());
+        this.updateGraphFromText(view.getText());
     }
 
     /**
-     * Updates from text if the view is focused
+     * Updates the graph from text if the view is focused
      */
-    public void textIsUpdated() {
+    public void updateGraphIfFocused() {
         if (view.getIsFocused()) {
-            this.updateFromText(view.getText());
+            this.updateGraphFromText(view.getText());
         }
     }
 }

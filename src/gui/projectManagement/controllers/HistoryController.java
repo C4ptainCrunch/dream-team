@@ -5,15 +5,19 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import constants.Errors;
 import gui.projectManagement.views.HistoryView;
 import models.Project;
+import utils.Log;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the History.
@@ -24,6 +28,7 @@ public class HistoryController {
     private final HistoryView view;
     private final Project project;
     private Color currentColor = Color.BLACK;
+    private final static Logger logger = Log.getLogger(HistoryController.class);
 
     /**
      * Constructs a new controller for the History,
@@ -47,7 +52,8 @@ public class HistoryController {
                 appendString(line + "\n", currentColor);
             });
         } catch (IOException e) {
-            e.getStackTrace();
+            JOptionPane.showMessageDialog(view, Errors.FILL_VIEW_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
+            logger.severe("Error while reading diff file: " + e.getMessage());
         }
     }
 

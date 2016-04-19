@@ -37,6 +37,36 @@ public abstract class TikzNode extends TikzComponent {
     }
 
     /**
+     * Constructs a default tikz node with a given reference
+     * @param reference the reference for this node
+     */
+    protected TikzNode(String reference) {
+        super(reference);
+        position = new Point(Models.DEFAULT.X, Models.DEFAULT.Y);
+    }
+
+    /**
+     * Constructs a default tikz node with a given reference
+     *
+     * @param reference the reverence for the component
+     */
+    public TikzNode(Point position, String reference) {
+        super(reference);
+        this.position = position;
+    }
+
+    /**
+     * Constructs a tikz node by copying an other tikz component with a given reference
+     *
+     * @param o_node    The tikz compmonent to be copied from
+     * @param reference the reference for the component
+     */
+    public TikzNode(TikzNode o_node, String reference) {
+        super(o_node, reference);
+        this.position = o_node.getPosition();
+    }
+
+    /**
      * Getter for the position of this tikz node
      * @return the position
      */
@@ -50,6 +80,8 @@ public abstract class TikzNode extends TikzComponent {
      */
     public void setPosition(Point position) {
         this.position = position;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -60,6 +92,8 @@ public abstract class TikzNode extends TikzComponent {
      */
     public void move(int x, int y) {
         setPosition(new Point(x, y));
+        setChanged();
+        notifyObservers();
     }
 
     /**

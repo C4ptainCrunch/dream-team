@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observable;
 
 import static org.junit.Assert.*;
 
@@ -68,7 +69,7 @@ public class TikzGraphTest {
         }
 
         graph.addAllEdges(edges);
-        assertEquals(edges.toArray(), graph.get(firstNode).toArray());
+        assertArrayEquals(edges.toArray(), graph.get(firstNode).toArray());
 
     }
 
@@ -240,4 +241,40 @@ public class TikzGraphTest {
 
 
     }
+
+    @Test
+    public void testObservableConstructor() throws Exception {
+        assertTrue(!graph.hasChanged());
+        assertEquals(0,graph.countObservers());
+    }
+
+    @Test
+    public void testNodeAddedAsObserved() throws Exception {
+        TikzCircle testNode = new TikzCircle();
+        graph.add(testNode);
+        assertEquals(1,testNode.countObservers());
+    }
+
+    @Test
+    public void testNodeNotifiesGraph() throws Exception {
+
+        TikzGraph anonymous = new TikzGraph() {
+            boolean flag = false;
+
+            @Override
+            public void update(Observable obs, Object o){ flag = true; }
+
+            public boolean getFlag(){
+                return flag;
+            }
+        };
+
+        TikzCircle testNode = new TikzCircle();
+        anonymous.add(testNode);
+        assertFalse((boolean)anonymous.getClass().getMethod("getFlag").invoke(anonymous));
+        testNode.move(2,2);
+        assertTrue((boolean)anonymous.getClass().getMethod("getFlag").invoke(anonymous));
+    }
+
+
 }

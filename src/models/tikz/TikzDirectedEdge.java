@@ -16,6 +16,28 @@ public class TikzDirectedEdge extends TikzEdge {
         super();
     }
 
+
+    /**
+     * Constructs a directedEdge with two given nodes and a given reference
+     *
+     * @param first     The first node from which the edge is linked
+     * @param second    The second node from which the edge is linked
+     * @param reference The reference of the TikzEdge
+     */
+    public TikzDirectedEdge(TikzNode first, TikzNode second, String reference) {
+        super(first, second, reference);
+    }
+
+    /**
+     * Constructs a directedEdge by copying an other edge with specified reference
+     *
+     * @param o_edge    The edge to be copied from
+     * @param reference the reference of the edge
+     */
+    public TikzDirectedEdge(TikzEdge o_edge, String reference) {
+        super(o_edge, reference);
+    }
+
     /**
      * Constructs a directed edge that is linked to two given nodes
      * @param first The starter node

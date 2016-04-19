@@ -13,6 +13,14 @@ public class TikzText extends TikzNode {
     }
 
     /**
+     * Constructs a default text node wit a given reference
+     * @param reference the reference
+     */
+    public TikzText(String reference) {
+        super(reference);
+    }
+
+    /**
      * Getter for a clone (ie. copy of the current text node)
      * @return A new text node that is the copy of the current text node
      */

@@ -1,0 +1,38 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'application'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'Main'
+    }
+}
+
+mainClassName = "Main"
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+
+    compile 'org.jparsec:jparsec:2.2.1'
+    compile 'org.bitbucket.cowwoc:diff-match-patch:1.1'
+    compile 'org.pegdown:pegdown:1.6.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+sourceSets {
+    test {
+        java {
+            srcDirs = ["tests/"]
+        }
+    }
+    main {
+        java {
+            srcDir "src/"
+        }
+    }
+}

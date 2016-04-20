@@ -145,7 +145,7 @@ public class CanvasController implements Observer {
 
     private void addNodeToModel(TikzComponent component, Point position) {
         TikzNode node = (TikzNode) component;
-        node.setPosition(position);
+        node.setPosition(Converter.swing2tikz(position, view));
         graph.add(node);
         view.resetTool();
     }
@@ -214,9 +214,9 @@ public class CanvasController implements Observer {
         if (view.getIsFocused()) {
             if (selectedTool instanceof TikzNode) { // TODO : Need to refactor
                                                     // this.
-                addNodeToModel(selectedTool,Converter.swing2tikz(e.getPoint(),view));
+                addNodeToModel(selectedTool,e.getPoint());
             } else if (selectedTool instanceof TikzEdge) {
-                addEdgeToModel(selectedTool,Converter.swing2tikz(e.getPoint(), view));
+                addEdgeToModel(selectedTool,e.getPoint());
             }
         } else {
             view.requestFocusInWindow();

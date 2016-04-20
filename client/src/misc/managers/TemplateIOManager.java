@@ -15,9 +15,21 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Created by aurelien on 20/04/16.
+ * This class manages all the template IO operations (i.e. save a Template object into a file and load a Template object
+ * from a file.
+ *
+ * This class is a static class.
  */
+
 public class TemplateIOManager {
+
+    /**
+     * Cast a TikzGraph (represented as a Collection of TikzComponents) into a Template object and save it into a file.
+     *
+     * @param components The collection representing the TikzGraph
+     * @return The file which the graph will be saved in.
+     * @throws IOException thrown if an error occurred during the saving process.
+     */
 
     public static File exportGraphAsTemplate(Collection<TikzComponent> components) throws IOException{
         FileChooseView file_view = new FileChooseView("Template filename", JFileChooser.FILES_AND_DIRECTORIES);
@@ -33,11 +45,24 @@ public class TemplateIOManager {
         return file;
     }
 
+    /**
+     * Load a Template from a file.
+     * @param template_file The file which load the Template from.
+     * @return The Template loaded
+     * @throws IOException thrown if the loading process failed.
+     */
+
     public static Template loadTemplate(File template_file) throws IOException{
         Template template = new Template();
         template.loadTemplate(template_file);
         return template;
     }
+
+    /**
+     * Load all the Templates from all the files in a specific directory (defined in as a constant).
+     * @return A List of loaded Templates.
+     * @throws IOException thrown if one of the loading process failed.
+     */
 
     public static List<Template> loadAllTemplatesFromDir() throws IOException{
         ArrayList<Template> templates = new ArrayList<>();

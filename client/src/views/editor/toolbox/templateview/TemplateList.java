@@ -9,11 +9,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * Created by aurelien on 20/04/16.
+ * A subclass of JList defined for stocking Template Object.
  */
+
 public class TemplateList extends JList<Template> {
 
     private DefaultListModel<Template> template_list_model;
+
+    /**
+     * Default Constructor.
+     * @param model A DefaultListModel that will contain all the Template objects.
+     */
 
     public TemplateList(DefaultListModel<Template> model){
         super(model);
@@ -42,14 +48,28 @@ public class TemplateList extends JList<Template> {
         });
     }
 
+    /**
+     * Add a Template to the DefaultListModel.
+     * @param template The Template to add.
+     */
+
     public void addTemplateToList(Template template){
         template_list_model.addElement(template);
     }
+
+    /**
+     * Get the TikzGraph from the selected Template.
+     * @return A TikzGraph.
+     */
 
     public TikzGraph getSelectedTemplateGraph(){
         Template template = template_list_model.get(this.getSelectedIndex());
         return template.getTemplateGraph();
     }
+
+    /**
+     * Reset the JList's selection.
+     */
 
     public void deselectTemplate(){
         this.clearSelection();

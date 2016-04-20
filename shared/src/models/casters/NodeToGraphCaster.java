@@ -4,7 +4,7 @@ import models.tikz.TikzGraph;
 import models.tikz.TikzNode;
 
 /**
- * Created by aurelien on 19/04/16.
+ * Static class casting a TikzNode to a TikzGraph.
  */
 public final class NodeToGraphCaster {
 

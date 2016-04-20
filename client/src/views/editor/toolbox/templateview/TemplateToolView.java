@@ -13,7 +13,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Created by mrmmtb on 19.04.16.
+ * A View that will display all the Templates available.
+ *
+ * These templates can be drag and drop from this view to the CanvasView.
  */
 
 // TODO: Create a controller for this view.
@@ -22,6 +24,10 @@ public class TemplateToolView extends JPanel {
 
     private TemplateList templates;
     private JScrollPane scroll_zone;
+
+    /**
+     * @name Default Constructor
+     */
 
     public TemplateToolView(){
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -44,6 +50,11 @@ public class TemplateToolView extends JPanel {
             JOptionPane.showMessageDialog(this, Errors.LOAD_TEMPLATES_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    /**
+     * Add a Template Object to the TemplateList from a File.
+      * @param file The file where the Template is saved.
+     */
 
     public void addTemplateFromFile(File file){
         try{

@@ -270,6 +270,11 @@ public class CanvasController implements Observer {
         drawables.add(draw);
     }
 
+    /**
+     * Delete an item from the model.
+     * @param itemToDelete the item that will be removed.
+     */
+
     public void deleteItem(TikzComponent itemToDelete) {
         if (itemToDelete != null){
             if (itemToDelete instanceof TikzNode) {
@@ -283,6 +288,13 @@ public class CanvasController implements Observer {
     public void editItem(TikzComponent itemToEdit){
         new NodeEditionView(itemToEdit);
     }
+
+    /**
+     * Export a collection of TikzComponents as a Template.
+     *
+     * A Template object is composed by a TikzGraph and a File.
+     * This Template will be directly saved in the file defined by the Template's File attribute.
+     */
 
     public void exportSelectionAsTemplate(){
         CanvasSelection selection = view.getSelection();

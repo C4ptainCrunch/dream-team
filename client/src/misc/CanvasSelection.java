@@ -5,6 +5,12 @@ import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * A CanvasSelection is a JPanel that represents the selection of components on the CanvasView.
+ *
+ * It will be displayed as a rectangle.
+ */
+
 public class CanvasSelection extends JPanel {
 
     private static final Color BKG_COLOR = new Color(0,50,120,50);
@@ -12,12 +18,22 @@ public class CanvasSelection extends JPanel {
 
     private Rectangle selection;
 
+    /**
+     * Default constructor.
+     * @param pos The position where the selection will be displayed.
+     */
+
     public CanvasSelection(Point pos){
         this.setSize(new Dimension(0,0));
         this.setBackground(BKG_COLOR);
         this.setLocation(pos);
         this.selection = null;
     }
+
+    /**
+     * Resize the selection rectangle.
+     * @param bottom_right The position of the bottom right corner of the selection rectangle.
+     */
 
     public void resize(Point bottom_right){
         int delta_x = (int) bottom_right.getX() - this.getX();
@@ -28,6 +44,15 @@ public class CanvasSelection extends JPanel {
     public boolean contains(Point point){
         return selection.contains(point);
     }
+
+    /**
+     * Get all the Points composing the selection rectangle.
+     *
+     * Actually, because a Point is basically a pixel, this function returns significantly less points because close Points
+     * are likely to appear similar to the user. As so, the number of Points returned is equals to the total amount of Points
+     * in the selection rectangle divided by a constant&sup2;.
+     * @return A list of Point objects composing the selection rectangle.
+     */
 
     public List<Point> getShapePoints(){
         ArrayList<Point> points = new ArrayList<>();

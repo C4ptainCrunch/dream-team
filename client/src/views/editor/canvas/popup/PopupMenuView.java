@@ -8,8 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by mrmmtb on 17.04.16.
+ * A PopupMenu that allows the user to modify a component on the Canvas.
  */
+
 public class PopupMenuView extends JPopupMenu {
     private CanvasController controller;
     private JMenuItem delete;

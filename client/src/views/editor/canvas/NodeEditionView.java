@@ -9,8 +9,9 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 /**
- * Created by mrmmtb on 18.04.16.
+ * A dialog view that provides modification tools in order to modify a TikzComponent.
  */
+
 public class NodeEditionView extends JFrame {
 
     private AttributesChooserView modifierView;

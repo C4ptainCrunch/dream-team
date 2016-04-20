@@ -194,6 +194,11 @@ public class CanvasView extends JPanel {
         parentView.resetTool();
     }
 
+    /**
+     * Resize the selection rectangle displayed during drag process.
+     * @param bottom_right The bottom right corner of the selection rectangle.
+     */
+
     public void resizeSelection(Point bottom_right){
         if (selection == null){
             selection = new CanvasSelection(bottom_right);
@@ -203,6 +208,10 @@ public class CanvasView extends JPanel {
         }
         selection.repaint();
     }
+
+    /**
+     * Reset the selection rectangle to null.
+     */
 
     public void resetSelection(){
         if (selection != null) {

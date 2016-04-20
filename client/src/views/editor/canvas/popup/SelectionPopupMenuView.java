@@ -6,7 +6,7 @@ import models.tikz.TikzGraph;
 import javax.swing.*;
 
 /**
- * Created by aurelien on 19/04/16.
+ * A PopupMenu that allows the user to export a CanvasSelection as a Template.
  */
 public class SelectionPopupMenuView extends JPopupMenu {
 

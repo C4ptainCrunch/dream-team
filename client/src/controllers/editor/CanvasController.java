@@ -198,7 +198,7 @@ public class CanvasController implements Observer {
     // Location has to be a swing position !!
     private void moveComponent(TikzComponent comp, Point location){
         location.setLocation(Converter.swing2tikz(location, view));
-        if (comp instanceof TikzNode){      // TODO: Refactor this
+        if (comp.isNode()){
             ((TikzNode)comp).setPosition(location);
             view.repaint();
         }
@@ -212,10 +212,10 @@ public class CanvasController implements Observer {
 
     public void mousePressed(MouseEvent e, TikzComponent selectedTool) {
         if (view.getIsFocused()) {
-            if (selectedTool instanceof TikzNode) { // TODO : Need to refactor
+            if (selectedTool.isNode()) {
                                                     // this.
                 addNodeToModel(selectedTool,e.getPoint());
-            } else if (selectedTool instanceof TikzEdge) {
+            } else if (selectedTool.isEdge()) {
                 addEdgeToModel(selectedTool,e.getPoint());
             }
         } else {

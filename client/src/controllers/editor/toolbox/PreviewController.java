@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import models.casters.NodeToGraphCaster;
+import models.tikz.TikzComponent;
 import models.tikz.TikzGraph;
 import models.tikz.TikzNode;
 import models.ToolModel;
@@ -36,7 +37,11 @@ public class PreviewController implements Observer {
      * @return The component being edited
      */
     public TikzGraph getModelAsGraph() {
-        TikzNode node = (TikzNode) model.getComponentClone();      // TODO: Refactor this.
+        TikzComponent comp = model.getComponentClone();
+        TikzNode node = null;
+        if (comp.isNode()){
+            node = (TikzNode) comp;
+        }
         return NodeToGraphCaster.cast(node);
     }
 

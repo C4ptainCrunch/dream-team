@@ -7,6 +7,7 @@ import static constants.GUI.Config.ARROW_LENGTH;
 import java.awt.*;
 import java.awt.geom.Line2D;
 
+import misc.utils.Converter;
 import models.tikz.TikzComponent;
 import models.tikz.TikzDirectedEdge;
 import views.editor.canvas.drawables.DrawableTikzEdge;
@@ -37,14 +38,14 @@ public class DirectedEdgeDrawer extends EdgeDrawer {
         // First arrow head segment.
         double firstDeltaX = Math.cos(beta) * ARROW_LENGTH;
         double firstDeltaY = Math.sin(beta) * ARROW_LENGTH;
-        Shape firstHeadSegment = new Line2D.Float(end,
-                new Point((int) (end.getX() + firstDeltaX * corrX), (int) (end.getY() + firstDeltaY * corrY)));
+        Shape firstHeadSegment = new Line2D.Float(Converter.tikz2swing(end, panel),
+                Converter.tikz2swing(new Point((int) (end.getX() + firstDeltaX * corrX), (int) (end.getY() + firstDeltaY * corrY)), panel));
 
         // Second arrow head segment.
         double secondDeltaX = Math.sin(gamma) * ARROW_LENGTH;
         double secondDeltaY = Math.cos(gamma) * ARROW_LENGTH;
-        Shape secondHeadSegment = new Line2D.Float(end,
-                new Point((int) (end.getX() + secondDeltaX * corrX), (int) (end.getY() + secondDeltaY * corrY)));
+        Shape secondHeadSegment = new Line2D.Float(Converter.tikz2swing(end, panel),
+                Converter.tikz2swing(new Point((int) (end.getX() + secondDeltaX * corrX), (int) (end.getY() + secondDeltaY * corrY)), panel));
 
         drawablecomponent.addShape(firstHeadSegment);
         drawablecomponent.addShape(secondHeadSegment);

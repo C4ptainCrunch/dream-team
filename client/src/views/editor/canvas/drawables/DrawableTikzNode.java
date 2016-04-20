@@ -36,17 +36,18 @@ public class DrawableTikzNode extends DrawableTikzComponent {
             g.setColor(((TikzShape)component).getBackgroundColor());
         }
 
-        Area area = getArea();
 
         if (component.getLabel() != Models.DEFAULT.LABEL) {
             g.drawString(component.getLabel(), 0, 0);
         }
 
-        g.fill(area);
+        for(Shape shape : getShapes()){
+            g.fill(shape);
+        }
         g.setColor(component.getColor());
-
-
-        g.draw(area);
+        for(Shape shape : getShapes()){
+            g.draw(shape);
+        }
 
         g.setColor(old_color);
         g.setStroke(old_stroke);

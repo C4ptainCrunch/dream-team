@@ -3,11 +3,14 @@ package views.editor.canvas.drawables;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
+
 import models.tikz.TikzComponent;
 import views.editor.canvas.drawables.Drawable;
 
 public abstract class DrawableTikzComponent implements Drawable {
-    private final Area area = new Area();
+    private final java.util.List<Shape> shapes = new ArrayList<Shape>();
     private final TikzComponent component;
 
     public DrawableTikzComponent(TikzComponent component) {
@@ -19,13 +22,19 @@ public abstract class DrawableTikzComponent implements Drawable {
     }
 
     public void addShape(Shape shape) {
-        area.add(new Area(shape));
+        shapes.add(shape);
     }
 
-    public Area getArea() { return area; }
+
+    public java.util.List<Shape> getShapes() { return shapes; }
 
     public boolean contains(Point point) {
-        return area.contains(point);
+        for(Shape shape : shapes){
+            if(shape.contains(point)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean hasAsComponent(TikzComponent comp){

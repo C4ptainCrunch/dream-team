@@ -41,4 +41,8 @@ public final class GUI {
         }
 
     }
+
+    public static final class Template {
+        public static final String DIR = "./assets/templates/";
+    }
 }

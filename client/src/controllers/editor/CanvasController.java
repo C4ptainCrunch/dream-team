@@ -13,7 +13,6 @@ import constants.Errors;
 import misc.CanvasSelection;
 import misc.drag.transfertdata.TransferTikz;
 import misc.managers.TemplateIOManager;
-import models.Template;
 import views.editor.canvas.NodeEditionView;
 import models.tikz.TikzComponent;
 import models.tikz.TikzEdge;
@@ -22,7 +21,6 @@ import models.tikz.TikzNode;
 import views.editor.CanvasView;
 import views.editor.canvas.drawables.DrawableTikzComponent;
 import views.editor.canvas.drawers.Drawer;
-import views.management.FileChooseView;
 
 import javax.swing.*;
 

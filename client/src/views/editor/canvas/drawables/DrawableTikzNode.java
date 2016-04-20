@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 
 public class DrawableTikzNode extends DrawableTikzComponent {
     public DrawableTikzNode(TikzComponent component){
@@ -36,11 +37,6 @@ public class DrawableTikzNode extends DrawableTikzComponent {
             g.setColor(((TikzShape)component).getBackgroundColor());
         }
 
-
-        if (component.getLabel() != Models.DEFAULT.LABEL) {
-            g.drawString(component.getLabel(), 0, 0);
-        }
-
         for(Shape shape : getShapes()){
             g.fill(shape);
         }
@@ -48,6 +44,20 @@ public class DrawableTikzNode extends DrawableTikzComponent {
         for(Shape shape : getShapes()){
             g.draw(shape);
         }
+
+        String label = component.getLabel();
+        if (!label.equals(Models.DEFAULT.LABEL)) {
+            Rectangle2D bounds = getBounds();
+            FontMetrics metrics = g.getFontMetrics();
+            int x = ((int)bounds.getWidth() - metrics.stringWidth(label))/2 + (int)bounds.getX();
+            int y = (((int)bounds.getHeight() + metrics.getHeight()))/2 + (int)bounds.getY();
+            System.out.println(label + " : " + Integer.toString(x) + ", " + Integer.toString(y));
+            System.out.println(getBounds());
+
+            g.drawString(label, x, y);
+        }
+
+
 
         g.setColor(old_color);
         g.setStroke(old_stroke);

@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import models.tikz.TikzComponent;
@@ -25,6 +26,17 @@ public abstract class DrawableTikzComponent implements Drawable {
         shapes.add(shape);
     }
 
+    // Useful for drawing the Label.
+    public Rectangle2D getBounds(){
+        if(!shapes.isEmpty()){
+            Rectangle2D bounds = shapes.get(0).getBounds2D();
+            for(int i = 1; i < shapes.size(); ++i){
+                bounds.add(shapes.get(i).getBounds2D());
+            }
+            return bounds;
+        }
+        else return new Rectangle2D.Double();
+    }
 
     public java.util.List<Shape> getShapes() { return shapes; }
 

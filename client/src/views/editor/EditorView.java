@@ -3,6 +3,7 @@ package views.editor;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.Map;
 
 import javax.swing.*;
@@ -96,4 +97,8 @@ public class EditorView extends JFrame {
     }
 
     public final void resetTool() { toolBoxView.resetTool(); };
+
+    public final void addTemplateToToolBox(File file){
+        toolBoxView.addTemplateToView(file);
+    }
 }

@@ -1,20 +1,23 @@
 package views.editor.toolbox.templateview;
 
 import constants.Errors;
-import misc.drag.handler.TemplateToolTransferHandler;
+import constants.GUI;
 import misc.managers.TemplateIOManager;
 import models.Template;
-import models.tikz.TikzGraph;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Created by mrmmtb on 19.04.16.
  */
+
+// TODO: Create a controller for this view.
+
 public class TemplateToolView extends JPanel {
 
     private TemplateList templates;
@@ -40,6 +43,17 @@ public class TemplateToolView extends JPanel {
         } catch (IOException e){
             JOptionPane.showMessageDialog(this, Errors.LOAD_TEMPLATES_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public void addTemplateFromFile(File file){
+        try{
+            Path p = Paths.get(GUI.Template.DIR);
+            p = p.resolve(file.getName());
+            templates.addTemplateToList(TemplateIOManager.loadTemplate(p.toFile()));
+        } catch (IOException e){
+            JOptionPane.showMessageDialog(this, Errors.LOAD_TEMPLATES_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 }
 

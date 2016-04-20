@@ -1,6 +1,7 @@
 package views.editor.toolbox;
 
 import java.awt.*;
+import java.io.File;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -53,5 +54,9 @@ public class ToolBoxView extends JPanel {
 
     public void resetTool() {
         tikzComponentCreator.resetTool();
+    }
+
+    public void addTemplateToView(File file){
+        tikzTemplateCreator.addTemplateFromFile(file);
     }
 }

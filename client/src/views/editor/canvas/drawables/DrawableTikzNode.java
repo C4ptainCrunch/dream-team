@@ -45,7 +45,7 @@ public class DrawableTikzNode extends DrawableTikzComponent {
             g.draw(shape);
         }
 
-        //TODO use label color ! 
+        //TODO use label color !
         g.setColor(old_color);
         String label = component.getLabel();
         if (!label.equals(Models.DEFAULT.LABEL)) {

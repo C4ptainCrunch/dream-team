@@ -138,7 +138,7 @@ public class CanvasView extends JPanel {
         super.paintComponent(g);
 
         for(DrawableTikzComponent drawable : controller.getDrawables()){
-            drawable.draw((Graphics2D)g, this);
+            drawable.draw((Graphics2D)g);
         }
 
         if (!getIsFocused()) {

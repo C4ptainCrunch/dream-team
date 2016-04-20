@@ -8,6 +8,8 @@ import models.tikz.TikzPolygon;
 import utils.Log;
 import views.editor.canvas.drawables.DrawableTikzNode;
 
+import javax.swing.*;
+
 public class PolygonDrawer extends NodeDrawer {
     private final static Logger logger = Log.getLogger(PolygonDrawer.class);
     public PolygonDrawer() {
@@ -15,10 +17,10 @@ public class PolygonDrawer extends NodeDrawer {
     }
 
     @Override
-    public DrawableTikzNode toDrawable(TikzComponent component) {
+    public DrawableTikzNode toDrawable(TikzComponent component, JComponent panel) {
         TikzPolygon polygon = (TikzPolygon) component;
-        DrawableTikzNode drawableComponent = super.toDrawable(polygon);
-        drawableComponent.addShape(getAwtPolygon(polygon));
+        DrawableTikzNode drawableComponent = super.toDrawable(polygon, panel);
+        drawableComponent.addShape(getPositionedShape(getAwtPolygon(polygon), polygon, panel));
         return drawableComponent;
     }
 

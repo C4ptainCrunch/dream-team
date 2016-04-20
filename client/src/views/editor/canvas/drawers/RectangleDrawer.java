@@ -6,6 +6,8 @@ import models.tikz.TikzComponent;
 import models.tikz.TikzRectangle;
 import views.editor.canvas.drawables.DrawableTikzNode;
 
+import javax.swing.*;
+
 public class RectangleDrawer extends NodeDrawer {
 
     public RectangleDrawer() {
@@ -13,10 +15,10 @@ public class RectangleDrawer extends NodeDrawer {
     }
 
     @Override
-    public DrawableTikzNode toDrawable(TikzComponent component) {
+    public DrawableTikzNode toDrawable(TikzComponent component, JComponent panel) {
         TikzRectangle rectangle = (TikzRectangle) component;
-        DrawableTikzNode drawableComponent = super.toDrawable(rectangle);
-        drawableComponent.addShape(new Rectangle(rectangle.getWidth(), rectangle.getLength()));
+        DrawableTikzNode drawableComponent = super.toDrawable(rectangle, panel);
+        drawableComponent.addShape(getPositionedShape(new Rectangle(rectangle.getWidth(), rectangle.getLength()), rectangle, panel));
         return drawableComponent;
 
     }

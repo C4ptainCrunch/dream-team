@@ -11,17 +11,19 @@ import models.tikz.TikzComponent;
 import models.tikz.TikzDirectedEdge;
 import views.editor.canvas.drawables.DrawableTikzEdge;
 
+import javax.swing.*;
+
 public class DirectedEdgeDrawer extends EdgeDrawer {
     public DirectedEdgeDrawer() {
         // this was left intentionally blank
     }
 
     @Override
-    public DrawableTikzEdge toDrawable(TikzComponent component) {
+    public DrawableTikzEdge toDrawable(TikzComponent component, JComponent panel) {
         TikzDirectedEdge edge = (TikzDirectedEdge) component;
-        DrawableTikzEdge drawablecomponent = super.toDrawable(edge);
-        Point start = edge.getFromPosition();
-        Point end = edge.getToPosition();
+        DrawableTikzEdge drawablecomponent = super.toDrawable(edge, panel);
+        Point start = fromPosition(edge);
+        Point end = toPosition(edge);
         double eucDist = Math.sqrt(Math.pow(end.getX() - start.getX(), 2) + Math.pow(end.getY() - start.getY(), 2));
         double alpha = Math.asin(end.getY() / eucDist);
         double beta = alpha - ARROW_ANGLE;

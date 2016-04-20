@@ -8,7 +8,6 @@ import views.editor.canvas.drawables.Drawable;
 
 public abstract class DrawableTikzComponent implements Drawable {
     private final Area area = new Area();
-    private Area drawnArea;
     private final TikzComponent component;
 
     public DrawableTikzComponent(TikzComponent component) {
@@ -25,17 +24,8 @@ public abstract class DrawableTikzComponent implements Drawable {
 
     public Area getArea() { return area; }
 
-    protected void setDrawing(Area area) {
-        this.drawnArea = area;
-    }
-
-    public void translate(Point translation) {
-        AffineTransform affineTransform = new AffineTransform(1, 0, 0, 1, translation.getX(), translation.getY());
-        drawnArea.transform(affineTransform);
-    }
-
     public boolean contains(Point point) {
-        return drawnArea.contains(point);
+        return area.contains(point);
     }
 
     public boolean hasAsComponent(TikzComponent comp){

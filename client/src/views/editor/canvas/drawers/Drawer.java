@@ -6,6 +6,8 @@ import java.util.Map;
 import views.editor.canvas.drawables.DrawableTikzComponent;
 import models.tikz.*;
 
+import javax.swing.*;
+
 public final class Drawer {
 
     private static Map<Class<? extends TikzComponent>, TikzDrawer> drawers = new HashMap<>();
@@ -21,7 +23,7 @@ public final class Drawer {
     private Drawer() {
     }
 
-    public static DrawableTikzComponent toDrawable(TikzComponent component) {
-        return drawers.get(component.getClass()).toDrawable(component);
+    public static DrawableTikzComponent toDrawable(TikzComponent component, JComponent panel) {
+        return drawers.get(component.getClass()).toDrawable(component, panel);
     }
 }

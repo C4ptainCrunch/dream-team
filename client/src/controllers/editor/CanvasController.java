@@ -35,7 +35,7 @@ public class CanvasController implements Observer {
     private final CanvasView view;
     private final TikzGraph graph;
 
-    private final Set<DrawableTikzComponent> drawables;
+    private final java.util.List<DrawableTikzComponent> drawables;
     private final Set<TikzComponent> selected_comp;
     private final CanvasState state;
 
@@ -50,7 +50,7 @@ public class CanvasController implements Observer {
 
         this.graph = graph;
         this.graph.addObserver(this);
-        drawables = new HashSet<>();
+        drawables = new java.util.ArrayList<>();
         state = new CanvasState();
         selected_comp = new HashSet<>();
     }
@@ -70,11 +70,11 @@ public class CanvasController implements Observer {
     public void updateDrawables(){
         drawables.clear();
         for(TikzComponent component : graph.getComponents()){
-            drawables.add(Drawer.toDrawable(component));
+            drawables.add(Drawer.toDrawable(component, view));
         }
     }
 
-    public Set<DrawableTikzComponent> getDrawables(){
+    public java.util.List<DrawableTikzComponent> getDrawables(){
         return drawables;
     }
     /**
@@ -130,7 +130,7 @@ public class CanvasController implements Observer {
 
     public void unselectComponents(){
         for (TikzComponent comp: selected_comp){
-            addDrawableComponent(Drawer.toDrawable(comp));
+            addDrawableComponent(Drawer.toDrawable(comp, view));
         }
     }
 

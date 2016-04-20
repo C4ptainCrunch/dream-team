@@ -2,9 +2,12 @@ package views.editor.canvas.drawables;
 
 
 import models.tikz.TikzComponent;
+import models.tikz.TikzEdge;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 
 public class DrawableTikzEdge extends DrawableTikzComponent {
 
@@ -13,7 +16,24 @@ public class DrawableTikzEdge extends DrawableTikzComponent {
     }
 
     @Override
-    public void draw(Graphics2D g, JComponent panel){
+    public TikzEdge getComponent(){
+        return (TikzEdge)super.getComponent();
+    }
 
+    @Override
+    public void draw(Graphics2D g){
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        Stroke old_stroke = g.getStroke();
+        Color old_color = g.getColor();
+
+        TikzEdge component = getComponent();
+        Area area = new Area(getArea());
+
+        g.setStroke(new BasicStroke(component.getStroke()));
+        g.setColor(component.getColor());
+        g.draw(area);
+
+        g.setColor(old_color);
+        g.setStroke(old_stroke);
     }
 }

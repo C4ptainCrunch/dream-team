@@ -5,12 +5,10 @@ import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
 
-/**
- * Created by aurelien on 19/04/16.
- */
 public class CanvasSelection extends JPanel {
 
     private static final Color BKG_COLOR = new Color(0,50,120,50);
+    private static final int INCREMENT = 5;
 
     private Rectangle selection;
 
@@ -33,8 +31,8 @@ public class CanvasSelection extends JPanel {
 
     public List<Point> getShapePoints(){
         ArrayList<Point> points = new ArrayList<>();
-        for (int i = 0; i < selection.getWidth(); i++){
-            for (int j = 0; j < selection.getHeight(); j++){
+        for (int i = 0; i < selection.getWidth(); i+=INCREMENT){
+            for (int j = 0; j < selection.getHeight(); j+=INCREMENT){
                 points.add(new Point((int)(i+selection.getX()), (int) (j+selection.getY())));
             }
         }

@@ -33,7 +33,7 @@ public abstract class TikzNode extends TikzComponent {
      */
     protected TikzNode(TikzNode o_node) {
         super(o_node);
-        this.position = o_node.getPosition();
+        this.position = new Point(o_node.getPosition());
     }
 
     /**

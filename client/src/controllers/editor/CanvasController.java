@@ -263,8 +263,6 @@ public class CanvasController implements Observer {
         new NodeEditionView(itemToEdit);
     }
 
-    // TODO: Move next method into dedicated class.
-
     public void exportSelectionAsTemplate(){
         CanvasSelection selection = view.getSelection();
         if (selection != null){

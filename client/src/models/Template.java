@@ -40,7 +40,7 @@ public class Template {
 
     public void saveTemplate(File file) throws IOException{
         createDirectory();
-        if (graph != null){
+        if (graph != null && file != null){
             createSaveFile(file.getName());
             PrintWriter sourceWriter = new PrintWriter(template_file);
             sourceWriter.println(this.graph.toString());
@@ -49,11 +49,16 @@ public class Template {
     }
 
     public void loadTemplate(File file) throws IOException{
-        Path p = Paths.get(file.getName());
+        Path p = Paths.get(file.getAbsolutePath());
+        template_file = file;
         graph = new TikzGraph(p.toString());
     }
 
     public TikzGraph getTemplateGraph(){
         return graph;
+    }
+
+    public String getTemplateName(){
+        return template_file.getName();
     }
 }

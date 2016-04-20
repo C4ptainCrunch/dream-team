@@ -12,4 +12,5 @@ public class Errors {
     public static final String RENAME_ERROR = "Failed to rename project";
     public static final String CREATE_TEMPLATE_DIR_ERROR = "Failed to create the template directory";
     public static final String SAVE_TEMPLATE_ERROR = "Failed to save the template";
+    public static final String LOAD_TEMPLATES_ERROR = "Failed to load templates";
 }

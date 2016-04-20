@@ -34,6 +34,7 @@ public class SourceController implements Observer {
         this.view = view;
         this.graph = graph;
         this.graph.addObserver(this);
+        updateTikzText();
     }
 
     /**
@@ -46,8 +47,7 @@ public class SourceController implements Observer {
     public void update(Observable o, Object arg) {
         logger.finest("Got an update event");
         if (!view.getIsFocused()) {
-            String tikz = this.graph.toString();
-            view.setText(tikz);
+            updateTikzText();
         }
     }
 
@@ -56,7 +56,7 @@ public class SourceController implements Observer {
      *
      * @param raw_text The new Tikz text
      */
-        private void updateGraphFromText(String raw_text) {
+    private void updateGraphFromText(String raw_text) {
         String text = raw_text.trim();
         if (text.length() != 0) {
             TikzGraph new_graph = new TikzGraph();
@@ -71,6 +71,14 @@ public class SourceController implements Observer {
                 logger.info("Error during TikZ parsing : " + e.getMessage());
             }
         }
+    }
+
+    /**
+     * Updates the tikz text from the graph
+     */
+    private void updateTikzText(){
+        String tikz = this.graph.toString();
+        view.setText(tikz);
     }
 
     /**

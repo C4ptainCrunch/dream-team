@@ -2,6 +2,7 @@ package controllers.editor;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Observable;
@@ -268,8 +269,9 @@ public class CanvasController implements Observer {
         if (selection != null){
             Set<TikzComponent> components = getSelectedComponents(selection.getShapePoints());
             try {
-                TemplateIOManager.exportGraphAsTemplate(components);
+                File file = TemplateIOManager.exportGraphAsTemplate(components);
                 unselectComponents();
+                view.addTemplateToParentView(file);
             } catch (IOException e){
                 JOptionPane.showMessageDialog(view, Errors.SAVE_TEMPLATE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
             }

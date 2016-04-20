@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class TemplateIOManager {
 
-    public static void exportGraphAsTemplate(Collection<TikzComponent> components) throws IOException{
+    public static File exportGraphAsTemplate(Collection<TikzComponent> components) throws IOException{
         FileChooseView file_view = new FileChooseView("Template filename", JFileChooser.FILES_AND_DIRECTORIES);
         TikzGraph g = new TikzGraph();
         for (TikzComponent comp: components){
@@ -27,11 +27,13 @@ public class TemplateIOManager {
                 g.add((TikzNode) comp);
             }
         }
+        File file = file_view.ask();
         Template template = new Template(g);
-        template.saveTemplate(file_view.ask());
+        template.saveTemplate(file);
+        return file;
     }
 
-    private static Template loadTemplate(File template_file) throws IOException{
+    public static Template loadTemplate(File template_file) throws IOException{
         Template template = new Template();
         template.loadTemplate(template_file);
         return template;

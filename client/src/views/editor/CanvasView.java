@@ -5,6 +5,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 import javax.swing.*;
 
@@ -222,5 +223,9 @@ public class CanvasView extends JPanel {
 
     public CanvasSelection getSelection(){
         return selection;
+    }
+
+    public void addTemplateToParentView(File file){
+        parentView.addTemplateToToolBox(file);
     }
 }

@@ -1,5 +1,6 @@
 package models;
 
+import constants.GUI;
 import models.tikz.TikzGraph;
 
 import java.io.File;
@@ -9,27 +10,28 @@ import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-/**
- * Created by aurelien on 20/04/16.
- */
-public class Template {
+// TODO: Refactor this, duplicated code with Project model.
 
-    private static final String DIR = "./assets/templates/";
+public class Template {
 
     private TikzGraph graph;
     private File template_file;
+
+    public Template(){
+        graph = null;
+    }
 
     public Template(TikzGraph g){
         graph = g;
     }
 
     private void createDirectory() throws IOException{
-        File dir = Paths.get(DIR).toFile();
+        File dir = Paths.get(GUI.Template.DIR).toFile();
         dir.mkdir();
     }
 
     private void createSaveFile(String filename) throws IOException{
-        Path dir = Paths.get(DIR);
+        Path dir = Paths.get(GUI.Template.DIR);
         template_file = dir.resolve(filename).toFile();
         if (!template_file.exists()){
             new FileOutputStream(template_file).close();
@@ -38,7 +40,7 @@ public class Template {
 
     public void saveTemplate(File file) throws IOException{
         createDirectory();
-        if (graph != null){
+        if (graph != null && file != null){
             createSaveFile(file.getName());
             PrintWriter sourceWriter = new PrintWriter(template_file);
             sourceWriter.println(this.graph.toString());
@@ -46,7 +48,17 @@ public class Template {
         }
     }
 
-    public TikzGraph loadTemplate(File path){
-        return null;
+    public void loadTemplate(File file) throws IOException{
+        Path p = Paths.get(file.getAbsolutePath());
+        template_file = file;
+        graph = new TikzGraph(p.toString());
+    }
+
+    public TikzGraph getTemplateGraph(){
+        return graph;
+    }
+
+    public String getTemplateName(){
+        return template_file.getName();
     }
 }

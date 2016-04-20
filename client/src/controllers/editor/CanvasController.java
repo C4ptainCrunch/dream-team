@@ -15,7 +15,6 @@ import misc.CanvasSelection;
 import misc.drag.transfertdata.TransferTikz;
 import misc.utils.Converter;
 import misc.managers.TemplateIOManager;
-import models.Template;
 import views.editor.canvas.NodeEditionView;
 import models.tikz.TikzComponent;
 import models.tikz.TikzEdge;
@@ -281,8 +280,6 @@ public class CanvasController implements Observer {
     public void editItem(TikzComponent itemToEdit){
         new NodeEditionView(itemToEdit);
     }
-
-    // TODO: Move next method into dedicated class.
 
     public void exportSelectionAsTemplate(){
         CanvasSelection selection = view.getSelection();

@@ -34,8 +34,8 @@ public class SourceView extends JPanel {
         this.parentView = parentView;
         this.graph = graph;
 
-        this.controller = new SourceController(this, graph);
         this.textArea = new JTextArea();
+        this.controller = new SourceController(this, graph);
         this.setPreferredSize(new Dimension(TEXT_AREA_WIDTH, this.getHeight()));
 
         this.addListeners();

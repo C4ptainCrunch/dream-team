@@ -45,14 +45,14 @@ public class DrawableTikzNode extends DrawableTikzComponent {
             g.draw(shape);
         }
 
+        //TODO use label color ! 
+        g.setColor(old_color);
         String label = component.getLabel();
         if (!label.equals(Models.DEFAULT.LABEL)) {
             Rectangle2D bounds = getBounds();
             FontMetrics metrics = g.getFontMetrics();
             int x = ((int)bounds.getWidth() - metrics.stringWidth(label))/2 + (int)bounds.getX();
             int y = (((int)bounds.getHeight() + metrics.getHeight()))/2 + (int)bounds.getY();
-            System.out.println(label + " : " + Integer.toString(x) + ", " + Integer.toString(y));
-            System.out.println(getBounds());
 
             g.drawString(label, x, y);
         }

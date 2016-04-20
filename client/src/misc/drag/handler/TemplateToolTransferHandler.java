@@ -13,7 +13,7 @@ import java.awt.datatransfer.Transferable;
 public class TemplateToolTransferHandler extends TikzTransferHandler {
 
     protected Transferable createTransferable(JComponent c) {
-        return new TemplateToolTransferable(((TemplateList) c).getSelectedTemplateGraph(), GUI.Drag.DropOptions.ADD);
+        return new TemplateToolTransferable(((TemplateList) c).getSelectedTemplateGraphClone(), GUI.Drag.DropOptions.ADD);
     }
 
     protected void exportDone(JComponent c, Transferable t, int action) {

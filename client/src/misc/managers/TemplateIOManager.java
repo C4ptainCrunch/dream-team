@@ -23,6 +23,15 @@ import java.util.List;
 
 public class TemplateIOManager {
 
+    private static void moveTemplateGraphToOrigin(TikzGraph g){
+        List<TikzNode> comps = g.getNodes();
+        TikzNode first_node = comps.get(0);
+        int origin_delta_x = -((int) first_node.getPosition().getX());
+        int origin_delta_y = -((int) first_node.getPosition().getY());
+        g.translation(origin_delta_x, origin_delta_y);
+
+    }
+
     /**
      * Cast a TikzGraph (represented as a Collection of TikzComponents) into a Template object and save it into a file.
      *
@@ -36,9 +45,10 @@ public class TemplateIOManager {
         TikzGraph g = new TikzGraph();
         for (TikzComponent comp: components){
             if (comp.isNode()){
-                g.add((TikzNode) comp);
+                g.add((TikzNode) comp.getClone());
             }
         }
+        moveTemplateGraphToOrigin(g);
         File file = file_view.ask();
         Template template = new Template(g);
         template.saveTemplate(file);

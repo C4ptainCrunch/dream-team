@@ -62,9 +62,10 @@ public class TemplateList extends JList<Template> {
      * @return A TikzGraph.
      */
 
-    public TikzGraph getSelectedTemplateGraph(){
+    public TikzGraph getSelectedTemplateGraphClone(){
         Template template = template_list_model.get(this.getSelectedIndex());
-        return template.getTemplateGraph();
+        TikzGraph g = template.getTemplateGraph();
+        return g.getClone();
     }
 
     /**

@@ -129,4 +129,8 @@ public class DrawableTikzComponent implements Drawable {
         }
         return contain;
     }
+
+    public boolean hasAsComponent(TikzComponent comp){
+        return component.equals(comp);
+    }
 }

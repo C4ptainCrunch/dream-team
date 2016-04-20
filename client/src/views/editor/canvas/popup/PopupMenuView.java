@@ -1,4 +1,4 @@
-package views.editor.canvas;
+package views.editor.canvas.popup;
 
 import controllers.editor.CanvasController;
 import models.tikz.TikzComponent;

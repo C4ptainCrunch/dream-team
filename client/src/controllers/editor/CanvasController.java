@@ -2,12 +2,17 @@ package controllers.editor;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
+import java.util.List;
 
+import constants.Errors;
+import misc.CanvasSelection;
 import misc.drag.transfertdata.TransferTikz;
+import models.Template;
 import views.editor.canvas.NodeEditionView;
 import models.tikz.TikzComponent;
 import models.tikz.TikzEdge;
@@ -15,6 +20,10 @@ import models.tikz.TikzGraph;
 import models.tikz.TikzNode;
 import views.editor.CanvasView;
 import views.editor.canvas.drawables.DrawableTikzComponent;
+import views.editor.canvas.drawers.Drawer;
+import views.management.FileChooseView;
+
+import javax.swing.*;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the Canvas.
@@ -24,6 +33,7 @@ public class CanvasController implements Observer {
     private final CanvasView view;
     private final TikzGraph graph;
     private final Set<DrawableTikzComponent> draws;
+    private final Set<TikzComponent> selected_comp;
     private final CanvasState state;
 
     /**
@@ -39,6 +49,7 @@ public class CanvasController implements Observer {
         this.graph.addObserver(this);
         draws = new HashSet<>();
         state = new CanvasState();
+        selected_comp = new HashSet<>();
     }
 
     /**
@@ -81,6 +92,32 @@ public class CanvasController implements Observer {
             return true;
         }
         return false;
+    }
+
+    public void removeFromDraws(TikzComponent comp){
+        for (DrawableTikzComponent draw : draws){
+            if (draw.hasAsComponent(comp)){
+                draws.remove(draw);
+                break;
+            }
+        }
+    }
+
+    public Set<TikzComponent> getSelectedComponents(List<Point> positions){
+        for (Point pos: positions){
+            TikzComponent comp = findComponentByPosition(pos);
+            if (comp != null){
+                selected_comp.add(comp);
+                removeFromDraws(comp);
+            }
+        }
+        return selected_comp;
+    }
+
+    public void unselectComponents(){
+        for (TikzComponent comp: selected_comp){
+            addDrawableComponent(Drawer.toDrawable(comp));
+        }
     }
 
     /**
@@ -225,6 +262,29 @@ public class CanvasController implements Observer {
 
     public void editItem(TikzComponent itemToEdit){
         new NodeEditionView(itemToEdit);
+    }
+
+    // TODO: Move next method into dedicated class.
+
+    public void exportSelectionAsTemplate(){
+        CanvasSelection selection = view.getSelection();
+        FileChooseView file_view = new FileChooseView("Template filename", JFileChooser.FILES_AND_DIRECTORIES);
+        if (selection != null){
+            Set<TikzComponent> components = getSelectedComponents(selection.getShapePoints());
+            TikzGraph g = new TikzGraph();
+            for (TikzComponent comp: components){
+                if (comp instanceof TikzNode){      //TODO: Refactor this;
+                    g.add((TikzNode) comp);
+                }
+            }
+            Template template = new Template(g);
+            try {
+                template.saveTemplate(file_view.ask());
+                unselectComponents();
+            } catch (IOException e){
+                JOptionPane.showMessageDialog(view, Errors.SAVE_TEMPLATE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
 }

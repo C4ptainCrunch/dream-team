@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
+import misc.CanvasSelection;
 import misc.drag.handler.CanvasTransferHandler;
 import misc.drag.transfertdata.TransferTikz;
 import models.tikz.TikzComponent;
@@ -15,9 +16,10 @@ import models.tikz.TikzEdge;
 import models.tikz.TikzGraph;
 import models.tikz.TikzNode;
 import controllers.editor.CanvasController;
-import views.editor.canvas.PopupMenuView;
+import views.editor.canvas.popup.PopupMenuView;
 import views.editor.canvas.drawables.DrawableTikzComponent;
 import views.editor.canvas.drawers.Drawer;
+import views.editor.canvas.popup.SelectionPopupMenuView;
 
 /**
  * Implementation of the View (from the MVC architectural pattern) for the Canvas.
@@ -29,6 +31,8 @@ public class CanvasView extends JPanel {
     private final CanvasController controller;
     private boolean isFocused;
     private PopupMenuView popupMenu;
+    private SelectionPopupMenuView selectionPopupMenu;
+    private CanvasSelection selection;
 
     /**
      * Constructs a new View for the Canvas,
@@ -42,6 +46,8 @@ public class CanvasView extends JPanel {
         this.controller = new CanvasController(this, graph);
         this.isFocused = isFocusOwner();
         this.popupMenu = new PopupMenuView(controller);
+        this.selectionPopupMenu = new SelectionPopupMenuView(controller);
+        this.selection = null;
 
         this.render();
         this.addListeners();
@@ -58,10 +64,7 @@ public class CanvasView extends JPanel {
         // requestFocusInWindow();
     }
 
-    /**
-     * Adds listeners for mouse events to the view
-     */
-    private void addListeners() {
+    private void addMouseListener(){
         this.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -70,13 +73,16 @@ public class CanvasView extends JPanel {
                     requestFocusInWindow();
                     CanvasView view = (CanvasView) e.getSource();
                     TikzComponent component = view.getSelectedComponent();
-                    if (component != null) {
+                    if (component != null){
                         popupMenu.show(view, e.getX(), e.getY());
                         popupMenu.setComponent(component);
+                    } else if ((selection != null) && selection.contains(e.getPoint())){
+                        selectionPopupMenu.show(view, e.getX(), e.getY());
                     }
                 } else {
+                    CanvasView view = (CanvasView) e.getSource();
+                    view.resetSelection();
                     if (controller.hasComponentAtPosition(e.getPoint())) {
-                        CanvasView view = (CanvasView) e.getSource();
                         TransferHandler handler = view.getTransferHandler();
                         handler.exportAsDrag(view, e, TransferHandler.MOVE);
                     }
@@ -84,8 +90,20 @@ public class CanvasView extends JPanel {
                 }
             }
         });
+    }
 
+    private void addMouseMotionListener(){
+        this.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e){
+                CanvasView view = (CanvasView) e.getSource();
+                view.resizeSelection(e.getPoint());
+                view.repaint();
+            }
+        });
+    }
 
+    private void addFocusListener(){
         this.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent focusEvent) {
@@ -97,6 +115,15 @@ public class CanvasView extends JPanel {
                 controller.focusLost();
             }
         });
+    }
+
+    /**
+     * Adds listeners for mouse events to the view
+     */
+    private void addListeners() {
+        addMouseListener();
+        addFocusListener();
+        addMouseMotionListener();
     }
 
     private void enableDrag() {
@@ -128,7 +155,6 @@ public class CanvasView extends JPanel {
             g2d.setColor(old_color);
             g2d.setStroke(old_stroke);
         }
-
     }
 
     /**
@@ -167,4 +193,25 @@ public class CanvasView extends JPanel {
         parentView.resetTool();
     }
 
+    public void resizeSelection(Point bottom_right){
+        if (selection == null){
+            selection = new CanvasSelection(bottom_right);
+            this.add(selection);
+        } else {
+            selection.resize(bottom_right);
+        }
+        selection.repaint();
+    }
+
+    public void resetSelection(){
+        if (selection != null) {
+            this.remove(selection);
+            this.selection = null;
+            this.repaint();
+        }
+    }
+
+    public CanvasSelection getSelection(){
+        return selection;
+    }
 }

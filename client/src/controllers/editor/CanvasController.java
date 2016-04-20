@@ -1,12 +1,21 @@
 package controllers.editor;
 
 import java.awt.*;
-import java.awt.List;
 import java.awt.event.MouseEvent;
 import java.util.*;
+import java.util.HashSet;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Set;
+import java.io.IOException;
+import java.util.List;
 
+import constants.Errors;
+import misc.CanvasSelection;
 import misc.drag.transfertdata.TransferTikz;
 import misc.utils.Converter;
+import misc.managers.TemplateIOManager;
+import models.Template;
 import views.editor.canvas.NodeEditionView;
 import models.tikz.TikzComponent;
 import models.tikz.TikzEdge;
@@ -16,6 +25,8 @@ import views.editor.CanvasView;
 import views.editor.canvas.drawables.DrawableTikzComponent;
 import views.editor.canvas.drawers.Drawer;
 
+import javax.swing.*;
+
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the Canvas.
  * The Canvas is the area of the GUI where the graph is painted.
@@ -23,7 +34,9 @@ import views.editor.canvas.drawers.Drawer;
 public class CanvasController implements Observer {
     private final CanvasView view;
     private final TikzGraph graph;
-    private final java.util.List<DrawableTikzComponent> drawables;
+
+    private final Set<DrawableTikzComponent> drawables;
+    private final Set<TikzComponent> selected_comp;
     private final CanvasState state;
 
     /**
@@ -37,8 +50,9 @@ public class CanvasController implements Observer {
 
         this.graph = graph;
         this.graph.addObserver(this);
-        drawables = new ArrayList<>();
+        drawables = new HashSet<>();
         state = new CanvasState();
+        selected_comp = new HashSet<>();
     }
 
     /**
@@ -60,7 +74,7 @@ public class CanvasController implements Observer {
         }
     }
 
-    public java.util.List<DrawableTikzComponent> getDrawables(){
+    public Set<DrawableTikzComponent> getDrawables(){
         return drawables;
     }
     /**
@@ -92,6 +106,32 @@ public class CanvasController implements Observer {
             return true;
         }
         return false;
+    }
+
+    public void removeFromDraws(TikzComponent comp){
+        for (DrawableTikzComponent draw : drawables){
+            if (draw.hasAsComponent(comp)){
+                drawables.remove(draw);
+                break;
+            }
+        }
+    }
+
+    public Set<TikzComponent> getSelectedComponents(List<Point> positions){
+        for (Point pos: positions){
+            TikzComponent comp = findComponentByPosition(pos);
+            if (comp != null){
+                selected_comp.add(comp);
+                removeFromDraws(comp);
+            }
+        }
+        return selected_comp;
+    }
+
+    public void unselectComponents(){
+        for (TikzComponent comp: selected_comp){
+            addDrawableComponent(Drawer.toDrawable(comp));
+        }
     }
 
     /**
@@ -240,6 +280,21 @@ public class CanvasController implements Observer {
 
     public void editItem(TikzComponent itemToEdit){
         new NodeEditionView(itemToEdit);
+    }
+
+    // TODO: Move next method into dedicated class.
+
+    public void exportSelectionAsTemplate(){
+        CanvasSelection selection = view.getSelection();
+        if (selection != null){
+            Set<TikzComponent> components = getSelectedComponents(selection.getShapePoints());
+            try {
+                TemplateIOManager.exportGraphAsTemplate(components);
+                unselectComponents();
+            } catch (IOException e){
+                JOptionPane.showMessageDialog(view, Errors.SAVE_TEMPLATE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
 }

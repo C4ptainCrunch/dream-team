@@ -38,7 +38,7 @@ public abstract class DrawableTikzComponent implements Drawable {
         return drawnArea.contains(point);
     }
 
-    public boolean represents(TikzComponent component){
-        return component == this.component;
+    public boolean hasAsComponent(TikzComponent comp){
+        return component.equals(comp);
     }
 }

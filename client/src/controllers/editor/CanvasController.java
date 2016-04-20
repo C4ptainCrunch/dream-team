@@ -12,6 +12,7 @@ import java.util.List;
 import constants.Errors;
 import misc.CanvasSelection;
 import misc.drag.transfertdata.TransferTikz;
+import misc.managers.TemplateIOManager;
 import models.Template;
 import views.editor.canvas.NodeEditionView;
 import models.tikz.TikzComponent;
@@ -268,18 +269,10 @@ public class CanvasController implements Observer {
 
     public void exportSelectionAsTemplate(){
         CanvasSelection selection = view.getSelection();
-        FileChooseView file_view = new FileChooseView("Template filename", JFileChooser.FILES_AND_DIRECTORIES);
         if (selection != null){
             Set<TikzComponent> components = getSelectedComponents(selection.getShapePoints());
-            TikzGraph g = new TikzGraph();
-            for (TikzComponent comp: components){
-                if (comp instanceof TikzNode){      //TODO: Refactor this;
-                    g.add((TikzNode) comp);
-                }
-            }
-            Template template = new Template(g);
             try {
-                template.saveTemplate(file_view.ask());
+                TemplateIOManager.exportGraphAsTemplate(components);
                 unselectComponents();
             } catch (IOException e){
                 JOptionPane.showMessageDialog(view, Errors.SAVE_TEMPLATE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);

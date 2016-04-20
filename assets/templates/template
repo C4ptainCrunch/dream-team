@@ -1,0 +1,6 @@
+\node[rectangle, draw]() at (510,259){};
+\node[rectangle, draw]() at (750,259){};
+\node[rectangle, draw]() at (781,438){};
+\node[rectangle, draw]() at (528,458){};
+
+

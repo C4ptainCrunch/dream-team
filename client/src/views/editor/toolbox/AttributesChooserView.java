@@ -1,6 +1,8 @@
 package views.editor.toolbox;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -88,8 +90,21 @@ public class AttributesChooserView extends JPanel {
      * Adds listener on the label field
      */
     private void addLabelListener() {
-        label_field.addActionListener(actionEvent -> {
-            this.controller.labelEntered();
+        label_field.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent keyEvent) {
+                controller.labelEntered();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent keyEvent) {
+                controller.labelEntered();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent keyEvent) {
+                controller.labelEntered();
+            }
         });
     }
 
@@ -101,8 +116,21 @@ public class AttributesChooserView extends JPanel {
      * Adds listener on the width field
      */
     private void addStrokeListener() {
-        stroke_width_field.addActionListener(actionEvent -> {
-            this.controller.strokeChanged();
+        stroke_width_field.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent keyEvent) {
+                controller.strokeChanged();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent keyEvent) {
+                controller.strokeChanged();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent keyEvent) {
+                controller.strokeChanged();
+            }
         });
     }
 
@@ -124,6 +152,7 @@ public class AttributesChooserView extends JPanel {
         color_chooser.setBorder(new BevelBorder(BevelBorder.LOWERED));
         addColorListener();
         attributes.add(color_chooser);
+        setColorFieldColor(Models.DEFAULT.COLOR);
     }
 
     /**

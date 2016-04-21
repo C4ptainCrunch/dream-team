@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import models.tikz.TikzComponent;
 import models.tikz.TikzNode;
 import models.tikz.TikzShape;
+
 import constants.Models;
 
 public class DrawableTikzNode extends DrawableTikzComponent {
@@ -26,17 +27,17 @@ public class DrawableTikzNode extends DrawableTikzComponent {
 
         TikzNode component = getComponent();
 
-        g.setStroke(new BasicStroke(component.getStroke()));
-        if (component.isShape()) {
-            g.setColor(((TikzShape) component).getBackgroundColor());
+        if(component.isShape()){
+            g.setColor(((TikzShape)component).getBackgroundColor());
         }
 
         for (Shape shape : getShapes()) {
             g.fill(shape);
         }
+
         g.setColor(component.getColor());
-        for (Shape shape : getShapes()) {
-            g.draw(shape);
+        for(Shape shape : getStrokes()) {
+            g.fill(shape);
         }
 
         // TODO use label color !

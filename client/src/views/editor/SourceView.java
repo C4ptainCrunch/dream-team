@@ -10,7 +10,10 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
 
+import models.tikz.TikzCircle;
+import models.tikz.TikzComponent;
 import models.tikz.TikzGraph;
 import controllers.editor.SourceController;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -115,6 +118,14 @@ public class SourceView extends JPanel {
         });
     }
 
+    private void moveTextAreaCaretToRightPosition(int line_number){
+        try {
+            textArea.setCaretPosition(textArea.getLineStartOffset(line_number));
+        } catch (BadLocationException e){
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Returns true if this view is focused
      *
@@ -151,5 +162,19 @@ public class SourceView extends JPanel {
      */
     public void setText(String text) {
         textArea.setText(text);
+    }
+
+    /**
+     * Highlights the line corresponding to the given component
+     *
+     * @param comp
+     *          The comp corresponding to the line to highlight
+     */
+
+    public void highlightCorrespondingLine(TikzComponent comp){
+        if (comp != null) {
+            int index = controller.getLine(comp);
+            moveTextAreaCaretToRightPosition(index);
+        }
     }
 }

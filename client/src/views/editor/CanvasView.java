@@ -79,6 +79,7 @@ public class CanvasView extends JPanel {
                         selectionPopupMenu.show(view, e.getX(), e.getY());
                     }
                 } else {
+                    parentView.highlightTextLine(controller.findComponentByPosition(e.getPoint()));
                     CanvasView view = (CanvasView) e.getSource();
                     view.resetSelection();
                     if (controller.hasComponentAtPosition(e.getPoint())) {

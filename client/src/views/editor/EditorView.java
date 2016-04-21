@@ -101,4 +101,8 @@ public class EditorView extends JFrame {
     public final void addTemplateToToolBox(File file) {
         toolBoxView.addTemplateToView(file);
     }
+
+    public final void highlightTextLine(TikzComponent comp){
+        sourceView.highlightCorrespondingLine(comp);
+    }
 }

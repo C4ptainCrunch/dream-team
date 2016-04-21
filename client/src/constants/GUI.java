@@ -34,6 +34,11 @@ public final class GUI {
         public static final double ARROW_ANGLE = Math.PI / 6;
     }
 
+    public static final class Tabs {
+        public static final String SHAPE_TAB = "<html>S<br>H<br>A<br>P<br>E<br>S</html>";
+        public static final String TEMPLATE_TAB = "<html>T<br>E<br>M<br>P<br>L<br>A<br>T<br>E<br>S</html>";
+    }
+
     public static final class Drag {
         public enum DropOptions {
             MOVE, ADD;

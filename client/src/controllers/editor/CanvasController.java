@@ -146,7 +146,7 @@ public class CanvasController implements Observer {
      *            The tikz position where the component will be added
      */
 
-    private void addNodeToModel(TikzComponent component, Point position) {
+    private void addNodeToGraph(TikzComponent component, Point position) {
         TikzNode node = (TikzNode) component;
         node.setPosition(Converter.swing2tikz(position, view));
         graph.add(node);

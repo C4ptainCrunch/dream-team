@@ -12,6 +12,7 @@ import views.editor.canvas.drawables.Drawable;
 
 public abstract class DrawableTikzComponent implements Drawable {
     private final java.util.List<Shape> shapes = new ArrayList<Shape>();
+    private final java.util.List<Shape> strokes = new ArrayList<>();
     private final TikzComponent component;
 
     public DrawableTikzComponent(TikzComponent component) {
@@ -24,7 +25,9 @@ public abstract class DrawableTikzComponent implements Drawable {
 
     public void addShape(Shape shape) {
         shapes.add(shape);
+        strokes.add(new BasicStroke(this.component.getStroke()).createStrokedShape(shape));
     }
+
 
     // Useful for drawing the Label.
     public Rectangle2D getBounds(){
@@ -40,9 +43,16 @@ public abstract class DrawableTikzComponent implements Drawable {
 
     public java.util.List<Shape> getShapes() { return shapes; }
 
+    public java.util.List<Shape> getStrokes() { return strokes; }
+
     public boolean contains(Point point) {
         for(Shape shape : shapes){
             if(shape.contains(point)){
+                return true;
+            }
+        }
+        for(Shape stroke : strokes){
+            if(stroke.contains(point)){
                 return true;
             }
         }

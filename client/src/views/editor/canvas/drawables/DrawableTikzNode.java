@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 public class DrawableTikzNode extends DrawableTikzComponent {
     public DrawableTikzNode(TikzComponent component){
@@ -30,9 +31,6 @@ public class DrawableTikzNode extends DrawableTikzComponent {
 
         TikzNode component = getComponent();
 
-
-
-        g.setStroke(new BasicStroke(component.getStroke()));
         if(component.isShape()){
             g.setColor(((TikzShape)component).getBackgroundColor());
         }
@@ -40,9 +38,10 @@ public class DrawableTikzNode extends DrawableTikzComponent {
         for(Shape shape : getShapes()){
             g.fill(shape);
         }
+
         g.setColor(component.getColor());
-        for(Shape shape : getShapes()){
-            g.draw(shape);
+        for(Shape shape : getStrokes()) {
+            g.fill(shape);
         }
 
         //TODO use label color !

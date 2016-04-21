@@ -137,6 +137,7 @@ public class CanvasView extends JPanel {
      */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        System.out.println("JE SUIS DANS PAINT COMPONENT");
 
         for(DrawableTikzComponent drawable : controller.getDrawables()){
             drawable.draw((Graphics2D)g);

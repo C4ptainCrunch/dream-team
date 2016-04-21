@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 
 import javax.swing.*;
 
+import controllers.editor.toolbox.TemplateToolController;
 import misc.managers.TemplateIOManager;
 import models.Template;
 import constants.Errors;
@@ -25,6 +26,7 @@ public class TemplateToolView extends JPanel {
 
     private TemplateList templates;
     private JScrollPane scroll_zone;
+    private TemplateToolController controller;
 
     /**
      * @name Default Constructor
@@ -32,9 +34,9 @@ public class TemplateToolView extends JPanel {
 
     public TemplateToolView() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        templates = new TemplateList(new DefaultListModel<>());
+        controller = new TemplateToolController(this);
+        templates = controller.getTemplates();
         initScrollZone();
-        addTemplatesToList();
     }
 
     private void initScrollZone() {
@@ -42,32 +44,8 @@ public class TemplateToolView extends JPanel {
         this.add(scroll_zone);
     }
 
-    private void addTemplatesToList() {
-        try {
-            for (Template temp : TemplateIOManager.loadAllTemplatesFromDir()) {
-                templates.addTemplateToList(temp);
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, Errors.LOAD_TEMPLATES_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Add a Template Object to the TemplateList from a File.
-     *
-     * @param file
-     *            The file where the Template is saved.
-     */
-
-    public void addTemplateFromFile(File file) {
-        try {
-            Path p = Paths.get(GUI.Template.DIR);
-            p = p.resolve(file.getName());
-            templates.addTemplateToList(TemplateIOManager.loadTemplate(p.toFile()));
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, Errors.LOAD_TEMPLATES_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
-        }
-
+    public void addTemplateFromFile(File file){
+        controller.addTemplateFromFile(file);
     }
 }
 

@@ -1,22 +1,19 @@
 package parser;
 
-import com.sun.tools.corba.se.idl.constExpr.Not;
-import models.tikz.*;
-import sun.tools.tree.BinaryLogicalExpression;
-
 import java.awt.*;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.function.Function;
+
+import models.tikz.*;
+
+interface TikzOptionsFetcher{
+    String getOptions(TikzComponent component);
+}
 
 /**
  * Created by jhellinckx on 21/04/16.
  */
 public class TikzFormatter {
-    private TikzFormatter(){}
-
     private static final Map<Class<? extends TikzComponent>, TikzOptionsFetcher> optionsFetchers = new HashMap<>();
 
     static{
@@ -29,6 +26,8 @@ public class TikzFormatter {
         optionsFetchers.put(TikzUndirectedEdge.class, new TikzUndirectedEdgeFetcher());
 
     }
+
+    private TikzFormatter(){}
 
     public static String format(TikzComponent component) {
         return component.isNode() ? format((TikzNode)component) : format((TikzEdge)component);
@@ -50,10 +49,6 @@ public class TikzFormatter {
         return String.format("\\draw[%s] (%.0f, %.0f) -- (%.0f, %.0f);\n", tikzOptionsFetcher.getOptions(edge), first.x, first.y, second.x, second.y);
     }
 
-}
-
-interface TikzOptionsFetcher{
-    String getOptions(TikzComponent component);
 }
 
 class TikzCircleOptionsFetcher implements TikzOptionsFetcher{

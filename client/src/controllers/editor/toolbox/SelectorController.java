@@ -5,6 +5,7 @@ import java.util.Observer;
 
 import models.ToolModel;
 import models.tikz.TikzComponent;
+import views.editor.toolbox.AttributesChooserView;
 import views.editor.toolbox.SelectorView;
 
 /**
@@ -39,6 +40,11 @@ public class SelectorController implements Observer {
      */
     public void itemSelected(TikzComponent component) {
         model.setComponent(component);
+
+        AttributesChooserView attributes = view.getParentView().getAttributesChooserView();
+//        model.setComponentColor(attributes.ge);
+        model.setComponentLabel(attributes.getLabel());
+        model.setComponentStrokeWidth(attributes.getStrokeWidth());
     }
 
     /**

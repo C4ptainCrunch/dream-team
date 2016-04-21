@@ -18,14 +18,16 @@ public class SelectorView extends JPanel implements SelectorComponent.SelectorCo
     private final JScrollPane scrollzone;
     private final JPanel options;
     private final SelectorController controller;
+    private final ToolView parentView;
 
     /**
      * Constructs a new view for the Selector with a given ToolModel
      *
+     * @param parentView
      * @param model
-     *            the tool model
      */
-    public SelectorView(ToolModel model) {
+    public SelectorView(ToolView parentView, ToolModel model) {
+        this.parentView = parentView;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         options = new JPanel(new GridLayout(1, 0));
         scrollzone = new JScrollPane(options);
@@ -62,5 +64,9 @@ public class SelectorView extends JPanel implements SelectorComponent.SelectorCo
     @Override
     public void componentSelected(TikzComponent component) {
         controller.itemSelected(component);
+    }
+
+    public ToolView getParentView() {
+        return parentView;
     }
 }

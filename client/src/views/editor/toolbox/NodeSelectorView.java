@@ -19,8 +19,8 @@ public class NodeSelectorView extends SelectorView {
      * @param model
      *            the tool model
      */
-    public NodeSelectorView(ToolModel model) {
-        super(model);
+    public NodeSelectorView(ToolView parentView, ToolModel model) {
+        super(parentView, model);
         this.setComponentNbr(3);
         this.initComponents();
     }

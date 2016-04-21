@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.MouseInputAdapter;
 
+import constants.Models;
 import models.ToolModel;
 import controllers.editor.toolbox.AttributesChooserController;
 
@@ -88,8 +89,12 @@ public class AttributesChooserView extends JPanel {
      */
     private void addLabelListener() {
         label_field.addActionListener(actionEvent -> {
-            this.controller.labelEntered(label_field.getText());
+            this.controller.labelEntered();
         });
+    }
+
+    public String getLabel() {
+        return label_field.getText();
     }
 
     /**
@@ -97,8 +102,16 @@ public class AttributesChooserView extends JPanel {
      */
     private void addStrokeListener() {
         stroke_width_field.addActionListener(actionEvent -> {
-            this.controller.strokeWidth(Integer.parseInt(stroke_width_field.getText()));
+            this.controller.strokeChanged();
         });
+    }
+
+    public int getStrokeWidth() {
+        try {
+            return Integer.parseInt(stroke_width_field.getText());
+        } catch (NumberFormatException e){
+            return Models.DEFAULT.STROKE;
+        }
     }
 
     /**

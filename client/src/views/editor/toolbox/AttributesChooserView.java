@@ -1,6 +1,8 @@
 package views.editor.toolbox;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -9,6 +11,7 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.MouseInputAdapter;
 
+import constants.Models;
 import models.ToolModel;
 import controllers.editor.toolbox.AttributesChooserController;
 
@@ -87,18 +90,59 @@ public class AttributesChooserView extends JPanel {
      * Adds listener on the label field
      */
     private void addLabelListener() {
-        label_field.addActionListener(actionEvent -> {
-            this.controller.labelEntered(label_field.getText());
+        label_field.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent keyEvent) {
+                controller.labelEntered();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent keyEvent) {
+                controller.labelEntered();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent keyEvent) {
+                controller.labelEntered();
+            }
         });
+    }
+
+    public String getLabel() {
+        return label_field.getText();
+    }
+    public void setLabel(String text) {
+        label_field.setText(text);
     }
 
     /**
      * Adds listener on the width field
      */
     private void addStrokeListener() {
-        stroke_width_field.addActionListener(actionEvent -> {
-            this.controller.strokeWidth(Integer.parseInt(stroke_width_field.getText()));
+        stroke_width_field.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent keyEvent) {
+                controller.strokeChanged();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent keyEvent) {
+                controller.strokeChanged();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent keyEvent) {
+                controller.strokeChanged();
+            }
         });
+    }
+
+    public int getStrokeWidth() {
+        try {
+            return Integer.parseInt(stroke_width_field.getText());
+        } catch (NumberFormatException e){
+            return Models.DEFAULT.STROKE;
+        }
     }
 
     /**
@@ -111,6 +155,7 @@ public class AttributesChooserView extends JPanel {
         color_chooser.setBorder(new BevelBorder(BevelBorder.LOWERED));
         addColorListener();
         attributes.add(color_chooser);
+        setColorFieldColor(Models.DEFAULT.COLOR);
     }
 
     /**
@@ -143,5 +188,13 @@ public class AttributesChooserView extends JPanel {
      */
     public void setColorFieldColor(Color color) {
         color_chooser.setBackground(color);
+    }
+
+    public Color getColor() {
+        return color_chooser.getBackground();
+    }
+
+    public void setStroke(int stroke) {
+        this.stroke_width_field.setText(Integer.toString(stroke));
     }
 }

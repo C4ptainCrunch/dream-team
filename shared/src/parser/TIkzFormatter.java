@@ -2,7 +2,6 @@ package parser;
 
 import com.sun.tools.corba.se.idl.constExpr.Not;
 import models.tikz.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import sun.tools.tree.BinaryLogicalExpression;
 
 import java.awt.*;
@@ -107,7 +106,7 @@ class TikzVoidOptionsFetcher implements TikzOptionsFetcher{
 class TikzTextOptionsFetcher implements TikzOptionsFetcher{
     @Override
     public String getOptions(TikzComponent component){
-       throw new NotImplementedException();
+       throw new RuntimeException("NOT IMPLEMENTED");
     }
 }
 

@@ -1,6 +1,7 @@
 package models.tikz;
 
 import constants.Models;
+import parser.TikzFormatter;
 
 /**
  * Implementation of the Polygon Model (from the MVC architectural pattern) This
@@ -146,5 +147,10 @@ public class TikzPolygon extends TikzShape {
     @Override
     public boolean isPolygon() {
         return true;
+    }
+
+    @Override
+    public String toString(){
+        return TikzFormatter.format(this);
     }
 }

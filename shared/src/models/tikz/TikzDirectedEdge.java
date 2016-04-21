@@ -1,5 +1,7 @@
 package models.tikz;
 
+import parser.TikzFormatter;
+
 import java.awt.*;
 
 /**
@@ -89,5 +91,10 @@ public class TikzDirectedEdge extends TikzEdge {
     @Override
     public boolean isDirectedEdge() {
         return true;
+    }
+
+    @Override
+    public String toString(){
+        return TikzFormatter.format(this);
     }
 }

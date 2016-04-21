@@ -17,7 +17,7 @@ public class TikzFormatter {
     public static String tikzSource(TikzEdge edge, String options){
         Point first = edge.getFromPosition();
         Point second = edge.getToPosition();
-        return String.format("\\draw[%s] (%.0f, %.0f) -- (%.0f, %.0f);\n", options, first.x, first.y, second.x, second.y);
+        return String.format("\\draw[%s] (%.0f, %.0f) -- (%.0f, %.0f);\n", options, first.getX(), first.getY(), second.getX(), second.getY());
     }
 
     public static String format(TikzComponent c){

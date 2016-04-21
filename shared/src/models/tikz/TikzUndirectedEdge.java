@@ -1,5 +1,7 @@
 package models.tikz;
 
+import parser.TikzFormatter;
+
 import java.awt.*;
 
 /**
@@ -78,5 +80,10 @@ public class TikzUndirectedEdge extends TikzEdge {
     @Override
     public boolean isUndirectedEdge(){
         return true;
+    }
+
+    @Override
+    public String toString(){
+        return TikzFormatter.format(this);
     }
 }

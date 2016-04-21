@@ -38,10 +38,14 @@ public class NodeParser {
      * @return a parser object that contains the string between the parentheses
      */
     public static Parser<String> reference() {
-        return Parsers.between(Scanners.string("("), Parsers.or(Parsers.or(Terminals.identifier(), Scanners.isChar('-'), decimal()).many1().source(), Parsers.constant("")),
+        return Parsers.between(Scanners.string("("), Scanners.notChar(')').many().source(),
                 Scanners.string(")"));
     }
 
+    /**
+     * Parses a decimal number
+     * @return a parser object containing the parsed integer
+     */
     public static Parser<Integer> decimal() {
         return Parsers.sequence(Scanners.string("-").optional().source(),
                 MAYBEWHITESPACES.next(Terminals.DecimalLiteral.TOKENIZER).source(),

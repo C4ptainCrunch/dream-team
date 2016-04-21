@@ -108,5 +108,10 @@ public class TikzCircle extends TikzShape {
     }
 
     @Override
+    public String toString(){
+        return TikzFormatter.format(this);
+    }
+
+    @Override
     public boolean isCircle(){ return true; }
 }

@@ -302,4 +302,12 @@ public class TikzGraphTest {
             assertEquals(start.y + dy, p.y);
         }
     }
+
+    @Test
+    public void testCopy() throws Exception{
+        graph.add(new TikzCircle());
+        TikzGraph o_graph = graph.getClone();
+        assertEquals(graph.size(), o_graph.size());
+        assertNotEquals(graph.getNodes(), o_graph.getNodes());
+    }
 }

@@ -36,6 +36,21 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
     }
 
     /**
+     * Copy Constructor.
+     * @param o_graph
+     */
+
+    public TikzGraph(TikzGraph o_graph){
+        for (TikzNode node : o_graph.getNodes()){
+            nodes.add(node.getClone());
+        }
+
+        for (TikzEdge edge: o_graph.getEdges()){
+            edges.add(edge.getClone());
+        }
+    }
+
+    /**
      * Getter for the number of nodes composing the graph
      * @return The number of nodes
      */
@@ -237,5 +252,9 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
         for (TikzNode node:this) {
             node.translate(x, y);
         }
+    }
+
+    public TikzGraph getClone(){
+        return new TikzGraph(this);
     }
 }

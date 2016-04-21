@@ -1,5 +1,5 @@
-import java.util.logging.Logger;
 
+import java.util.logging.Logger;
 import utils.Log;
 import views.management.ProjectManagementView;
 
@@ -11,6 +11,5 @@ public class Main {
         logger.info("Starting project management view");
 
         java.awt.EventQueue.invokeLater(ProjectManagementView::new);
-
     }
 }

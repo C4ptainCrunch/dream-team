@@ -206,7 +206,7 @@ public class CanvasController implements Observer {
     // Location has to be a swing position !!
     private void moveComponent(TikzComponent comp, Point location) {
         location.setLocation(Converter.swing2tikz(location, view));
-        if (comp.isNode()) {
+        if (comp != null && comp.isNode()) {
             ((TikzNode) comp).setPosition(location);
             view.repaint();
         }
@@ -223,10 +223,10 @@ public class CanvasController implements Observer {
 
     public void mousePressed(MouseEvent e, TikzComponent selectedTool) {
         if (view.getIsFocused()) {
-            if (selectedTool.isNode()) {
+            if (selectedTool != null && selectedTool.isNode()) {
                 // this.
-                addNodeToModel(selectedTool, e.getPoint());
-            } else if (selectedTool.isEdge()) {
+                addNodeToGraph(selectedTool, e.getPoint());
+            } else if (selectedTool != null && selectedTool.isEdge()) {
                 addEdgeToModel(selectedTool, e.getPoint());
             }
         } else {
@@ -295,7 +295,7 @@ public class CanvasController implements Observer {
 
     public void deleteItem(TikzComponent itemToDelete) {
         if (itemToDelete != null) {
-            if (itemToDelete instanceof TikzNode) {
+            if (itemToDelete.isNode()) {
                 this.graph.remove((TikzNode) itemToDelete);
             } else {
                 this.graph.remove((TikzEdge) itemToDelete);

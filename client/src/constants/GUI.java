@@ -1,5 +1,7 @@
 package constants;
 
+import java.awt.*;
+
 /**
  * Created by nikita on 3/27/16.
  */
@@ -43,7 +45,10 @@ public final class GUI {
         public enum DropOptions {
             MOVE, ADD;
         }
+    }
 
+    public static final class Selection {
+        public static final Color BKG_COLOR = new Color(0, 50, 120, 50);
     }
 
     public static final class Template {

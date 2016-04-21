@@ -1,5 +1,7 @@
 package misc;
 
+import constants.GUI;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,6 @@ import javax.swing.*;
 
 public class CanvasSelection extends JPanel {
 
-    private static final Color BKG_COLOR = new Color(0, 50, 120, 50);
     private static final int INCREMENT = 5;
 
     private Rectangle selection;
@@ -29,7 +30,7 @@ public class CanvasSelection extends JPanel {
 
     public CanvasSelection(Point pos) {
         this.setSize(new Dimension(0, 0));
-        this.setBackground(BKG_COLOR);
+        this.setBackground(GUI.Selection.BKG_COLOR);
         this.setLocation(pos);
         this.selection = null;
     }

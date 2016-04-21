@@ -80,11 +80,11 @@ public class CanvasView extends JPanel {
                     requestFocusInWindow();
                     CanvasView view = (CanvasView) e.getSource();
                     TikzComponent component = view.getSelectedComponent();
-                    if (component != null) {
+                    if ((selection != null) && selection.contains(e.getPoint())) {
+                        selectionPopupMenu.show(view, e.getX(), e.getY());
+                    } else if (component != null) {
                         popupMenu.show(view, e.getX(), e.getY());
                         popupMenu.setComponent(component);
-                    } else if ((selection != null) && selection.contains(e.getPoint())) {
-                        selectionPopupMenu.show(view, e.getX(), e.getY());
                     }
                 } else {
                     parentView.highlightTextLine(controller.findComponentByPosition(e.getPoint()));

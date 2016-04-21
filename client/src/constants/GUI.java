@@ -1,5 +1,7 @@
 package constants;
 
+import utils.Dirs;
+
 import java.awt.*;
 
 /**
@@ -52,6 +54,6 @@ public final class GUI {
     }
 
     public static final class Template {
-        public static final String DIR = "./assets/templates/";
+        public static final String DIR = Dirs.getDataDir().resolve("templates").toString();
     }
 }

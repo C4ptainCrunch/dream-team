@@ -38,14 +38,15 @@ public class Template {
         }
     }
 
-    public void saveTemplate(File file) throws IOException {
+    public File saveTemplate(String name) throws IOException {
         createDirectory();
-        if (graph != null && file != null) {
-            createSaveFile(file.getName());
+        if (graph != null && name != null) {
+            createSaveFile(name);
             PrintWriter sourceWriter = new PrintWriter(template_file);
             sourceWriter.println(this.graph.toString());
             sourceWriter.close();
         }
+        return template_file;
     }
 
     public void loadTemplate(File file) throws IOException {

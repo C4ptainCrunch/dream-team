@@ -1,22 +1,23 @@
 package views.editor.toolbox;
 
-import models.tikz.TikzCircle;
-import models.tikz.TikzRectangle;
 import misc.SelectorComponent;
 import models.ToolModel;
+import models.tikz.TikzCircle;
+import models.tikz.TikzRectangle;
 
 /**
- * Implementation of the View (from the MVC architectural pattern) for the NodeSelector.
- * The NodeSelector is part of the toolbox used to choose
- * the type of node.
+ * Implementation of the View (from the MVC architectural pattern) for the
+ * NodeSelector. The NodeSelector is part of the toolbox used to choose the type
+ * of node.
  */
 public class NodeSelectorView extends SelectorView {
     private static final int SHAPE_SIZE = 100;
 
     /**
-     * Constructs a new view for the NodeSelector
-     * with a given ToolModel
-     * @param model the tool model
+     * Constructs a new view for the NodeSelector with a given ToolModel
+     *
+     * @param model
+     *            the tool model
      */
     public NodeSelectorView(ToolModel model) {
         super(model);

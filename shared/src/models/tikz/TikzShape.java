@@ -5,7 +5,8 @@ import java.awt.*;
 import constants.Models;
 
 /**
- * This abstract class defines the common elements of a tikz shape (circle, rectangle, ..)
+ * This abstract class defines the common elements of a tikz shape (circle,
+ * rectangle, ..)
  */
 public abstract class TikzShape extends TikzNode {
     private Color outlineColor;
@@ -24,7 +25,9 @@ public abstract class TikzShape extends TikzNode {
 
     /**
      * Constructs a tikz shape by copying an other tikz shape
-     * @param o_shape The tikz shape to be copied from
+     *
+     * @param o_shape
+     *            The tikz shape to be copied from
      */
     protected TikzShape(TikzShape o_shape) {
         super(o_shape);
@@ -35,7 +38,9 @@ public abstract class TikzShape extends TikzNode {
 
     /**
      * Constructs a default tikz shape with a given reference
-     * @param reference the reference
+     *
+     * @param reference
+     *            the reference
      */
     protected TikzShape(String reference) {
         super(reference);
@@ -45,9 +50,13 @@ public abstract class TikzShape extends TikzNode {
     }
 
     /**
-     * Constructs a tikz shape by copying an other tikz shape with a given reference
-     * @param o_shape The tikz shape to be copied from
-     * @param reference the reference
+     * Constructs a tikz shape by copying an other tikz shape with a given
+     * reference
+     *
+     * @param o_shape
+     *            The tikz shape to be copied from
+     * @param reference
+     *            the reference
      */
     protected TikzShape(TikzShape o_shape, String reference) {
         super(o_shape, reference);
@@ -58,6 +67,7 @@ public abstract class TikzShape extends TikzNode {
 
     /**
      * Getter for the outline color
+     *
      * @return the outline color
      */
     public Color getOutlineColor() {
@@ -66,7 +76,9 @@ public abstract class TikzShape extends TikzNode {
 
     /**
      * Setter for the outline color of the shape
-     * @param outlineColor The outline color
+     *
+     * @param outlineColor
+     *            The outline color
      */
     public void setOutlineColor(Color outlineColor) {
         this.outlineColor = outlineColor;
@@ -76,6 +88,7 @@ public abstract class TikzShape extends TikzNode {
 
     /**
      * Getter for the outline width of the shape
+     *
      * @return The outline width
      */
     public int getOutlineWidth() {
@@ -84,7 +97,9 @@ public abstract class TikzShape extends TikzNode {
 
     /**
      * Setter for the outline width of the shape
-     * @param outlineWidth The outline width
+     *
+     * @param outlineWidth
+     *            The outline width
      */
     public void setOutlineWidth(int outlineWidth) {
         this.outlineWidth = outlineWidth;
@@ -94,6 +109,7 @@ public abstract class TikzShape extends TikzNode {
 
     /**
      * Getter for the background color
+     *
      * @return the background color
      */
     public Color getBackgroundColor() {
@@ -101,10 +117,14 @@ public abstract class TikzShape extends TikzNode {
     }
 
     /**
-     * Abstract method that needs to be redefined in classes
-     * that extends this class.
-     * Getter for a clone (ie. copy of the current object)
+     * Abstract method that needs to be redefined in classes that extends this
+     * class. Getter for a clone (ie. copy of the current object)
+     *
      * @return A new object that is the copy of the current object
      */
     public abstract TikzShape getClone();
+
+    public boolean isShape() {
+        return true;
+    }
 }

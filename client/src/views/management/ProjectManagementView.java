@@ -6,10 +6,10 @@ import java.util.Vector;
 
 import javax.swing.*;
 
-import constants.GUI;
-import controllers.management.ProjectManagementController;
 import models.project.Project;
 import models.project.RecentProjects;
+import constants.GUI;
+import controllers.management.ProjectManagementController;
 
 public class ProjectManagementView extends JFrame {
     private ProjectManagementController controller = new ProjectManagementController(this);
@@ -61,7 +61,6 @@ public class ProjectManagementView extends JFrame {
 
         Vector<Project> recentProjects = new Vector<>(RecentProjects.getRecentProjects());
         Collections.reverse(recentProjects);
-
 
         this.projectChooser = new JComboBox<>();
         this.projectChooser.setModel(new DefaultComboBoxModel(recentProjects));

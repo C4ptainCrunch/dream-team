@@ -4,15 +4,15 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import models.tikz.TikzComponent;
 import misc.SelectorComponent;
-import controllers.editor.toolbox.SelectorController;
 import models.ToolModel;
+import models.tikz.TikzComponent;
+import controllers.editor.toolbox.SelectorController;
 
 /**
- * Implementation of the View (from the MVC architectural pattern) for the Selector.
- * The Selector is part of the toolbox used to choose
- * which component is selected.
+ * Implementation of the View (from the MVC architectural pattern) for the
+ * Selector. The Selector is part of the toolbox used to choose which component
+ * is selected.
  */
 public class SelectorView extends JPanel implements SelectorComponent.SelectorComponentListener {
     private final JScrollPane scrollzone;
@@ -20,9 +20,10 @@ public class SelectorView extends JPanel implements SelectorComponent.SelectorCo
     private final SelectorController controller;
 
     /**
-     * Constructs a new view for the Selector
-     * with a given ToolModel
-     * @param model the tool model
+     * Constructs a new view for the Selector with a given ToolModel
+     *
+     * @param model
+     *            the tool model
      */
     public SelectorView(ToolModel model) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -34,7 +35,9 @@ public class SelectorView extends JPanel implements SelectorComponent.SelectorCo
 
     /**
      * Adds a SelectorComponent (tikz element) to this view
-     * @param comp The component
+     *
+     * @param comp
+     *            The component
      */
     protected void addComponent(SelectorComponent comp) {
         options.add(comp);
@@ -42,7 +45,9 @@ public class SelectorView extends JPanel implements SelectorComponent.SelectorCo
 
     /**
      * Set the number of components contained in the view
-     * @param nbr The number of components
+     *
+     * @param nbr
+     *            The number of components
      */
     public void setComponentNbr(int nbr) {
         ((GridLayout) options.getLayout()).setRows(nbr);
@@ -50,7 +55,9 @@ public class SelectorView extends JPanel implements SelectorComponent.SelectorCo
 
     /**
      * Informs the controller which component is being selected
-     * @param component The selected component
+     *
+     * @param component
+     *            The selected component
      */
     @Override
     public void componentSelected(TikzComponent component) {

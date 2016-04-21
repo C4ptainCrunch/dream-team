@@ -1,38 +1,42 @@
 package controllers.editor;
 
-import constants.Errors;
-import views.editor.EditorView;
-import views.editor.MenuView;
-import views.help.HelpView;
-import views.management.HistoryView;
-import models.project.Project;
-import utils.Log;
-import utils.PdfCompilationError;
-import utils.PdfRenderer;
+import static javax.swing.JOptionPane.showMessageDialog;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
-import static javax.swing.JOptionPane.showMessageDialog;
+import javax.swing.*;
+
+import models.project.Project;
+import utils.Log;
+import utils.PdfCompilationError;
+import utils.PdfRenderer;
+import views.editor.EditorView;
+import views.editor.MenuView;
+import views.help.HelpView;
+import views.management.HistoryView;
+import constants.Errors;
 
 /**
- * Implementation of the Controller (from the MVC architectural pattern) for the Menu.
- * The Menu is the menu bar of the GUI.
+ * Implementation of the Controller (from the MVC architectural pattern) for the
+ * Menu. The Menu is the menu bar of the GUI.
  */
 public class MenuController implements Observer {
+    private final static Logger logger = Log.getLogger(MenuController.class);
     private final MenuView view;
     private final Project project;
-    private final static Logger logger = Log.getLogger(MenuController.class);
 
     /**
-     * Constructs a new Controller for the Menu,
-     * with a given Project and EditorView
-     * @param view The MenuView which is associated with this controller
-     * @param project The Project
+     * Constructs a new Controller for the Menu, with a given Project and
+     * EditorView
+     *
+     * @param view
+     *            The MenuView which is associated with this controller
+     * @param project
+     *            The Project
      */
     public MenuController(MenuView view, Project project) {
         this.view = view;
@@ -43,8 +47,11 @@ public class MenuController implements Observer {
 
     /**
      * Called when Observables linked to this Observer call notify(),
-     * @param o The Observable
-     * @param arg The arguments given by the Observable
+     *
+     * @param o
+     *            The Observable
+     * @param arg
+     *            The arguments given by the Observable
      */
     public void update(Observable o, Object arg) {
         // this was left intentionally blank
@@ -75,7 +82,8 @@ public class MenuController implements Observer {
     }
 
     /**
-     * Opens the History window whichs shows the modifications done on the working project
+     * Opens the History window whichs shows the modifications done on the
+     * working project
      */
     public void openHistory() {
         HistoryView histView = new HistoryView(this.project);
@@ -90,7 +98,10 @@ public class MenuController implements Observer {
 
     /**
      * Exits the program
-     * @param parentView The view in which the menu view associated with this controller is contained
+     *
+     * @param parentView
+     *            The view in which the menu view associated with this
+     *            controller is contained
      */
     public void exit(EditorView parentView) {
         save();

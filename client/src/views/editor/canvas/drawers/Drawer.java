@@ -3,8 +3,10 @@ package views.editor.canvas.drawers;
 import java.util.HashMap;
 import java.util.Map;
 
-import views.editor.canvas.drawables.DrawableTikzComponent;
+import javax.swing.*;
+
 import models.tikz.*;
+import views.editor.canvas.drawables.DrawableTikzComponent;
 
 public final class Drawer {
 
@@ -21,7 +23,7 @@ public final class Drawer {
     private Drawer() {
     }
 
-    public static DrawableTikzComponent toDrawable(TikzComponent component) {
-        return drawers.get(component.getClass()).toDrawable(component);
+    public static DrawableTikzComponent toDrawable(TikzComponent component, JComponent panel) {
+        return drawers.get(component.getClass()).toDrawable(component, panel);
     }
 }

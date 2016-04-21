@@ -1,7 +1,7 @@
-import views.management.ProjectManagementView;
-import utils.Log;
+import java.util.logging.Logger;
 
-import java.util.logging.*;
+import utils.Log;
+import views.management.ProjectManagementView;
 
 public class Main {
     private static final Logger logger = Log.getLogger(Main.class);

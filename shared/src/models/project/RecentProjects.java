@@ -1,9 +1,5 @@
 package models.project;
 
-
-import utils.Dirs;
-import utils.Log;
-
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,6 +8,9 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import utils.Dirs;
+import utils.Log;
 
 // TODO : this class is not really a model but i don't want to place it in Utils... Where should it go ?
 public class RecentProjects {
@@ -62,10 +61,7 @@ public class RecentProjects {
         FileWriter fw = new FileWriter(getFilePath().toFile());
         BufferedWriter bw = new BufferedWriter(fw);
 
-        List<String> projectPaths = projects.stream()
-                .map(Project::getPath)
-                .map(Object::toString)
-                .collect(Collectors.toList());
+        List<String> projectPaths = projects.stream().map(Project::getPath).map(Object::toString).collect(Collectors.toList());
         String txt = String.join(System.lineSeparator(), projectPaths);
 
         bw.write(txt);

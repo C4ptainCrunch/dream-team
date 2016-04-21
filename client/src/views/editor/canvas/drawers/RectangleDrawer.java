@@ -2,22 +2,23 @@ package views.editor.canvas.drawers;
 
 import java.awt.*;
 
+import javax.swing.*;
+
 import models.tikz.TikzComponent;
 import models.tikz.TikzRectangle;
-import views.editor.canvas.drawables.DrawableTikzComponent;
+import views.editor.canvas.drawables.DrawableTikzNode;
 
-public class RectangleDrawer extends ComponentDrawer {
+public class RectangleDrawer extends NodeDrawer {
 
     public RectangleDrawer() {
         // this was left intentionally blank
     }
 
     @Override
-    public DrawableTikzComponent toDrawable(TikzComponent component) {
+    public DrawableTikzNode toDrawable(TikzComponent component, JComponent panel) {
         TikzRectangle rectangle = (TikzRectangle) component;
-        DrawableTikzComponent drawableComponent = super.toDrawable(rectangle);
-        drawableComponent.addShape(new Rectangle(rectangle.getWidth(), rectangle.getLength()));
-        drawableComponent.setBackground(rectangle.getBackgroundColor());
+        DrawableTikzNode drawableComponent = super.toDrawable(rectangle, panel);
+        drawableComponent.addShape(getPositionedShape(new Rectangle(rectangle.getWidth(), rectangle.getLength()), rectangle, panel));
         return drawableComponent;
 
     }

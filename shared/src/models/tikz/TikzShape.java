@@ -127,4 +127,7 @@ public abstract class TikzShape extends TikzNode {
     public boolean isShape() {
         return true;
     }
+    public boolean isCircle() { return false;}
+    public boolean isRectangle() { return false;}
+    public boolean isPolygon() { return false;}
 }

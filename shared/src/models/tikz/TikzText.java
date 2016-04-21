@@ -31,4 +31,9 @@ public class TikzText extends TikzNode {
     public TikzText getClone() {
         return new TikzText();
     }
+
+    @Override
+    public boolean isText(){
+        return true;
+    }
 }

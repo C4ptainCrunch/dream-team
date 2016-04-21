@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.UUID;
 
 import constants.Models;
+import parser.TikzFormatter;
 
 /**
  * This abstract class defines the common elements of a tikz component (node,
@@ -146,5 +147,9 @@ public abstract class TikzComponent extends Observable {
 
     public boolean isEdge() {
         return false;
+    }
+
+    public String toString() {
+        return TikzFormatter.format(this);
     }
 }

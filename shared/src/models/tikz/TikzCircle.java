@@ -1,6 +1,7 @@
 package models.tikz;
 
 import constants.Models;
+import parser.TikzFormatter;
 
 /**
  * Implementation of the Circle Model (from the MVC architectural pattern) This
@@ -97,22 +98,6 @@ public class TikzCircle extends TikzShape {
     }
 
     /**
-     * Transforms this tikz circle into tikz code string
-     *
-     * @return The tikz code string
-     */
-    @Override
-    public String toString() {
-        String options = String.join(", ", new String[] { "circle" }); // TODO:
-                                                                       // do
-                                                                       // this
-        if (!options.contains("draw")) {
-            options += ", draw";
-        }
-        return String.format("\\node[%s](%s) at (%.0f,%.0f){%s};\n", options, "", getPosition().getX(), getPosition().getY(), getLabel());
-    }
-
-    /**
      * Getter for a clone (ie. copy of the current tikz circle)
      *
      * @return A new tikz circle that is the copy of the current tikz circle
@@ -121,4 +106,7 @@ public class TikzCircle extends TikzShape {
     public TikzCircle getClone() {
         return new TikzCircle(this);
     }
+
+    @Override
+    public boolean isCircle(){ return true; }
 }

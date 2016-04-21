@@ -1,4 +1,3 @@
-package models.tikz;
 
 import org.junit.After;
 import org.junit.Before;
@@ -9,6 +8,9 @@ import java.util.*;
 import java.util.List;
 
 import static org.junit.Assert.*;
+
+import models.tikz.*;
+
 
 /**
  * Created by jhellinckx on 01/03/16.
@@ -238,6 +240,38 @@ public class TikzGraphTest {
         assertArrayEquals(graph.getNodes().toArray(), nodes.toArray());
 
 
+    }
+
+    @Test
+    public void testToString() throws Exception {
+        int length = 4;
+        TikzNode testNode;
+        TikzEdge testEdge;
+        ArrayList<TikzNode> nodes = new ArrayList<>();
+        ArrayList<TikzEdge> edges = new ArrayList<>();
+
+        String resultString = "\\node[circle, draw]() at (0,0){};\n" +
+                "\\node[circle, draw]() at (0,1){};\n" +
+                "\\node[circle, draw]() at (0,2){};\n" +
+                "\\node[circle, draw]() at (0,3){};\n\n"+
+                "\\draw[] (0, 0) -- (0, 1);\n"+
+                "\\draw[] (0, 1) -- (0, 2);\n"+
+                "\\draw[] (0, 2) -- (0, 3);\n";
+
+        for (int i = 0; i < length; i++) {
+            testNode = new TikzCircle();
+            testNode.move(0,i);
+            nodes.add(testNode);
+        }
+
+        for (int i = 0; i < length-1; i++) {
+            testEdge = new TikzUndirectedEdge(nodes.get(i),nodes.get(i+1));
+            edges.add(testEdge);
+        }
+
+        graph.addAllNodes(nodes);
+        graph.addAllEdges(edges);
+        assertEquals(graph.toString(), resultString);
     }
 
     @Test

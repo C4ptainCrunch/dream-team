@@ -48,7 +48,7 @@ public class TemplateIOManager {
         FileChooseView file_view = new FileChooseView("Template filename", JFileChooser.FILES_AND_DIRECTORIES);
         TikzGraph g = new TikzGraph();
         for (TikzComponent comp : components) {
-            if (comp.isNode()) {
+            if (comp != null && comp.isNode()) {
                 g.add((TikzNode) comp.getClone());
             }
         }

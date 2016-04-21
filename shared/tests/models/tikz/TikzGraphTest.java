@@ -1,4 +1,3 @@
-package models.tikz;
 
 import org.junit.After;
 import org.junit.Before;
@@ -9,6 +8,9 @@ import java.util.*;
 import java.util.List;
 
 import static org.junit.Assert.*;
+
+import models.tikz.*;
+
 
 /**
  * Created by jhellinckx on 01/03/16.

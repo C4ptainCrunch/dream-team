@@ -1,16 +1,13 @@
 package utils;
 
-import models.tikz.TikzGraph;
-import models.tikz.TikzCircle;
-import models.tikz.TikzUndirectedEdge;
+
+import models.tikz.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-import models.tikz.TikzEdge;
-import models.tikz.TikzNode;
 import java.util.ArrayList;
 
 /**
@@ -56,7 +53,7 @@ public class LaTeXBuilderTest {
         String expectedString = "\\documentclass{article}\n" +
                                 "\\usepackage{tikz}\n" +
                                 "\\begin{document}\n" +
-                                "\\begin{tikzpicture}\n" +
+                                "\\begin{tikzpicture}[x=0.0625em,y=0.0625em]\n" +
                                 "\\node[circle, draw]() at (0,0){};\n" +
                                 "\\node[circle, draw]() at (0,1){};\n" +
                                 "\\node[circle, draw]() at (0,2){};\n" +

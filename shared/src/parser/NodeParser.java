@@ -38,7 +38,7 @@ public class NodeParser {
      * @return a parser object that contains the string between the parentheses
      */
     public static Parser<String> reference() {
-        return Parsers.between(Scanners.string("("), Parsers.or(Scanners.notChar(')').many1().source(), Parsers.constant("")),
+        return Parsers.between(Scanners.string("("), Scanners.notChar(')').many().source(),
                 Scanners.string(")"));
     }
 

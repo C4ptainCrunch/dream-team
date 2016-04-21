@@ -10,7 +10,9 @@ public final class NodeToGraphCaster {
 
     public static TikzGraph cast(TikzNode node) {
         TikzGraph graph = new TikzGraph();
-        graph.add(node);
+        if(node != null){
+            graph.add(node);
+        }
         return graph;
     }
 }

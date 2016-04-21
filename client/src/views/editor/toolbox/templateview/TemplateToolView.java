@@ -20,8 +20,6 @@ import constants.GUI;
  * These templates can be drag and drop from this view to the CanvasView.
  */
 
-// TODO: Create a controller for this view.
-
 public class TemplateToolView extends JPanel {
 
     private TemplateList templates;

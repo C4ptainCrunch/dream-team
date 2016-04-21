@@ -146,7 +146,7 @@ public class TikzPolygon extends TikzShape {
         if (!options.contains("draw")) {
             options += ", draw";
         }
-        return String.format("\\node[%s](%s) at (%.0f,%.0f){%s}", options, "", getPosition().getX(), getPosition().getY(), getLabel());
+        return String.format("\\node[%s](%s) at (%.0f,%.0f){%s};\n", options, "", getPosition().getX(), getPosition().getY(), getLabel());
     }
 
     /**

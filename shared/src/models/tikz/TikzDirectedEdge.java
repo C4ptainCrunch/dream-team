@@ -85,7 +85,7 @@ public class TikzDirectedEdge extends TikzEdge {
         Point first = getFirstNode().getPosition();
         Point second = getSecondNode().getPosition();
         String options = String.join(", ", new String[] { "->" }); // TODO
-        return String.format("\\draw[%s] (%.0f, %.0f) -- (%.0f, %.0f)", options, first.getX(), first.getY(), second.getX(), second.getY());
+        return String.format("\\draw[%s] (%.0f, %.0f) -- (%.0f, %.0f);\n", options, first.getX(), first.getY(), second.getX(), second.getY());
     }
 
     /**

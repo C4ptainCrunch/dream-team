@@ -3,10 +3,10 @@ package views.editor.canvas.drawers;
 import java.util.HashMap;
 import java.util.Map;
 
-import views.editor.canvas.drawables.DrawableTikzComponent;
-import models.tikz.*;
-
 import javax.swing.*;
+
+import models.tikz.*;
+import views.editor.canvas.drawables.DrawableTikzComponent;
 
 public final class Drawer {
 

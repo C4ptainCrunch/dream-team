@@ -5,8 +5,9 @@ import static constants.Models.DEFAULT.*;
 import java.awt.*;
 
 /**
- * This abstract class defines the common elements of a tikz edge (directed edge, undirected edge)
- * This class represents an edge that links two tikz node.
+ * This abstract class defines the common elements of a tikz edge (directed
+ * edge, undirected edge) This class represents an edge that links two tikz
+ * node.
  */
 public abstract class TikzEdge extends TikzComponent {
     private TikzNode firstNode;
@@ -27,8 +28,11 @@ public abstract class TikzEdge extends TikzComponent {
 
     /**
      * Constructs an edge with two given nodes
-     * @param first The first node from which the edge is linked
-     * @param second The second node from which the edge is linked
+     *
+     * @param first
+     *            The first node from which the edge is linked
+     * @param second
+     *            The second node from which the edge is linked
      */
     protected TikzEdge(TikzNode first, TikzNode second) {
         super();
@@ -40,7 +44,9 @@ public abstract class TikzEdge extends TikzComponent {
 
     /**
      * Constructs an edge by copying an other edge
-     * @param o_edge The edge to be copied from
+     *
+     * @param o_edge
+     *            The edge to be copied from
      */
     protected TikzEdge(TikzEdge o_edge) {
         super(o_edge);
@@ -52,9 +58,13 @@ public abstract class TikzEdge extends TikzComponent {
 
     /**
      * Constructs an edge with two given nodes and a given reference
-     * @param first The first node from which the edge is linked
-     * @param second The second node from which the edge is linked
-     * @param reference The reference of the TikzEdge
+     *
+     * @param first
+     *            The first node from which the edge is linked
+     * @param second
+     *            The second node from which the edge is linked
+     * @param reference
+     *            The reference of the TikzEdge
      */
     public TikzEdge(TikzNode first, TikzNode second, String reference) {
         super(reference);
@@ -66,8 +76,11 @@ public abstract class TikzEdge extends TikzComponent {
 
     /**
      * Constructs an edge by copying an other edge with specified reference
-     * @param o_edge The edge to be copied from
-     * @param reference the reference of the edge
+     *
+     * @param o_edge
+     *            The edge to be copied from
+     * @param reference
+     *            the reference of the edge
      */
     public TikzEdge(TikzEdge o_edge, String reference) {
         super(o_edge, reference);
@@ -80,11 +93,12 @@ public abstract class TikzEdge extends TikzComponent {
     /**
      * Getter for the mid position of the edge between the two linked nodes
      * using the mid point formula
+     *
      * @return The mid point of the edge
      */
     public Point getPosition() {
-        Point f_pos = (firstNode == null ? fromPosition: firstNode.getPosition());
-        Point to_pos = (secondNode == null ? toPosition: secondNode.getPosition());
+        Point f_pos = (firstNode == null ? fromPosition : firstNode.getPosition());
+        Point to_pos = (secondNode == null ? toPosition : secondNode.getPosition());
         int midX = (int) ((f_pos.getX() + to_pos.getX()) / 2);
         int midY = (int) ((f_pos.getY() + to_pos.getY()) / 2);
         return new Point(midX, midY);
@@ -92,16 +106,19 @@ public abstract class TikzEdge extends TikzComponent {
 
     /**
      * Getter for the position from which the edge starts
+     *
      * @return the position from which the edge starts
      */
     public Point getFromPosition() {
-        Point pos = (firstNode == null ? fromPosition: firstNode.getPosition());
+        Point pos = (firstNode == null ? fromPosition : firstNode.getPosition());
         return pos;
     }
 
     /**
      * Setter for the position from which the edge starts
-     * @param point The position from which the edge starts
+     *
+     * @param point
+     *            The position from which the edge starts
      */
     public void setFromPosition(Point point) {
         fromPosition = point;
@@ -111,6 +128,7 @@ public abstract class TikzEdge extends TikzComponent {
 
     /**
      * Getter for the position to which the edge ends
+     *
      * @return the position to which the edge ends
      */
     public Point getToPosition() {
@@ -120,7 +138,9 @@ public abstract class TikzEdge extends TikzComponent {
 
     /**
      * Setter for the position to which the edge ends
-     * @param point the position to whoch the edge ends
+     *
+     * @param point
+     *            the position to whoch the edge ends
      */
     public void setToPosition(Point point) {
         toPosition = point;
@@ -130,6 +150,7 @@ public abstract class TikzEdge extends TikzComponent {
 
     /**
      * Getter for the node from which the edge starts
+     *
      * @return The node from which the edge starts
      */
     public TikzNode getFirstNode() {
@@ -138,7 +159,9 @@ public abstract class TikzEdge extends TikzComponent {
 
     /**
      * Setter for the node from which the edge starts
-     * @param node The node from which the edge starts
+     *
+     * @param node
+     *            The node from which the edge starts
      */
     public void setFirstNode(TikzNode node) {
         firstNode = node;
@@ -149,6 +172,7 @@ public abstract class TikzEdge extends TikzComponent {
 
     /**
      * Getter for the node to which the edge ends
+     *
      * @return The node to which the edge ends
      */
     public TikzNode getSecondNode() {
@@ -157,7 +181,9 @@ public abstract class TikzEdge extends TikzComponent {
 
     /**
      * Setter for the node to which the edge ends
-     * @param node The node to which the edge ends
+     *
+     * @param node
+     *            The node to which the edge ends
      */
     public void setSecondNode(TikzNode node) {
         secondNode = node;
@@ -167,9 +193,9 @@ public abstract class TikzEdge extends TikzComponent {
     }
 
     /**
-     * Abstract method that needs to be redefined in classes
-     * that extends this class.
-     * Getter for a clone (ie. copy of the current object)
+     * Abstract method that needs to be redefined in classes that extends this
+     * class. Getter for a clone (ie. copy of the current object)
+     *
      * @return A new object that is the copy of the current object
      */
     public abstract TikzEdge getClone();

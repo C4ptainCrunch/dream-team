@@ -7,18 +7,18 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
-import constants.Errors;
-import constants.GUI.ProjectManagement;
-import views.editor.EditorView;
-import views.management.FileChooseView;
-import views.management.ProjectManagementView;
 import models.project.Project;
 import models.project.RecentProjects;
 import utils.Log;
+import views.editor.EditorView;
+import views.management.FileChooseView;
+import views.management.ProjectManagementView;
+import constants.Errors;
+import constants.GUI.ProjectManagement;
 
 public class ProjectManagementController {
-    private final ProjectManagementView view;
     private final static Logger logger = Log.getLogger(ProjectManagementController.class);
+    private final ProjectManagementView view;
 
     public ProjectManagementController(ProjectManagementView view) {
         this.view = view;
@@ -37,12 +37,8 @@ public class ProjectManagementController {
         Project selectedProject = (Project) comboBox.getSelectedItem();
 
         try {
-            String text = String.format(
-                    ProjectManagement.BLANK_INFO_PANEL,
-                    selectedProject.getName(),
-                    "Local",
-                    selectedProject.getLastChange().toString()
-            );
+            String text = String.format(ProjectManagement.BLANK_INFO_PANEL, selectedProject.getName(), "Local",
+                    selectedProject.getLastChange().toString());
             this.view.setInfoText(text);
         } catch (IOException | ClassNotFoundException e) {
             logger.severe("Error while reading the diff file: " + e.toString());
@@ -52,7 +48,7 @@ public class ProjectManagementController {
     public void createProject() {
         FileChooseView choose = new FileChooseView("Create project", JFileChooser.DIRECTORIES_ONLY);
         File path = choose.ask();
-        if(path != null) {
+        if (path != null) {
             try {
                 Project.initialize(path);
                 editProject(path.getPath().toString());
@@ -65,11 +61,11 @@ public class ProjectManagementController {
 
     public void openProject() {
         Project project = view.getSelectedProject();
-        if(project != null) {
+        if (project != null) {
             try {
                 editProject(project.getPath().toString());
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(view, Errors.OPEN_ERROR , Errors.ERROR, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(view, Errors.OPEN_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
                 logger.severe("Failed to open the project: " + e.getMessage());
             }
         }
@@ -77,13 +73,13 @@ public class ProjectManagementController {
 
     public void renameProject() {
         Project project = view.getSelectedProject();
-        if(project == null) {
-            return ;
+        if (project == null) {
+            return;
         }
 
         FileChooseView choose = new FileChooseView("Rename project", JFileChooser.DIRECTORIES_ONLY);
         File path = choose.ask();
-        if(path != null) {
+        if (path != null) {
             try {
                 project.rename(path);
             } catch (IOException e) {

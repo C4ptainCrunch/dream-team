@@ -1,26 +1,27 @@
 package models;
 
-import constants.Models;
-import models.project.Diff;
-import models.project.Project;
-import models.tikz.TikzCircle;
-import models.tikz.TikzGraph;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import static org.junit.Assert.*;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import models.project.Diff;
+import models.project.Project;
+import models.tikz.TikzCircle;
+import models.tikz.TikzGraph;
 
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
+import constants.Models;
 
 public class ProjectTest {
 
     @Rule
-    public TemporaryFolder folder= new TemporaryFolder();
+    public TemporaryFolder folder = new TemporaryFolder();
 
     private Project getEmptyProject() throws IOException {
         File path = new File(folder.getRoot(), "my-project");
@@ -28,7 +29,6 @@ public class ProjectTest {
 
         return Project.fromPath(path.toString());
     }
-
 
     @Test
     public void testFromPath() throws Exception {
@@ -103,7 +103,7 @@ public class ProjectTest {
         writer.close();
 
         Project p = Project.fromPath(folder.getRoot().toString());
-        TikzGraph g  = p.getGraph();
+        TikzGraph g = p.getGraph();
         g.add(new TikzCircle(10));
 
         assertEquals(tikz, p.getDiskTikz());
@@ -114,20 +114,14 @@ public class ProjectTest {
     public void testGetTikzPath() throws Exception {
         Project p = getEmptyProject();
         File projectPath = new File(folder.getRoot(), "my-project");
-        assertEquals(
-                p.getTikzPath().toString(),
-                new File(projectPath, Models.Project.SAVE_FILE).toString()
-        );
+        assertEquals(p.getTikzPath().toString(), new File(projectPath, Models.Project.SAVE_FILE).toString());
     }
 
     @Test
     public void testGetDiffPath() throws Exception {
         Project p = getEmptyProject();
         File projectPath = new File(folder.getRoot(), "my-project");
-        assertEquals(
-                p.getDiffPath().toString(),
-                new File(projectPath, Models.Project.DIFF_FILE).toString()
-        );
+        assertEquals(p.getDiffPath().toString(), new File(projectPath, Models.Project.DIFF_FILE).toString());
     }
 
     @Test
@@ -161,7 +155,7 @@ public class ProjectTest {
     public void testCompareToDifferent() throws Exception {
         Project p1 = new Project("abc", new TikzGraph());
         Project p2 = new Project("def", new TikzGraph());
-        assertTrue (p1.compareTo(p2) < 0);
+        assertTrue(p1.compareTo(p2) < 0);
         assertTrue(p2.compareTo(p1) > 0);
     }
 

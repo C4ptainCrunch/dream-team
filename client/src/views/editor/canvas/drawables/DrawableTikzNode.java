@@ -1,25 +1,21 @@
 package views.editor.canvas.drawables;
 
-import constants.Models;
-import misc.utils.Converter;
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+
 import models.tikz.TikzComponent;
 import models.tikz.TikzNode;
 import models.tikz.TikzShape;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
-import java.awt.geom.Rectangle2D;
+import constants.Models;
 
 public class DrawableTikzNode extends DrawableTikzComponent {
-    public DrawableTikzNode(TikzComponent component){
+    public DrawableTikzNode(TikzComponent component) {
         super(component);
     }
 
     @Override
-    public TikzNode getComponent(){
-        return (TikzNode)super.getComponent();
+    public TikzNode getComponent() {
+        return (TikzNode) super.getComponent();
     }
 
     @Override
@@ -30,34 +26,30 @@ public class DrawableTikzNode extends DrawableTikzComponent {
 
         TikzNode component = getComponent();
 
-
-
         g.setStroke(new BasicStroke(component.getStroke()));
-        if(component.isShape()){
-            g.setColor(((TikzShape)component).getBackgroundColor());
+        if (component.isShape()) {
+            g.setColor(((TikzShape) component).getBackgroundColor());
         }
 
-        for(Shape shape : getShapes()){
+        for (Shape shape : getShapes()) {
             g.fill(shape);
         }
         g.setColor(component.getColor());
-        for(Shape shape : getShapes()){
+        for (Shape shape : getShapes()) {
             g.draw(shape);
         }
 
-        //TODO use label color !
+        // TODO use label color !
         g.setColor(old_color);
         String label = component.getLabel();
         if (!label.equals(Models.DEFAULT.LABEL)) {
             Rectangle2D bounds = getBounds();
             FontMetrics metrics = g.getFontMetrics();
-            int x = ((int)bounds.getWidth() - metrics.stringWidth(label))/2 + (int)bounds.getX();
-            int y = (((int)bounds.getHeight() + metrics.getHeight()))/2 + (int)bounds.getY();
+            int x = ((int) bounds.getWidth() - metrics.stringWidth(label)) / 2 + (int) bounds.getX();
+            int y = (((int) bounds.getHeight() + metrics.getHeight())) / 2 + (int) bounds.getY();
 
             g.drawString(label, x, y);
         }
-
-
 
         g.setColor(old_color);
         g.setStroke(old_stroke);

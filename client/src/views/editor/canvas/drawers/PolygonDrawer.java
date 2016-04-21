@@ -3,15 +3,16 @@ package views.editor.canvas.drawers;
 import java.awt.*;
 import java.util.logging.Logger;
 
+import javax.swing.*;
+
 import models.tikz.TikzComponent;
 import models.tikz.TikzPolygon;
 import utils.Log;
 import views.editor.canvas.drawables.DrawableTikzNode;
 
-import javax.swing.*;
-
 public class PolygonDrawer extends NodeDrawer {
     private final static Logger logger = Log.getLogger(PolygonDrawer.class);
+
     public PolygonDrawer() {
         // this was left intentionally blank
     }

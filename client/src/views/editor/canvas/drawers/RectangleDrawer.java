@@ -2,11 +2,11 @@ package views.editor.canvas.drawers;
 
 import java.awt.*;
 
+import javax.swing.*;
+
 import models.tikz.TikzComponent;
 import models.tikz.TikzRectangle;
 import views.editor.canvas.drawables.DrawableTikzNode;
-
-import javax.swing.*;
 
 public class RectangleDrawer extends NodeDrawer {
 

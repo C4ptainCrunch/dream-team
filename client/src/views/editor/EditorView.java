@@ -11,31 +11,31 @@ import javax.swing.*;
 import models.project.Project;
 import models.tikz.TikzComponent;
 import models.tikz.TikzGraph;
+import views.editor.toolbox.ToolBoxView;
 import constants.GUI;
 import controllers.editor.EditorController;
-import views.editor.toolbox.ToolBoxView;
 
 /**
- * Implementation of the View (from the MVC architectural pattern) for the Editor.
- * The Editor is the main element of the GUI which contains the other elements of the GUI.
+ * Implementation of the View (from the MVC architectural pattern) for the
+ * Editor. The Editor is the main element of the GUI which contains the other
+ * elements of the GUI.
  */
 public class EditorView extends JFrame {
-    private Project project;
-
     private final CanvasView canvasView;
     private final SourceView sourceView;
     private final MenuView menuView;
     private final ToolBoxView toolBoxView;
-
+    private Project project;
     private EditorController controller;
 
     /**
-     * Constructs a new View for the Editor,
-     * with a given Project.
-     * Creates all the views that are contained within this view.
-     * @param project The project
+     * Constructs a new View for the Editor, with a given Project. Creates all
+     * the views that are contained within this view.
+     *
+     * @param project
+     *            The project
      */
-    public EditorView(Project project){
+    public EditorView(Project project) {
         TikzGraph graph = project.getGraph();
         this.project = project;
         this.controller = new EditorController(this, project);
@@ -44,7 +44,6 @@ public class EditorView extends JFrame {
         this.sourceView = new SourceView(this, graph);
         this.menuView = new MenuView(this, project);
         this.toolBoxView = new ToolBoxView();
-
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -61,16 +60,13 @@ public class EditorView extends JFrame {
     }
 
     /**
-     * Renders the view by initializing it and its pane, corresponding
-     * to the views that are contained within this view
+     * Renders the view by initializing it and its pane, corresponding to the
+     * views that are contained within this view
      */
     public final void render() {
         this.setTitle(GUI.MenuBar.APP_NAME);
 
-        DisplayMode gd = GraphicsEnvironment.
-                getLocalGraphicsEnvironment().
-                getDefaultScreenDevice().
-                getDisplayMode();
+        DisplayMode gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
 
         this.setSize(new Dimension(gd.getWidth(), gd.getHeight()));
         this.setLocationRelativeTo(null);
@@ -91,15 +87,18 @@ public class EditorView extends JFrame {
 
     /**
      * Getter for the selected tool
+     *
      * @return the tikz component that has been selected from the toolbox
      */
     public final TikzComponent getSelectedTool() {
         return toolBoxView.getSelectedTool();
     }
 
-    public final void resetTool() { toolBoxView.resetTool(); };
+    public final void resetTool() {
+        toolBoxView.resetTool();
+    };
 
-    public final void addTemplateToToolBox(File file){
+    public final void addTemplateToToolBox(File file) {
         toolBoxView.addTemplateToView(file);
     }
 }

@@ -1,35 +1,36 @@
 package parser;
 
-import constants.Models;
-import models.tikz.*;
-
 import java.awt.*;
 import java.lang.reflect.Field;
 import java.util.*;
-import java.util.List;
+
+import models.tikz.*;
+import constants.Models;
 
 class Utils {
-    private static final String[] shapes = new String[] { "rectangle", "circle", "ellipse", "circle split",
-            "forbidden sign", "diamond", "cross out", "strike out", "regular polygon" };
+    private static final String[] shapes = new String[] { "rectangle", "circle", "ellipse", "circle split", "forbidden sign", "diamond",
+            "cross out", "strike out", "regular polygon" };
     private final static Set<String> rectangles = new HashSet<>(Arrays.asList("rectangle", "diamond"));
-    private final static Set<String> circles = new HashSet<>(
-            Arrays.asList("circle", "ellipse", "circle split", "forbidden sign"));
+    private final static Set<String> circles = new HashSet<>(Arrays.asList("circle", "ellipse", "circle split", "forbidden sign"));
     private final static Set<String> polygons = new HashSet<>(Arrays.asList("regular polygon", "star"));
-    private final static Set<String> colors = new HashSet<>(Arrays.asList("red", "green", "blue", "cyan ", "magenta", "yellow", "black", "gray", "darkgray", "lightgray", "brown", "lime", "olive", "orange", "pink", "purple", "teal", "violet", "white"));
-    private enum EDGEDIR {UNDIRECTED, RIGHTDIRECTED, LEFTDIRECTED};
+    private final static Set<String> colors = new HashSet<>(Arrays.asList("red", "green", "blue", "cyan ", "magenta", "yellow", "black",
+            "gray", "darkgray", "lightgray", "brown", "lime", "olive", "orange", "pink", "purple", "teal", "violet", "white"));
 
-    /**
+        /**
      * private default constructor
      */
-    private Utils(){}
+    private Utils() {
+    };
 
     /**
      * find the shape of a node in a map of options
-     * @param m1 map of options
+     *
+     * @param m1
+     *            map of options
      * @return an optional name of a shape
      */
     private static Optional<String> getNodeShape(Map<String, String> m1) {
-        for (String s: shapes) {
+        for (String s : shapes) {
             if (m1.containsKey(s)) {
                 return Optional.of(s);
             }
@@ -39,8 +40,11 @@ class Utils {
 
     /**
      * find the shape of a node in maps of options
-     * @param m1 map of default options
-     * @param m2 map of options
+     *
+     * @param m1
+     *            map of default options
+     * @param m2
+     *            map of options
      * @return an optional name of a shape
      */
     private static Optional<String> getNodeShape(Map<String, String> m1, Map<String, String> m2) {
@@ -50,11 +54,15 @@ class Utils {
 
     /**
      * fetch color from a map of options
-     * @param map map of options
+     *
+     * @param map
+     *            map of options
      * @return an optional name of a color
      */
     private static Optional<String> getColorShape(Map<String, String> map) {
-        if (map.containsKey("color")) {return Optional.of(map.get("color"));}
+        if (map.containsKey("color")) {
+            return Optional.of(map.get("color"));
+        }
         for (String c : colors) {
             if (map.containsKey(c)) {
                 return Optional.of(c);
@@ -65,8 +73,11 @@ class Utils {
 
     /**
      * fetch color from maps of options
-     * @param m1 map of default options
-     * @param m2 map of options
+     *
+     * @param m1
+     *            map of default options
+     * @param m2
+     *            map of options
      * @return an optional name of a color
      */
     private static Optional<String> getColorShape(Map<String, String> m1, Map<String, String> m2) {
@@ -76,63 +87,106 @@ class Utils {
 
     /**
      * Convert a string to a java.awt.Color
-     * @param color the color name
+     *
+     * @param color
+     *            the color name
      * @return A Color instance
      */
     private static Color stringToColor(String color) {
         try {
             Field f = Class.forName("java.awt.Color").getField(color);
             return (Color) f.get(null);
-        } catch (Exception e) {return Models.DEFAULT.COLOR;}
+        } catch (Exception e) {
+            return Models.DEFAULT.COLOR;
+        }
     }
 
     /**
-     * Find an option from maps of options which returns a string to get it's value
-     * @param opt option name
-     * @param m1 default map
-     * @param m2 map
+     * Find an option from maps of options which returns a string to get it's
+     * value
+     *
+     * @param opt
+     *            option name
+     * @param m1
+     *            default map
+     * @param m2
+     *            map
      * @return an optional string result
      */
     private static Optional<String> getOptionString(String opt, Map<String, String> m1, Map<String, String> m2) {
-        if (m1.containsKey(opt)) {return Optional.of(m1.get(opt));}
-        if (m2.containsKey(opt)) {return Optional.of(m2.get(opt));}
+        if (m1.containsKey(opt)) {
+            return Optional.of(m1.get(opt));
+        }
+        if (m2.containsKey(opt)) {
+            return Optional.of(m2.get(opt));
+        }
         return Optional.empty();
     }
 
     /**
-     * Find an option from maps of options which returns an integer to get it's value
-     * @param opt option name
-     * @param m1 default map
-     * @param m2 map
+     * Find an option from maps of options which returns an integer to get it's
+     * value
+     *
+     * @param opt
+     *            option name
+     * @param m1
+     *            default map
+     * @param m2
+     *            map
      * @return an optional integer result
      */
     private static Optional<Integer> getOptionInt(String opt, Map<String, String> m1, Map<String, String> m2) {
-        if (m1.containsKey(opt)) {return Optional.of(Integer.parseInt(m1.get(opt)));}
-        if (m2.containsKey(opt)) {return Optional.of(Integer.parseInt(m2.get(opt)));}
+        if (m1.containsKey(opt)) {
+            return Optional.of(Integer.parseInt(m1.get(opt)));
+        }
+        if (m2.containsKey(opt)) {
+            return Optional.of(Integer.parseInt(m2.get(opt)));
+        }
         return Optional.empty();
     }
 
     /**
      * Find the stroke from a map of default options or a map of options
-     * @param map map of options
+     *
+     * @param map
+     *            map of options
      * @return an optional stroke
      */
     private static Optional<Integer> getOptionStroke(Map<String, String> map) {
-        if (map.containsKey("line width")) { return Optional.of(Math.round(Float.parseFloat(map.get("line width")))); }
-        if (map.containsKey("ultra thin")) { return Optional.of(1); }
-        if (map.containsKey("very thin")) { return Optional.of(2); }
-        if (map.containsKey("thin")) { return Optional.of(4); }
-        if (map.containsKey("semithick")) { return Optional.of(6); }
-        if (map.containsKey("thick")) { return Optional.of(8); }
-        if (map.containsKey("very thick")) { return Optional.of(12); }
-        if (map.containsKey("ultra thick")) { return Optional.of(16); }
+        if (map.containsKey("line width")) {
+            return Optional.of(Math.round(Float.parseFloat(map.get("line width"))));
+        }
+        if (map.containsKey("ultra thin")) {
+            return Optional.of(1);
+        }
+        if (map.containsKey("very thin")) {
+            return Optional.of(2);
+        }
+        if (map.containsKey("thin")) {
+            return Optional.of(4);
+        }
+        if (map.containsKey("semithick")) {
+            return Optional.of(6);
+        }
+        if (map.containsKey("thick")) {
+            return Optional.of(8);
+        }
+        if (map.containsKey("very thick")) {
+            return Optional.of(12);
+        }
+        if (map.containsKey("ultra thick")) {
+            return Optional.of(16);
+        }
         return Optional.empty();
     }
 
     /**
      * Find the stroke from a map of default options or a map of options
-     * @param m1 map of default options
-     * @param m2 map of options
+     *
+     * @param m1
+     *            map of default options
+     * @param m2
+     *            map of options
      * @return an optional stroke
      */
     private static Optional<Integer> getOptionStroke(Map<String, String> m1, Map<String, String> m2) {
@@ -141,68 +195,80 @@ class Utils {
     }
 
     /**
-     * Creates a tikz node from a destructured node
-     * and a list of options defining this node
-     * @param defaultOptions The options defining the node
-     * @param node The destructured node
-     * @return The tikz node created from the destructured node and the option list
+     * Creates a tikz node from a destructured node and a list of options
+     * defining this node
+     *
+     * @param defaultOptions
+     *            The options defining the node
+     * @param node
+     *            The destructured node
+     * @return The tikz node created from the destructured node and the option
+     *         list
      */
-    public static TikzNode createNode(Map<String, String> defaultOptions, DestructuredNode node){
+    public static TikzNode createNode(Map<String, String> defaultOptions, DestructuredNode node) {
         final String shape = getNodeShape(defaultOptions, node.getOptions()).orElse("void");
         final String color = getColorShape(defaultOptions, node.getOptions()).orElse("black");
         TikzNode res;
-        if (rectangles.contains(shape)){
+        if (rectangles.contains(shape)) {
             int width = getOptionInt("minimum width", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.LENGTH);
             int height = getOptionInt("minimum height", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.LENGTH);
             res = new TikzRectangle(width, height);
-        } else if (circles.contains(shape)){
+        } else if (circles.contains(shape)) {
             int radius = getOptionInt("radius", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.LENGTH);
             res = new TikzCircle(radius);
-        } else if (polygons.contains(shape)){
+        } else if (polygons.contains(shape)) {
             int size = getOptionInt("minimum size", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.LENGTH);
             int sides = getOptionInt("regular polygon sides", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.SIDES);
             res = new TikzPolygon(size, sides);
-        } else { res = new TikzVoid(); }
+        } else {
+            res = new TikzVoid();
+        }
         res.setPosition(node.getCoordinates());
         res.setLabel(node.getLabel());
         res.setColor(stringToColor(color));
         res.setStroke(getOptionStroke(defaultOptions, node.getOptions()).orElse(Models.DEFAULT.STROKE));
         final Optional<String> ref = node.getRef();
-        if (ref.isPresent()) {res.setReference(ref.get());}
+        if (ref.isPresent()) {
+            res.setReference(ref.get());
+        }
         return res;
     }
 
     /**
      * Creates a tikz node from a destructured node
-     * @param node The destructured node
+     *
+     * @param node
+     *            The destructured node
      * @return the tikz node created from the destructured node
      */
     public static TikzNode createNode(DestructuredNode node) {
         return createNode(new HashMap<>(), node);
     }
 
-    public static TikzEdge createEdge(HashMap<String, String> options, TikzNode n1, TikzNode n2){
+    public static TikzEdge createEdge(HashMap<String, String> options, TikzNode n1, TikzNode n2) {
         final String color = getColorShape(options).orElse(Models.DEFAULT.COLOR.toString());
         TikzEdge res;
-        switch (isDirected(options)){
-            case RIGHTDIRECTED:
-                res = new TikzDirectedEdge(n1, n2);
-                break;
-            case LEFTDIRECTED:
-                res = new TikzDirectedEdge(n2, n1);
-                break;
-            default:
-                res = new TikzUndirectedEdge(n1, n2);
-                break;
+        switch (isDirected(options)) {
+        case RIGHTDIRECTED:
+            res = new TikzDirectedEdge(n1, n2);
+            break;
+        case LEFTDIRECTED:
+            res = new TikzDirectedEdge(n2, n1);
+            break;
+        default:
+            res = new TikzUndirectedEdge(n1, n2);
+            break;
         }
         res.setColor(stringToColor(color));
         return res;
     }
 
     /**
-     * Returns a string defining the type of the edges
-     * linking the nodes in a tikz command.
-     * @param options The options map of the tikz command
+     * Returns a string defining the type of the edges linking the nodes in a
+     * tikz command.
+     *
+     * @param options
+     *            The options map of the tikz command
      * @return whether the edges are left/right directed or undirected
      */
     public static EDGEDIR isDirected(Map<String, String> options) {
@@ -214,5 +280,8 @@ class Utils {
             return EDGEDIR.UNDIRECTED;
         }
     }
-}
 
+private enum EDGEDIR {
+        UNDIRECTED, RIGHTDIRECTED, LEFTDIRECTED
+    }
+}

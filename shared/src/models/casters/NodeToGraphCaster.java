@@ -8,7 +8,7 @@ import models.tikz.TikzNode;
  */
 public final class NodeToGraphCaster {
 
-    public static TikzGraph cast(TikzNode node){
+    public static TikzGraph cast(TikzNode node) {
         TikzGraph graph = new TikzGraph();
         graph.add(node);
         return graph;

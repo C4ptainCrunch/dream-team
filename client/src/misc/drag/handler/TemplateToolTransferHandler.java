@@ -1,11 +1,12 @@
 package misc.drag.handler;
 
-import constants.GUI;
-import misc.drag.transferable.TemplateToolTransferable;
-import views.editor.toolbox.templateview.TemplateList;
+import java.awt.datatransfer.Transferable;
 
 import javax.swing.*;
-import java.awt.datatransfer.Transferable;
+
+import misc.drag.transferable.TemplateToolTransferable;
+import views.editor.toolbox.templateview.TemplateList;
+import constants.GUI;
 
 /**
  * Created by aurelien on 20/04/16.
@@ -17,6 +18,6 @@ public class TemplateToolTransferHandler extends TikzTransferHandler {
     }
 
     protected void exportDone(JComponent c, Transferable t, int action) {
-        ((TemplateList)c).deselectTemplate();
+        ((TemplateList) c).deselectTemplate();
     }
 }

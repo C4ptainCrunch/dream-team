@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * This class contains the elements representing
- * a tikz node and is configured while parsing the tikz text
+ * This class contains the elements representing a tikz node and is configured
+ * while parsing the tikz text
  */
 class DestructuredNode {
     private final Point coordinates;
@@ -15,11 +15,15 @@ class DestructuredNode {
     private final Optional<String> ref;
 
     /**
-     * Constructs a new Destructured node with
-     * given coordinates, options and label
-     * @param s The coordinates
-     * @param t The options
-     * @param u The label
+     * Constructs a new Destructured node with given coordinates, options and
+     * label
+     *
+     * @param s
+     *            The coordinates
+     * @param t
+     *            The options
+     * @param u
+     *            The label
      */
     public DestructuredNode(Point s, Map<String, String> t, String u) {
         coordinates = s;
@@ -30,10 +34,15 @@ class DestructuredNode {
 
     /**
      * Constructs a new Destructured node
-     * @param options the options
-     * @param ref the reference
-     * @param coordinates the coordianates
-     * @param label the label
+     *
+     * @param options
+     *            the options
+     * @param ref
+     *            the reference
+     * @param coordinates
+     *            the coordianates
+     * @param label
+     *            the label
      */
     public DestructuredNode(Map<String, String> options, String ref, Point coordinates, String label) {
         this.coordinates = coordinates;
@@ -44,6 +53,7 @@ class DestructuredNode {
 
     /**
      * Getter for the coordinates of the destructured node
+     *
      * @return the Point object representing the coordinates
      */
     public Point getCoordinates() {
@@ -52,6 +62,7 @@ class DestructuredNode {
 
     /**
      * Getter for the options defining the destructured node
+     *
      * @return the array of options
      */
     public Map<String, String> getOptions() {
@@ -60,21 +71,24 @@ class DestructuredNode {
 
     /**
      * Getter for the label of the destructured node
+     *
      * @return The label of the destructured node
      */
     public String getLabel() {
         return label;
     }
 
-    public Optional<String> getRef() {return ref;}
+    public Optional<String> getRef() {
+        return ref;
+    }
 
     /**
      * Transforms this destructured node into a string representation
+     *
      * @return The string representation
      */
     @Override
     public String toString() {
-        return "Coordinates: " + coordinates.toString() + ", Options: " + options.toString() + ", Label: "
-                + label;
+        return "Coordinates: " + coordinates.toString() + ", Options: " + options.toString() + ", Label: " + label;
     }
 }

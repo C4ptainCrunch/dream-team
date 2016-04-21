@@ -1,11 +1,9 @@
 package views.editor.canvas.popup;
 
-import controllers.editor.CanvasController;
-import models.tikz.TikzComponent;
-
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import models.tikz.TikzComponent;
+import controllers.editor.CanvasController;
 
 /**
  * A PopupMenu that allows the user to modify a component on the Canvas.
@@ -29,7 +27,7 @@ public class PopupMenuView extends JPopupMenu {
 
         this.delete.addActionListener(actionEvent -> controller.deleteItem(component));
         this.edit.addActionListener(actionEvent -> controller.editItem(component));
-        
+
         add(edit);
         add(delete);
     }
@@ -37,6 +35,5 @@ public class PopupMenuView extends JPopupMenu {
     public void setComponent(TikzComponent component) {
         this.component = component;
     }
-
 
 }

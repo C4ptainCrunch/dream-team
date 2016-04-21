@@ -10,7 +10,8 @@ import models.tikz.TikzComponent;
 import views.editor.toolbox.templateview.TemplateToolView;
 
 /**
- * Implementation of the View (from the MVC architectural pattern) for the ToolBox.
+ * Implementation of the View (from the MVC architectural pattern) for the
+ * ToolBox.
  */
 public class ToolBoxView extends JPanel {
 
@@ -34,7 +35,7 @@ public class ToolBoxView extends JPanel {
         initTabs();
     }
 
-    private void initTabs(){
+    private void initTabs() {
         this.tabbedPane = new JTabbedPane();
         this.tabbedPane.setTabPlacement(JTabbedPane.LEFT);
         this.tabbedPane.addTab(SHAPE_TAB, this.tikzComponentCreator);
@@ -46,6 +47,7 @@ public class ToolBoxView extends JPanel {
 
     /**
      * Getter for the selected tool
+     *
      * @return The selected tool
      */
     public TikzComponent getSelectedTool() {
@@ -56,7 +58,7 @@ public class ToolBoxView extends JPanel {
         tikzComponentCreator.resetTool();
     }
 
-    public void addTemplateToView(File file){
+    public void addTemplateToView(File file) {
         tikzTemplateCreator.addTemplateFromFile(file);
     }
 }

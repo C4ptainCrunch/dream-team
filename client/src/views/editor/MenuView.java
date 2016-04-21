@@ -16,10 +16,12 @@ public class MenuView extends JMenuBar {
     private final EditorView parentView;
 
     /**
-     * Constructs a new View for the Menu,
-     * with a given Project and parentView
-     * @param parentView The view which contains this view (ie. EditorView)
-     * @param project The Project
+     * Constructs a new View for the Menu, with a given Project and parentView
+     *
+     * @param parentView
+     *            The view which contains this view (ie. EditorView)
+     * @param project
+     *            The Project
      */
     public MenuView(EditorView parentView, Project project) {
         this.parentView = parentView;
@@ -62,8 +64,8 @@ public class MenuView extends JMenuBar {
     }
 
     /**
-     * Calls the save function of the controller of this view.
-     * This will save the tikz text into a file in the current project's file
+     * Calls the save function of the controller of this view. This will save
+     * the tikz text into a file in the current project's file
      */
     public void save() {
         controller.save();

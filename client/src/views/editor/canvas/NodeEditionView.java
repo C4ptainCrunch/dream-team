@@ -1,15 +1,16 @@
 package views.editor.canvas;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import models.ToolModel;
 import models.tikz.TikzComponent;
 import views.editor.toolbox.AttributesChooserView;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
-
 /**
- * A dialog view that provides modification tools in order to modify a TikzComponent.
+ * A dialog view that provides modification tools in order to modify a
+ * TikzComponent.
  */
 
 public class NodeEditionView extends JFrame {
@@ -19,11 +20,11 @@ public class NodeEditionView extends JFrame {
     private JButton doneButton;
 
     public NodeEditionView(TikzComponent component) {
-        this.component=component;
+        this.component = component;
         initWindow();
         initButton();
 
-        this.setPreferredSize(new Dimension(250,300));
+        this.setPreferredSize(new Dimension(250, 300));
         this.pack();
         this.getContentPane().setLayout(new BorderLayout());
         this.setLocationRelativeTo(null);

@@ -13,31 +13,35 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import views.help.HelpView;
 import utils.Log;
+import views.help.HelpView;
 
 /**
- * Implementation of the Controller (from the MVC architectural pattern) for the Help.
- * The Help Displays a Tree architecture of help files that can be consulted
+ * Implementation of the Controller (from the MVC architectural pattern) for the
+ * Help. The Help Displays a Tree architecture of help files that can be
+ * consulted
  */
 public class HelpController {
     private final static String HELP_ROOT = "./assets/help_files/";
-    private final HelpView view;
     private final static Logger logger = Log.getLogger(HelpController.class);
+    private final HelpView view;
 
     /**
-     * Constructs a new controller for the Help
-     * with a given view
-     * @param view The HelpView which is associated with this controller
+     * Constructs a new controller for the Help with a given view
+     *
+     * @param view
+     *            The HelpView which is associated with this controller
      */
     public HelpController(HelpView view) {
         this.view = view;
     }
 
     /**
-     * Displays the help text depending on the file tree selected
-     * with a given tree selection event
-     * @param ev The tree selection event
+     * Displays the help text depending on the file tree selected with a given
+     * tree selection event
+     *
+     * @param ev
+     *            The tree selection event
      */
     public void treeClicked(TreeSelectionEvent ev) {
         TreePath clickedNode = ev.getPath();
@@ -58,6 +62,7 @@ public class HelpController {
 
     /**
      * Getter for the help tree
+     *
      * @return The help tree
      */
     public DefaultMutableTreeNode getTree() {
@@ -77,7 +82,9 @@ class Filewalker {
 
     /**
      * Searches for a specific help file with a given path
-     * @param path The path
+     *
+     * @param path
+     *            The path
      * @return The found tree node
      */
     public static DefaultMutableTreeNode walkToTree(String path) {

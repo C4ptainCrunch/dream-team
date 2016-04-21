@@ -1,16 +1,17 @@
 package views.editor.toolbox.templateview;
 
-import constants.Errors;
-import constants.GUI;
-import misc.managers.TemplateIOManager;
-import models.Template;
-
-import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import javax.swing.*;
+
+import misc.managers.TemplateIOManager;
+import models.Template;
+import constants.Errors;
+import constants.GUI;
 
 /**
  * A View that will display all the Templates available.
@@ -29,39 +30,41 @@ public class TemplateToolView extends JPanel {
      * @name Default Constructor
      */
 
-    public TemplateToolView(){
+    public TemplateToolView() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         templates = new TemplateList(new DefaultListModel<>());
         initScrollZone();
         addTemplatesToList();
     }
 
-    private void initScrollZone(){
+    private void initScrollZone() {
         scroll_zone = new JScrollPane(templates);
         this.add(scroll_zone);
     }
 
-    private void addTemplatesToList(){
+    private void addTemplatesToList() {
         try {
             for (Template temp : TemplateIOManager.loadAllTemplatesFromDir()) {
                 templates.addTemplateToList(temp);
             }
-        } catch (IOException e){
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(this, Errors.LOAD_TEMPLATES_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
         }
     }
 
     /**
      * Add a Template Object to the TemplateList from a File.
-      * @param file The file where the Template is saved.
+     *
+     * @param file
+     *            The file where the Template is saved.
      */
 
-    public void addTemplateFromFile(File file){
-        try{
+    public void addTemplateFromFile(File file) {
+        try {
             Path p = Paths.get(GUI.Template.DIR);
             p = p.resolve(file.getName());
             templates.addTemplateToList(TemplateIOManager.loadTemplate(p.toFile()));
-        } catch (IOException e){
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(this, Errors.LOAD_TEMPLATES_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
         }
 
@@ -70,12 +73,12 @@ public class TemplateToolView extends JPanel {
 
 // source: https://docs.oracle.com/javase/8/docs/api/javax/swing/JList.html
 
-class TemplateCellRenderer extends JLabel implements ListCellRenderer<Object>{
+class TemplateCellRenderer extends JLabel implements ListCellRenderer<Object> {
 
-    public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus){
+    public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         String s = ((Template) value).getTemplateName();
         setText(s);
-        if (isSelected){
+        if (isSelected) {
             setBackground(list.getSelectionBackground());
             setForeground(list.getSelectionForeground());
         } else {

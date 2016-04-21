@@ -1,12 +1,13 @@
 package views.editor.toolbox.templateview;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.*;
+
 import misc.drag.handler.TemplateToolTransferHandler;
 import models.Template;
 import models.tikz.TikzGraph;
-
-import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * A subclass of JList defined for stocking Template Object.
@@ -18,23 +19,25 @@ public class TemplateList extends JList<Template> {
 
     /**
      * Default Constructor.
-     * @param model A DefaultListModel that will contain all the Template objects.
+     *
+     * @param model
+     *            A DefaultListModel that will contain all the Template objects.
      */
 
-    public TemplateList(DefaultListModel<Template> model){
+    public TemplateList(DefaultListModel<Template> model) {
         super(model);
         template_list_model = model;
         initTemplatesList();
         enableDrag();
     }
 
-    private void initTemplatesList(){
+    private void initTemplatesList() {
         this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.setLayoutOrientation(JList.VERTICAL);
         this.setCellRenderer(new TemplateCellRenderer());
     }
 
-    private void enableDrag(){
+    private void enableDrag() {
         this.setTransferHandler(new TemplateToolTransferHandler());
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -50,19 +53,22 @@ public class TemplateList extends JList<Template> {
 
     /**
      * Add a Template to the DefaultListModel.
-     * @param template The Template to add.
+     *
+     * @param template
+     *            The Template to add.
      */
 
-    public void addTemplateToList(Template template){
+    public void addTemplateToList(Template template) {
         template_list_model.addElement(template);
     }
 
     /**
      * Get the TikzGraph from the selected Template.
+     *
      * @return A TikzGraph.
      */
 
-    public TikzGraph getSelectedTemplateGraphClone(){
+    public TikzGraph getSelectedTemplateGraphClone() {
         Template template = template_list_model.get(this.getSelectedIndex());
         TikzGraph g = template.getTemplateGraph();
         return g.getClone();
@@ -72,7 +78,7 @@ public class TemplateList extends JList<Template> {
      * Reset the JList's selection.
      */
 
-    public void deselectTemplate(){
+    public void deselectTemplate() {
         this.clearSelection();
     }
 }

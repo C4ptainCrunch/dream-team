@@ -1,11 +1,12 @@
 package models.tikz;
 
-import constants.Models;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import constants.Models;
 
 /**
  * Created by etnarek on 2/29/16.

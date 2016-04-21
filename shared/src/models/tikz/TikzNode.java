@@ -5,7 +5,8 @@ import java.awt.*;
 import constants.Models;
 
 /**
- * This abstract class defines the common elements of a tikz node (shape, text, void, ..)
+ * This abstract class defines the common elements of a tikz node (shape, text,
+ * void, ..)
  */
 public abstract class TikzNode extends TikzComponent {
     private Point position;
@@ -20,7 +21,9 @@ public abstract class TikzNode extends TikzComponent {
 
     /**
      * Constructs a tikz node with a given position
-     * @param position The position
+     *
+     * @param position
+     *            The position
      */
     protected TikzNode(Point position) {
         super();
@@ -29,7 +32,9 @@ public abstract class TikzNode extends TikzComponent {
 
     /**
      * Constructs a tikz node by copying an other tikz node
-     * @param o_node The tikz node to be copied from
+     *
+     * @param o_node
+     *            The tikz node to be copied from
      */
     protected TikzNode(TikzNode o_node) {
         super(o_node);
@@ -38,7 +43,9 @@ public abstract class TikzNode extends TikzComponent {
 
     /**
      * Constructs a default tikz node with a given reference
-     * @param reference the reference for this node
+     *
+     * @param reference
+     *            the reference for this node
      */
     protected TikzNode(String reference) {
         super(reference);
@@ -48,7 +55,8 @@ public abstract class TikzNode extends TikzComponent {
     /**
      * Constructs a default tikz node with a given reference
      *
-     * @param reference the reverence for the component
+     * @param reference
+     *            the reverence for the component
      */
     public TikzNode(Point position, String reference) {
         super(reference);
@@ -56,10 +64,13 @@ public abstract class TikzNode extends TikzComponent {
     }
 
     /**
-     * Constructs a tikz node by copying an other tikz component with a given reference
+     * Constructs a tikz node by copying an other tikz component with a given
+     * reference
      *
-     * @param o_node    The tikz compmonent to be copied from
-     * @param reference the reference for the component
+     * @param o_node
+     *            The tikz compmonent to be copied from
+     * @param reference
+     *            the reference for the component
      */
     public TikzNode(TikzNode o_node, String reference) {
         super(o_node, reference);
@@ -68,6 +79,7 @@ public abstract class TikzNode extends TikzComponent {
 
     /**
      * Getter for the position of this tikz node
+     *
      * @return the position
      */
     public Point getPosition() {
@@ -76,7 +88,9 @@ public abstract class TikzNode extends TikzComponent {
 
     /**
      * Setter for the position of this tikz node
-     * @param position The position
+     *
+     * @param position
+     *            The position
      */
     public void setPosition(Point position) {
         this.position = position;
@@ -85,10 +99,12 @@ public abstract class TikzNode extends TikzComponent {
     }
 
     /**
-     * Changes the position of this tikz node with
-     * the given x and y coordinates
-     * @param x x coordinate
-     * @param y y coordinate
+     * Changes the position of this tikz node with the given x and y coordinates
+     *
+     * @param x
+     *            x coordinate
+     * @param y
+     *            y coordinate
      */
     public void move(int x, int y) {
         setPosition(new Point(x, y));
@@ -97,19 +113,20 @@ public abstract class TikzNode extends TikzComponent {
     }
 
     /**
-     * Abstract method that needs to be redefined in classes
-     * that extends this class.
-     * Getter for a clone (ie. copy of the current object)
+     * Abstract method that needs to be redefined in classes that extends this
+     * class. Getter for a clone (ie. copy of the current object)
+     *
      * @return A new object that is the copy of the current object
      */
     public abstract TikzNode getClone();
 
     /**
      * Move this tikz node by adding x and y to its coordinates.
+     *
      * @param x
      * @param y
      */
-    public void translate(int x, int y){
+    public void translate(int x, int y) {
         this.position.translate(x, y);
         setChanged();
         notifyObservers();
@@ -120,7 +137,7 @@ public abstract class TikzNode extends TikzComponent {
         return true;
     }
 
-    public boolean isShape(){
+    public boolean isShape() {
         return false;
     }
 

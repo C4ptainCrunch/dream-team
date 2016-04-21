@@ -157,4 +157,8 @@ public class AttributesChooserView extends JPanel {
     public void setColorFieldColor(Color color) {
         color_chooser.setBackground(color);
     }
+
+    public Color getColor() {
+        return color_chooser.getBackground();
+    }
 }

@@ -42,7 +42,7 @@ public class SelectorController implements Observer {
         model.setComponent(component);
 
         AttributesChooserView attributes = view.getParentView().getAttributesChooserView();
-//        model.setComponentColor(attributes.ge);
+        model.setComponentColor(attributes.getColor());
         model.setComponentLabel(attributes.getLabel());
         model.setComponentStrokeWidth(attributes.getStrokeWidth());
     }

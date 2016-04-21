@@ -1,13 +1,14 @@
 package models.tikz;
 
-import constants.Models;
+import static org.junit.Assert.assertEquals;
+
+import java.awt.*;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.Color;
-
-import static org.junit.Assert.*;
+import constants.Models;
 
 /**
  * Created by etnarek on 2/29/16.
@@ -15,6 +16,7 @@ import static org.junit.Assert.*;
 public class TikzRectangleTest {
 
     TikzRectangle rectangle;
+
     @Before
     public void setUp() throws Exception {
         rectangle = new TikzRectangle();

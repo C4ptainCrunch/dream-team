@@ -10,9 +10,9 @@ import models.ToolModel;
 import views.editor.toolbox.AttributesChooserView;
 
 /**
- * Implementation of the Controller (from the MVC architectural pattern) for the AttributesChooser.
- * The AttributesChooser is part of the toolbox used to choose
- * attributes for a particular component.
+ * Implementation of the Controller (from the MVC architectural pattern) for the
+ * AttributesChooser. The AttributesChooser is part of the toolbox used to
+ * choose attributes for a particular component.
  */
 public class AttributesChooserController implements Observer {
 
@@ -23,10 +23,14 @@ public class AttributesChooserController implements Observer {
     private Color chosen_color;
 
     /**
-     * Constructs a new Controller for the AttributesChooser
-     * with a given AttributesChooserView and a ToolModel
-     * @param v The attributes chooser view which is associated with this controller
-     * @param m The tool model
+     * Constructs a new Controller for the AttributesChooser with a given
+     * AttributesChooserView and a ToolModel
+     *
+     * @param v
+     *            The attributes chooser view which is associated with this
+     *            controller
+     * @param m
+     *            The tool model
      */
     public AttributesChooserController(AttributesChooserView v, ToolModel m) {
         view = v;
@@ -35,7 +39,9 @@ public class AttributesChooserController implements Observer {
 
     /**
      * Sets the color that is selected to the tool model
-     * @param color The color
+     *
+     * @param color
+     *            The color
      */
     private void colorSelected(Color color) {
         model.setComponentColor(color);
@@ -43,7 +49,9 @@ public class AttributesChooserController implements Observer {
 
     /**
      * Sets the label that is selected to the tool model
-     * @param label The label
+     *
+     * @param label
+     *            The label
      */
     public void labelEntered(String label) {
         model.setComponentLabel(label);
@@ -51,15 +59,17 @@ public class AttributesChooserController implements Observer {
 
     /**
      * Sets the width that is selected to the tool model
-     * @param width The width
+     *
+     * @param width
+     *            The width
      */
     public void strokeWidth(int width) {
         model.setComponentStrokeWidth(width);
     }
 
     /**
-     * Opens a dialog window that displays colors that can be selected,
-     * sets the selected color to the tool model
+     * Opens a dialog window that displays colors that can be selected, sets the
+     * selected color to the tool model
      */
     public void chooseColor() {
         chosen_color = JColorChooser.showDialog(this.view, COLOR_DIALOG_TITLE, Color.GRAY);
@@ -68,11 +78,13 @@ public class AttributesChooserController implements Observer {
     }
 
     /**
-     * Called when Observables linked to this Observer call notify(),
-     * repaints the associated view
+     * Called when Observables linked to this Observer call notify(), repaints
+     * the associated view
      *
-     * @param o The Observable
-     * @param obj The Object given by the Observable
+     * @param o
+     *            The Observable
+     * @param obj
+     *            The Object given by the Observable
      */
     @Override
     public void update(Observable o, Object obj) {

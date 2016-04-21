@@ -3,9 +3,13 @@ package views.editor.canvas.drawers;
 import java.awt.*;
 import java.awt.geom.Line2D;
 
+import javax.swing.*;
+
+import misc.utils.Converter;
 import models.tikz.TikzComponent;
 import models.tikz.TikzEdge;
-import views.editor.canvas.drawables.DrawableTikzComponent;
+import views.editor.canvas.drawables.DrawableTikzEdge;
+import constants.Models;
 
 public abstract class EdgeDrawer extends ComponentDrawer {
 
@@ -14,13 +18,31 @@ public abstract class EdgeDrawer extends ComponentDrawer {
     }
 
     @Override
-    public DrawableTikzComponent toDrawable(TikzComponent component) {
+    public DrawableTikzEdge toDrawable(TikzComponent component, JComponent panel) {
         TikzEdge edge = (TikzEdge) component;
-        DrawableTikzComponent drawableComponent = super.toDrawable(edge);
-        Point start = edge.getFromPosition();
-        Point end = edge.getToPosition();
-        drawableComponent.addShape(new Line2D.Float(start, end));
-        drawableComponent.setBackground(edge.getColor());
+        DrawableTikzEdge drawableComponent = new DrawableTikzEdge(component);
+        drawableComponent
+                .addShape(new Line2D.Float(Converter.tikz2swing(fromPosition(edge), panel), Converter.tikz2swing(toPosition(edge), panel)));
         return drawableComponent;
+    }
+
+    public Point fromPosition(TikzEdge edge) {
+        Point start;
+        if (edge.getFirstNode() == null || edge.getSecondNode() == null) {
+            start = new Point(-Models.DEFAULT.EDGE_X_LENGTH / 2, 0);
+        } else {
+            start = edge.getFromPosition();
+        }
+        return start;
+    }
+
+    public Point toPosition(TikzEdge edge) {
+        Point end;
+        if (edge.getFirstNode() == null || edge.getSecondNode() == null) {
+            end = new Point(Models.DEFAULT.EDGE_X_LENGTH / 2, 0);
+        } else {
+            end = edge.getToPosition();
+        }
+        return end;
     }
 }

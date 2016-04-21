@@ -1,9 +1,7 @@
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import views.management.ProjectManagementView;
-import utils.Log;
 
-import java.util.logging.*;
+import java.util.logging.Logger;
+import utils.Log;
+import views.management.ProjectManagementView;
 
 public class Main {
     private static final Logger logger = Log.getLogger(Main.class);

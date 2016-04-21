@@ -17,8 +17,8 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 /**
- * Implementation of the View (from the MVC architectural pattern) for the Source.
- * The Source is the area of the GUI where the Tikz is edited.
+ * Implementation of the View (from the MVC architectural pattern) for the
+ * Source. The Source is the area of the GUI where the Tikz is edited.
  */
 public class SourceView extends JPanel {
     private static final int TEXT_AREA_WIDTH = 300;
@@ -26,14 +26,17 @@ public class SourceView extends JPanel {
     private final TikzGraph graph;
     private final RSyntaxTextArea textArea;
     private final SourceController controller;
-    private Boolean isFocused = false;
     private final EditorView parentView;
+    private Boolean isFocused = false;
 
     /**
-     * Constructs a new View for the Source,
-     * with a given TikzGraph and parentView
-     * @param parentView The view which contains this view (ie. EditorView)
-     * @param graph The TikzGraph
+     * Constructs a new View for the Source, with a given TikzGraph and
+     * parentView
+     *
+     * @param parentView
+     *            The view which contains this view (ie. EditorView)
+     * @param graph
+     *            The TikzGraph
      */
     public SourceView(EditorView parentView, TikzGraph graph) {
         this.parentView = parentView;
@@ -86,9 +89,8 @@ public class SourceView extends JPanel {
 
 
     /**
-     * Adds listeners for focus and document events to the view
-     * Reacts to a loss/gain of focus
-     * Reacts to a modification to the text area
+     * Adds listeners for focus and document events to the view Reacts to a
+     * loss/gain of focus Reacts to a modification to the text area
      */
     private void addListeners() {
         textArea.addFocusListener(new FocusListener() {
@@ -123,6 +125,7 @@ public class SourceView extends JPanel {
 
     /**
      * Returns true if this view is focused
+     *
      * @return true if this view is focused
      */
     public Boolean getIsFocused() {
@@ -131,7 +134,9 @@ public class SourceView extends JPanel {
 
     /**
      * Sets whether the view is focused or not
-     * @param isFocused The boolean to set whether the view is focused or not
+     *
+     * @param isFocused
+     *            The boolean to set whether the view is focused or not
      */
     public void setIsFocused(boolean isFocused) {
         this.isFocused = isFocused;
@@ -139,6 +144,7 @@ public class SourceView extends JPanel {
 
     /**
      * Getter for the text area which contains the tikz text
+     *
      * @return the tikz text contained in the text area
      */
     public String getText() {
@@ -147,7 +153,9 @@ public class SourceView extends JPanel {
 
     /**
      * Setter for the text area which contains the tikz text
-     * @param text The tikz text which will be contained in the text area
+     *
+     * @param text
+     *            The tikz text which will be contained in the text area
      */
     public void setText(String text) {
         textArea.setText(text);

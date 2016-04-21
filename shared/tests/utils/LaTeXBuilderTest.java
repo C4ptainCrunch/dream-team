@@ -1,14 +1,14 @@
 package utils;
 
-
-import models.tikz.*;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+
+import models.tikz.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Created by bambalaam on 19/04/16.
@@ -30,12 +30,12 @@ public class LaTeXBuilderTest {
         edges = new ArrayList<>();
         for (int i = 0; i < length; i++) {
             testNode = new TikzCircle();
-            testNode.move(0,i);
+            testNode.move(0, i);
             nodes.add(testNode);
         }
 
-        for (int i = 0; i < length-1; i++) {
-            testEdge = new TikzUndirectedEdge(nodes.get(i),nodes.get(i+1));
+        for (int i = 0; i < length - 1; i++) {
+            testEdge = new TikzUndirectedEdge(nodes.get(i), nodes.get(i + 1));
             edges.add(testEdge);
         }
 
@@ -50,26 +50,14 @@ public class LaTeXBuilderTest {
 
     @Test
     public void testLatexBuild() throws Exception {
-        String expectedString = "\\documentclass{article}\n" +
-                                "\\usepackage{tikz}\n" +
-                                "\\begin{document}\n" +
-                                "\\begin{tikzpicture}[x=0.0625em,y=0.0625em]\n" +
-                                "\\node[circle, draw]() at (0,0){};\n" +
-                                "\\node[circle, draw]() at (0,1){};\n" +
-                                "\\node[circle, draw]() at (0,2){};\n" +
-                                "\\node[circle, draw]() at (0,3){};\n\n" +
-                                "\\draw[] (0, 0) -- (0, 1);\n" +
-                                "\\draw[] (0, 1) -- (0, 2);\n" +
-                                "\\draw[] (0, 2) -- (0, 3);\n" +
-                                "\\end{tikzpicture}\n" +
-                                "\\end{document}\n";
+        String expectedString = "\\documentclass{article}\n" + "\\usepackage{tikz}\n" + "\\begin{document}\n"
+                + "\\begin{tikzpicture}[x=0.0625em,y=0.0625em]\n" + "\\node[circle, draw]() at (0,0){};\n"
+                + "\\node[circle, draw]() at (0,1){};\n" + "\\node[circle, draw]() at (0,2){};\n" + "\\node[circle, draw]() at (0,3){};\n\n"
+                + "\\draw[] (0, 0) -- (0, 1);\n" + "\\draw[] (0, 1) -- (0, 2);\n" + "\\draw[] (0, 2) -- (0, 3);\n" + "\\end{tikzpicture}\n"
+                + "\\end{document}\n";
 
-        assertEquals(expectedString,LaTeXBuilder.toLaTeX(graph));
+        assertEquals(expectedString, LaTeXBuilder.toLaTeX(graph));
 
     }
 
-
-
-
 }
-

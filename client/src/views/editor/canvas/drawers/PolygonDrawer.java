@@ -3,12 +3,14 @@ package views.editor.canvas.drawers;
 import java.awt.*;
 import java.util.logging.Logger;
 
+import javax.swing.*;
+
 import models.tikz.TikzComponent;
 import models.tikz.TikzPolygon;
-import views.editor.canvas.drawables.DrawableTikzComponent;
 import utils.Log;
+import views.editor.canvas.drawables.DrawableTikzNode;
 
-public class PolygonDrawer extends ComponentDrawer {
+public class PolygonDrawer extends NodeDrawer {
     private final static Logger logger = Log.getLogger(PolygonDrawer.class);
 
     public PolygonDrawer() {
@@ -16,11 +18,10 @@ public class PolygonDrawer extends ComponentDrawer {
     }
 
     @Override
-    public DrawableTikzComponent toDrawable(TikzComponent component) {
+    public DrawableTikzNode toDrawable(TikzComponent component, JComponent panel) {
         TikzPolygon polygon = (TikzPolygon) component;
-        DrawableTikzComponent drawableComponent = super.toDrawable(polygon);
-        drawableComponent.addShape(getAwtPolygon(polygon));
-        drawableComponent.setBackground(polygon.getBackgroundColor());
+        DrawableTikzNode drawableComponent = super.toDrawable(polygon, panel);
+        drawableComponent.addShape(getPositionedShape(getAwtPolygon(polygon), polygon, panel));
         return drawableComponent;
     }
 

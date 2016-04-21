@@ -53,8 +53,11 @@ public class HelpView extends JFrame {
     }
 
     /**
-     * Setter for the text to be displayed that comes from the selected help file
-     * @param text The help text
+     * Setter for the text to be displayed that comes from the selected help
+     * file
+     *
+     * @param text
+     *            The help text
      */
     public void setText(String text) {
         PegDownProcessor pegDown = new PegDownProcessor();

@@ -1,10 +1,10 @@
 package views.management;
 
-import javax.swing.*;
 import java.io.File;
 
+import javax.swing.*;
 
-public class FileChooseView extends JPanel{
+public class FileChooseView extends JPanel {
     JFileChooser chooser;
 
     public FileChooseView(String title, int selectionMode) {
@@ -14,7 +14,7 @@ public class FileChooseView extends JPanel{
         chooser.setFileSelectionMode(selectionMode);
     }
 
-    public File ask(){
+    public File ask() {
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             return chooser.getSelectedFile();
         } else {

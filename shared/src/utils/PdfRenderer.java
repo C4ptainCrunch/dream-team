@@ -13,8 +13,7 @@ public final class PdfRenderer {
     private PdfRenderer() {
     }
 
-    private static void toSourceFile(File filename, TikzGraph graph)
-            throws FileNotFoundException, UnsupportedEncodingException {
+    private static void toSourceFile(File filename, TikzGraph graph) throws FileNotFoundException, UnsupportedEncodingException {
         PrintWriter writer = new PrintWriter(filename, "utf-8");
         writer.print(LaTeXBuilder.toLaTeX(graph));
         writer.close();
@@ -41,8 +40,7 @@ public final class PdfRenderer {
 
         Process p;
         try {
-            String[] tex_compile_command = { "pdflatex", "-output-directory=" + buildDir.getAbsolutePath(),
-                    source.getAbsolutePath() };
+            String[] tex_compile_command = { "pdflatex", "-output-directory=" + buildDir.getAbsolutePath(), source.getAbsolutePath() };
             p = Runtime.getRuntime().exec(tex_compile_command);
 
         } catch (IOException e) {
@@ -63,7 +61,8 @@ public final class PdfRenderer {
                     Desktop.getDesktop().open(pdfTarget);
                 } catch (IOException ex) {
                     // if opening the file failed, just silently skip
-                    // because it is not important, the file has already been compiled
+                    // because it is not important, the file has already been
+                    // compiled
                 }
             } else {
                 showMessageDialog(null, "Compilation ended : " + pdfTarget.toString());

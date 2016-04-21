@@ -29,6 +29,11 @@ public final class GUI {
         public static final String DIFF_TEXT = "Diff History";
     }
 
+    public static final class LoginWindow {
+        public static final String LOGIN_BUTTON = "Login";
+        public static final String SIGNUP_BUTTON = "Sign Up";
+    }
+
     public static final class Config {
         public static final double ARROW_LENGTH = 30;
         public static final double ARROW_ANGLE = Math.PI / 6;

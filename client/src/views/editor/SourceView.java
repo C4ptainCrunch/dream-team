@@ -1,18 +1,18 @@
 package views.editor;
 
 import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.List;
+import java.util.Set;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 
-import models.tikz.TikzCircle;
 import models.tikz.TikzComponent;
 import models.tikz.TikzGraph;
 import controllers.editor.SourceController;
@@ -23,6 +23,8 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 /**
  * Implementation of the View (from the MVC architectural pattern) for the
  * Source. The Source is the area of the GUI where the Tikz is edited.
+ *
+ * @see <a href=http://javadoc.fifesoft.com/rsyntaxtextarea/org/fife/ui/rsyntaxtextarea/RSyntaxTextArea.html>RSyntaxTextArea doc</a>
  */
 public class SourceView extends JPanel {
     private static final int TEXT_LINE_WIDTH = 40;
@@ -118,9 +120,24 @@ public class SourceView extends JPanel {
         });
     }
 
+    private void highlightLine(Highlighter.HighlightPainter painter, int line_number){
+        try {
+            Highlighter highlighter = this.textArea.getHighlighter();
+            highlighter.addHighlight(this.textArea.getLineStartOffset(line_number), this.textArea.getLineEndOffset(line_number), painter);
+        } catch (BadLocationException e){
+            e.printStackTrace();
+        }
+    }
+
+    private Highlighter.HighlightPainter createHighlightPainter(){
+        DefaultHighlighter.DefaultHighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(this.textArea.getCurrentLineHighlightColor());
+        return painter;
+    }
+
     private void moveTextAreaCaretToRightPosition(int line_number){
         try {
             textArea.setCaretPosition(textArea.getLineStartOffset(line_number));
+            textArea.setHighlightCurrentLine(true);
         } catch (BadLocationException e){
             e.printStackTrace();
         }
@@ -175,6 +192,33 @@ public class SourceView extends JPanel {
         if (comp != null) {
             int index = controller.getLine(comp);
             moveTextAreaCaretToRightPosition(index);
+        }
+    }
+
+    /**
+     * Highlights a zone in the text area corresponding to the given component sets.
+     * @param selectedComponents
+     *                      The set of components corresponding to the zone of the text area to highlight.
+     */
+
+    public void highlightCorrespondingZone(Set<TikzComponent> selectedComponents) {
+        List<Integer> lines = controller.getLines(selectedComponents);
+        Highlighter.HighlightPainter painter = createHighlightPainter();
+
+        for (Integer line : lines){
+            highlightLine(painter, line);
+        }
+        moveTextAreaCaretToRightPosition(lines.get(lines.size()-1));
+    }
+
+    public void removeHighlights() {
+        Highlighter highlighter = textArea.getHighlighter();
+        highlighter.removeAllHighlights();
+        int end_line = textArea.getLineCount()-1;
+        try {
+            textArea.setCaretPosition(textArea.getLineStartOffset(end_line));
+        } catch (BadLocationException e){
+            e.printStackTrace();
         }
     }
 }

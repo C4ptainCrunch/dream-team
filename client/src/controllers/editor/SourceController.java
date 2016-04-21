@@ -6,10 +6,8 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import models.tikz.TikzComponent;
-import models.tikz.TikzEdge;
 import models.tikz.TikzGraph;
 
-import models.tikz.TikzNode;
 import org.codehaus.jparsec.error.ParserException;
 
 import parser.NodeParser;
@@ -140,5 +138,13 @@ public class SourceController implements Observer {
 
     public int getLine(TikzComponent comp) {
         return line_to_component_map.get(comp);
+    }
+
+    public List<Integer> getLines(Set<TikzComponent> selectedComponents) {
+        List<Integer> lines = new ArrayList<>();
+        for (TikzComponent comp: selectedComponents){
+            lines.add(getLine(comp));
+        }
+        return lines;
     }
 }

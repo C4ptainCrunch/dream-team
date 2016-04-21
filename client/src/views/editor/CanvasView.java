@@ -18,6 +18,7 @@ import views.editor.canvas.drawables.DrawableTikzComponent;
 import views.editor.canvas.popup.PopupMenuView;
 import views.editor.canvas.popup.SelectionPopupMenuView;
 import controllers.editor.CanvasController;
+import java.util.List;
 
 /**
  * Implementation of the View (from the MVC architectural pattern) for the
@@ -63,6 +64,13 @@ public class CanvasView extends JPanel {
         // requestFocusInWindow();
     }
 
+    private void highlightTextArea(MouseEvent e){
+        if (selection != null){
+            List<Point> selection_points = selection.getShapePoints();
+            parentView.highlightTextZone(controller.getSelectedComponents(selection_points));
+        }
+    }
+
     private void addMouseListener() {
         this.addMouseListener(new MouseAdapter() {
 
@@ -81,6 +89,7 @@ public class CanvasView extends JPanel {
                 } else {
                     parentView.highlightTextLine(controller.findComponentByPosition(e.getPoint()));
                     CanvasView view = (CanvasView) e.getSource();
+                    controller.unselectComponents();
                     view.resetSelection();
                     if (controller.hasComponentAtPosition(e.getPoint())) {
                         TransferHandler handler = view.getTransferHandler();
@@ -88,6 +97,11 @@ public class CanvasView extends JPanel {
                     }
                     controller.mousePressed(e, parentView.getSelectedTool());
                 }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e){
+                highlightTextArea(e);
             }
         });
     }
@@ -226,6 +240,7 @@ public class CanvasView extends JPanel {
         if (selection != null) {
             this.remove(selection);
             this.selection = null;
+            parentView.removeHighlights();
             this.repaint();
         }
     }

@@ -135,6 +135,7 @@ public class CanvasController implements Observer {
         for (TikzComponent comp : selected_comp) {
             addDrawableComponent(Drawer.toDrawable(comp, view));
         }
+        selected_comp.clear();
     }
 
     /**

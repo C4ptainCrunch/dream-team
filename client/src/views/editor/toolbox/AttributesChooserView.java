@@ -111,6 +111,9 @@ public class AttributesChooserView extends JPanel {
     public String getLabel() {
         return label_field.getText();
     }
+    public void setLabel(String text) {
+        label_field.setText(text);
+    }
 
     /**
      * Adds listener on the width field
@@ -189,5 +192,9 @@ public class AttributesChooserView extends JPanel {
 
     public Color getColor() {
         return color_chooser.getBackground();
+    }
+
+    public void setStroke(int stroke) {
+        this.stroke_width_field.setText(Integer.toString(stroke));
     }
 }

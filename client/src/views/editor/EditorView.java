@@ -5,6 +5,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.*;
 
@@ -100,5 +101,17 @@ public class EditorView extends JFrame {
 
     public final void addTemplateToToolBox(File file) {
         toolBoxView.addTemplateToView(file);
+    }
+
+    public final void highlightTextLine(TikzComponent comp){
+        sourceView.highlightCorrespondingLine(comp);
+    }
+
+    public void highlightTextZone(Set<TikzComponent> selectedComponents) {
+        sourceView.highlightCorrespondingZone(selectedComponents);
+    }
+
+    public void removeHighlights() {
+        sourceView.removeHighlights();
     }
 }

@@ -87,12 +87,15 @@ public class CanvasController implements Observer {
      */
     public TikzComponent findComponentByPosition(Point position) {
         TikzComponent comp = null;
-        for (DrawableTikzComponent draw : drawables) {
+
+        for(int j = drawables.size() - 1; j >= 0; j--){
+            DrawableTikzComponent draw = drawables.get(j);
             if (draw.contains(position)) {
                 comp = draw.getComponent();
                 break;
             }
         }
+
         return comp;
     }
 
@@ -135,6 +138,7 @@ public class CanvasController implements Observer {
         for (TikzComponent comp : selected_comp) {
             addDrawableComponent(Drawer.toDrawable(comp, view));
         }
+        selected_comp.clear();
     }
 
     /**

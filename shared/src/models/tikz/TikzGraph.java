@@ -207,7 +207,6 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
             res.append(node);
             res.append(";\n");
         }
-        res.append('\n');
         for (TikzEdge edge : this.getEdges()) {
             res.append(edge);
             res.append(";\n");

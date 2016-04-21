@@ -52,7 +52,7 @@ public class LaTeXBuilderTest {
     public void testLatexBuild() throws Exception {
         String expectedString = "\\documentclass{article}\n" + "\\usepackage{tikz}\n" + "\\begin{document}\n"
                 + "\\begin{tikzpicture}[x=0.0625em,y=0.0625em]\n" + "\\node[circle, draw]() at (0,0){};\n"
-                + "\\node[circle, draw]() at (0,1){};\n" + "\\node[circle, draw]() at (0,2){};\n" + "\\node[circle, draw]() at (0,3){};\n\n"
+                + "\\node[circle, draw]() at (0,1){};\n" + "\\node[circle, draw]() at (0,2){};\n" + "\\node[circle, draw]() at (0,3){};\n"
                 + "\\draw[] (0, 0) -- (0, 1);\n" + "\\draw[] (0, 1) -- (0, 2);\n" + "\\draw[] (0, 2) -- (0, 3);\n" + "\\end{tikzpicture}\n"
                 + "\\end{document}\n";
 

@@ -45,7 +45,6 @@ public class TemplateIOManager {
      */
 
     public static File exportGraphAsTemplate(Collection<TikzComponent> components) throws IOException {
-        FileChooseView file_view = new FileChooseView("Template filename", JFileChooser.FILES_AND_DIRECTORIES);
         TikzGraph g = new TikzGraph();
         for (TikzComponent comp : components) {
             if (comp != null && comp.isNode()) {
@@ -53,10 +52,9 @@ public class TemplateIOManager {
             }
         }
         moveTemplateGraphToOrigin(g);
-        File file = file_view.ask();
+        String name = JOptionPane.showInputDialog(new JFrame(), "Enter template name:");
         Template template = new Template(g);
-        template.saveTemplate(file);
-        return file;
+        return template.saveTemplate(name);
     }
 
     /**

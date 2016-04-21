@@ -48,6 +48,9 @@ public class SourceView extends JPanel {
         initTextArea();
     }
 
+    /**
+     * Initializes the panel of this view
+     */
     private void initPanel() {
         this.setMaximumSize(this.getSize());
         this.setLayout(new GridLayout());
@@ -57,6 +60,9 @@ public class SourceView extends JPanel {
         this.addListeners();
     }
 
+    /**
+     * Initializes the text area with syntaxic color
+     */
     private void initTextArea() {
         DisplayMode gd = GraphicsEnvironment.
                 getLocalGraphicsEnvironment().

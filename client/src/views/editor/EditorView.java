@@ -12,6 +12,9 @@ import models.tikz.TikzComponent;
 import models.tikz.TikzGraph;
 import constants.GUI;
 import controllers.editor.EditorController;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
 import views.editor.toolbox.ToolBoxView;
 
 /**
@@ -43,7 +46,6 @@ public class EditorView extends JFrame {
         this.sourceView = new SourceView(this, graph);
         this.menuView = new MenuView(this, project);
         this.toolBoxView = new ToolBoxView();
-
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {

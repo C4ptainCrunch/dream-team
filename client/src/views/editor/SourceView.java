@@ -1,6 +1,8 @@
 package views.editor;
 
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -10,6 +12,9 @@ import javax.swing.event.DocumentListener;
 
 import models.tikz.TikzGraph;
 import controllers.editor.SourceController;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 /**
  * Implementation of the View (from the MVC architectural pattern) for the Source.
@@ -19,7 +24,7 @@ public class SourceView extends JPanel {
     private static final int TEXT_AREA_WIDTH = 300;
 
     private final TikzGraph graph;
-    private final JTextArea textArea;
+    private final RSyntaxTextArea textArea;
     private final SourceController controller;
     private Boolean isFocused = false;
     private final EditorView parentView;
@@ -34,21 +39,51 @@ public class SourceView extends JPanel {
         this.parentView = parentView;
         this.graph = graph;
 
-        this.textArea = new JTextArea();
+
+        DisplayMode gd = GraphicsEnvironment.
+                getLocalGraphicsEnvironment().
+                getDefaultScreenDevice().
+                getDisplayMode();
+        int h = gd.getHeight();
+        int w = gd.getWidth();
+        System.out.println("height: "+h+", width : "+w);
+
+
+        this.textArea = new RSyntaxTextArea(0,50);
+        int nbOfLinesToSet = h/this.textArea.getLineHeight()-3;
+        this.textArea.setRows(nbOfLinesToSet);
+        this.textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_LATEX);
+        this.textArea.setCodeFoldingEnabled(true);
+        RTextScrollPane sp = new RTextScrollPane(this.textArea);
+        this.add(sp);
         this.controller = new SourceController(this, graph);
-        this.setPreferredSize(new Dimension(TEXT_AREA_WIDTH, this.getHeight()));
+
+        /*
+        this.parentView.addComponentListener(new ComponentListener() {
+            @Override
+            public void componentResized(ComponentEvent componentEvent) {
+            }
+
+            @Override
+            public void componentMoved(ComponentEvent componentEvent) {
+
+            }
+
+            @Override
+            public void componentShown(ComponentEvent componentEvent) {
+
+            }
+
+            @Override
+            public void componentHidden(ComponentEvent componentEvent) {
+
+            }
+        });
+        */
 
         this.addListeners();
-        this.render();
     }
 
-    /**
-     * Renders the view by setting its layout and adding a scroll pane
-     */
-    private void render() {
-        this.setLayout(new BorderLayout());
-        this.add(new JScrollPane(textArea), BorderLayout.CENTER);
-    }
 
     /**
      * Adds listeners for focus and document events to the view

@@ -1,3 +1,5 @@
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import views.management.ProjectManagementView;
 import utils.Log;
 
@@ -11,6 +13,5 @@ public class Main {
         logger.info("Starting project management view");
 
         java.awt.EventQueue.invokeLater(ProjectManagementView::new);
-
     }
 }

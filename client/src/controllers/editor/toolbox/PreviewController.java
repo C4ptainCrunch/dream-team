@@ -33,7 +33,8 @@ public class PreviewController implements Observer {
     }
 
     /**
-     * Getter for the component that is being edited
+     * Gets the previewed component and converts it to a Graph
+     * that contains only one element.
      * @return The component being edited
      */
     public TikzGraph getModelAsGraph() {

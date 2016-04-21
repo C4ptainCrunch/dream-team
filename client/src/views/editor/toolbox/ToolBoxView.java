@@ -6,6 +6,7 @@ import java.io.File;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
+import constants.GUI;
 import models.tikz.TikzComponent;
 import views.editor.toolbox.templateview.TemplateToolView;
 
@@ -16,8 +17,6 @@ import views.editor.toolbox.templateview.TemplateToolView;
 public class ToolBoxView extends JPanel {
 
     private static final int BOX_WIDTH = 200;
-    private static final String SHAPE_TAB = "<html>S<br>H<br>A<br>P<br>E<br>S</html>";
-    private static final String TEMPLATE_TAB = "<html>T<br>E<br>M<br>P<br>L<br>A<br>T<br>E<br>S</html>";
 
     private final ToolView tikzComponentCreator;
     private final TemplateToolView tikzTemplateCreator;
@@ -38,8 +37,8 @@ public class ToolBoxView extends JPanel {
     private void initTabs() {
         this.tabbedPane = new JTabbedPane();
         this.tabbedPane.setTabPlacement(JTabbedPane.LEFT);
-        this.tabbedPane.addTab(SHAPE_TAB, this.tikzComponentCreator);
-        this.tabbedPane.addTab(TEMPLATE_TAB, this.tikzTemplateCreator);
+        this.tabbedPane.addTab(GUI.Tabs.SHAPE_TAB, this.tikzComponentCreator);
+        this.tabbedPane.addTab(GUI.Tabs.TEMPLATE_TAB, this.tikzTemplateCreator);
 
         this.tabbedPane.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
         this.add(tabbedPane);

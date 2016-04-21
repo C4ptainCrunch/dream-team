@@ -24,11 +24,13 @@ public class DrawableTikzEdge extends DrawableTikzComponent {
 
         TikzEdge component = getComponent();
 
-        g.setStroke(new BasicStroke(component.getStroke()));
         g.setColor(component.getColor());
         for (Shape shape : getShapes()) {
             g.fill(shape);
-            g.draw(shape);
+        }
+
+        for(Shape stroke : getStrokes()){
+            g.fill(stroke);
         }
 
         g.setColor(old_color);

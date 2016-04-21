@@ -18,5 +18,12 @@ public class SignUpController {
         this.view.initSignUpPanel();
     }
 
+    public void validateFields() {
+        System.out.println("VALIDATION NEEDED HERE!");
+    }
+
+    public void cancelSignUp() {
+
+    }
 
 }

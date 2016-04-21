@@ -1,9 +1,14 @@
 package views.accounts;
 
+import constants.GUI;
 import controllers.accounts.SignUpController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+
+import constants.GUI.SignUp;
+
 
 /**
  * Created by mrmmtb on 21.04.16.
@@ -18,6 +23,9 @@ public class SignUpView extends JFrame {
     JTextField emailField;
     JPasswordField passwordField;
 
+    ArrayList<JTextField> fields;
+
+
     public SignUpView(LoginWindowView loginView) {
         this.controller = new SignUpController(this);
         this.loginView = loginView;
@@ -27,7 +35,7 @@ public class SignUpView extends JFrame {
 
     public final void render() {
         this.setTitle("TikzCreator : Login or Sign Up");
-        this.setPreferredSize(new Dimension(500,500));
+        this.setPreferredSize(new Dimension(400,160));
         initServiceCondition();
         this.pack();
         this.setVisible(true);
@@ -56,31 +64,69 @@ public class SignUpView extends JFrame {
         JPanel signUpPanel = new JPanel();
 
         signUpPanel.setLayout(new BoxLayout(signUpPanel, BoxLayout.Y_AXIS));
-        initInformationsPanel(signUpPanel);
+        initInformationPanel(signUpPanel);
+        initButtonsPanel(signUpPanel);
         this.add(signUpPanel);
     }
 
-    private void initInformationsPanel(JPanel signUpPanel) {
-        JPanel informationsPanel = new JPanel();
-        informationsPanel.setLayout(new BoxLayout(informationsPanel, BoxLayout.Y_AXIS));
+    private void initInformationPanel(JPanel signUpPanel) {
+        JPanel informationPanel = new JPanel();
+        informationPanel.setLayout(new BoxLayout(informationPanel, BoxLayout.Y_AXIS));
 
-        initInfoPanelOptions(informationsPanel);
-        signUpPanel.add(informationsPanel);
+        this.fields = new ArrayList<>();
+        this.fields.add(this.firstNameField);
+        this.fields.add(this.lastNameField);
+        this.fields.add(this.usernameField);
+        this.fields.add(this.emailField);
+
+        initInfoPanelOptions(informationPanel);
+        signUpPanel.add(informationPanel);
     }
 
     private void initInfoPanelOptions(JPanel informationsPanel) {
 
-        JPanel firstNamePanel = new JPanel();
-        firstNamePanel.setLayout(new BoxLayout(firstNamePanel, BoxLayout.X_AXIS));
-        JLabel firstNameLabel = new JLabel("First Name: ");
-        this.firstNameField = new JTextField();
+        for(int i=0; i< this.fields.size(); i++){
+            JPanel newPanel = new JPanel();
+            newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.X_AXIS));
+            newPanel.setMaximumSize( new Dimension(500,100));
+            newPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        firstNamePanel.add(firstNameLabel);
-        firstNamePanel.add(this.firstNameField);
+            JLabel thisLabel = new JLabel(SignUp.FIELD_LABELS.get(i));
+            JTextField thisField = this.fields.get(i);
+            thisField = new JTextField();
 
-        informationsPanel.add(firstNamePanel);
+            newPanel.add(thisLabel);
+            newPanel.add(thisField);
+            informationsPanel.add(newPanel);
+        }
 
+        JPanel passwordPanel = new JPanel();
+        passwordPanel.setLayout(new BoxLayout(passwordPanel, BoxLayout.X_AXIS));
+        passwordPanel.setMaximumSize( new Dimension(500,100));
+        passwordPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        JLabel passwordLabel = new JLabel(SignUp.PASSWORD_LABEL);
+        this.passwordField = new JPasswordField();
+
+        passwordPanel.add(passwordLabel);
+        passwordPanel.add(this.passwordField);
+        informationsPanel.add(passwordPanel);
+    }
+
+    private void initButtonsPanel(JPanel signupPanel) {
+        JPanel buttons = new JPanel();
+        buttons.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JButton OKButton = new JButton(SignUp.OK_BUTTON);
+        OKButton.addActionListener(e -> controller.validateFields());
+
+        JButton cancelButton = new JButton(SignUp.CANCEL_BUTTON);
+        cancelButton.addActionListener(e -> controller.cancelSignUp());
+
+        buttons.add(OKButton);
+        buttons.add(cancelButton);
+
+        signupPanel.add(buttons);
     }
 
     public void showLogginView(){

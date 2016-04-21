@@ -1,6 +1,7 @@
 package constants;
 
 import java.awt.*;
+import java.util.*;
 
 /**
  * Created by nikita on 3/27/16.
@@ -34,6 +35,27 @@ public final class GUI {
     public static final class LoginWindow {
         public static final String LOGIN_BUTTON = "Login";
         public static final String SIGNUP_BUTTON = "Sign Up";
+    }
+
+    public static final class SignUp {
+        public static final ArrayList<String> FIELD_LABELS = new ArrayList<String>(){{
+            add("First Name:  ");
+            add("Last Name:   ");
+            add("Username:    ");
+            add("Email:            ");
+        }};
+
+        public static final String PASSWORD_LABEL = "Password: ";
+        public static final String OK_BUTTON = "OK";
+        public static final String CANCEL_BUTTON = "Cancel";
+
+        public static final ArrayList<Integer> FIELD_SIZES = new ArrayList<Integer>(){{
+            add(16);
+            add(32);
+            add(16);
+            add(32);
+        }};
+
     }
 
     public static final class Config {

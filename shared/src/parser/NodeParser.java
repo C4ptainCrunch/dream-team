@@ -42,6 +42,10 @@ public class NodeParser {
                 Scanners.string(")"));
     }
 
+    /**
+     * Parses a decimal number
+     * @return a parser object containing the parsed integer
+     */
     public static Parser<Integer> decimal() {
         return Parsers.sequence(Scanners.string("-").optional().source(),
                 MAYBEWHITESPACES.next(Terminals.DecimalLiteral.TOKENIZER).source(),

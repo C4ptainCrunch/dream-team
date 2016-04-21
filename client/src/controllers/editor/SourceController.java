@@ -36,7 +36,7 @@ public class SourceController implements Observer {
         this.view = view;
         this.graph = graph;
         this.graph.addObserver(this);
-        updateTikzText();
+        //updateTikzText();
     }
 
     /**
@@ -81,7 +81,7 @@ public class SourceController implements Observer {
     /**
      * Updates the tikz text from the graph
      */
-    private void updateTikzText() {
+    public void updateTikzText() {
         String tikz = this.graph.toString();
         view.setText(tikz);
     }

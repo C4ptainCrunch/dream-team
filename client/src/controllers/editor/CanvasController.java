@@ -65,7 +65,6 @@ public class CanvasController implements Observer {
      * @param arg The arguments given by the Observable
      */
     public void update(Observable o, Object arg) {
-        updateDrawables();
         view.repaint();
     }
 

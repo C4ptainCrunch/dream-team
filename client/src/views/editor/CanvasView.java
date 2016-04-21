@@ -49,11 +49,9 @@ public class CanvasView extends JPanel {
         this.popupMenu = new PopupMenuView(controller);
         this.selectionPopupMenu = new SelectionPopupMenuView(controller);
         this.selection = null;
-
         this.render();
         this.addListeners();
         this.enableDrag();
-
         this.setVisible(true);
     }
 
@@ -137,7 +135,7 @@ public class CanvasView extends JPanel {
      */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        controller.updateDrawables();
         for(DrawableTikzComponent drawable : controller.getDrawables()){
             drawable.draw((Graphics2D)g);
         }

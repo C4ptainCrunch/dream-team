@@ -3,14 +3,14 @@ package controllers.editor.toolbox;
 import java.util.Observable;
 import java.util.Observer;
 
-import models.tikz.TikzComponent;
 import models.ToolModel;
+import models.tikz.TikzComponent;
 import views.editor.toolbox.SelectorView;
 
 /**
- * Implementation of the Controller (from the MVC architectural pattern) for the Selector.
- * The Selector is part of the toolbox used to choose
- * which component is selected.
+ * Implementation of the Controller (from the MVC architectural pattern) for the
+ * Selector. The Selector is part of the toolbox used to choose which component
+ * is selected.
  */
 public class SelectorController implements Observer {
 
@@ -18,10 +18,13 @@ public class SelectorController implements Observer {
     private final ToolModel model;
 
     /**
-     * Constructs a new Controller for the Selector
-     * with a given SelectorView and a ToolModel
-     * @param v The selector view which is associated with this controller
-     * @param m The tool model
+     * Constructs a new Controller for the Selector with a given SelectorView
+     * and a ToolModel
+     *
+     * @param v
+     *            The selector view which is associated with this controller
+     * @param m
+     *            The tool model
      */
     public SelectorController(SelectorView v, ToolModel m) {
         view = v;
@@ -30,7 +33,9 @@ public class SelectorController implements Observer {
 
     /**
      * Informs the model that a component is being selected
-     * @param component The component being selected
+     *
+     * @param component
+     *            The component being selected
      */
     public void itemSelected(TikzComponent component) {
         model.setComponent(component);
@@ -39,8 +44,10 @@ public class SelectorController implements Observer {
     /**
      * Called when Observables linked to this Observer call notify(),
      *
-     * @param o The Observable
-     * @param obj The Object given by the Observable
+     * @param o
+     *            The Observable
+     * @param obj
+     *            The Object given by the Observable
      */
     @Override
     public void update(Observable o, Object obj) {

@@ -1,9 +1,9 @@
 package views.editor.canvas.drawers;
 
+import javax.swing.*;
+
 import models.tikz.TikzComponent;
 import views.editor.canvas.drawables.DrawableTikzComponent;
-
-import javax.swing.*;
 
 /**
  * Created by jhellinckx on 13/04/16.

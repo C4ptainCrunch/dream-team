@@ -1,9 +1,8 @@
 package utils;
 
-import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
-
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
+
+import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 
 public class DiffUtil {
 

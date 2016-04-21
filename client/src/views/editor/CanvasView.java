@@ -13,18 +13,15 @@ import misc.CanvasSelection;
 import misc.drag.handler.CanvasTransferHandler;
 import misc.drag.transfertdata.TransferTikz;
 import models.tikz.TikzComponent;
-import models.tikz.TikzEdge;
 import models.tikz.TikzGraph;
-import models.tikz.TikzNode;
-import controllers.editor.CanvasController;
-import views.editor.canvas.popup.PopupMenuView;
 import views.editor.canvas.drawables.DrawableTikzComponent;
-import views.editor.canvas.drawers.Drawer;
+import views.editor.canvas.popup.PopupMenuView;
 import views.editor.canvas.popup.SelectionPopupMenuView;
+import controllers.editor.CanvasController;
 
 /**
- * Implementation of the View (from the MVC architectural pattern) for the Canvas.
- * The Canvas is the area of the GUI where the graph is painted.
+ * Implementation of the View (from the MVC architectural pattern) for the
+ * Canvas. The Canvas is the area of the GUI where the graph is painted.
  */
 public class CanvasView extends JPanel {
     private final EditorView parentView;
@@ -36,10 +33,13 @@ public class CanvasView extends JPanel {
     private CanvasSelection selection;
 
     /**
-     * Constructs a new View for the Canvas,
-     * with a given TikzGraph and parentView
-     * @param parentView The view which contains this view (ie. EditorView)
-     * @param graph The TikzGraph
+     * Constructs a new View for the Canvas, with a given TikzGraph and
+     * parentView
+     *
+     * @param parentView
+     *            The view which contains this view (ie. EditorView)
+     * @param graph
+     *            The TikzGraph
      */
     public CanvasView(EditorView parentView, TikzGraph graph) {
         this.parentView = parentView;
@@ -49,11 +49,9 @@ public class CanvasView extends JPanel {
         this.popupMenu = new PopupMenuView(controller);
         this.selectionPopupMenu = new SelectionPopupMenuView(controller);
         this.selection = null;
-
         this.render();
         this.addListeners();
         this.enableDrag();
-
         this.setVisible(true);
     }
 
@@ -65,7 +63,7 @@ public class CanvasView extends JPanel {
         // requestFocusInWindow();
     }
 
-    private void addMouseListener(){
+    private void addMouseListener() {
         this.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -74,10 +72,10 @@ public class CanvasView extends JPanel {
                     requestFocusInWindow();
                     CanvasView view = (CanvasView) e.getSource();
                     TikzComponent component = view.getSelectedComponent();
-                    if (component != null){
+                    if (component != null) {
                         popupMenu.show(view, e.getX(), e.getY());
                         popupMenu.setComponent(component);
-                    } else if ((selection != null) && selection.contains(e.getPoint())){
+                    } else if ((selection != null) && selection.contains(e.getPoint())) {
                         selectionPopupMenu.show(view, e.getX(), e.getY());
                     }
                 } else {
@@ -93,10 +91,10 @@ public class CanvasView extends JPanel {
         });
     }
 
-    private void addMouseMotionListener(){
+    private void addMouseMotionListener() {
         this.addMouseMotionListener(new MouseAdapter() {
             @Override
-            public void mouseDragged(MouseEvent e){
+            public void mouseDragged(MouseEvent e) {
                 CanvasView view = (CanvasView) e.getSource();
                 view.resizeSelection(e.getPoint());
                 view.repaint();
@@ -104,7 +102,7 @@ public class CanvasView extends JPanel {
         });
     }
 
-    private void addFocusListener(){
+    private void addFocusListener() {
         this.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent focusEvent) {
@@ -133,14 +131,15 @@ public class CanvasView extends JPanel {
 
     /**
      * Paints the components composing the graph
-     * @param g Graphics to be drawn
+     *
+     * @param g
+     *            Graphics to be drawn
      */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        System.out.println("JE SUIS DANS PAINT COMPONENT");
-
-        for(DrawableTikzComponent drawable : controller.getDrawables()){
-            drawable.draw((Graphics2D)g);
+        controller.updateDrawables();
+        for (DrawableTikzComponent drawable : controller.getDrawables()) {
+            drawable.draw((Graphics2D) g);
         }
 
         if (!getIsFocused()) {
@@ -161,6 +160,7 @@ public class CanvasView extends JPanel {
 
     /**
      * Returns true if this view is focused
+     *
      * @return true if this view is focused
      */
     public boolean getIsFocused() {
@@ -169,21 +169,26 @@ public class CanvasView extends JPanel {
 
     /**
      * Sets whether the view is focused or not
-     * @param isFocused The boolean to set whether the view is focused or not
+     *
+     * @param isFocused
+     *            The boolean to set whether the view is focused or not
      */
     public void setIsFocused(boolean isFocused) {
         this.isFocused = isFocused;
     }
 
-    public TikzComponent getSelectedComponent(){
+    public TikzComponent getSelectedComponent() {
         return controller.findComponentByPosition(getMousePosition());
     }
 
-
     /**
-     * Informs the controller where the component being dragged and dropped has been dropped on the canvas
-     * @param transfer_data The selected component being dragged and dropped
-     * @param location The location where the component has been dropped
+     * Informs the controller where the component being dragged and dropped has
+     * been dropped on the canvas
+     *
+     * @param transfer_data
+     *            The selected component being dragged and dropped
+     * @param location
+     *            The location where the component has been dropped
      */
 
     public void dragEvent(TransferTikz transfer_data, Point location) {
@@ -197,11 +202,13 @@ public class CanvasView extends JPanel {
 
     /**
      * Resize the selection rectangle displayed during drag process.
-     * @param bottom_right The bottom right corner of the selection rectangle.
+     *
+     * @param bottom_right
+     *            The bottom right corner of the selection rectangle.
      */
 
-    public void resizeSelection(Point bottom_right){
-        if (selection == null){
+    public void resizeSelection(Point bottom_right) {
+        if (selection == null) {
             selection = new CanvasSelection(bottom_right);
             this.add(selection);
         } else {
@@ -214,7 +221,7 @@ public class CanvasView extends JPanel {
      * Reset the selection rectangle to null.
      */
 
-    public void resetSelection(){
+    public void resetSelection() {
         if (selection != null) {
             this.remove(selection);
             this.selection = null;
@@ -222,11 +229,11 @@ public class CanvasView extends JPanel {
         }
     }
 
-    public CanvasSelection getSelection(){
+    public CanvasSelection getSelection() {
         return selection;
     }
 
-    public void addTemplateToParentView(File file){
+    public void addTemplateToParentView(File file) {
         parentView.addTemplateToToolBox(file);
     }
 }

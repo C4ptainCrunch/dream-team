@@ -1,11 +1,12 @@
 package misc.drag.handler;
 
-import constants.GUI;
-import misc.drag.transferable.PreviewTransferableTikz;
-import views.editor.toolbox.PreviewView;
+import java.awt.datatransfer.Transferable;
 
 import javax.swing.*;
-import java.awt.datatransfer.Transferable;
+
+import misc.drag.transferable.PreviewTransferableTikz;
+import views.editor.toolbox.PreviewView;
+import constants.GUI;
 
 /**
  * Created by aurelien on 15/04/16.
@@ -17,6 +18,6 @@ public class PreviewTransferHandler extends TikzTransferHandler {
     }
 
     protected void exportDone(JComponent c, Transferable t, int action) {
-        ((PreviewView)c).reset();
+        ((PreviewView) c).reset();
     }
 }

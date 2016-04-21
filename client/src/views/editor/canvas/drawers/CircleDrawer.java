@@ -1,21 +1,12 @@
 package views.editor.canvas.drawers;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
-import misc.utils.Converter;
-import models.tikz.TikzCircle;
-import models.tikz.TikzComponent;
-import views.editor.canvas.drawables.DrawableTikzComponent;
-
-import java.awt.geom.Ellipse2D;
+import javax.swing.*;
 
 import models.tikz.TikzCircle;
 import models.tikz.TikzComponent;
 import views.editor.canvas.drawables.DrawableTikzNode;
-
-import javax.swing.*;
 
 public class CircleDrawer extends NodeDrawer {
 

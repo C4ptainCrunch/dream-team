@@ -1,21 +1,22 @@
 package views.editor.toolbox;
 
-import models.tikz.TikzDirectedEdge;
-import models.tikz.TikzUndirectedEdge;
 import misc.SelectorComponent;
 import models.ToolModel;
+import models.tikz.TikzDirectedEdge;
+import models.tikz.TikzUndirectedEdge;
 
 /**
- * Implementation of the View (from the MVC architectural pattern) for the EdgeSelector.
- * The EdgeSelector is part of the toolbox used to choose
- * the type of edge.
+ * Implementation of the View (from the MVC architectural pattern) for the
+ * EdgeSelector. The EdgeSelector is part of the toolbox used to choose the type
+ * of edge.
  */
 public class EdgeSelectorView extends SelectorView {
 
     /**
-     * Constructs a new view for the EdgeSelector
-     * with a given ToolModel
-     * @param model the tool model
+     * Constructs a new view for the EdgeSelector with a given ToolModel
+     *
+     * @param model
+     *            the tool model
      */
     public EdgeSelectorView(ToolModel model) {
         super(model);

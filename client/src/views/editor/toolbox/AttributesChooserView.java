@@ -9,13 +9,13 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.MouseInputAdapter;
 
-import controllers.editor.toolbox.AttributesChooserController;
 import models.ToolModel;
+import controllers.editor.toolbox.AttributesChooserController;
 
 /**
- * Implementation of the View (from the MVC architectural pattern) for the AttributesChooser.
- * The AttributesChooser is part of the toolbox used to choose
- * attributes for a particular component.
+ * Implementation of the View (from the MVC architectural pattern) for the
+ * AttributesChooser. The AttributesChooser is part of the toolbox used to
+ * choose attributes for a particular component.
  */
 public class AttributesChooserView extends JPanel {
 
@@ -23,29 +23,29 @@ public class AttributesChooserView extends JPanel {
     private static final String COLOR_LABEL = "<HTML><U>Color</U></HTML>";
     private static final String STROKE_LABEL = "<HTML><U>Stroke width</U></HTML>";
     private static final String TITLE_LABEL = "<HTML><U>Label</U></HTML>";
-
-    private JScrollPane scrollzone;
     private final JPanel attributes;
+    private final AttributesChooserController controller;
+    private JScrollPane scrollzone;
     private JPanel color_chooser;
     private JTextField label_field;
     private JFormattedTextField stroke_width_field;
-    private final AttributesChooserController controller;
 
     /**
-     * Constructs a new view for the AttributesChooser
-     * with a given ToolModel
-     * @param model the tool model
+     * Constructs a new view for the AttributesChooser with a given ToolModel
+     *
+     * @param model
+     *            the tool model
      */
     public AttributesChooserView(ToolModel model) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         scrollzone = new JScrollPane();
         attributes = new JPanel(new GridLayout(ATTRIBUTES_NUMBER * 2, 0)); // times
-                                                                            // 2
-                                                                            // because
-                                                                            // of
-                                                                            // the
-                                                                            // describing
-                                                                            // labels.
+                                                                           // 2
+                                                                           // because
+                                                                           // of
+                                                                           // the
+                                                                           // describing
+                                                                           // labels.
         scrollzone = new JScrollPane(attributes);
         this.add(scrollzone);
         controller = new AttributesChooserController(this, model);
@@ -57,7 +57,9 @@ public class AttributesChooserView extends JPanel {
 
     /**
      * Adds a label to the view
-     * @param text The label
+     *
+     * @param text
+     *            The label
      */
     private void addLabel(String text) {
         JLabel label = new JLabel(text);
@@ -66,8 +68,7 @@ public class AttributesChooserView extends JPanel {
     }
 
     /**
-     * Adds listener on mouse click events for the
-     * color chooser.
+     * Adds listener on mouse click events for the color chooser.
      */
     private void addColorListener() {
 
@@ -136,7 +137,9 @@ public class AttributesChooserView extends JPanel {
 
     /**
      * Setter for the background color of the color chooser
-     * @param color The color
+     *
+     * @param color
+     *            The color
      */
     public void setColorFieldColor(Color color) {
         color_chooser.setBackground(color);

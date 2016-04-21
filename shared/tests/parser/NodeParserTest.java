@@ -1,7 +1,6 @@
 package parser;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import models.tikz.TikzGraph;
@@ -65,8 +64,7 @@ public class NodeParserTest {
     @Test
     public void testNodesFromDraw() throws Exception {
         TikzGraph graph = new TikzGraph();
-        NodeParser.nodesFromDraw(graph)
-                .parse("\\draw[zedjio] (0,0) node[draw] {a} -- (2,0) node[draw] {l} -- (0,5) node[draw] {p}");
+        NodeParser.nodesFromDraw(graph).parse("\\draw[zedjio] (0,0) node[draw] {a} -- (2,0) node[draw] {l} -- (0,5) node[draw] {p}");
         Assert.assertEquals(graph.size(), 3);
     }
 
@@ -81,15 +79,9 @@ public class NodeParserTest {
     public void testParseTexDocument() throws Exception {
         TikzGraph graph = new TikzGraph();
         NodeParser.parseTeXDocument(graph)
-                .parse("\\documentclass{article}\n" +
-                        "\\usepackage{tikz}\n" +
-                        "\\begin{document}\n" +
-                        "\t\\begin{tikzpicture}\n" +
-                        "\n" +
-                        "\t\t\\draw[color=red] (0,0) node[draw] {a} -- (2,0) node[draw] {l} -- (0,5) node[draw] {p};\n" +
-                        "\n" +
-                        "\t\\end{tikzpicture}\n" +
-                        "\\end{document}");
+                .parse("\\documentclass{article}\n" + "\\usepackage{tikz}\n" + "\\begin{document}\n" + "\t\\begin{tikzpicture}\n" + "\n"
+                        + "\t\t\\draw[color=red] (0,0) node[draw] {a} -- (2,0) node[draw] {l} -- (0,5) node[draw] {p};\n" + "\n"
+                        + "\t\\end{tikzpicture}\n" + "\\end{document}");
         Assert.assertEquals(graph.size(), 3);
     }
 
@@ -136,29 +128,17 @@ public class NodeParserTest {
 
     @Test
     public void testParseDocumentIntro() throws Exception {
-        Assert.assertEquals(NodeParser.parseTexPrelude().source().parse(
-                "\t\\documentclass{article}\n" +
-                        "\n" +
-                        "\\usepackage{tikz}\n" +
-                        "\n" +
-                        "\\begin{document}\n" +
-                        "\t\\begin{tikzpicture}\n"
-        ),"\t\\documentclass{article}\n" +
-                "\n" +
-                "\\usepackage{tikz}\n" +
-                "\n" +
-                "\\begin{document}\n" +
-                "\t\\begin{tikzpicture}\n");
+        Assert.assertEquals(
+                NodeParser.parseTexPrelude().source()
+                        .parse("\t\\documentclass{article}\n" + "\n" + "\\usepackage{tikz}\n" + "\n" + "\\begin{document}\n"
+                                + "\t\\begin{tikzpicture}\n"),
+                "\t\\documentclass{article}\n" + "\n" + "\\usepackage{tikz}\n" + "\n" + "\\begin{document}\n" + "\t\\begin{tikzpicture}\n");
     }
 
     @Test
     public void testParseDocumentOutro() throws Exception {
-        Assert.assertEquals(NodeParser.parseTexPostlude().source().parse(
-                "\t\\end{tikzpicture}\n" +
-                        "\\end{document}\n"
-        ),"\t\\end{tikzpicture}\n" +
-                "\\end{document}\n");
-
+        Assert.assertEquals(NodeParser.parseTexPostlude().source().parse("\t\\end{tikzpicture}\n" + "\\end{document}\n"),
+                "\t\\end{tikzpicture}\n" + "\\end{document}\n");
 
     }
 }

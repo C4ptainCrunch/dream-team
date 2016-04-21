@@ -1,11 +1,12 @@
 package misc.drag.handler;
 
-import constants.GUI;
-import misc.drag.transferable.CanvasTransferableTikz;
-import views.editor.CanvasView;
+import java.awt.datatransfer.Transferable;
 
 import javax.swing.*;
-import java.awt.datatransfer.Transferable;
+
+import misc.drag.transferable.CanvasTransferableTikz;
+import views.editor.CanvasView;
+import constants.GUI;
 
 /**
  * Created by aurelien on 15/04/16.

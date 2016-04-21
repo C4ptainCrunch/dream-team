@@ -1,10 +1,10 @@
 package models.tikz;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by jhellinckx on 29/02/16.
@@ -27,12 +27,12 @@ public class TikzDirectedEdgeTest {
     }
 
     @Test
-    public void testFirstNode() throws Exception{
+    public void testFirstNode() throws Exception {
         assertEquals(firstNode, testDirectedEdge.getFirstNode());
     }
 
     @Test
-    public void testSecondNode() throws Exception{
+    public void testSecondNode() throws Exception {
         assertEquals(secondNode, testDirectedEdge.getSecondNode());
     }
 
@@ -42,7 +42,7 @@ public class TikzDirectedEdgeTest {
     }
 
     @Test
-    public void testCopy() throws Exception{
+    public void testCopy() throws Exception {
         TikzDirectedEdge o_edge = new TikzDirectedEdge(testDirectedEdge);
         assertEquals(o_edge.getFirstNode(), testDirectedEdge.getFirstNode());
         assertEquals(o_edge.getSecondNode(), testDirectedEdge.getSecondNode());

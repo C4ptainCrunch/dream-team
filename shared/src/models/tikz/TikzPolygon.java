@@ -3,10 +3,10 @@ package models.tikz;
 import constants.Models;
 
 /**
- * Implementation of the Polygon Model (from the MVC architectural pattern)
- * This class represents a polygon that is linked to a tikz code.
- * A polygon consists of a length and a number of sides.
- * The length of on side is equals to the length of all the other sides.
+ * Implementation of the Polygon Model (from the MVC architectural pattern) This
+ * class represents a polygon that is linked to a tikz code. A polygon consists
+ * of a length and a number of sides. The length of on side is equals to the
+ * length of all the other sides.
  */
 public class TikzPolygon extends TikzShape {
     private int length;
@@ -23,8 +23,11 @@ public class TikzPolygon extends TikzShape {
 
     /**
      * Constructs a polygon with a given length and a given number of sides.
-     * @param length The length of one side
-     * @param sides The number of sides
+     *
+     * @param length
+     *            The length of one side
+     * @param sides
+     *            The number of sides
      */
     public TikzPolygon(int length, int sides) {
         super();
@@ -34,16 +37,21 @@ public class TikzPolygon extends TikzShape {
 
     /**
      * Constructs a tikz polygon by copying an other tikz polygon
-     * @param o_polygon The tikz polygon to be copied from
+     *
+     * @param o_polygon
+     *            The tikz polygon to be copied from
      */
     public TikzPolygon(TikzPolygon o_polygon) {
         super(o_polygon);
         this.length = o_polygon.getLength();
         this.sides = o_polygon.getSides();
     }
+
     /**
      * Constructs a default polygon with a given reference
-     * @param reference the reference
+     *
+     * @param reference
+     *            the reference
      */
     public TikzPolygon(String reference) {
         super(reference);
@@ -52,10 +60,15 @@ public class TikzPolygon extends TikzShape {
     }
 
     /**
-     * Constructs a polygon with a given length and a given number of sides and reference.
-     * @param length The length of one side
-     * @param sides The number of sides
-     * @param reference the reference
+     * Constructs a polygon with a given length and a given number of sides and
+     * reference.
+     *
+     * @param length
+     *            The length of one side
+     * @param sides
+     *            The number of sides
+     * @param reference
+     *            the reference
      */
     public TikzPolygon(int length, int sides, String reference) {
         super(reference);
@@ -64,9 +77,13 @@ public class TikzPolygon extends TikzShape {
     }
 
     /**
-     * Constructs a tikz polygon by copying an other tikz polygon with a given reference
-     * @param o_polygon The tikz polygon to be copied from
-     * @param reference the reference
+     * Constructs a tikz polygon by copying an other tikz polygon with a given
+     * reference
+     *
+     * @param o_polygon
+     *            The tikz polygon to be copied from
+     * @param reference
+     *            the reference
      */
     public TikzPolygon(TikzPolygon o_polygon, String reference) {
         super(o_polygon, reference);
@@ -76,6 +93,7 @@ public class TikzPolygon extends TikzShape {
 
     /**
      * Getter for the length of the sides
+     *
      * @return The length
      */
     public int getLength() {
@@ -84,7 +102,9 @@ public class TikzPolygon extends TikzShape {
 
     /**
      * Setter for the length of the sides
-     * @param length The length
+     *
+     * @param length
+     *            The length
      */
     public void setLength(int length) {
         this.length = length;
@@ -94,6 +114,7 @@ public class TikzPolygon extends TikzShape {
 
     /**
      * Getter for the number of sides composing the polygon
+     *
      * @return The number of sides composing the polygon
      */
     public int getSides() {
@@ -102,7 +123,9 @@ public class TikzPolygon extends TikzShape {
 
     /**
      * Setter for the number of sides composing the polygon
-     * @param sides The number of sides composing the polygon
+     *
+     * @param sides
+     *            The number of sides composing the polygon
      */
     public void setSides(int sides) {
         this.sides = sides;
@@ -112,6 +135,7 @@ public class TikzPolygon extends TikzShape {
 
     /**
      * Transforms this polygon into tikz code string
+     *
      * @return The tikz code string
      */
     @Override
@@ -122,12 +146,12 @@ public class TikzPolygon extends TikzShape {
         if (!options.contains("draw")) {
             options += ", draw";
         }
-        return String.format("\\node[%s](%s) at (%.0f,%.0f){%s}", options, "", getPosition().getX(),
-                getPosition().getY(), getLabel());
+        return String.format("\\node[%s](%s) at (%.0f,%.0f){%s}", options, "", getPosition().getX(), getPosition().getY(), getLabel());
     }
 
     /**
-     *  Getter for a clone (ie. copy of the current polygon)
+     * Getter for a clone (ie. copy of the current polygon)
+     *
      * @return A new polygon that is the copy of the current polygon
      */
     @Override

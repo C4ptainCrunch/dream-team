@@ -1,11 +1,12 @@
 package models.tikz;
 
+import static java.awt.Color.black;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import static java.awt.Color.black;
-import static org.junit.Assert.*;
 
 /**
  * Created by jhellinckx on 29/02/16.
@@ -30,7 +31,6 @@ public class TikzComponentTest {
         tikzComponent.setColor(black);
         assertEquals(tikzComponent.getColor(), black);
     }
-
 
     @Test
     public void testLabel() throws Exception {

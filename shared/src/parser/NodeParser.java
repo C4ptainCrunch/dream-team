@@ -1,10 +1,11 @@
 package parser;
 
 import java.awt.*;
-import java.util.*;
+import java.util.HashMap;
 import java.util.List;
 
 import models.tikz.*;
+
 import org.codehaus.jparsec.Parser;
 import org.codehaus.jparsec.Parsers;
 import org.codehaus.jparsec.Scanners;
@@ -13,18 +14,15 @@ import org.codehaus.jparsec.pattern.CharPredicates;
 import org.codehaus.jparsec.pattern.Patterns;
 
 /**
- * This class parses the tikz code written in the Editor
- * and constructs the corresponding tikz objects into
- * the current project's tikz graph.
- * This class uses the diff-match-patch library
+ * This class parses the tikz code written in the Editor and constructs the
+ * corresponding tikz objects into the current project's tikz graph. This class
+ * uses the diff-match-patch library
  */
 public class NodeParser {
     private static final Parser<Void> MAYBEWHITESPACES = Scanners.WHITESPACES.optional();
     private static final Parser<Void> MAYBENEWLINES = Scanners.isChar('\n').optional();
-    private static final Parser<HashMap<String, String>> maybeOptions = Parsers.or(optionsParser(),
-            Parsers.constant(new HashMap<>()));
+    private static final Parser<HashMap<String, String>> maybeOptions = Parsers.or(optionsParser(), Parsers.constant(new HashMap<>()));
     private static final Parser<String> maybeLabel = Parsers.or(label(), Parsers.constant(""));
-
 
     /**
      * Constructs an empty NodeParser
@@ -33,28 +31,27 @@ public class NodeParser {
     }
 
     /**
-     * Parses a tikz reference.
-     * A reference is tikz code written between "(" and ")".
-     * In order to get the string situated between the parentheses,
-     * one should call parse() on the returned parser.
+     * Parses a tikz reference. A reference is tikz code written between "(" and
+     * ")". In order to get the string situated between the parentheses, one
+     * should call parse() on the returned parser.
      *
      * @return a parser object that contains the string between the parentheses
      */
     public static Parser<String> reference() {
-        return Parsers.between(Scanners.string("("),
-                Parsers.or(Terminals.Identifier.TOKENIZER.source(), Parsers.constant("")), Scanners.string(")"));
+        return Parsers.between(Scanners.string("("), Parsers.or(Terminals.Identifier.TOKENIZER.source(), Parsers.constant("")),
+                Scanners.string(")"));
     }
 
     public static Parser<Integer> decimal() {
-        return Parsers.sequence(Scanners.string("-").optional().source(), MAYBEWHITESPACES.next(Terminals.DecimalLiteral.TOKENIZER).source(),
+        return Parsers.sequence(Scanners.string("-").optional().source(),
+                MAYBEWHITESPACES.next(Terminals.DecimalLiteral.TOKENIZER).source(),
                 (minus, nums) -> Math.round(Float.parseFloat(minus + nums)));
     }
 
     /**
-     * Parses a tikz label.
-     * A label is tikz code written between "{" and "}".
-     * In order to get the string situated between the braces,
-     * one should call parse() on the returned parser.
+     * Parses a tikz label. A label is tikz code written between "{" and "}". In
+     * order to get the string situated between the braces, one should call
+     * parse() on the returned parser.
      *
      * @return a parser object that contains the string between the braces
      */
@@ -64,9 +61,9 @@ public class NodeParser {
     }
 
     /**
-     * Parses a tikz option.
-     * An option is tikz code representing a single option situated in an array of options
-     * that is written between "[" and "]" separated by commas.
+     * Parses a tikz option. An option is tikz code representing a single option
+     * situated in an array of options that is written between "[" and "]"
+     * separated by commas.
      *
      * @return a parser object that contains a single option
      */
@@ -80,12 +77,13 @@ public class NodeParser {
     }
 
     /**
-     * Parses an array of tikz options.
-     * Options are tikz code written between "[" and "]" and separated by commmas.
-     * In order to get the string array containing the options situated between the hooks,
-     * one should call parse() on the returned parser.
+     * Parses an array of tikz options. Options are tikz code written between
+     * "[" and "]" and separated by commmas. In order to get the string array
+     * containing the options situated between the hooks, one should call
+     * parse() on the returned parser.
      *
-     * @return a parser object that contains a map of options with their value or an empty string
+     * @return a parser object that contains a map of options with their value
+     *         or an empty string
      */
     public static Parser<HashMap<String, String>> optionsParser() {
         final Parser<Void> sep = Scanners.isChar(',').next(MAYBEWHITESPACES);
@@ -101,13 +99,13 @@ public class NodeParser {
     }
 
     /**
-     * Parses a tikz coordinates.
-     * A coordinates is tikz code written between "(" and ")",
-     * containing two integer separated by commas
-     * In order to get the Point object situated between the parentheses,
-     * one should call parse() on the returned parser.
+     * Parses a tikz coordinates. A coordinates is tikz code written between "("
+     * and ")", containing two integer separated by commas In order to get the
+     * Point object situated between the parentheses, one should call parse() on
+     * the returned parser.
      *
-     * @return a parser object that represents the Point object between the parentheses
+     * @return a parser object that represents the Point object between the
+     *         parentheses
      */
     public static Parser<Point> coordinates() {
         final Parser<Void> sep = Parsers.sequence(MAYBEWHITESPACES, Scanners.isChar(','), MAYBEWHITESPACES);
@@ -142,32 +140,31 @@ public class NodeParser {
     }
 
     /**
-     * Parses several nodes from \draw tikz commands
-     * and adds them into a given tikz graph
+     * Parses several nodes from \draw tikz commands and adds them into a given
+     * tikz graph
      *
-     * @param graph The tikz graph to adds the parsed nodes to
+     * @param graph
+     *            The tikz graph to adds the parsed nodes to
      * @return a void parser object
      */
     public static Parser<Void> nodesFromDraw(TikzGraph graph) {
-        return Parsers
-                .sequence(Parsers.sequence(Scanners.string("\\draw"), Parsers.sequence(MAYBEWHITESPACES, maybeOptions)),
-                        Parsers.sequence(Scanners.WHITESPACES,
-                                nodeFromDraw()),
-                        Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, nodeFromDraw())
-                                .many(), (defaultOptions, firstNode, restNode) -> {
-                            TikzNode previous;
-                            TikzNode current;
-                            previous = Utils.createNode(defaultOptions, firstNode);
-                            graph.add(previous);
-                            for (DestructuredNode destructuredNode : restNode) {
-                                current = Utils.createNode(defaultOptions, destructuredNode);
-                                graph.add(current);
-                                graph.add(new TikzUndirectedEdge(previous,
-                                        current)); /* TODO: parsing edges */
-                                previous = current;
-                            }
-                            return null;
-                        });
+        return Parsers.sequence(Parsers.sequence(Scanners.string("\\draw"), Parsers.sequence(MAYBEWHITESPACES, maybeOptions)),
+                Parsers.sequence(Scanners.WHITESPACES, nodeFromDraw()),
+                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, nodeFromDraw()).many(),
+                (defaultOptions, firstNode, restNode) -> {
+                    TikzNode previous;
+                    TikzNode current;
+                    previous = Utils.createNode(defaultOptions, firstNode);
+                    graph.add(previous);
+                    for (DestructuredNode destructuredNode : restNode) {
+                        current = Utils.createNode(defaultOptions, destructuredNode);
+                        graph.add(current);
+                        graph.add(new TikzUndirectedEdge(previous,
+                                current)); /* TODO: parsing edges */
+                        previous = current;
+                    }
+                    return null;
+                });
     }
 
     /**
@@ -175,22 +172,23 @@ public class NodeParser {
      * creating nodes/edges from \draw commands and nodes from \node commands
      * and adds them into a given tikz graph
      *
-     * @param graph The tikz graph to adds the parsed nodes/edges to
+     * @param graph
+     *            The tikz graph to adds the parsed nodes/edges to
      * @return a void parser object
      */
     public static Parser<Void> parseDocument(TikzGraph graph) {
-        return Parsers.or(nodesFromDraw(graph), edgesFromDraw(graph), nodeFromNode(graph), Scanners.isChar(';'),
-                MAYBEWHITESPACES).many().cast();
+        return Parsers.or(nodesFromDraw(graph), edgesFromDraw(graph), nodeFromNode(graph), Scanners.isChar(';'), MAYBEWHITESPACES).many()
+                .cast();
 
     }
 
     /**
-     * Parses a tex document containing tikz code
-     * with its tex prelude and tex postlude.
-     * The nodes and edges created in the tikz code
-     * are added to the given tikz graph
+     * Parses a tex document containing tikz code with its tex prelude and tex
+     * postlude. The nodes and edges created in the tikz code are added to the
+     * given tikz graph
      *
-     * @param graph The tikz graph to adds the parsed nodes/edges to
+     * @param graph
+     *            The tikz graph to adds the parsed nodes/edges to
      * @return a void parser object
      */
     public static Parser<Void> parseTeXDocument(TikzGraph graph) {
@@ -199,43 +197,40 @@ public class NodeParser {
     }
 
     /**
-     * Parses the prelude of a tex document
-     * containing tikz code
+     * Parses the prelude of a tex document containing tikz code
      *
      * @return a void parser object
      */
     public static Parser<Void> parseTexPrelude() {
-        return Parsers.sequence(Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(),
-                Scanners.string("\\documentclass{article}\n"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES),
-                Scanners.string("\\usepackage{tikz}\n"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES),
-                Scanners.string("\\begin{document}\n"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES),
-                Scanners.string("\\begin{tikzpicture}\n"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES)).cast();
+        return Parsers.sequence(Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(), Scanners.string("\\documentclass{article}\n"),
+                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES), Scanners.string("\\usepackage{tikz}\n"),
+                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES), Scanners.string("\\begin{document}\n"),
+                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES), Scanners.string("\\begin{tikzpicture}\n"),
+                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES)).cast();
     }
 
     /**
-     * Parses the postlude of a tex document
-     * containing tikz code
+     * Parses the postlude of a tex document containing tikz code
      *
      * @return a void parser object
      */
     public static Parser<Void> parseTexPostlude() {
-        return Parsers.sequence(Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES),
-                Scanners.string("\\end{tikzpicture}\n"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES),
-                Scanners.string("\\end{document}"), Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES)).cast();
+        return Parsers.sequence(Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES), Scanners.string("\\end{tikzpicture}\n"),
+                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES), Scanners.string("\\end{document}"),
+                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES)).cast();
     }
 
     /**
      * parses edges from format like \draw[options] (n, m) -- (o, p) -- ...
-     * @param graph The tikz graph to adds the parsed nodes/edges to
+     *
+     * @param graph
+     *            The tikz graph to adds the parsed nodes/edges to
      * @return a void parser object
      */
     public static Parser<Void> edgesFromDraw(TikzGraph graph) {
-        return Parsers.sequence(
-                Parsers.sequence(Scanners.string("\\draw"),
-                        maybeOptions),
+        return Parsers.sequence(Parsers.sequence(Scanners.string("\\draw"), maybeOptions),
                 Parsers.sequence(Scanners.WHITESPACES, coordinates()),
-                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, coordinates())
-                        .many(),
+                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, coordinates()).many(),
                 (defaultOptions, firstCoord, restCoord) -> {
                     TikzVoid previous = new TikzVoid();
                     TikzVoid current;

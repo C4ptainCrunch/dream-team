@@ -4,13 +4,14 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import models.tikz.TikzComponent;
 import models.ToolModel;
+import models.tikz.TikzComponent;
 
 /**
  * Implementation of the View (from the MVC architectural pattern) for the Tool.
- * The Tool is the element of the tool box where a tikz component can be selected.
- * The view consists of two tabs to select an edge or a node depending of the tabs.
+ * The Tool is the element of the tool box where a tikz component can be
+ * selected. The view consists of two tabs to select an edge or a node depending
+ * of the tabs.
  */
 public class ToolView extends JPanel {
 
@@ -46,7 +47,9 @@ public class ToolView extends JPanel {
 
     /**
      * Setter for the dimension of a panel
-     * @param pan The panel to be set
+     *
+     * @param pan
+     *            The panel to be set
      */
     private void setPanelDimension(JPanel pan) {
         pan.setPreferredSize(new Dimension(this.getWidth(), this.getHeight() / TOOL_SIZE));
@@ -96,6 +99,7 @@ public class ToolView extends JPanel {
 
     /**
      * Getter for the tikz component that has been selected
+     *
      * @return The selected tikz component
      */
     public TikzComponent getTikzComponent() {

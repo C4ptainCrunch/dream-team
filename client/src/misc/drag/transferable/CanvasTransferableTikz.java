@@ -1,8 +1,8 @@
 package misc.drag.transferable;
 
-import constants.GUI;
 import misc.drag.transfertdata.TransferTikz;
 import models.tikz.TikzComponent;
+import constants.GUI;
 
 /**
  * Created by aurelien on 15/04/16.
@@ -10,10 +10,10 @@ import models.tikz.TikzComponent;
 public class CanvasTransferableTikz extends TransferableTikz {
 
     public CanvasTransferableTikz(TikzComponent comp, GUI.Drag.DropOptions opt) {
-        try{
+        try {
             initializeData();
             transfert_data = new TransferTikz(comp, opt);
-        } catch(ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

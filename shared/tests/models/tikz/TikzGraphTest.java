@@ -1,14 +1,16 @@
-package models.tikz;
+import static org.junit.Assert.*;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Observable;
+
+import models.tikz.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.awt.*;
-import java.util.*;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by jhellinckx on 01/03/16.
@@ -31,7 +33,7 @@ public class TikzGraphTest {
         for (int i = 0; i < 6; i++) {
             TikzNode node = new TikzCircle();
             graph.add(node);
-            assertEquals(graph.size(), i+1);
+            assertEquals(graph.size(), i + 1);
         }
     }
 
@@ -44,7 +46,7 @@ public class TikzGraphTest {
             graph.add(circle);
         }
         Iterator<TikzNode> it = graph.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             TikzNode next = it.next();
             assertTrue(nodes.contains(next));
             nodes.remove(next);
@@ -103,10 +105,10 @@ public class TikzGraphTest {
         for (int i = 0; i < 5; i++) {
             TikzNode node1 = new TikzRectangle();
             TikzNode node2 = new TikzCircle();
-            edges.add(new TikzDirectedEdge(node1,node2));
+            edges.add(new TikzDirectedEdge(node1, node2));
         }
         graph.addAllEdges(edges);
-        while (!edges.isEmpty()){
+        while (!edges.isEmpty()) {
             TikzEdge edge = edges.remove(0);
             edges.remove(edge);
             graph.remove(edge);
@@ -121,7 +123,7 @@ public class TikzGraphTest {
         List<TikzEdge> edges1 = new ArrayList<TikzEdge>();
         for (int i = 0; i < 5; i++) {
             TikzNode nodetmp = new TikzCircle();
-            edges1.add(new TikzDirectedEdge(node1,nodetmp));
+            edges1.add(new TikzDirectedEdge(node1, nodetmp));
         }
         graph.addAllEdges(edges1);
         assertArrayEquals(graph.get(node1).toArray(), edges1.toArray());
@@ -130,7 +132,7 @@ public class TikzGraphTest {
         List<TikzEdge> edges2 = new ArrayList<TikzEdge>();
         for (int i = 0; i < 5; i++) {
             TikzNode nodetmp = new TikzCircle();
-            edges2.add(new TikzDirectedEdge(node2,nodetmp));
+            edges2.add(new TikzDirectedEdge(node2, nodetmp));
         }
         graph.addAllEdges(edges2);
         assertArrayEquals(graph.get(node2).toArray(), edges2.toArray());
@@ -153,7 +155,7 @@ public class TikzGraphTest {
             nodes.add(node);
             assert graph.getNodes().contains(node);
         }
-        for (TikzNode node:nodes) {
+        for (TikzNode node : nodes) {
             graph.add(node);
         }
 
@@ -202,7 +204,7 @@ public class TikzGraphTest {
         assert graph2.getEdges().containsAll(graph1.getEdges());
         assert graph2.getNodes().containsAll(graph1.getNodes());
 
-        assertEquals(graph2.getEdges().size(), length*2);
+        assertEquals(graph2.getEdges().size(), length * 2);
 
     }
 
@@ -237,20 +239,47 @@ public class TikzGraphTest {
 
         assertArrayEquals(graph.getNodes().toArray(), nodes.toArray());
 
+    }
 
+    @Test
+    public void testToString() throws Exception {
+        int length = 4;
+        TikzNode testNode;
+        TikzEdge testEdge;
+        ArrayList<TikzNode> nodes = new ArrayList<>();
+        ArrayList<TikzEdge> edges = new ArrayList<>();
+
+        String resultString = "\\node[circle, draw]() at (0,0){};\n" + "\\node[circle, draw]() at (0,1){};\n"
+                + "\\node[circle, draw]() at (0,2){};\n" + "\\node[circle, draw]() at (0,3){};\n\n" + "\\draw[] (0, 0) -- (0, 1);\n"
+                + "\\draw[] (0, 1) -- (0, 2);\n" + "\\draw[] (0, 2) -- (0, 3);\n";
+
+        for (int i = 0; i < length; i++) {
+            testNode = new TikzCircle();
+            testNode.move(0, i);
+            nodes.add(testNode);
+        }
+
+        for (int i = 0; i < length - 1; i++) {
+            testEdge = new TikzUndirectedEdge(nodes.get(i), nodes.get(i + 1));
+            edges.add(testEdge);
+        }
+
+        graph.addAllNodes(nodes);
+        graph.addAllEdges(edges);
+        assertEquals(graph.toString(), resultString);
     }
 
     @Test
     public void testObservableConstructor() throws Exception {
         assertTrue(!graph.hasChanged());
-        assertEquals(0,graph.countObservers());
+        assertEquals(0, graph.countObservers());
     }
 
     @Test
     public void testNodeAddedAsObserved() throws Exception {
         TikzCircle testNode = new TikzCircle();
         graph.add(testNode);
-        assertEquals(1,testNode.countObservers());
+        assertEquals(1, testNode.countObservers());
     }
 
     @Test
@@ -260,20 +289,21 @@ public class TikzGraphTest {
             boolean flag = false;
 
             @Override
-            public void update(Observable obs, Object o){ flag = true; }
+            public void update(Observable obs, Object o) {
+                flag = true;
+            }
 
-            public boolean getFlag(){
+            public boolean getFlag() {
                 return flag;
             }
         };
 
         TikzCircle testNode = new TikzCircle();
         anonymous.add(testNode);
-        assertFalse((boolean)anonymous.getClass().getMethod("getFlag").invoke(anonymous));
-        testNode.move(2,2);
-        assertTrue((boolean)anonymous.getClass().getMethod("getFlag").invoke(anonymous));
+        assertFalse((boolean) anonymous.getClass().getMethod("getFlag").invoke(anonymous));
+        testNode.move(2, 2);
+        assertTrue((boolean) anonymous.getClass().getMethod("getFlag").invoke(anonymous));
     }
-
 
     @Test
     public void testTranslation() throws Exception {
@@ -284,7 +314,7 @@ public class TikzGraphTest {
         int len = 4;
 
         for (int i = 0; i < len; i++) {
-            Point p = new Point(i+6, i-2);
+            Point p = new Point(i + 6, i - 2);
             TikzNode node = new TikzPolygon();
             node.setPosition(new Point(p));
             nodes.add(node);
@@ -297,14 +327,14 @@ public class TikzGraphTest {
         for (int i = 0; i < len; i++) {
             TikzNode node = graph.getNodes().get(i);
             Point p = node.getPosition();
-            Point start =starts.get(i);
+            Point start = starts.get(i);
             assertEquals(start.x + dx, p.x);
             assertEquals(start.y + dy, p.y);
         }
     }
 
     @Test
-    public void testCopy() throws Exception{
+    public void testCopy() throws Exception {
         graph.add(new TikzCircle());
         TikzGraph o_graph = graph.getClone();
         assertEquals(graph.size(), o_graph.size());

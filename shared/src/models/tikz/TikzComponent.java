@@ -7,7 +7,8 @@ import java.util.UUID;
 import constants.Models;
 
 /**
- * This abstract class defines the common elements of a tikz component (node, ..)
+ * This abstract class defines the common elements of a tikz component (node,
+ * ..)
  */
 public abstract class TikzComponent extends Observable {
     private Color color;
@@ -24,9 +25,11 @@ public abstract class TikzComponent extends Observable {
 
     /**
      * Constructs a default tikz component with a given reference
-     * @param reference the reverence for the component
+     *
+     * @param reference
+     *            the reverence for the component
      */
-    protected TikzComponent(String reference){
+    protected TikzComponent(String reference) {
         this.color = Models.DEFAULT.COLOR;
         this.label = Models.DEFAULT.LABEL;
         this.stroke = Models.DEFAULT.STROKE;
@@ -35,16 +38,22 @@ public abstract class TikzComponent extends Observable {
 
     /**
      * Constructs a tikz component by copying an other tikz component
-     * @param o_comp The tikz compmonent to be copied from
+     *
+     * @param o_comp
+     *            The tikz compmonent to be copied from
      */
     protected TikzComponent(TikzComponent o_comp) {
         this(o_comp, UUID.randomUUID().toString());
     }
 
     /**
-     * Constructs a tikz component by copying an other tikz component with a given reference
-     * @param o_comp The tikz compmonent to be copied from
-     * @param reference the reference for the component
+     * Constructs a tikz component by copying an other tikz component with a
+     * given reference
+     *
+     * @param o_comp
+     *            The tikz compmonent to be copied from
+     * @param reference
+     *            the reference for the component
      */
     protected TikzComponent(TikzComponent o_comp, String reference) {
         this.color = o_comp.getColor();
@@ -55,6 +64,7 @@ public abstract class TikzComponent extends Observable {
 
     /**
      * Getter for the color of this tikz component
+     *
      * @return the color
      */
     public Color getColor() {
@@ -63,7 +73,9 @@ public abstract class TikzComponent extends Observable {
 
     /**
      * Setter for the color of this tikz component
-     * @param color The color
+     *
+     * @param color
+     *            The color
      */
     public void setColor(Color color) {
         this.color = color;
@@ -71,6 +83,7 @@ public abstract class TikzComponent extends Observable {
 
     /**
      * Getter for the label of this tikz component
+     *
      * @return the label
      */
     public String getLabel() {
@@ -79,7 +92,9 @@ public abstract class TikzComponent extends Observable {
 
     /**
      * Setter for the label of this tikz component
-     * @param label The label
+     *
+     * @param label
+     *            The label
      */
     public void setLabel(String label) {
         this.label = label;
@@ -87,6 +102,7 @@ public abstract class TikzComponent extends Observable {
 
     /**
      * Getter for the stroke of this tikz component
+     *
      * @return the stroke
      */
     public int getStroke() {
@@ -95,30 +111,34 @@ public abstract class TikzComponent extends Observable {
 
     /**
      * Setter for the stroke of this tikz component
-     * @param stroke The stroke
+     *
+     * @param stroke
+     *            The stroke
      */
     public void setStroke(int stroke) {
         this.stroke = stroke;
     }
 
     /**
-     * Abstract method that needs to be redefined in classes
-     * that extends this class.
-     * Getter for a clone (ie. copy of the current object)
+     * Abstract method that needs to be redefined in classes that extends this
+     * class. Getter for a clone (ie. copy of the current object)
+     *
      * @return A new object that is the copy of the current object
      */
     public abstract TikzComponent getClone();
 
-
     /**
      * Getter for the reference of this tikz component
+     *
      * @return the reference
      */
     public String getReference() {
         return this.reference;
     }
 
-    public void setReference(String ref) {this.reference = ref;}
+    public void setReference(String ref) {
+        this.reference = ref;
+    }
 
     public boolean isNode() {
         return false;

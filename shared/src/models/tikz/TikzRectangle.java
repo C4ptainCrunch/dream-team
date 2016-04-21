@@ -11,7 +11,7 @@ public class TikzRectangle extends TikzShape {
     private int length;
 
     /**
-     *Constructs a default tikz rectangle
+     * Constructs a default tikz rectangle
      */
     public TikzRectangle() {
         super();
@@ -20,10 +20,12 @@ public class TikzRectangle extends TikzShape {
     }
 
     /**
-     * Constructs a tikz rectangle with a given
-     * width and length
-     * @param width The width of the rectangle
-     * @param length The length of the rectangle
+     * Constructs a tikz rectangle with a given width and length
+     *
+     * @param width
+     *            The width of the rectangle
+     * @param length
+     *            The length of the rectangle
      */
     public TikzRectangle(int width, int length) {
         super();
@@ -33,16 +35,21 @@ public class TikzRectangle extends TikzShape {
 
     /**
      * Constructs a tikz rectangle by copying an other tikz rectangle
-     * @param o_rectangle The tikz rectangle to be copied from
+     *
+     * @param o_rectangle
+     *            The tikz rectangle to be copied from
      */
     public TikzRectangle(TikzRectangle o_rectangle) {
         super(o_rectangle);
         width = o_rectangle.getWidth();
         length = o_rectangle.getLength();
     }
+
     /**
-     *Constructs a default tikz rectangle with a given reference
-     * @param reference the reference
+     * Constructs a default tikz rectangle with a given reference
+     *
+     * @param reference
+     *            the reference
      */
     public TikzRectangle(String reference) {
         super(reference);
@@ -51,11 +58,14 @@ public class TikzRectangle extends TikzShape {
     }
 
     /**
-     * Constructs a tikz rectangle with a given
-     * width and length and reference
-     * @param width The width of the rectangle
-     * @param length The length of the rectangle
-     * @param reference the reference
+     * Constructs a tikz rectangle with a given width and length and reference
+     *
+     * @param width
+     *            The width of the rectangle
+     * @param length
+     *            The length of the rectangle
+     * @param reference
+     *            the reference
      */
     public TikzRectangle(int width, int length, String reference) {
         super(reference);
@@ -64,9 +74,13 @@ public class TikzRectangle extends TikzShape {
     }
 
     /**
-     * Constructs a tikz rectangle by copying an other tikz rectangle with a given reference
-     * @param o_rectangle The tikz rectangle to be copied from
-     * @param reference the reference
+     * Constructs a tikz rectangle by copying an other tikz rectangle with a
+     * given reference
+     *
+     * @param o_rectangle
+     *            The tikz rectangle to be copied from
+     * @param reference
+     *            the reference
      */
     public TikzRectangle(TikzRectangle o_rectangle, String reference) {
         super(o_rectangle, reference);
@@ -76,6 +90,7 @@ public class TikzRectangle extends TikzShape {
 
     /**
      * Getter for the width of the tikz rectangle
+     *
      * @return the width
      */
     public int getWidth() {
@@ -84,7 +99,9 @@ public class TikzRectangle extends TikzShape {
 
     /**
      * Setter of the width of the tikz rectangle
-     * @param width The width
+     *
+     * @param width
+     *            The width
      */
     public void setWidth(int width) {
         this.width = width;
@@ -94,6 +111,7 @@ public class TikzRectangle extends TikzShape {
 
     /**
      * Getter for the length of the tikz rectangle
+     *
      * @return the length
      */
     public int getLength() {
@@ -102,7 +120,9 @@ public class TikzRectangle extends TikzShape {
 
     /**
      * Setter for the length of the tikz rectangle
-     * @param length The length
+     *
+     * @param length
+     *            The length
      */
     public void setLength(int length) {
         this.length = length;
@@ -112,23 +132,25 @@ public class TikzRectangle extends TikzShape {
 
     /**
      * Transforms this tikz rectangle into tikz code string
+     *
      * @return The tikz code string
      */
     @Override
     public String toString() {
         String options = String.join(", ", new String[] { "rectangle" }); // TODO:
-                                                                            // do
-                                                                            // this
+                                                                          // do
+                                                                          // this
         if (!options.contains("draw")) {
             options += ", draw";
         }
-        return String.format("\\node[%s](%s) at (%.0f,%.0f){%s}", options, "", getPosition().getX(),
-                getPosition().getY(), getLabel());
+        return String.format("\\node[%s](%s) at (%.0f,%.0f){%s}", options, "", getPosition().getX(), getPosition().getY(), getLabel());
     }
 
     /**
-     *  Getter for a clone (ie. copy of the current tikz rectangle)
-     * @return A new tikz rectangle that is the copy of the current tikz rectangle
+     * Getter for a clone (ie. copy of the current tikz rectangle)
+     *
+     * @return A new tikz rectangle that is the copy of the current tikz
+     *         rectangle
      */
     @Override
     public TikzRectangle getClone() {

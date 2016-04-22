@@ -30,13 +30,15 @@ public class SignUpView extends JFrame {
         this.controller = new SignUpController(this);
         this.loginView = loginView;
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
         this.render();
     }
 
     public final void render() {
         this.setTitle("TikzCreator : Login or Sign Up");
-        this.setPreferredSize(new Dimension(400,160));
+        this.setPreferredSize(new Dimension(300,130));
         initServiceCondition();
+        this.setResizable(false);
         this.pack();
         this.setVisible(true);
     }
@@ -87,7 +89,7 @@ public class SignUpView extends JFrame {
 
         for(int i=0; i< this.fields.size(); i++){
             JPanel newPanel = new JPanel();
-            newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.X_AXIS));
+            newPanel.setLayout(new GridLayout(1,2));
             newPanel.setMaximumSize( new Dimension(500,100));
             newPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -101,7 +103,7 @@ public class SignUpView extends JFrame {
         }
 
         JPanel passwordPanel = new JPanel();
-        passwordPanel.setLayout(new BoxLayout(passwordPanel, BoxLayout.X_AXIS));
+        passwordPanel.setLayout(new GridLayout(1,2));
         passwordPanel.setMaximumSize( new Dimension(500,100));
         passwordPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 

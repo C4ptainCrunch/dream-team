@@ -19,6 +19,7 @@ public class LoginWindowView extends JFrame {
 
     public LoginWindowView() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
         this.render();
     }
 
@@ -36,6 +37,7 @@ public class LoginWindowView extends JFrame {
 
         this.add(this.loginWindowPanel);
 
+        this.setResizable(false);
         this.pack();
         this.setVisible(true);
     }

@@ -3,6 +3,11 @@ package views.editor;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Set;
 
@@ -13,11 +18,14 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 
+import constants.Errors;
+import constants.GUI;
 import models.tikz.TikzComponent;
 import models.tikz.TikzGraph;
 import controllers.editor.SourceController;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 /**
@@ -51,6 +59,7 @@ public class SourceView extends JPanel {
         this.textArea = new RSyntaxTextArea(0,TEXT_LINE_WIDTH);
         initPanel();
         initTextArea();
+        setThemeToDefault();
     }
 
     /**
@@ -74,14 +83,22 @@ public class SourceView extends JPanel {
                 getDefaultScreenDevice().
                 getDisplayMode();
         int h = gd.getHeight();
-        int w = gd.getWidth();
-
 
         int nbOfLinesToSet = h/this.textArea.getLineHeight();
         this.textArea.setRows(nbOfLinesToSet);
         this.textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_LATEX);
         this.textArea.setCodeFoldingEnabled(true);
         this.controller.updateTikzText();
+    }
+
+    private void applyTheme(String file_path){
+        try {
+            InputStream stream = new DataInputStream(Files.newInputStream(Paths.get(file_path)));
+            Theme theme = Theme.load(stream);
+            theme.apply(this.textArea);
+        } catch (IOException e){
+            JOptionPane.showMessageDialog(this, Errors.LOAD_TEXT_AREA_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 
@@ -141,6 +158,14 @@ public class SourceView extends JPanel {
         } catch (BadLocationException e){
             e.printStackTrace();
         }
+    }
+
+    private void setThemeToDefault(){
+        applyTheme(GUI.TextArea.DEFAULT_THEME);
+    }
+
+    private void setThemeToDaltonian(){
+        applyTheme(GUI.TextArea.DEFAULT_COLOR_BLINDNESS_THEME);
     }
 
     /**
@@ -222,6 +247,14 @@ public class SourceView extends JPanel {
             textArea.setCaretPosition(textArea.getLineStartOffset(end_line));
         } catch (BadLocationException e){
             e.printStackTrace();
+        }
+    }
+
+    public void setColorBlindMode(boolean set_mode) {
+        if (set_mode){
+            setThemeToDaltonian();
+        } else{
+            setThemeToDefault();
         }
     }
 }

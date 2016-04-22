@@ -273,4 +273,11 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
     public TikzGraph getClone() {
         return new TikzGraph(this);
     }
+
+    public Optional<TikzNode> findByRef(String ref) {
+        for (TikzNode node: this){
+            if (ref.equals(node.getReference())) {return Optional.of(node);}
+        }
+        return Optional.empty();
+    }
 }

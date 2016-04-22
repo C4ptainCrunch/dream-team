@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import models.tikz.TikzGraph;
 
+import models.tikz.TikzRectangle;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -71,8 +72,11 @@ public class NodeParserTest {
     @Test
     public void testEdgesFromDraw() throws Exception {
         TikzGraph graph = new TikzGraph();
-        NodeParser.edgesFromDraw(graph).parse("\\draw[color=blue, ->] (0,0) -- (5,5) -- (5,7) -- (8,2)");
-        Assert.assertEquals(graph.size(), 4);
+        graph.add(new TikzRectangle("a"));
+        graph.add(new TikzRectangle("b"));
+        graph.add(new TikzRectangle("c"));
+        NodeParser.edgesFromDraw(graph).parse("\\draw[color=blue, ->] (a) -- (b) -- (c) -- (a)");
+        Assert.assertEquals(graph.getEdges().size(),  3);
     }
 
     @Test

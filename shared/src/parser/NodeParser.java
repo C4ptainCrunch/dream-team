@@ -4,7 +4,9 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 
-import models.tikz.*;
+import models.tikz.TikzGraph;
+import models.tikz.TikzNode;
+import models.tikz.TikzUndirectedEdge;
 
 import org.codehaus.jparsec.Parser;
 import org.codehaus.jparsec.Parsers;
@@ -38,12 +40,12 @@ public class NodeParser {
      * @return a parser object that contains the string between the parentheses
      */
     public static Parser<String> reference() {
-        return Parsers.between(Scanners.string("("), Scanners.notChar(')').many().source(),
-                Scanners.string(")"));
+        return Parsers.between(Scanners.string("("), Scanners.notChar(')').many().source(), Scanners.string(")"));
     }
 
     /**
      * Parses a decimal number
+     * 
      * @return a parser object containing the parsed integer
      */
     public static Parser<Integer> decimal() {
@@ -233,19 +235,15 @@ public class NodeParser {
      */
     public static Parser<Void> edgesFromDraw(TikzGraph graph) {
         return Parsers.sequence(Parsers.sequence(Scanners.string("\\draw"), maybeOptions),
-                Parsers.sequence(Scanners.WHITESPACES, coordinates()),
-                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, coordinates()).many(),
-                (defaultOptions, firstCoord, restCoord) -> {
-                    TikzVoid previous = new TikzVoid();
-                    TikzVoid current;
-                    TikzEdge edge;
-                    graph.add(previous);
-                    for (Point coord : restCoord) {
-                        current = new TikzVoid();
-                        graph.add(current);
-                        edge = Utils.createEdge(defaultOptions, previous, current);
-                        graph.add(current);
-                        graph.add(edge);
+                Parsers.sequence(Scanners.WHITESPACES, reference()),
+                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, reference()).many(),
+                (defaultOptions, firstRef, restRef) -> {
+                    TikzNode previous = graph.findByRef(firstRef)
+                            .orElseThrow(() -> new RuntimeException("Cannot find reference " + firstRef));
+                    TikzNode current;
+                    for (String ref : restRef) {
+                        current = graph.findByRef(ref).orElseThrow(() -> new RuntimeException("Cannot find reference " + ref));
+                        graph.add(Utils.createEdge(defaultOptions, previous, current));
                         previous = current;
                     }
                     return null;

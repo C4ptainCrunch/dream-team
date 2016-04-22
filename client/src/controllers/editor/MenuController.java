@@ -2,6 +2,7 @@ package controllers.editor;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
+import java.awt.event.ItemEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
@@ -106,5 +107,10 @@ public class MenuController implements Observer {
     public void exit(EditorView parentView) {
         save();
         parentView.dispose();
+    }
+
+    public void setColorBlindMode(int stateChange) {
+        boolean set_mode = (stateChange == ItemEvent.SELECTED ? true : false);
+        view.setBlindMode(set_mode);
     }
 }

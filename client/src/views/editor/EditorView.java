@@ -107,11 +107,16 @@ public class EditorView extends JFrame {
         sourceView.highlightCorrespondingLine(comp);
     }
 
-    public void highlightTextZone(Set<TikzComponent> selectedComponents) {
+    public final void highlightTextZone(Set<TikzComponent> selectedComponents) {
         sourceView.highlightCorrespondingZone(selectedComponents);
     }
 
-    public void removeHighlights() {
+    public final void removeHighlights() {
         sourceView.removeHighlights();
+    }
+
+    public final void setTextAreaColorBlindMode(boolean set_mode) {
+        sourceView.setColorBlindMode(set_mode);
+
     }
 }

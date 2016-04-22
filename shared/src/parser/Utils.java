@@ -15,6 +15,27 @@ class Utils {
     private final static Set<String> polygons = new HashSet<>(Arrays.asList("regular polygon", "star"));
     private final static Set<String> colors = new HashSet<>(Arrays.asList("red", "green", "blue", "cyan ", "magenta", "yellow", "black",
             "gray", "darkgray", "lightgray", "brown", "lime", "olive", "orange", "pink", "purple", "teal", "violet", "white"));
+    private final static HashMap<String, Color> string2color = new HashMap<String, Color>() {{
+        put("black", new Color(0x00, 0x00, 0x00));
+        put("blue", new Color(0x00, 0x00, 0xFF));
+        put("brown", new Color(0xA5, 0x2A, 0x2A));
+        put("cyan", new Color(0x00, 0xFF, 0xFF));
+        put("darkgray", new Color(0xA9, 0xA9, 0xA9));
+        put("gray", new Color(0x80, 0x80, 0x80));
+        put("green", new Color(0x00, 0x80, 0x00));
+        put("lightgray", new Color(0xD3, 0xD3, 0xD3));
+        put("lime", new Color(0x00, 0xFF, 0x00));
+        put("magenta", new Color(0xFF, 0x00, 0xFF));
+        put("olive", new Color(0x80, 0x80, 0x00));
+        put("orange", new Color(0xFF, 0xA5, 0x00));
+        put("pink", new Color(0xFF, 0xC0, 0xCB));
+        put("purple", new Color(0x80, 0x00, 0x80));
+        put("red", new Color(0xFF, 0x00, 0x00));
+        put("teal", new Color(0x00, 0x80, 0x80));
+        put("violet", new Color(0xEE, 0x82, 0xEE));
+        put("white", new Color(0xFF, 0xFF, 0xFF));
+        put("yellow", new Color(0xFF, 0xFF, 0x00));
+    }};
 
         /**
      * private default constructor
@@ -83,22 +104,6 @@ class Utils {
     private static Optional<String> getColorShape(Map<String, String> m1, Map<String, String> m2) {
         Optional<String> color = getColorShape(m1);
         return color.isPresent() ? color : getColorShape(m2);
-    }
-
-    /**
-     * Convert a string to a java.awt.Color
-     *
-     * @param color
-     *            the color name
-     * @return A Color instance
-     */
-    private static Color stringToColor(String color) {
-        try {
-            Field f = Class.forName("java.awt.Color").getField(color);
-            return (Color) f.get(null);
-        } catch (Exception e) {
-            return Models.DEFAULT.COLOR;
-        }
     }
 
     /**
@@ -225,7 +230,7 @@ class Utils {
         }
         res.setPosition(node.getCoordinates());
         res.setLabel(node.getLabel());
-        res.setColor(stringToColor(color));
+        res.setColor(string2color.getOrDefault(color, Models.DEFAULT.COLOR));
         res.setStroke(getOptionStroke(defaultOptions, node.getOptions()).orElse(Models.DEFAULT.STROKE));
         final Optional<String> ref = node.getRef();
         if (ref.isPresent()) {
@@ -259,7 +264,7 @@ class Utils {
             res = new TikzUndirectedEdge(n1, n2);
             break;
         }
-        res.setColor(stringToColor(color));
+        res.setColor(string2color.getOrDefault(color, Models.DEFAULT.COLOR));
         return res;
     }
 

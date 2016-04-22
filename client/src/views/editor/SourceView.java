@@ -208,7 +208,10 @@ public class SourceView extends JPanel {
         for (Integer line : lines){
             highlightLine(painter, line);
         }
-        moveTextAreaCaretToRightPosition(lines.get(lines.size()-1));
+
+        if (lines.size() > 0) {
+            moveTextAreaCaretToRightPosition(lines.get(lines.size() - 1));
+        }
     }
 
     public void removeHighlights() {

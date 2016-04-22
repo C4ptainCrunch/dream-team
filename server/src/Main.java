@@ -1,4 +1,5 @@
 import com.sun.jersey.simple.container.SimpleServerFactory;
+import database.DatabaseCreator;
 import utils.Log;
 
 import java.util.logging.Level;
@@ -9,6 +10,8 @@ public class Main {
 
     public static void main( String[] args ) throws Exception {
         Logger.getLogger("com.sun.jersey.api.core").setLevel(Level.WARNING);
+        logger.info("Creating DB");
+        new DatabaseCreator();
         logger.info("Starting the server on http://localhost:5555");
         SimpleServerFactory.create("http://localhost:5555");
     }

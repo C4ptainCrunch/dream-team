@@ -3,6 +3,7 @@ package parser;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import models.tikz.TikzGraph;
 import models.tikz.TikzNode;
@@ -238,12 +239,13 @@ public class NodeParser {
                 Parsers.sequence(Scanners.WHITESPACES, reference()),
                 Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, reference()).many(),
                 (defaultOptions, firstRef, restRef) -> {
-                    TikzNode previous = graph.findByRef(firstRef)
-                            .orElseThrow(() -> new RuntimeException("Cannot find reference " + firstRef));
-                    TikzNode current;
+                    Optional<TikzNode> previous = graph.findByRef(firstRef);
+                    Optional<TikzNode> current;
                     for (String ref : restRef) {
-                        current = graph.findByRef(ref).orElseThrow(() -> new RuntimeException("Cannot find reference " + ref));
-                        graph.add(Utils.createEdge(defaultOptions, previous, current));
+                        current = graph.findByRef(ref);
+                        if (previous.isPresent() && current.isPresent()) {
+                            graph.add(Utils.createEdge(defaultOptions, previous.get(), current.get()));
+                        }
                         previous = current;
                     }
                     return null;

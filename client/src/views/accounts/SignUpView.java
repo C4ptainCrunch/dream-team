@@ -8,6 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import constants.GUI.SignUp;
+import misc.utils.JTextFieldSizeLimiter;
 
 
 /**
@@ -96,6 +97,7 @@ public class SignUpView extends JFrame {
             JLabel thisLabel = new JLabel(SignUp.FIELD_LABELS.get(i));
             JTextField thisField = this.fields.get(i);
             thisField = new JTextField();
+            thisField.setDocument(new JTextFieldSizeLimiter(SignUp.FIELD_SIZES.get(i)));
 
             newPanel.add(thisLabel);
             newPanel.add(thisField);

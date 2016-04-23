@@ -2,6 +2,7 @@ package controllers.accounts;
 
 import views.accounts.LoginWindowView;
 import views.accounts.SignUpView;
+import views.management.ProjectManagementView;
 
 /**
  * Created by bambalaam on 21/04/16.
@@ -15,7 +16,8 @@ public class LoginWindowController {
     }
 
     public void login() {
-
+        view.dispose();
+        new ProjectManagementView();
     }
 
     public void signUp() {

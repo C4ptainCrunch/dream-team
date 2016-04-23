@@ -18,14 +18,12 @@ public class SignUpView extends JFrame {
 
     SignUpController controller;
     LoginWindowView loginView;
-    JTextField firstNameField;
-    JTextField lastNameField;
-    JTextField usernameField;
-    JTextField emailField;
+    JTextField firstNameField = new JTextField();
+    JTextField lastNameField = new JTextField();
+    JTextField usernameField = new JTextField();
+    JTextField emailField = new JTextField();
     JPasswordField passwordField;
-
     ArrayList<JTextField> fields;
-
 
     public SignUpView(LoginWindowView loginView) {
         this.controller = new SignUpController(this);
@@ -45,7 +43,6 @@ public class SignUpView extends JFrame {
     }
 
     private void initServiceCondition() {
-
         JOptionPane optionPane = new JOptionPane("Do you accept the service conditions?",
                 JOptionPane.QUESTION_MESSAGE,
                 JOptionPane.YES_NO_OPTION);
@@ -63,9 +60,12 @@ public class SignUpView extends JFrame {
         }
     }
 
+    public void initWarning(String warningText) {
+        JOptionPane.showMessageDialog(this, warningText, "Warning", JOptionPane.WARNING_MESSAGE);
+    }
+
     public void initSignUpPanel() {
         JPanel signUpPanel = new JPanel();
-
         signUpPanel.setLayout(new BoxLayout(signUpPanel, BoxLayout.Y_AXIS));
         initInformationPanel(signUpPanel);
         initButtonsPanel(signUpPanel);
@@ -86,7 +86,7 @@ public class SignUpView extends JFrame {
         signUpPanel.add(informationPanel);
     }
 
-    private void initInfoPanelOptions(JPanel informationsPanel) {
+    private void initInfoPanelOptions(JPanel informationPanel) {
 
         for(int i=0; i< this.fields.size(); i++){
             JPanel newPanel = new JPanel();
@@ -96,12 +96,11 @@ public class SignUpView extends JFrame {
 
             JLabel thisLabel = new JLabel(SignUp.FIELD_LABELS.get(i));
             JTextField thisField = this.fields.get(i);
-            thisField = new JTextField();
             thisField.setDocument(new JTextFieldSizeLimiter(SignUp.FIELD_SIZES.get(i)));
 
             newPanel.add(thisLabel);
             newPanel.add(thisField);
-            informationsPanel.add(newPanel);
+            informationPanel.add(newPanel);
         }
 
         JPanel passwordPanel = new JPanel();
@@ -114,7 +113,7 @@ public class SignUpView extends JFrame {
 
         passwordPanel.add(passwordLabel);
         passwordPanel.add(this.passwordField);
-        informationsPanel.add(passwordPanel);
+        informationPanel.add(passwordPanel);
     }
 
     private void initButtonsPanel(JPanel signupPanel) {
@@ -122,7 +121,7 @@ public class SignUpView extends JFrame {
         buttons.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JButton OKButton = new JButton(SignUp.OK_BUTTON);
-        OKButton.addActionListener(e -> controller.validateFields());
+        OKButton.addActionListener(e -> controller.validateFields(this.fields, this.passwordField));
 
         JButton cancelButton = new JButton(SignUp.CANCEL_BUTTON);
         cancelButton.addActionListener(e -> controller.cancelSignUp());
@@ -133,6 +132,16 @@ public class SignUpView extends JFrame {
         signupPanel.add(buttons);
     }
 
+    public void initTokenInputPane() {
+        this.dispose();
+        JOptionPane optionPane = new JOptionPane("VALIDATION DONE",
+                JOptionPane.QUESTION_MESSAGE,
+                JOptionPane.YES_NO_OPTION);
+        JDialog dialog = optionPane.createDialog(this,"Service conditions");
+        dialog.pack();
+        dialog.setVisible(true);
+    }
+
     public void showLogginView(){
         this.loginView.setVisible(true);
     }
@@ -140,4 +149,5 @@ public class SignUpView extends JFrame {
     public void hideLogginView(){
         this.loginView.setVisible(false);
     }
+
 }

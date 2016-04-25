@@ -1,5 +1,7 @@
 package constants;
 
+import utils.Dirs;
+
 import java.awt.*;
 import java.util.*;
 
@@ -18,6 +20,8 @@ public final class GUI {
         public static final String HELP = "See help panel";
         public static final String DIFF = "Show History";
         public static final String APP_NAME = "CreaTikZ";
+        public static final String OPTIONS_MENU = "Options";
+        public static final String COLOR_BLIND = "ColorBlind mode";
     }
 
     public static final class ProjectManagement {
@@ -82,6 +86,11 @@ public final class GUI {
     }
 
     public static final class Template {
-        public static final String DIR = "./assets/templates/";
+        public static final String DIR = Dirs.getDataDir().resolve("templates").toString();
+    }
+
+    public static final class TextArea {
+        public static final String DEFAULT_THEME = "./assets/syntax_themes/default.xml";
+        public static final String DEFAULT_COLOR_BLINDNESS_THEME = "./assets/syntax_themes/default_color_blindness.xml";
     }
 }

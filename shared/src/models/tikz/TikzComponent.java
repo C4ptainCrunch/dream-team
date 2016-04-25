@@ -79,6 +79,8 @@ public abstract class TikzComponent extends Observable {
      */
     public void setColor(Color color) {
         this.color = color;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -98,6 +100,8 @@ public abstract class TikzComponent extends Observable {
      */
     public void setLabel(String label) {
         this.label = label;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -117,6 +121,8 @@ public abstract class TikzComponent extends Observable {
      */
     public void setStroke(int stroke) {
         this.stroke = stroke;
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -138,6 +144,8 @@ public abstract class TikzComponent extends Observable {
 
     public void setReference(String ref) {
         this.reference = ref;
+        setChanged();
+        notifyObservers();
     }
 
     public boolean isNode() {

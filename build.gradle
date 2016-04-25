@@ -1,0 +1,14 @@
+task zip {
+    copy{
+        dependsOn ":client:distZip"
+        from "client/build/distributions"
+        into "zip"
+        include "*.zip"
+    }
+    copy{
+        dependsOn ":server:distZip"
+        from "server/build/distributions"
+        into "zip"
+        include "*.zip"
+    }
+}

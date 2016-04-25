@@ -1,5 +1,5 @@
-import java.util.logging.Logger;
 
+import java.util.logging.Logger;
 import utils.Log;
 import views.accounts.LoginWindowView;
 
@@ -9,7 +9,7 @@ public class Main {
     public static void main(String... args) {
         Log.init();
         logger.info("Starting project management view");
-
+        
         java.awt.EventQueue.invokeLater(LoginWindowView::new);
 
     }

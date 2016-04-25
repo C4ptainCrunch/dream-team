@@ -12,11 +12,17 @@ CreaTikZ utilise `gradle` comme système de build et Java8, assurez vous d'avoir
 Compilation:
 
     gradle assemble # installation des dépendances java
-   
+
 Démarrage : 
 
     gradle :client:run
-    
+
+Créer un fichier zip pour le client et le serveur (localisé dans ´zip/´):
+
+    gradle zip
+
+Pour lancer le client ou le serveur depuis les zips générés précédemment, il faut les extraire et lancer le bon exécutable dans le dossier ´bin´.
+Le fichier en ´.bat´ sous windows et celui sans extension sous UNIX.
 
 # Tests
 

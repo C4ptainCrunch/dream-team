@@ -250,7 +250,7 @@ public class TikzGraphTest {
         ArrayList<TikzEdge> edges = new ArrayList<>();
 
         String resultString = "\\node[circle, draw]() at (0,0){};\n" + "\\node[circle, draw]() at (0,1){};\n"
-                + "\\node[circle, draw]() at (0,2){};\n" + "\\node[circle, draw]() at (0,3){};\n\n" + "\\draw[] (0, 0) -- (0, 1);\n"
+                + "\\node[circle, draw]() at (0,2){};\n" + "\\node[circle, draw]() at (0,3){};\n" + "\\draw[] (0, 0) -- (0, 1);\n"
                 + "\\draw[] (0, 1) -- (0, 2);\n" + "\\draw[] (0, 2) -- (0, 3);\n";
 
         for (int i = 0; i < length; i++) {

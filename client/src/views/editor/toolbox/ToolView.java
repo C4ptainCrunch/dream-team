@@ -70,8 +70,8 @@ public class ToolView extends JPanel {
      */
     private void initSelectors() {
         tabbedSelector = new JTabbedPane();
-        nodeSelectorView = new NodeSelectorView(model);
-        edgeSelectorView = new EdgeSelectorView(model);
+        nodeSelectorView = new NodeSelectorView(this, model);
+        edgeSelectorView = new EdgeSelectorView(this, model);
         attributesChooserView = new AttributesChooserView(model);
         preview = new PreviewView(model);
         tabbedSelector.addTab(NODE_TAB, nodeSelectorView);
@@ -109,6 +109,10 @@ public class ToolView extends JPanel {
 
     public void resetTool() {
         model.reset();
+    }
+
+    public AttributesChooserView getAttributesChooserView(){
+        return this.attributesChooserView;
     }
 
 }

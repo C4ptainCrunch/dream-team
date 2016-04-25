@@ -33,7 +33,7 @@ public class User {
 
     @XmlAttribute
     public String getUsername() {
-        return username.toUpperCase();
+        return username;
     }
 
 
@@ -56,4 +56,6 @@ public class User {
     public List<String> getDocuments() {
         return documents;
     }
+
+    public void setId(int id) {this.id = id;}
 }

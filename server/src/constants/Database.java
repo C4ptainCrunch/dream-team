@@ -12,7 +12,7 @@ public final class Database {
             "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
             "first_name VARHCAR(16)," +
             "last_name VARCHAR(32)," +
-            "username VARCHAR(16) NOT NULL," +
-            "email VARCAR(32) NOT NULL," +
-            "password TEXT NOT NULL);";
+            "username VARCHAR(16) NOT NULL UNIQUE," +
+            "email VARCAR(32) NOT NULL UNIQUE," +
+            "password TEXT);";
 }

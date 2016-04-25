@@ -5,7 +5,7 @@ package constants;
  */
 public final class Database {
 
-    public static final String DB_FILE = "database/CreaTikZ.db";
+    public static final String DB_FILE = "server/database/CreaTikZ.db";
     public static final String SQLITE_JDBC = "org.sqlite.JDBC";
     public static final String SQLITE_DB_CONNECTION = "jdbc:sqlite:"+ DB_FILE;
     public static final String SQLITE_CREATE_TABLE_USERS = "CREATE TABLE Users(" +

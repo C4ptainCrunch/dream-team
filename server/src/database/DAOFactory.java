@@ -5,19 +5,22 @@ import constants.Database;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Logger;
 
 /**
  * Created by mrmmtb on 21.04.16.
  */
-public class DatabaseCreator {
+public class DAOFactory {
 
-    public DatabaseCreator() {
-        initDatabase();
+    private String sqlite_db_connection;
+
+    public DAOFactory(String sqlite_db_connection) {
+        this.sqlite_db_connection = sqlite_db_connection;
     }
 
-    private boolean exists() {
+    private static boolean exists() {
         File db_file = new File(Database.DB_FILE);
         if (db_file.exists()) {
             return true;
@@ -26,11 +29,11 @@ public class DatabaseCreator {
         return false;
     }
 
-    private void createDatabaseDir(File db_file) {
+    private static void createDatabaseDir(File db_file) {
         db_file.getParentFile().mkdirs();
     }
 
-    private void initDatabase() {
+    public static DAOFactory getInstance() {
         Connection connection;
         Statement statement;
         if (!exists()) {
@@ -47,6 +50,15 @@ public class DatabaseCreator {
                 System.exit(0);
             }
         }
+        DAOFactory instance = new DAOFactory(Database.SQLITE_DB_CONNECTION);
+        return instance;
     }
 
+    public Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(this.sqlite_db_connection);
+    }
+
+    public UsersDAO getUsersDAO() {
+        return new UsersDAOImpl(this);
+    }
 }

@@ -3,9 +3,6 @@ package parser;
 import models.tikz.*;
 import java.awt.*;
 
-/**
- * Created by jhellinckx on 21/04/16.
- */
 public class TikzFormatter {
     private TikzFormatter(){}
 
@@ -25,27 +22,23 @@ public class TikzFormatter {
     }
 
     public static String format(TikzCircle circle) {
-        return tikzSource(circle, String.join(", ",  "circle", "draw", "radius=" + circle.getRadius(), getCommonOptions(circle) ));
-    }
-
-    private static String getCommonOptions(TikzComponent comp) {
-        return "color=" + TikzColors.ColorToString(comp.getStrokeColor()); //TODO
+        return tikzSource(circle, String.join(", ",  "circle", "draw", "radius=" + circle.getRadius(), getCommonOptions(circle), getShapeOptions(circle) ));
     }
 
     public static String format(TikzRectangle rectangle){
-        return tikzSource(rectangle, String.join(", ", "rectangle", "draw" , "minimum width=" + rectangle.getWidth(), "minimum height=" + rectangle.getLength()));
+        return tikzSource(rectangle, String.join(", ", "rectangle", "draw" , "minimum width=" + rectangle.getWidth(), "minimum height=" + rectangle.getLength(), getCommonOptions(rectangle), getShapeOptions(rectangle)));
     }
 
     public static String format(TikzPolygon polygon){
-        return tikzSource(polygon, String.join(", ", "regular polygon", "draw", "minimum size=" + polygon.getLength(), "regular polygon sides=" + polygon.getSides() ));
+        return tikzSource(polygon, String.join(", ", "regular polygon", "draw", "minimum size=" + polygon.getLength(), "regular polygon sides=" + polygon.getSides(), getCommonOptions(polygon), getShapeOptions(polygon) ));
     }
 
     public static String format(TikzDirectedEdge edge){
-        return tikzSource(edge, String.join(", ", new String[] { "->" }));
+        return tikzSource(edge, String.join(", ",  "->", getCommonOptions(edge) ));
     }
 
     public static String format(TikzUndirectedEdge edge){
-        return tikzSource(edge, String.join(", ", new String[] {}));
+        return tikzSource(edge, String.join(", ", getCommonOptions(edge)));
     }
 
     public static String format(TikzVoid tikzVoid){
@@ -54,6 +47,14 @@ public class TikzFormatter {
 
     public static String format(TikzText text){
         throw new RuntimeException("Not implemented");
+    }
+
+    private static String getCommonOptions(TikzComponent comp) {
+        return "color=" + TikzColors.ColorToString(comp.getColor()) + ", line width=" + Integer.toString(comp.getStroke());
+    }
+
+    private static String getShapeOptions(TikzShape shape){
+        return String.join(", ", "fill=" + TikzColors.ColorToString(shape.getBackgroundColor()));
     }
 }
 

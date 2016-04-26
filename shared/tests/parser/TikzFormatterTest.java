@@ -19,14 +19,14 @@ import static org.junit.Assert.assertEquals;
  */
 public class TikzFormatterTest {
     private TikzGraph graph;
+
     @Before
     public void setUp() throws Exception {
-        TikzGraph graph = new TikzGraph();
+        graph = new TikzGraph();
     }
 
     @After
     public void tearDown() throws Exception {
-
     }
 
     private TikzShape getFirstShape() {
@@ -40,7 +40,7 @@ public class TikzFormatterTest {
         TikzCircle circle = new TikzCircle();
         circle.setBackgroundColor(testedColor);
         String tikzSource = circle.toString();
-        NodeParser.nodeFromNode(graph).parse(tikzSource);
+        NodeParser.parseDocument(graph).parse(tikzSource);
         TikzCircle parsedCircle = (TikzCircle) getFirstShape();
         Assert.assertEquals(parsedCircle.getBackgroundColor(),testedColor);
     }
@@ -51,7 +51,7 @@ public class TikzFormatterTest {
         TikzCircle circle = new TikzCircle();
         circle.setStroke(testedStroke);
         String tikzSource = circle.toString();
-        NodeParser.nodeFromNode(graph).parse(tikzSource);
+        NodeParser.parseDocument(graph).parse(tikzSource);
         TikzCircle parsedCircle = (TikzCircle) getFirstShape();
         Assert.assertEquals(parsedCircle.getStroke(),testedStroke);
     }
@@ -62,7 +62,7 @@ public class TikzFormatterTest {
         TikzCircle circle = new TikzCircle();
         circle.setStrokeColor(testedStrokeColor);
         String tikzSource = circle.toString();
-        NodeParser.nodeFromNode(graph).parse(tikzSource);
+        NodeParser.parseDocument(graph).parse(tikzSource);
         TikzCircle parsedCircle = (TikzCircle) getFirstShape();
         Assert.assertEquals(parsedCircle.getStrokeColor(),testedStrokeColor);
     }
@@ -75,7 +75,7 @@ public class TikzFormatterTest {
         rectangle.setWidth(testeWidth);
         rectangle.setLength(testedHeight);
         String tikzSource = rectangle.toString();
-        NodeParser.nodeFromNode(graph).parse(tikzSource);
+        NodeParser.parseDocument(graph).parse(tikzSource);
         TikzRectangle parsedRectangle = (TikzRectangle) getFirstShape();
         Assert.assertEquals(parsedRectangle.getWidth(),testeWidth);
         Assert.assertEquals(parsedRectangle.getLength(),testedHeight);
@@ -87,7 +87,7 @@ public class TikzFormatterTest {
         TikzCircle circle = new TikzCircle();
         circle.setRadius(testedRadius);
         String tikzSource = circle.toString();
-        NodeParser.nodeFromNode(graph).parse(tikzSource);
+        NodeParser.parseDocument(graph).parse(tikzSource);
         TikzCircle parsedCircle = (TikzCircle) getFirstShape();
         Assert.assertEquals(parsedCircle.getRadius(),testedRadius);
     }
@@ -98,7 +98,7 @@ public class TikzFormatterTest {
         TikzPolygon polygon = new TikzPolygon();
         polygon.setSides(numSidesTested);
         String tikzSource = polygon.toString();
-        NodeParser.nodeFromNode(graph).parse(tikzSource);
+        NodeParser.parseDocument(graph).parse(tikzSource);
         TikzPolygon parsedPolygon = (TikzPolygon) getFirstShape();
         Assert.assertEquals(parsedPolygon.getSides(),numSidesTested);
     }
@@ -109,7 +109,7 @@ public class TikzFormatterTest {
         TikzPolygon polygon = new TikzPolygon();
         polygon.setLength(testedLength);
         String tikzSource = polygon.toString();
-        NodeParser.nodeFromNode(graph).parse(tikzSource);
+        NodeParser.parseDocument(graph).parse(tikzSource);
         TikzPolygon parsedPolygon = (TikzPolygon) getFirstShape();
         Assert.assertEquals(parsedPolygon.getLength(),testedLength);
     }
@@ -118,7 +118,7 @@ public class TikzFormatterTest {
     public void testStringDefaultOptions() throws Exception{
         TikzCircle circle = new TikzCircle();
         String tikzSource = circle.toString();
-        NodeParser.nodeFromNode(graph).parse(tikzSource);
+        NodeParser.parseDocument(graph).parse(tikzSource);
         TikzCircle parsedCircle = (TikzCircle) getFirstShape();
         Assert.assertEquals(parsedCircle.getRadius(), Models.DEFAULT.LENGTH);
         Assert.assertEquals(parsedCircle.getBackgroundColor(), Models.DEFAULT.BACKGROUND_COLOR);

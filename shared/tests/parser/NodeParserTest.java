@@ -134,7 +134,6 @@ public class NodeParserTest {
         String text = "\\draw[color=red] (0,0) node[draw, rectangle] {a};\n \n \t";
         TikzGraph graph = new TikzGraph();
         NodeParser.parseDocument(graph).parse(text);
-        System.out.println(graph.toString());
         Assert.assertEquals(graph.size(), 1);
     }
 

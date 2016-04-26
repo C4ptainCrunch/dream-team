@@ -27,7 +27,28 @@ public class TikzFormatterTest {
     }
 
     @Test
-    public void testToString() throws Exception {
+    public void testStringBackgroundColor() throws Exception{
+        
+    }
+
+    @Test
+    public void testStringStrokeColor() throws Exception {
+
+    }
+
+    @Test
+    public void testStringStrokeWidth() throws Exception{
+
+    }
+
+    @Test
+    public void testStringDefaultOptions() throws Exception{
+
+    }
+
+
+
+    public void tagueule(){
         int length = 4;
         TikzNode testNode;
         TikzEdge testEdge;
@@ -35,6 +56,7 @@ public class TikzFormatterTest {
 
         ArrayList<TikzNode> nodes = new ArrayList<>();
         ArrayList<TikzEdge> edges = new ArrayList<>();
+
 
         String resultString = "\\node[circle, draw](a) at (0,0){};\n" + "\\node[circle, draw](b) at (0,1){};\n"
                 + "\\node[circle, draw](c) at (0,2){};\n" + "\\node[circle, draw](d) at (0,3){};\n\n" + "\\draw[] (a) -- (b);\n"

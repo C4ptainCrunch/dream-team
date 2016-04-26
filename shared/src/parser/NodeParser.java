@@ -141,7 +141,8 @@ public class NodeParser {
                 Parsers.sequence(MAYBEWHITESPACES, reference()),
                 Parsers.sequence(Scanners.WHITESPACES, Scanners.string("at"), Scanners.WHITESPACES, coordinates()),
                 Parsers.sequence(MAYBEWHITESPACES, maybeLabel), (options, ref, coord, label) -> {
-                    graph.add(Utils.createNode(new DestructuredNode(options, ref, coord, label)));
+                    TikzNode maybeNode = Utils.createNode(new DestructuredNode(options, ref, coord, label));
+                    if(maybeNode != null) {graph.add(maybeNode);}
                     return null;
                 });
     }

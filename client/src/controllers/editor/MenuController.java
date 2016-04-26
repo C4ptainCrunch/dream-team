@@ -111,9 +111,22 @@ public class MenuController implements Observer {
      *            The view in which the menu view associated with this
      *            controller is contained
      */
-    public void exit(EditorView parentView) {
-        save();
-        parentView.dispose();
+    public void saveAndQuit(EditorView parentView) {
+        boolean shouldQuit = true;
+        if(this.project.isTemporary()){
+            int r = JOptionPane.showConfirmDialog(this.view, "Would you like to save your project ?");
+            if(r == JOptionPane.NO_OPTION){
+            } else if (r == JOptionPane.CANCEL_OPTION){
+                shouldQuit = false;
+            } else if (r == JOptionPane.YES_OPTION) {
+                save();
+            }
+        } else {
+            save();
+        }
+        if(shouldQuit){
+            parentView.dispose();
+        }
     }
 
     public void setColorBlindMode(int stateChange) {

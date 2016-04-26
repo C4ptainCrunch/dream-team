@@ -54,7 +54,7 @@ public class EditorController implements Observer {
         if(this.project.isTemporary()){
             title = title + "(Unsaved)";
         } else {
-            title = title + this.project.getName();
+            title = title + this.project.getName() + ".tikz";
         }
         this.view.setTitle(title);
     }

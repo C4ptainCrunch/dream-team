@@ -26,17 +26,22 @@ public class Template extends TikzIO {
         dir.mkdir();
     }
 
-    private void createSaveFile(String filename) throws IOException {
-        template_file = TikzIO.createSaveFile(filename, GUI.Template.DIR);
+    public static File createSaveFile(String filename, String dir) throws IOException {
+        File file = TikzIO.createSaveFile(filename, dir);
+        return file;
     }
 
-    public File saveTemplate(String name) throws IOException {
+    public File saveTemplate(String name, String dir) throws IOException {
         createDirectory();
         if (graph != null && name != null) {
-            createSaveFile(name);
+            template_file = createSaveFile(name, dir);
             writeTikz(this.graph.toString(), template_file);
         }
         return template_file;
+    }
+
+    public File saveTemplate(String name) throws IOException {
+        return saveTemplate(name, GUI.Template.DIR);
     }
 
     public void loadTemplate(File file) throws IOException {

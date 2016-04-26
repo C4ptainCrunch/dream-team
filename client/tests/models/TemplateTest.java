@@ -2,7 +2,6 @@ package models;
 
 import static org.junit.Assert.*;
 
-import constants.GUI;
 import models.tikz.TikzCircle;
 import models.tikz.TikzGraph;
 import org.junit.After;
@@ -15,9 +14,6 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-/**
- * Created by aurelien on 26/04/16.
- */
 public class TemplateTest {
 
     private static final String TEST_1_FILENAME = "test";
@@ -39,7 +35,7 @@ public class TemplateTest {
 
     @After
     public void tearDown() throws Exception{
-        Path p = Paths.get(GUI.Template.DIR);
+        Path p = Paths.get(folder.toString());
         deleteFile(TEST_1_FILENAME, p);
         deleteFile(TEST_2_FILENAME, p);
     }
@@ -49,7 +45,7 @@ public class TemplateTest {
 
     @Test
     public void testFileCreation() throws Exception {
-        File f = template.saveTemplate(TEST_1_FILENAME);
+        File f = template.saveTemplate(folder.newFile(TEST_1_FILENAME).toString(), folder.toString());
 
         assertEquals(f.getName(), template.getTemplateName());
         assertEquals(f.exists(), true);
@@ -60,9 +56,9 @@ public class TemplateTest {
         TikzGraph graph = new TikzGraph();
         graph.add(new TikzCircle());
         template.setGraph(graph);
-        Path p = Paths.get(GUI.Template.DIR);
+        Path p = Paths.get(folder.getRoot().toString());
 
-        template.saveTemplate(TEST_2_FILENAME);
+        template.saveTemplate(folder.newFile(TEST_2_FILENAME).toString(), folder.toString());
         File f = p.resolve(TEST_2_FILENAME).toFile();
         template.loadTemplate(f);
         assertEquals(graph.size(), template.getGraph().size());

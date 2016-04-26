@@ -46,17 +46,9 @@ public class ProjectManagementController {
     }
 
     public void createProject() {
-        FileChooseView choose = new FileChooseView("Create project", JFileChooser.DIRECTORIES_ONLY);
-        Path path = choose.ask().toPath();
-        if (path != null) {
-            try {
-                Project p = new Project(path);
-                editProject(p);
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(view, Errors.CREATE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
-                logger.severe("Failed to create new project: " + e.getMessage());
-            }
-        }
+        try {
+            editProject(new Project());
+        } catch (IOException e) {}
     }
 
     public void openProject() {

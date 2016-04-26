@@ -22,6 +22,8 @@ import constants.Models;
 public class Project extends TikzIO implements Comparable<Project> {
     private final static Logger logger = Log.getLogger(Project.class);
     private Path path;
+    private boolean isTempDir = false;
+
 
 
     /**
@@ -41,6 +43,13 @@ public class Project extends TikzIO implements Comparable<Project> {
             logger.fine("Warning: error while opening the project's tikz file: " + e.toString());
             this.graph = new TikzGraph();
         }
+    }
+
+    public Project() throws IOException {
+        super();
+        this.graph = new TikzGraph();
+        this.path = Files.createTempDirectory(null);
+        this.isTempDir = true;
     }
 
     /**
@@ -157,7 +166,11 @@ public class Project extends TikzIO implements Comparable<Project> {
         File original = this.getPath().toFile();
         original.renameTo(newDir);
         this.path = newDir.toPath();
+        this.isTempDir = false;
         RecentProjects.addProject(this);
+
+        this.setChanged();
+        this.notifyObservers();
     }
 
     /**
@@ -227,5 +240,9 @@ public class Project extends TikzIO implements Comparable<Project> {
 
     public boolean exists() {
         return Files.exists(this.path);
+    }
+
+    public boolean isTemporary() {
+        return isTempDir;
     }
 }

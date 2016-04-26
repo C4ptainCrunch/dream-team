@@ -18,6 +18,7 @@ import utils.PdfRenderer;
 import views.editor.EditorView;
 import views.editor.MenuView;
 import views.help.HelpView;
+import views.management.FileChooseView;
 import views.management.HistoryView;
 import constants.Errors;
 
@@ -63,6 +64,12 @@ public class MenuController implements Observer {
      */
     public void save() {
         try {
+            if(this.project.isTemporary()){
+                File newDir = new FileChooseView("Save project", JFileChooser.DIRECTORIES_ONLY).ask();
+                if(newDir != null){
+                    this.project.rename(newDir);
+                }
+            }
             this.project.save();
         } catch (IOException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(view, Errors.SAVE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);

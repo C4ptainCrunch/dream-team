@@ -65,7 +65,7 @@ public class EditorView extends JFrame {
      * views that are contained within this view
      */
     public final void render() {
-        this.setTitle(GUI.MenuBar.APP_NAME);
+        this.controller.setTitle();
 
         DisplayMode gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
 

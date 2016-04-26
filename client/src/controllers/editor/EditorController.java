@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
+import constants.GUI;
 import models.project.Project;
 import utils.Log;
 import views.editor.EditorView;
@@ -35,14 +36,26 @@ public class EditorController implements Observer {
         this.view = view;
         this.project = project;
         this.project.getGraph().addObserver(this);
+        this.project.addObserver(this);
     }
 
     public void update(Observable o, Object arg) {
         try {
             this.project.save();
+            this.setTitle();
         } catch (IOException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(view, Errors.SAVE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
             logger.severe("Project saved failed : " + e.toString());
         }
+    }
+
+    public void setTitle() {
+        String title = GUI.MenuBar.APP_NAME + " - ";
+        if(this.project.isTemporary()){
+            title = title + "(Unsaved)";
+        } else {
+            title = title + this.project.getName();
+        }
+        this.view.setTitle(title);
     }
 }

@@ -25,15 +25,19 @@ public class TikzFormatter {
     }
 
     public static String format(TikzCircle circle) {
-        return tikzSource(circle, String.join(", ",  "circle", "draw",  ));
+        return tikzSource(circle, String.join(", ",  "circle", "draw", "radius=" + circle.getRadius(), getCommonOptions(circle) ));
+    }
+
+    private static String getCommonOptions(TikzComponent comp) {
+        return "color=" + TikzColors.ColorToString(comp.getColor()); //TODO
     }
 
     public static String format(TikzRectangle rectangle){
-        return tikzSource(rectangle, String.join(", ", new String[] { "rectangle", "draw" }));
+        return tikzSource(rectangle, String.join(", ", "rectangle", "draw" , "minimum width=" + rectangle.getWidth(), "minimum height=" + rectangle.getLength()));
     }
 
     public static String format(TikzPolygon polygon){
-        return tikzSource(polygon, String.join(", ", new String[] { "regular polygon", "draw" }));
+        return tikzSource(polygon, String.join(", ", "regular polygon", "draw", "minimum size=" + polygon.getLength(), "regular polygon sides=" + polygon.getSides() ));
     }
 
     public static String format(TikzDirectedEdge edge){

@@ -24,6 +24,11 @@ Créer un fichier zip pour le client et le serveur (localisé dans ´zip/´):
 Pour lancer le client ou le serveur depuis les zips générés précédemment, il faut les extraire et lancer le bon exécutable dans le dossier ´bin´.
 Le fichier en ´.bat´ sous windows et celui sans extension sous UNIX.
 
+Créer un jar pour le client (commande a lancer deux fois):
+
+    gradle onejar
+
+
 # Tests
 
 Les tests se trouvent dans `/tests` et peuvent être exécutés avec `gradle test`.

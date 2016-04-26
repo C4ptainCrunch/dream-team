@@ -58,8 +58,6 @@ public class LaTeXBuilderTest {
                 + "\\node[circle, draw](b) at (0,1){};\n" + "\\node[circle, draw](c) at (0,2){};\n" + "\\node[circle, draw](d) at (0,3){};\n\n"
                 + "\\draw[] (a) -- (b);\n" + "\\draw[] (b) -- (c);\n" + "\\draw[] (c) -- (d);\n" + "\\end{tikzpicture}\n"
                 + "\\end{document}\n";
-
-        System.out.println(LaTeXBuilder.toLaTeX(graph));
         assertEquals(expectedString, LaTeXBuilder.toLaTeX(graph));
 
     }

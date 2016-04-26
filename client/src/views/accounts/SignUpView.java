@@ -132,16 +132,6 @@ public class SignUpView extends JFrame {
         signupPanel.add(buttons);
     }
 
-    public void initTokenInputPane() {
-        this.dispose();
-        JOptionPane optionPane = new JOptionPane("VALIDATION DONE",
-                JOptionPane.QUESTION_MESSAGE,
-                JOptionPane.YES_NO_OPTION);
-        JDialog dialog = optionPane.createDialog(this,"Service conditions");
-        dialog.pack();
-        dialog.setVisible(true);
-    }
-
     public void showLogginView(){
         this.loginView.setVisible(true);
     }

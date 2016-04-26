@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import org.apache.commons.validator.routines.EmailValidator;
+import views.accounts.TokenActivationView;
 
 /**
  * Created by mrmmtb on 21.04.16.
@@ -51,7 +52,8 @@ public class SignUpController {
 
         if(firstNameCheck && lastNameCheck && userNameCheck && emailCheck) {
             accountCreation();
-            this.view.initTokenInputPane();
+            new TokenActivationView();
+            this.view.dispose();
         }
     }
 

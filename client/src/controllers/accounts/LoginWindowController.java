@@ -2,6 +2,7 @@ package controllers.accounts;
 
 import views.accounts.LoginWindowView;
 import views.accounts.SignUpView;
+import views.accounts.TokenActivationView;
 import views.management.ProjectManagementView;
 
 /**
@@ -22,5 +23,9 @@ public class LoginWindowController {
 
     public void signUp() {
         new SignUpView(this.view);
+    }
+
+    public void tokenActivation() {
+        new TokenActivationView();
     }
 }

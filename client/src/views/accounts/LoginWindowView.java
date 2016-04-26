@@ -86,8 +86,12 @@ public class LoginWindowView extends JFrame {
         JButton signUp = new JButton(LoginWindow.SIGNUP_BUTTON);
         signUp.addActionListener(e -> controller.signUp());
 
+        JButton tokenActivation = new JButton(LoginWindow.TOKEN_BUTTON);
+        tokenActivation.addActionListener(e -> controller.tokenActivation());
+
         buttons.add(login);
         buttons.add(signUp);
+        buttons.add(tokenActivation);
 
         this.loginWindowPanel.add(buttons);
     }

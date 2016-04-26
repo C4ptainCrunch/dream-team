@@ -1,28 +1,24 @@
 package models;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import models.project.TikzIO;
 import models.tikz.TikzGraph;
 import constants.GUI;
 
-// TODO: Refactor this, duplicated code with Project model.
+public class Template extends TikzIO {
 
-public class Template {
-
-    private TikzGraph graph;
     private File template_file;
 
     public Template() {
-        graph = null;
+        super();
     }
 
     public Template(TikzGraph g) {
-        graph = g;
+        super(g);
     }
 
     private void createDirectory() throws IOException {
@@ -31,20 +27,14 @@ public class Template {
     }
 
     private void createSaveFile(String filename) throws IOException {
-        Path dir = Paths.get(GUI.Template.DIR);
-        template_file = dir.resolve(filename).toFile();
-        if (!template_file.exists()) {
-            new FileOutputStream(template_file).close();
-        }
+        template_file = TikzIO.createSaveFile(filename, GUI.Template.DIR);
     }
 
     public File saveTemplate(String name) throws IOException {
         createDirectory();
         if (graph != null && name != null) {
             createSaveFile(name);
-            PrintWriter sourceWriter = new PrintWriter(template_file);
-            sourceWriter.println(this.graph.toString());
-            sourceWriter.close();
+            writeTikz(this.graph.toString(), template_file);
         }
         return template_file;
     }
@@ -53,10 +43,6 @@ public class Template {
         Path p = Paths.get(file.getAbsolutePath());
         template_file = file;
         graph = new TikzGraph(p.toString());
-    }
-
-    public TikzGraph getTemplateGraph() {
-        return graph;
     }
 
     public String getTemplateName() {

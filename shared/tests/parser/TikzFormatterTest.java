@@ -123,6 +123,6 @@ public class TikzFormatterTest {
         Assert.assertEquals(parsedCircle.getRadius(), Models.DEFAULT.LENGTH);
         Assert.assertEquals(parsedCircle.getBackgroundColor(), Models.DEFAULT.BACKGROUND_COLOR);
         Assert.assertEquals(parsedCircle.getStrokeColor(), Models.DEFAULT.COLOR);
-        Assert.assertEquals(parsedCircle.getStroke(), Models.DEFAULT.SIDES);
+        Assert.assertEquals(parsedCircle.getStroke(), Models.DEFAULT.STROKE);
     }
 }

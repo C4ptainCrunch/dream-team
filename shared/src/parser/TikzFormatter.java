@@ -26,16 +26,15 @@ public class TikzFormatter {
     }
 
     public static String format(TikzCircle circle) {
-        List<String> options = Arrays.asList("circle", "draw");
+        List<String> options = new ArrayList<>(Arrays.asList("circle", "draw"));
         if (circle.getRadius() != Models.DEFAULT.LENGTH) {options.add("radius=" + Integer.toString(circle.getRadius()));}
         options.addAll(getCommonOptions(circle));
         options.addAll(getShapeOptions(circle));
-        String radiusOption = circle.getRadius() == Models.DEFAULT.LENGTH ? "" : ", radius="+Integer.toString(circle.getRadius());
         return tikzSource(circle, String.join(", ",  options));
     }
 
     public static String format(TikzRectangle rectangle){
-        List<String> options = Arrays.asList("rectangle", "draw");
+        List<String> options = new ArrayList<>(Arrays.asList("rectangle", "draw"));
         if (rectangle.getWidth() != Models.DEFAULT.LENGTH) {options.add("minimum width=" + Integer.toString(rectangle.getWidth()));}
         if (rectangle.getLength() != Models.DEFAULT.LENGTH) {options.add("minimum height=" + Integer.toString(rectangle.getLength()));}
         options.addAll(getCommonOptions(rectangle));
@@ -44,9 +43,7 @@ public class TikzFormatter {
     }
 
     public static String format(TikzPolygon polygon){
-        ArrayList<String> options = new ArrayList<>();
-        options.add("regular polygon");
-        options.add("draw");
+        ArrayList<String> options = new ArrayList<>(Arrays.asList("regular polygon", "draw"));
         if (polygon.getLength() != Models.DEFAULT.LENGTH) {options.add("minimum size=" + Integer.toString(polygon.getLength()));}
         if (polygon.getSides() != Models.DEFAULT.SIDES) {options.add("regular polygon sides=" + Integer.toString(polygon.getSides()));}
         options.addAll(getCommonOptions(polygon));
@@ -81,7 +78,7 @@ public class TikzFormatter {
 
     private static List<String> getShapeOptions(TikzShape shape){
         ArrayList<String> options = new ArrayList<>();
-        if (!shape.getBackgroundColor().equals(Models.DEFAULT.BACKGROUND_COLOR)) {options.add(TikzColors.ColorToString(shape.getBackgroundColor()));}
+        if (!shape.getBackgroundColor().equals(Models.DEFAULT.BACKGROUND_COLOR)) {options.add("fill=" + TikzColors.ColorToString(shape.getBackgroundColor()));}
         return options;
     }
 }

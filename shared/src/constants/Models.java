@@ -23,4 +23,9 @@ public final class Models {
         public static final String SAVE_FILE = "save.tikz";
         public static final String DIFF_FILE = "diffs";
     }
+
+    public class Graph {
+        public static final String latexPrelude = "\\documentclass{article}\n\\usepackage{tikz}\n\\begin{document}\n\\begin{tikzpicture}[x=0.0625em,y=0.0625em]\n";
+        public static final String latexPostlude = "\\end{tikzpicture}\n\\end{document}\n";
+    }
 }

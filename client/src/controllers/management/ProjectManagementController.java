@@ -32,9 +32,9 @@ public class ProjectManagementController {
         view.dispose(); // Exit previous windows
     }
 
-    public void dropdownSelected(ActionEvent event) {
-        JComboBox comboBox = (JComboBox) event.getSource();
+    public void dropdownSelected(JComboBox comboBox) {
         Project selectedProject = (Project) comboBox.getSelectedItem();
+        logger.info(selectedProject.toString());
 
         try {
             String text = String.format(ProjectManagement.BLANK_INFO_PANEL, selectedProject.getName(), "Local",

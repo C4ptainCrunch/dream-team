@@ -28,8 +28,8 @@ public class ProjectManagementView extends JFrame {
         this.setLayout(new BorderLayout());
 
         createButtonsPanel();
-        createChooserPanel();
         createInfoPanel();
+        createChooserPanel();
 
         this.pack();
         this.setVisible(true);
@@ -65,7 +65,8 @@ public class ProjectManagementView extends JFrame {
         this.projectChooser = new JComboBox<>();
         this.projectChooser.setModel(new DefaultComboBoxModel(recentProjects));
 
-        this.projectChooser.addActionListener(e -> controller.dropdownSelected(e));
+        this.projectChooser.addActionListener(e -> controller.dropdownSelected((JComboBox) e.getSource()));
+        controller.dropdownSelected(this.projectChooser);
 
         chooserPanel.add(new JLabel(GUI.ProjectManagement.DROPDOWN_HEADER), BorderLayout.NORTH);
         chooserPanel.add(this.projectChooser, BorderLayout.CENTER);

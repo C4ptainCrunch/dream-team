@@ -2,6 +2,8 @@ package parser;
 
 import java.util.*;
 
+import com.sun.javafx.sg.prism.NGShape;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import models.tikz.*;
 import constants.Models;
 
@@ -208,8 +210,8 @@ class Utils {
      */
     public static TikzNode createNode(Map<String, String> defaultOptions, DestructuredNode node) {
         final String shape = getNodeShape(defaultOptions, node.getOptions()).orElse("void");
-        final String strokeColor = getStrokeColorShape(defaultOptions, node.getOptions()).orElse("black");
-        final String backgroundColor = getBackgroundColorShape(defaultOptions, node.getOptions()).orElse("black"); //TODO CONSTANTS IN DEFAULT FOR BLACK
+        final String strokeColor = getStrokeColorShape(defaultOptions, node.getOptions()).orElse(TikzColors.ColorToString(Models.DEFAULT.COLOR));
+        final String backgroundColor = getBackgroundColorShape(defaultOptions, node.getOptions()).orElse(TikzColors.ColorToString(Models.DEFAULT.BACKGROUND_COLOR));
         final int stroke = getOptionStroke(defaultOptions, node.getOptions()).orElse(Models.DEFAULT.STROKE);
         TikzShape res;
         if (rectangles.contains(shape)) {

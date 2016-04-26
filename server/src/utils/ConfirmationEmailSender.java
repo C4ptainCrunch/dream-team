@@ -1,5 +1,7 @@
 package utils;
 
+import constants.Email;
+
 import java.util.Properties;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -27,11 +29,8 @@ public class ConfirmationEmailSender {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.setSubject("This is the Subject Line!");
-            message.setText("Dear CreaTikZ user. Here is your token: "+token+
-                            "\nPlease input it on the window that opened after you signed up." +
-                            "\nIf you closed the program in the meantime, relaunch the program" +
-                            " and click on 'Token Activation'");
+            message.setSubject(Email.subjectLine);
+            message.setText(Email.emailBodyPartOne+token+Email.emailBodyPartTwo);
             Transport.send(message);
         }catch (MessagingException mex) {
             mex.printStackTrace();

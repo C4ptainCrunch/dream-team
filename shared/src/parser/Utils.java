@@ -58,7 +58,19 @@ class Utils {
      *            map of options
      * @return an optional name of a color
      */
-    private static Optional<String> getColorShape(Map<String, String> map) {
+    private static Optional<String> getBackgroundColorShape(Map<String, String> map) {
+        if (map.containsKey("fill")) {
+            return Optional.of(map.get("fill"));
+        }
+        for (String c : colors) {
+            if (map.containsKey(c)) {
+                return Optional.of(c);
+            }
+        }
+        return Optional.empty();
+    }
+
+    private static Optional<String> getStrokeColorShape(Map<String, String> map){
         if (map.containsKey("color")) {
             return Optional.of(map.get("color"));
         }
@@ -79,9 +91,14 @@ class Utils {
      *            map of options
      * @return an optional name of a color
      */
-    private static Optional<String> getColorShape(Map<String, String> m1, Map<String, String> m2) {
-        Optional<String> color = getColorShape(m1);
-        return color.isPresent() ? color : getColorShape(m2);
+    private static Optional<String> getStrokeColorShape(Map<String, String> m1, Map<String, String> m2) {
+        Optional<String> color = getStrokeColorShape(m1);
+        return color.isPresent() ? color : getStrokeColorShape(m2);
+    }
+
+    private static Optional<String> getBackgroundColorShape(Map<String, String> m1, Map<String, String> m2) {
+        Optional<String> color = getBackgroundColorShape(m1);
+        return color.isPresent() ? color : getBackgroundColorShape(m2);
     }
 
     /**
@@ -177,6 +194,7 @@ class Utils {
         return optionStroke.isPresent() ? optionStroke : getOptionStroke(m2);
     }
 
+
     /**
      * Creates a tikz node from a destructured node and a list of options
      * defining this node
@@ -190,8 +208,10 @@ class Utils {
      */
     public static TikzNode createNode(Map<String, String> defaultOptions, DestructuredNode node) {
         final String shape = getNodeShape(defaultOptions, node.getOptions()).orElse("void");
-        final String color = getColorShape(defaultOptions, node.getOptions()).orElse("black");
-        TikzNode res;
+        final String strokeColor = getStrokeColorShape(defaultOptions, node.getOptions()).orElse("black");
+        final String backgroundColor = getBackgroundColorShape((defaultOptions, node.getOptions()).orElse("black"); //TODO CONSTANTS IN DEFAULT FOR BLACK
+        final int stroke = getOptionStroke(defaultOptions, node.getOptions()).orElse(Models.DEFAULT.STROKE);
+        TikzShape res;
         if (rectangles.contains(shape)) {
             int width = getOptionInt("minimum width", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.LENGTH);
             int height = getOptionInt("minimum height", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.LENGTH);
@@ -203,13 +223,14 @@ class Utils {
             int size = getOptionInt("minimum size", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.LENGTH);
             int sides = getOptionInt("regular polygon sides", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.SIDES);
             res = new TikzPolygon(size, sides);
-        } else {
-            res = new TikzVoid();
+        } else{
+            return null;
         }
         res.setPosition(node.getCoordinates());
         res.setLabel(node.getLabel());
-        res.setStrokeColor(TikzColors.StringToColor(color));
-        res.setStroke(getOptionStroke(defaultOptions, node.getOptions()).orElse(Models.DEFAULT.STROKE));
+        res.setStrokeColor(TikzColors.StringToColor(strokeColor));
+        res.setBackgroundColor(TikzColors.StringToColor(backgroundColor));
+        res.setStroke(stroke);
         final Optional<String> ref = node.getRef();
         if (ref.isPresent()) {
             res.setReference(ref.get());
@@ -229,7 +250,8 @@ class Utils {
     }
 
     public static TikzEdge createEdge(HashMap<String, String> options, TikzNode n1, TikzNode n2) {
-        final String color = getColorShape(options).orElse(Models.DEFAULT.COLOR.toString());
+        final String color = getBackgroundColorShape(options).orElse(Models.DEFAULT.COLOR.toString());
+        final int stroke = getOptionStroke(options).orElse(Models.DEFAULT.STROKE);
         TikzEdge res;
         switch (isDirected(options)) {
         case RIGHTDIRECTED:
@@ -243,6 +265,7 @@ class Utils {
             break;
         }
         res.setStrokeColor(TikzColors.StringToColor(color));
+        res.setStroke(stroke);
         return res;
     }
 

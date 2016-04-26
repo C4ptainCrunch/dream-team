@@ -162,13 +162,17 @@ public class NodeParser {
                     TikzNode previous;
                     TikzNode current;
                     previous = Utils.createNode(defaultOptions, firstNode);
-                    graph.add(previous);
-                    for (DestructuredNode destructuredNode : restNode) {
-                        current = Utils.createNode(defaultOptions, destructuredNode);
-                        graph.add(current);
-                        graph.add(new TikzUndirectedEdge(previous,
-                                current)); /* TODO: parsing edges */
-                        previous = current;
+                    if(previous != null) {
+                        graph.add(previous);
+                        for (DestructuredNode destructuredNode : restNode) {
+                            current = Utils.createNode(defaultOptions, destructuredNode);
+                            if(current != null) {
+                                graph.add(current);
+                                graph.add(new TikzUndirectedEdge(previous,
+                                        current)); /* TODO: parsing edges */
+                                previous = current;
+                            }
+                        }
                     }
                     return null;
                 });

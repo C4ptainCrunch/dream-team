@@ -52,7 +52,7 @@ public class TikzFormatter {
     }
 
     public static String format(TikzDirectedEdge edge){
-        List<String> options = Collections.singletonList("->");
+        List<String> options = new ArrayList<>(Collections.singletonList("->"));
         options.addAll(getCommonOptions(edge));
         return tikzSource(edge, String.join(", ", options));
     }

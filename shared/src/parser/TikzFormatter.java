@@ -11,7 +11,7 @@ public class TikzFormatter {
 
     public static String tikzSource(TikzNode node, String options){
         Point position = node.getPosition();
-        return String.format("\\node[s](%s) at (%.0f,%.0f){%s};\n", options, node.getReference(), position.getX(), position.getY(), node.getLabel());
+        return String.format("\\node[%s](%s) at (%.0f,%.0f){%s};\n", options, node.getReference(), position.getX(), position.getY(), node.getLabel());
     }
 
     public static String tikzSource(TikzEdge edge, String options){
@@ -25,7 +25,7 @@ public class TikzFormatter {
     }
 
     public static String format(TikzCircle circle) {
-        return tikzSource(circle, String.join(", ", new String[] { "circle", "draw" }));
+        return tikzSource(circle, String.join(", ",  "circle", "draw",  ));
     }
 
     public static String format(TikzRectangle rectangle){

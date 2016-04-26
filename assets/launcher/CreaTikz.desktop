@@ -1,0 +1,7 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Type=Application
+Terminal=false
+Name=CreaTikZ
+Exec=bash -c 'cd $(dirname %k) && cd ../../ && gradle :client:run'

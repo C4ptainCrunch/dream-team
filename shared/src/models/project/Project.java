@@ -42,7 +42,6 @@ public class Project extends TikzIO implements Comparable<Project> {
      *
      * @param path
      *            The file path
-     * @return the project imported from the file path
      * @throws IOException
      */
     public Project(String path) throws IOException {

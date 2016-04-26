@@ -34,6 +34,9 @@ public class ProjectManagementController {
 
     public void dropdownSelected(JComboBox comboBox) {
         Project selectedProject = (Project) comboBox.getSelectedItem();
+        if(selectedProject == null){
+            return;
+        }
         logger.info(selectedProject.toString());
 
         try {

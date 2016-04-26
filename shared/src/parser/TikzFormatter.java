@@ -35,12 +35,14 @@ public class TikzFormatter {
     }
 
     public static String format(TikzPolygon polygon){
-        ArrayList<String> options = new ArrayList<>();
-        options.add("regular polygon");
-        options.add("draw");
-        if (polygon.getLength() != Models.DEFAULT.LENGTH) {options.add("minimum size=" + Integer.toString(polygon.getLength()));}
-        if (polygon.getSides() != Models.DEFAULT.SIDES) {options.add("regular polygon sides=" + Integer.toString(polygon.getSides()));}
-        return tikzSource(polygon, String.join(", ", String.join(", ", options), getCommonOptions(polygon), getShapeOptions(polygon) ));
+        StringBuilder options = new StringBuilder("regular polygon, draw");
+        options.append(polygon.getLength() == Models.DEFAULT.LENGTH ? "" : ", minimum size=" + Integer.toString(polygon.getLength()));
+        options.append(polygon.getSides() == Models.DEFAULT.SIDES ? "" : ", regular polygon sides=" + Integer.toString(polygon.getSides()));
+        String commonOptions = getCommonOptions(polygon);
+        options.append(commonOptions.isEmpty() ? "" :  ", " + commonOptions);
+        String shapeOptions = getShapeOptions(polygon);
+        options.append(shapeOptions.isEmpty() ? "" : ", " + shapeOptions);
+        return tikzSource(polygon, options.toString());
     }
 
     public static String format(TikzDirectedEdge edge){

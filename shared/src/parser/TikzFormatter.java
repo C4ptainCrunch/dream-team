@@ -11,17 +11,16 @@ public class TikzFormatter {
 
     public static String tikzSource(TikzNode node, String options){
         Point position = node.getPosition();
-        return String.format("\\node[%s](%s) at (%.0f,%.0f){%s};\n", options, node.getReference(), position.getX(), position.getY(), node.getLabel());
+        return String.format("\\node[s](%s) at (%.0f,%.0f){%s};\n", options, node.getReference(), position.getX(), position.getY(), node.getLabel());
     }
 
     public static String tikzSource(TikzEdge edge, String options){
-        Point first = edge.getFromPosition();
-        Point second = edge.getToPosition();
-        return String.format("\\draw[%s] (%.0f, %.0f) -- (%.0f, %.0f);\n", options, first.getX(), first.getY(), second.getX(), second.getY());
+        String first = edge.getFirstNode().getReference();
+        String second = edge.getSecondNode().getReference();
+        return String.format("\\draw[%s] (%s) -- (%s);\n", options, first, second);
     }
 
     public static String format(TikzComponent c){
-        System.out.println("noooo");
         return "";
     }
 

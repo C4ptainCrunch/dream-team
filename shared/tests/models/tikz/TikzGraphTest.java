@@ -1,10 +1,8 @@
 import static org.junit.Assert.*;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.Observable;
 
 import models.tikz.*;
 
@@ -246,15 +244,18 @@ public class TikzGraphTest {
         int length = 4;
         TikzNode testNode;
         TikzEdge testEdge;
+        List<String> refs = Arrays.asList("a","b","c","d");
+
         ArrayList<TikzNode> nodes = new ArrayList<>();
         ArrayList<TikzEdge> edges = new ArrayList<>();
 
-        String resultString = "\\node[circle, draw]() at (0,0){};\n" + "\\node[circle, draw]() at (0,1){};\n"
-                + "\\node[circle, draw]() at (0,2){};\n" + "\\node[circle, draw]() at (0,3){};\n\n" + "\\draw[] (0, 0) -- (0, 1);\n"
-                + "\\draw[] (0, 1) -- (0, 2);\n" + "\\draw[] (0, 2) -- (0, 3);\n";
+        String resultString = "\\node[circle, draw](a) at (0,0){};\n" + "\\node[circle, draw](b) at (0,1){};\n"
+                + "\\node[circle, draw](c) at (0,2){};\n" + "\\node[circle, draw](d) at (0,3){};\n\n" + "\\draw[] (a) -- (b);\n"
+                + "\\draw[] (b) -- (c);\n" + "\\draw[] (c) -- (d);\n";
+
 
         for (int i = 0; i < length; i++) {
-            testNode = new TikzCircle();
+            testNode = new TikzCircle(refs.get(i));
             testNode.move(0, i);
             nodes.add(testNode);
         }

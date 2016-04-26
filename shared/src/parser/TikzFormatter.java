@@ -1,5 +1,6 @@
 package parser;
 
+import constants.Models;
 import models.tikz.*;
 import java.awt.*;
 
@@ -22,11 +23,14 @@ public class TikzFormatter {
     }
 
     public static String format(TikzCircle circle) {
-        return tikzSource(circle, String.join(", ",  "circle", "draw", "radius=" + circle.getRadius(), getCommonOptions(circle), getShapeOptions(circle) ));
+        String radiusOption = circle.getRadius() == Models.DEFAULT.LENGTH ? "" : ", radius="+circle.getRadius();
+        return tikzSource(circle, String.join(", ",  "circle", "draw" + radiusOption, getCommonOptions(circle), getShapeOptions(circle)));
     }
 
     public static String format(TikzRectangle rectangle){
-        return tikzSource(rectangle, String.join(", ", "rectangle", "draw" , "minimum width=" + rectangle.getWidth(), "minimum height=" + rectangle.getLength(), getCommonOptions(rectangle), getShapeOptions(rectangle)));
+        String widthOption = rectangle.getWidth() == Models.DEFAULT.LENGTH ? "" : ", minimum width=" + rectangle.getWidth();
+        String heightOption = rectangle.getLength() == Models.DEFAULT.LENGTH ? "" : ", minimum height=" + rectangle.getLength();
+        return tikzSource(rectangle, String.join(", ", "rectangle", "draw" + widthOption + heightOption, getCommonOptions(rectangle), getShapeOptions(rectangle)));
     }
 
     public static String format(TikzPolygon polygon){

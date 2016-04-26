@@ -1,4 +1,6 @@
 assets/launcher/CreaTikz.desktop
+server/src/constants/EmailPassword.java
+
 *.class
 zip/
 jar/

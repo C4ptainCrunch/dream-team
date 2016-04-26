@@ -25,7 +25,6 @@ public class TestDAO {
         UsersDAO usersDAO = this.daoFactory.getUsersDAO();
         User u = new User(1,"username","thomas","herman","email");
         usersDAO.create(u);
-        usersDAO.create(u);
         usersDAO.setPasswordToUser(u, "password");
         User a = usersDAO.findByUsername("username");
         System.out.println(a.getEmail().equals("email"));

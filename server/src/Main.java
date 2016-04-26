@@ -15,8 +15,6 @@ public class Main {
         TestDAO t = new TestDAO();
         t.test();
         SimpleServerFactory.create("http://localhost:5555");
-
-        ConfirmationEmailSender mail = new ConfirmationEmailSender("andre.mm.90@gmail.com","TESTTESTTEST");
     }
 
 }

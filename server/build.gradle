@@ -23,6 +23,7 @@ dependencies {
     compile 'org.xerial:sqlite-jdbc:3.8.11.2'
     compile 'javax.mail:javax.mail-api:1.5.5'
     compile 'com.sun.mail:javax.mail:1.5.5'
+    compile 'com.sun.mail:smtp:1.5.5'
     compile 'javax.activation:activation:1.1.1'
 
     compile project(':shared')

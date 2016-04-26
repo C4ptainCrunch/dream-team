@@ -50,7 +50,7 @@ public class TikzFormatter {
     }
 
     private static String getCommonOptions(TikzComponent comp) {
-        return "color=" + TikzColors.ColorToString(comp.getColor()) + ", line width=" + Integer.toString(comp.getStroke());
+        return "color=" + TikzColors.ColorToString(comp.getStrokeColor()) + ", line width=" + Integer.toString(comp.getStroke());
     }
 
     private static String getShapeOptions(TikzShape shape){

@@ -31,12 +31,9 @@ public class RecentProjects {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                try {
-                    projects.add(new Project(line));
-                } catch (IOException e) {
-                    // If there is an error while loading the project
-                    // we can safely ignore it
-                    logger.finest("Project " + line + " does not exist anymore");
+                Project p = new Project(Paths.get(line));
+                if(p.exists()){
+                    projects.add(p);
                 }
             }
             bufferedReader.close();

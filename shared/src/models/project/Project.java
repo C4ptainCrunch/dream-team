@@ -23,18 +23,6 @@ public class Project extends TikzIO implements Comparable<Project> {
     private final static Logger logger = Log.getLogger(Project.class);
     private Path path;
 
-    /**
-     * Constructs a new Project with a given file path and tikz graph
-     *
-     * @param path
-     *            The file path
-     * @param graph
-     *            the tikz graph
-     */
-    public Project(String path, TikzGraph graph) {
-        super(graph);
-        this.path = Paths.get(path);
-    }
 
     /**
      * Constructs a new Project with a given file path. The project must have
@@ -44,31 +32,15 @@ public class Project extends TikzIO implements Comparable<Project> {
      *            The file path
      * @throws IOException
      */
-    public Project(String path) throws IOException {
+    public Project(Path path) {
         super();
-        this.path = Paths.get(path);
-        this.graph = new TikzGraph(this.getTikzPath().toString());
-    }
-
-    /**
-     * Initializes the files for this project with a given directory
-     *
-     * @param dir
-     *            The directory where the files are created
-     * @return The newly created project
-     * @throws IOException
-     */
-    public static Project initialize(File dir) throws IOException {
-        dir.mkdir();
-        Path path = dir.toPath();
-        TikzIO.createSaveFile(Models.Project.SAVE_FILE, dir.toString());
-
-        File diffFile = path.resolve(Models.Project.DIFF_FILE).toFile();
-        if (!diffFile.exists()) {
-            new FileOutputStream(diffFile).close();
+        this.path = path;
+        try {
+            this.graph = new TikzGraph(this.getTikzPath().toString());
+        } catch (IOException e) {
+            logger.fine("Warning: error while opening the project's tikz file: " + e.toString());
+            this.graph = new TikzGraph();
         }
-
-        return new Project(path.toString());
     }
 
     /**
@@ -119,6 +91,10 @@ public class Project extends TikzIO implements Comparable<Project> {
      *             when the diff file is corrupted
      */
     public void save() throws IOException, ClassNotFoundException {
+        if(!Files.exists(this.path)){
+            this.path.toFile().mkdirs();
+        }
+
         List<Diff> diffs = null;
         try {
             diffs = this.getDiffs();
@@ -247,5 +223,9 @@ public class Project extends TikzIO implements Comparable<Project> {
             return null;
         }
         return diffs.get(diffs.size() - 1).getDate();
+    }
+
+    public boolean exists() {
+        return Files.exists(this.path);
     }
 }

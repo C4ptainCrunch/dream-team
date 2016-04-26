@@ -3,6 +3,7 @@ package controllers.management;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.logging.Logger;
 
 import javax.swing.*;
@@ -46,10 +47,10 @@ public class ProjectManagementController {
 
     public void createProject() {
         FileChooseView choose = new FileChooseView("Create project", JFileChooser.DIRECTORIES_ONLY);
-        File path = choose.ask();
+        Path path = choose.ask().toPath();
         if (path != null) {
             try {
-                Project p = Project.initialize(path);
+                Project p = new Project(path);
                 editProject(p);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(view, Errors.CREATE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);

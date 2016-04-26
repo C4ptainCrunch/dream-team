@@ -19,10 +19,9 @@ import constants.Models;
  * of a tikz graph and a file path containing the specific files (save, diffs
  * ..) for this project
  */
-public class Project implements Comparable<Project> {
+public class Project extends TikzIO implements Comparable<Project> {
     private final static Logger logger = Log.getLogger(Project.class);
     private Path path;
-    private TikzGraph graph;
 
     /**
      * Constructs a new Project with a given file path and tikz graph
@@ -33,8 +32,8 @@ public class Project implements Comparable<Project> {
      *            the tikz graph
      */
     public Project(String path, TikzGraph graph) {
+        super(graph);
         this.path = Paths.get(path);
-        this.graph = graph;
     }
 
     /**
@@ -63,10 +62,7 @@ public class Project implements Comparable<Project> {
     public static void initialize(File dir) throws IOException {
         dir.mkdir();
         Path path = dir.toPath();
-        File saveFile = path.resolve(constants.Models.Project.SAVE_FILE).toFile();
-        if (!saveFile.exists()) {
-            new FileOutputStream(saveFile).close();
-        }
+        TikzIO.createSaveFile(Models.Project.SAVE_FILE, dir.toString());
 
         File diffFile = path.resolve(Models.Project.DIFF_FILE).toFile();
         if (!diffFile.exists()) {
@@ -82,25 +78,6 @@ public class Project implements Comparable<Project> {
     @Override
     public String toString() {
         return this.getName();
-    }
-
-    /**
-     * Getter for the tikz graph of this project
-     *
-     * @return the tikz graph
-     */
-    public TikzGraph getGraph() {
-        return graph;
-    }
-
-    /**
-     * Setter for the tikz graph linked to this project
-     *
-     * @param graph
-     *            The tikz graph
-     */
-    public void setGraph(TikzGraph graph) {
-        this.graph = graph;
     }
 
     /**
@@ -160,7 +137,7 @@ public class Project implements Comparable<Project> {
         diffs.add(new Diff(new Date(), diffString));
 
         this.writeDiffs(diffs);
-        this.writeTikz(this.graph.toString());
+        super.writeTikz(this.graph.toString(), this.getTikzPath());
         RecentProjects.addProject(this);
     }
 
@@ -239,20 +216,6 @@ public class Project implements Comparable<Project> {
 
         os.close();
         fs.close();
-    }
-
-    /**
-     * Writes the tikz source of the project to the save file
-     *
-     * @param tikz
-     *            : the tikz source
-     * @throws IOException
-     *             when writing failed
-     */
-    public void writeTikz(String tikz) throws IOException {
-        PrintWriter sourceWriter = new PrintWriter(this.getTikzPath().toFile());
-        sourceWriter.println(tikz);
-        sourceWriter.close();
     }
 
     /**

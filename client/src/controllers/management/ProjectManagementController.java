@@ -24,8 +24,7 @@ public class ProjectManagementController {
         this.view = view;
     }
 
-    public void editProject(String path) throws IOException {
-        Project project = Project.fromPath(path);
+    public void editProject(Project project) throws IOException {
         RecentProjects.addProject(project);
 
         java.awt.EventQueue.invokeLater(() -> new EditorView(project));
@@ -50,8 +49,8 @@ public class ProjectManagementController {
         File path = choose.ask();
         if (path != null) {
             try {
-                Project.initialize(path);
-                editProject(path.getPath().toString());
+                Project p = Project.initialize(path);
+                editProject(p);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(view, Errors.CREATE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
                 logger.severe("Failed to create new project: " + e.getMessage());
@@ -63,7 +62,7 @@ public class ProjectManagementController {
         Project project = view.getSelectedProject();
         if (project != null) {
             try {
-                editProject(project.getPath().toString());
+                editProject(project);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(view, Errors.OPEN_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
                 logger.severe("Failed to open the project: " + e.getMessage());

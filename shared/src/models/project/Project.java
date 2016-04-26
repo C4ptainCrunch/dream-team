@@ -45,11 +45,10 @@ public class Project extends TikzIO implements Comparable<Project> {
      * @return the project imported from the file path
      * @throws IOException
      */
-    public static Project fromPath(String path) throws IOException {
-        Project p = new Project(path, null);
-        TikzGraph graph = new TikzGraph(p.getTikzPath().toString());
-        p.setGraph(graph);
-        return p;
+    public Project(String path) throws IOException {
+        super();
+        this.path = Paths.get(path);
+        this.graph = new TikzGraph(this.getTikzPath().toString());
     }
 
     /**
@@ -57,9 +56,10 @@ public class Project extends TikzIO implements Comparable<Project> {
      *
      * @param dir
      *            The directory where the files are created
+     * @return The newly created project
      * @throws IOException
      */
-    public static void initialize(File dir) throws IOException {
+    public static Project initialize(File dir) throws IOException {
         dir.mkdir();
         Path path = dir.toPath();
         TikzIO.createSaveFile(Models.Project.SAVE_FILE, dir.toString());
@@ -68,6 +68,8 @@ public class Project extends TikzIO implements Comparable<Project> {
         if (!diffFile.exists()) {
             new FileOutputStream(diffFile).close();
         }
+
+        return new Project(path.toString());
     }
 
     /**

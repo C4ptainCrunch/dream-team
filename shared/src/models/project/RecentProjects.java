@@ -32,7 +32,7 @@ public class RecentProjects {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 try {
-                    projects.add(Project.fromPath(line));
+                    projects.add(new Project(line));
                 } catch (IOException e) {
                     // If there is an error while loading the project
                     // we can safely ignore it

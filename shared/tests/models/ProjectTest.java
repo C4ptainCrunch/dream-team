@@ -27,7 +27,7 @@ public class ProjectTest {
         File path = new File(folder.getRoot(), "my-project");
         Project.initialize(path);
 
-        return Project.fromPath(path.toString());
+        return new Project(path.toString());
     }
 
     @Test
@@ -36,7 +36,7 @@ public class ProjectTest {
         folder.newFile(Models.Project.DIFF_FILE);
         String path = save.getParent();
 
-        Project p = Project.fromPath(path);
+        Project p = new Project(path);
         assertEquals(p.getPath().toString(), path);
     }
 
@@ -64,7 +64,7 @@ public class ProjectTest {
         writer.print("\\node[circle, draw]() at (0,0) {test-label}");
         writer.close();
 
-        Project p = Project.fromPath(folder.getRoot().toString());
+        Project p = new Project(folder.getRoot().toString());
 
         assertEquals(p.getGraph().getNodes().size(), 1);
 
@@ -102,7 +102,7 @@ public class ProjectTest {
         writer.print(tikz);
         writer.close();
 
-        Project p = Project.fromPath(folder.getRoot().toString());
+        Project p = new Project(folder.getRoot().toString());
         TikzGraph g = p.getGraph();
         g.add(new TikzCircle(10));
 

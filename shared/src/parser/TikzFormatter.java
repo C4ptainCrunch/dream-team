@@ -24,13 +24,13 @@ public class TikzFormatter {
     }
 
     public static String format(TikzCircle circle) {
-        String radiusOption = circle.getRadius() == Models.DEFAULT.LENGTH ? "" : ", radius="+circle.getRadius();
+        String radiusOption = circle.getRadius() == Models.DEFAULT.LENGTH ? "" : ", radius="+Integer.toString(circle.getRadius());
         return tikzSource(circle, String.join(", ",  "circle", "draw" + radiusOption, getCommonOptions(circle), getShapeOptions(circle)));
     }
 
     public static String format(TikzRectangle rectangle){
-        String widthOption = rectangle.getWidth() == Models.DEFAULT.LENGTH ? "" : ", minimum width=" + rectangle.getWidth();
-        String heightOption = rectangle.getLength() == Models.DEFAULT.LENGTH ? "" : ", minimum height=" + rectangle.getLength();
+        String widthOption = rectangle.getWidth() == Models.DEFAULT.LENGTH ? "" : ", minimum width=" + Integer.toString(rectangle.getWidth());
+        String heightOption = rectangle.getLength() == Models.DEFAULT.LENGTH ? "" : ", minimum height=" + Integer.toString(rectangle.getLength());
         return tikzSource(rectangle, String.join(", ", "rectangle", "draw" + widthOption + heightOption, getCommonOptions(rectangle), getShapeOptions(rectangle)));
     }
 
@@ -38,8 +38,8 @@ public class TikzFormatter {
         ArrayList<String> options = new ArrayList<>();
         options.add("regular polygon");
         options.add("draw");
-        if (polygon.getLength() != Models.DEFAULT.LENGTH) {options.add("minimum size=" + polygon.getLength());}
-        if (polygon.getSides() != Models.DEFAULT.SIDES) {options.add("regular polygon sides=" + polygon.getSides());}
+        if (polygon.getLength() != Models.DEFAULT.LENGTH) {options.add("minimum size=" + Integer.toString(polygon.getLength()));}
+        if (polygon.getSides() != Models.DEFAULT.SIDES) {options.add("regular polygon sides=" + Integer.toString(polygon.getSides()));}
         return tikzSource(polygon, String.join(", ", String.join(", ", options), getCommonOptions(polygon), getShapeOptions(polygon) ));
     }
 

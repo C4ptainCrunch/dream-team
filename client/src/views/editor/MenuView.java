@@ -61,6 +61,13 @@ public class MenuView extends JMenuBar {
         JMenuItem help_item = new JMenuItem(GUI.MenuBar.HELP);
         help_item.addActionListener(actionEvent -> controller.showHelp());
         help_menu.add(help_item);
+
+        JMenu options_menu = new JMenu(GUI.MenuBar.OPTIONS_MENU);
+        this.add(options_menu);
+
+        JMenuItem color_blind_mode_item = new JCheckBoxMenuItem(GUI.MenuBar.COLOR_BLIND);
+        color_blind_mode_item.addItemListener(itemEvent -> controller.setColorBlindMode(itemEvent.getStateChange()));
+        options_menu.add(color_blind_mode_item);
     }
 
     /**
@@ -69,5 +76,9 @@ public class MenuView extends JMenuBar {
      */
     public void save() {
         controller.save();
+    }
+
+    public void setBlindMode(boolean set_mode) {
+        parentView.setTextAreaColorBlindMode(set_mode);
     }
 }

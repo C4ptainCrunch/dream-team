@@ -87,12 +87,15 @@ public class CanvasController implements Observer {
      */
     public TikzComponent findComponentByPosition(Point position) {
         TikzComponent comp = null;
-        for (DrawableTikzComponent draw : drawables) {
+
+        for(int j = drawables.size() - 1; j >= 0; j--){
+            DrawableTikzComponent draw = drawables.get(j);
             if (draw.contains(position)) {
                 comp = draw.getComponent();
                 break;
             }
         }
+
         return comp;
     }
 
@@ -135,6 +138,7 @@ public class CanvasController implements Observer {
         for (TikzComponent comp : selected_comp) {
             addDrawableComponent(Drawer.toDrawable(comp, view));
         }
+        selected_comp.clear();
     }
 
     /**
@@ -146,7 +150,7 @@ public class CanvasController implements Observer {
      *            The tikz position where the component will be added
      */
 
-    private void addNodeToModel(TikzComponent component, Point position) {
+    private void addNodeToGraph(TikzComponent component, Point position) {
         TikzNode node = (TikzNode) component;
         node.setPosition(Converter.swing2tikz(position, view));
         graph.add(node);
@@ -206,7 +210,7 @@ public class CanvasController implements Observer {
     // Location has to be a swing position !!
     private void moveComponent(TikzComponent comp, Point location) {
         location.setLocation(Converter.swing2tikz(location, view));
-        if (comp.isNode()) {
+        if (comp != null && comp.isNode()) {
             ((TikzNode) comp).setPosition(location);
             view.repaint();
         }
@@ -223,10 +227,10 @@ public class CanvasController implements Observer {
 
     public void mousePressed(MouseEvent e, TikzComponent selectedTool) {
         if (view.getIsFocused()) {
-            if (selectedTool.isNode()) {
+            if (selectedTool != null && selectedTool.isNode()) {
                 // this.
-                addNodeToModel(selectedTool, e.getPoint());
-            } else if (selectedTool.isEdge()) {
+                addNodeToGraph(selectedTool, e.getPoint());
+            } else if (selectedTool != null && selectedTool.isEdge()) {
                 addEdgeToModel(selectedTool, e.getPoint());
             }
         } else {
@@ -295,7 +299,7 @@ public class CanvasController implements Observer {
 
     public void deleteItem(TikzComponent itemToDelete) {
         if (itemToDelete != null) {
-            if (itemToDelete instanceof TikzNode) {
+            if (itemToDelete.isNode()) {
                 this.graph.remove((TikzNode) itemToDelete);
             } else {
                 this.graph.remove((TikzEdge) itemToDelete);
@@ -320,9 +324,11 @@ public class CanvasController implements Observer {
         if (selection != null) {
             Set<TikzComponent> components = getSelectedComponents(selection.getShapePoints());
             try {
-                File file = TemplateIOManager.exportGraphAsTemplate(components);
-                unselectComponents();
-                view.addTemplateToParentView(file);
+                if (!components.isEmpty()) {
+                    File file = TemplateIOManager.exportGraphAsTemplate(components);
+                    unselectComponents();
+                    view.addTemplateToParentView(file);
+                }
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(view, Errors.SAVE_TEMPLATE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
             }

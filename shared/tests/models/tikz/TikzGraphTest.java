@@ -1,3 +1,4 @@
+package models.tikz;
 import static org.junit.Assert.*;
 
 import java.awt.*;
@@ -309,5 +310,37 @@ public class TikzGraphTest {
         TikzGraph o_graph = graph.getClone();
         assertEquals(graph.size(), o_graph.size());
         assertNotEquals(graph.getNodes(), o_graph.getNodes());
+    }
+
+    @Test
+    public void testLatexBuild() throws Exception {
+        TikzGraph graph = new TikzGraph();
+        int length = 4;
+        ArrayList<TikzNode> nodes = new ArrayList<>();
+        ArrayList<TikzEdge> edges = new ArrayList<>();
+        TikzNode testNode;
+        for (int i = 0; i < length; i++) {
+            testNode = new TikzCircle();
+            testNode.move(0, i);
+            nodes.add(testNode);
+        }
+
+        TikzEdge testEdge;
+        for (int i = 0; i < length - 1; i++) {
+            testEdge = new TikzUndirectedEdge(nodes.get(i), nodes.get(i + 1));
+            edges.add(testEdge);
+        }
+
+        graph.addAllNodes(nodes);
+        graph.addAllEdges(edges);
+
+        String expectedString = "\\documentclass{article}\n" + "\\usepackage{tikz}\n" + "\\begin{document}\n"
+                + "\\begin{tikzpicture}[x=0.0625em,y=0.0625em]\n" + "\\node[circle, draw]() at (0,0){};\n"
+                + "\\node[circle, draw]() at (0,1){};\n" + "\\node[circle, draw]() at (0,2){};\n" + "\\node[circle, draw]() at (0,3){};\n"
+                + "\\draw[] (0, 0) -- (0, 1);\n" + "\\draw[] (0, 1) -- (0, 2);\n" + "\\draw[] (0, 2) -- (0, 3);\n" + "\\end{tikzpicture}\n"
+                + "\\end{document}\n";
+
+        assertEquals(expectedString, graph.toLatex());
+
     }
 }

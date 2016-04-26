@@ -64,7 +64,11 @@ public abstract class TikzShape extends TikzNode {
         return backgroundColor;
     }
 
-    public void setBackgroundColor(Color color) {backgroundColor = color;}
+    public void setBackgroundColor(Color color) {
+        backgroundColor = color;
+        this.setChanged();
+        this.notifyObservers();
+    }
 
     /**
      * Abstract method that needs to be redefined in classes that extends this

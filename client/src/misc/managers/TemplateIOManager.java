@@ -45,18 +45,16 @@ public class TemplateIOManager {
      */
 
     public static File exportGraphAsTemplate(Collection<TikzComponent> components) throws IOException {
-        FileChooseView file_view = new FileChooseView("Template filename", JFileChooser.FILES_AND_DIRECTORIES);
         TikzGraph g = new TikzGraph();
         for (TikzComponent comp : components) {
-            if (comp.isNode()) {
+            if (comp != null && comp.isNode()) {
                 g.add((TikzNode) comp.getClone());
             }
         }
         moveTemplateGraphToOrigin(g);
-        File file = file_view.ask();
+        String name = JOptionPane.showInputDialog(new JFrame(), "Enter template name:");
         Template template = new Template(g);
-        template.saveTemplate(file);
-        return file;
+        return template.saveTemplate(name);
     }
 
     /**

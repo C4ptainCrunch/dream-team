@@ -3,6 +3,7 @@ package controllers.management;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.logging.Logger;
 
 import javax.swing.*;
@@ -24,8 +25,7 @@ public class ProjectManagementController {
         this.view = view;
     }
 
-    public void editProject(String path) throws IOException {
-        Project project = Project.fromPath(path);
+    public void editProject(Project project) throws IOException {
         RecentProjects.addProject(project);
 
         java.awt.EventQueue.invokeLater(() -> new EditorView(project));
@@ -47,11 +47,11 @@ public class ProjectManagementController {
 
     public void createProject() {
         FileChooseView choose = new FileChooseView("Create project", JFileChooser.DIRECTORIES_ONLY);
-        File path = choose.ask();
+        Path path = choose.ask().toPath();
         if (path != null) {
             try {
-                Project.initialize(path);
-                editProject(path.getPath().toString());
+                Project p = new Project(path);
+                editProject(p);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(view, Errors.CREATE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
                 logger.severe("Failed to create new project: " + e.getMessage());
@@ -63,7 +63,7 @@ public class ProjectManagementController {
         Project project = view.getSelectedProject();
         if (project != null) {
             try {
-                editProject(project.getPath().toString());
+                editProject(project);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(view, Errors.OPEN_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
                 logger.severe("Failed to open the project: " + e.getMessage());

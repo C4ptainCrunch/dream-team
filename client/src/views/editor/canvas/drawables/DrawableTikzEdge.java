@@ -25,6 +25,7 @@ public class DrawableTikzEdge extends DrawableTikzComponent {
         TikzEdge component = getComponent();
 
         g.setColor(component.getStrokeColor());
+
         for (Shape shape : getShapes()) {
             g.fill(shape);
         }

@@ -1,11 +1,11 @@
 package controllers.editor;
 
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 import java.util.logging.Logger;
 
 import javax.swing.*;
 
+import models.tikz.TikzComponent;
 import models.tikz.TikzGraph;
 
 import org.codehaus.jparsec.error.ParserException;
@@ -22,6 +22,7 @@ public class SourceController implements Observer {
     private static final Logger logger = Log.getLogger(SourceController.class);
     private final SourceView view;
     private final TikzGraph graph;
+    private Map<TikzComponent, Integer> line_to_component_map;
 
     /**
      * Constructs a new Controller (from the MVC architecural pattern) for the
@@ -36,7 +37,7 @@ public class SourceController implements Observer {
         this.view = view;
         this.graph = graph;
         this.graph.addObserver(this);
-        updateTikzText();
+        line_to_component_map = new HashMap<>();
     }
 
     /**
@@ -78,9 +79,23 @@ public class SourceController implements Observer {
     }
 
     /**
+     * Updates the map between a TikzComponent and a line.
+     */
+
+    public void updateLineToComponent(){
+        line_to_component_map.clear();
+        List<TikzComponent> components = graph.getComponents();
+        int size = components.size();
+        for (int i = 0; i < size; i++){
+            line_to_component_map.put(components.get(i), i);
+        }
+    }
+
+    /**
      * Updates the tikz text from the graph
      */
-    private void updateTikzText() {
+    public void updateTikzText() {
+        updateLineToComponent();
         String tikz = this.graph.toString();
         view.setText(tikz);
     }
@@ -111,5 +126,24 @@ public class SourceController implements Observer {
         if (view.getIsFocused()) {
             this.updateGraphFromText(view.getText());
         }
+    }
+
+    /**
+     * Getter for the line corresponding to a given component.
+     *
+     * @param comp The given component.
+     * @return The index of the line corresponding to the component.
+     */
+
+    public int getLine(TikzComponent comp) {
+        return line_to_component_map.get(comp);
+    }
+
+    public List<Integer> getLines(Set<TikzComponent> selectedComponents) {
+        List<Integer> lines = new ArrayList<>();
+        for (TikzComponent comp: selectedComponents){
+            lines.add(getLine(comp));
+        }
+        return lines;
     }
 }

@@ -40,6 +40,7 @@ public class DrawableTikzNode extends DrawableTikzComponent {
             g.fill(shape);
         }
 
+
         // TODO use label color !
         g.setColor(old_color);
         String label = component.getLabel();

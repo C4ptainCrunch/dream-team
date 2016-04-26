@@ -1,6 +1,7 @@
 package models.project;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -30,12 +31,10 @@ public class RecentProjects {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                try {
-                    projects.add(Project.fromPath(line));
-                } catch (IOException e) {
-                    // If there is an error while loading the project
-                    // we can safely ignore it
-                    logger.finest("Project " + line + " does not exist anymore");
+                System.out.println(line);
+                Project p = new Project(Paths.get(line));
+                if(p.exists()){
+                    projects.add(p);
                 }
             }
             bufferedReader.close();
@@ -58,6 +57,7 @@ public class RecentProjects {
     }
 
     private static void writeToDisk(SortedSet<Project> projects) throws IOException {
+        Files.createDirectories(getFilePath().getParent());
         FileWriter fw = new FileWriter(getFilePath().toFile());
         BufferedWriter bw = new BufferedWriter(fw);
 

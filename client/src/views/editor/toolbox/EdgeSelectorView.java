@@ -18,8 +18,8 @@ public class EdgeSelectorView extends SelectorView {
      * @param model
      *            the tool model
      */
-    public EdgeSelectorView(ToolModel model) {
-        super(model);
+    public EdgeSelectorView(ToolView parentView, ToolModel model) {
+        super(parentView, model);
         this.setComponentNbr(2);
         this.initComponents();
     }

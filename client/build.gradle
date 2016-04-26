@@ -17,6 +17,7 @@ dependencies {
     compile 'org.jparsec:jparsec:2.2.1'
     compile 'org.bitbucket.cowwoc:diff-match-patch:1.1'
     compile 'org.pegdown:pegdown:1.6.0'
+    compile 'com.fifesoft:rsyntaxtextarea:2.5.8'
 
     compile project(':shared')
 }
@@ -37,4 +38,8 @@ sourceSets {
             srcDir "src/"
         }
     }
+}
+
+task onejar(type: OneJar) {
+    mainClass = 'Main'
 }

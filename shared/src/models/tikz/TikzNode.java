@@ -144,4 +144,9 @@ public abstract class TikzNode extends TikzComponent {
     public boolean isVoid() { return false; }
     public boolean isText() { return false; }
 
+    public TikzGraph toGraph() {
+        TikzGraph graph = new TikzGraph();
+        graph.add(this);
+        return graph;
+    }
 }

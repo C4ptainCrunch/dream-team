@@ -34,6 +34,9 @@ public class NodeEditionView extends JFrame {
 
     public void initWindow() {
         this.modifierView = new AttributesChooserView(new ToolModel(component));
+        this.modifierView.setColorFieldColor(component.getStrokeColor());
+        this.modifierView.setLabel(component.getLabel());
+        this.modifierView.setStroke(component.getStroke());
         this.getContentPane().add(modifierView, BorderLayout.CENTER);
     }
 

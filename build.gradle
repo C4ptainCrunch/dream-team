@@ -1,0 +1,38 @@
+task zip {
+    copy{
+        dependsOn ":client:distZip"
+        from "client/build/distributions"
+        into "zip"
+        include "*.zip"
+    }
+    copy{
+        dependsOn ":server:distZip"
+        from "server/build/distributions"
+        into "zip"
+        include "*.zip"
+    }
+}
+
+apply plugin: 'gradle-one-jar'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.github.rholder:gradle-one-jar:1.0.4'
+    }
+}
+
+task onejar {
+    copy{
+        dependsOn ":client:onejar"
+        dependsOn ":server:onejar"
+        from "client/build/libs/client-standalone.jar"
+        into "jar"
+
+        rename { String fileName ->
+            fileName.replace('-standalone', '')
+        }
+    }
+}

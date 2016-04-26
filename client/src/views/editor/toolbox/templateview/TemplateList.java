@@ -70,7 +70,7 @@ public class TemplateList extends JList<Template> {
 
     public TikzGraph getSelectedTemplateGraphClone() {
         Template template = template_list_model.get(this.getSelectedIndex());
-        TikzGraph g = template.getTemplateGraph();
+        TikzGraph g = template.getGraph();
         return g.getClone();
     }
 

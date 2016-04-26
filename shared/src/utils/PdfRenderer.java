@@ -15,7 +15,7 @@ public final class PdfRenderer {
 
     private static void toSourceFile(File filename, TikzGraph graph) throws FileNotFoundException, UnsupportedEncodingException {
         PrintWriter writer = new PrintWriter(filename, "utf-8");
-        writer.print(LaTeXBuilder.toLaTeX(graph));
+        writer.print(graph.toLatex());
         writer.close();
     }
 

@@ -49,21 +49,16 @@ public class AttributesChooserController implements Observer {
 
     /**
      * Sets the label that is selected to the tool model
-     *
-     * @param label
-     *            The label
      */
-    public void labelEntered(String label) {
-        model.setComponentLabel(label);
+    public void labelEntered() {
+        model.setComponentLabel(view.getLabel());
     }
 
     /**
      * Sets the width that is selected to the tool model
-     *
-     * @param width
-     *            The width
      */
-    public void strokeWidth(int width) {
+    public void strokeChanged() {
+        int width = view.getStrokeWidth();
         model.setComponentStrokeWidth(width);
     }
 

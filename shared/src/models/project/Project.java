@@ -80,17 +80,6 @@ public class Project extends TikzIO implements Comparable<Project> {
         return this.getName();
     }
 
-
-    /**
-     * Setter for the tikz graph linked to this project
-     *
-     * @param graph
-     *            The tikz graph
-     */
-    public void setGraph(TikzGraph graph) {
-        this.graph = graph;
-    }
-
     /**
      * Getter for the path of this project
      *

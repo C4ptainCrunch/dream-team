@@ -59,4 +59,14 @@ public abstract class TikzIO {
     public TikzGraph getGraph() {
         return graph;
     }
+
+    /**
+     * Setter for the tikz graph linked to this project
+     *
+     * @param graph
+     *            The tikz graph
+     */
+    public void setGraph(TikzGraph graph) {
+        this.graph = graph;
+    }
 }

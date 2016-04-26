@@ -214,6 +214,10 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
         return res.toString();
     }
 
+    public String toLatex(){
+        return constants.Models.Graph.latexPrelude + this.toString() + constants.Models.Graph.latexPostlude;
+    }
+
     /**
      * Removes the given edge from this graph
      *

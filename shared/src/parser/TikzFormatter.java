@@ -3,6 +3,7 @@ package parser;
 import constants.Models;
 import models.tikz.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class TikzFormatter {
     private TikzFormatter(){}
@@ -34,7 +35,12 @@ public class TikzFormatter {
     }
 
     public static String format(TikzPolygon polygon){
-        return tikzSource(polygon, String.join(", ", "regular polygon", "draw", "minimum size=" + polygon.getLength(), "regular polygon sides=" + polygon.getSides(), getCommonOptions(polygon), getShapeOptions(polygon) ));
+        ArrayList<String> options = new ArrayList<>();
+        options.add("regular polygon");
+        options.add("draw");
+        if (polygon.getLength() != Models.DEFAULT.LENGTH) {options.add("minimum size=" + polygon.getLength());}
+        if (polygon.getSides() != Models.DEFAULT.SIDES) {options.add("regular polygon sides=" + polygon.getSides());}
+        return tikzSource(polygon, String.join(", ", String.join(", ", options), getCommonOptions(polygon), getShapeOptions(polygon) ));
     }
 
     public static String format(TikzDirectedEdge edge){
@@ -54,11 +60,14 @@ public class TikzFormatter {
     }
 
     private static String getCommonOptions(TikzComponent comp) {
-        return "color=" + TikzColors.ColorToString(comp.getStrokeColor()) + ", line width=" + Integer.toString(comp.getStroke());
+        ArrayList<String> options = new ArrayList<>();
+        if (comp.getStrokeColor() != Models.DEFAULT.COLOR) {options.add("color=" + TikzColors.ColorToString(comp.getStrokeColor()));}
+        if (comp.getStroke() != Models.DEFAULT.STROKE) {options.add("line width=\" + Integer.toString(comp.getStroke()");
+        return String.join(", ", options);
     }
 
     private static String getShapeOptions(TikzShape shape){
-        return String.join(", ", "fill=" + TikzColors.ColorToString(shape.getBackgroundColor()));
+        return shape.getBackgroundColor() == Models.DEFAULT.BACKGROUND_COLOR ? "" : String.join(", ", "fill=" + TikzColors.ColorToString(shape.getBackgroundColor()));
     }
 }
 

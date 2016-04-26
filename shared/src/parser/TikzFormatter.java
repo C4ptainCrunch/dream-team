@@ -1,9 +1,11 @@
 package parser;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import constants.Models;
 import models.tikz.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 public class TikzFormatter {
     private TikzFormatter(){}
@@ -24,35 +26,42 @@ public class TikzFormatter {
     }
 
     public static String format(TikzCircle circle) {
+        List<String> options = Arrays.asList("circle", "draw");
+        if (circle.getRadius() != Models.DEFAULT.LENGTH) {options.add("radius=" + Integer.toString(circle.getRadius()));}
+        options.addAll(getCommonOptions(circle));
+        options.addAll(getShapeOptions(circle));
         String radiusOption = circle.getRadius() == Models.DEFAULT.LENGTH ? "" : ", radius="+Integer.toString(circle.getRadius());
-        return tikzSource(circle, String.join(", ",  "circle", "draw" + radiusOption, getCommonOptions(circle), getShapeOptions(circle)));
+        return tikzSource(circle, String.join(", ",  options));
     }
 
     public static String format(TikzRectangle rectangle){
-        String widthOption = rectangle.getWidth() == Models.DEFAULT.LENGTH ? "" : ", minimum width=" + Integer.toString(rectangle.getWidth());
-        String heightOption = rectangle.getLength() == Models.DEFAULT.LENGTH ? "" : ", minimum height=" + Integer.toString(rectangle.getLength());
-        return tikzSource(rectangle, String.join(", ", "rectangle", "draw" + widthOption + heightOption, getCommonOptions(rectangle), getShapeOptions(rectangle)));
+        List<String> options = Arrays.asList("rectangle", "draw");
+        if (rectangle.getWidth() != Models.DEFAULT.LENGTH) {options.add("minimum width=" + Integer.toString(rectangle.getWidth()));}
+        if (rectangle.getLength() != Models.DEFAULT.LENGTH) {options.add("minimum height=" + Integer.toString(rectangle.getLength()));}
+        options.addAll(getCommonOptions(rectangle));
+        options.addAll(getShapeOptions(rectangle));
+        return tikzSource(rectangle, String.join(", ", options));
     }
 
     public static String format(TikzPolygon polygon){
-        StringBuilder options = new StringBuilder("regular polygon, draw");
-        options.append(polygon.getLength() == Models.DEFAULT.LENGTH ? "" : ", minimum size=" + Integer.toString(polygon.getLength()));
-        options.append(polygon.getSides() == Models.DEFAULT.SIDES ? "" : ", regular polygon sides=" + Integer.toString(polygon.getSides()));
-        String commonOptions = getCommonOptions(polygon);
-        options.append(commonOptions.isEmpty() ? "" :  ", " + commonOptions);
-        String shapeOptions = getShapeOptions(polygon);
-        options.append(shapeOptions.isEmpty() ? "" : ", " + shapeOptions);
-        return tikzSource(polygon, options.toString());
+        ArrayList<String> options = new ArrayList<>();
+        options.add("regular polygon");
+        options.add("draw");
+        if (polygon.getLength() != Models.DEFAULT.LENGTH) {options.add("minimum size=" + Integer.toString(polygon.getLength()));}
+        if (polygon.getSides() != Models.DEFAULT.SIDES) {options.add("regular polygon sides=" + Integer.toString(polygon.getSides()));}
+        options.addAll(getCommonOptions(polygon));
+        options.addAll(getShapeOptions(polygon));
+        return tikzSource(polygon, String.join(", ", options));
     }
 
     public static String format(TikzDirectedEdge edge){
-        String commonOptions = getCommonOptions(edge);
-        return tikzSource(edge, commonOptions.isEmpty() ? "->" : String.join(", ",  "->", commonOptions));
+        List<String> options = Collections.singletonList("->");
+        options.addAll(getCommonOptions(edge));
+        return tikzSource(edge, String.join(", ", options));
     }
 
     public static String format(TikzUndirectedEdge edge){
-        String commonOptions = getCommonOptions(edge);
-        return tikzSource(edge, commonOptions.isEmpty() ? "" : String.join(", ", commonOptions));
+        return tikzSource(edge, String.join(", ", getCommonOptions(edge)));
     }
 
     public static String format(TikzVoid tikzVoid){
@@ -63,15 +72,17 @@ public class TikzFormatter {
         throw new RuntimeException("Not implemented");
     }
 
-    private static String getCommonOptions(TikzComponent comp) {
+    private static List<String> getCommonOptions(TikzComponent comp) {
         ArrayList<String> options = new ArrayList<>();
-        if (comp.getStrokeColor() != Models.DEFAULT.COLOR) {options.add("color=" + TikzColors.ColorToString(comp.getStrokeColor()));}
+        if (!comp.getStrokeColor().equals(Models.DEFAULT.COLOR)) {options.add("color=" + TikzColors.ColorToString(comp.getStrokeColor()));}
         if (comp.getStroke() != Models.DEFAULT.STROKE) {options.add("line width=" + Integer.toString(comp.getStroke()));}
-        return String.join(", ", options);
+        return options;
     }
 
-    private static String getShapeOptions(TikzShape shape){
-        return shape.getBackgroundColor() == Models.DEFAULT.BACKGROUND_COLOR ? "" : String.join(", ", "fill=" + TikzColors.ColorToString(shape.getBackgroundColor()));
+    private static List<String> getShapeOptions(TikzShape shape){
+        ArrayList<String> options = new ArrayList<>();
+        if (!shape.getBackgroundColor().equals(Models.DEFAULT.BACKGROUND_COLOR)) {options.add(TikzColors.ColorToString(shape.getBackgroundColor()));}
+        return options;
     }
 }
 

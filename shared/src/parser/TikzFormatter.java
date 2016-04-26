@@ -44,11 +44,13 @@ public class TikzFormatter {
     }
 
     public static String format(TikzDirectedEdge edge){
-        return tikzSource(edge, String.join(", ",  "->", getCommonOptions(edge) ));
+        String commonOptions = getCommonOptions(edge);
+        return tikzSource(edge, commonOptions.isEmpty() ? "->" : String.join(", ",  "->", commonOptions));
     }
 
     public static String format(TikzUndirectedEdge edge){
-        return tikzSource(edge, String.join(", ", getCommonOptions(edge)));
+        String commonOptions = getCommonOptions(edge);
+        return tikzSource(edge, commonOptions.isEmpty() ? "" : String.join(", ", commonOptions));
     }
 
     public static String format(TikzVoid tikzVoid){
@@ -62,7 +64,7 @@ public class TikzFormatter {
     private static String getCommonOptions(TikzComponent comp) {
         ArrayList<String> options = new ArrayList<>();
         if (comp.getStrokeColor() != Models.DEFAULT.COLOR) {options.add("color=" + TikzColors.ColorToString(comp.getStrokeColor()));}
-        if (comp.getStroke() != Models.DEFAULT.STROKE) {options.add("line width=\" + Integer.toString(comp.getStroke()");
+        if (comp.getStroke() != Models.DEFAULT.STROKE) {options.add("line width=" + Integer.toString(comp.getStroke()));}
         return String.join(", ", options);
     }
 

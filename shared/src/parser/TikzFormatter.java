@@ -29,7 +29,7 @@ public class TikzFormatter {
     }
 
     private static String getCommonOptions(TikzComponent comp) {
-        return "color=" + TikzColors.ColorToString(comp.getColor()); //TODO
+        return "color=" + TikzColors.ColorToString(comp.getStrokeColor()); //TODO
     }
 
     public static String format(TikzRectangle rectangle){

@@ -9,17 +9,13 @@ import constants.Models;
  * rectangle, ..)
  */
 public abstract class TikzShape extends TikzNode {
-    private Color outlineColor;
     private Color backgroundColor;
-    private int outlineWidth;
 
     /**
      * Constructs a default tikz shape
      */
     protected TikzShape() {
         super();
-        outlineColor = Models.DEFAULT.COLOR;
-        outlineWidth = Models.DEFAULT.WIDTH;
         backgroundColor = Models.DEFAULT.BACKGROUND_COLOR;
     }
 
@@ -31,8 +27,6 @@ public abstract class TikzShape extends TikzNode {
      */
     protected TikzShape(TikzShape o_shape) {
         super(o_shape);
-        outlineColor = o_shape.getOutlineColor();
-        outlineWidth = o_shape.getOutlineWidth();
         backgroundColor = o_shape.getBackgroundColor();
     }
 
@@ -44,8 +38,6 @@ public abstract class TikzShape extends TikzNode {
      */
     protected TikzShape(String reference) {
         super(reference);
-        outlineColor = Models.DEFAULT.COLOR;
-        outlineWidth = Models.DEFAULT.WIDTH;
         backgroundColor = Models.DEFAULT.BACKGROUND_COLOR;
     }
 
@@ -60,51 +52,7 @@ public abstract class TikzShape extends TikzNode {
      */
     protected TikzShape(TikzShape o_shape, String reference) {
         super(o_shape, reference);
-        outlineColor = o_shape.getOutlineColor();
-        outlineWidth = o_shape.getOutlineWidth();
         backgroundColor = o_shape.getBackgroundColor();
-    }
-
-    /**
-     * Getter for the outline color
-     *
-     * @return the outline color
-     */
-    public Color getOutlineColor() {
-        return outlineColor;
-    }
-
-    /**
-     * Setter for the outline color of the shape
-     *
-     * @param outlineColor
-     *            The outline color
-     */
-    public void setOutlineColor(Color outlineColor) {
-        this.outlineColor = outlineColor;
-        setChanged();
-        notifyObservers();
-    }
-
-    /**
-     * Getter for the outline width of the shape
-     *
-     * @return The outline width
-     */
-    public int getOutlineWidth() {
-        return outlineWidth;
-    }
-
-    /**
-     * Setter for the outline width of the shape
-     *
-     * @param outlineWidth
-     *            The outline width
-     */
-    public void setOutlineWidth(int outlineWidth) {
-        this.outlineWidth = outlineWidth;
-        setChanged();
-        notifyObservers();
     }
 
     /**

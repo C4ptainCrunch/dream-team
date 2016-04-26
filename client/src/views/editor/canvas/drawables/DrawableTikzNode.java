@@ -35,7 +35,7 @@ public class DrawableTikzNode extends DrawableTikzComponent {
             g.fill(shape);
         }
 
-        g.setColor(component.getColor());
+        g.setColor(component.getStrokeColor());
         for(Shape shape : getStrokes()) {
             g.fill(shape);
         }

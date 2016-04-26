@@ -1,7 +1,5 @@
 package parser;
 
-import java.awt.*;
-import java.lang.reflect.Field;
 import java.util.*;
 
 import models.tikz.*;
@@ -210,7 +208,7 @@ class Utils {
         }
         res.setPosition(node.getCoordinates());
         res.setLabel(node.getLabel());
-        res.setColor(TikzColors.StringToColor(color));
+        res.setStrokeColor(TikzColors.StringToColor(color));
         res.setStroke(getOptionStroke(defaultOptions, node.getOptions()).orElse(Models.DEFAULT.STROKE));
         final Optional<String> ref = node.getRef();
         if (ref.isPresent()) {
@@ -244,7 +242,7 @@ class Utils {
             res = new TikzUndirectedEdge(n1, n2);
             break;
         }
-        res.setColor(TikzColors.StringToColor(color));
+        res.setStrokeColor(TikzColors.StringToColor(color));
         return res;
     }
 

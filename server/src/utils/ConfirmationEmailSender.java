@@ -1,8 +1,10 @@
 package utils;
 
 import constants.Email;
-import constants.EmailPassword;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Properties;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -17,11 +19,13 @@ import javax.mail.PasswordAuthentication;
  */
 public class ConfirmationEmailSender {
 
+    String username;
+    String password;
+
     public ConfirmationEmailSender(String recipient, String token) {
         String to = recipient;
         String from = "creatikz.one@gmail.com";
-        final String username = "creatikz.one";
-        final String password = EmailPassword.PASSWORD;
+        this.username = "creatikz.one";
         String host = "smtp.gmail.com";
 
         Properties props = new Properties();
@@ -29,6 +33,17 @@ public class ConfirmationEmailSender {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", host);
         props.put("mail.smtp.port", "587");
+
+        Properties emailIniFile = new Properties();;
+        try{
+            emailIniFile.load(new FileInputStream("emailpassword.ini"));
+        } catch (FileNotFoundException ex1) {
+            ex1.printStackTrace();
+        } catch (IOException ex2) {
+            ex2.printStackTrace();
+        }
+
+        this.password = emailIniFile.getProperty("EMAILPASSWORD");
 
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {

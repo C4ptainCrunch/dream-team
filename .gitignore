@@ -1,5 +1,5 @@
 assets/launcher/CreaTikz.desktop
-server/src/constants/EmailPassword.java
+server/emailpassword.ini
 
 *.class
 zip/

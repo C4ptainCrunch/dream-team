@@ -1,5 +1,6 @@
 import com.sun.jersey.simple.container.SimpleServerFactory;
 import database.DAOFactory;
+import utils.ConfirmationEmailSender;
 import utils.Log;
 
 import java.util.logging.Level;
@@ -14,6 +15,8 @@ public class Main {
         TestDAO t = new TestDAO();
         t.test();
         SimpleServerFactory.create("http://localhost:5555");
+
+        ConfirmationEmailSender mail = new ConfirmationEmailSender("andre.mm.90@gmail.com","TESTTESTTEST");
     }
 
 }

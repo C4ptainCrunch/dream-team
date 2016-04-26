@@ -6,7 +6,7 @@ import java.util.Properties;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.Message.RecipientType;
+import javax.mail.Message.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -18,20 +18,30 @@ public class ConfirmationEmailSender {
     public ConfirmationEmailSender(String recipient, String token) {
         String to = recipient;
         String from = "donotreply@creatikz.com";
-        String host = "localhost";
+        String host = "127.0.0.1";
 
         Properties props = new Properties();
         props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", "5555");
 
-        Session session = Session.getDefaultInstance(props);
+        Session session = Session.getInstance(props,null);
 
         try{
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            message.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject(Email.subjectLine);
             message.setText(Email.emailBodyPartOne+token+Email.emailBodyPartTwo);
-            Transport.send(message);
+
+            Transport transport = session.getTransport();
+            transport.connect();
+            transport.sendMessage(message,
+                    message.getRecipients(javax.mail.Message.RecipientType.TO));
+            transport.close();
+
+            System.out.println("Got here!");
+            //Transport.send(message);
+            System.out.println("Email sent");
         }catch (MessagingException mex) {
             mex.printStackTrace();
         }

@@ -2,8 +2,6 @@ package parser;
 
 import java.util.*;
 
-import com.sun.javafx.sg.prism.NGShape;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import models.tikz.*;
 import constants.Models;
 

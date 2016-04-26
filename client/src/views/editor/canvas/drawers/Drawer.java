@@ -1,5 +1,6 @@
 package views.editor.canvas.drawers;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,4 +27,5 @@ public final class Drawer {
     public static DrawableTikzComponent toDrawable(TikzComponent component, JComponent panel) {
         return drawers.get(component.getClass()).toDrawable(component, panel);
     }
+
 }

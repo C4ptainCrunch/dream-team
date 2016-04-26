@@ -1,10 +1,12 @@
 package parser;
 
+import junit.framework.Assert;
 import models.tikz.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +20,7 @@ public class TikzFormatterTest {
     private TikzGraph graph;
     @Before
     public void setUp() throws Exception {
-        graph = new TikzGraph();
+        TikzGraph graph = new TikzGraph();
     }
 
     @After
@@ -26,56 +28,67 @@ public class TikzFormatterTest {
 
     }
 
+    private TikzShape getFirstShape() {
+        List<TikzNode> nodes = graph.getNodes();
+        return nodes.isEmpty() ? new TikzCircle() : (TikzShape) nodes.get(0);
+    }
+
     @Test
     public void testStringBackgroundColor() throws Exception{
+        final Color testedColor = Color.red;
+        TikzCircle circle = new TikzCircle();
+        circle.setBackgroundColor(testedColor);
+        String tikzSource = circle.toString();
+        NodeParser.nodeFromNode(graph).parse(tikzSource);
+        TikzCircle parsedCircle = (TikzCircle) getFirstShape();
+        Assert.assertEquals(parsedCircle.getBackgroundColor(),testedColor);
+    }
+
+    @Test
+    public void testStringStrokeWidth() throws Exception {
+        final int testedStroke = 5;
+        TikzCircle circle = new TikzCircle();
+        circle.setStroke(testedStroke);
+        String tikzSource = circle.toString();
+        NodeParser.nodeFromNode(graph).parse(tikzSource);
+        TikzCircle parsedCircle = (TikzCircle) getFirstShape();
+        Assert.assertEquals(parsedCircle.getStroke(),testedStroke);
+    }
+
+    @Test
+    public void testStringStrokeColor() throws Exception{
+        final Color testedStrokeColor = Color.blue;
+        TikzCircle circle = new TikzCircle();
+        circle.setStrokeColor(testedStrokeColor);
+        String tikzSource = circle.toString();
+        NodeParser.nodeFromNode(graph).parse(tikzSource);
+        TikzCircle parsedCircle = (TikzCircle) getFirstShape();
+        Assert.assertEquals(parsedCircle.getStrokeColor(),testedStrokeColor);
+    }
+
+    @Test
+    public void testStringRectangleBounds() throws Exception{
+
+    }
+
+    @Test
+    public void testStringCircleRadius() throws Exception{
+
+    }
+
+    @Test
+    public void testStringPolygonSides() throws Exception{
+
+    }
+
+    @Test
+    public void testStringPolygonLength() throws Exception{
+
         
-    }
-
-    @Test
-    public void testStringStrokeColor() throws Exception {
-
-    }
-
-    @Test
-    public void testStringStrokeWidth() throws Exception{
-
     }
 
     @Test
     public void testStringDefaultOptions() throws Exception{
 
-    }
-
-
-
-    public void tagueule(){
-        int length = 4;
-        TikzNode testNode;
-        TikzEdge testEdge;
-        List<String> refs = Arrays.asList("a","b","c","d");
-
-        ArrayList<TikzNode> nodes = new ArrayList<>();
-        ArrayList<TikzEdge> edges = new ArrayList<>();
-
-
-        String resultString = "\\node[circle, draw](a) at (0,0){};\n" + "\\node[circle, draw](b) at (0,1){};\n"
-                + "\\node[circle, draw](c) at (0,2){};\n" + "\\node[circle, draw](d) at (0,3){};\n\n" + "\\draw[] (a) -- (b);\n"
-                + "\\draw[] (b) -- (c);\n" + "\\draw[] (c) -- (d);\n";
-
-
-        for (int i = 0; i < length; i++) {
-            testNode = new TikzCircle(refs.get(i));
-            testNode.move(0, i);
-            nodes.add(testNode);
-        }
-
-        for (int i = 0; i < length - 1; i++) {
-            testEdge = new TikzUndirectedEdge(nodes.get(i), nodes.get(i + 1));
-            edges.add(testEdge);
-        }
-
-        graph.addAllNodes(nodes);
-        graph.addAllEdges(edges);
-        assertEquals(graph.toString(), resultString);
     }
 }

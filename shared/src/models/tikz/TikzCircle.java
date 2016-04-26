@@ -114,4 +114,5 @@ public class TikzCircle extends TikzShape {
 
     @Override
     public boolean isCircle(){ return true; }
+
 }

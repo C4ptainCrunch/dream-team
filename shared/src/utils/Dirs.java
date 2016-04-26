@@ -5,6 +5,8 @@ import java.nio.file.Paths;
 
 import constants.Utils;
 
+import javax.swing.filechooser.FileSystemView;
+
 public class Dirs {
     public static Path getDataDir() {
         Path base = Paths.get(System.getProperty("user.home"));
@@ -23,5 +25,9 @@ public class Dirs {
         }
 
         return Paths.get(base.toString(), tail.toString());
+    }
+
+    public static Path getDefaultDirectory(){
+        return FileSystemView.getFileSystemView().getDefaultDirectory().toPath();
     }
 }

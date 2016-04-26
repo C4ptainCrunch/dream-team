@@ -1,6 +1,7 @@
 package models.tikz;
 
 import constants.Models;
+import parser.TikzFormatter;
 
 /**
  * Implementation of the Rectangle Model (from the MVC architectural pattern)
@@ -130,21 +131,6 @@ public class TikzRectangle extends TikzShape {
         notifyObservers();
     }
 
-    /**
-     * Transforms this tikz rectangle into tikz code string
-     *
-     * @return The tikz code string
-     */
-    @Override
-    public String toString() {
-        String options = String.join(", ", new String[] { "rectangle" }); // TODO:
-                                                                          // do
-                                                                          // this
-        if (!options.contains("draw")) {
-            options += ", draw";
-        }
-        return String.format("\\node[%s](%s) at (%.0f,%.0f){%s}", options, "", getPosition().getX(), getPosition().getY(), getLabel());
-    }
 
     /**
      * Getter for a clone (ie. copy of the current tikz rectangle)
@@ -155,5 +141,15 @@ public class TikzRectangle extends TikzShape {
     @Override
     public TikzRectangle getClone() {
         return new TikzRectangle(this);
+    }
+
+    @Override
+    public String toString(){
+        return TikzFormatter.format(this);
+    }
+
+    @Override
+    public boolean isRectangle() {
+        return true;
     }
 }

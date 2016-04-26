@@ -1,6 +1,7 @@
 package models.tikz;
 
 import constants.Models;
+import parser.TikzFormatter;
 
 /**
  * Implementation of the Polygon Model (from the MVC architectural pattern) This
@@ -134,22 +135,6 @@ public class TikzPolygon extends TikzShape {
     }
 
     /**
-     * Transforms this polygon into tikz code string
-     *
-     * @return The tikz code string
-     */
-    @Override
-    public String toString() {
-        String options = String.join(", ", new String[] { "regular polygon" }); // TODO:
-                                                                                // do
-                                                                                // this
-        if (!options.contains("draw")) {
-            options += ", draw";
-        }
-        return String.format("\\node[%s](%s) at (%.0f,%.0f){%s}", options, "", getPosition().getX(), getPosition().getY(), getLabel());
-    }
-
-    /**
      * Getter for a clone (ie. copy of the current polygon)
      *
      * @return A new polygon that is the copy of the current polygon
@@ -157,5 +142,15 @@ public class TikzPolygon extends TikzShape {
     @Override
     public TikzPolygon getClone() {
         return new TikzPolygon(this);
+    }
+
+    @Override
+    public boolean isPolygon() {
+        return true;
+    }
+
+    @Override
+    public String toString(){
+        return TikzFormatter.format(this);
     }
 }

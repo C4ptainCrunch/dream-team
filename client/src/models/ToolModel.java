@@ -51,7 +51,7 @@ public class ToolModel extends Observable {
      */
     public void setComponentColor(Color color) {
         if (component != null) {
-            component.setColor(color);
+            component.setStrokeColor(color);
             alertObservers();
         }
     }

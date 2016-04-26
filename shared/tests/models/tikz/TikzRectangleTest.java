@@ -57,10 +57,10 @@ public class TikzRectangleTest {
     public void testCopy() throws Exception {
         rectangle.setLength(5);
         rectangle.setWidth(8);
-        rectangle.setColor(Color.BLACK);
+        rectangle.setStrokeColor(Color.BLACK);
         TikzRectangle o_rectangle = new TikzRectangle(rectangle);
         assertEquals(o_rectangle.getLength(), rectangle.getLength());
         assertEquals(o_rectangle.getWidth(), rectangle.getWidth());
-        assertEquals(o_rectangle.getColor(), rectangle.getColor());
+        assertEquals(o_rectangle.getStrokeColor(), rectangle.getStrokeColor());
     }
 }

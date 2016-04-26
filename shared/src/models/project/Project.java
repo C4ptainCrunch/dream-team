@@ -19,23 +19,10 @@ import constants.Models;
  * of a tikz graph and a file path containing the specific files (save, diffs
  * ..) for this project
  */
-public class Project implements Comparable<Project> {
+public class Project extends TikzIO implements Comparable<Project> {
     private final static Logger logger = Log.getLogger(Project.class);
     private Path path;
-    private TikzGraph graph;
 
-    /**
-     * Constructs a new Project with a given file path and tikz graph
-     *
-     * @param path
-     *            The file path
-     * @param graph
-     *            the tikz graph
-     */
-    public Project(String path, TikzGraph graph) {
-        this.path = Paths.get(path);
-        this.graph = graph;
-    }
 
     /**
      * Constructs a new Project with a given file path. The project must have
@@ -43,34 +30,16 @@ public class Project implements Comparable<Project> {
      *
      * @param path
      *            The file path
-     * @return the project imported from the file path
      * @throws IOException
      */
-    public static Project fromPath(String path) throws IOException {
-        Project p = new Project(path, null);
-        TikzGraph graph = new TikzGraph(p.getTikzPath().toString());
-        p.setGraph(graph);
-        return p;
-    }
-
-    /**
-     * Initializes the files for this project with a given directory
-     *
-     * @param dir
-     *            The directory where the files are created
-     * @throws IOException
-     */
-    public static void initialize(File dir) throws IOException {
-        dir.mkdir();
-        Path path = dir.toPath();
-        File saveFile = path.resolve(constants.Models.Project.SAVE_FILE).toFile();
-        if (!saveFile.exists()) {
-            new FileOutputStream(saveFile).close();
-        }
-
-        File diffFile = path.resolve(Models.Project.DIFF_FILE).toFile();
-        if (!diffFile.exists()) {
-            new FileOutputStream(diffFile).close();
+    public Project(Path path) {
+        super();
+        this.path = path;
+        try {
+            this.graph = new TikzGraph(this.getTikzPath().toString());
+        } catch (IOException e) {
+            logger.fine("Warning: error while opening the project's tikz file: " + e.toString());
+            this.graph = new TikzGraph();
         }
     }
 
@@ -82,25 +51,6 @@ public class Project implements Comparable<Project> {
     @Override
     public String toString() {
         return this.getName();
-    }
-
-    /**
-     * Getter for the tikz graph of this project
-     *
-     * @return the tikz graph
-     */
-    public TikzGraph getGraph() {
-        return graph;
-    }
-
-    /**
-     * Setter for the tikz graph linked to this project
-     *
-     * @param graph
-     *            The tikz graph
-     */
-    public void setGraph(TikzGraph graph) {
-        this.graph = graph;
     }
 
     /**
@@ -141,6 +91,10 @@ public class Project implements Comparable<Project> {
      *             when the diff file is corrupted
      */
     public void save() throws IOException, ClassNotFoundException {
+        if(!Files.exists(this.path)){
+            this.path.toFile().mkdirs();
+        }
+
         List<Diff> diffs = null;
         try {
             diffs = this.getDiffs();
@@ -160,7 +114,7 @@ public class Project implements Comparable<Project> {
         diffs.add(new Diff(new Date(), diffString));
 
         this.writeDiffs(diffs);
-        this.writeTikz(this.graph.toString());
+        super.writeTikz(this.graph.toString(), this.getTikzPath());
         RecentProjects.addProject(this);
     }
 
@@ -242,20 +196,6 @@ public class Project implements Comparable<Project> {
     }
 
     /**
-     * Writes the tikz source of the project to the save file
-     *
-     * @param tikz
-     *            : the tikz source
-     * @throws IOException
-     *             when writing failed
-     */
-    public void writeTikz(String tikz) throws IOException {
-        PrintWriter sourceWriter = new PrintWriter(this.getTikzPath().toFile());
-        sourceWriter.println(tikz);
-        sourceWriter.close();
-    }
-
-    /**
      * Compares this Project with the given Project for order (uses the path for
      * comparison).
      *
@@ -283,5 +223,9 @@ public class Project implements Comparable<Project> {
             return null;
         }
         return diffs.get(diffs.size() - 1).getDate();
+    }
+
+    public boolean exists() {
+        return Files.exists(this.path);
     }
 }

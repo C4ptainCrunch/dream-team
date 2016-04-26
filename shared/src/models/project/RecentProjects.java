@@ -31,7 +31,6 @@ public class RecentProjects {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
                 Project p = new Project(Paths.get(line));
                 if(p.exists()){
                     projects.add(p);

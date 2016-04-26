@@ -42,6 +42,6 @@ public class TikzColors {
     }
 
     public static String ColorToString(Color color){
-        return color2string.getOrDefault(color, Models.DEFAULT.COLOR.toString());
+        return color2string.getOrDefault(color, color2string.get(Models.DEFAULT.COLOR));
     }
 }

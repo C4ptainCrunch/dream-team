@@ -1,5 +1,6 @@
 package parser;
 
+import constants.Models;
 import junit.framework.Assert;
 import models.tikz.*;
 import org.junit.After;
@@ -68,27 +69,58 @@ public class TikzFormatterTest {
 
     @Test
     public void testStringRectangleBounds() throws Exception{
-
+        final int testeWidth = 10;
+        final int testedHeight = 15;
+        TikzRectangle rectangle = new TikzRectangle();
+        rectangle.setWidth(testeWidth);
+        rectangle.setLength(testedHeight);
+        String tikzSource = rectangle.toString();
+        NodeParser.nodeFromNode(graph).parse(tikzSource);
+        TikzRectangle parsedRectangle = (TikzRectangle) getFirstShape();
+        Assert.assertEquals(parsedRectangle.getWidth(),testeWidth);
+        Assert.assertEquals(parsedRectangle.getLength(),testedHeight);
     }
 
     @Test
     public void testStringCircleRadius() throws Exception{
-
+        final int testedRadius = 123;
+        TikzCircle circle = new TikzCircle();
+        circle.setRadius(testedRadius);
+        String tikzSource = circle.toString();
+        NodeParser.nodeFromNode(graph).parse(tikzSource);
+        TikzCircle parsedCircle = (TikzCircle) getFirstShape();
+        Assert.assertEquals(parsedCircle.getRadius(),testedRadius);
     }
 
     @Test
     public void testStringPolygonSides() throws Exception{
-
+        final int numSidesTested = 100;
+        TikzPolygon polygon = new TikzPolygon();
+        polygon.setSides(numSidesTested);
+        String tikzSource = polygon.toString();
+        NodeParser.nodeFromNode(graph).parse(tikzSource);
+        TikzPolygon parsedPolygon = (TikzPolygon) getFirstShape();
+        Assert.assertEquals(parsedPolygon.getSides(),numSidesTested);
     }
 
     @Test
     public void testStringPolygonLength() throws Exception{
-
-        
+        final int testedLength = 66;
+        TikzPolygon polygon = new TikzPolygon();
+        polygon.setLength(testedLength);
+        String tikzSource = polygon.toString();
+        NodeParser.nodeFromNode(graph).parse(tikzSource);
+        TikzPolygon parsedPolygon = (TikzPolygon) getFirstShape();
+        Assert.assertEquals(parsedPolygon.getLength(),testedLength);
     }
 
     @Test
     public void testStringDefaultOptions() throws Exception{
-
+        TikzCircle circle = new TikzCircle();
+        String tikzSource = circle.toString();
+        NodeParser.nodeFromNode(graph).parse(tikzSource);
+        TikzCircle parsedCircle = (TikzCircle) getFirstShape();
+        Assert.assertEquals(parsedCircle.getRadius(), Models.DEFAULT.LENGTH);
+        Assert.assertEquals(parsedCircle.getBackgroundColor(), Models.DEFAULT.BACKGROUND_COLOR);
     }
 }

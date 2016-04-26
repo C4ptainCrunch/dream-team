@@ -42,3 +42,7 @@ sourceSets {
         }
     }
 }
+
+task onejar(type: OneJar) {
+    mainClass = 'Main'
+}

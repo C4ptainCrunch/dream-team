@@ -1,6 +1,7 @@
 assets/launcher/CreaTikz.desktop
 *.class
 zip/
+jar/
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 

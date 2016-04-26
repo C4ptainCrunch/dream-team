@@ -28,8 +28,8 @@ public class TikzComponentTest {
 
     @Test
     public void testColor() throws Exception {
-        tikzComponent.setColor(black);
-        assertEquals(tikzComponent.getColor(), black);
+        tikzComponent.setStrokeColor(black);
+        assertEquals(tikzComponent.getStrokeColor(), black);
     }
 
     @Test

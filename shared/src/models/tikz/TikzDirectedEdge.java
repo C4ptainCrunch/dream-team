@@ -1,5 +1,7 @@
 package models.tikz;
 
+import parser.TikzFormatter;
+
 import java.awt.*;
 
 /**
@@ -75,18 +77,6 @@ public class TikzDirectedEdge extends TikzEdge {
         return getSecondNode();
     }
 
-    /**
-     * Transforms this directed edge into tikz code string
-     *
-     * @return The tikz code string
-     */
-    @Override
-    public String toString() {
-        Point first = getFirstNode().getPosition();
-        Point second = getSecondNode().getPosition();
-        String options = String.join(", ", new String[] { "->" }); // TODO
-        return String.format("\\draw[%s] (%.0f, %.0f) -- (%.0f, %.0f)", options, first.getX(), first.getY(), second.getX(), second.getY());
-    }
 
     /**
      * Getter for a clone (ie. copy of the current directed edge)
@@ -96,5 +86,15 @@ public class TikzDirectedEdge extends TikzEdge {
     @Override
     public TikzDirectedEdge getClone() {
         return new TikzDirectedEdge(this);
+    }
+
+    @Override
+    public boolean isDirectedEdge() {
+        return true;
+    }
+
+    @Override
+    public String toString(){
+        return TikzFormatter.format(this);
     }
 }

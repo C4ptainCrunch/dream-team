@@ -205,11 +205,9 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
         StringBuilder res = new StringBuilder();
         for (TikzNode node : getNodes()) {
             res.append(node);
-            res.append(";\n");
         }
         for (TikzEdge edge : this.getEdges()) {
             res.append(edge);
-            res.append(";\n");
         }
         return res.toString();
     }
@@ -277,5 +275,12 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
 
     public TikzGraph getClone() {
         return new TikzGraph(this);
+    }
+
+    public Optional<TikzNode> findByRef(String ref) {
+        for (TikzNode node: this){
+            if (ref.equals(node.getReference())) {return Optional.of(node);}
+        }
+        return Optional.empty();
     }
 }

@@ -64,7 +64,6 @@ public class SourceController implements Observer {
      */
     private void updateGraphFromText(String raw_text) {
         String text = raw_text.trim();
-        if (text.length() != 0) {
             TikzGraph new_graph = new TikzGraph();
             try {
                 NodeParser.parseDocument(new_graph).parse(text);
@@ -76,7 +75,7 @@ public class SourceController implements Observer {
             } catch (ParserException e) {
                 logger.info("Error during TikZ parsing : " + e.getMessage());
             }
-        }
+
     }
 
     /**

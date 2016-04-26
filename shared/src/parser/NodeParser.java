@@ -3,8 +3,11 @@ package parser;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
-import models.tikz.*;
+import models.tikz.TikzGraph;
+import models.tikz.TikzNode;
+import models.tikz.TikzUndirectedEdge;
 
 import org.codehaus.jparsec.Parser;
 import org.codehaus.jparsec.Parsers;
@@ -38,10 +41,14 @@ public class NodeParser {
      * @return a parser object that contains the string between the parentheses
      */
     public static Parser<String> reference() {
-        return Parsers.between(Scanners.string("("), Parsers.or(Terminals.Identifier.TOKENIZER.source(), Parsers.constant("")),
-                Scanners.string(")"));
+        return Parsers.between(Scanners.string("("), Scanners.notChar(')').many().source(), Scanners.string(")"));
     }
 
+    /**
+     * Parses a decimal number
+     * 
+     * @return a parser object containing the parsed integer
+     */
     public static Parser<Integer> decimal() {
         return Parsers.sequence(Scanners.string("-").optional().source(),
                 MAYBEWHITESPACES.next(Terminals.DecimalLiteral.TOKENIZER).source(),
@@ -134,7 +141,8 @@ public class NodeParser {
                 Parsers.sequence(MAYBEWHITESPACES, reference()),
                 Parsers.sequence(Scanners.WHITESPACES, Scanners.string("at"), Scanners.WHITESPACES, coordinates()),
                 Parsers.sequence(MAYBEWHITESPACES, maybeLabel), (options, ref, coord, label) -> {
-                    graph.add(Utils.createNode(new DestructuredNode(options, ref, coord, label)));
+                    TikzNode maybeNode = Utils.createNode(new DestructuredNode(options, ref, coord, label));
+                    if(maybeNode != null) {graph.add(maybeNode);}
                     return null;
                 });
     }
@@ -155,13 +163,17 @@ public class NodeParser {
                     TikzNode previous;
                     TikzNode current;
                     previous = Utils.createNode(defaultOptions, firstNode);
-                    graph.add(previous);
-                    for (DestructuredNode destructuredNode : restNode) {
-                        current = Utils.createNode(defaultOptions, destructuredNode);
-                        graph.add(current);
-                        graph.add(new TikzUndirectedEdge(previous,
-                                current)); /* TODO: parsing edges */
-                        previous = current;
+                    if(previous != null) {
+                        graph.add(previous);
+                        for (DestructuredNode destructuredNode : restNode) {
+                            current = Utils.createNode(defaultOptions, destructuredNode);
+                            if(current != null) {
+                                graph.add(current);
+                                graph.add(new TikzUndirectedEdge(previous,
+                                        current)); /* TODO: parsing edges */
+                                previous = current;
+                            }
+                        }
                     }
                     return null;
                 });
@@ -229,19 +241,16 @@ public class NodeParser {
      */
     public static Parser<Void> edgesFromDraw(TikzGraph graph) {
         return Parsers.sequence(Parsers.sequence(Scanners.string("\\draw"), maybeOptions),
-                Parsers.sequence(Scanners.WHITESPACES, coordinates()),
-                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, coordinates()).many(),
-                (defaultOptions, firstCoord, restCoord) -> {
-                    TikzVoid previous = new TikzVoid();
-                    TikzVoid current;
-                    TikzEdge edge;
-                    graph.add(previous);
-                    for (Point coord : restCoord) {
-                        current = new TikzVoid();
-                        graph.add(current);
-                        edge = Utils.createEdge(defaultOptions, previous, current);
-                        graph.add(current);
-                        graph.add(edge);
+                Parsers.sequence(Scanners.WHITESPACES, reference()),
+                Parsers.sequence(Scanners.WHITESPACES, Scanners.string("--"), Scanners.WHITESPACES, reference()).many(),
+                (defaultOptions, firstRef, restRef) -> {
+                    Optional<TikzNode> previous = graph.findByRef(firstRef);
+                    Optional<TikzNode> current;
+                    for (String ref : restRef) {
+                        current = graph.findByRef(ref);
+                        if (previous.isPresent() && current.isPresent()) {
+                            graph.add(Utils.createEdge(defaultOptions, previous.get(), current.get()));
+                        }
                         previous = current;
                     }
                     return null;

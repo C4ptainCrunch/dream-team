@@ -26,27 +26,4 @@ public class TikzShapeTest {
     public void tearDown() throws Exception {
 
     }
-
-    @Test
-    public void testGetOutlineColor() throws Exception {
-        assertEquals(shape.getOutlineColor(), Models.DEFAULT.COLOR);
-    }
-
-    @Test
-    public void testSetOutlineColor() throws Exception {
-        shape.setOutlineColor(Color.BLACK);
-        assertEquals(shape.getOutlineColor(), Color.BLACK);
-    }
-
-    @Test
-    public void testGetOutlineWidth() throws Exception {
-        assertEquals(shape.getOutlineWidth(), Models.DEFAULT.WIDTH);
-    }
-
-    @Test
-    public void testSetOutlineWidth() throws Exception {
-        int width = 5;
-        shape.setOutlineWidth(width);
-        assertEquals(shape.getOutlineWidth(), width);
-    }
 }

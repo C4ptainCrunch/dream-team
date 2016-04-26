@@ -1,10 +1,9 @@
+package models.tikz;
 import static org.junit.Assert.*;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.Observable;
 
 import models.tikz.*;
 
@@ -242,34 +241,6 @@ public class TikzGraphTest {
     }
 
     @Test
-    public void testToString() throws Exception {
-        int length = 4;
-        TikzNode testNode;
-        TikzEdge testEdge;
-        ArrayList<TikzNode> nodes = new ArrayList<>();
-        ArrayList<TikzEdge> edges = new ArrayList<>();
-
-        String resultString = "\\node[circle, draw]() at (0,0){};\n" + "\\node[circle, draw]() at (0,1){};\n"
-                + "\\node[circle, draw]() at (0,2){};\n" + "\\node[circle, draw]() at (0,3){};\n" + "\\draw[] (0, 0) -- (0, 1);\n"
-                + "\\draw[] (0, 1) -- (0, 2);\n" + "\\draw[] (0, 2) -- (0, 3);\n";
-
-        for (int i = 0; i < length; i++) {
-            testNode = new TikzCircle();
-            testNode.move(0, i);
-            nodes.add(testNode);
-        }
-
-        for (int i = 0; i < length - 1; i++) {
-            testEdge = new TikzUndirectedEdge(nodes.get(i), nodes.get(i + 1));
-            edges.add(testEdge);
-        }
-
-        graph.addAllNodes(nodes);
-        graph.addAllEdges(edges);
-        assertEquals(graph.toString(), resultString);
-    }
-
-    @Test
     public void testObservableConstructor() throws Exception {
         assertTrue(!graph.hasChanged());
         assertEquals(0, graph.countObservers());
@@ -345,11 +316,12 @@ public class TikzGraphTest {
     public void testLatexBuild() throws Exception {
         TikzGraph graph = new TikzGraph();
         int length = 4;
+        ArrayList<String> refs = new ArrayList<>(Arrays.asList("a", "b", "c", "d"));
         ArrayList<TikzNode> nodes = new ArrayList<>();
         ArrayList<TikzEdge> edges = new ArrayList<>();
         TikzNode testNode;
         for (int i = 0; i < length; i++) {
-            testNode = new TikzCircle();
+            testNode = new TikzCircle(refs.get(i));
             testNode.move(0, i);
             nodes.add(testNode);
         }
@@ -364,9 +336,9 @@ public class TikzGraphTest {
         graph.addAllEdges(edges);
 
         String expectedString = "\\documentclass{article}\n" + "\\usepackage{tikz}\n" + "\\begin{document}\n"
-                + "\\begin{tikzpicture}[x=0.0625em,y=0.0625em]\n" + "\\node[circle, draw]() at (0,0){};\n"
-                + "\\node[circle, draw]() at (0,1){};\n" + "\\node[circle, draw]() at (0,2){};\n" + "\\node[circle, draw]() at (0,3){};\n"
-                + "\\draw[] (0, 0) -- (0, 1);\n" + "\\draw[] (0, 1) -- (0, 2);\n" + "\\draw[] (0, 2) -- (0, 3);\n" + "\\end{tikzpicture}\n"
+                + "\\begin{tikzpicture}[x=0.0625em,y=0.0625em]\n" + "\\node[circle, draw](a) at (0,0){};\n"
+                + "\\node[circle, draw](b) at (0,1){};\n" + "\\node[circle, draw](c) at (0,2){};\n" + "\\node[circle, draw](d) at (0,3){};\n"
+                + "\\draw[] (a) -- (b);\n" + "\\draw[] (b) -- (c);\n" + "\\draw[] (c) -- (d);\n" + "\\end{tikzpicture}\n"
                 + "\\end{document}\n";
 
         assertEquals(expectedString, graph.toLatex());

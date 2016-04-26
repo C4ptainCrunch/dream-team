@@ -5,13 +5,14 @@ import java.util.Observable;
 import java.util.UUID;
 
 import constants.Models;
+import parser.TikzFormatter;
 
 /**
  * This abstract class defines the common elements of a tikz component (node,
  * ..)
  */
 public abstract class TikzComponent extends Observable {
-    private Color color;
+    private Color strokeColor;
     private String label;
     private int stroke;
     private String reference;
@@ -30,7 +31,7 @@ public abstract class TikzComponent extends Observable {
      *            the reverence for the component
      */
     protected TikzComponent(String reference) {
-        this.color = Models.DEFAULT.COLOR;
+        this.strokeColor = Models.DEFAULT.COLOR;
         this.label = Models.DEFAULT.LABEL;
         this.stroke = Models.DEFAULT.STROKE;
         this.reference = reference;
@@ -56,29 +57,30 @@ public abstract class TikzComponent extends Observable {
      *            the reference for the component
      */
     protected TikzComponent(TikzComponent o_comp, String reference) {
-        this.color = o_comp.getColor();
+        this.strokeColor = o_comp.getStrokeColor();
         this.label = o_comp.getLabel();
         this.stroke = o_comp.getStroke();
         this.reference = reference;
     }
 
     /**
-     * Getter for the color of this tikz component
+     * Getter for the strokeColor of this tikz component
      *
-     * @return the color
+     * @return the strokeColor
      */
-    public Color getColor() {
-        return color;
+    public Color getStrokeColor() {
+        return strokeColor;
     }
 
     /**
-     * Setter for the color of this tikz component
+     * Setter for the strokeColor of this tikz component
      *
-     * @param color
-     *            The color
+     * @param strokeColor
+     *            The strokeColor
      */
-    public void setColor(Color color) {
-        this.color = color;
+
+    public void setStrokeColor(Color strokeColor) {
+        this.strokeColor = strokeColor;
         setChanged();
         notifyObservers();
     }
@@ -154,5 +156,9 @@ public abstract class TikzComponent extends Observable {
 
     public boolean isEdge() {
         return false;
+    }
+
+    public String toString() {
+        return TikzFormatter.format(this);
     }
 }

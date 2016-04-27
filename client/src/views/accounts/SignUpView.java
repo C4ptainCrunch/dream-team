@@ -12,8 +12,9 @@ import misc.utils.JTextFieldSizeLimiter;
 
 
 /**
- * Created by mrmmtb on 21.04.16.
+ * View designed for sign up process.
  */
+
 public class SignUpView extends JFrame {
 
     SignUpController controller;
@@ -25,6 +26,11 @@ public class SignUpView extends JFrame {
     JPasswordField passwordField;
     ArrayList<JTextField> fields;
 
+    /**
+     * Default constructor.
+     * @param loginView The parent view
+     */
+
     public SignUpView(LoginWindowView loginView) {
         this.controller = new SignUpController(this);
         this.loginView = loginView;
@@ -32,6 +38,10 @@ public class SignUpView extends JFrame {
         this.setLocationRelativeTo(null);
         this.render();
     }
+
+    /**
+     * Render the view.
+     */
 
     public final void render() {
         this.setTitle("TikzCreator : Login or Sign Up");
@@ -60,11 +70,20 @@ public class SignUpView extends JFrame {
         }
     }
 
+    /**
+     * Show a warning dialog
+     * @param warningText The warning text displayed in the dialog
+     */
+
     public void initWarning(String warningText) {
         JOptionPane.showMessageDialog(this, warningText, "Warning", JOptionPane.WARNING_MESSAGE);
     }
 
-    public void initSignUpPanel() {
+    /**
+     * Display the sign up panel.
+     */
+
+    public void showSignUpPanel() {
         JPanel signUpPanel = new JPanel();
         signUpPanel.setLayout(new BoxLayout(signUpPanel, BoxLayout.Y_AXIS));
         initInformationPanel(signUpPanel);

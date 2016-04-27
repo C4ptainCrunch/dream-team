@@ -5,8 +5,6 @@ import models.users.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import javax.xml.crypto.Data;
 import java.io.File;
 
 import static org.junit.Assert.*;
@@ -37,7 +35,7 @@ public class UsersDAOTest {
         db.delete();
         File db_dir = new File(Database.DB_DIR);
         db_dir.delete();
-        File db_dir_first = new File("server");
+        File db_dir_first = new File(Database.DB_HOME_TEST_DIR);
         db_dir_first.delete();
     }
 
@@ -47,6 +45,11 @@ public class UsersDAOTest {
         User resultUser = this.usersDAO.findByUsername("testUser");
         assertNotNull(resultUser);
         assertEquals(this.testUser.getUsername(),resultUser.getUsername());
+    }
+
+    @Test
+    public void testGetTokens() {
+        System.out.println(this.usersDAO.getTokenOfUser(this.testUser.getUsername()));
     }
 
     @Test

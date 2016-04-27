@@ -11,7 +11,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 import views.accounts.TokenActivationView;
 
 /**
- * Created by mrmmtb on 21.04.16.
+ * The controller for the SignUpView.
  */
 public class SignUpController {
 
@@ -23,8 +23,14 @@ public class SignUpController {
 
     public void launchSignUpPanel() {
         this.view.hideLogginView();
-        this.view.initSignUpPanel();
+        this.view.showSignUpPanel();
     }
+
+    /**
+     * Check if the data entered by the user are correct (i.e. allow him to enter the program).
+     * @param fields The text fields
+     * @param passwordField The password field
+     */
 
     public void validateFields(ArrayList<JTextField> fields, JPasswordField passwordField) {
         Boolean firstNameCheck = Pattern.matches(GUI.SignUp.NAMES_REGEX,fields.get(0).getText());
@@ -58,7 +64,7 @@ public class SignUpController {
     }
 
     public void cancelSignUp() {
-
+        this.view.dispose();
     }
 
     private void accountCreation(ArrayList<JTextField> fields, JPasswordField passwordField) {

@@ -9,8 +9,9 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 
 /**
- * Created by bambalaam on 21/04/16.
+ * LoginWindowView is the main window for the login process.
  */
+
 public class LoginWindowView extends JFrame {
 
     private LoginWindowController controller = new LoginWindowController(this);
@@ -24,6 +25,10 @@ public class LoginWindowView extends JFrame {
         this.setLocationRelativeTo(null);
         this.render();
     }
+
+    /**
+     * Render the view.
+     */
 
     public final void render() {
         this.setTitle("TikzCreator : Login or Sign Up");

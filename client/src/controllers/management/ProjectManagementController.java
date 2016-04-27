@@ -32,9 +32,17 @@ public class ProjectManagementController {
         view.dispose(); // Exit previous windows
     }
 
-    public void dropdownSelected(ActionEvent event) {
-        JComboBox comboBox = (JComboBox) event.getSource();
+    /**
+     * Updates the project description with the selected project
+     * Should be called when the dropdown is updated.
+     * @param comboBox
+     */
+    public void dropdownSelected(JComboBox comboBox) {
         Project selectedProject = (Project) comboBox.getSelectedItem();
+        if(selectedProject == null){
+            return;
+        }
+        logger.info(selectedProject.toString());
 
         try {
             String text = String.format(ProjectManagement.BLANK_INFO_PANEL, selectedProject.getName(), "Local",
@@ -45,19 +53,15 @@ public class ProjectManagementController {
         }
     }
 
+    /**
+     * Creates a new project and opens it in the editor.
+     */
     public void createProject() {
-        FileChooseView choose = new FileChooseView("Create project", JFileChooser.DIRECTORIES_ONLY);
-        Path path = choose.ask().toPath();
-        if (path != null) {
-            try {
-                Project p = new Project(path);
-                editProject(p);
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(view, Errors.CREATE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
-                logger.severe("Failed to create new project: " + e.getMessage());
-            }
-        }
+        try {
+            editProject(new Project());
+        } catch (IOException e) {}
     }
+
 
     public void openProject() {
         Project project = view.getSelectedProject();

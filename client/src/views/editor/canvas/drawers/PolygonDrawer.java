@@ -33,20 +33,39 @@ public class PolygonDrawer extends NodeDrawer {
         int vertices = polygon.getSides();
         int size = polygon.getLength();
 
+        return new Polygon(getPolygonXCoords(vertices, size), getPolygonYCoords(vertices, size), vertices);
+    }
+
+    private int[] getPolygonXCoords(int vertices, int size){
         double step = 2 * Math.PI / vertices;
         double offset = (Math.PI - step) / 2;
         int[] x = new int[vertices];
-        int[] y = new int[vertices];
         for (int i = 0; i < vertices; i++) {
             x[i] = size + (int) (Math.cos(i * step + offset) * size);
+        }
+        return x;
+    }
+
+    private int[] getPolygonYCoords(int vertices, int size){
+        double step = 2 * Math.PI / vertices;
+        double offset = (Math.PI - step) / 2;
+        int[] y = new int[vertices];
+        for (int i = 0; i < vertices; i++) {
             y[i] = size + (int) (Math.sin(i * step + offset) * size);
         }
-
-        return new Polygon(x, y, vertices);
+        return y;
     }
+
 
     @Override
     public List<Point> getAnchors(TikzNode node){
-        return new ArrayList<>();
+        TikzPolygon polygon = (TikzPolygon) node;
+        int vertices = polygon.getSides();
+        int size = polygon.getLength();
+        int[] x = getPolygonXCoords(vertices, size);
+        int[] y = getPolygonYCoords(vertices, size);
+
+        List<Point> anchors = new ArrayList<>();
+        return anchors;
     }
 }

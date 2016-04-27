@@ -17,10 +17,11 @@ public class User {
         // JAX-RS needs a constructor without any parameters
     }
 
-    public User(int id, String username, List<String> documents) {
-        this.id = id;
+    public User(String username, String firstName, String lastName, String email) {
         this.username = username;
-        this.documents = documents;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
     }
 
     public User(int id, String username, String firstName, String lastName, String email) {

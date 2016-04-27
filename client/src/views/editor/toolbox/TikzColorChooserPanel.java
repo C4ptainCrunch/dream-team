@@ -26,7 +26,7 @@ public class TikzColorChooserPanel extends AbstractColorChooserPanel {
         button.setBackground(color);
         button.setContentAreaFilled(false);
         button.setOpaque(true);
-        button.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//        button.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         button.setPreferredSize(new Dimension(40, 40));
         return button;
     }

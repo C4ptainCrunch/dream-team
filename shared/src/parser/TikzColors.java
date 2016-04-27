@@ -37,9 +37,21 @@ public class TikzColors {
         }
     }};
 
+    /**
+     * Cast a String to an java.awt.Color object (using a data member HashMap).
+     * @param name  the color name.
+     * @return an awt.Color object.
+     */
+
     public static Color StringToColor(String name){
         return string2color.getOrDefault(name.toLowerCase(), Models.DEFAULT.COLOR);
     }
+
+    /**
+     * Cast a java.awt.Color object to a String (using a data member HashMap).
+     * @param color the awt.Color object
+     * @return the corresponding String.
+     */
 
     public static String ColorToString(Color color){
         return color2string.getOrDefault(color, color2string.get(Models.DEFAULT.COLOR));

@@ -3,6 +3,7 @@ package models.tikz;
 import java.awt.*;
 
 import constants.Models;
+import utils.Geom;
 
 /**
  * This abstract class defines the common elements of a tikz node (shape, text,

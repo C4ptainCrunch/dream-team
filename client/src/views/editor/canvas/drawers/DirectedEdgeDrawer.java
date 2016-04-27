@@ -18,12 +18,20 @@ public class DirectedEdgeDrawer extends EdgeDrawer {
         // this was left intentionally blank
     }
 
+    /**
+     * Creates the drawable swing object for the given directed edge.
+     * First get the core line (with no arrow head) of the edge and add the line shape to the
+     * drawable. Then compute the arrow head by using polar coordinates.
+     * @param component the directed edge to create a drawable from
+     * @param panel the panel on which the edge needs to be drawn
+     * @return the drawable tikz directed edge
+     */
     @Override
     public DrawableTikzEdge toDrawable(TikzComponent component, JComponent panel) {
         TikzDirectedEdge edge = (TikzDirectedEdge) component;
         DrawableTikzEdge drawablecomponent = super.toDrawable(edge, panel);
-        Point start = fromPosition(edge);
-        Point end = toPosition(edge);
+        Point start = Converter.swing2tikz(fromPosition(edge, panel), panel);
+        Point end = Converter.swing2tikz(toPosition(edge, panel), panel);
         double dy = end.y - start.y;
         double dx = end.x - start.x;
         double theta = Math.atan2(dy, dx);

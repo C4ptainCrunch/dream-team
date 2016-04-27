@@ -3,6 +3,8 @@ package models.tikz;
 import constants.Models;
 import parser.TikzFormatter;
 
+import java.awt.*;
+
 /**
  * Implementation of the Circle Model (from the MVC architectural pattern) This
  * class represents a circle that is linked to a tikz code
@@ -114,5 +116,6 @@ public class TikzCircle extends TikzShape {
 
     @Override
     public boolean isCircle(){ return true; }
+
 
 }

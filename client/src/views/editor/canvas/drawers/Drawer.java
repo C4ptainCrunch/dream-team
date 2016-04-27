@@ -1,5 +1,6 @@
 package views.editor.canvas.drawers;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +11,9 @@ import views.editor.canvas.drawables.DrawableTikzComponent;
 
 public final class Drawer {
 
+    /**
+     * Maps each Tikz model class to its appropriate drawer.
+     */
     private static Map<Class<? extends TikzComponent>, TikzDrawer> drawers = new HashMap<>();
 
     static {
@@ -23,7 +27,19 @@ public final class Drawer {
     private Drawer() {
     }
 
+    /**
+     * Create a drawable swing object from a tikz component that has to be drawn on the given panel.
+     * @param component the tikz component to draw
+     * @param panel the panel to draw onto
+     * @return the swing drawalbe object
+     */
     public static DrawableTikzComponent toDrawable(TikzComponent component, JComponent panel) {
-        return drawers.get(component.getClass()).toDrawable(component, panel);
+        TikzDrawer componentDrawer = drawers.get(component.getClass());
+        return componentDrawer.toDrawable(component, panel);
+    }
+
+    public static Point closestAnchor(TikzNode node, Point point, JComponent panel){
+        NodeDrawer nodeDrawer = (NodeDrawer) drawers.get(node.getClass());
+        return nodeDrawer.closestAnchor(node, point, panel);
     }
 }

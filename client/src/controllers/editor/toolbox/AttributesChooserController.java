@@ -5,10 +5,12 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.*;
+import javax.swing.colorchooser.AbstractColorChooserPanel;
 
 import models.ToolModel;
 import parser.TikzColors;
 import views.editor.toolbox.AttributesChooserView;
+import views.editor.toolbox.TikzColorChooser;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the
@@ -68,9 +70,7 @@ public class AttributesChooserController implements Observer {
      * selected color to the tool model
      */
     public void chooseColor() {
-        chosen_color = JColorChooser.showDialog(this.view, COLOR_DIALOG_TITLE, view.getColor());
-        chosen_color = TikzColors.nearestTikzColor(chosen_color);
-
+        chosen_color = TikzColorChooser.choose(view.getColor());
         view.setColorFieldColor(chosen_color);
         colorSelected(chosen_color);
     }

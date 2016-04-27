@@ -13,4 +13,10 @@ public interface UsersDAO {
     User findByUsernameAndPassword(String username, String password);
 
     void setPasswordToUser(User user, String password);
+
+    boolean isActivated(User user);
+
+    void activateUser(User user);
+
+    String getTokenOfUser(User user);
 }

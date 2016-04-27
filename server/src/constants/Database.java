@@ -14,13 +14,17 @@ public final class Database {
             "last_name VARCHAR(32)," +
             "username VARCHAR(16) NOT NULL UNIQUE," +
             "email VARCAR(32) NOT NULL UNIQUE," +
+            "token VARCHAR(32) NOT NULL," +
+            "activated INTEGER(1) NOT NULL,"+
             "password TEXT);";
     public static final String SQL_SELECT_BY_USERNAME = "SELECT id, first_name, last_name, username, email " +
                                                          "FROM Users WHERE username = ?";
     public static final String SQL_MATCH_USERNAME_PASSWORD = "SELECT username, password " +
                                                               "FROM Users WHERE username = ? and password = ?";
-    public static final String SQL_INSERT = "INSERT INTO Users(first_name, last_name, username, email) " +
-                                             "VALUES (?, ?, ?, ?)";
+    public static final String SQL_INSERT_USER = "INSERT INTO Users(first_name, last_name, username, email, token, activated) " +
+                                             "VALUES (?, ?, ?, ?, ?, 0)";
     public static final String SQL_SET_PASSWORD_TO_USER = "UPDATE Users SET password = ? WHERE username = ?";
     public static final String SQL_GET_TOKEN_BY_USERNAME = "SELECT token FROM Users WHERE username = ?";
+    public static final String SQL_IS_ACTIVATED = "SELECT activated FROM Users WHERE username = ?";
+    public static final String SQL_ACTIVATE_USER = "UPDATE Users SET activated = 1 WHERE username = ?";
 }

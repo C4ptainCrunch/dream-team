@@ -32,9 +32,9 @@ public class UsersDAOImpl implements  UsersDAO {
         boolean accountValidated = false;
         try {
             connection = daoFactory.getConnection();
-            preparedStatement = initializationPreparedRequest( connection, Database.SQL_INSERT, true,
+            preparedStatement = initializationPreparedRequest( connection, Database.SQL_INSERT_USER, true,
                                                                user.getFirstName(), user.getLastName(),
-                                                               user.getUsername(), user.getEmail()
+                                                               user.getUsername(), user.getEmail(), token
                                                              );
             int statut = preparedStatement.executeUpdate();
             if ( statut == 0 ) {
@@ -124,6 +124,67 @@ public class UsersDAOImpl implements  UsersDAO {
             silentClosures( preparedStatement, connection );
         }
     }
+
+    @Override
+    public boolean isActivated(User user) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Boolean activated = false;
+        try {
+            connection = daoFactory.getConnection();
+            preparedStatement = initializationPreparedRequest(connection, Database.SQL_IS_ACTIVATED, false, user.getUsername());
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next() ) {
+                activated = (resultSet.getInt("activated") == 1) ? true : false;
+            }
+        } catch (SQLException e ) {
+            System.err.println( "Failed to get user's activated status" );
+        } finally {
+            silentClosures( resultSet, preparedStatement, connection);
+        }
+        return activated;
+    }
+
+    @Override
+    public void activateUser( User user ) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = daoFactory.getConnection();
+            preparedStatement = initializationPreparedRequest( connection, Database.SQL_ACTIVATE_USER, false, user.getUsername() );
+            int statut = preparedStatement.executeUpdate();
+            if ( statut == 0 ) {
+                System.err.println( "Failed to activate user" );
+            }
+        } catch ( SQLException e ) {
+            System.err.println( "Failed to activate user" );
+        } finally {
+            silentClosures( preparedStatement, connection );
+        }
+    }
+
+    @Override
+    public String getTokenOfUser( User user ) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String token = null;
+        try {
+            connection = daoFactory.getConnection();
+            preparedStatement = initializationPreparedRequest(connection, Database.SQL_GET_TOKEN_BY_USERNAME, false, user.getUsername());
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next() ) {
+                token = (resultSet.getString("token"));
+            }
+        } catch (SQLException e ) {
+            System.err.println( "Failed to retrieve user's token" );
+        } finally {
+            silentClosures( resultSet, preparedStatement, connection);
+        }
+        return token;
+    }
+
 
 
     private static User map(ResultSet resultSet) throws SQLException {

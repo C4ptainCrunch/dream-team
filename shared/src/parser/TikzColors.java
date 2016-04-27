@@ -39,26 +39,31 @@ public class TikzColors {
         }
     }};
 
+
     /**
      * Cast a String to an java.awt.Color object (using a data member HashMap).
      * @param name  the color name.
      * @return an awt.Color object.
      */
-
     public static Color StringToColor(String name){
         return string2color.getOrDefault(name.toLowerCase(), Models.DEFAULT.COLOR);
     }
+
 
     /**
      * Cast a java.awt.Color object to a String (using a data member HashMap).
      * @param color the awt.Color object
      * @return the corresponding String.
      */
-
     public static String ColorToString(Color color){
         return color2string.getOrDefault(nearestTikzColor(color), color2string.get(Models.DEFAULT.COLOR));
     }
 
+    /**
+     * Computes and returns the nearest color that is valid Tikz
+     * @param color the color
+     * @return the valid TikZ color
+     */
     public static Color nearestTikzColor(Color color){
         Set<Color> colors = color2string.keySet();
 
@@ -78,6 +83,12 @@ public class TikzColors {
         return best_color;
     }
 
+    /**
+     * Computes the euclidean distance in the RGB space between to colors
+     * @param x the first colo
+     * @param y the second color
+     * @return the distance
+     */
     private static double colorDistance(Color x, Color y){
         long r = x.getRed() - y.getRed();
         long g = x.getGreen() - y.getGreen();
@@ -85,6 +96,10 @@ public class TikzColors {
         return Math.sqrt(Math.pow(r, 2) + Math.pow(g, 2) + Math.pow(b, 2));
     }
 
+    /**
+     * Gets the valid Tikz colors
+     * @return The set of Color
+     */
     public static Set<Color> getTikzColors(){
         return color2string.keySet();
     }

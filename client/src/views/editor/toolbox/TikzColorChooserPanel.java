@@ -12,9 +12,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * A swatch-like color chooser that accepts only valid Tikz colors
+ */
 public class TikzColorChooserPanel extends AbstractColorChooserPanel {
     Map<Color, JToggleButton> buttons = new HashMap<>();
 
+    /**
+     * Method called when the user clicks on a color.
+     */
     public void updateChooser() {
         Color color = getColorFromModel();
         JToggleButton button = buttons.get(color);
@@ -26,7 +32,6 @@ public class TikzColorChooserPanel extends AbstractColorChooserPanel {
         button.setBackground(color);
         button.setContentAreaFilled(false);
         button.setOpaque(true);
-//        button.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         button.setPreferredSize(new Dimension(40, 40));
         return button;
     }

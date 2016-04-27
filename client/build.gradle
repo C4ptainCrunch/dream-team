@@ -37,9 +37,18 @@ sourceSets {
         java {
             srcDir "src/"
         }
+        resources {
+            srcDir "resources/"
+        }
     }
 }
 
 task onejar(type: OneJar) {
     mainClass = 'Main'
+}
+
+run {
+    if ( project.hasProperty("appArgs") ) {
+        args Eval.me(appArgs)
+    }
 }

@@ -1,20 +1,19 @@
 package controllers.help;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import utils.Log;
+import views.help.HelpView;
 
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
-
-import utils.Log;
-import views.help.HelpView;
+import java.io.InputStream;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the
@@ -22,7 +21,7 @@ import views.help.HelpView;
  * consulted
  */
 public class HelpController {
-    private final static String HELP_ROOT = "./assets/help_files/";
+    private final static String HELP_ROOT = "help_files/";
     private final static Logger logger = Log.getLogger(HelpController.class);
     private final HelpView view;
 
@@ -53,11 +52,10 @@ public class HelpController {
 
         String filePath = HELP_ROOT + String.join("/", path) + ".md";
 
-        try {
-            view.setText(new String(Files.readAllBytes(Paths.get(filePath))));
-        } catch (IOException e) {
-            logger.severe("Error while loading markdown: " + e.getMessage());
-        }
+        InputStream stream = HelpController.class.getClassLoader().getResourceAsStream(filePath);
+        Scanner scanner = new Scanner(stream);
+        String text = scanner.useDelimiter("\\A").next();
+        view.setText(text);
     }
 
     /**
@@ -88,34 +86,31 @@ class Filewalker {
      * @return The found tree node
      */
     public static DefaultMutableTreeNode walkToTree(String path) {
-        File root = new File(path);
-        File[] list = root.listFiles();
+        InputStream stream = HelpController.class.getClassLoader().getResourceAsStream(path);
+        Scanner scanner = new Scanner(stream);
+        scanner.useDelimiter("\\n");
+        List<String> children = new ArrayList<>();
 
-        DefaultMutableTreeNode out = new DefaultMutableTreeNode(root.getName());
-        if (list == null) {
-            return out;
+        String root = URLDecoder.decode(HelpController.class.getClassLoader().getResource(path).getFile());
+        int pos = root.lastIndexOf("/");
+        root = root.substring(pos + 1);
+        DefaultMutableTreeNode out = new DefaultMutableTreeNode(root);
+
+        while (scanner.hasNext()){
+            children.add(scanner.next());
         }
 
-        for (File f : list) {
-            if (f.isDirectory()) {
-                out.add(walkToTree(f.getAbsolutePath()));
-            } else {
-                String name = f.getName();
-                int dot = name.lastIndexOf('.');
-                if (dot > 0) {
-                    name = name.substring(0, dot);
-                    File equivalentDir = new File(f.getParent(), name);
-                    if (!equivalentDir.isDirectory()) {
-                        out.add(new DefaultMutableTreeNode(name));
-                    }
-                } else {
+        for (String child :children){
+            if(child.endsWith(".md")){
+                int dot = child.lastIndexOf('.');
+                String name = child.substring(0, dot);
+                if(!children.contains(name)) {
                     out.add(new DefaultMutableTreeNode(name));
                 }
-
+            } else {
+                out.add(walkToTree(path + "/" + child));
             }
         }
-
         return out;
     }
-
 }

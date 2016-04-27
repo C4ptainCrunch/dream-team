@@ -2,6 +2,7 @@ package controllers.accounts;
 
 import constants.Network;
 import models.NetworkRequest;
+import views.accounts.LoginWindowView;
 import views.accounts.TokenActivationView;
 
 import javax.ws.rs.client.Client;
@@ -42,6 +43,7 @@ public class TokenActivationController {
         if(response.equals(Network.Token.TOKEN_OK)){
             this.view.dispose();
             this.view.correctTokenDialog();
+            new LoginWindowView();
         } else {
             this.view.wrongTokenWarning();
         }

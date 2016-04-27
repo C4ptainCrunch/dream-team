@@ -12,14 +12,17 @@ jar {
 mainClassName = "Main"
 
 dependencies {
-    compile 'com.sun.jersey:jersey-core:1.19.1'
-    compile 'com.sun.jersey.contribs:jersey-simple-server:1.19.1'
 
     testCompile 'junit:junit:4.12'
 
     compile 'org.jparsec:jparsec:2.2.1'
     compile 'org.bitbucket.cowwoc:diff-match-patch:1.1'
     compile 'org.pegdown:pegdown:1.6.0'
+    compile 'org.xerial:sqlite-jdbc:3.8.11.2'
+    compile 'javax.mail:javax.mail-api:1.5.5'
+    compile 'com.sun.mail:javax.mail:1.5.5'
+    compile 'com.sun.mail:smtp:1.5.5'
+    compile 'javax.activation:activation:1.1.1'
 
     compile project(':shared')
 }

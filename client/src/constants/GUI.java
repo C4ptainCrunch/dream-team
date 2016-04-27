@@ -3,6 +3,7 @@ package constants;
 import utils.Dirs;
 
 import java.awt.*;
+import java.util.*;
 
 /**
  * Created by nikita on 3/27/16.
@@ -33,6 +34,46 @@ public final class GUI {
         public static final String BLANK_INFO_PANEL = "INFORMATION ABOUT SELECTED PROJECT:\nProject Name: %s"
                 + "\nUser: %s\nLast revision: %s\n";
         public static final String DIFF_TEXT = "Diff History";
+    }
+
+    public static final class LoginWindow {
+        public static final String LOGIN_BUTTON = "Login";
+        public static final String SIGNUP_BUTTON = "Sign Up";
+        public static final String TOKEN_BUTTON = "Token Activation";
+    }
+
+    public static final class TokenWindow {
+        public static final String WIN_LABEL = "An email has been sent to you. Please copy here the" +
+                                           " token enclosed within the email and press OK.";
+        public static final String OK_BUTTON = "OK";
+        public static final String USER_LABEL = "Username: ";
+        public static final String TOKEN_LABEL = "Token: ";
+        public static final String TOKEN_VALID = "Congratulations! Your account is now validated.\\nYou may log in now.";
+        public static final String TOKEN_WRONG = "That token is wrong. Please make sure you have copied it well.";
+    }
+
+    public static final class SignUp {
+        public static final ArrayList<String> FIELD_LABELS = new ArrayList<String>(){{
+            add("First Name: ");
+            add("Last Name: ");
+            add("Username: ");
+            add("Email: ");
+        }};
+
+        public static final ArrayList<Integer> FIELD_SIZES = new ArrayList<Integer>(){{
+            add(16);
+            add(32);
+            add(16);
+            add(32);
+        }};
+
+        public static final String PASSWORD_LABEL = "Password: ";
+        public static final String OK_BUTTON = "OK";
+        public static final String CANCEL_BUTTON = "Cancel";
+
+        public static final String NAMES_REGEX = "^[\\p{L} .'-]+$";
+        public static final String USERNAME_REGEX = "[A-Za-z0-9]+";
+
     }
 
     public static final class Config {

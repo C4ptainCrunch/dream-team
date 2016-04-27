@@ -33,10 +33,10 @@ public class RectangleDrawer extends NodeDrawer {
         Point position = rectangle.getPosition();
 
         java.util.List<Point> anchors = new ArrayList<>();
-        anchors.add(new Point(position.x + width, position.y));
-        anchors.add(new Point(position.x - width, position.y));
-        anchors.add(new Point(position.x, position.y + height));
-        anchors.add(new Point(position.x, position.y - height));
+        anchors.add(new Point(position.x + width/2, position.y));
+        anchors.add(new Point(position.x - width/2, position.y));
+        anchors.add(new Point(position.x, position.y + height/2));
+        anchors.add(new Point(position.x, position.y - height/2));
         return anchors;
     }
 }

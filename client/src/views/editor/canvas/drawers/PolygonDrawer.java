@@ -101,6 +101,7 @@ public class PolygonDrawer extends NodeDrawer {
     }
 
     /**
+     * Determines the anchors of the given node.
      * Constructs the Polygon shape as if we wanted to make a Drawable.
      * Then, uses the obtained shape to get the vertices and compute
      * the center of each following pair of vertices for anchors.

@@ -10,13 +10,20 @@ import models.tikz.TikzComponent;
 import models.tikz.TikzNode;
 import models.tikz.TikzRectangle;
 import views.editor.canvas.drawables.DrawableTikzNode;
-
+import java.util.List;
 public class RectangleDrawer extends NodeDrawer {
 
     public RectangleDrawer() {
         // this was left intentionally blank
     }
 
+    /**
+     * Creates a swing drawable rectangle object by adding a Rectangle shape to the list of shapes of the drawable
+     * and correctly setting its position.
+     * @param component tikz component to draw
+     * @param panel panel to draw onto
+     * @return drawable with the rectangle shape
+     */
     @Override
     public DrawableTikzNode toDrawable(TikzComponent component, JComponent panel) {
         TikzRectangle rectangle = (TikzRectangle) component;
@@ -26,12 +33,24 @@ public class RectangleDrawer extends NodeDrawer {
 
     }
 
+    /**
+     * Creates an awt rectangle from the width and height of the given TikzRectangle
+     * @param rectangle the TikzRectangle to create an awt rectangle from
+     * @return the awt rectangle
+     */
     public Rectangle getAwtRectangle(TikzRectangle rectangle){
         return new Rectangle(rectangle.getWidth(), rectangle.getLength());
     }
 
+    /**
+     * Determines the anchors of the given node.
+     * Uses the shape bounds.
+     * @param node rectangle to get the anchors from.
+     * @param panel panel on which the rectangle is drawn
+     * @return a list of swing anchors
+     */
     @Override
-    public java.util.List<Point> getAnchors(TikzNode node, JComponent panel){
+    public List<Point> getAnchors(TikzNode node, JComponent panel){
         TikzRectangle rectangle = (TikzRectangle) node;
         Shape shape = getPositionedShape(getAwtRectangle(rectangle), rectangle, panel);
 
@@ -41,7 +60,7 @@ public class RectangleDrawer extends NodeDrawer {
         int height = bounds.height;
         int widthOffset = width / 2;
         int heightOffset = height / 2;
-        java.util.List<Point> anchors = new ArrayList<>();
+        List<Point> anchors = new ArrayList<>();
         anchors.add(new Point(x + widthOffset, y));
         anchors.add(new Point(x + widthOffset, y + height));
         anchors.add(new Point(x, y + heightOffset));

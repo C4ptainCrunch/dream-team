@@ -19,6 +19,9 @@ public class LoginWindowController {
     public void login() {
         view.dispose();
         new ProjectManagementView();
+        // SERVER: FIND BY USER AND PASSWORD
+        // IF USER NOT NULL -> IS ACTIVATED?  ELSE ERROR
+        // ELSE ERROR
     }
 
     public void signUp() {

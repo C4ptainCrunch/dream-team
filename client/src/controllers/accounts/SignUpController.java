@@ -51,7 +51,7 @@ public class SignUpController {
         // PASSWORD VALIDATION HERE: Need to discuss password rules.
 
         if(firstNameCheck && lastNameCheck && userNameCheck && emailCheck) {
-            accountCreation();
+            accountCreation(fields, passwordField);
             new TokenActivationView();
             this.view.dispose();
         }
@@ -61,8 +61,8 @@ public class SignUpController {
 
     }
 
-    private void accountCreation() {
-        System.out.println("Create account here!");
+    private void accountCreation(ArrayList<JTextField> fields, JPasswordField passwordField) {
+        // SERVER: CREATE ACCOUNT HERE
     }
 
 }

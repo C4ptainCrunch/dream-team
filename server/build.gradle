@@ -12,8 +12,6 @@ jar {
 mainClassName = "Main"
 
 dependencies {
-    compile 'com.sun.jersey:jersey-core:1.19.1'
-    compile 'com.sun.jersey.contribs:jersey-simple-server:1.19.1'
 
     testCompile 'junit:junit:4.12'
 

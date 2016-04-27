@@ -1,6 +1,5 @@
-import com.sun.jersey.simple.container.SimpleServerFactory;
+
 import database.DAOFactory;
-import utils.ConfirmationEmailSender;
 import utils.Log;
 
 import java.util.logging.Level;

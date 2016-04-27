@@ -9,19 +9,28 @@ import java.sql.*;
 import static database.DAOUtilities.*;
 
 /**
- * Created by mrmmtb on 25.04.16.
+ * Implementation of a DAO to get and set information to the database's Users table.
  */
 public class UsersDAOImpl implements  UsersDAO {
 
     private DAOFactory daoFactory;
     private TokenCreator tokenCreator;
 
+    /**
+     * Constructs a DAO for the database's Users table with a given DAOFactory.
+     * @param daoFactory the main DAOFactory
+     */
     UsersDAOImpl(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
         this.tokenCreator = new TokenCreator();
     }
 
 
+    /**
+     * Creates a given User into the database's Users table.
+     * @param user The user to create
+     * @return A boolean, false if no error happened during the User's creation in the database.
+     */
     @Override
     public boolean create(User user){
         Connection connection = null;
@@ -60,6 +69,11 @@ public class UsersDAOImpl implements  UsersDAO {
         return error;
     }
 
+    /**
+     * Returns a new object User with information from the database regarding the given username.
+     * @param username the username to get the information in the database from.
+     * @return The User object created (if username exists, null otherwise)
+     */
     @Override
     public User findByUsername(String username) {
         Connection connection = null;
@@ -79,6 +93,12 @@ public class UsersDAOImpl implements  UsersDAO {
         return user;
     }
 
+    /**
+     * Returns a new object User with information from the database regarding the given username and password (if they match, else returns null)
+     * @param username the username to get the information in the database from.
+     * @param password the password to get the information in the database from.
+     * @return the User object created (null if password-username don't match)
+     */
     @Override
     public User findByUsernameAndPassword(String username, String password) {
         Connection connection = null;
@@ -98,6 +118,11 @@ public class UsersDAOImpl implements  UsersDAO {
         return user;
     }
 
+    /**
+     * Change the password of the given user in the database.
+     * @param user The User of which the password must be changed
+     * @param password the Password to set
+     */
     @Override
     public void setPasswordToUser(User user, String password) {
         int statut = executeUpdate(Database.SQL_SET_PASSWORD_TO_USER, false, password, user.getUsername());
@@ -106,6 +131,11 @@ public class UsersDAOImpl implements  UsersDAO {
         }
     }
 
+    /**
+     * Returns true if the given user's account has been activated by mail.
+     * @param user The User to know if its account his activated
+     * @return the activation status of the User
+     */
     @Override
     public boolean isActivated(User user) {
         Connection connection = null;
@@ -125,6 +155,10 @@ public class UsersDAOImpl implements  UsersDAO {
         return activated;
     }
 
+    /**
+     * Activate a given User account (with his username).
+     * @param username the username of the account to activate
+     */
     @Override
     public void activateUser( String username ) {
         int statut = executeUpdate(Database.SQL_ACTIVATE_USER, false, username);
@@ -133,6 +167,11 @@ public class UsersDAOImpl implements  UsersDAO {
         }
     }
 
+    /**
+     * Returns the token stored in the database for the given username's account
+     * @param username the username of the account to activate
+     * @return The token of the given user
+     */
     @Override
     public String getTokenOfUser( String username ) {
         Connection connection = null;
@@ -152,6 +191,10 @@ public class UsersDAOImpl implements  UsersDAO {
         return token;
     }
 
+    /**
+     * Deletes a given User in the database.
+     * @param user The User to delete
+     */
     @Override
     public void deleteUser(User user) {
         int statut = executeUpdate(Database.SQL_DELETE_USER, false, user.getUsername());
@@ -159,7 +202,7 @@ public class UsersDAOImpl implements  UsersDAO {
             System.err.println( "Failed to delete user" );
         }
     }
-
+    
     private ResultSet executeQuery(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet, String sqlQuery, Object... objects) {
         try {
             connection = daoFactory.getConnection();

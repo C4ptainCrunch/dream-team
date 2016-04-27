@@ -5,7 +5,7 @@ import constants.Tokens;
 import java.security.SecureRandom;
 
 /**
- * Created by bambalaam on 25/04/16.
+ * Implementation of a Token Creator used for the email confirmation.
  */
 public class TokenCreator {
 
@@ -13,6 +13,10 @@ public class TokenCreator {
 
     }
 
+    /**
+     * Create and returns a new Token.
+     * @return the created Token
+     */
     public String newToken(){
         char[] chars = Tokens.TOKEN_ALPHABET.toCharArray();
         StringBuilder sb = new StringBuilder();

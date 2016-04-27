@@ -7,6 +7,7 @@ import java.util.Observer;
 import javax.swing.*;
 
 import models.ToolModel;
+import parser.TikzColors;
 import views.editor.toolbox.AttributesChooserView;
 
 /**
@@ -68,6 +69,8 @@ public class AttributesChooserController implements Observer {
      */
     public void chooseColor() {
         chosen_color = JColorChooser.showDialog(this.view, COLOR_DIALOG_TITLE, Color.GRAY);
+        chosen_color = TikzColors.nearestTikzColor(chosen_color);
+        
         view.setColorFieldColor(chosen_color);
         colorSelected(chosen_color);
     }

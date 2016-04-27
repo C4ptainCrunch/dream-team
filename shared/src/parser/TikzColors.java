@@ -3,7 +3,9 @@ package parser;
 import constants.Models;
 
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Created by acaccia on 22/04/16.
@@ -54,6 +56,32 @@ public class TikzColors {
      */
 
     public static String ColorToString(Color color){
-        return color2string.getOrDefault(color, color2string.get(Models.DEFAULT.COLOR));
+        return color2string.getOrDefault(nearestTikzColor(color), color2string.get(Models.DEFAULT.COLOR));
+    }
+
+    public static Color nearestTikzColor(Color color){
+        Set<Color> colors = color2string.keySet();
+
+        if(colors.contains(color)){
+            return color;
+        }
+
+        double best_distance = Math.sqrt(Math.pow(255, 2) * 3) + 1;
+        Color best_color = null;
+        for (Color c: colors){
+            double distance = colorDistance(c, color);
+            if(distance < best_distance){
+                best_distance = distance;
+                best_color = c;
+            }
+        }
+        return best_color;
+    }
+
+    private static double colorDistance(Color x, Color y){
+        long r = x.getRed() - y.getRed();
+        long g = x.getGreen() - y.getGreen();
+        long b = x.getBlue() - y.getBlue();
+        return Math.sqrt(Math.pow(r, 2) + Math.pow(g, 2) + Math.pow(b, 2));
     }
 }

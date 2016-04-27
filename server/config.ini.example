@@ -1,0 +1,4 @@
+email_from=creatikz@gmail.com
+smtp_username=my_username
+smtp_password=my_passw0rD
+smtp_host=smtp.gmail.com

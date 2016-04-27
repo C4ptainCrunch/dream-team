@@ -13,8 +13,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * Created by bambalaam on 21/04/16.
+ * The controller related to the LoginWindowView.
  */
+
 public class LoginWindowController {
 
     private final LoginWindowView view;
@@ -22,6 +23,12 @@ public class LoginWindowController {
     public LoginWindowController(LoginWindowView view) {
         this.view = view;
     }
+
+    /**
+     * Launch the login process.
+     * @param username The user's username
+     * @param password The user's password
+     */
 
     public void login(String username, String password) {
         Client client = ClientBuilder.newClient();
@@ -41,17 +48,19 @@ public class LoginWindowController {
         } else {
             System.out.println(response.readEntity(String.class));
         }
-
-        // view.dispose();
-        // new ProjectManagementView();
-        // SERVER: FIND BY USER AND PASSWORD
-        // IF USER NOT NULL -> IS ACTIVATED?  ELSE ERROR
-        // ELSE ERROR
     }
+
+    /**
+     * Launch the sign up process.
+     */
 
     public void signUp() {
         new SignUpView(this.view);
     }
+
+    /**
+     * Launch the token activation process.
+     */
 
     public void tokenActivation() {
         new TokenActivationView();

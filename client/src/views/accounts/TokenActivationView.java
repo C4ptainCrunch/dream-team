@@ -7,8 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by bambalaam on 26/04/16.
+ * A view for the token activation process.
  */
+
 public class TokenActivationView extends JFrame {
 
     private TokenActivationController controller;
@@ -61,12 +62,20 @@ public class TokenActivationView extends JFrame {
         this.add(tokenConfirmationPanel);
     }
 
+    /**
+     * Called when the token entered is correct.
+     */
+
     public void correctTokenDialog() {
         JOptionPane.showMessageDialog(this,
                 "Congratulations! Your account is now validated.\nYou may log in now.",
                 "Congratulations",
                 JOptionPane.INFORMATION_MESSAGE);
     }
+
+    /**
+     * Called when the token entered is incorrect.
+     */
 
     public void wrongTokenWarning(){
         JOptionPane.showMessageDialog(this,

@@ -11,8 +11,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * Created by bambalaam on 26/04/16.
+ * The controller related to the TokenActivationView.
  */
+
 public class TokenActivationController {
 
     private TokenActivationView view;
@@ -20,6 +21,12 @@ public class TokenActivationController {
     public TokenActivationController(TokenActivationView view) {
         this.view = view;
     }
+
+    /**
+     * Send the entered token to the server
+     * @param token The entered token
+     * @param username The username
+     */
 
     public void validateToken(String token, String username) {
 

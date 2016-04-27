@@ -2,10 +2,12 @@ package controllers.help;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -22,7 +24,7 @@ import views.help.HelpView;
  * consulted
  */
 public class HelpController {
-    private final static String HELP_ROOT = "./assets/help_files/";
+    private final static String HELP_ROOT = "help_files/";
     private final static Logger logger = Log.getLogger(HelpController.class);
     private final HelpView view;
 
@@ -53,11 +55,10 @@ public class HelpController {
 
         String filePath = HELP_ROOT + String.join("/", path) + ".md";
 
-        try {
-            view.setText(new String(Files.readAllBytes(Paths.get(filePath))));
-        } catch (IOException e) {
-            logger.severe("Error while loading markdown: " + e.getMessage());
-        }
+        InputStream stream = HelpController.class.getClassLoader().getResourceAsStream(filePath);
+        Scanner scanner = new Scanner(stream);
+        String text = scanner.useDelimiter("\\A").next();
+        view.setText(text);
     }
 
     /**

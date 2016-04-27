@@ -1,9 +1,13 @@
 package database;
 
+import constants.Database;
 import models.users.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.xml.crypto.Data;
+import java.io.File;
 
 import static org.junit.Assert.*;
 
@@ -22,11 +26,19 @@ public class UsersDAOTest {
         this.usersDAO = this.daoFactory.getUsersDAO();
         this.testUser = new User(0,"testUser","Test","User","testUser@gmail.com");
         this.usersDAO.create(this.testUser);
+
     }
 
     @After
     public void tearDown() throws Exception {
         this.usersDAO.deleteUser(this.testUser);
+        /* To delete dirs made by the tests (because db creation depends on the actual path) */
+        File db = new File(Database.DB_FILE);
+        db.delete();
+        File db_dir = new File(Database.DB_DIR);
+        db_dir.delete();
+        File db_dir_first = new File("server");
+        db_dir_first.delete();
     }
 
 
@@ -35,5 +47,18 @@ public class UsersDAOTest {
         User resultUser = this.usersDAO.findByUsername("testUser");
         assertNotNull(resultUser);
         assertEquals(this.testUser.getUsername(),resultUser.getUsername());
+    }
+
+    @Test
+    public void testActivateUser() {
+        this.usersDAO.activateUser(this.testUser);
+        assertTrue(this.usersDAO.isActivated(this.testUser));
+    }
+
+    @Test
+    public void testSetPassword() {
+        this.usersDAO.setPasswordToUser(this.testUser, "pw");
+        User user = this.usersDAO.findByUsernameAndPassword("testUser", "pw");
+        assertNotNull(user);
     }
 }

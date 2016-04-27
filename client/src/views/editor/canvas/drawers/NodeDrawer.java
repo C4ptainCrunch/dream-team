@@ -10,6 +10,7 @@ import models.tikz.TikzComponent;
 import models.tikz.TikzNode;
 import utils.Geom;
 import views.editor.canvas.drawables.DrawableTikzNode;
+import java.util.List;
 
 /**
  * Created by jhellinckx on 18/04/16.
@@ -76,7 +77,7 @@ public abstract class NodeDrawer extends ComponentDrawer {
         return closest;
     }
 
-    public abstract java.util.List<Point> getAnchors(TikzNode node, JComponent panel);
+    public abstract List<Point> getAnchors(TikzNode node, JComponent panel);
 
 
 

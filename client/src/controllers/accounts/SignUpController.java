@@ -58,7 +58,7 @@ public class SignUpController {
     }
 
     public void cancelSignUp() {
-
+        this.view.dispose();
     }
 
     private void accountCreation(ArrayList<JTextField> fields, JPasswordField passwordField) {

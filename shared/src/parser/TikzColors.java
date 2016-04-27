@@ -84,4 +84,8 @@ public class TikzColors {
         long b = x.getBlue() - y.getBlue();
         return Math.sqrt(Math.pow(r, 2) + Math.pow(g, 2) + Math.pow(b, 2));
     }
+
+    public static Set<Color> getTikzColors(){
+        return color2string.keySet();
+    }
 }

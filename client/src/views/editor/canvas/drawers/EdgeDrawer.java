@@ -31,7 +31,8 @@ public abstract class EdgeDrawer extends ComponentDrawer {
         if (edge.getFirstNode() == null || edge.getSecondNode() == null) {
             start = new Point(-Models.DEFAULT.EDGE_X_LENGTH / 2, 0);
         } else {
-            start = edge.getFromPosition();
+            // Get closest anchor
+            start = Drawer.closestAnchor(edge.getFirstNode(), edge.getToPosition());
         }
         return start;
     }
@@ -41,7 +42,7 @@ public abstract class EdgeDrawer extends ComponentDrawer {
         if (edge.getFirstNode() == null || edge.getSecondNode() == null) {
             end = new Point(Models.DEFAULT.EDGE_X_LENGTH / 2, 0);
         } else {
-            end = edge.getToPosition();
+            end = Drawer.closestAnchor(edge.getSecondNode(), edge.getFromPosition());
         }
         return end;
     }

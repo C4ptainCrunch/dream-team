@@ -8,12 +8,13 @@ import javax.swing.*;
 import misc.utils.Converter;
 import models.tikz.TikzComponent;
 import models.tikz.TikzNode;
+import utils.Geom;
 import views.editor.canvas.drawables.DrawableTikzNode;
 
 /**
  * Created by jhellinckx on 18/04/16.
  */
-public class NodeDrawer extends ComponentDrawer {
+public abstract class NodeDrawer extends ComponentDrawer {
     @Override
     public DrawableTikzNode toDrawable(TikzComponent component, JComponent panel) {
         DrawableTikzNode drawable = new DrawableTikzNode(component);
@@ -37,4 +38,24 @@ public class NodeDrawer extends ComponentDrawer {
         AffineTransform center = new AffineTransform(1, 0, 0, 1, -bounds.getWidth() / 2, -bounds.getHeight() / 2);
         return center.createTransformedShape(shape);
     }
+
+    public Point closestAnchor(TikzNode node, Point point){
+        double distance = Double.MAX_VALUE;
+        double other_distance;
+        Point closest = null;
+        for(Point anchor : this.getAnchors(node)){
+            other_distance = Geom.euclideanDistance(anchor, point);
+            if(other_distance < distance){
+                distance = other_distance;
+                closest = anchor;
+            }
+        }
+        return closest;
+    }
+
+    public abstract java.util.List<Point> getAnchors(TikzNode node);
+
+
+
+
 }

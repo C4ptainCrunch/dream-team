@@ -1,11 +1,14 @@
 package views.editor.canvas.drawers;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.swing.*;
 
 import models.tikz.TikzComponent;
+import models.tikz.TikzNode;
 import models.tikz.TikzPolygon;
 import utils.Log;
 import views.editor.canvas.drawables.DrawableTikzNode;
@@ -40,5 +43,10 @@ public class PolygonDrawer extends NodeDrawer {
         }
 
         return new Polygon(x, y, vertices);
+    }
+
+    @Override
+    public List<Point> getAnchors(TikzNode node){
+        return new ArrayList<>();
     }
 }

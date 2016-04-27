@@ -150,20 +150,4 @@ public abstract class TikzNode extends TikzComponent {
         graph.add(this);
         return graph;
     }
-
-    public Point closestAnchor(Point point){
-        double distance = Double.MAX_VALUE;
-        double other_distance;
-        Point closest = null;
-        for(Point anchor : this.getAnchors()){
-            other_distance = Geom.euclideanDistance(anchor, point);
-            if(other_distance < distance){
-                distance = other_distance;
-                closest = anchor;
-            }
-        }
-        return closest;
-    }
-
-    public abstract java.util.List<Point> getAnchors();
 }

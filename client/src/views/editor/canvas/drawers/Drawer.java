@@ -25,7 +25,12 @@ public final class Drawer {
     }
 
     public static DrawableTikzComponent toDrawable(TikzComponent component, JComponent panel) {
-        return drawers.get(component.getClass()).toDrawable(component, panel);
+        TikzDrawer componentDrawer = drawers.get(component.getClass());
+        return componentDrawer.toDrawable(component, panel);
     }
 
+    public static Point closestAnchor(TikzNode node, Point point){
+        NodeDrawer nodeDrawer = (NodeDrawer) drawers.get(node.getClass());
+        return nodeDrawer.closestAnchor(node, point);
+    }
 }

@@ -48,6 +48,8 @@ public final class GUI {
         public static final String OK_BUTTON = "OK";
         public static final String USER_LABEL = "Username: ";
         public static final String TOKEN_LABEL = "Token: ";
+        public static final String TOKEN_VALID = "Congratulations! Your account is now validated.\\nYou may log in now.";
+        public static final String TOKEN_WRONG = "That token is wrong. Please make sure you have copied it well.";
     }
 
     public static final class SignUp {

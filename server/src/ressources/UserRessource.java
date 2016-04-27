@@ -4,15 +4,20 @@ import constants.Network;
 import database.DAOFactory;
 import database.UsersDAO;
 import models.users.User;
+import utils.ConfirmationEmailSender;
+import utils.Log;
 
+import javax.mail.MessagingException;
 import javax.ws.rs.*;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 @Path("user")
 public class UserRessource {
 
     DAOFactory daoFactory = DAOFactory.getInstance();
     UsersDAO usersDAO = daoFactory.getUsersDAO();
+    private final static Logger logger = Log.getLogger(UserRessource.class);
 
     @GET
     @Path("{user}")
@@ -56,6 +61,12 @@ public class UserRessource {
         boolean failed = this.usersDAO.create(user);
         if (!failed){
             this.usersDAO.setPasswordToUser(user, password);
+            ConfirmationEmailSender emailSender = new ConfirmationEmailSender();
+            try{
+                emailSender.send(email,this.usersDAO.getTokenOfUser(username));
+            } catch (MessagingException ex) {
+                logger.info("Email sending to " + email + " failed.");
+            }
             return Network.Signup.SIGN_UP_OK;
         }
         return Network.Signup.SIGN_UP_FAILED;

@@ -74,7 +74,7 @@ public class UsersDAOImpl implements  UsersDAO {
         } catch ( SQLException e ) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
-            silentClosing( resultSet );
+            silentClosures( resultSet, preparedStatement, connection );
         }
         return user;
     }
@@ -93,7 +93,7 @@ public class UsersDAOImpl implements  UsersDAO {
         }catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }finally {
-            silentClosing( resultSet );
+            silentClosures( resultSet, preparedStatement, connection );
         }
         return user;
     }
@@ -120,7 +120,7 @@ public class UsersDAOImpl implements  UsersDAO {
         } catch (SQLException e ) {
             System.err.println( "Failed to get user's activated status" );
         } finally {
-            silentClosing( resultSet );
+            silentClosures( resultSet, preparedStatement, connection );
         }
         return activated;
     }
@@ -147,7 +147,7 @@ public class UsersDAOImpl implements  UsersDAO {
         } catch (SQLException e ) {
             System.err.println( "Failed to retrieve user's token" );
         } finally {
-            silentClosing( resultSet );
+            silentClosures( resultSet, preparedStatement, connection );
         }
         return token;
     }

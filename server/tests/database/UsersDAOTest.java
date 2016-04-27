@@ -48,4 +48,17 @@ public class UsersDAOTest {
         assertNotNull(resultUser);
         assertEquals(this.testUser.getUsername(),resultUser.getUsername());
     }
+
+    @Test
+    public void testActivateUser() {
+        this.usersDAO.activateUser(this.testUser);
+        assertTrue(this.usersDAO.isActivated(this.testUser));
+    }
+
+    @Test
+    public void testSetPassword() {
+        this.usersDAO.setPasswordToUser(this.testUser, "pw");
+        User user = this.usersDAO.findByUsernameAndPassword("testUser", "pw");
+        assertNotNull(user);
+    }
 }

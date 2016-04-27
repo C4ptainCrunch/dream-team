@@ -16,6 +16,7 @@ public class NetworkRequest {
 
     private Builder request_builder;
     private Response response;
+    private String string_response;
 
     /**
      * Default constructor.
@@ -31,11 +32,12 @@ public class NetworkRequest {
 
     public void post(Form postFrom){
         this.response = this.request_builder.post(Entity.form(postFrom));
+        this.string_response = this.response.readEntity(String.class);
     }
 
     public Response getResponse() { return this.response; }
 
     public String getResponseAsString(){
-        return this.response.readEntity(String.class);
+        return this.string_response;
     }
 }

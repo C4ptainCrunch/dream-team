@@ -186,7 +186,7 @@ public class CanvasController implements Observer {
      */
     private void addEdgeToModel(TikzComponent component, Point position) {
         TikzComponent clickedComponent = findComponentByPosition(position);
-        if (clickedComponent != null) {
+        if (clickedComponent != null && !clickedComponent.isEdge()) {
             if (state.initialized()) {
                 TikzEdge edge = (TikzEdge) component;
                 addEdgeToGraph(edge, (TikzNode) state.getRelatedComponent(), (TikzNode) clickedComponent);
@@ -197,7 +197,6 @@ public class CanvasController implements Observer {
                 state.setRelatedComponent(clickedComponent);
             }
         }
-
     }
 
     // Location has to be a swing position !

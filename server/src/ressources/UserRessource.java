@@ -53,8 +53,8 @@ public class UserRessource {
     public String signUp(@FormParam("username") String username, @FormParam("firstname") String firstname,
                          @FormParam("lastname") String lastname, @FormParam("email") String email, @FormParam("password") String password){
         User user = new User(username, firstname, lastname, email);
-        boolean created = this.usersDAO.create(user);
-        if (created){
+        boolean failed = this.usersDAO.create(user);
+        if (!failed){
             this.usersDAO.setPasswordToUser(user, password);
             return Network.Signup.SIGN_UP_OK;
         }

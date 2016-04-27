@@ -15,4 +15,12 @@ public final class Database {
             "username VARCHAR(16) NOT NULL UNIQUE," +
             "email VARCAR(32) NOT NULL UNIQUE," +
             "password TEXT);";
+    public static final String SQL_SELECT_BY_USERNAME = "SELECT id, first_name, last_name, username, email " +
+                                                         "FROM Users WHERE username = ?";
+    public static final String SQL_MATCH_USERNAME_PASSWORD = "SELECT username, password " +
+                                                              "FROM Users WHERE username = ? and password = ?";
+    public static final String SQL_INSERT = "INSERT INTO Users(first_name, last_name, username, email) " +
+                                             "VALUES (?, ?, ?, ?)";
+    public static final String SQL_SET_PASSWORD_TO_USER = "UPDATE Users SET password = ? WHERE username = ?";
+    public static final String SQL_GET_TOKEN_BY_USERNAME = "SELECT token FROM Users WHERE username = ?";
 }

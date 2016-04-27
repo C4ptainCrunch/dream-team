@@ -43,9 +43,11 @@ public final class GUI {
     }
 
     public static final class TokenWindow {
-        public static final String LABEL = "An email has been sent to you. Please copy here the" +
+        public static final String WIN_LABEL = "An email has been sent to you. Please copy here the" +
                                            " token enclosed within the email and press OK.";
         public static final String OK_BUTTON = "OK";
+        public static final String USER_LABEL = "Username: ";
+        public static final String TOKEN_LABEL = "Token: ";
     }
 
     public static final class SignUp {

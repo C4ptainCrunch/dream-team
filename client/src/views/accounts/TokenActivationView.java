@@ -17,6 +17,7 @@ public class TokenActivationView extends JFrame {
         this.controller = new TokenActivationController(this);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
+        this.setMaximumSize( new Dimension(500,100));
         this.render();
     }
 
@@ -32,13 +33,28 @@ public class TokenActivationView extends JFrame {
         JPanel tokenConfirmationPanel = new JPanel();
         tokenConfirmationPanel.setLayout(new BoxLayout(tokenConfirmationPanel, BoxLayout.Y_AXIS));
 
-        JLabel presentationText = new JLabel(GUI.TokenWindow.LABEL);
+        JLabel presentationText = new JLabel(GUI.TokenWindow.WIN_LABEL);
+
+        JPanel usernamePanel = new JPanel();
+        usernamePanel.setLayout(new GridLayout(1,2));
+        JLabel usernameLabel = new JLabel(GUI.TokenWindow.USER_LABEL);
+        JTextField usernameInput = new JTextField();
+        usernamePanel.add(usernameLabel);
+        usernamePanel.add(usernameInput);
+
+        JPanel tokenPanel = new JPanel();
+        tokenPanel.setLayout(new GridLayout(1,2));
+        JLabel tokenLabel = new JLabel(GUI.TokenWindow.TOKEN_LABEL);
         JTextField tokenInput = new JTextField();
+        tokenPanel.add(tokenLabel);
+        tokenPanel.add(tokenInput);
+
         JButton okButton = new JButton(GUI.TokenWindow.OK_BUTTON);
         okButton.addActionListener(e -> controller.validateToken(tokenInput.getText()));
 
         tokenConfirmationPanel.add(presentationText);
-        tokenConfirmationPanel.add(tokenInput);
+        tokenConfirmationPanel.add(usernamePanel);
+        tokenConfirmationPanel.add(tokenPanel);
         tokenConfirmationPanel.add(okButton);
 
         this.add(tokenConfirmationPanel);

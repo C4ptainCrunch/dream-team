@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 public class LoginWindowController {
 
     private final LoginWindowView view;
+    private final String BASE_PATH = "user/login/";
 
     public LoginWindowController(LoginWindowView view) {
         this.view = view;
@@ -34,7 +35,7 @@ public class LoginWindowController {
         postForm.param("username", username);
         postForm.param("password", password);
 
-        NetworkRequest request = new NetworkRequest(Network.HOST.COMPLETE_HOSTNAME,"user/login/"+username, MediaType.TEXT_PLAIN_TYPE);
+        NetworkRequest request = new NetworkRequest(Network.HOST.COMPLETE_HOSTNAME,BASE_PATH+username, MediaType.TEXT_PLAIN_TYPE);
         request.post(postForm);
 
         Response response = request.getResponse();

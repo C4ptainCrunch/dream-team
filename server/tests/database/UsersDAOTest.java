@@ -51,7 +51,7 @@ public class UsersDAOTest {
 
     @Test
     public void testActivateUser() {
-        this.usersDAO.activateUser(this.testUser);
+        this.usersDAO.activateUser(this.testUser.getUsername());
         assertTrue(this.usersDAO.isActivated(this.testUser));
     }
 

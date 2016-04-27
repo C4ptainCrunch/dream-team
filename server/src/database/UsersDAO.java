@@ -19,4 +19,6 @@ public interface UsersDAO {
     void activateUser(User user);
 
     String getTokenOfUser(User user);
+
+    void deleteUser(User user);
 }

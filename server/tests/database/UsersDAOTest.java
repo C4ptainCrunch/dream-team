@@ -20,18 +20,15 @@ public class UsersDAOTest {
     public void setup() throws Exception {
         this.daoFactory = DAOFactory.getInstance();
         this.usersDAO = this.daoFactory.getUsersDAO();
+        this.testUser = new User(0,"testUser","Test","User","testUser@gmail.com");
+        this.usersDAO.create(this.testUser);
     }
 
     @After
     public void tearDown() throws Exception {
-
+        this.usersDAO.deleteUser(this.testUser);
     }
 
-    @Test
-    public void testCreateUser() {
-        this.testUser = new User(0,"testUser","Test","User","testUser@gmail.com");
-        this.usersDAO.create(testUser);
-    }
 
     @Test
     public void testRetrieveUsers() {

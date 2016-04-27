@@ -12,8 +12,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Logger.getLogger("com.sun.jersey.api.core").setLevel(Level.WARNING);
         logger.info("Starting the server on http://localhost:5555");
-        TestDAO t = new TestDAO();
-        t.test();
+        DAOFactory daoFactory = DAOFactory.getInstance();
         SimpleServerFactory.create("http://localhost:5555");
     }
 

@@ -7,9 +7,11 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
+import misc.utils.Converter;
 import models.tikz.TikzComponent;
 import models.tikz.TikzNode;
 import models.tikz.TikzPolygon;
+import models.tikz.TikzShape;
 import utils.Log;
 import views.editor.canvas.drawables.DrawableTikzNode;
 
@@ -56,6 +58,15 @@ public class PolygonDrawer extends NodeDrawer {
         return y;
     }
 
+    @Override
+    public Polygon getPositionedShape(Shape shape, TikzNode node, JComponent panel){
+        Polygon polygon = (Polygon) shape;
+        Rectangle bounds = polygon.getBounds();
+        polygon.translate((int)-bounds.getWidth() / 2,(int) -bounds.getHeight() /2);
+        Point swingPosition = Converter.tikz2swing(node.getPosition(), panel);
+        polygon.translate((int)swingPosition.getX(), (int)swingPosition.getY());
+        return polygon;
+    }
 
     @Override
     public List<Point> getAnchors(TikzNode node, JComponent panel){

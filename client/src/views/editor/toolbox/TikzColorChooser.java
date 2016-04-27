@@ -9,10 +9,8 @@ public class TikzColorChooser {
         JColorChooser chooser = new JColorChooser(base);
         AbstractColorChooserPanel[] panel = {new TikzColorChooserPanel()};
         chooser.setChooserPanels(panel);
-        chooser.show();
         JDialog dialog = JColorChooser.createDialog(null, "Chose your color", true, chooser, null, null);
-        dialog.show();
-        System.out.println(chooser.getColor());
+        dialog.setVisible(true);
         return chooser.getColor();
     }
 }

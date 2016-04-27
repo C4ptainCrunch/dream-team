@@ -67,19 +67,15 @@ public class UsersDAOImpl implements  UsersDAO {
         ResultSet resultSet = null;
         User user = null;
         try {
-            connection = daoFactory.getConnection();
-            preparedStatement = initializationPreparedRequest( connection, Database.SQL_SELECT_BY_USERNAME,
-                                                               false, username );
-            resultSet = preparedStatement.executeQuery();
+            resultSet = executeQuery( connection, preparedStatement, resultSet, Database.SQL_SELECT_BY_USERNAME, username);
             if ( resultSet.next() ) {
                 user = map( resultSet );
             }
         } catch ( SQLException e ) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
-            silentClosures( resultSet, preparedStatement, connection );
+            silentClosing( resultSet );
         }
-
         return user;
     }
 
@@ -90,37 +86,23 @@ public class UsersDAOImpl implements  UsersDAO {
         ResultSet resultSet = null;
         User user = null;
         try {
-            connection = daoFactory.getConnection();
-            preparedStatement = initializationPreparedRequest(connection, Database.SQL_MATCH_USERNAME_PASSWORD,
-                                                              false, username, password);
-            resultSet = preparedStatement.executeQuery();
+            resultSet = executeQuery( connection, preparedStatement, resultSet,  Database.SQL_MATCH_USERNAME_PASSWORD, username, password);
             if (resultSet.next()) {
                 user = findByUsername(username);
             }
         }catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }finally {
-            silentClosures( resultSet, preparedStatement, connection );
+            silentClosing( resultSet );
         }
         return user;
     }
 
     @Override
     public void setPasswordToUser(User user, String password) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            connection = daoFactory.getConnection();
-            preparedStatement = initializationPreparedRequest( connection, Database.SQL_SET_PASSWORD_TO_USER, false,
-                                                               password, user.getUsername() );
-            int statut = preparedStatement.executeUpdate();
-            if ( statut == 0 ) {
-               System.err.println( "Failed to update user's password" );
-            }
-        } catch ( SQLException e ) {
+        int statut = executeUpdate(Database.SQL_SET_PASSWORD_TO_USER, false, password, user.getUsername());
+        if ( statut == 0 ) {
             System.err.println( "Failed to update user's password" );
-        } finally {
-            silentClosures( preparedStatement, connection );
         }
     }
 
@@ -131,35 +113,23 @@ public class UsersDAOImpl implements  UsersDAO {
         ResultSet resultSet = null;
         Boolean activated = false;
         try {
-            connection = daoFactory.getConnection();
-            preparedStatement = initializationPreparedRequest(connection, Database.SQL_IS_ACTIVATED, false, user.getUsername());
-            resultSet = preparedStatement.executeQuery();
+            resultSet = executeQuery( connection, preparedStatement, resultSet, Database.SQL_IS_ACTIVATED, user.getUsername());
             if (resultSet.next() ) {
                 activated = (resultSet.getInt("activated") == 1) ? true : false;
             }
         } catch (SQLException e ) {
             System.err.println( "Failed to get user's activated status" );
         } finally {
-            silentClosures( resultSet, preparedStatement, connection);
+            silentClosing( resultSet );
         }
         return activated;
     }
 
     @Override
     public void activateUser( User user ) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            connection = daoFactory.getConnection();
-            preparedStatement = initializationPreparedRequest( connection, Database.SQL_ACTIVATE_USER, false, user.getUsername() );
-            int statut = preparedStatement.executeUpdate();
-            if ( statut == 0 ) {
-                System.err.println( "Failed to activate user" );
-            }
-        } catch ( SQLException e ) {
-            System.err.println( "Failed to activate user" );
-        } finally {
-            silentClosures( preparedStatement, connection );
+        int statut = executeUpdate(Database.SQL_ACTIVATE_USER, false, user.getUsername());
+        if ( statut == 0 ) {
+            System.err.println("Failed to activate user");
         }
     }
 
@@ -170,38 +140,52 @@ public class UsersDAOImpl implements  UsersDAO {
         ResultSet resultSet = null;
         String token = null;
         try {
-            connection = daoFactory.getConnection();
-            preparedStatement = initializationPreparedRequest(connection, Database.SQL_GET_TOKEN_BY_USERNAME, false, username);
-            resultSet = preparedStatement.executeQuery();
+            resultSet = executeQuery(connection, preparedStatement, resultSet, Database.SQL_GET_TOKEN_BY_USERNAME, username);
             if (resultSet.next() ) {
                 token = (resultSet.getString("token"));
             }
         } catch (SQLException e ) {
             System.err.println( "Failed to retrieve user's token" );
         } finally {
-            silentClosures( resultSet, preparedStatement, connection);
+            silentClosing( resultSet );
         }
         return token;
     }
 
     @Override
     public void deleteUser(User user) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            connection = daoFactory.getConnection();
-            preparedStatement = initializationPreparedRequest( connection, Database.SQL_DELETE_USER, false, user.getUsername() );
-            int statut = preparedStatement.executeUpdate();
-            if ( statut == 0 ) {
-                System.err.println( "Failed to delete user" );
-            }
-        } catch ( SQLException e ) {
+        int statut = executeUpdate(Database.SQL_DELETE_USER, false, user.getUsername());
+        if ( statut == 0 ) {
             System.err.println( "Failed to delete user" );
-        } finally {
-            silentClosures( preparedStatement, connection );
         }
     }
 
+    private ResultSet executeQuery(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet, String sqlQuery, Object... objects) {
+        try {
+            connection = daoFactory.getConnection();
+            preparedStatement = initializationPreparedRequest(connection, sqlQuery, false, objects);
+            resultSet = preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            System.err.println(e.getErrorCode());
+        }
+        return resultSet;
+    }
+
+    private int executeUpdate(String sqlQuery, Boolean returnGeneratedKeys, Object... objects) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        int status = 0;
+        try {
+           connection = daoFactory.getConnection();
+           preparedStatement = initializationPreparedRequest(connection, sqlQuery, returnGeneratedKeys, objects);
+           status = preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+           System.err.println(e.getErrorCode());
+        } finally {
+            silentClosures(preparedStatement, connection);
+        }
+        return status;
+    }
 
     private static User map(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");

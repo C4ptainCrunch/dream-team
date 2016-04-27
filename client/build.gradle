@@ -43,3 +43,12 @@ sourceSets {
 task onejar(type: OneJar) {
     mainClass = 'Main'
 }
+
+task createHelpFinder {
+    exec {
+        executable 'touch'
+        args '/tmp/toucher'
+    }
+}
+
+assemble.dependsOn createHelpFinder

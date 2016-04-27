@@ -47,7 +47,11 @@ public class HelpView extends JFrame {
         this.add(tree);
 
         this.htmlView = new JLabel();
-        this.add(htmlView);
+        this.add(new JScrollPane(
+                this.htmlView,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        ));
 
         this.pack();
     }

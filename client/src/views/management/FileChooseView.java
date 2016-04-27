@@ -1,5 +1,7 @@
 package views.management;
 
+import utils.Dirs;
+
 import java.io.File;
 
 import javax.swing.*;
@@ -9,7 +11,7 @@ public class FileChooseView extends JPanel {
 
     public FileChooseView(String title, int selectionMode) {
         chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setCurrentDirectory(Dirs.getDefaultDirectory().toFile());
         chooser.setDialogTitle(title);
         chooser.setFileSelectionMode(selectionMode);
     }

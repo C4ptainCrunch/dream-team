@@ -26,6 +26,14 @@ public class SignUpController {
         this.view.showSignUpPanel();
     }
 
+    private boolean checkField(JTextField field, String regex, String warning){
+        boolean valid = Pattern.matches(regex, field.getText());
+        if (!valid){
+            this.view.initWarning(warning);
+        }
+        return valid;
+    }
+
     /**
      * Check if the data entered by the user are correct (i.e. allow him to enter the program).
      * @param fields The text fields
@@ -33,20 +41,9 @@ public class SignUpController {
      */
 
     public void validateFields(ArrayList<JTextField> fields, JPasswordField passwordField) {
-        Boolean firstNameCheck = Pattern.matches(GUI.SignUp.NAMES_REGEX,fields.get(0).getText());
-        if(!firstNameCheck) {
-            this.view.initWarning(Warnings.FIRSTNAME_WARNING);
-        }
-
-        Boolean lastNameCheck = Pattern.matches(GUI.SignUp.NAMES_REGEX,fields.get(1).getText());
-        if(!lastNameCheck) {
-            this.view.initWarning(Warnings.LASTNAME_WARNING);
-        }
-
-        Boolean userNameCheck = Pattern.matches(GUI.SignUp.USERNAME_REGEX,fields.get(2).getText());
-        if(!userNameCheck) {
-            this.view.initWarning(Warnings.USERNAME_WARNING);
-        }
+        boolean firstNameCheck = checkField(fields.get(0), GUI.SignUp.NAMES_REGEX, Warnings.FIRSTNAME_WARNING);
+        boolean lastNameCheck = checkField(fields.get(1), GUI.SignUp.NAMES_REGEX, Warnings.LASTNAME_WARNING);
+        boolean userNameCheck = checkField(fields.get(2), GUI.SignUp.USERNAME_REGEX, Warnings.USERNAME_WARNING);
 
         EmailValidator emailValidator = EmailValidator.getInstance();
         Boolean emailCheck = emailValidator.isValid(fields.get(3).getText());
@@ -55,7 +52,6 @@ public class SignUpController {
         }
 
         // PASSWORD VALIDATION HERE: Need to discuss password rules.
-
         if(firstNameCheck && lastNameCheck && userNameCheck && emailCheck) {
             accountCreation(fields, passwordField);
             new TokenActivationView();

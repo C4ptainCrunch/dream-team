@@ -22,27 +22,27 @@ public abstract class EdgeDrawer extends ComponentDrawer {
         TikzEdge edge = (TikzEdge) component;
         DrawableTikzEdge drawableComponent = new DrawableTikzEdge(component);
         drawableComponent
-                .addShape(new Line2D.Float(Converter.tikz2swing(fromPosition(edge), panel), Converter.tikz2swing(toPosition(edge), panel)));
+                .addShape(new Line2D.Float(fromPosition(edge, panel), toPosition(edge, panel)));
         return drawableComponent;
     }
 
-    public Point fromPosition(TikzEdge edge) {
+    public Point fromPosition(TikzEdge edge, JComponent panel) {
         Point start;
         if (edge.getFirstNode() == null || edge.getSecondNode() == null) {
-            start = new Point(-Models.DEFAULT.EDGE_X_LENGTH / 2, 0);
+            start = Converter.tikz2swing(new Point(-Models.DEFAULT.EDGE_X_LENGTH / 2, 0), panel);
         } else {
             // Get closest anchor
-            start = Drawer.closestAnchor(edge.getFirstNode(), edge.getToPosition());
+            start = Drawer.closestAnchor(edge.getFirstNode(), edge.getToPosition(), panel);
         }
         return start;
     }
 
-    public Point toPosition(TikzEdge edge) {
+    public Point toPosition(TikzEdge edge, JComponent panel) {
         Point end;
         if (edge.getFirstNode() == null || edge.getSecondNode() == null) {
-            end = new Point(Models.DEFAULT.EDGE_X_LENGTH / 2, 0);
+            end = Converter.tikz2swing(new Point(Models.DEFAULT.EDGE_X_LENGTH / 2, 0), panel);
         } else {
-            end = Drawer.closestAnchor(edge.getSecondNode(), edge.getFromPosition());
+            end = Drawer.closestAnchor(edge.getSecondNode(), edge.getFromPosition(), panel);
         }
         return end;
     }

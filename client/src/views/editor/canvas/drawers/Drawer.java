@@ -29,8 +29,8 @@ public final class Drawer {
         return componentDrawer.toDrawable(component, panel);
     }
 
-    public static Point closestAnchor(TikzNode node, Point point){
+    public static Point closestAnchor(TikzNode node, Point point, JComponent panel){
         NodeDrawer nodeDrawer = (NodeDrawer) drawers.get(node.getClass());
-        return nodeDrawer.closestAnchor(node, point);
+        return nodeDrawer.closestAnchor(node, point, panel);
     }
 }

@@ -54,11 +54,12 @@ public abstract class NodeDrawer extends ComponentDrawer {
         return center.createTransformedShape(shape);
     }
 
-    public Point closestAnchor(TikzNode node, Point point){
+    public Point closestAnchor(TikzNode node, Point point, JComponent panel){
         double distance = Double.MAX_VALUE;
         double other_distance;
         Point closest = null;
-        for(Point anchor : this.getAnchors(node)){
+        point = Converter.tikz2swing(point, panel);
+        for(Point anchor : this.getAnchors(node, panel)){
             other_distance = Geom.euclideanDistance(anchor, point);
             if(other_distance < distance){
                 distance = other_distance;
@@ -68,7 +69,7 @@ public abstract class NodeDrawer extends ComponentDrawer {
         return closest;
     }
 
-    public abstract java.util.List<Point> getAnchors(TikzNode node);
+    public abstract java.util.List<Point> getAnchors(TikzNode node, JComponent panel);
 
 
 

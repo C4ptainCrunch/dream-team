@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import misc.utils.Converter;
 import models.tikz.TikzCircle;
 import models.tikz.TikzComponent;
 import models.tikz.TikzNode;
@@ -29,16 +30,16 @@ public class CircleDrawer extends NodeDrawer {
     }
 
     @Override
-    public java.util.List<Point> getAnchors(TikzNode node){
+    public java.util.List<Point> getAnchors(TikzNode node, JComponent panel){
         TikzCircle circle = (TikzCircle) node;
         int radius = circle.getRadius();
         Point position = circle.getPosition();
 
         java.util.List<Point> anchors = new ArrayList<>();
-        anchors.add(new Point(position.x + radius, position.y));
-        anchors.add(new Point(position.x - radius, position.y));
-        anchors.add(new Point(position.x, position.y + radius));
-        anchors.add(new Point(position.x, position.y - radius));
+        anchors.add(Converter.tikz2swing(new Point(position.x + radius, position.y), panel));
+        anchors.add(Converter.tikz2swing(new Point(position.x - radius, position.y), panel));
+        anchors.add(Converter.tikz2swing(new Point(position.x, position.y + radius), panel));
+        anchors.add(Converter.tikz2swing(new Point(position.x, position.y - radius), panel));
         return anchors;
     }
 }

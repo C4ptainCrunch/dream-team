@@ -22,8 +22,8 @@ public class DirectedEdgeDrawer extends EdgeDrawer {
     public DrawableTikzEdge toDrawable(TikzComponent component, JComponent panel) {
         TikzDirectedEdge edge = (TikzDirectedEdge) component;
         DrawableTikzEdge drawablecomponent = super.toDrawable(edge, panel);
-        Point start = fromPosition(edge);
-        Point end = toPosition(edge);
+        Point start = Converter.swing2tikz(fromPosition(edge, panel), panel);
+        Point end = Converter.swing2tikz(toPosition(edge, panel), panel);
         double dy = end.y - start.y;
         double dx = end.x - start.x;
         double theta = Math.atan2(dy, dx);

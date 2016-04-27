@@ -58,9 +58,9 @@ public class PolygonDrawer extends NodeDrawer {
 
 
     @Override
-    public List<Point> getAnchors(TikzNode node){
+    public List<Point> getAnchors(TikzNode node, JComponent panel){
         TikzPolygon polygon = (TikzPolygon) node;
-        Polygon positionedPolygon = getPositionedShape(getAwtPolygon(polygon), polygon);
+        Polygon positionedPolygon = getPositionedShape(getAwtPolygon(polygon), polygon, panel);
         int[] x = positionedPolygon.xpoints;
         int[] y = positionedPolygon.ypoints;
         List<Point> anchors = new ArrayList<>();

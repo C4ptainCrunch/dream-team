@@ -19,4 +19,9 @@ public final class Network {
         public static final String TOKEN_OK = "token_ok";
     }
 
+    public static final class Signup{
+        public static final String SIGN_UP_OK = "signup_ok";
+        public static final String SIGN_UP_FAILED = "signup_failed";
+    }
+
 }

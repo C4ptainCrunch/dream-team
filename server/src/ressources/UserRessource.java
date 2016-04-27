@@ -20,7 +20,7 @@ public class UserRessource {
         return new User(42, username, Arrays.asList("My document", "Other", "Last document"));
     }
 
-    @POST
+    /*@POST
     @Path("/activate/{user}")
     @Produces("text/plain")
     public String validateToken(@PathParam("user") String username, @FormParam("token") String token){
@@ -35,7 +35,7 @@ public class UserRessource {
     @Path("/login/{user}")
     @Produces("text/plain")
     public String login(@FormParam("token") String token){
-
+        return "TEST";
     }
 
     @POST
@@ -50,5 +50,5 @@ public class UserRessource {
     @Produces("text/plain")
     public void editUser(@FormParam("token") String token){
 
-    }
+    }*/
 }

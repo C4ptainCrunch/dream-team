@@ -28,8 +28,8 @@ public class RectangleDrawer extends NodeDrawer {
     @Override
     public java.util.List<Point> getAnchors(TikzNode node){
         TikzRectangle rectangle = (TikzRectangle) node;
-        int height = rectangle.getLength();
-        int width = rectangle.getWidth();
+        int height = rectangle.getLength()/2;
+        int width = rectangle.getWidth()/2;
         Point position = rectangle.getPosition();
 
         java.util.List<Point> anchors = new ArrayList<>();

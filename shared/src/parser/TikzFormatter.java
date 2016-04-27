@@ -1,6 +1,5 @@
 package parser;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import constants.Models;
 import models.tikz.*;
 import java.awt.*;
@@ -10,10 +9,24 @@ import java.util.List;
 public class TikzFormatter {
     private TikzFormatter(){}
 
+    /**
+     * Format a TikzNode to create a String (specific implementation of toString method).
+     * @param node The TikzNode to format.
+     * @param options The TikzNode options (such as the node's color).
+     * @return The corresponding formatted String.
+     */
+
     public static String tikzSource(TikzNode node, String options){
         Point position = node.getPosition();
         return String.format("\\node[%s](%s) at (%.0f,%.0f){%s};\n", options, node.getReference(), position.getX(), position.getY(), node.getLabel());
     }
+
+    /**
+     * Format a TikzEdge to create a String (specific implementation of toString method).
+     * @param edge The TikzEdge to format.
+     * @param options The TikzNode options (such as the edge's color).
+     * @return The corresponding formatted String.
+     */
 
     public static String tikzSource(TikzEdge edge, String options){
         String first = edge.getFirstNode().getReference();
@@ -25,6 +38,12 @@ public class TikzFormatter {
         return "";
     }
 
+    /**
+     * Format a TikzCircle to create a String (specific implementation of toString method).
+     * @param circle The TikzCircle to format.
+     * @return The corresponding formatted String.
+     */
+
     public static String format(TikzCircle circle) {
         List<String> options = new ArrayList<>(Arrays.asList("circle", "draw"));
         if (circle.getRadius() != Models.DEFAULT.LENGTH) {options.add("radius=" + Integer.toString(circle.getRadius()));}
@@ -32,6 +51,12 @@ public class TikzFormatter {
         options.addAll(getShapeOptions(circle));
         return tikzSource(circle, String.join(", ",  options));
     }
+
+    /**
+     * Format a TikzRectangle to create a String (specific implementation of toString method).
+     * @param rectangle The TikzRectangle to format.
+     * @return The corresponding formatted String.
+     */
 
     public static String format(TikzRectangle rectangle){
         List<String> options = new ArrayList<>(Arrays.asList("rectangle", "draw"));
@@ -42,6 +67,12 @@ public class TikzFormatter {
         return tikzSource(rectangle, String.join(", ", options));
     }
 
+    /**
+     * Format a TikzPolygon to create a String (specific implementation of toString method).
+     * @param polygon The TikzPolygon to format.
+     * @return The corresponding formatted String.
+     */
+
     public static String format(TikzPolygon polygon){
         ArrayList<String> options = new ArrayList<>(Arrays.asList("regular polygon", "draw"));
         if (polygon.getLength() != Models.DEFAULT.LENGTH) {options.add("minimum size=" + Integer.toString(polygon.getLength()));}
@@ -51,11 +82,23 @@ public class TikzFormatter {
         return tikzSource(polygon, String.join(", ", options));
     }
 
+    /**
+     * Format a TikzDirectedEdge to create a String (specific implementation of toString method).
+     * @param edge The TikzCircle to format.
+     * @return The corresponding formatted String.
+     */
+
     public static String format(TikzDirectedEdge edge){
         List<String> options = new ArrayList<>(Collections.singletonList("->"));
         options.addAll(getCommonOptions(edge));
         return tikzSource(edge, String.join(", ", options));
     }
+
+    /**
+     * Format a TikzUndirectedEdge to create a String (specific implementation of toString method).
+     * @param edge The TikzCircle to format.
+     * @return The corresponding formatted String.
+     */
 
     public static String format(TikzUndirectedEdge edge){
         return tikzSource(edge, String.join(", ", getCommonOptions(edge)));

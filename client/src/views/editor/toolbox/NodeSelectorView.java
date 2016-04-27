@@ -3,6 +3,7 @@ package views.editor.toolbox;
 import misc.SelectorComponent;
 import models.ToolModel;
 import models.tikz.TikzCircle;
+import models.tikz.TikzPolygon;
 import models.tikz.TikzRectangle;
 
 /**
@@ -31,6 +32,7 @@ public class NodeSelectorView extends SelectorView {
     private void initComponents() {
         addCircle();
         addRectangle();
+        addTriangle();
     }
 
     /**
@@ -48,5 +50,10 @@ public class NodeSelectorView extends SelectorView {
     private void addRectangle() {
         TikzRectangle rectangle = new TikzRectangle(SHAPE_SIZE, SHAPE_SIZE);
         this.addComponent(new SelectorComponent(rectangle, this));
+    }
+
+    private void addTriangle() {
+        TikzPolygon triangle = new TikzPolygon(SHAPE_SIZE/2, 3);
+        this.addComponent(new SelectorComponent(triangle, this));
     }
 }

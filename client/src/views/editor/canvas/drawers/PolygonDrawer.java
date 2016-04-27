@@ -60,12 +60,13 @@ public class PolygonDrawer extends NodeDrawer {
     @Override
     public List<Point> getAnchors(TikzNode node){
         TikzPolygon polygon = (TikzPolygon) node;
-        int vertices = polygon.getSides();
-        int size = polygon.getLength();
-        int[] x = getPolygonXCoords(vertices, size);
-        int[] y = getPolygonYCoords(vertices, size);
-
+        Polygon positionedPolygon = getPositionedShape(getAwtPolygon(polygon), polygon);
+        int[] x = positionedPolygon.xpoints;
+        int[] y = positionedPolygon.ypoints;
         List<Point> anchors = new ArrayList<>();
+        for(int i = 0; i < positionedPolygon.npoints; ++i){
+            anchors.add(new Point(x[i], y[i]));
+        }
         return anchors;
     }
 }

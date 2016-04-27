@@ -33,6 +33,21 @@ public abstract class NodeDrawer extends ComponentDrawer {
         return toSwingTransform.createTransformedShape(shape);
     }
 
+    public Polygon getPositionedShape(Polygon polygon, TikzNode node){
+        Rectangle bounds = polygon.getBounds();
+        polygon.translate((int)-bounds.getWidth() / 2,(int) -bounds.getHeight() /2);
+        polygon.translate(node.getPosition().x, node.getPosition().y);
+        return polygon;
+    }
+
+    public Polygon getPositionedShape(Polygon polygon, TikzNode node, JComponent panel){
+        Rectangle bounds = polygon.getBounds();
+        polygon.translate((int)-bounds.getWidth() / 2,(int) -bounds.getHeight() /2);
+        Point swingPosition = Converter.tikz2swing(node.getPosition(), panel);
+        polygon.translate((int)swingPosition.getX(), (int)swingPosition.getY());
+        return polygon;
+    }
+
     public Shape getCenteredShape(Shape shape) {
         Rectangle bounds = shape.getBounds();
         AffineTransform center = new AffineTransform(1, 0, 0, 1, -bounds.getWidth() / 2, -bounds.getHeight() / 2);

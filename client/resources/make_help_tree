@@ -1,0 +1,3 @@
+#!/bin/bash
+
+tree -X resources/help_files > resources/help_tree.xml

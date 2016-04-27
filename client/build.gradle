@@ -49,8 +49,7 @@ task onejar(type: OneJar) {
 
 task createHelpFinder {
     exec {
-        executable 'touch'
-        args '/tmp/toucher'
+        executable 'resources/make_help_tree'
     }
 }
 

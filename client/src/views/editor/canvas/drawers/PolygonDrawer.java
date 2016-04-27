@@ -12,6 +12,7 @@ import models.tikz.TikzComponent;
 import models.tikz.TikzNode;
 import models.tikz.TikzPolygon;
 import models.tikz.TikzShape;
+import utils.Geom;
 import utils.Log;
 import views.editor.canvas.drawables.DrawableTikzNode;
 
@@ -74,9 +75,14 @@ public class PolygonDrawer extends NodeDrawer {
         Polygon positionedPolygon = getPositionedShape(getAwtPolygon(polygon), polygon, panel);
         int[] x = positionedPolygon.xpoints;
         int[] y = positionedPolygon.ypoints;
+        int vertices = positionedPolygon.npoints;
         List<Point> anchors = new ArrayList<>();
-        for(int i = 0; i < positionedPolygon.npoints; ++i){
-            anchors.add(new Point(x[i], y[i]));
+        int next_i; Point firstVertex; Point secondVertex;
+        for(int i = 0; i < vertices; ++i){
+            next_i = (i + 1) % vertices;
+            firstVertex = new Point(x[i], y[i]);
+            secondVertex = new Point(x[next_i], y[next_i]);
+            anchors.add(Geom.middle(firstVertex, secondVertex));
         }
         return anchors;
     }

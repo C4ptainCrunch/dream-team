@@ -1,20 +1,61 @@
 package ressources;
 
+import database.DAOFactory;
+import database.UsersDAO;
 import models.users.User;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.Arrays;
 
 @Path("user")
 public class UserRessource {
 
+    DAOFactory daoFactory = DAOFactory.getInstance();
+    UsersDAO usersDAO = daoFactory.getUsersDAO();
+
     @GET
     @Path("{user}")
     @Produces("application/xml")
-    public User getUser(@PathParam("user") String username){
-        return new User(42, username, Arrays.asList("My document", "Other", "Last document"));
+    public String getUser(@PathParam("user") String username){
+        return "Test";
+    }
+
+    @POST
+    @Path("/activate/{user}")
+    @Produces("text/plain")
+    public String validateToken(@PathParam("user") String username, @FormParam("token") String token){
+        System.out.println(this.usersDAO.getTokenOfUser(username));
+        if(this.usersDAO.getTokenOfUser(username).equals(token)){
+            this.usersDAO.activateUser(username);
+            return "OK";
+        } else {
+            return "NOK";
+        }
+    }
+
+    @POST
+    @Path("/login/{user}")
+    @Produces("text/plain")
+    public String login(@FormParam("username") String username, @FormParam("password") String password){
+        User testUser = this.usersDAO.findByUsernameAndPassword(username,password);
+        if(testUser!=null) {
+            return "OK";
+        } else {
+            return "NOK";
+        }
+    }
+
+    @POST
+    @Path("/create/{user}")
+    @Produces("text/plain")
+    public void createUser(@FormParam("token") String token){
+
+    }
+
+    @POST
+    @Path("/edit/{user}")
+    @Produces("text/plain")
+    public void editUser(@FormParam("token") String token){
+
     }
 }

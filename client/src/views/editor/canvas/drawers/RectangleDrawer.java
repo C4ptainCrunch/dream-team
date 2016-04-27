@@ -20,7 +20,7 @@ public class RectangleDrawer extends NodeDrawer {
     /**
      * Creates a swing drawable rectangle object by adding a Rectangle shape to the list of shapes of the drawable
      * and correctly setting its position.
-     * @param component tikz component to draw
+     * @param component tikz rectangle to draw
      * @param panel panel to draw onto
      * @return drawable with the rectangle shape
      */
@@ -43,7 +43,7 @@ public class RectangleDrawer extends NodeDrawer {
     }
 
     /**
-     * Determines the anchors of the given node.
+     * Determines the anchors of the given rectangle.
      * Uses the shape bounds.
      * @param node rectangle to get the anchors from.
      * @param panel panel on which the rectangle is drawn

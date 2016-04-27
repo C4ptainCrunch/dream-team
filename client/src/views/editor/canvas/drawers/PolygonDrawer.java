@@ -26,7 +26,7 @@ public class PolygonDrawer extends NodeDrawer {
     /**
      * Creates a swing drawable polygon object by adding a Polygon shape to the list of shapes of the drawable
      * and correctly setting its position.
-     * @param component tikz component to draw
+     * @param component tikz polygon to draw
      * @param panel panel to draw onto
      * @return drawable with the polygon shape
      */
@@ -101,7 +101,7 @@ public class PolygonDrawer extends NodeDrawer {
     }
 
     /**
-     * Determines the anchors of the given node.
+     * Determines the anchors of the given polygon.
      * Constructs the Polygon shape as if we wanted to make a Drawable.
      * Then, uses the obtained shape to get the vertices and compute
      * the center of each following pair of vertices for anchors.

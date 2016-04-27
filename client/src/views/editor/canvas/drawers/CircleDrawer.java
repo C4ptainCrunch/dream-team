@@ -12,6 +12,7 @@ import models.tikz.TikzComponent;
 import models.tikz.TikzNode;
 import models.tikz.TikzShape;
 import views.editor.canvas.drawables.DrawableTikzNode;
+import java.util.List;
 
 public class CircleDrawer extends NodeDrawer {
 
@@ -19,23 +20,45 @@ public class CircleDrawer extends NodeDrawer {
         // this was left intentionally blank
     }
 
+    /**
+     * Creates a swing drawable circle object by adding a Circle shape to the list of shapes of the drawable
+     * and correctly setting its position.
+     * @param component tikz circle to draw
+     * @param panel panel to draw onto
+     * @return drawable with the circle shape
+     */
     @Override
     public DrawableTikzNode toDrawable(TikzComponent component, JComponent panel) {
         TikzCircle circle = (TikzCircle) component;
         DrawableTikzNode drawableComponent = super.toDrawable(circle, panel);
-
-        float size = circle.getRadius() * 2;
-        drawableComponent.addShape(getPositionedShape(new Ellipse2D.Float(0, 0, size, size), circle, panel));
+        drawableComponent.addShape(getPositionedShape(getAwtCircle(circle), circle, panel));
         return drawableComponent;
     }
 
+    /**
+     * Creates an awt circle from the radius of the given TikzCircle.
+     * Uses the Ellipse2D awt object to achieve this.
+     * @param circle the TikzCircle to create an awt circle from
+     * @return the awt circle shape
+     */
+    public Ellipse2D getAwtCircle(TikzCircle circle){
+        float radius = circle.getRadius();
+        return new Ellipse2D.Float(0, 0, radius, radius);
+    }
+
+    /**
+     * Determines the anchors of the given circle by adding/substracting its radius to the center of the shape.
+     * @param node circle to get the anchors from.
+     * @param panel panel on which the circle is drawn
+     * @return a list of swing anchors
+     */
     @Override
-    public java.util.List<Point> getAnchors(TikzNode node, JComponent panel){
+    public List<Point> getAnchors(TikzNode node, JComponent panel){
         TikzCircle circle = (TikzCircle) node;
         int radius = circle.getRadius();
         Point position = circle.getPosition();
 
-        java.util.List<Point> anchors = new ArrayList<>();
+        List<Point> anchors = new ArrayList<>();
         anchors.add(Converter.tikz2swing(new Point(position.x + radius, position.y), panel));
         anchors.add(Converter.tikz2swing(new Point(position.x - radius, position.y), panel));
         anchors.add(Converter.tikz2swing(new Point(position.x, position.y + radius), panel));

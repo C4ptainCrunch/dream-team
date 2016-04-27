@@ -1,13 +1,11 @@
 package controllers.accounts;
 
+import models.NetworkRequest;
 import views.accounts.LoginWindowView;
 import views.accounts.SignUpView;
 import views.accounts.TokenActivationView;
 import views.management.ProjectManagementView;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -31,16 +29,14 @@ public class LoginWindowController {
      */
 
     public void login(String username, String password) {
-        Client client = ClientBuilder.newClient();
-
         Form postForm = new Form();
         postForm.param("username", username);
         postForm.param("password", password);
 
-        Response response = client.target("http://localhost:5555")
-                .path("user/login/"+username)
-                .request(MediaType.TEXT_PLAIN_TYPE)
-                .post(Entity.form(postForm));
+        NetworkRequest request = new NetworkRequest("http://localhost:5555","user/login/"+username, MediaType.TEXT_PLAIN_TYPE);
+        request.post(postForm);
+
+        Response response = request.getResponse();
 
         if(response.readEntity(String.class).equals("OK")){
             this.view.dispose();

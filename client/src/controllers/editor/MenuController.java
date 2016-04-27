@@ -18,6 +18,7 @@ import utils.PdfRenderer;
 import views.editor.EditorView;
 import views.editor.MenuView;
 import views.help.HelpView;
+import views.management.FileChooseView;
 import views.management.HistoryView;
 import constants.Errors;
 
@@ -63,6 +64,12 @@ public class MenuController implements Observer {
      */
     public void save() {
         try {
+            if(this.project.isTemporary()){
+                File newDir = new FileChooseView("Save project", JFileChooser.DIRECTORIES_ONLY).ask();
+                if(newDir != null){
+                    this.project.rename(newDir);
+                }
+            }
             this.project.save();
         } catch (IOException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(view, Errors.SAVE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
@@ -98,15 +105,32 @@ public class MenuController implements Observer {
     }
 
     /**
-     * Exits the program
+     * Saves the project and closes the editor window.
+     * If the project has no name/path, it asks the user if
+     * he wants to save the file to the disk.
+     * If the user cancels, no windows are closed and this
+     * method does nothing.
      *
      * @param parentView
      *            The view in which the menu view associated with this
      *            controller is contained
      */
-    public void exit(EditorView parentView) {
-        save();
-        parentView.dispose();
+    public void saveAndQuit(EditorView parentView) {
+        boolean shouldQuit = true;
+        if(this.project.isTemporary()){
+            int r = JOptionPane.showConfirmDialog(this.view, "Would you like to save your project ?");
+            if(r == JOptionPane.NO_OPTION){
+            } else if (r == JOptionPane.CANCEL_OPTION){
+                shouldQuit = false;
+            } else if (r == JOptionPane.YES_OPTION) {
+                save();
+            }
+        } else {
+            save();
+        }
+        if(shouldQuit){
+            parentView.dispose();
+        }
     }
 
     public void setColorBlindMode(int stateChange) {

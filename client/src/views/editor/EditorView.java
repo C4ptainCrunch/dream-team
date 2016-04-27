@@ -13,7 +13,6 @@ import models.project.Project;
 import models.tikz.TikzComponent;
 import models.tikz.TikzGraph;
 import views.editor.toolbox.ToolBoxView;
-import constants.GUI;
 import controllers.editor.EditorController;
 
 /**
@@ -46,11 +45,11 @@ public class EditorView extends JFrame {
         this.menuView = new MenuView(this, project);
         this.toolBoxView = new ToolBoxView();
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent windowEvent) {
-                menuView.save();
+                menuView.saveAndQuit();
                 super.windowClosing(windowEvent);
             }
         });
@@ -65,7 +64,7 @@ public class EditorView extends JFrame {
      * views that are contained within this view
      */
     public final void render() {
-        this.setTitle(GUI.MenuBar.APP_NAME);
+        this.controller.setTitle();
 
         DisplayMode gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
 

@@ -46,13 +46,15 @@ public class RecentProjects {
     }
 
     public static void addProject(Project project) throws IOException {
-        SortedSet<Project> projects = getRecentProjects();
+        if(!project.isTemporary()) {
+            SortedSet<Project> projects = getRecentProjects();
 
-        // Add the project to the end (and don't have it twice in the list)
-        projects.remove(project);
-        projects.add(project);
+            // Add the project to the end (and don't have it twice in the list)
+            projects.remove(project);
+            projects.add(project);
 
-        writeToDisk(projects);
+            writeToDisk(projects);
+        }
     }
 
     private static void writeToDisk(SortedSet<Project> projects) throws IOException {

@@ -52,7 +52,7 @@ public class MenuView extends JMenuBar {
         file_menu.addSeparator();
 
         JMenuItem exit_item = new JMenuItem(GUI.MenuBar.EXIT);
-        exit_item.addActionListener(actionEvent -> controller.exit(parentView));
+        exit_item.addActionListener(actionEvent -> controller.saveAndQuit(parentView));
         file_menu.add(exit_item);
 
         JMenu help_menu = new JMenu(GUI.MenuBar.HELP_MENU);
@@ -71,11 +71,11 @@ public class MenuView extends JMenuBar {
     }
 
     /**
-     * Calls the save function of the controller of this view. This will save
+     * Calls the saveAndQuit function of the controller of this view. This will saveAndQuit
      * the tikz text into a file in the current project's file
      */
-    public void save() {
-        controller.save();
+    public void saveAndQuit() {
+        controller.saveAndQuit(parentView);
     }
 
     public void setBlindMode(boolean set_mode) {

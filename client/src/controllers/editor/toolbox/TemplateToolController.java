@@ -51,9 +51,11 @@ public class TemplateToolController {
 
     public void addTemplateFromFile(File file) {
         try {
-            Path p = Paths.get(GUI.Template.DIR);
-            p = p.resolve(file.getName());
-            templates.addTemplateToList(TemplateIOManager.loadTemplate(p.toFile()));
+            if (file != null) {
+                Path p = Paths.get(GUI.Template.DIR);
+                p = p.resolve(file.getName());
+                templates.addTemplateToList(TemplateIOManager.loadTemplate(p.toFile()));
+            }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(view, Errors.LOAD_TEMPLATES_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
         }

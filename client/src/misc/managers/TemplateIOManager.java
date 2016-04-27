@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import models.Template;
 import models.tikz.TikzComponent;
+import models.tikz.TikzEdge;
 import models.tikz.TikzGraph;
 import models.tikz.TikzNode;
 import views.management.FileChooseView;
@@ -47,11 +48,15 @@ public class TemplateIOManager {
     public static File exportGraphAsTemplate(Collection<TikzComponent> components) throws IOException {
         TikzGraph g = new TikzGraph();
         for (TikzComponent comp : components) {
-            if (comp != null && comp.isNode()) {
-                g.add((TikzNode) comp.getClone());
+            if (comp != null) {
+                if (comp.isNode()) {
+                    g.add((TikzNode) comp);
+                } else if (comp.isEdge()){
+                    g.add((TikzEdge) comp);
+                }
             }
         }
-        moveTemplateGraphToOrigin(g);
+        moveTemplateGraphToOrigin(g.getClone());
         String name = JOptionPane.showInputDialog(new JFrame(), "Enter template name:");
         Template template = new Template(g);
         return template.saveTemplate(name);

@@ -13,11 +13,24 @@ public class TokenActivationController {
         this.view = view;
     }
 
-    public void validateToken(String token) {
+    public void validateToken(String token, String username) {
 
-        Boolean serverValidation = true; // // FETCH CORRECT TOKEN IN SERVER
+        String tokenServer = "TEST"; // GET TOKEN FROM SERVER
 
-        if(serverValidation){
+        /* Client client = ClientBuilder.newClient();
+        WebTarget target = client.target("http://localhost:5555").path("resource");
+
+        Form form = new Form();
+        form.param("x", "foo");
+        form.param("y", "bar");
+
+        MyJAXBBean bean = target.request(
+                MediaType.APPLICATION_JSON_TYPE).post(
+                    Entity.entity(
+                            form,MediaType.APPLICATION_FORM_URLENCODED_TYPE),
+                            MyJAXBBean.class); */
+
+        if(token.equals(tokenServer)){
             this.view.dispose();
             this.view.correctTokenDialog();
         } else {

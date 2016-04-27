@@ -36,7 +36,6 @@ public class User {
         return username;
     }
 
-
     @XmlAttribute
     public int getId() {
         return id;

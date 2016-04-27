@@ -50,7 +50,8 @@ public class TokenActivationView extends JFrame {
         tokenPanel.add(tokenInput);
 
         JButton okButton = new JButton(GUI.TokenWindow.OK_BUTTON);
-        okButton.addActionListener(e -> controller.validateToken(tokenInput.getText()));
+        okButton.addActionListener(e -> controller.validateToken(tokenInput.getText(),
+                                                                 usernameInput.getText()));
 
         tokenConfirmationPanel.add(presentationText);
         tokenConfirmationPanel.add(usernamePanel);

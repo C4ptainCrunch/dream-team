@@ -68,7 +68,7 @@ public class TokenActivationView extends JFrame {
 
     public void correctTokenDialog() {
         JOptionPane.showMessageDialog(this,
-                "Congratulations! Your account is now validated.\nYou may log in now.",
+                GUI.TokenWindow.TOKEN_VALID,
                 "Congratulations",
                 JOptionPane.INFORMATION_MESSAGE);
     }
@@ -79,7 +79,7 @@ public class TokenActivationView extends JFrame {
 
     public void wrongTokenWarning(){
         JOptionPane.showMessageDialog(this,
-                "That token is wrong. Please make sure you have copied it well.",
+                GUI.TokenWindow.TOKEN_WRONG,
                 "Warning",
                 JOptionPane.WARNING_MESSAGE);
     }

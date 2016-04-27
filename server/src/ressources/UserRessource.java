@@ -1,17 +1,23 @@
 package ressources;
 
+import constants.Network;
 import database.DAOFactory;
 import database.UsersDAO;
 import models.users.User;
+import utils.ConfirmationEmailSender;
+import utils.Log;
 
+import javax.mail.MessagingException;
 import javax.ws.rs.*;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 @Path("user")
 public class UserRessource {
 
     DAOFactory daoFactory = DAOFactory.getInstance();
     UsersDAO usersDAO = daoFactory.getUsersDAO();
+    private final static Logger logger = Log.getLogger(UserRessource.class);
 
     @GET
     @Path("{user}")
@@ -24,10 +30,9 @@ public class UserRessource {
     @Path("/activate/{user}")
     @Produces("text/plain")
     public String validateToken(@PathParam("user") String username, @FormParam("token") String token){
-        System.out.println(this.usersDAO.getTokenOfUser(username));
         if(this.usersDAO.getTokenOfUser(username).equals(token)){
             this.usersDAO.activateUser(username);
-            return "OK";
+            return Network.Token.TOKEN_OK;
         } else {
             return "NOK";
         }
@@ -39,10 +44,32 @@ public class UserRessource {
     public String login(@FormParam("username") String username, @FormParam("password") String password){
         User testUser = this.usersDAO.findByUsernameAndPassword(username,password);
         if(testUser!=null) {
-            return "OK";
-        } else {
-            return "NOK";
+            if(this.usersDAO.isActivated(testUser)) {
+                return Network.Login.LOGIN_OK;
+            }
+            return Network.Login.ACCOUNT_NOT_ACTIVATED;
         }
+        return Network.Login.LOGIN_FAILED;
+    }
+
+    @POST
+    @Path("/signup/{user}")
+    @Produces("text/plain")
+    public String signUp(@FormParam("username") String username, @FormParam("firstname") String firstname,
+                         @FormParam("lastname") String lastname, @FormParam("email") String email, @FormParam("password") String password){
+        User user = new User(username, firstname, lastname, email);
+        boolean failed = this.usersDAO.create(user);
+        if (!failed){
+            this.usersDAO.setPasswordToUser(user, password);
+            ConfirmationEmailSender emailSender = new ConfirmationEmailSender();
+            try{
+                emailSender.send(email,this.usersDAO.getTokenOfUser(username));
+            } catch (MessagingException ex) {
+                logger.info("Email sending to " + email + " failed.");
+            }
+            return Network.Signup.SIGN_UP_OK;
+        }
+        return Network.Signup.SIGN_UP_FAILED;
     }
 
     @POST

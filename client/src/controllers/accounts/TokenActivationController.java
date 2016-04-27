@@ -1,5 +1,7 @@
 package controllers.accounts;
 
+import constants.Network;
+import models.NetworkRequest;
 import views.accounts.TokenActivationView;
 
 import javax.ws.rs.client.Client;
@@ -17,6 +19,7 @@ import javax.ws.rs.core.Response;
 public class TokenActivationController {
 
     private TokenActivationView view;
+    private final String BASE_PATH = "user/activate/";
 
     public TokenActivationController(TokenActivationView view) {
         this.view = view;
@@ -30,16 +33,13 @@ public class TokenActivationController {
 
     public void validateToken(String token, String username) {
 
-        Client client = ClientBuilder.newClient();
-
         Form postForm = new Form("token",token);
+        NetworkRequest request = new NetworkRequest(Network.HOST.COMPLETE_HOSTNAME, BASE_PATH+username, MediaType.TEXT_PLAIN_TYPE);
+        request.post(postForm);
 
-        Response response = client.target("http://localhost:5555")
-                .path("user/activate/"+username)
-                .request(MediaType.TEXT_PLAIN_TYPE)
-                .post(Entity.form(postForm));
+        String response = request.getResponseAsString();
 
-        if(response.readEntity(String.class).equals("OK")){
+        if(response.equals(Network.Token.TOKEN_OK)){
             this.view.dispose();
             this.view.correctTokenDialog();
         } else {

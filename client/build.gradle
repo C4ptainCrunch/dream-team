@@ -46,3 +46,9 @@ sourceSets {
 task onejar(type: OneJar) {
     mainClass = 'Main'
 }
+
+run {
+    if ( project.hasProperty("appArgs") ) {
+        args Eval.me(appArgs)
+    }
+}

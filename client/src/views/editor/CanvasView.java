@@ -66,8 +66,7 @@ public class CanvasView extends JPanel {
 
     private void highlightTextArea(MouseEvent e){
         if (selection != null){
-            List<Point> selection_points = selection.getShapePoints();
-            parentView.highlightTextZone(controller.getSelectedComponents(selection_points));
+            parentView.highlightTextZone(controller.getSelectedComponents(selection.getSelectionRectangle()));
         }
     }
 

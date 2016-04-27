@@ -19,6 +19,7 @@ import models.tikz.TikzGraph;
 import models.tikz.TikzNode;
 import views.editor.CanvasView;
 import views.editor.canvas.NodeEditionView;
+import views.editor.canvas.drawables.Drawable;
 import views.editor.canvas.drawables.DrawableTikzComponent;
 import views.editor.canvas.drawers.Drawer;
 import constants.Errors;
@@ -114,30 +115,16 @@ public class CanvasController implements Observer {
         return false;
     }
 
-    public void removeFromDraws(TikzComponent comp) {
-        for (DrawableTikzComponent draw : drawables) {
-            if (draw.hasAsComponent(comp)) {
-                drawables.remove(draw);
-                break;
-            }
-        }
-    }
-
-    public Set<TikzComponent> getSelectedComponents(List<Point> positions) {
-        for (Point pos : positions) {
-            TikzComponent comp = findComponentByPosition(pos);
-            if (comp != null) {
-                selected_comp.add(comp);
-                removeFromDraws(comp);
+    public Set<TikzComponent> getSelectedComponents(Shape shape){
+        for (DrawableTikzComponent draw: drawables){
+            if (draw.intersects(shape)){
+                selected_comp.add(draw.getComponent());
             }
         }
         return selected_comp;
     }
 
     public void unselectComponents() {
-        for (TikzComponent comp : selected_comp) {
-            addDrawableComponent(Drawer.toDrawable(comp, view));
-        }
         selected_comp.clear();
     }
 
@@ -321,7 +308,7 @@ public class CanvasController implements Observer {
     public void exportSelectionAsTemplate() {
         CanvasSelection selection = view.getSelection();
         if (selection != null) {
-            Set<TikzComponent> components = getSelectedComponents(selection.getShapePoints());
+            Set<TikzComponent> components = getSelectedComponents(selection.getSelectionRectangle());
             try {
                 if (!components.isEmpty()) {
                     File file = TemplateIOManager.exportGraphAsTemplate(components);

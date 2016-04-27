@@ -32,6 +32,11 @@ public class ProjectManagementController {
         view.dispose(); // Exit previous windows
     }
 
+    /**
+     * Updates the project description with the selected project
+     * Should be called when the dropdown is updated.
+     * @param comboBox
+     */
     public void dropdownSelected(JComboBox comboBox) {
         Project selectedProject = (Project) comboBox.getSelectedItem();
         if(selectedProject == null){
@@ -48,11 +53,15 @@ public class ProjectManagementController {
         }
     }
 
+    /**
+     * Creates a new project and opens it in the editor.
+     */
     public void createProject() {
         try {
             editProject(new Project());
         } catch (IOException e) {}
     }
+
 
     public void openProject() {
         Project project = view.getSelectedProject();

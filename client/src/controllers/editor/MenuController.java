@@ -105,7 +105,11 @@ public class MenuController implements Observer {
     }
 
     /**
-     * Exits the program
+     * Saves the project and closes the editor window.
+     * If the project has no name/path, it asks the user if
+     * he wants to save the file to the disk.
+     * If the user cancels, no windows are closed and this
+     * method does nothing.
      *
      * @param parentView
      *            The view in which the menu view associated with this

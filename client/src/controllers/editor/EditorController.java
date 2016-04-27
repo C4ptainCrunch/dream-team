@@ -49,6 +49,9 @@ public class EditorController implements Observer {
         }
     }
 
+    /**
+     * Sets the title of the view to "CreaTikz - project_name"
+     */
     public void setTitle() {
         String title = GUI.MenuBar.APP_NAME + " - ";
         if(this.project.isTemporary()){

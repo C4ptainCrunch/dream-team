@@ -48,11 +48,6 @@ public class UsersDAOTest {
     }
 
     @Test
-    public void testGetTokens() {
-        System.out.println(this.usersDAO.getTokenOfUser(this.testUser.getUsername()));
-    }
-
-    @Test
     public void testActivateUser() {
         this.usersDAO.activateUser(this.testUser.getUsername());
         assertTrue(this.usersDAO.isActivated(this.testUser));

@@ -28,6 +28,7 @@ public class TokenActivationControllerTest {
 
     }
 
+    /*
     @Test
     public void testValidateToken() throws Exception {
 
@@ -41,7 +42,7 @@ public class TokenActivationControllerTest {
                 .post(Entity.form(postForm));
 
         assertEquals(response.readEntity(String.class),"OK");
-    }
+    }*/
 
     /*@Test
     public void testGetUser() throws Exception {

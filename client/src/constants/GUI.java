@@ -99,7 +99,7 @@ public final class GUI {
     }
 
     public static final class TextArea {
-        public static final String DEFAULT_THEME = "./assets/syntax_themes/default.xml";
-        public static final String DEFAULT_COLOR_BLINDNESS_THEME = "./assets/syntax_themes/default_color_blindness.xml";
+        public static final String DEFAULT_THEME = "syntax_themes/default.xml";
+        public static final String DEFAULT_COLOR_BLINDNESS_THEME = "syntax_themes/default_color_blindness.xml";
     }
 }

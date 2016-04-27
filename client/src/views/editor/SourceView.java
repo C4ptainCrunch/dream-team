@@ -93,7 +93,7 @@ public class SourceView extends JPanel {
 
     private void applyTheme(String file_path){
         try {
-            InputStream stream = new DataInputStream(Files.newInputStream(Paths.get(file_path)));
+            InputStream stream = GUI.class.getClassLoader().getResourceAsStream(file_path);
             Theme theme = Theme.load(stream);
             theme.apply(this.textArea);
         } catch (IOException e){

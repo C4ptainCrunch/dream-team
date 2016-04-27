@@ -42,7 +42,7 @@ public class CircleDrawer extends NodeDrawer {
      * @return the awt circle shape
      */
     public Ellipse2D getAwtCircle(TikzCircle circle){
-        float radius = circle.getRadius();
+        float radius = circle.getRadius()*2;
         return new Ellipse2D.Float(0, 0, radius, radius);
     }
 

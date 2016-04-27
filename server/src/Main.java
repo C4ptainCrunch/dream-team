@@ -1,18 +1,24 @@
-
 import database.DAOFactory;
+import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
+import ressources.UserRessource;
 import utils.Log;
 
-import java.util.logging.Level;
+import javax.ws.rs.core.UriBuilder;
+import java.net.URI;
 import java.util.logging.Logger;
 
 public class Main {
     private static final Logger logger = Log.getLogger(Main.class);
 
     public static void main(String[] args) throws Exception {
-        Logger.getLogger("com.sun.jersey.api.core").setLevel(Level.WARNING);
-        logger.info("Starting the server on http://localhost:5555");
         DAOFactory daoFactory = DAOFactory.getInstance();
-        SimpleServerFactory.create("http://localhost:5555");
+
+        URI baseUri = UriBuilder.fromUri("http://localhost/").port(5555).build();
+        ResourceConfig config = new ResourceConfig(UserRessource.class);
+        JdkHttpServerFactory.createHttpServer(baseUri, config);
+
+        logger.info("Server started on http://localhost:5555/");
     }
 
 }

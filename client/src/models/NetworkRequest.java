@@ -33,7 +33,9 @@ public class NetworkRequest {
         this.response = this.request_builder.post(Entity.form(postFrom));
     }
 
-    public Response getResponse(){
-        return this.response;
+    public Response getResponse() { return this.response; }
+
+    public String getResponseAsString(){
+        return this.response.readEntity(String.class);
     }
 }

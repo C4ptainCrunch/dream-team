@@ -1,5 +1,6 @@
 package controllers.accounts;
 
+import constants.Errors;
 import constants.Network;
 import models.NetworkRequest;
 import views.accounts.LoginWindowView;
@@ -7,6 +8,7 @@ import views.accounts.SignUpView;
 import views.accounts.TokenActivationView;
 import views.management.ProjectManagementView;
 
+import javax.swing.*;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -38,13 +40,15 @@ public class LoginWindowController {
         NetworkRequest request = new NetworkRequest(Network.HOST.COMPLETE_HOSTNAME,BASE_PATH+username, MediaType.TEXT_PLAIN_TYPE);
         request.post(postForm);
 
-        Response response = request.getResponse();
+        String response = request.getResponseAsString();
 
-        if(response.readEntity(String.class).equals("OK")){
+        if(response.equals(Network.Login.LOGIN_OK)){
             this.view.dispose();
             new ProjectManagementView();
-        } else {
-            System.out.println(response.readEntity(String.class));
+        }else if(response.equals(Network.Login.ACCOUNT_NOT_ACTIVATED)){
+            JOptionPane.showMessageDialog(this.view, Errors.ACTIVE_ACCOUNT_FIRST, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
+        }else {
+            JOptionPane.showMessageDialog(this.view, Errors.LOGIN_FAILED, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
         }
     }
 

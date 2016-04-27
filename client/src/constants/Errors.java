@@ -14,4 +14,6 @@ public class Errors {
     public static final String SAVE_TEMPLATE_ERROR = "Failed to save the template";
     public static final String LOAD_TEMPLATES_ERROR = "Failed to load templates";
     public static final String LOAD_TEXT_AREA_ERROR = "Failed to load text theme";
+    public static final String ACTIVE_ACCOUNT_FIRST = "Activate your account first to be able to log in";
+    public static final String LOGIN_FAILED = "Username-password combination did not match";
 }

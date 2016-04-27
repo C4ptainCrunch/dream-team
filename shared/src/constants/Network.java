@@ -9,4 +9,10 @@ public final class Network {
         public static final String COMPLETE_HOSTNAME = HOSTNAME + ":" + Integer.toString(PORT);
     }
 
+    public static final class Login{
+        public static final String LOGIN_OK = "login_ok";
+        public static final String ACCOUNT_NOT_ACTIVATED = "acc_n_activated";
+        public static final String LOGIN_FAILED = "login_nok";
+    }
+
 }

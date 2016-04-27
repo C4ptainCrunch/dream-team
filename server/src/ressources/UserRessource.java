@@ -1,5 +1,6 @@
 package ressources;
 
+import constants.Network;
 import database.DAOFactory;
 import database.UsersDAO;
 import models.users.User;
@@ -39,10 +40,13 @@ public class UserRessource {
     public String login(@FormParam("username") String username, @FormParam("password") String password){
         User testUser = this.usersDAO.findByUsernameAndPassword(username,password);
         if(testUser!=null) {
-            return "OK";
-        } else {
-            return "NOK";
+            if(this.usersDAO.isActivated(testUser)) {
+                return Network.Login.LOGIN_OK;
+            }else {
+                return Network.Login.ACCOUNT_NOT_ACTIVATED;
+            }
         }
+        return Network.Login.LOGIN_FAILED;
     }
 
     @POST

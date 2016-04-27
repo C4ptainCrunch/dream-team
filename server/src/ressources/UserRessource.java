@@ -28,7 +28,7 @@ public class UserRessource {
         System.out.println(this.usersDAO.getTokenOfUser(username));
         if(this.usersDAO.getTokenOfUser(username).equals(token)){
             this.usersDAO.activateUser(username);
-            return "OK";
+            return Network.Token.TOKEN_OK;
         } else {
             return "NOK";
         }

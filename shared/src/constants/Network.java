@@ -15,4 +15,8 @@ public final class Network {
         public static final String LOGIN_FAILED = "login_nok";
     }
 
+    public static final class Token{
+        public static final String TOKEN_OK = "token_ok";
+    }
+
 }

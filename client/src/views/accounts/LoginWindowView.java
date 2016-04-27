@@ -98,7 +98,7 @@ public class LoginWindowView extends JFrame {
         tokenActivation.addActionListener(e -> controller.tokenActivation());
 
         JButton edit = new JButton(LoginWindow.EDIT_BUTTON);
-        login.addActionListener(e -> controller.editProfile(this.usernameText.getText(),
+        edit.addActionListener(e -> controller.editProfile(this.usernameText.getText(),
                                                             this.passwordText.getText()));
 
         buttons.add(login);

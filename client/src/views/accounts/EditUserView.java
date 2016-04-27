@@ -110,7 +110,8 @@ public class EditUserView extends JFrame{
         buttons.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JButton OKButton = new JButton(GUI.SignUp.OK_BUTTON);
-        OKButton.addActionListener(e -> controller.validateFields(this.fields, this.passwordField,this.originalUsername));
+        OKButton.addActionListener(e -> controller.validateFields(this.fields, this.passwordField,
+                                                                  this.originalUsername));
 
         JButton cancelButton = new JButton(GUI.SignUp.CANCEL_BUTTON);
         cancelButton.addActionListener(e -> controller.cancelEdit());

@@ -3,6 +3,9 @@ package models.tikz;
 import constants.Models;
 import parser.TikzFormatter;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 /**
  * Implementation of the Rectangle Model (from the MVC architectural pattern)
  * This class represents a rectangle that is linked to a tikz code
@@ -152,4 +155,5 @@ public class TikzRectangle extends TikzShape {
     public boolean isRectangle() {
         return true;
     }
+
 }

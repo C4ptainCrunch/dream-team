@@ -57,6 +57,20 @@ public abstract class DrawableTikzComponent implements Drawable {
         return false;
     }
 
+    public boolean intersects(Shape s){
+        for (Shape shape : shapes){
+            if (shape.intersects(s.getBounds2D())){
+                return true;
+            }
+        }
+        for (Shape stroke: strokes){
+            if (stroke.intersects(s.getBounds2D())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean hasAsComponent(TikzComponent comp) {
         return component.equals(comp);
     }

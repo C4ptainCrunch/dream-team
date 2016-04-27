@@ -2,6 +2,7 @@ package database;
 
 import constants.Database;
 import models.users.User;
+import utils.Hasher;
 import utils.TokenCreator;
 
 import java.sql.*;
@@ -137,8 +138,9 @@ public class UsersDAOImpl implements  UsersDAO {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         User user = null;
+        String hash = Hasher.hash(password, username);
         try {
-            resultSet = executeQuery( connection, preparedStatement, resultSet,  Database.SQL_MATCH_USERNAME_PASSWORD, username, password);
+            resultSet = executeQuery( connection, preparedStatement, resultSet,  Database.SQL_MATCH_USERNAME_PASSWORD, username, hash);
             if (resultSet.next()) {
                 user = findByUsername(username);
             }
@@ -157,7 +159,8 @@ public class UsersDAOImpl implements  UsersDAO {
      */
     @Override
     public void setPasswordToUser(User user, String password) {
-        int statut = executeUpdate(Database.SQL_SET_PASSWORD_TO_USER, false, password, user.getUsername());
+        String hash = Hasher.hash(password, user.getUsername());
+        int statut = executeUpdate(Database.SQL_SET_PASSWORD_TO_USER, false, hash, user.getUsername());
         if ( statut == 0 ) {
             System.err.println( "Failed to update user's password" );
         }
@@ -234,7 +237,7 @@ public class UsersDAOImpl implements  UsersDAO {
             System.err.println( "Failed to delete user" );
         }
     }
-    
+
     private ResultSet executeQuery(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet, String sqlQuery, Object... objects) {
         try {
             connection = daoFactory.getConnection();

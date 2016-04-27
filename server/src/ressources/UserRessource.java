@@ -16,15 +16,16 @@ public class UserRessource {
     @GET
     @Path("{user}")
     @Produces("application/xml")
-    public User getUser(@PathParam("user") String username){
-        return new User(42, username, Arrays.asList("My document", "Other", "Last document"));
+    public String getUser(@PathParam("user") String username){
+        return "Test";
     }
 
-    /*@POST
+    @POST
     @Path("/activate/{user}")
     @Produces("text/plain")
     public String validateToken(@PathParam("user") String username, @FormParam("token") String token){
         if(this.usersDAO.getTokenOfUser(username).equals(token)){
+            this.usersDAO.activateUser(username);
             return "OK";
         } else {
             return "NOK";
@@ -50,5 +51,5 @@ public class UserRessource {
     @Produces("text/plain")
     public void editUser(@FormParam("token") String token){
 
-    }*/
+    }
 }

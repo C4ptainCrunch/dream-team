@@ -16,7 +16,7 @@ public interface UsersDAO {
 
     boolean isActivated(User user);
 
-    void activateUser(User user);
+    void activateUser(String username);
 
     String getTokenOfUser(String username);
 

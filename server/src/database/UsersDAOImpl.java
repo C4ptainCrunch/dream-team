@@ -146,12 +146,12 @@ public class UsersDAOImpl implements  UsersDAO {
     }
 
     @Override
-    public void activateUser( User user ) {
+    public void activateUser( String username ) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = daoFactory.getConnection();
-            preparedStatement = initializationPreparedRequest( connection, Database.SQL_ACTIVATE_USER, false, user.getUsername() );
+            preparedStatement = initializationPreparedRequest( connection, Database.SQL_ACTIVATE_USER, false, username );
             int statut = preparedStatement.executeUpdate();
             if ( statut == 0 ) {
                 System.err.println( "Failed to activate user" );

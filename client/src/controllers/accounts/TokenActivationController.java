@@ -2,6 +2,14 @@ package controllers.accounts;
 
 import views.accounts.TokenActivationView;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 /**
  * Created by bambalaam on 26/04/16.
  */
@@ -15,22 +23,16 @@ public class TokenActivationController {
 
     public void validateToken(String token, String username) {
 
-        String tokenServer = "TEST"; // GET TOKEN FROM SERVER
+        Client client = ClientBuilder.newClient();
 
-        /* Client client = ClientBuilder.newClient();
-        WebTarget target = client.target("http://localhost:5555").path("resource");
+        Form postForm = new Form("token",token);
 
-        Form form = new Form();
-        form.param("x", "foo");
-        form.param("y", "bar");
+        Response response = client.target("http://localhost:5555")
+                .path("user/activate/"+username)
+                .request(MediaType.TEXT_PLAIN_TYPE)
+                .post(Entity.form(postForm));
 
-        MyJAXBBean bean = target.request(
-                MediaType.APPLICATION_JSON_TYPE).post(
-                    Entity.entity(
-                            form,MediaType.APPLICATION_FORM_URLENCODED_TYPE),
-                            MyJAXBBean.class); */
-
-        if(token.equals(tokenServer)){
+        if(response.readEntity(String.class).equals("OK")){
             this.view.dispose();
             this.view.correctTokenDialog();
         } else {

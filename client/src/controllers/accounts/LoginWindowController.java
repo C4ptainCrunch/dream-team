@@ -1,5 +1,6 @@
 package controllers.accounts;
 
+import constants.Network;
 import models.NetworkRequest;
 import views.accounts.LoginWindowView;
 import views.accounts.SignUpView;
@@ -33,7 +34,7 @@ public class LoginWindowController {
         postForm.param("username", username);
         postForm.param("password", password);
 
-        NetworkRequest request = new NetworkRequest("http://localhost:5555","user/login/"+username, MediaType.TEXT_PLAIN_TYPE);
+        NetworkRequest request = new NetworkRequest(Network.HOST.COMPLETE_HOSTNAME,"user/login/"+username, MediaType.TEXT_PLAIN_TYPE);
         request.post(postForm);
 
         Response response = request.getResponse();

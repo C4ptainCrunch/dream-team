@@ -3,6 +3,7 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.core.UriBuilder;
 
+import constants.Network;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -16,11 +17,11 @@ public class Main {
     public static void main(String[] args) throws Exception {
         DAOFactory daoFactory = DAOFactory.getInstance();
 
-        URI baseUri = UriBuilder.fromUri("http://localhost/").port(5555).build();
+        URI baseUri = UriBuilder.fromUri(Network.HOST.HOSTNAME+"/").port(Network.HOST.PORT).build();
         ResourceConfig config = new ResourceConfig(UserRessource.class);
         JdkHttpServerFactory.createHttpServer(baseUri, config);
 
-        logger.info("Server started on http://localhost:5555/");
+        logger.info("Server started on" + Network.HOST.COMPLETE_HOSTNAME);
     }
 
 }

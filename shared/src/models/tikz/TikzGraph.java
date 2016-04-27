@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import parser.NodeParser;
 
@@ -81,8 +82,10 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
      *            The tikz graph to be copied from
      */
     public void replace(TikzGraph other) {
-        this.edges = other.edges;
-        this.nodes = other.nodes;
+        List<TikzNode> oldNodes = this.getNodes();
+        oldNodes.forEach(this::remove);
+        this.addAllNodes(other.getNodes());
+        this.addAllEdges(other.getEdges());
         setChanged();
         notifyObservers();
     }
@@ -139,9 +142,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
      *            The edges to be added
      */
     public void addAllEdges(Collection<TikzEdge> edges) {
-        for (TikzEdge edge : edges) {
-            this.add(edge);
-        }
+        edges.forEach(this::add);
         notifyObservers();
     }
 
@@ -152,9 +153,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
      *            The nodes to be added
      */
     public void addAllNodes(Collection<TikzNode> nodes) {
-        for (TikzNode node : nodes) {
-            this.add(node);
-        }
+        nodes.forEach(this::add);
         notifyObservers();
     }
 
@@ -164,7 +163,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
      * @return All the nodes composing the graph
      */
     public List<TikzNode> getNodes() {
-        return Collections.unmodifiableList(this.nodes);
+        return new ArrayList<>(this.nodes);
     }
 
     /**
@@ -173,7 +172,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
      * @return All the edges composing the graph
      */
     public List<TikzEdge> getEdges() {
-        return Collections.unmodifiableList(this.edges);
+        return new ArrayList<>(this.edges);
     }
 
     public List<TikzComponent> getComponents() {
@@ -191,12 +190,9 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
      * @return the edges
      */
     public List<TikzEdge> get(TikzNode node) {
-        List<TikzEdge> edges = new ArrayList<>();
-        for (TikzEdge edge : this.edges) {
-            if (node == edge.getFirstNode() || node == edge.getSecondNode()) {
-                edges.add(edge);
-            }
-        }
+        List<TikzEdge> edges = this.edges.stream()
+                .filter(edge -> node == edge.getFirstNode() || node == edge.getSecondNode())
+                .collect(Collectors.toList());
         return edges;
     }
 
@@ -208,12 +204,8 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
-        for (TikzNode node : getNodes()) {
-            res.append(node);
-        }
-        for (TikzEdge edge : this.getEdges()) {
-            res.append(edge);
-        }
+        getNodes().forEach(res::append);
+        this.getEdges().forEach(res::append);
         return res.toString();
     }
 

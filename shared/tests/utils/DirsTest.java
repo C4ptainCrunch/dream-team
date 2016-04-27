@@ -1,7 +1,6 @@
 package utils;
 
 import static org.junit.Assert.assertEquals;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -13,7 +12,6 @@ import org.junit.Test;
  * Created by bambalaam on 19/04/16.
  */
 public class DirsTest {
-
     String storeSystemOS;
     String storeSystemOSHome;
     String storeSystemUser;

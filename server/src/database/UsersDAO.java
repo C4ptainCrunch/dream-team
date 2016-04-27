@@ -2,11 +2,15 @@ package database;
 
 import models.users.User;
 
+import java.util.ArrayList;
+
 /**
  * Created by mrmmtb on 25.04.16.
  */
 public interface UsersDAO {
     boolean create(User user);
+
+    boolean edit(ArrayList<String> data, String originalUsername);
 
     User findByUsername(String username);
 

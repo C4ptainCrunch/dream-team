@@ -9,6 +9,7 @@ import utils.Log;
 
 import javax.mail.MessagingException;
 import javax.ws.rs.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
@@ -73,16 +74,21 @@ public class UserRessource {
     }
 
     @POST
-    @Path("/create/{user}")
-    @Produces("text/plain")
-    public void createUser(@FormParam("token") String token){
-
-    }
-
-    @POST
     @Path("/edit/{user}")
     @Produces("text/plain")
-    public void editUser(@FormParam("token") String token){
+    public String editUser(@FormParam("username") String username, @FormParam("firstname") String firstname,
+                         @FormParam("lastname") String lastname, @FormParam("email") String email,
+                         @FormParam("password") String password, @FormParam("originalUsername") String originalUsername) {
+
+        ArrayList<String> data = new ArrayList<>();
+        data.add(firstname); data.add(lastname); data.add(username); data.add(email); data.add(password);
+        
+        boolean failed = this.usersDAO.edit(data,originalUsername);
+        if (!failed){
+            return Network.Signup.SIGN_UP_OK;
+        }
+        return Network.Signup.SIGN_UP_FAILED;
+
 
     }
 }

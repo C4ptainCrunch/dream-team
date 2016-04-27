@@ -24,6 +24,7 @@ public class UserRessource {
     @Path("/activate/{user}")
     @Produces("text/plain")
     public String validateToken(@PathParam("user") String username, @FormParam("token") String token){
+        System.out.println(this.usersDAO.getTokenOfUser(username));
         if(this.usersDAO.getTokenOfUser(username).equals(token)){
             this.usersDAO.activateUser(username);
             return "OK";
@@ -35,8 +36,13 @@ public class UserRessource {
     @POST
     @Path("/login/{user}")
     @Produces("text/plain")
-    public String login(@FormParam("token") String token){
-        return "TEST";
+    public String login(@FormParam("username") String username, @FormParam("password") String password){
+        User testUser = this.usersDAO.findByUsernameAndPassword(username,password);
+        if(testUser!=null) {
+            return "OK";
+        } else {
+            return "NOK";
+        }
     }
 
     @POST

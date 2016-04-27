@@ -5,6 +5,13 @@ import views.accounts.SignUpView;
 import views.accounts.TokenActivationView;
 import views.management.ProjectManagementView;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 /**
  * Created by bambalaam on 21/04/16.
  */
@@ -16,9 +23,27 @@ public class LoginWindowController {
         this.view = view;
     }
 
-    public void login() {
-        view.dispose();
-        new ProjectManagementView();
+    public void login(String username, String password) {
+        Client client = ClientBuilder.newClient();
+
+        Form postForm = new Form();
+        postForm.param("username", username);
+        postForm.param("password", password);
+
+        Response response = client.target("http://localhost:5555")
+                .path("user/login/"+username)
+                .request(MediaType.TEXT_PLAIN_TYPE)
+                .post(Entity.form(postForm));
+
+        if(response.readEntity(String.class).equals("OK")){
+            this.view.dispose();
+            new ProjectManagementView();
+        } else {
+            System.out.println(response.readEntity(String.class));
+        }
+
+        // view.dispose();
+        // new ProjectManagementView();
         // SERVER: FIND BY USER AND PASSWORD
         // IF USER NOT NULL -> IS ACTIVATED?  ELSE ERROR
         // ELSE ERROR

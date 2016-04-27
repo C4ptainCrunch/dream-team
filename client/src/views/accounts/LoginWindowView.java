@@ -16,6 +16,8 @@ public class LoginWindowView extends JFrame {
     private LoginWindowController controller = new LoginWindowController(this);
     private JPanel loginWindowPanel;
     private GridBagConstraints constraints;
+    private JTextField usernameText;
+    private JTextField passwordText;
 
     public LoginWindowView() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,11 +58,11 @@ public class LoginWindowView extends JFrame {
         this.constraints.gridwidth = 1;
         this.loginWindowPanel.add(usernameLabel, this.constraints);
 
-        JTextField usernameText = new JTextField(20);
+        this.usernameText = new JTextField(20);
         this.constraints.gridx = 1;
         this.constraints.gridy = 0;
         this.constraints.gridwidth = 2;
-        this.loginWindowPanel.add(usernameText, this.constraints);
+        this.loginWindowPanel.add(this.usernameText, this.constraints);
     }
 
     private void createPasswordPanel() {
@@ -70,18 +72,19 @@ public class LoginWindowView extends JFrame {
         this.constraints.gridwidth = 1;
         this.loginWindowPanel.add(passwordLabel, this.constraints);
 
-        JTextField passwordText = new JPasswordField(20);
+        this.passwordText = new JPasswordField(20);
         this.constraints.gridx = 1;
         this.constraints.gridy = 1;
         this.constraints.gridwidth = 2;
-        this.loginWindowPanel.add(passwordText, this.constraints);
+        this.loginWindowPanel.add(this.passwordText, this.constraints);
     }
 
     private void createButtonsPanel() {
         JPanel buttons = new JPanel();
 
         JButton login = new JButton(LoginWindow.LOGIN_BUTTON);
-        login.addActionListener(e -> controller.login());
+        login.addActionListener(e -> controller.login(this.usernameText.getText(),
+                                                      this.passwordText.getText()));
 
         JButton signUp = new JButton(LoginWindow.SIGNUP_BUTTON);
         signUp.addActionListener(e -> controller.signUp());

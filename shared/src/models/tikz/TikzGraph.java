@@ -43,13 +43,18 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
      */
 
     public TikzGraph(TikzGraph o_graph) {
-        nodes.addAll(o_graph.getNodes().stream()
-                .map(TikzNode::getClone)
-                .collect(Collectors.toList()));
+        HashMap<TikzNode, TikzNode> origin_to_clone_map = new HashMap<>();
+        for (TikzNode node: o_graph.getNodes()){
+            origin_to_clone_map.put(node, node.getClone());
+            add(origin_to_clone_map.get(node));
+        }
 
-        edges.addAll(o_graph.getEdges().stream()
-                .map(TikzEdge::getClone)
-                .collect(Collectors.toList()));
+        for (TikzEdge edge: o_graph.getEdges()){
+            TikzEdge new_edge = edge.getClone();
+            new_edge.setFirstNode(origin_to_clone_map.get(edge.getFirstNode()));
+            new_edge.setSecondNode(origin_to_clone_map.get(edge.getSecondNode()));
+            add(new_edge);
+        }
     }
 
     /**

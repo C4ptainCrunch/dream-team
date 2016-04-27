@@ -68,9 +68,9 @@ public class AttributesChooserController implements Observer {
      * selected color to the tool model
      */
     public void chooseColor() {
-        chosen_color = JColorChooser.showDialog(this.view, COLOR_DIALOG_TITLE, Color.GRAY);
+        chosen_color = JColorChooser.showDialog(this.view, COLOR_DIALOG_TITLE, view.getColor());
         chosen_color = TikzColors.nearestTikzColor(chosen_color);
-        
+
         view.setColorFieldColor(chosen_color);
         colorSelected(chosen_color);
     }

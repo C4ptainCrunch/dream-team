@@ -164,14 +164,14 @@ public class UsersDAOImpl implements  UsersDAO {
     }
 
     @Override
-    public String getTokenOfUser( User user ) {
+    public String getTokenOfUser( String username ) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         String token = null;
         try {
             connection = daoFactory.getConnection();
-            preparedStatement = initializationPreparedRequest(connection, Database.SQL_GET_TOKEN_BY_USERNAME, false, user.getUsername());
+            preparedStatement = initializationPreparedRequest(connection, Database.SQL_GET_TOKEN_BY_USERNAME, false, username);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next() ) {
                 token = (resultSet.getString("token"));

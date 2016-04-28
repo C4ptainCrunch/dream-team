@@ -5,6 +5,7 @@ import constants.GUI;
 import constants.Network;
 import constants.Warnings;
 import models.NetworkRequest;
+import views.accounts.LoginWindowView;
 import views.accounts.SignUpView;
 
 import javax.swing.*;
@@ -65,6 +66,7 @@ public class SignUpController {
 
     public void cancelSignUp() {
         this.view.dispose();
+        java.awt.EventQueue.invokeLater(LoginWindowView::new);
     }
 
     private void accountCreation(ArrayList<JTextField> fields, JPasswordField passwordField) {

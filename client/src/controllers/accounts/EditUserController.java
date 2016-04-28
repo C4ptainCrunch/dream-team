@@ -7,6 +7,7 @@ import constants.Warnings;
 import models.NetworkRequest;
 import org.apache.commons.validator.routines.EmailValidator;
 import views.accounts.EditUserView;
+import views.accounts.LoginWindowView;
 import views.accounts.TokenActivationView;
 
 import javax.swing.*;
@@ -82,6 +83,7 @@ public class EditUserController {
 
     public void cancelEdit() {
         this.view.dispose();
+        java.awt.EventQueue.invokeLater(LoginWindowView::new);
     }
 
     private void editProfile(ArrayList<JTextField> fields, String originalUsername, String originalEmail) {

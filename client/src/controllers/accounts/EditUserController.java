@@ -22,23 +22,31 @@ public class EditUserController {
 
     private final EditUserView view;
     private final String BASE_PATH = "user/edit/";
+    private final String GET_PATH = "user/get/";
 
     public EditUserController(EditUserView view) {
         this.view = view;
     }
 
-    public void launchEditPanel() {
+    public void launchEditPanel(String originalUsername) {
         this.view.hideLogginView();
-        this.view.showEditPanel(getUserData());
+        this.view.showEditPanel(getUserData(originalUsername));
     }
 
-    public ArrayList<String> getUserData() {
+    public ArrayList<String> getUserData(String originalUsername) {
+        Form postForm = new Form("username",originalUsername);
+
+        NetworkRequest request = new NetworkRequest(Network.HOST.COMPLETE_HOSTNAME,
+                GET_PATH+originalUsername, MediaType.TEXT_PLAIN_TYPE);
+
+        request.post(postForm);
+        String response = request.getResponseAsString();
+        String[] split = response.split("/");
         ArrayList<String> data = new ArrayList<>();
-        data.add("firstname");
-        data.add("lastname");
-        data.add("username");
-        data.add("email");
-        data.add("password");
+        data.add(split[0]);
+        data.add(split[1]);
+        data.add(split[2]);
+        data.add(split[3]);
         return data;
     }
 
@@ -53,10 +61,10 @@ public class EditUserController {
     /**
      * Check if the data entered by the user are correct (i.e. allow him to enter the program).
      * @param fields The text fields
-     * @param passwordField The password field
+     * @param originalUsername The original username from the user
      */
 
-    public void validateFields(ArrayList<JTextField> fields, JPasswordField passwordField, String originalUsername) {
+    public void validateFields(ArrayList<JTextField> fields, String originalUsername) {
         boolean firstNameCheck = checkField(fields.get(0), GUI.SignUp.NAMES_REGEX, Warnings.FIRSTNAME_WARNING);
         boolean lastNameCheck = checkField(fields.get(1), GUI.SignUp.NAMES_REGEX, Warnings.LASTNAME_WARNING);
         boolean userNameCheck = checkField(fields.get(2), GUI.SignUp.USERNAME_REGEX, Warnings.USERNAME_WARNING);
@@ -68,24 +76,22 @@ public class EditUserController {
         }
 
         if(firstNameCheck && lastNameCheck && userNameCheck && emailCheck) {
-            editProfile(fields, passwordField, originalUsername);
+            editProfile(fields, originalUsername);
         }
     }
 
     public void cancelEdit() {
+        this.view.showLogginView();
         this.view.dispose();
     }
 
-    private void editProfile(ArrayList<JTextField> fields, JPasswordField passwordField, String originalUsername) {
+    private void editProfile(ArrayList<JTextField> fields, String originalUsername) {
         Form postForm = new Form();
 
         for(int i = 0 ; i<fields.size(); i++) {
             postForm.param(Network.Signup.FIELDS_NAMES.get(i), fields.get(i).getText());
         }
-        postForm.param("password", new String(passwordField.getPassword()));
         postForm.param("originalUsername", originalUsername);
-
-
 
         NetworkRequest request = new NetworkRequest(Network.HOST.COMPLETE_HOSTNAME,
                                                     BASE_PATH+fields.get(2), MediaType.TEXT_PLAIN_TYPE);

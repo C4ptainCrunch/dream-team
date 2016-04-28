@@ -28,6 +28,20 @@ public class UserRessource {
     }
 
     @POST
+    @Path("/get/{user}")
+    @Produces("text/plain")
+    public String getUserData(@PathParam("user") String username){
+        User gotUser = this.usersDAO.findByUsername(username);
+        if(gotUser != null){
+            String toReturn = gotUser.getFirstName() + "/" + gotUser.getLastName() + "/" +
+                              gotUser.getUsername() + "/" + gotUser.getEmail();
+            return toReturn;
+        } else {
+            return "NOK";
+        }
+    }
+
+    @POST
     @Path("/activate/{user}")
     @Produces("text/plain")
     public String validateToken(@PathParam("user") String username, @FormParam("token") String token){
@@ -78,10 +92,10 @@ public class UserRessource {
     @Produces("text/plain")
     public String editUser(@FormParam("username") String username, @FormParam("firstname") String firstname,
                          @FormParam("lastname") String lastname, @FormParam("email") String email,
-                         @FormParam("password") String password, @FormParam("originalUsername") String originalUsername) {
+                         @FormParam("originalUsername") String originalUsername) {
 
         ArrayList<String> data = new ArrayList<>();
-        data.add(firstname); data.add(lastname); data.add(username); data.add(email); data.add(password);
+        data.add(firstname); data.add(lastname); data.add(username); data.add(email);
         
         boolean failed = this.usersDAO.edit(data,originalUsername);
         if (!failed){

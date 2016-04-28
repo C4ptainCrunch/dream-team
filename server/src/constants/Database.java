@@ -25,7 +25,7 @@ public final class Database {
     public static final String SQL_INSERT_USER = "INSERT INTO Users(first_name, last_name, username, email, token, activated) " +
                                              "VALUES (?, ?, ?, ?, ?, 0)";
     public static final String SQL_EDIT_USER = "UPDATE Users " +
-                                               "SET firstname = ?,last_name = ?,username= ?,email= ?,password= ?" +
+                                               "SET first_name = ?,last_name = ?,username= ?,email= ?" +
                                                "WHERE username= ?";
     public static final String SQL_SET_PASSWORD_TO_USER = "UPDATE Users SET password = ? WHERE username = ?";
     public static final String SQL_GET_TOKEN_BY_USERNAME = "SELECT token FROM Users WHERE username = ?";

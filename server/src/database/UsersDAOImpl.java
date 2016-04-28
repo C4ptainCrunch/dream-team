@@ -86,7 +86,7 @@ public class UsersDAOImpl implements  UsersDAO {
             connection = daoFactory.getConnection();
             preparedStatement = initializationPreparedRequest( connection, Database.SQL_EDIT_USER, true,
                     data.get(0), data.get(1), data.get(2),
-                    data.get(3), data.get(4),originalUserName
+                    data.get(3), originalUserName
             );
             int statut = preparedStatement.executeUpdate();
             if ( statut == 0 ) {

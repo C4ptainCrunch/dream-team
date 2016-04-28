@@ -9,6 +9,8 @@ import utils.Log;
 
 import javax.mail.MessagingException;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Form;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
@@ -24,6 +26,20 @@ public class UserRessource {
     @Produces("application/xml")
     public String getUser(@PathParam("user") String username){
         return "Test";
+    }
+
+    @POST
+    @Path("/get/{user}")
+    @Produces("text/plain")
+    public String getUserData(@PathParam("user") String username){
+        User gotUser = this.usersDAO.findByUsername(username);
+        if(gotUser != null){
+            String toReturn = gotUser.getFirstName() + "/" + gotUser.getLastName() + "/" +
+                              gotUser.getUsername() + "/" + gotUser.getEmail();
+            return toReturn;
+        } else {
+            return "NOK";
+        }
     }
 
     @POST
@@ -73,16 +89,30 @@ public class UserRessource {
     }
 
     @POST
-    @Path("/create/{user}")
-    @Produces("text/plain")
-    public void createUser(@FormParam("token") String token){
-
-    }
-
-    @POST
     @Path("/edit/{user}")
     @Produces("text/plain")
-    public void editUser(@FormParam("token") String token){
+    public String editUser(@FormParam("username") String username, @FormParam("firstname") String firstname,
+                         @FormParam("lastname") String lastname, @FormParam("email") String email,
+                         @FormParam("originalUsername") String originalUsername,
+                         @FormParam("originalEmail") String originalEmail) {
+
+        ArrayList<String> data = new ArrayList<>();
+        data.add(firstname); data.add(lastname); data.add(username); data.add(email);
+        
+        String flag = this.usersDAO.edit(data,originalUsername,originalEmail);
+        if (flag != "Error"){
+            if(! originalEmail.equals(email)){
+                ConfirmationEmailSender emailSender = new ConfirmationEmailSender();
+                try{
+                    emailSender.send(email,flag);
+                } catch (MessagingException ex) {
+                    logger.info("Email sending to " + email + " failed.");
+                }
+            }
+            return Network.Signup.SIGN_UP_OK;
+        }
+        return Network.Signup.SIGN_UP_FAILED;
+
 
     }
 }

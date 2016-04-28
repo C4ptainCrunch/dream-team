@@ -5,32 +5,50 @@ import constants.GUI;
 import constants.Network;
 import constants.Warnings;
 import models.NetworkRequest;
+import org.apache.commons.validator.routines.EmailValidator;
+import views.accounts.EditUserView;
 import views.accounts.LoginWindowView;
-import views.accounts.SignUpView;
+import views.accounts.TokenActivationView;
 
 import javax.swing.*;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
-import org.apache.commons.validator.routines.EmailValidator;
-import views.accounts.TokenActivationView;
 
 /**
- * The controller for the SignUpView.
+ * Created by bambalaam on 27/04/16.
  */
-public class SignUpController {
+public class EditUserController {
 
-    private SignUpView view;
-    private final String BASE_PATH = "user/signup/";
+    private final EditUserView view;
+    private final String BASE_PATH = "user/edit/";
+    private final String GET_PATH = "user/get/";
 
-    public SignUpController(SignUpView v) {
-        this.view = v;
+    public EditUserController(EditUserView view) {
+        this.view = view;
     }
 
-    public void launchSignUpPanel() {
+    public void launchEditPanel(String originalUsername) {
         this.view.hideLogginView();
-        this.view.showSignUpPanel();
+        this.view.showEditPanel(getUserData(originalUsername));
+    }
+
+    public ArrayList<String> getUserData(String originalUsername) {
+        Form postForm = new Form("username",originalUsername);
+
+        NetworkRequest request = new NetworkRequest(Network.HOST.COMPLETE_HOSTNAME,
+                GET_PATH+originalUsername, MediaType.TEXT_PLAIN_TYPE);
+
+        request.post(postForm);
+        String response = request.getResponseAsString();
+        String[] split = response.split("/");
+        ArrayList<String> data = new ArrayList<>();
+        data.add(split[0]);
+        data.add(split[1]);
+        data.add(split[2]);
+        data.add(split[3]);
+        return data;
     }
 
     private boolean checkField(JTextField field, String regex, String warning){
@@ -44,10 +62,10 @@ public class SignUpController {
     /**
      * Check if the data entered by the user are correct (i.e. allow him to enter the program).
      * @param fields The text fields
-     * @param passwordField The password field
+     * @param originalUsername The original username from the user
      */
 
-    public void validateFields(ArrayList<JTextField> fields, JPasswordField passwordField) {
+    public void validateFields(ArrayList<JTextField> fields, String originalUsername, String originalEmail) {
         boolean firstNameCheck = checkField(fields.get(0), GUI.SignUp.NAMES_REGEX, Warnings.FIRSTNAME_WARNING);
         boolean lastNameCheck = checkField(fields.get(1), GUI.SignUp.NAMES_REGEX, Warnings.LASTNAME_WARNING);
         boolean userNameCheck = checkField(fields.get(2), GUI.SignUp.USERNAME_REGEX, Warnings.USERNAME_WARNING);
@@ -58,37 +76,42 @@ public class SignUpController {
             this.view.initWarning(Warnings.EMAIL_WARNING);
         }
 
-        // PASSWORD VALIDATION HERE: Need to discuss password rules.
         if(firstNameCheck && lastNameCheck && userNameCheck && emailCheck) {
-            accountCreation(fields, passwordField);
+            editProfile(fields, originalUsername, originalEmail);
         }
     }
 
-    public void cancelSignUp() {
+    public void cancelEdit() {
         this.view.dispose();
         java.awt.EventQueue.invokeLater(LoginWindowView::new);
     }
 
-    private void accountCreation(ArrayList<JTextField> fields, JPasswordField passwordField) {
+    private void editProfile(ArrayList<JTextField> fields, String originalUsername, String originalEmail) {
         Form postForm = new Form();
 
         for(int i = 0 ; i<fields.size(); i++) {
             postForm.param(Network.Signup.FIELDS_NAMES.get(i), fields.get(i).getText());
         }
-        postForm.param("password", new String(passwordField.getPassword()));
+        postForm.param("originalUsername", originalUsername);
+        postForm.param("originalEmail", originalEmail);
 
-
-        NetworkRequest request = new NetworkRequest(Network.HOST.COMPLETE_HOSTNAME,BASE_PATH+fields.get(2), MediaType.TEXT_PLAIN_TYPE);
+        NetworkRequest request = new NetworkRequest(Network.HOST.COMPLETE_HOSTNAME,
+                                                    BASE_PATH+fields.get(2).getText(), MediaType.TEXT_PLAIN_TYPE);
         request.post(postForm);
 
         String response = request.getResponseAsString();
         if(response.equals(Network.Signup.SIGN_UP_OK)){
-            new TokenActivationView();
             this.view.dispose();
+            if(originalEmail.equals(fields.get(3).getText())) {
+                this.view.showLogginView();
+            } else {
+                new TokenActivationView();
+            }
         }else {
             JOptionPane.showMessageDialog(this.view, Errors.SIGNUP_FAILED, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
         }
 
     }
+
 
 }

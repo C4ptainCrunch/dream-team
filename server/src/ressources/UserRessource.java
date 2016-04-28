@@ -99,12 +99,12 @@ public class UserRessource {
         ArrayList<String> data = new ArrayList<>();
         data.add(firstname); data.add(lastname); data.add(username); data.add(email);
         
-        boolean failed = this.usersDAO.edit(data,originalUsername);
-        if (!failed){
+        String flag = this.usersDAO.edit(data,originalUsername,originalEmail);
+        if (flag != "Error"){
             if(! originalEmail.equals(email)){
                 ConfirmationEmailSender emailSender = new ConfirmationEmailSender();
                 try{
-                    emailSender.send(email,this.usersDAO.getTokenOfUser(username));
+                    emailSender.send(email,flag);
                 } catch (MessagingException ex) {
                     logger.info("Email sending to " + email + " failed.");
                 }

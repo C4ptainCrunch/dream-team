@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public interface UsersDAO {
     boolean create(User user);
 
-    boolean edit(ArrayList<String> data, String originalUsername);
+    String edit(ArrayList<String> data, String originalUsername, String originalEmail);
 
     User findByUsername(String username);
 
@@ -21,6 +21,8 @@ public interface UsersDAO {
     boolean isActivated(User user);
 
     void activateUser(String username);
+
+    String disableUser(String username);
 
     String getTokenOfUser(String username);
 

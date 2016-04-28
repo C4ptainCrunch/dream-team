@@ -53,7 +53,12 @@ public class SignUpView extends JFrame {
     }
 
     private void initServiceCondition() {
-        JOptionPane optionPane = new JOptionPane("Do you accept the service conditions?",
+        JOptionPane optionPane = new JOptionPane(
+                "<html>Do you accept the service conditions?<br>" +
+                        "The conditions are : <br>" +
+                        "As long as you retain this notice you can do whatever you want with this stuff. <br>" +
+                        "If we meet some day, and you think this stuff is worth it, you can buy us a beer in return." +
+                        "</html>",
                 JOptionPane.QUESTION_MESSAGE,
                 JOptionPane.YES_NO_OPTION);
         JDialog dialog = optionPane.createDialog(this,"Service conditions");

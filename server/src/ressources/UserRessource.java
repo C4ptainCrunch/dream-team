@@ -9,6 +9,7 @@ import utils.Log;
 
 import javax.mail.MessagingException;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -92,13 +93,22 @@ public class UserRessource {
     @Produces("text/plain")
     public String editUser(@FormParam("username") String username, @FormParam("firstname") String firstname,
                          @FormParam("lastname") String lastname, @FormParam("email") String email,
-                         @FormParam("originalUsername") String originalUsername) {
+                         @FormParam("originalUsername") String originalUsername,
+                         @FormParam("originalEmail") String originalEmail) {
 
         ArrayList<String> data = new ArrayList<>();
         data.add(firstname); data.add(lastname); data.add(username); data.add(email);
         
         boolean failed = this.usersDAO.edit(data,originalUsername);
         if (!failed){
+            if(!originalEmail.equals(email)){
+                ConfirmationEmailSender emailSender = new ConfirmationEmailSender();
+                try{
+                    emailSender.send(email,this.usersDAO.getTokenOfUser(username));
+                } catch (MessagingException ex) {
+                    logger.info("Email sending to " + email + " failed.");
+                }
+            }
             return Network.Signup.SIGN_UP_OK;
         }
         return Network.Signup.SIGN_UP_FAILED;

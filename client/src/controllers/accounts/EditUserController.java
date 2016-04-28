@@ -64,7 +64,7 @@ public class EditUserController {
      * @param originalUsername The original username from the user
      */
 
-    public void validateFields(ArrayList<JTextField> fields, String originalUsername) {
+    public void validateFields(ArrayList<JTextField> fields, String originalUsername, String originalEmail) {
         boolean firstNameCheck = checkField(fields.get(0), GUI.SignUp.NAMES_REGEX, Warnings.FIRSTNAME_WARNING);
         boolean lastNameCheck = checkField(fields.get(1), GUI.SignUp.NAMES_REGEX, Warnings.LASTNAME_WARNING);
         boolean userNameCheck = checkField(fields.get(2), GUI.SignUp.USERNAME_REGEX, Warnings.USERNAME_WARNING);
@@ -76,7 +76,7 @@ public class EditUserController {
         }
 
         if(firstNameCheck && lastNameCheck && userNameCheck && emailCheck) {
-            editProfile(fields, originalUsername);
+            editProfile(fields, originalUsername, originalEmail);
         }
     }
 
@@ -85,13 +85,14 @@ public class EditUserController {
         this.view.dispose();
     }
 
-    private void editProfile(ArrayList<JTextField> fields, String originalUsername) {
+    private void editProfile(ArrayList<JTextField> fields, String originalUsername, String originalEmail) {
         Form postForm = new Form();
 
         for(int i = 0 ; i<fields.size(); i++) {
             postForm.param(Network.Signup.FIELDS_NAMES.get(i), fields.get(i).getText());
         }
         postForm.param("originalUsername", originalUsername);
+        postForm.param("originalEmail", originalEmail);
 
         NetworkRequest request = new NetworkRequest(Network.HOST.COMPLETE_HOSTNAME,
                                                     BASE_PATH+fields.get(2), MediaType.TEXT_PLAIN_TYPE);
@@ -100,6 +101,11 @@ public class EditUserController {
         String response = request.getResponseAsString();
         if(response.equals(Network.Signup.SIGN_UP_OK)){
             this.view.dispose();
+            if(originalEmail.equals(fields.get(3))) {
+                this.view.showLogginView();
+            } else {
+                new TokenActivationView();
+            }
         }else {
             JOptionPane.showMessageDialog(this.view, Errors.SIGNUP_FAILED, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
         }

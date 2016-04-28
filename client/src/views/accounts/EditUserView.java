@@ -22,6 +22,7 @@ public class EditUserView extends JFrame{
     JTextField emailField;
     ArrayList<JTextField> fields;
     String originalUsername;
+    String originalEmail;
 
     public EditUserView(LoginWindowView loginView, String username) {
         this.controller = new EditUserController(this);
@@ -50,6 +51,7 @@ public class EditUserView extends JFrame{
      */
 
     public void showEditPanel(ArrayList<String> data) {
+        this.originalEmail = data.get(3);
         JPanel editPanel = new JPanel();
         editPanel.setLayout(new BoxLayout(editPanel, BoxLayout.Y_AXIS));
         initInformationPanel(editPanel, data);
@@ -99,7 +101,8 @@ public class EditUserView extends JFrame{
         buttons.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JButton OKButton = new JButton(GUI.SignUp.OK_BUTTON);
-        OKButton.addActionListener(e -> controller.validateFields(this.fields,this.originalUsername));
+        OKButton.addActionListener(e -> controller.validateFields(this.fields,this.originalUsername,
+                                                                  this.originalEmail));
 
         JButton cancelButton = new JButton(GUI.SignUp.CANCEL_BUTTON);
         cancelButton.addActionListener(e -> controller.cancelEdit());

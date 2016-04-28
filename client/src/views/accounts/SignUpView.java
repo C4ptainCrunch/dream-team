@@ -67,6 +67,7 @@ public class SignUpView extends JFrame {
                     "Warning",
                     JOptionPane.WARNING_MESSAGE);
             this.dispose();
+            System.exit(0);
         }
     }
 

@@ -45,7 +45,7 @@ public class SignUpView extends JFrame {
 
     public final void render() {
         this.setTitle("TikzCreator : Login or Sign Up");
-        this.setPreferredSize(new Dimension(300,130));
+        this.setPreferredSize(new Dimension(300,200));
         initServiceCondition();
         this.setResizable(false);
         this.pack();

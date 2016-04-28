@@ -81,7 +81,6 @@ public class EditUserController {
     }
 
     public void cancelEdit() {
-        this.view.showLogginView();
         this.view.dispose();
     }
 
@@ -95,13 +94,13 @@ public class EditUserController {
         postForm.param("originalEmail", originalEmail);
 
         NetworkRequest request = new NetworkRequest(Network.HOST.COMPLETE_HOSTNAME,
-                                                    BASE_PATH+fields.get(2), MediaType.TEXT_PLAIN_TYPE);
+                                                    BASE_PATH+fields.get(2).getText(), MediaType.TEXT_PLAIN_TYPE);
         request.post(postForm);
 
         String response = request.getResponseAsString();
         if(response.equals(Network.Signup.SIGN_UP_OK)){
             this.view.dispose();
-            if(originalEmail.equals(fields.get(3))) {
+            if(originalEmail.equals(fields.get(3).getText())) {
                 this.view.showLogginView();
             } else {
                 new TokenActivationView();

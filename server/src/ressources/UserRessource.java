@@ -101,7 +101,7 @@ public class UserRessource {
         
         boolean failed = this.usersDAO.edit(data,originalUsername);
         if (!failed){
-            if(!originalEmail.equals(email)){
+            if(! originalEmail.equals(email)){
                 ConfirmationEmailSender emailSender = new ConfirmationEmailSender();
                 try{
                     emailSender.send(email,this.usersDAO.getTokenOfUser(username));

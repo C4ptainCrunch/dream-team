@@ -61,7 +61,7 @@ public class RecentProjects {
     /**
      * Add a Project to the "Recent Projects". This method is called when
      * one of the four operations described above is performed.
-     * @param project
+     * @param project The Project to be added.
      * @throws IOException if an I/O error occurs (because this method call a private one that write the Project the a File).
      */
 

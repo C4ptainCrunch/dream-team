@@ -32,7 +32,7 @@ public class Template extends TikzIO {
     }
 
     /**
-     * Create the a File object which the template will be saved in.
+     * Create the File object in which the template will be saved.
      * @param filename the filename of the File object.
      * @param dir the directory where the File will be located.
      * @return the File object created.
@@ -45,10 +45,10 @@ public class Template extends TikzIO {
     }
 
     /**
-     * I/O operation that saved the Template object in a file.
+     * I/O operation that saves the Template object in a file.
      * @param name the name of the template.
-     * @param dir the directory where the Template will be saved in.
-     * @return the File object which the template has been saved in.
+     * @param dir the directory where the Template will be saved.
+     * @return the File object in which the template has been saved.
      * @throws IOException if an I/O error occurs.
      */
 
@@ -64,7 +64,7 @@ public class Template extends TikzIO {
     /**
      * This method overloads the previous one.
      * @param name the name of the template.
-     * @return the File object which the template has been saved in.
+     * @return the File object in which the template has been saved.
      * @throws IOException if an I/O error occurs.
      */
 

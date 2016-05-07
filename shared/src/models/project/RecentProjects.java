@@ -14,12 +14,25 @@ import utils.Dirs;
 import utils.Log;
 
 // TODO : this class is not really a model but i don't want to place it in Utils... Where should it go ?
+
+/**
+ * This class is a container for the recent Projects.
+ *
+ * A Project is considered as recent if the user made a specific operation with it.
+ * The specific operations are: Open, Rename, Save and Create a project.
+ */
+
 public class RecentProjects {
     private final static Logger logger = Log.getLogger(RecentProjects.class);
 
     private static Path getFilePath() {
         return Dirs.getDataDir().resolve(Paths.get("recent.paths"));
     }
+
+    /**
+     * Retrieves the recent Projects by loading them from the correct directory.
+     * @return A SortedSet of the Projects Loaded.
+     */
 
     public static SortedSet<Project> getRecentProjects() {
         TreeSet<Project> projects = new TreeSet<>();
@@ -44,6 +57,13 @@ public class RecentProjects {
 
         return projects;
     }
+
+    /**
+     * Add a Project to the "Recent Projects". This method is called when
+     * one of the four operations described above is performed.
+     * @param project The Project to be added.
+     * @throws IOException if an I/O error occurs (because this method call a private one that write the Project the a File).
+     */
 
     public static void addProject(Project project) throws IOException {
         if(!project.isTemporary()) {

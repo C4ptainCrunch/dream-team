@@ -1,15 +1,13 @@
 package controllers.management;
 
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.logging.Logger;
 
 import javax.swing.*;
 
 import models.project.Project;
-import models.project.RecentProjects;
+import utils.RecentProjects;
 import utils.Log;
 import views.editor.EditorView;
 import views.management.FileChooseView;

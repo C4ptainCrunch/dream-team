@@ -1,4 +1,4 @@
-package models.project;
+package utils;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -10,8 +10,7 @@ import java.util.TreeSet;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import utils.Dirs;
-import utils.Log;
+import models.project.Project;
 
 // TODO : this class is not really a model but i don't want to place it in Utils... Where should it go ?
 

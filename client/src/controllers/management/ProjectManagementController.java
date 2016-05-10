@@ -10,6 +10,7 @@ import javax.swing.*;
 import models.project.Diagram;
 import models.project.Project;
 import utils.Log;
+import utils.RecentProjects;
 import views.editor.EditorView;
 import views.management.DiagramManagementView;
 import views.management.FileChooseView;
@@ -25,8 +26,8 @@ public class ProjectManagementController {
         this.view = view;
     }
 
-    public void editProject(Diagram diagram) throws IOException {
-//        RecentProjects.addProject(diagram);
+    public void editDiagram(Diagram diagram) throws IOException {
+        RecentProjects.addProject(diagram.getProject());
 
         java.awt.EventQueue.invokeLater(() -> new EditorView(diagram));
         view.dispose(); // Exit previous windows
@@ -38,19 +39,16 @@ public class ProjectManagementController {
      * @param comboBox
      */
     public void dropdownSelected(JComboBox comboBox) {
-        Diagram selectedDiagram = (Diagram) comboBox.getSelectedItem();
-        if(selectedDiagram == null){
+        Project selectedProject = (Project) comboBox.getSelectedItem();
+        if(selectedProject == null){
             return;
         }
-        logger.info(selectedDiagram.toString());
+        logger.info(selectedProject.toString());
 
-        try {
-            String text = String.format(ProjectManagement.BLANK_INFO_PANEL, selectedDiagram.getName(), "Local",
-                    selectedDiagram.getLastChange().toString());
-            this.view.setInfoText(text);
-        } catch (IOException | ClassNotFoundException e) {
-            logger.severe("Error while reading the diff file: " + e.toString());
-        }
+        String text = String.format(ProjectManagement.BLANK_INFO_PANEL, selectedProject.getName(), "Local",
+                    selectedProject.getLastChange().toString());
+        this.view.setInfoText(text);
+
     }
 
     /**
@@ -58,7 +56,7 @@ public class ProjectManagementController {
      */
     public void createProject() {
         try {
-            editProject(new Project().getDiagram("unsaved"));
+            editDiagram(new Project().getDiagram("unsaved"));
         } catch (IOException e) {}
     }
 
@@ -67,7 +65,7 @@ public class ProjectManagementController {
         Diagram diagram = view.getSelectedProject();
         if (diagram != null) {
             try {
-                editProject(diagram);
+                editDiagram(diagram);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(view, Errors.OPEN_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
                 logger.severe("Failed to open the diagram: " + e.getMessage());

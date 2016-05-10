@@ -1,9 +1,7 @@
 package utils;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -44,8 +42,8 @@ public class RecentProjects {
                 try {
                     Project p = new Project(Paths.get(line));
                     projects.add(p);
-                } catch (IOException e) {
-                    logger.fine("Project " + line + "does not exist anymore");
+                } catch (FileSystemNotFoundException e) {
+                    logger.fine("Project " + line + " does not exist anymore");
                 }
             }
             bufferedReader.close();

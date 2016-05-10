@@ -1,10 +1,14 @@
 package views.management;
 
 import java.awt.*;
+import java.util.Collections;
+import java.util.Vector;
 import javax.swing.*;
 import models.project.Diagram;
 import constants.GUI;
 import controllers.management.ProjectManagementController;
+import models.project.Project;
+import utils.RecentProjects;
 
 public class ProjectManagementView extends JFrame {
     private ProjectManagementController controller = new ProjectManagementController(this);
@@ -61,11 +65,11 @@ public class ProjectManagementView extends JFrame {
         JPanel chooserPanel = new JPanel();
         chooserPanel.setLayout(new BorderLayout());
 
-//        Vector<Diagram> recentDiagrams = new Vector<>(RecentProjects.getRecentProjects());
-//        Collections.reverse(recentDiagrams);
+        Vector<Project> recentDiagrams = new Vector<>(RecentProjects.getRecentProjects());
+        Collections.reverse(recentDiagrams);
 
         this.projectChooser = new JComboBox<>();
-//        this.projectChooser.setModel(new DefaultComboBoxModel(recentDiagrams));
+        this.projectChooser.setModel(new DefaultComboBoxModel(recentDiagrams));
 
         this.projectChooser.addActionListener(e -> controller.dropdownSelected((JComboBox) e.getSource()));
         controller.dropdownSelected(this.projectChooser);

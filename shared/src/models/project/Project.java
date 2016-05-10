@@ -1,6 +1,7 @@
 package models.project;
 
 import com.sun.nio.zipfs.ZipFileSystem;
+import jdk.nashorn.internal.ir.Node;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,8 +9,11 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.*;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.zip.ZipOutputStream;
 
 public class Project {
@@ -105,5 +109,19 @@ public class Project {
 
     public Path getPath() {
         return path;
+    }
+
+    public String getName() {
+        return this.path.getFileName().toString();
+    }
+
+    public Date getLastChange() {
+        return this.getDiagramNames().stream().map(name -> {
+            try {
+                return this.getDiagram(name).getLastChange();
+            } catch (IOException | ClassNotFoundException e) {
+                return null;
+            }
+        }).filter(recent -> recent != null).max(Comparator.comparing(e -> e)).get();
     }
 }

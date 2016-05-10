@@ -262,6 +262,7 @@ public class Project extends TikzIO implements Comparable<Project> {
             logger.warning("Couldn't undo: " + e.toString());
             return;
         }
+        if (diffs.isEmpty()) {return;}
         Diff last = diffs.remove(diffs.size() - 1);
         String original = this.graph.toString();
         apply_patch(last);

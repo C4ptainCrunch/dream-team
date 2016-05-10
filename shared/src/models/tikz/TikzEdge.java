@@ -100,8 +100,8 @@ public abstract class TikzEdge extends TikzComponent {
     public Point2D.Float getPosition() {
         Point2D.Float f_pos = (firstNode == null ? fromPosition : firstNode.getPosition());
         Point2D.Float to_pos = (secondNode == null ? toPosition : secondNode.getPosition());
-        int midX = (int) ((f_pos.getX() + to_pos.getX()) / 2);
-        int midY = (int) ((f_pos.getY() + to_pos.getY()) / 2);
+        float midX = (float) ((f_pos.getX() + to_pos.getX()) / 2);
+        float midY = (float) ((f_pos.getY() + to_pos.getY()) / 2);
         return new Point2D.Float(midX, midY);
     }
 

@@ -190,7 +190,7 @@ public class CanvasController implements Observer {
     // Location has to be a swing position !
     private void addGraph(TikzGraph g, Point2D.Float location) {
         location.setLocation(Converter.swing2tikz(location, view));
-        g.translation((int) location.getX(), (int) location.getY());
+        g.translation(location.x, location.y);
         graph.add(g);
     }
 

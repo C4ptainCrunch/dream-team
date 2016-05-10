@@ -35,11 +35,11 @@ public class DirectedEdgeDrawer extends EdgeDrawer {
         double x, y, rho = theta + ARROW_ANGLE;
         x = end.x - ARROW_LENGTH * Math.cos(rho);
         y = end.y - ARROW_LENGTH * Math.sin(rho);
-        Point2D.Float firstHeadPoint = new Point2D.Float((int) x, (int) y);
+        Point2D.Float firstHeadPoint = new Point2D.Float((float) x, (float) y);
         rho = theta - ARROW_ANGLE;
         x = end.x - ARROW_LENGTH * Math.cos(rho);
         y = end.y - ARROW_LENGTH * Math.sin(rho);
-        Point2D.Float secondHeadPoint = new Point2D.Float((int) x, (int) y);
+        Point2D.Float secondHeadPoint = new Point2D.Float((float) x, (float) y);
         Shape secondHeadSegment = new Line2D.Float(Converter.tikz2swing(end, panel), Converter.tikz2swing(secondHeadPoint, panel));
         Shape firstHeadSegment = new Line2D.Float(Converter.tikz2swing(end, panel), Converter.tikz2swing(firstHeadPoint, panel));
         drawablecomponent.addShape(firstHeadSegment);

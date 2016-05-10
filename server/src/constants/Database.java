@@ -1,8 +1,5 @@
 package constants;
 
-/**
- * Created by mrmmtb on 21.04.16.
- */
 public final class Database {
     public static final String DB_HOME_TEST_DIR = "server";
     public static final String DB_DIR = "server/database";

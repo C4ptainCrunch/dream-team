@@ -28,6 +28,9 @@ public class SignUpController {
         this.view = v;
     }
 
+    /**
+     * Launches the creation of the sign up panel
+     */
     public void launchSignUpPanel() {
         this.view.hideLogginView();
         this.view.showSignUpPanel();
@@ -46,7 +49,6 @@ public class SignUpController {
      * @param fields The text fields
      * @param passwordField The password field
      */
-
     public void validateFields(ArrayList<JTextField> fields, JPasswordField passwordField) {
         boolean firstNameCheck = checkField(fields.get(0), GUI.SignUp.NAMES_REGEX, Warnings.FIRSTNAME_WARNING);
         boolean lastNameCheck = checkField(fields.get(1), GUI.SignUp.NAMES_REGEX, Warnings.LASTNAME_WARNING);
@@ -64,6 +66,9 @@ public class SignUpController {
         }
     }
 
+    /**
+     * Action launched when the Cancel button is pressed
+     */
     public void cancelSignUp() {
         this.view.dispose();
         java.awt.EventQueue.invokeLater(LoginWindowView::new);

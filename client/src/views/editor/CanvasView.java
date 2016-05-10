@@ -12,14 +12,13 @@ import javax.swing.*;
 
 import misc.CanvasSelection;
 import misc.drag.handler.CanvasTransferHandler;
-import misc.drag.transfertdata.TransferTikz;
+import misc.drag.transfereddata.TransferTikz;
 import models.tikz.TikzComponent;
 import models.tikz.TikzGraph;
 import views.editor.canvas.drawables.DrawableTikzComponent;
 import views.editor.canvas.popup.PopupMenuView;
 import views.editor.canvas.popup.SelectionPopupMenuView;
 import controllers.editor.CanvasController;
-import java.util.List;
 
 /**
  * Implementation of the View (from the MVC architectural pattern) for the

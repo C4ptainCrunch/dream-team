@@ -5,10 +5,6 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
-/**
- * Created by jhellinckx on 19/04/16.
- */
-
 public class Converter {
     public static Point2D.Float tikz2swing(Point2D.Float tikzPosition, int panelWidth, int panelHeight) {
         int DPI = java.awt.Toolkit.getDefaultToolkit().getScreenResolution();

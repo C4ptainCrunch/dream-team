@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Properties;
 import static constants.Errors.*;
 import static constants.GUI.*;
+import static constants.Warnings.*;
 
 /**
  * Created by jhellinckx on 10/05/16.
@@ -15,13 +16,13 @@ import static constants.GUI.*;
 public class ClientPropertiesLoader extends PropertiesLoader {
     private static final String ERRORS_PROPERTIES_FILENAME = "errors.properties";
     private static final String GUI_PROPERTIES_FILENAME = "gui.properties";
-    private static final String WARNING_PROPERTIES_FILENAME = "warning.properties";
+    private static final String WARNINGS_PROPERTIES_FILENAME = "warnings.properties";
 
     public static void loadAll(){
         PropertiesLoader.loadAll();
         loadErrorsProperties();
         loadGUIProperties();
-        loadWarningProperties();
+        loadWarningsProperties();
     }
 
     public static void loadErrorsProperties(){
@@ -32,8 +33,8 @@ public class ClientPropertiesLoader extends PropertiesLoader {
         PropertiesLoader.load(GUI_PROPERTIES_FILENAME, new GUIPropertiesReader());
     }
 
-    public static void loadWarningProperties(){
-        PropertiesLoader.load(WARNING_PROPERTIES_FILENAME, new WarningPropertiesReader());
+    public static void loadWarningsProperties(){
+        PropertiesLoader.load(WARNINGS_PROPERTIES_FILENAME, new WarningsPropertiesReader());
     }
 }
 
@@ -129,10 +130,15 @@ class GUIPropertiesReader implements PropertiesReader{
     }
 }
 
-class WarningPropertiesReader implements PropertiesReader{
+class WarningsPropertiesReader implements PropertiesReader{
 
     @Override
     public void read(Properties properties) {
+        WARNING_TYPE = properties.getProperty("WARNING_TYPE");
+        FIRSTNAME_WARNING = properties.getProperty("FIRSTNAME_WARNING");
+        LASTNAME_WARNING = properties.getProperty("LASTNAME_WARNING");
+        USERNAME_WARNING = properties.getProperty("USERNAME_WARNING");
+        EMAIL_WARNING = properties.getProperty("EMAIL_WARNING");
 
     }
 }

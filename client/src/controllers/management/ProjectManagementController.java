@@ -2,6 +2,7 @@ package controllers.management;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystemNotFoundException;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -27,6 +28,13 @@ public class ProjectManagementController {
         this.view = view;
     }
 
+    public void editProject(Project project) throws IOException {
+        RecentProjects.addProject(project);
+
+        new DiagramManagementView(project);
+        this.view.dispose();
+    }
+
     public void editDiagram(Diagram diagram) throws IOException {
         RecentProjects.addProject(diagram.getProject());
 
@@ -44,12 +52,13 @@ public class ProjectManagementController {
         if(selectedProject == null){
             return;
         }
-        logger.info(selectedProject.toString());
 
         String text = null;
         try {
             text = String.format(ProjectManagement.BLANK_INFO_PANEL, selectedProject.getName(), "Local",
                         selectedProject.getLastChange().toString());
+        } catch (FileSystemNotFoundException e) {
+            logger.fine("Get last change from project failed");
         } catch (IOException e) {
             logger.fine("Get last change from project failed");
         }
@@ -67,11 +76,11 @@ public class ProjectManagementController {
     }
 
 
-    public void openRecentDiagram() {
-        Diagram diagram = view.getSelectedProject();
-        if (diagram != null) {
+    public void openRecentProject() {
+        Project project = view.getSelectedProject();
+        if (project != null) {
             try {
-                editDiagram(diagram);
+                editProject(project);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(view, Errors.OPEN_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
                 logger.severe("Failed to open the diagram: " + e.getMessage());
@@ -84,10 +93,10 @@ public class ProjectManagementController {
         FileChooseView choose = new FileChooseView("Select project", JFileChooser.FILES_ONLY);
         choose.setFileRestriction("Archive files","zip");
         File projectFile = choose.ask();
+        // TODO andré : projectFile might be null
         try {
             Project currentProject = new Project(projectFile.toPath());
-            Set<String> diagramNames = currentProject.getDiagramNames();
-            new DiagramManagementView(currentProject, diagramNames);
+            new DiagramManagementView(currentProject);
             this.view.dispose();
         } catch (IOException e) {
             e.printStackTrace();
@@ -95,8 +104,8 @@ public class ProjectManagementController {
     }
 
     public void moveProject() {
-        Diagram diagram = view.getSelectedProject();
-        if (diagram == null) {
+        Project project = view.getSelectedProject();
+        if (project == null) {
             return;
         }
 
@@ -104,7 +113,7 @@ public class ProjectManagementController {
         File path = choose.ask();
         if (path != null) {
             try {
-                diagram.getProject().move(path);
+                project.move(path);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(view, Errors.RENAME_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
                 logger.severe("Failed to rename the diagram: " + e.getMessage());

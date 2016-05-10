@@ -4,7 +4,6 @@ import java.awt.*;
 import java.util.Collections;
 import java.util.Vector;
 import javax.swing.*;
-import models.project.Diagram;
 import constants.GUI;
 import controllers.management.ProjectManagementController;
 import models.project.Project;
@@ -12,7 +11,7 @@ import utils.RecentProjects;
 
 public class ProjectManagementView extends JDialog {
     private ProjectManagementController controller = new ProjectManagementController(this);
-    private JComboBox<Diagram> projectChooser;
+    private JComboBox<Project> projectChooser;
     private JTextPane infoPanel;
 
     public ProjectManagementView() {
@@ -43,8 +42,8 @@ public class ProjectManagementView extends JDialog {
         JButton create = new JButton(GUI.ProjectManagement.CREATE_BUTTON);
         create.addActionListener(e -> controller.createProject());
 
-        JButton openRecentDiagram = new JButton(GUI.ProjectManagement.OPEN_RECENT_BUTTON);
-        openRecentDiagram.addActionListener(e -> controller.openRecentDiagram());
+        JButton openRecentProject = new JButton(GUI.ProjectManagement.OPEN_RECENT_BUTTON);
+        openRecentProject.addActionListener(e -> controller.openRecentProject());
 
         JButton openProject = new JButton(GUI.ProjectManagement.OPEN_PROJECT_BUTTON);
         openProject.addActionListener(e -> controller.openProjects());
@@ -53,7 +52,7 @@ public class ProjectManagementView extends JDialog {
         rename.addActionListener(e -> controller.moveProject());
 
         buttons.add(create);
-        buttons.add(openRecentDiagram);
+        buttons.add(openRecentProject);
         buttons.add(openProject);
         buttons.add(rename);
 
@@ -64,11 +63,11 @@ public class ProjectManagementView extends JDialog {
         JPanel chooserPanel = new JPanel();
         chooserPanel.setLayout(new BorderLayout());
 
-        Vector<Project> recentDiagrams = new Vector<>(RecentProjects.getRecentProjects());
-        Collections.reverse(recentDiagrams);
+        Vector<Project> recentProjects = new Vector<>(RecentProjects.getRecentProjects());
+        Collections.reverse(recentProjects);
 
         this.projectChooser = new JComboBox<>();
-        this.projectChooser.setModel(new DefaultComboBoxModel(recentDiagrams));
+        this.projectChooser.setModel(new DefaultComboBoxModel(recentProjects));
 
         this.projectChooser.addActionListener(e -> controller.dropdownSelected((JComboBox) e.getSource()));
         controller.dropdownSelected(this.projectChooser);
@@ -90,16 +89,16 @@ public class ProjectManagementView extends JDialog {
     }
 
     /**
-     * Fetch the selected diagram
-     * @return The selected diagram
+     * Fetch the selected project
+     * @return The selected project
      */
-    public Diagram getSelectedProject() {
-        return (Diagram) this.projectChooser.getSelectedItem();
+    public Project getSelectedProject() {
+        return (Project) this.projectChooser.getSelectedItem();
     }
 
     /**
-     * Sets the information from the selected diagram in the info panel
-     * @param infoText The selected diagram's information
+     * Sets the information from the selected project in the info panel
+     * @param infoText The selected project's information
      */
     public void setInfoText(String infoText) {
         this.infoPanel.setText(infoText);

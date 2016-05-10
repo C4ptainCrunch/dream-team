@@ -5,6 +5,7 @@ import models.project.Project;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.Set;
 
 public class DiagramManagementView extends JDialog {
@@ -14,9 +15,9 @@ public class DiagramManagementView extends JDialog {
     private JList<String> diagramList;
     private JTextField newDiagramName;
 
-    public DiagramManagementView(Project currentProject, Set<String> diagramNames){
+    public DiagramManagementView(Project currentProject) throws IOException {
         this.controller = new DiagramManagementController(this, currentProject);
-        this.diagramNames = diagramNames.toArray();
+        this.diagramNames = currentProject.getDiagramNames().toArray();
         this.render();
     }
 

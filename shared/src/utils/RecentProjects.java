@@ -39,10 +39,10 @@ public class RecentProjects {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                try {
-                    Project p = new Project(Paths.get(line));
+                Project p = new Project(Paths.get(line));
+                if(p.exists()) {
                     projects.add(p);
-                } catch (FileSystemNotFoundException e) {
+                } else {
                     logger.fine("Project " + line + " does not exist anymore");
                 }
             }

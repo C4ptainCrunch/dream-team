@@ -157,4 +157,8 @@ public class Project implements Comparable<Project>{
             logger.fine("Source written");
         }
     }
+
+    public boolean exists() {
+        return this.path.toFile().exists();
+    }
 }

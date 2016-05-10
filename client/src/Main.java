@@ -2,10 +2,12 @@
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import models.project.Diagram;
 import models.project.Project;
 import utils.Log;
 import views.accounts.LoginWindowView;
 import views.editor.EditorView;
+import views.management.ProjectManagementView;
 
 public class Main {
     private static final Logger logger = Log.getLogger(Main.class);
@@ -16,10 +18,15 @@ public class Main {
             logger.info("Skip to the editor");
             java.awt.EventQueue.invokeLater(() -> {
                 try {
-                    new EditorView(new Project());
+                    new EditorView(new Project().getDiagram("unsaved"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            });
+        } else if (args.length > 0 && args[0].equals("project")) {
+            logger.info("Skip to the projects");
+            java.awt.EventQueue.invokeLater(() -> {
+                new ProjectManagementView();
             });
         } else {
             logger.info("Starting project management view");

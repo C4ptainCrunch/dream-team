@@ -30,11 +30,11 @@ public final class GUI {
     public static final class ProjectManagement {
         public static final String CREATE_BUTTON = "Create";
         public static final String OPEN_BUTTON = "Open";
-        public static final String RENAME_BUTTON = "Rename";
+        public static final String RENAME_BUTTON = "Move project";
         public static final String CREATE_PANEL = "Choose location to create your project";
         public static final String IMPORT_PANEL = "Choose location to import your project";
         public static final String DROPDOWN_HEADER = "Choose existing project from this list" + " and press 'Open' or 'Rename'.";
-        public static final String BLANK_INFO_PANEL = "INFORMATION ABOUT SELECTED PROJECT:\nProject Name: %s"
+        public static final String BLANK_INFO_PANEL = "INFORMATION ABOUT SELECTED PROJECT:\nDiagram Name: %s"
                 + "\nUser: %s\nLast revision: %s\n";
         public static final String DIFF_TEXT = "Diff History";
     }

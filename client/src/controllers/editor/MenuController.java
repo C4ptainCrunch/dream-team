@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
-import models.project.Project;
+import models.project.Diagram;
 import utils.Log;
 import utils.PdfCompilationError;
 import utils.PdfRenderer;
@@ -29,22 +29,22 @@ import constants.Errors;
 public class MenuController implements Observer {
     private final static Logger logger = Log.getLogger(MenuController.class);
     private final MenuView view;
-    private final Project project;
+    private final Diagram diagram;
 
     /**
-     * Constructs a new Controller for the Menu, with a given Project and
+     * Constructs a new Controller for the Menu, with a given Diagram and
      * EditorView
      *
      * @param view
      *            The MenuView which is associated with this controller
-     * @param project
-     *            The Project
+     * @param diagram
+     *            The Diagram
      */
-    public MenuController(MenuView view, Project project) {
+    public MenuController(MenuView view, Diagram diagram) {
         this.view = view;
 
-        this.project = project;
-        this.project.getGraph().addObserver(this);
+        this.diagram = diagram;
+        this.diagram.getGraph().addObserver(this);
     }
 
     /**
@@ -64,16 +64,21 @@ public class MenuController implements Observer {
      */
     public void save() {
         try {
-            if(this.project.isTemporary()){
-                File newDir = new FileChooseView("Save project", JFileChooser.DIRECTORIES_ONLY).ask();
+            if(this.diagram.isTemporary()){
+                String diagramName = this.view.getDiagramName();
+                this.diagram.rename(diagramName);
+                this.diagram.save();
+
+                File newDir = new FileChooseView("Save diagram", JFileChooser.FILES_AND_DIRECTORIES).ask();
                 if(newDir != null){
-                    this.project.rename(newDir);
+                    this.diagram.getProject().move(newDir);
                 }
             }
-            this.project.save();
+            this.diagram.save();
         } catch (IOException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(view, Errors.SAVE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
-            logger.severe("Project saved failed : " + e.toString());
+            logger.severe("Diagram saved failed : " + e.toString());
+            e.printStackTrace();
         }
     }
 
@@ -83,7 +88,7 @@ public class MenuController implements Observer {
     public void compileAndOpen() {
         // TODO : should we move this to the model ?
         try {
-            PdfRenderer.compileAndOpen(new File(this.project.getPath() + "/tikz.pdf"), this.project.getGraph());
+            PdfRenderer.compileAndOpen(new File(this.diagram.getProject().getDirectory() + "/" + this.diagram.getName() + ".pdf"), this.diagram.getGraph());
         } catch (PdfCompilationError e) {
             showMessageDialog(null, "Error during compilation");
         }
@@ -91,10 +96,10 @@ public class MenuController implements Observer {
 
     /**
      * Opens the History window whichs shows the modifications done on the
-     * working project
+     * working diagram
      */
     public void openHistory() {
-        HistoryView histView = new HistoryView(this.project);
+        HistoryView histView = new HistoryView(this.diagram);
     }
 
     /**
@@ -105,8 +110,8 @@ public class MenuController implements Observer {
     }
 
     /**
-     * Saves the project and closes the editor window.
-     * If the project has no name/path, it asks the user if
+     * Saves the diagram and closes the editor window.
+     * If the diagram has no name/path, it asks the user if
      * he wants to save the file to the disk.
      * If the user cancels, no windows are closed and this
      * method does nothing.
@@ -117,8 +122,8 @@ public class MenuController implements Observer {
      */
     public void saveAndQuit(EditorView parentView) {
         boolean shouldQuit = true;
-        if(this.project.isTemporary()){
-            int r = JOptionPane.showConfirmDialog(this.view, "Would you like to save your project ?");
+        if(this.diagram.isTemporary()){
+            int r = JOptionPane.showConfirmDialog(this.view, "Would you like to save your diagram ?");
             if(r == JOptionPane.NO_OPTION){
             } else if (r == JOptionPane.CANCEL_OPTION){
                 shouldQuit = false;

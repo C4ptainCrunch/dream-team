@@ -2,7 +2,7 @@ package views.editor;
 
 import javax.swing.*;
 
-import models.project.Project;
+import models.project.Diagram;
 import constants.GUI;
 import controllers.editor.MenuController;
 
@@ -15,21 +15,21 @@ import java.awt.event.KeyEvent;
  */
 public class MenuView extends JMenuBar {
     private final MenuController controller;
-    private final Project project;
+    private final Diagram diagram;
     private final EditorView parentView;
 
     /**
-     * Constructs a new View for the Menu, with a given Project and parentView
+     * Constructs a new View for the Menu, with a given Diagram and parentView
      *
      * @param parentView
      *            The view which contains this view (ie. EditorView)
-     * @param project
-     *            The Project
+     * @param diagram
+     *            The Diagram
      */
-    public MenuView(EditorView parentView, Project project) {
+    public MenuView(EditorView parentView, Diagram diagram) {
         this.parentView = parentView;
-        this.project = project;
-        this.controller = new MenuController(this, project);
+        this.diagram = diagram;
+        this.controller = new MenuController(this, diagram);
         this.render();
     }
 
@@ -46,7 +46,7 @@ public class MenuView extends JMenuBar {
         Action action = new AbstractAction(key) {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                project.undo();
+                diagram.undo();
             }
         };
         addShortcutItem(menu, action, GUI.MenuBar.UNDO, key, KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK);
@@ -57,7 +57,7 @@ public class MenuView extends JMenuBar {
         Action action = new AbstractAction(key) {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                project.redo();
+                diagram.redo();
             }
         };
         addShortcutItem(menu, action, GUI.MenuBar.REDO, key, KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK);
@@ -101,7 +101,6 @@ public class MenuView extends JMenuBar {
         this.add(edit_menu);
 
         addUndoItem(edit_menu);
-
         addRedoItem(edit_menu);
 
         JMenu help_menu = new JMenu(GUI.MenuBar.HELP_MENU);
@@ -119,9 +118,14 @@ public class MenuView extends JMenuBar {
         options_menu.add(color_blind_mode_item);
     }
 
+    public String getDiagramName() {
+        String path = JOptionPane.showInputDialog("Enter a diagram name");
+        return path;
+    }
+
     /**
      * Calls the saveAndQuit function of the controller of this view. This will saveAndQuit
-     * the tikz text into a file in the current project's file
+     * the tikz text into a file in the current diagram's file
      */
     public void saveAndQuit() {
         controller.saveAndQuit(parentView);

@@ -1,19 +1,14 @@
 package views.management;
 
 import java.awt.*;
-import java.util.Collections;
-import java.util.Vector;
-
 import javax.swing.*;
-
-import models.project.Project;
-import utils.RecentProjects;
+import models.project.Diagram;
 import constants.GUI;
 import controllers.management.ProjectManagementController;
 
 public class ProjectManagementView extends JFrame {
     private ProjectManagementController controller = new ProjectManagementController(this);
-    private JComboBox<Project> projectChooser;
+    private JComboBox<Diagram> projectChooser;
     private JTextPane infoPanel;
 
     public ProjectManagementView() {
@@ -46,7 +41,7 @@ public class ProjectManagementView extends JFrame {
         open.addActionListener(e -> controller.openProject());
 
         JButton rename = new JButton(GUI.ProjectManagement.RENAME_BUTTON);
-        rename.addActionListener(e -> controller.renameProject());
+        rename.addActionListener(e -> controller.moveProject());
 
         buttons.add(create);
         buttons.add(open);
@@ -59,11 +54,11 @@ public class ProjectManagementView extends JFrame {
         JPanel chooserPanel = new JPanel();
         chooserPanel.setLayout(new BorderLayout());
 
-        Vector<Project> recentProjects = new Vector<>(RecentProjects.getRecentProjects());
-        Collections.reverse(recentProjects);
+//        Vector<Diagram> recentDiagrams = new Vector<>(RecentProjects.getRecentProjects());
+//        Collections.reverse(recentDiagrams);
 
         this.projectChooser = new JComboBox<>();
-        this.projectChooser.setModel(new DefaultComboBoxModel(recentProjects));
+//        this.projectChooser.setModel(new DefaultComboBoxModel(recentDiagrams));
 
         this.projectChooser.addActionListener(e -> controller.dropdownSelected((JComboBox) e.getSource()));
         controller.dropdownSelected(this.projectChooser);
@@ -84,8 +79,8 @@ public class ProjectManagementView extends JFrame {
         this.add(this.infoPanel, BorderLayout.EAST);
     }
 
-    public Project getSelectedProject() {
-        return (Project) this.projectChooser.getSelectedItem();
+    public Diagram getSelectedProject() {
+        return (Diagram) this.projectChooser.getSelectedItem();
     }
 
     public void setInfoText(String infoText) {

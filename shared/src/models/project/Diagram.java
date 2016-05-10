@@ -157,7 +157,7 @@ public class Diagram extends Observable{
      * @throws IOException
      *             when writing to the file failed
      */
-    public void writeDiffs(List<Diff> diffs) throws IOException {
+    private void writeDiffs(List<Diff> diffs) throws IOException {
         ByteArrayOutputStream bs = new ByteArrayOutputStream();
         ObjectOutputStream os = new ObjectOutputStream(bs);
         os.writeObject(diffs);
@@ -166,12 +166,10 @@ public class Diagram extends Observable{
 
         os.close();
         bs.close();
-        this.project.sync();
     }
 
-    public void writeTikz(String tikz) throws IOException {
+    private void writeTikz(String tikz) throws IOException {
         Files.write(this.getSourcePath(), tikz.getBytes(), TRUNCATE_EXISTING, CREATE);
-        this.project.sync();
     }
 
 

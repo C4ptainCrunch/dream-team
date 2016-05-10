@@ -79,6 +79,7 @@ public class Project {
     }
 
     public void move(File newFile) throws IOException {
+        this.isTemporary = false;
         this.fs.close();
         Files.move(this.path, newFile.toPath());
         this.path = newFile.toPath();

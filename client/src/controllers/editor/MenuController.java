@@ -69,7 +69,7 @@ public class MenuController implements Observer {
                 this.diagram.rename(diagramName);
                 this.diagram.save();
 
-                File newDir = new FileChooseView("Save diagram", JFileChooser.DIRECTORIES_ONLY).ask();
+                File newDir = new FileChooseView("Save diagram", JFileChooser.FILES_AND_DIRECTORIES).ask();
                 if(newDir != null){
                     this.diagram.getProject().move(newDir);
                 }

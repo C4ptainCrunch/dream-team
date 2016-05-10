@@ -11,6 +11,7 @@ import models.project.Diagram;
 import models.project.Project;
 import utils.Log;
 import views.editor.EditorView;
+import views.management.DiagramManagementView;
 import views.management.FileChooseView;
 import views.management.ProjectManagementView;
 import constants.Errors;
@@ -82,7 +83,7 @@ public class ProjectManagementController {
         try {
             Project currentProject = new Project(projectFile.toPath());
             Set<String> diagramNames = currentProject.getDiagramNames();
-            new DiagramManagementController(currentProject, diagramNames);
+            new DiagramManagementView(currentProject, diagramNames);
             this.view.dispose();
         } catch (IOException e) {
             e.printStackTrace();

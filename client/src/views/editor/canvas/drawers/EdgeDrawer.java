@@ -13,10 +13,6 @@ import constants.Models;
 
 public abstract class EdgeDrawer extends ComponentDrawer {
 
-    public EdgeDrawer() {
-        // this was left intentionally blank
-    }
-
     /**
      * Creates the drawable swing object for the given edge. By default it is considered undirected.
      * @param component the edge to create a drawable from

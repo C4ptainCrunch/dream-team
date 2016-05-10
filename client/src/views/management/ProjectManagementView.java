@@ -1,13 +1,8 @@
 package views.management;
 
 import java.awt.*;
-import java.util.Collections;
-import java.util.Vector;
-
 import javax.swing.*;
-
 import models.project.Diagram;
-//import models.project.RecentProjects;
 import constants.GUI;
 import controllers.management.ProjectManagementController;
 

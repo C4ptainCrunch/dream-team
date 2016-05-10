@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import models.project.Diagram;
-//import models.project.RecentProjects;
 import models.project.Project;
 import utils.Log;
 import views.editor.EditorView;

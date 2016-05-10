@@ -1,12 +1,9 @@
 package models.project;
 
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.*;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.zip.ZipOutputStream;

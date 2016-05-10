@@ -40,6 +40,8 @@ public final class GUI {
         public static final String LOGIN_BUTTON = "Login";
         public static final String SIGNUP_BUTTON = "Sign Up";
         public static final String TOKEN_BUTTON = "Token Activation";
+        public static final String EDIT_BUTTON = "Edit profile";
+
     }
 
     public static final class TokenWindow {

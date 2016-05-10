@@ -1,12 +1,14 @@
 package database;
 
 import constants.Database;
+import utils.Log;
 
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Logger;
 
 class FactoryRequests{
     public static final String SQLITE_CREATE_TABLE_USERS = "CREATE TABLE Users(" +
@@ -26,6 +28,7 @@ class FactoryRequests{
  */
 public class DAOFactory {
 
+    private static final Logger logger = Log.getLogger(DAOFactory.class);
     private String sqlite_db_connection;
 
     /**
@@ -62,7 +65,7 @@ public class DAOFactory {
             statement.close();
             connection.close();
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            logger.severe(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
     }

@@ -3,6 +3,7 @@ package models.tikz;
 import static constants.Models.DEFAULT.*;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * This abstract class defines the common elements of a tikz edge (directed
@@ -12,8 +13,8 @@ import java.awt.*;
 public abstract class TikzEdge extends TikzComponent {
     private TikzNode firstNode;
     private TikzNode secondNode;
-    private Point fromPosition;
-    private Point toPosition;
+    private Point2D.Float fromPosition;
+    private Point2D.Float toPosition;
 
     /**
      * Constructs a default edge
@@ -22,8 +23,8 @@ public abstract class TikzEdge extends TikzComponent {
         super();
         firstNode = null;
         secondNode = null;
-        fromPosition = new Point(X, Y);
-        toPosition = new Point(X + EDGE_X_LENGTH, Y);
+        fromPosition = new Point2D.Float(X, Y);
+        toPosition = new Point2D.Float(X + EDGE_X_LENGTH, Y);
     }
 
     /**
@@ -52,8 +53,8 @@ public abstract class TikzEdge extends TikzComponent {
         super(o_edge);
         firstNode = o_edge.getFirstNode();
         secondNode = o_edge.getSecondNode();
-        fromPosition = new Point(o_edge.getFromPosition());
-        toPosition = new Point(o_edge.getToPosition());
+        fromPosition = new Point2D.Float(o_edge.getFromPosition().x, o_edge.getFromPosition().y);
+        toPosition = new Point2D.Float(o_edge.getToPosition().x, o_edge.getToPosition().y);
     }
 
     /**
@@ -96,12 +97,12 @@ public abstract class TikzEdge extends TikzComponent {
      *
      * @return The mid point of the edge
      */
-    public Point getPosition() {
-        Point f_pos = (firstNode == null ? fromPosition : firstNode.getPosition());
-        Point to_pos = (secondNode == null ? toPosition : secondNode.getPosition());
-        int midX = (int) ((f_pos.getX() + to_pos.getX()) / 2);
-        int midY = (int) ((f_pos.getY() + to_pos.getY()) / 2);
-        return new Point(midX, midY);
+    public Point2D.Float getPosition() {
+        Point2D.Float f_pos = (firstNode == null ? fromPosition : firstNode.getPosition());
+        Point2D.Float to_pos = (secondNode == null ? toPosition : secondNode.getPosition());
+        float midX = (float) ((f_pos.getX() + to_pos.getX()) / 2);
+        float midY = (float) ((f_pos.getY() + to_pos.getY()) / 2);
+        return new Point2D.Float(midX, midY);
     }
 
     /**
@@ -109,8 +110,8 @@ public abstract class TikzEdge extends TikzComponent {
      *
      * @return the position from which the edge starts
      */
-    public Point getFromPosition() {
-        Point pos = (firstNode == null ? fromPosition : firstNode.getPosition());
+    public Point2D.Float getFromPosition() {
+        Point2D.Float pos = (firstNode == null ? fromPosition : firstNode.getPosition());
         return pos;
     }
 
@@ -120,7 +121,7 @@ public abstract class TikzEdge extends TikzComponent {
      * @param point
      *            The position from which the edge starts
      */
-    public void setFromPosition(Point point) {
+    public void setFromPosition(Point2D.Float point) {
         fromPosition = point;
         setChanged();
         notifyObservers();
@@ -131,8 +132,8 @@ public abstract class TikzEdge extends TikzComponent {
      *
      * @return the position to which the edge ends
      */
-    public Point getToPosition() {
-        Point pos = (secondNode == null ? toPosition : secondNode.getPosition());
+    public Point2D.Float getToPosition() {
+        Point2D.Float pos = (secondNode == null ? toPosition : secondNode.getPosition());
         return pos;
     }
 
@@ -142,7 +143,7 @@ public abstract class TikzEdge extends TikzComponent {
      * @param point
      *            the position to whoch the edge ends
      */
-    public void setToPosition(Point point) {
+    public void setToPosition(Point2D.Float point) {
         toPosition = point;
         setChanged();
         notifyObservers();

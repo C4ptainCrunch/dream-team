@@ -1,11 +1,15 @@
 package database;
 
+import utils.Log;
+
 import java.sql.*;
+import java.util.logging.Logger;
 
 /**
  * Implementation of class regrouping common methods used by every DAO.
  */
 public class DAOUtilities {
+    private static final Logger logger = Log.getLogger(DAOUtilities.class);
 
     public DAOUtilities() {
 
@@ -37,7 +41,7 @@ public class DAOUtilities {
             try {
                 resultSet.close();
             } catch ( SQLException e ) {
-                System.out.println( "Failed to close the ResultSet : " + e.getMessage() );
+                logger.warning( "Failed to close the ResultSet : " + e.toString() );
             }
         }
     }
@@ -51,7 +55,7 @@ public class DAOUtilities {
             try {
                 statement.close();
             } catch ( SQLException e ) {
-                System.out.println( "Failed to close the Statement : " + e.getMessage() );
+                logger.warning( "Failed to close the Statement : " + e.toString() );
             }
         }
     }
@@ -65,7 +69,7 @@ public class DAOUtilities {
             try {
                 connection.close();
             } catch ( SQLException e ) {
-                System.out.println( "Failed to close the connection : " + e.getMessage() );
+                logger.warning( "Failed to close the connection : " + e.toString() );
             }
         }
     }

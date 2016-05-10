@@ -22,7 +22,7 @@ public final class Models {
     }
 
     public static class Graph {
-        public static String LATEX_PRELUDE = "\\documentclass{article}\n\\usepackage{tikz}\n\\begin{document}\n\\begin{tikzpicture}[x=0.0625em,y=0.0625em]\n";
+        public static String LATEX_PRELUDE = "\\documentclass{article}\n\\usepackage{tikz}\n\\usetikzlibrary{shapes.geometric}\n\\begin{document}\n\\begin{tikzpicture}\n";
         public static String LATEX_POSTLUDE = "\\end{tikzpicture}\n\\end{document}\n";
     }
 

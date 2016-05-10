@@ -5,6 +5,7 @@ import static constants.GUI.Drawing.ARROW_LENGTH;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
@@ -26,19 +27,19 @@ public class DirectedEdgeDrawer extends EdgeDrawer {
     public DrawableTikzEdge toDrawable(TikzComponent component, JComponent panel) {
         TikzDirectedEdge edge = (TikzDirectedEdge) component;
         DrawableTikzEdge drawablecomponent = super.toDrawable(edge, panel);
-        Point start = Converter.swing2tikz(fromPosition(edge, panel), panel);
-        Point end = Converter.swing2tikz(toPosition(edge, panel), panel);
+        Point2D.Float start = Converter.swing2tikz(fromPosition(edge, panel), panel);
+        Point2D.Float end = Converter.swing2tikz(toPosition(edge, panel), panel);
         double dy = end.y - start.y;
         double dx = end.x - start.x;
         double theta = Math.atan2(dy, dx);
         double x, y, rho = theta + ARROW_ANGLE;
         x = end.x - ARROW_LENGTH * Math.cos(rho);
         y = end.y - ARROW_LENGTH * Math.sin(rho);
-        Point firstHeadPoint = new Point((int) x, (int) y);
+        Point2D.Float firstHeadPoint = new Point2D.Float((float) x, (float) y);
         rho = theta - ARROW_ANGLE;
         x = end.x - ARROW_LENGTH * Math.cos(rho);
         y = end.y - ARROW_LENGTH * Math.sin(rho);
-        Point secondHeadPoint = new Point((int) x, (int) y);
+        Point2D.Float secondHeadPoint = new Point2D.Float((float) x, (float) y);
         Shape secondHeadSegment = new Line2D.Float(Converter.tikz2swing(end, panel), Converter.tikz2swing(secondHeadPoint, panel));
         Shape firstHeadSegment = new Line2D.Float(Converter.tikz2swing(end, panel), Converter.tikz2swing(firstHeadPoint, panel));
         drawablecomponent.addShape(firstHeadSegment);

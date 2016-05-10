@@ -44,7 +44,6 @@ public class Project implements Comparable<Project>{
     }
 
     private FileSystem getFs() throws IOException {
-        logger.info("Get fs");
         return FileSystems.newFileSystem(path, null);
     }
 
@@ -147,13 +146,15 @@ public class Project implements Comparable<Project>{
         try (FileSystem fs = getFs()) {
             Path diffPath = fs.getPath("/" + name + ".diff");
             Files.write(diffPath, bytes, TRUNCATE_EXISTING, CREATE);
+            logger.fine("Diff written");
         }
     }
 
     synchronized public void writeSource(String name, String tikz) throws IOException {
         try (FileSystem fs = getFs()) {
-            Path diffPath = fs.getPath("/" + name + ".tike");
+            Path diffPath = fs.getPath("/" + name + ".tikz");
             Files.write(diffPath, tikz.getBytes(), TRUNCATE_EXISTING, CREATE);
+            logger.fine("Source written");
         }
     }
 }

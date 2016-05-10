@@ -7,7 +7,7 @@ import java.util.Vector;
 import javax.swing.*;
 
 import models.project.Project;
-import models.project.RecentProjects;
+import utils.RecentProjects;
 import constants.GUI;
 import controllers.management.ProjectManagementController;
 

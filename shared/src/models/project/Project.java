@@ -254,6 +254,9 @@ public class Project extends TikzIO implements Comparable<Project> {
         return isTempDir;
     }
 
+    /**
+     * function to undo an action in a project
+     */
     public void undo() {
         List<Diff> diffs;
         try {
@@ -276,6 +279,9 @@ public class Project extends TikzIO implements Comparable<Project> {
         write_applier(diffs);
     }
 
+    /**
+     * function to redo an action in a project
+     */
     public void redo() {
         if (redoList.isEmpty()) {return; }
         Diff diff = redoList.remove(redoList.size()-1);
@@ -300,7 +306,10 @@ public class Project extends TikzIO implements Comparable<Project> {
         write_applier(diffs);
     }
 
-
+    /**
+     * Apply a patch and replace graph with result
+     * @param last a diff to change the tikz
+     */
     private void apply_patch (Diff last) {
         undoRedoFlag = true;
         DiffMatchPatch undo = new DiffMatchPatch();
@@ -316,6 +325,10 @@ public class Project extends TikzIO implements Comparable<Project> {
         undoRedoFlag = false;
     }
 
+    /**
+     * update list of diffs and save graph
+     * @param diffs the list of diffs
+     */
     private void write_applier (List<Diff> diffs){
         try {
             this.writeDiffs(diffs);

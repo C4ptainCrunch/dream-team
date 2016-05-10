@@ -127,7 +127,6 @@ public class DiagramTest {
 
         m.invoke(dia, diffs);
 
-        project.sync();
         assertEquals(d2, dia.getLastChange());
     }
 
@@ -173,7 +172,6 @@ public class DiagramTest {
         m.setAccessible(true);
 
         m.invoke(d, diffs);
-        project.sync();
 
         FileInputStream fs = new FileInputStream(d.getDiffPath().toFile());
         ObjectInputStream os = new ObjectInputStream(fs);

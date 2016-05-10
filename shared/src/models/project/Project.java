@@ -17,14 +17,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.zip.ZipOutputStream;
 
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
+
 public class Project implements Comparable<Project>{
     private Path path;
-    private FileSystem fs;
     private boolean isTemporary = false;
 
     public Project(Path path) throws IOException {
         this.path = path;
-        this.fs = FileSystems.newFileSystem(path, null);
     }
 
     public Project() throws IOException {
@@ -39,16 +40,24 @@ public class Project implements Comparable<Project>{
         return p;
     }
 
+    private FileSystem getFs() throws IOException {
+        return FileSystems.newFileSystem(path, null);
+    }
+
     public Path getDirectory() {
         return this.path.getParent();
     }
 
-    public Path getDiagramSource(String name) {
-        return this.fs.getPath("/" + name + ".tikz");
+    public String getDiagramSource(String name) throws IOException {
+        try (FileSystem fs = getFs()) {
+            return new String(Files.readAllBytes(fs.getPath("/" + name + ".tikz")));
+        }
     }
 
-    public Path getDiagramDiff(String name) {
-        return this.fs.getPath("/" + name + ".diff");
+    public byte[] getDiagramDiff(String name) throws IOException {
+        try (FileSystem fs = getFs()) {
+            return Files.readAllBytes(fs.getPath("/" + name + ".diff"));
+        }
     }
 
     public Diagram getDiagram(String name) {
@@ -56,34 +65,39 @@ public class Project implements Comparable<Project>{
     }
 
     public void renameDiagram(String oldName, String newName) throws IOException {
-        Path newSource = this.fs.getPath("/" + newName + ".tikz");
-        Files.move(this.getDiagramSource(oldName), newSource);
+        try (FileSystem fs = getFs()) {
 
-        Path newDiff = this.fs.getPath("/" + newName + ".diff");
-        Files.move(this.getDiagramDiff(oldName), newDiff);
+            Path newSource = fs.getPath("/" + newName + ".tikz");
+            Path oldSource = fs.getPath("/" + oldName + ".tikz");
+            Files.move(oldSource, newSource);
 
-        RecentProjects.addProject(this);
-        this.sync();
+            Path newDiff = fs.getPath("/" + newName + ".diff");
+            Path oldDiff = fs.getPath("/" + oldName + ".diff");
+            Files.move(oldDiff, newDiff);
+
+            RecentProjects.addProject(this);
+        }
     }
 
-    public Set<String> getDiagramNames() {
+    public Set<String> getDiagramNames() throws IOException {
         Set<String> names = new HashSet<>();
+        try (FileSystem fs = getFs()) {
 
-        Iterable<Path> dirs = fs.getRootDirectories();
+            Iterable<Path> dirs = fs.getRootDirectories();
 
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dirs.iterator().next())) {
-            for (Path file: stream) {
-                String name = file.getFileName().toString();
-                if (name.indexOf(".") > 0){
-                    name = name.substring(0, name.lastIndexOf("."));
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(dirs.iterator().next())) {
+                for (Path file : stream) {
+                    String name = file.getFileName().toString();
+                    if (name.indexOf(".") > 0) {
+                        name = name.substring(0, name.lastIndexOf("."));
+                    }
+                    names.add(name);
                 }
-                names.add(name);
+            } catch (IOException | DirectoryIteratorException e) {
+                e.printStackTrace();
             }
-        } catch (IOException | DirectoryIteratorException e) {
-            e.printStackTrace();
+            return names;
         }
-
-        return names;
     }
 
     public boolean isTemporary() {
@@ -92,22 +106,9 @@ public class Project implements Comparable<Project>{
 
     public void move(File newFile) throws IOException {
         this.isTemporary = false;
-        this.fs.close();
         Files.move(this.path, newFile.toPath());
         this.path = newFile.toPath();
-        this.fs = FileSystems.newFileSystem(this.path, null);
         RecentProjects.addProject(this);
-    }
-
-    public void sync() {
-        // http://mail.openjdk.java.net/pipermail/nio-dev/2012-July/001764.html
-        try {
-            Method m = ZipFileSystem.class.getDeclaredMethod("sync");
-            m.setAccessible(true);//Abracadabra
-            m.invoke(this.fs);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
     }
 
     public Path getPath() {
@@ -118,7 +119,7 @@ public class Project implements Comparable<Project>{
         return this.path.getFileName().toString();
     }
 
-    public Date getLastChange() {
+    public Date getLastChange() throws IOException {
         return this.getDiagramNames().stream().map(name -> {
             try {
                 return this.getDiagram(name).getLastChange();
@@ -136,5 +137,19 @@ public class Project implements Comparable<Project>{
     @Override
     public String toString() {
         return this.getPath().toString();
+    }
+
+    public void writeDiff(String name, byte[] bytes) throws IOException {
+        try (FileSystem fs = getFs()) {
+            Path diffPath = fs.getPath("/" + name + ".diff");
+            Files.write(diffPath, bytes, TRUNCATE_EXISTING, CREATE);
+        }
+    }
+
+    public void writeSource(String name, String tikz) throws IOException {
+        try (FileSystem fs = getFs()) {
+            Path diffPath = fs.getPath("/" + name + ".tike");
+            Files.write(diffPath, tikz.getBytes(), TRUNCATE_EXISTING, CREATE);
+        }
     }
 }

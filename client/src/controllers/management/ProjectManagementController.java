@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
+import constants.GUI;
 import models.project.Diagram;
 import models.project.Project;
 import utils.Log;
@@ -45,8 +46,13 @@ public class ProjectManagementController {
         }
         logger.info(selectedProject.toString());
 
-        String text = String.format(ProjectManagement.BLANK_INFO_PANEL, selectedProject.getName(), "Local",
-                    selectedProject.getLastChange().toString());
+        String text = null;
+        try {
+            text = String.format(ProjectManagement.BLANK_INFO_PANEL, selectedProject.getName(), "Local",
+                        selectedProject.getLastChange().toString());
+        } catch (IOException e) {
+            logger.fine("Get last change from project failed");
+        }
         this.view.setInfoText(text);
 
     }

@@ -35,18 +35,18 @@ public class Diagram extends Observable{
         this.name = name;
         this.project = project;
         try {
-            this.graph = new TikzGraph(this.getSourcePath());
+            this.graph = new TikzGraph(this.getSource());
         } catch (IOException e) {
             logger.fine("Warning: new graph created because the original file was not found");
             this.graph = new TikzGraph();
         }
     }
 
-    public Path getSourcePath() {
+    public String getSource() throws IOException {
         return this.project.getDiagramSource(this.name);
     }
 
-    public Path getDiffPath() {
+    public byte[] getDiff() throws IOException {
         return this.project.getDiagramDiff(this.name);
     }
 
@@ -111,7 +111,6 @@ public class Diagram extends Observable{
         redoList = new ArrayList<>();
 
         RecentProjects.addProject(this.getProject());
-        this.project.sync();
     }
 
     /**
@@ -121,7 +120,7 @@ public class Diagram extends Observable{
      * @throws IOException
      */
     public String getDiskTikz() throws IOException {
-        return new String(Files.readAllBytes(this.getSourcePath()));
+        return this.getSource();
     }
 
 
@@ -130,7 +129,6 @@ public class Diagram extends Observable{
         this.name = newName;
         this.setChanged();
         this.notifyObservers();
-        this.project.sync();
         RecentProjects.addProject(this.getProject());
     }
 
@@ -144,7 +142,7 @@ public class Diagram extends Observable{
      *             : when the file is corrupted
      */
     public List<Diff> getDiffs() throws IOException, ClassNotFoundException {
-        byte[] bytes = Files.readAllBytes(this.getDiffPath());
+        byte[] bytes = this.getDiff();
         ByteArrayInputStream bs = new ByteArrayInputStream(bytes);
         ObjectInputStream os = new ObjectInputStream(bs);
         List<Diff> diffs = (List<Diff>) os.readObject();
@@ -166,14 +164,18 @@ public class Diagram extends Observable{
         ObjectOutputStream os = new ObjectOutputStream(bs);
         os.writeObject(diffs);
 
-        Files.write(this.getDiffPath(), bs.toByteArray(), TRUNCATE_EXISTING, CREATE);
+        this.writeDiff(bs.toByteArray());
 
         os.close();
         bs.close();
     }
 
+    private void writeDiff(byte[] bytes) throws IOException {
+        this.project.writeDiff(this.name, bytes);
+    }
+
     private void writeTikz(String tikz) throws IOException {
-        Files.write(this.getSourcePath(), tikz.getBytes(), TRUNCATE_EXISTING, CREATE);
+        this.project.writeSource(this.name, tikz);
     }
 
 

@@ -11,8 +11,8 @@ import models.tikz.TikzComponent;
 import views.editor.toolbox.templateview.TemplateToolView;
 
 /**
- * Implementation of the View (from the MVC architectural pattern) for the
- * ToolBox.
+ * implementation of the view (from the mvc architectural pattern) for the
+ * toolbox.
  */
 public class ToolBoxView extends JPanel {
 

@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Set;
 
-public class DiagramManagementView extends JFrame {
+public class DiagramManagementView extends JDialog {
 
     private DiagramManagementController controller;
     private Object[] diagramNames;
@@ -17,7 +17,6 @@ public class DiagramManagementView extends JFrame {
     public DiagramManagementView(Project currentProject, Set<String> diagramNames){
         this.controller = new DiagramManagementController(this, currentProject);
         this.diagramNames = diagramNames.toArray();
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.render();
     }
 

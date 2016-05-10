@@ -10,13 +10,12 @@ import controllers.management.ProjectManagementController;
 import models.project.Project;
 import utils.RecentProjects;
 
-public class ProjectManagementView extends JFrame {
+public class ProjectManagementView extends JDialog {
     private ProjectManagementController controller = new ProjectManagementController(this);
     private JComboBox<Diagram> projectChooser;
     private JTextPane infoPanel;
 
     public ProjectManagementView() {
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.render();
     }
 

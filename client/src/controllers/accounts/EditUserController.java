@@ -16,9 +16,6 @@ import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-/**
- * Created by bambalaam on 27/04/16.
- */
 public class EditUserController {
 
     private final EditUserView view;

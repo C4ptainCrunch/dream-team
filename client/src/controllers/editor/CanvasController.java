@@ -5,12 +5,11 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.List;
 
 import javax.swing.*;
 
 import misc.CanvasSelection;
-import misc.drag.transfertdata.TransferTikz;
+import misc.drag.transfereddata.TransferTikz;
 import misc.managers.TemplateIOManager;
 import misc.utils.Converter;
 import models.tikz.TikzComponent;
@@ -19,7 +18,6 @@ import models.tikz.TikzGraph;
 import models.tikz.TikzNode;
 import views.editor.CanvasView;
 import views.editor.canvas.NodeEditionView;
-import views.editor.canvas.drawables.Drawable;
 import views.editor.canvas.drawables.DrawableTikzComponent;
 import views.editor.canvas.drawers.Drawer;
 import constants.Errors;

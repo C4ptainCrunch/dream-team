@@ -8,9 +8,6 @@ import misc.drag.transferable.CanvasTransferableTikz;
 import views.editor.CanvasView;
 import constants.GUI;
 
-/**
- * Created by aurelien on 15/04/16.
- */
 public class CanvasTransferHandler extends TikzTransferHandler {
 
     // Create a Transferable Object from the source that will be retrieved by

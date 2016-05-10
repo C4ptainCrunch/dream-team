@@ -12,8 +12,6 @@
 //
 //import models.project.Project;
 //
-//// TODO : this class is not really a model but i don't want to place it in Utils... Where should it go ?
-//
 ///**
 // * This class is a container for the recent Projects.
 // *

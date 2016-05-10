@@ -14,6 +14,7 @@ import models.project.Project;
 import models.tikz.TikzCircle;
 import models.tikz.TikzGraph;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -199,5 +200,23 @@ public class ProjectTest {
 
         assertEquals(writtenDiffs.get(0).getDate(), new Date(0));
         assertEquals(writtenDiffs.get(0).getPatch(), "diff one");
+    }
+
+    @Test
+    public void testUndo() throws Exception {
+        Project p = getEmptyProject();
+        p.save();
+
+        TikzGraph graph = p.getGraph();
+        graph.add(new TikzCircle(4));
+        p.save();
+
+        Assert.assertEquals(p.getGraph().size(), 1);
+        List<Diff> listDiff = p.getDiffs();
+
+        p.undo();
+
+        Assert.assertEquals(listDiff.size()-1, p.getDiffs().size());
+        Assert.assertEquals(p.getGraph().size(), 0);
     }
 }

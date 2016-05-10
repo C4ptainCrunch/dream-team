@@ -6,10 +6,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import models.tikz.TikzGraph;
+import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
+import parser.NodeParser;
 import utils.DiffUtil;
 import utils.Log;
 import utils.RecentProjects;
@@ -23,6 +26,7 @@ public class Project extends TikzIO implements Comparable<Project> {
     private final static Logger logger = Log.getLogger(Project.class);
     private Path path;
     private boolean isTempDir = false;
+    private List<Diff> redoList = new ArrayList<>();
 
 
 
@@ -244,5 +248,41 @@ public class Project extends TikzIO implements Comparable<Project> {
 
     public boolean isTemporary() {
         return isTempDir;
+    }
+
+    public void undo() {
+        List<Diff> diffs;
+        try {
+            diffs = this.getDiffs();
+        } catch (IOException | ClassNotFoundException e) {
+            logger.warning("Couldn't undo: " + e.toString());
+            return;
+        }
+        Diff last = diffs.remove(diffs.size()-1);
+        DiffMatchPatch undo = new DiffMatchPatch();
+        final List<DiffMatchPatch.Patch> patches = undo.patchFromText(last.getPatch());
+        String original = this.graph.toString();
+        final Object[] modified = undo.patchApply((LinkedList<DiffMatchPatch.Patch>) patches, original);
+
+        TikzGraph reversed = new TikzGraph();
+        NodeParser.parseDocument(reversed).parse((String) modified[0]);
+
+        final String tmp;
+        try {
+            tmp = DiffUtil.diff(reversed.toString(), original);
+            redoList.add(new Diff(new Date(), tmp));
+        } catch (UnsupportedEncodingException e) {
+            logger.fine("Should not happen: " + e.toString());
+        }
+        this.graph.replace(reversed);
+
+        try {
+            this.writeDiffs(diffs);
+            super.writeTikz(this.graph.toString(), this.getTikzPath());
+            RecentProjects.addProject(this);
+        } catch (IOException e) {
+            logger.warning("Couldn't save new diff history: " + e.toString());
+        }
+
     }
 }

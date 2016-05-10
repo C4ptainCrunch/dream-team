@@ -65,9 +65,17 @@ public class MenuController implements Observer {
     public void save() {
         try {
             if(this.diagram.isTemporary()){
-                File newDir = new FileChooseView("Save diagram", JFileChooser.DIRECTORIES_ONLY).ask();
-                if(newDir != null){
-                    this.diagram.rename(newDir);
+                // TODO andré : choisir un nom
+                this.diagram.rename("Nouveau_nom");
+                this.diagram.save();
+                boolean addToExistingProject = false;
+                if(addToExistingProject){
+                    // TODO nikita
+                } else {
+                    File newDir = new FileChooseView("Save diagram", JFileChooser.DIRECTORIES_ONLY).ask();
+                    if(newDir != null){
+                        this.diagram.getProject().move(newDir);
+                    }
                 }
             }
             this.diagram.save();
@@ -83,7 +91,7 @@ public class MenuController implements Observer {
     public void compileAndOpen() {
         // TODO : should we move this to the model ?
         try {
-            PdfRenderer.compileAndOpen(new File(this.diagram.getPath() + "/tikz.pdf"), this.diagram.getGraph());
+            PdfRenderer.compileAndOpen(new File(this.diagram.getProject().getDirectory() + "/tikz.pdf"), this.diagram.getGraph());
         } catch (PdfCompilationError e) {
             showMessageDialog(null, "Error during compilation");
         }

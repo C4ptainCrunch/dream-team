@@ -7,7 +7,8 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import models.project.Diagram;
-import models.project.RecentProjects;
+//import models.project.RecentProjects;
+import models.project.Project;
 import utils.Log;
 import views.editor.EditorView;
 import views.management.FileChooseView;
@@ -24,7 +25,7 @@ public class ProjectManagementController {
     }
 
     public void editProject(Diagram diagram) throws IOException {
-        RecentProjects.addProject(diagram);
+//        RecentProjects.addProject(diagram);
 
         java.awt.EventQueue.invokeLater(() -> new EditorView(diagram));
         view.dispose(); // Exit previous windows
@@ -56,7 +57,7 @@ public class ProjectManagementController {
      */
     public void createProject() {
         try {
-            editProject(new Diagram());
+            editProject(new Project().getDiagram("unsaved"));
         } catch (IOException e) {}
     }
 
@@ -73,21 +74,21 @@ public class ProjectManagementController {
         }
     }
 
-    public void renameProject() {
+    public void moveProject() {
         Diagram diagram = view.getSelectedProject();
         if (diagram == null) {
             return;
         }
 
-        FileChooseView choose = new FileChooseView("Rename diagram", JFileChooser.DIRECTORIES_ONLY);
+        FileChooseView choose = new FileChooseView("Move project", JFileChooser.DIRECTORIES_ONLY);
         File path = choose.ask();
         if (path != null) {
-            try {
-                diagram.rename(path);
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(view, Errors.RENAME_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
-                logger.severe("Failed to rename the diagram: " + e.getMessage());
-            }
+//            try {
+                diagram.getProject().move(path);
+//            } catch (IOException e) {
+//                JOptionPane.showMessageDialog(view, Errors.RENAME_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
+//                logger.severe("Failed to rename the diagram: " + e.getMessage());
+//            }
         }
     }
 }

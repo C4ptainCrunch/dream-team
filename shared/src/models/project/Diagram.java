@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Observable;
 import java.util.logging.Logger;
 
 import models.tikz.TikzGraph;
@@ -18,42 +19,38 @@ import utils.Log;
  * of a tikz graph and a file path containing the specific files (save, diffs
  * ..) for this project
  */
-public class Diagram extends TikzIO implements Comparable<Diagram> {
+public class Diagram extends Observable{
     private final static Logger logger = Log.getLogger(Diagram.class);
-    private Path path;
-    private boolean isTempDir = false;
+    private String name;
+    private Project project;
+    private TikzGraph graph;
 
 
-
-    /**
-     * Constructs a new Diagram with a given file path. The project must have
-     * been already created in order to use this constructor.
-     *
-     * @param path
-     *            The file path
-     * @throws IOException
-     */
-    public Diagram(Path path) {
-        super();
-        this.path = path;
+    public Diagram(String name, Project project) {
+        this.name = name;
+        this.project = project;
         try {
-            this.graph = new TikzGraph(this.getTikzPath().toString());
+            this.graph = new TikzGraph(this.getSourcePath());
         } catch (IOException e) {
-            logger.fine("Warning: error while opening the project's tikz file: " + e.toString());
+            logger.fine("Warning: new graph created because the original file was not found");
             this.graph = new TikzGraph();
         }
     }
 
-    public Diagram() throws IOException {
-        super();
-        this.graph = new TikzGraph();
-        this.path = Files.createTempDirectory(null);
-        this.isTempDir = true;
+    public Path getSourcePath() {
+        return this.project.getDiagramSource(this.name);
+    }
+
+    public Path getDiffPath() {
+        return this.project.getDiagramDiff(this.name);
+    }
+
+    public TikzGraph getGraph() {
+        return this.graph;
     }
 
     /**
      * Transforms the project into a string (ie. the path of the project)
-     *
      * @return The name of the poject (ie. the path)
      */
     @Override
@@ -62,30 +59,11 @@ public class Diagram extends TikzIO implements Comparable<Diagram> {
     }
 
     /**
-     * Getter for the path of this project
-     *
-     * @return The path
-     */
-    public Path getPath() {
-        return path;
-    }
-
-    /**
-     * Getter for the path of the modifications file of this project
-     *
-     * @return The path of the modification file
-     */
-    public Path getRevisionPath() {
-        return this.getPath().resolve(constants.Models.Project.DIFF_FILE);
-    }
-
-    /**
-     * Getter for the name of this project (ie. the path)
-     *
+     * Getter for the name of this diagram
      * @return The name
      */
     public String getName() {
-        return this.path.getFileName().toString();
+        return this.name;
     }
 
     /**
@@ -99,10 +77,6 @@ public class Diagram extends TikzIO implements Comparable<Diagram> {
      *             when the diff file is corrupted
      */
     public void save() throws IOException, ClassNotFoundException {
-        if(!Files.exists(this.path)){
-            this.path.toFile().mkdirs();
-        }
-
         List<Diff> diffs = null;
         try {
             diffs = this.getDiffs();
@@ -122,8 +96,9 @@ public class Diagram extends TikzIO implements Comparable<Diagram> {
         diffs.add(new Diff(new Date(), diffString));
 
         this.writeDiffs(diffs);
-        super.writeTikz(this.graph.toString(), this.getTikzPath());
-        RecentProjects.addProject(this);
+        this.writeTikz(this.graph.toString());
+
+        System.out.println("save done");
     }
 
     /**
@@ -133,41 +108,13 @@ public class Diagram extends TikzIO implements Comparable<Diagram> {
      * @throws IOException
      */
     public String getDiskTikz() throws IOException {
-        return new String(Files.readAllBytes(this.getTikzPath()));
+        return new String(Files.readAllBytes(this.getSourcePath()));
     }
 
-    /**
-     * Getter for the path of the save file for this project.
-     *
-     * @return The path
-     */
-    public Path getTikzPath() {
-        return this.path.resolve(constants.Models.Project.SAVE_FILE);
-    }
 
-    /**
-     * Getter for the path of the modifications file for this project.
-     *
-     * @return The path
-     */
-    public Path getDiffPath() {
-        return Paths.get(this.path + "/" + constants.Models.Project.DIFF_FILE);
-    }
-
-    /**
-     * Renames the project with a given file
-     *
-     * @param newDir
-     *            The new file to be renamed with
-     * @throws IOException
-     */
-    public void rename(File newDir) throws IOException {
-        File original = this.getPath().toFile();
-        original.renameTo(newDir);
-        this.path = newDir.toPath();
-        this.isTempDir = false;
-        RecentProjects.addProject(this);
-
+    public void rename(String newName) throws IOException {
+        this.project.renameDiagram(this.name, newName);
+        this.name = newName;
         this.setChanged();
         this.notifyObservers();
     }
@@ -182,11 +129,12 @@ public class Diagram extends TikzIO implements Comparable<Diagram> {
      *             : when the file is corrupted
      */
     public List<Diff> getDiffs() throws IOException, ClassNotFoundException {
-        FileInputStream fs = new FileInputStream(this.getDiffPath().toFile());
-        ObjectInputStream os = new ObjectInputStream(fs);
+        byte[] bytes = Files.readAllBytes(this.getDiffPath());
+        ByteArrayInputStream bs = new ByteArrayInputStream(bytes);
+        ObjectInputStream os = new ObjectInputStream(bs);
         List<Diff> diffs = (List<Diff>) os.readObject();
         os.close();
-        fs.close();
+        bs.close();
 
         return diffs;
     }
@@ -199,26 +147,20 @@ public class Diagram extends TikzIO implements Comparable<Diagram> {
      *             when writing to the file failed
      */
     public void writeDiffs(List<Diff> diffs) throws IOException {
-        FileOutputStream fs = new FileOutputStream(this.getDiffPath().toFile());
-        ObjectOutputStream os = new ObjectOutputStream(fs);
+        ByteArrayOutputStream bs = new ByteArrayOutputStream();
+        ObjectOutputStream os = new ObjectOutputStream(bs);
         os.writeObject(diffs);
 
+        Files.write(this.getDiffPath(), bs.toByteArray());
+
         os.close();
-        fs.close();
+        bs.close();
     }
 
-    /**
-     * Compares this Diagram with the given Diagram for order (uses the path for
-     * comparison).
-     *
-     * @param other
-     *            The project to be compared with
-     * @return The order
-     */
-    @Override
-    public int compareTo(Diagram other) {
-        return this.getPath().compareTo(other.getPath());
+    public void writeTikz(String tikz) throws IOException {
+        Files.write(this.getSourcePath(), tikz.getBytes());
     }
+
 
     /**
      * Gets the date of the last change of the project
@@ -237,11 +179,11 @@ public class Diagram extends TikzIO implements Comparable<Diagram> {
         return diffs.get(diffs.size() - 1).getDate();
     }
 
-    public boolean exists() {
-        return Files.exists(this.path);
+    public Project getProject() {
+        return project;
     }
 
     public boolean isTemporary() {
-        return isTempDir;
+        return this.project.isTemporary();
     }
 }

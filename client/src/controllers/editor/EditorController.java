@@ -54,7 +54,7 @@ public class EditorController implements Observer {
      */
     public void setTitle() {
         String title = GUI.MenuBar.APP_NAME + " - ";
-        if(this.diagram.isTemporary()){
+        if(this.diagram.getProject().isTemporary()){
             title = title + "(Unsaved)";
         } else {
             title = title + this.diagram.getName() + ".tikz";

@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import models.project.Diagram;
+import models.project.Project;
 import utils.Log;
 import views.accounts.LoginWindowView;
 import views.editor.EditorView;
@@ -16,7 +17,7 @@ public class Main {
             logger.info("Skip to the editor");
             java.awt.EventQueue.invokeLater(() -> {
                 try {
-                    new EditorView(new Diagram());
+                    new EditorView(new Project().getDiagram("unsaved"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

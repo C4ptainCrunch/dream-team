@@ -2,6 +2,7 @@ package models.tikz;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,11 +29,11 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
      * the tikz code that represents the graph, which can be parsed and
      * transformed into nodes and edges objects
      *
-     * @param filePath
-     *            The file path
+     * @param sourcePath
+     *            The source path
      */
-    public TikzGraph(String filePath) throws IOException {
-        String stringGraph = new String(Files.readAllBytes(Paths.get(filePath)));
+    public TikzGraph(Path sourcePath) throws IOException {
+        String stringGraph = new String(Files.readAllBytes(sourcePath));
         NodeParser.parseDocument(this).parse(stringGraph);
     }
 

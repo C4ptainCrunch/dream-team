@@ -7,7 +7,7 @@ import java.util.Vector;
 import javax.swing.*;
 
 import models.project.Diagram;
-import models.project.RecentProjects;
+//import models.project.RecentProjects;
 import constants.GUI;
 import controllers.management.ProjectManagementController;
 
@@ -46,7 +46,7 @@ public class ProjectManagementView extends JFrame {
         open.addActionListener(e -> controller.openProject());
 
         JButton rename = new JButton(GUI.ProjectManagement.RENAME_BUTTON);
-        rename.addActionListener(e -> controller.renameProject());
+        rename.addActionListener(e -> controller.moveProject());
 
         buttons.add(create);
         buttons.add(open);
@@ -59,11 +59,11 @@ public class ProjectManagementView extends JFrame {
         JPanel chooserPanel = new JPanel();
         chooserPanel.setLayout(new BorderLayout());
 
-        Vector<Diagram> recentDiagrams = new Vector<>(RecentProjects.getRecentProjects());
-        Collections.reverse(recentDiagrams);
+//        Vector<Diagram> recentDiagrams = new Vector<>(RecentProjects.getRecentProjects());
+//        Collections.reverse(recentDiagrams);
 
         this.projectChooser = new JComboBox<>();
-        this.projectChooser.setModel(new DefaultComboBoxModel(recentDiagrams));
+//        this.projectChooser.setModel(new DefaultComboBoxModel(recentDiagrams));
 
         this.projectChooser.addActionListener(e -> controller.dropdownSelected((JComboBox) e.getSource()));
         controller.dropdownSelected(this.projectChooser);

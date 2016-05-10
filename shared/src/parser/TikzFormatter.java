@@ -19,7 +19,7 @@ public class TikzFormatter {
 
     public static String tikzSource(TikzNode node, String options){
         Point2D.Float position = node.getPosition();
-        return String.format("\\node[%s](%s) at (%.0f,%.0f){%s};\n", options, node.getReference(), position.getX(), position.getY(), node.getLabel());
+        return String.format(Locale.US, "\\node[%s](%s) at (%.3f,%.3f){%s};\n", options, node.getReference(), position.getX(), position.getY(), node.getLabel());
     }
 
     /**

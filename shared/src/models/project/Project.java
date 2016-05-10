@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.zip.ZipOutputStream;
 
-public class Project {
+public class Project implements Comparable<Project>{
     private Path path;
     private FileSystem fs;
     private boolean isTemporary = false;
@@ -123,5 +123,15 @@ public class Project {
                 return null;
             }
         }).filter(recent -> recent != null).max(Comparator.comparing(e -> e)).get();
+    }
+
+    @Override
+    public int compareTo(Project other) {
+        return this.getPath().compareTo(other.getPath());
+    }
+
+    @Override
+    public String toString() {
+        return this.getPath().toString();
     }
 }

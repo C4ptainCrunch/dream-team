@@ -13,7 +13,7 @@ import misc.drag.transfertdata.TransferTikz;
  */
 public abstract class TransferableTikz implements Transferable {
 
-    public static DataFlavor data; // Generic type for identifying data.
+    public DataFlavor data; // Generic type for identifying data.
     protected TransferTikz transfert_data; // The "real" object that will be
                                            // passed
                                            // through d&d.

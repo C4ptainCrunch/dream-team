@@ -3,6 +3,7 @@ package parser;
 import constants.Models;
 import models.tikz.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.*;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class TikzFormatter {
      */
 
     public static String tikzSource(TikzNode node, String options){
-        Point position = node.getPosition();
+        Point2D.Float position = node.getPosition();
         return String.format("\\node[%s](%s) at (%.0f,%.0f){%s};\n", options, node.getReference(), position.getX(), position.getY(), node.getLabel());
     }
 

@@ -1,6 +1,7 @@
 package models.tikz;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 import constants.Models;
 import utils.Geom;
@@ -10,14 +11,14 @@ import utils.Geom;
  * void, ..)
  */
 public abstract class TikzNode extends TikzComponent {
-    private Point position;
+    private Point2D.Float position;
 
     /**
      * Constructs a default tikz node
      */
     protected TikzNode() {
         super();
-        position = new Point(Models.DEFAULT.X, Models.DEFAULT.Y);
+        position = new Point2D.Float(Models.DEFAULT.X, Models.DEFAULT.Y);
     }
 
     /**
@@ -26,7 +27,7 @@ public abstract class TikzNode extends TikzComponent {
      * @param position
      *            The position
      */
-    protected TikzNode(Point position) {
+    protected TikzNode(Point2D.Float position) {
         super();
         this.position = position;
     }
@@ -39,7 +40,9 @@ public abstract class TikzNode extends TikzComponent {
      */
     protected TikzNode(TikzNode o_node) {
         super(o_node);
-        this.position = new Point(o_node.getPosition());
+        float x = o_node.getPosition().x;
+        float y = o_node.getPosition().y;
+        this.position = new Point2D.Float(x, y);
     }
 
     /**
@@ -50,7 +53,7 @@ public abstract class TikzNode extends TikzComponent {
      */
     protected TikzNode(String reference) {
         super(reference);
-        position = new Point(Models.DEFAULT.X, Models.DEFAULT.Y);
+        position = new Point2D.Float(Models.DEFAULT.X, Models.DEFAULT.Y);
     }
 
     /**
@@ -59,7 +62,7 @@ public abstract class TikzNode extends TikzComponent {
      * @param reference
      *            the reverence for the component
      */
-    public TikzNode(Point position, String reference) {
+    public TikzNode(Point2D.Float position, String reference) {
         super(reference);
         this.position = position;
     }
@@ -83,7 +86,7 @@ public abstract class TikzNode extends TikzComponent {
      *
      * @return the position
      */
-    public Point getPosition() {
+    public Point2D.Float getPosition() {
         return position;
     }
 
@@ -93,7 +96,7 @@ public abstract class TikzNode extends TikzComponent {
      * @param position
      *            The position
      */
-    public void setPosition(Point position) {
+    public void setPosition(Point2D.Float position) {
         this.position = position;
         setChanged();
         notifyObservers();
@@ -108,7 +111,7 @@ public abstract class TikzNode extends TikzComponent {
      *            y coordinate
      */
     public void move(int x, int y) {
-        setPosition(new Point(x, y));
+        setPosition(new Point2D.Float(x, y));
         setChanged();
         notifyObservers();
     }
@@ -127,8 +130,10 @@ public abstract class TikzNode extends TikzComponent {
      * @param x
      * @param y
      */
-    public void translate(int x, int y) {
-        this.position.translate(x, y);
+    public void translate(float dx, float dy) {
+        float x = this.position.x;
+        float y = this.position.y;
+        this.position.setLocation(x + dx, y + dy);
         setChanged();
         notifyObservers();
     }

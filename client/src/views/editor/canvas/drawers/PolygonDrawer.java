@@ -1,6 +1,7 @@
 package views.editor.canvas.drawers;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.*;
 import java.util.List;
 import java.util.logging.Logger;
@@ -91,7 +92,7 @@ public class PolygonDrawer extends NodeDrawer {
         Polygon polygon = (Polygon) shape;
         Rectangle bounds = polygon.getBounds();
         polygon.translate((int)-bounds.getWidth() / 2,(int) -bounds.getHeight() /2);
-        Point swingPosition = Converter.tikz2swing(node.getPosition(), panel);
+        Point2D.Float swingPosition = Converter.tikz2swing(node.getPosition(), panel);
         polygon.translate((int)swingPosition.getX(), (int)swingPosition.getY());
         return polygon;
     }
@@ -106,18 +107,18 @@ public class PolygonDrawer extends NodeDrawer {
      * @return a list of swing anchors
      */
     @Override
-    public List<Point> getAnchors(TikzNode node, JComponent panel){
+    public List<Point2D.Float> getAnchors(TikzNode node, JComponent panel){
         TikzPolygon polygon = (TikzPolygon) node;
         Polygon positionedPolygon = getPositionedShape(getAwtPolygon(polygon), polygon, panel);
         int[] x = positionedPolygon.xpoints;
         int[] y = positionedPolygon.ypoints;
         int vertices = positionedPolygon.npoints;
-        List<Point> anchors = new ArrayList<>();
-        int next_i; Point firstVertex; Point secondVertex;
+        List<Point2D.Float> anchors = new ArrayList<>();
+        int next_i; Point2D.Float firstVertex; Point2D.Float secondVertex;
         for(int i = 0; i < vertices; ++i){
             next_i = (i + 1) % vertices;
-            firstVertex = new Point(x[i], y[i]);
-            secondVertex = new Point(x[next_i], y[next_i]);
+            firstVertex = new Point2D.Float(x[i], y[i]);
+            secondVertex = new Point2D.Float(x[next_i], y[next_i]);
             anchors.add(Geom.middle(firstVertex, secondVertex));
         }
         return anchors;

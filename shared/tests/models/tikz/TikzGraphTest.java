@@ -2,6 +2,7 @@ package models.tikz;
 import static org.junit.Assert.*;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.*;
 import java.util.List;
 
@@ -279,15 +280,15 @@ public class TikzGraphTest {
     @Test
     public void testTranslation() throws Exception {
         List<TikzNode> nodes = new ArrayList<>();
-        List<Point> starts = new ArrayList<>();
+        List<Point2D.Float> starts = new ArrayList<>();
         int dx = -7;
         int dy = 3;
         int len = 4;
 
         for (int i = 0; i < len; i++) {
-            Point p = new Point(i + 6, i - 2);
+            Point2D.Float p = new Point2D.Float(i + 6, i - 2);
             TikzNode node = new TikzPolygon();
-            node.setPosition(new Point(p));
+            node.setPosition(new Point2D.Float(p.x, p.y));
             nodes.add(node);
             starts.add(p);
         }
@@ -297,8 +298,8 @@ public class TikzGraphTest {
 
         for (int i = 0; i < len; i++) {
             TikzNode node = graph.getNodes().get(i);
-            Point p = node.getPosition();
-            Point start = starts.get(i);
+            Point2D.Float p = node.getPosition();
+            Point2D.Float start = starts.get(i);
             assertEquals(start.x + dx, p.x);
             assertEquals(start.y + dy, p.y);
         }

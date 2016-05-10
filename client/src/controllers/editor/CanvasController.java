@@ -2,6 +2,7 @@ package controllers.editor;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -86,7 +87,7 @@ public class CanvasController implements Observer {
      *            The position
      * @return a tikz component
      */
-    public TikzComponent findComponentByPosition(Point position) {
+    public TikzComponent findComponentByPosition(Point2D.Float position) {
         TikzComponent comp = null;
 
         for(int j = drawables.size() - 1; j >= 0; j--){
@@ -108,7 +109,7 @@ public class CanvasController implements Observer {
      * @return A boolean value
      */
 
-    public boolean hasComponentAtPosition(Point position) {
+    public boolean hasComponentAtPosition(Point2D.Float position) {
         if (findComponentByPosition(position) != null) {
             return true;
         }
@@ -137,7 +138,7 @@ public class CanvasController implements Observer {
      *            The tikz position where the component will be added
      */
 
-    private void addNodeToGraph(TikzComponent component, Point position) {
+    private void addNodeToGraph(TikzComponent component, Point2D.Float position) {
         TikzNode node = (TikzNode) component;
         node.setPosition(Converter.swing2tikz(position, view));
         graph.add(node);
@@ -171,7 +172,7 @@ public class CanvasController implements Observer {
      * @param position
      *            The position of the component to which the edge will end
      */
-    private void addEdgeToModel(TikzComponent component, Point position) {
+    private void addEdgeToModel(TikzComponent component, Point2D.Float position) {
         TikzComponent clickedComponent = findComponentByPosition(position);
         if (clickedComponent != null && !clickedComponent.isEdge()) {
             if (state.initialized()) {
@@ -187,14 +188,14 @@ public class CanvasController implements Observer {
     }
 
     // Location has to be a swing position !
-    private void addGraph(TikzGraph g, Point location) {
+    private void addGraph(TikzGraph g, Point2D.Float location) {
         location.setLocation(Converter.swing2tikz(location, view));
         g.translation((int) location.getX(), (int) location.getY());
         graph.add(g);
     }
 
     // Location has to be a swing position !!
-    private void moveComponent(TikzComponent comp, Point location) {
+    private void moveComponent(TikzComponent comp, Point2D.Float location) {
         location.setLocation(Converter.swing2tikz(location, view));
         if (comp != null && comp.isNode()) {
             ((TikzNode) comp).setPosition(location);
@@ -215,9 +216,9 @@ public class CanvasController implements Observer {
         if (view.getIsFocused()) {
             if (selectedTool != null && selectedTool.isNode()) {
                 // this.
-                addNodeToGraph(selectedTool, e.getPoint());
+                addNodeToGraph(selectedTool, new Point2D.Float(e.getX(), e.getY()));
             } else if (selectedTool != null && selectedTool.isEdge()) {
-                addEdgeToModel(selectedTool, e.getPoint());
+                addEdgeToModel(selectedTool, new Point2D.Float(e.getX(), e.getY()));
             }
         } else {
             view.requestFocusInWindow();
@@ -234,7 +235,7 @@ public class CanvasController implements Observer {
      *            dropped
      */
 
-    public void mouseDropped(TransferTikz transfer_data, Point location) {
+    public void mouseDropped(TransferTikz transfer_data, Point2D.Float location) {
         switch (transfer_data.getOption()) {
         case MOVE:
             moveComponent(transfer_data.getComponent(), location);

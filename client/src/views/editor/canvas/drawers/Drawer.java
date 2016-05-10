@@ -1,6 +1,7 @@
 package views.editor.canvas.drawers;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +39,7 @@ public final class Drawer {
         return componentDrawer.toDrawable(component, panel);
     }
 
-    public static Point closestAnchor(TikzNode node, Point point, JComponent panel){
+    public static Point2D.Float closestAnchor(TikzNode node, Point2D.Float point, JComponent panel){
         NodeDrawer nodeDrawer = (NodeDrawer) drawers.get(node.getClass());
         return nodeDrawer.closestAnchor(node, point, panel);
     }

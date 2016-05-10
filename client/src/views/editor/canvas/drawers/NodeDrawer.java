@@ -10,6 +10,8 @@ import models.tikz.TikzComponent;
 import models.tikz.TikzNode;
 import utils.Geom;
 import views.editor.canvas.drawables.DrawableTikzNode;
+
+import java.awt.geom.Point2D;
 import java.util.List;
 
 /**
@@ -37,7 +39,7 @@ public abstract class NodeDrawer extends ComponentDrawer {
          * Convert the tikz point of the model to a swing point and translate
          * the Area with the resulting point.
          */
-        Point swingPosition = Converter.tikz2swing(node.getPosition(), panel);
+        Point2D.Float swingPosition = Converter.tikz2swing(node.getPosition(), panel);
         AffineTransform toSwingTransform = new AffineTransform(1, 0, 0, 1, swingPosition.getX(), swingPosition.getY());
         return toSwingTransform.createTransformedShape(shape);
     }
@@ -62,12 +64,12 @@ public abstract class NodeDrawer extends ComponentDrawer {
      * @param panel panel on whoch the node is drawn
      * @return the node closest anchor from the point
      */
-    public Point closestAnchor(TikzNode node, Point point, JComponent panel){
+    public Point2D.Float closestAnchor(TikzNode node, Point2D.Float point, JComponent panel){
         double distance = Double.MAX_VALUE;
         double other_distance;
-        Point closest = null;
+        Point2D.Float closest = null;
         point = Converter.tikz2swing(point, panel);
-        for(Point anchor : this.getAnchors(node, panel)){
+        for(Point2D.Float anchor : this.getAnchors(node, panel)){
             other_distance = Geom.euclideanDistance(anchor, point);
             if(other_distance < distance){
                 distance = other_distance;
@@ -77,7 +79,7 @@ public abstract class NodeDrawer extends ComponentDrawer {
         return closest;
     }
 
-    public abstract List<Point> getAnchors(TikzNode node, JComponent panel);
+    public abstract List<Point2D.Float> getAnchors(TikzNode node, JComponent panel);
 
 
 

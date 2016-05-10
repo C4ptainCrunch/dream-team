@@ -1,8 +1,10 @@
 package misc.drag.handler;
 
+import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.geom.Point2D;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -66,7 +68,8 @@ public abstract class TikzTransferHandler extends TransferHandler {
         }
 
         CanvasView view = (CanvasView) support.getComponent();
-        view.dragEvent(transfer_data, support.getDropLocation().getDropPoint());
+        Point dropLocation = support.getDropLocation().getDropPoint();
+        view.dragEvent(transfer_data, new Point2D.Float(dropLocation.x, dropLocation.y));
 
         return true;
     }

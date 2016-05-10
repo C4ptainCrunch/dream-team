@@ -1,5 +1,8 @@
 package constants;
 
+import utils.Dirs;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
@@ -58,21 +61,21 @@ class GUIPropertiesReader implements PropertiesReader{
 
     @Override
     public void read(Properties properties) {
-        MenuBar.FILE_MENU = properties.getProperty("FILE_MENU");
-        MenuBar.SAVE = properties.getProperty("SAVE");
-        MenuBar.PDF = properties.getProperty("PDF");
-        MenuBar.EXIT = properties.getProperty("EXIT");
-        MenuBar.VIEW_MENU = properties.getProperty("VIEW_MENU");
-        MenuBar.GRID_VISIBILTY = properties.getProperty("GRID_VISIBILTY");
-        MenuBar.HELP_MENU = properties.getProperty("HELP_MENU");
-        MenuBar.HELP = properties.getProperty("HELP");
-        MenuBar.DIFF = properties.getProperty("DIFF");
-        MenuBar.APP_NAME = properties.getProperty("APP_NAME");
-        MenuBar.OPTIONS_MENU = properties.getProperty("OPTIONS_MENU");
-        MenuBar.COLOR_BLIND = properties.getProperty("COLOR_BLIND");
-        MenuBar.EDIT_MENU = properties.getProperty("EDIT_MENU");
-        MenuBar.UNDO = properties.getProperty("UNDO");
-        MenuBar.REDO = properties.getProperty("REDO");
+        GUI.MenuBar.FILE_MENU = properties.getProperty("FILE_MENU");
+        GUI.MenuBar.SAVE = properties.getProperty("SAVE");
+        GUI.MenuBar.PDF = properties.getProperty("PDF");
+        GUI.MenuBar.EXIT = properties.getProperty("EXIT");
+        GUI.MenuBar.VIEW_MENU = properties.getProperty("VIEW_MENU");
+        GUI.MenuBar.GRID_VISIBILTY = properties.getProperty("GRID_VISIBILTY");
+        GUI.MenuBar.HELP_MENU = properties.getProperty("HELP_MENU");
+        GUI.MenuBar.HELP = properties.getProperty("HELP");
+        GUI.MenuBar.DIFF = properties.getProperty("DIFF");
+        GUI.MenuBar.APP_NAME = properties.getProperty("APP_NAME");
+        GUI.MenuBar.OPTIONS_MENU = properties.getProperty("OPTIONS_MENU");
+        GUI.MenuBar.COLOR_BLIND = properties.getProperty("COLOR_BLIND");
+        GUI.MenuBar.EDIT_MENU = properties.getProperty("EDIT_MENU");
+        GUI.MenuBar.UNDO = properties.getProperty("UNDO");
+        GUI.MenuBar.REDO = properties.getProperty("REDO");
 
         ProjectManagement.CREATE_BUTTON = properties.getProperty("CREATE_BUTTON");
         ProjectManagement.OPEN_BUTTON = properties.getProperty("OPEN_BUTTON");
@@ -99,7 +102,7 @@ class GUIPropertiesReader implements PropertiesReader{
 
         String[] sizesStrings = properties.getProperty("FIELD_SIZES").split("#");
         SignUp.FIELD_SIZES = new ArrayList<>();
-        for(int i = 0; i < sizesStrings.length; ++i){ SignUp.FIELD_SIZES.add(Integer.valueOf(sizesStrings[i])) }
+        for(int i = 0; i < sizesStrings.length; ++i){ SignUp.FIELD_SIZES.add(Integer.valueOf(sizesStrings[i])); }
 
         SignUp.PASSWORD_LABEL = properties.getProperty("PASSWORD_LABEL");
         SignUp.OK_BUTTON = properties.getProperty("OK_BUTTON");
@@ -110,8 +113,8 @@ class GUIPropertiesReader implements PropertiesReader{
         Drawing.ARROW_LENGTH = Double.valueOf(properties.getProperty("ARROW_LENGTH"));
         Drawing.ARROW_ANGLE = Double.valueOf(properties.getProperty("ARROW_ANGLE"));
 
-        Tabs.HAPE_TAB = properties.getProperty("HAPE_TAB");
-        Tabs.EMPLATE_TAB = properties.getProperty("EMPLATE_TAB");
+        Tabs.SHAPE_TAB = properties.getProperty("SHAPE_TAB");
+        Tabs.TEMPLATE_TAB = properties.getProperty("TEMPLATE_TAB");
 
         String[] rgbStrings = properties.getProperty("BKG_COLOR").split("#");
         int[] rgb = new int[4];
@@ -120,14 +123,8 @@ class GUIPropertiesReader implements PropertiesReader{
 
         Template.DIR = Dirs.getDataDir().resolve(properties.getProperty("TEMPLATE_DIR")).toString();
 
-        TextArea.DEFAULT_THEME = properties.getProperty("DEFAULT_THEME");
-        TextArea.DEFAULT_COLOR_BLINDNESS_THEME = properties.getProperty("DEFAULT_COLOR_BLINDNESS_THEME");
-    
-
-    public static final class TextArea {
-        public static String DEFAULT_THEME = "syntax_themes/default.xml";
-        public static String DEFAULT_COLOR_BLINDNESS_THEME = "syntax_themes/default_color_blindness.xml";
-    }
+        GUI.TextArea.DEFAULT_THEME = properties.getProperty("DEFAULT_THEME");
+        GUI.TextArea.DEFAULT_COLOR_BLINDNESS_THEME = properties.getProperty("DEFAULT_COLOR_BLINDNESS_THEME");
 
     }
 }

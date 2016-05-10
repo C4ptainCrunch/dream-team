@@ -1,21 +1,20 @@
 package parser;
 
-
-import org.codehaus.jparsec.Parser;
-import org.codehaus.jparsec.Parsers;
-import org.codehaus.jparsec.Scanners;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.*;
 
 
 public class DiffParser {
 
-    public static void reference(String strToParse){
+    public static List<String> reference(String strToParse){
+        List<String> references = new ArrayList<>();
         Matcher m = Pattern.compile("\\(([^)]+)\\)").matcher(strToParse);
         while(m.find()){
             if (!m.group(1).contains(",")){
-                System.out.println(m.group(1));
+                references.add(m.group(1));
             }
         }
+        return references;
     }
 }

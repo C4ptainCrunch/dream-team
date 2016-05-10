@@ -24,7 +24,7 @@ public class Main {
             });
         } else {
             logger.info("Starting project management view");
-            java.awt.EventQueue.invokeLater(LoginWindowView::new);
+            //java.awt.EventQueue.invokeLater(LoginWindowView::new);
             ConflictResolver c = new ConflictResolver();
         }
 

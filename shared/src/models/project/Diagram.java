@@ -14,6 +14,9 @@ import models.tikz.TikzGraph;
 import utils.DiffUtil;
 import utils.Log;
 
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
+
 /**
  * This class represents a single project created by a user. A project consists
  * of a tikz graph and a file path containing the specific files (save, diffs
@@ -151,14 +154,14 @@ public class Diagram extends Observable{
         ObjectOutputStream os = new ObjectOutputStream(bs);
         os.writeObject(diffs);
 
-        Files.write(this.getDiffPath(), bs.toByteArray());
+        Files.write(this.getDiffPath(), bs.toByteArray(), TRUNCATE_EXISTING, CREATE);
 
         os.close();
         bs.close();
     }
 
     public void writeTikz(String tikz) throws IOException {
-        Files.write(this.getSourcePath(), tikz.getBytes());
+        Files.write(this.getSourcePath(), tikz.getBytes(), TRUNCATE_EXISTING, CREATE);
     }
 
 

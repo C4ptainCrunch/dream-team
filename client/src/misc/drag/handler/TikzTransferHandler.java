@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import misc.drag.transfertdata.TransferTikz;
+import misc.drag.transfereddata.TransferTikz;
 import views.editor.CanvasView;
 
 /**

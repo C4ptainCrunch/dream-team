@@ -12,9 +12,6 @@ import utils.Geom;
 import views.editor.canvas.drawables.DrawableTikzNode;
 import java.util.List;
 
-/**
- * Created by jhellinckx on 18/04/16.
- */
 public abstract class NodeDrawer extends ComponentDrawer {
     @Override
     public DrawableTikzNode toDrawable(TikzComponent component, JComponent panel) {

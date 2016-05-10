@@ -4,10 +4,6 @@ import java.awt.*;
 
 import javax.swing.*;
 
-/**
- * Created by jhellinckx on 19/04/16.
- */
-
 public class Converter {
     public static Point tikz2swing(Point tikzPosition, int panelWidth, int panelHeight) {
         int swingX = (int) (panelWidth / 2 + tikzPosition.getX());

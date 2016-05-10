@@ -102,8 +102,9 @@ public class Diagram extends Observable{
         }
 
         String diffString = DiffUtil.diff(originalTikz, this.graph.toString());
-        diffs.add(new Diff(new Date(), diffString));
-
+        if(!diffString.trim().equals("")) {
+            diffs.add(new Diff(new Date(), diffString));
+        }
         this.writeDiffs(diffs);
         this.writeTikz(this.graph.toString());
 

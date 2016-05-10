@@ -20,6 +20,7 @@ dependencies {
     compile 'com.fifesoft:rsyntaxtextarea:2.5.8'
 
     compile project(':shared')
+    testCompile project(':shared')
 }
 
 repositories {
@@ -38,7 +39,7 @@ sourceSets {
             srcDir "src/"
         }
         resources {
-            srcDir "resources/"
+            srcDirs = ["resources/","../shared/resources"]
         }
     }
 }

@@ -25,7 +25,7 @@ public final class Models {
     }
 
     public class Graph {
-        public static final String latexPrelude = "\\documentclass{article}\n\\usepackage{tikz}\n\\usetikzlibrary{shapes.geometric}\n\\begin{document}\n\\begin{tikzpicture}[x=0.0625em,y=0.0625em]\n";
+        public static final String latexPrelude = "\\documentclass{article}\n\\usepackage{tikz}\n\\usetikzlibrary{shapes.geometric}\n\\begin{document}\n\\begin{tikzpicture}\n";
         public static final String latexPostlude = "\\end{tikzpicture}\n\\end{document}\n";
     }
 }

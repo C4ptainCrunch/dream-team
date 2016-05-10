@@ -16,10 +16,6 @@ import java.util.List;
 
 public class CircleDrawer extends NodeDrawer {
 
-    public CircleDrawer() {
-        // this was left intentionally blank
-    }
-
     /**
      * Creates a swing drawable circle object by adding a Circle shape to the list of shapes of the drawable
      * and correctly setting its position.

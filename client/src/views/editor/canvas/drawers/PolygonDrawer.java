@@ -19,10 +19,6 @@ import views.editor.canvas.drawables.DrawableTikzNode;
 public class PolygonDrawer extends NodeDrawer {
     private final static Logger logger = Log.getLogger(PolygonDrawer.class);
 
-    public PolygonDrawer() {
-        // this was left intentionally blank
-    }
-
     /**
      * Creates a swing drawable polygon object by adding a Polygon shape to the list of shapes of the drawable
      * and correctly setting its position.

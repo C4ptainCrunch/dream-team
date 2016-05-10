@@ -14,10 +14,6 @@ import models.tikz.TikzDirectedEdge;
 import views.editor.canvas.drawables.DrawableTikzEdge;
 
 public class DirectedEdgeDrawer extends EdgeDrawer {
-    public DirectedEdgeDrawer() {
-        // this was left intentionally blank
-    }
-
     /**
      * Creates the drawable swing object for the given directed edge.
      * First get the core line (with no arrow head) of the edge and add the line shape to the

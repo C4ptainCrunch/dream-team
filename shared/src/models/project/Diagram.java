@@ -80,6 +80,8 @@ public class Diagram extends Observable{
      *             when the diff file is corrupted
      */
     public void save() throws IOException, ClassNotFoundException {
+        this.project.sync();
+
         List<Diff> diffs = null;
         try {
             diffs = this.getDiffs();
@@ -102,6 +104,8 @@ public class Diagram extends Observable{
         this.writeTikz(this.graph.toString());
 
         System.out.println("save done");
+
+        this.project.sync();
     }
 
     /**
@@ -111,15 +115,18 @@ public class Diagram extends Observable{
      * @throws IOException
      */
     public String getDiskTikz() throws IOException {
+        this.project.sync();
         return new String(Files.readAllBytes(this.getSourcePath()));
     }
 
 
     public void rename(String newName) throws IOException {
+        this.project.sync();
         this.project.renameDiagram(this.name, newName);
         this.name = newName;
         this.setChanged();
         this.notifyObservers();
+        this.project.sync();
     }
 
     /**
@@ -132,6 +139,7 @@ public class Diagram extends Observable{
      *             : when the file is corrupted
      */
     public List<Diff> getDiffs() throws IOException, ClassNotFoundException {
+        this.project.sync();
         byte[] bytes = Files.readAllBytes(this.getDiffPath());
         ByteArrayInputStream bs = new ByteArrayInputStream(bytes);
         ObjectInputStream os = new ObjectInputStream(bs);
@@ -150,6 +158,7 @@ public class Diagram extends Observable{
      *             when writing to the file failed
      */
     public void writeDiffs(List<Diff> diffs) throws IOException {
+        this.project.sync();
         ByteArrayOutputStream bs = new ByteArrayOutputStream();
         ObjectOutputStream os = new ObjectOutputStream(bs);
         os.writeObject(diffs);
@@ -158,10 +167,13 @@ public class Diagram extends Observable{
 
         os.close();
         bs.close();
+        this.project.sync();
     }
 
     public void writeTikz(String tikz) throws IOException {
+        this.project.sync();
         Files.write(this.getSourcePath(), tikz.getBytes(), TRUNCATE_EXISTING, CREATE);
+        this.project.sync();
     }
 
 
@@ -175,6 +187,7 @@ public class Diagram extends Observable{
      *             when the diff file is corrupted
      */
     public Date getLastChange() throws IOException, ClassNotFoundException {
+        this.project.sync();
         List<Diff> diffs = this.getDiffs();
         if (diffs.size() == 0) {
             return null;

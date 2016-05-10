@@ -1,8 +1,12 @@
 package models.project;
 
+import com.sun.nio.zipfs.ZipFileSystem;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -47,11 +51,15 @@ public class Project {
     }
 
     public void renameDiagram(String oldName, String newName) throws IOException {
+        this.sync();
+
         Path newSource = this.fs.getPath("/" + newName + ".tikz");
         Files.move(this.getDiagramSource(oldName), newSource);
 
         Path newDiff = this.fs.getPath("/" + newName + ".diff");
         Files.move(this.getDiagramDiff(oldName), newDiff);
+
+        this.sync();
     }
 
     public Set<String> getDiagramNames() {
@@ -74,5 +82,16 @@ public class Project {
 
     public void move(File newFile) {
         // TODO nikita : move zip
+    }
+
+    public void sync() {
+        // http://mail.openjdk.java.net/pipermail/nio-dev/2012-July/001764.html
+        try {
+            Method m = ZipFileSystem.class.getDeclaredMethod("sync");
+            m.setAccessible(true);//Abracadabra
+            m.invoke(this.fs);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }

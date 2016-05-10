@@ -1,5 +1,7 @@
 package constants;
 
+import java.util.Properties;
+
 /**
  * Created by jhellinckx on 10/05/16.
  */
@@ -24,4 +26,25 @@ public class ClientPropertiesLoader extends PropertiesLoader {
     }
 }
 
-class
+class ErrorsPropertiesReader implements PropertiesReader{
+    @Override
+    public void read(Properties properties){
+
+    }
+}
+
+class GUIPropertiesReader implements PropertiesReader{
+
+    @Override
+    public void read(Properties properties) {
+
+    }
+}
+
+class WarningPropertiesReader implements PropertiesReader{
+
+    @Override
+    public void read(Properties properties) {
+
+    }
+}

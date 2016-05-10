@@ -20,7 +20,7 @@ public class PropertiesLoader {
     private static final String NETWORK_PROPERTIES_FILENAME = "network.properties";
     private static final String UTILS_PROPERTIES_FILENAME = "utils.properties";
 
-    private static void load(String filename, PropertiesReader reader){
+    protected static void load(String filename, PropertiesReader reader){
         InputStream stream = PropertiesLoader.class.getClassLoader().getResourceAsStream(filename);
         try {
             if(stream == null) { throw new IOException(); }
@@ -53,8 +53,6 @@ public class PropertiesLoader {
     public static void loadUtilsProperties(){
         load(UTILS_PROPERTIES_FILENAME, new UtilsPropertiesReader());
     }
-
-
 }
 
 interface PropertiesReader{

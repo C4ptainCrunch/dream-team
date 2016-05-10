@@ -76,7 +76,7 @@ public class Project {
         } catch (IOException | DirectoryIteratorException e) {
             e.printStackTrace();
         }
-        
+
         return names;
     }
 

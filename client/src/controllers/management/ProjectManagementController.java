@@ -82,7 +82,8 @@ public class ProjectManagementController {
         try {
             Project currentProject = new Project(projectFile.toPath());
             Set<String> diagramNames = currentProject.getDiagramNames();
-            System.out.println(diagramNames.toString());
+            new DiagramManagementController(currentProject, diagramNames);
+            this.view.dispose();
         } catch (IOException e) {
             e.printStackTrace();
         }

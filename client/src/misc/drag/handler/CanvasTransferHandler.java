@@ -8,10 +8,12 @@ import misc.drag.transferable.CanvasTransferableTikz;
 import views.editor.CanvasView;
 import constants.GUI;
 
-public class CanvasTransferHandler extends TikzTransferHandler {
+/**
+ * Create a Transferable Object from the source that will be retrieved by
+ * the destination.
+ */
 
-    // Create a Transferable Object from the source that will be retrieved by
-    // the destination.
+public class CanvasTransferHandler extends TikzTransferHandler {
 
     @Override
     protected Transferable createTransferable(JComponent c) {

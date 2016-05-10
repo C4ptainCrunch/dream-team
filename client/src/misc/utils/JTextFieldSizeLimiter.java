@@ -4,6 +4,12 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+/**
+ * Allows to add a length limit to a JTextField via the setDocument() function.
+ * This avoids trying to insert something that is bigger than the size set in the
+ * database field.
+ */
+
 public class JTextFieldSizeLimiter extends PlainDocument {
     private int fieldLimit;
 
@@ -12,6 +18,12 @@ public class JTextFieldSizeLimiter extends PlainDocument {
         this.fieldLimit = limit;
     }
 
+    /**
+     * Allows to block further writing when the JTextField is full
+     * @param offset The offset between the string and set size
+     * @param str The current string
+     * @param attr Attribute
+     */
     public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
         if (str == null) {
             return ;

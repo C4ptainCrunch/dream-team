@@ -259,7 +259,45 @@ public class Project extends TikzIO implements Comparable<Project> {
             logger.warning("Couldn't undo: " + e.toString());
             return;
         }
-        Diff last = diffs.remove(diffs.size()-1);
+        Diff last = diffs.remove(diffs.size() - 1);
+        String original = this.graph.toString();
+        apply_patch(last);
+        final String tmp;
+        try {
+            tmp = DiffUtil.diff(original, this.graph.toString());
+            redoList.add(new Diff(new Date(), tmp));
+        } catch (UnsupportedEncodingException e) {
+            logger.fine("Should not happen: " + e.toString());
+        }
+        write_applier(diffs);
+    }
+
+    public void redo() {
+        if (redoList.isEmpty()) {return; }
+        Diff diff = redoList.remove(redoList.size()-1);
+        String original = this.graph.toString();
+        apply_patch(diff);
+        String diffString = null;
+
+        try {
+            diffString = DiffUtil.diff(original, this.graph.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        List<Diff> diffs;
+        try {
+            diffs = this.getDiffs();
+        } catch (IOException | ClassNotFoundException e) {
+            diffs = new ArrayList<>();
+        }
+
+        diffs.add(new Diff(new Date(), diffString));
+        write_applier(diffs);
+    }
+
+
+    private void apply_patch (Diff last) {
         DiffMatchPatch undo = new DiffMatchPatch();
         final List<DiffMatchPatch.Patch> patches = undo.patchFromText(last.getPatch());
         String original = this.graph.toString();
@@ -268,15 +306,11 @@ public class Project extends TikzIO implements Comparable<Project> {
         TikzGraph reversed = new TikzGraph();
         NodeParser.parseDocument(reversed).parse((String) modified[0]);
 
-        final String tmp;
-        try {
-            tmp = DiffUtil.diff(reversed.toString(), original);
-            redoList.add(new Diff(new Date(), tmp));
-        } catch (UnsupportedEncodingException e) {
-            logger.fine("Should not happen: " + e.toString());
-        }
-        this.graph.replace(reversed);
 
+        this.graph.replace(reversed);
+    }
+
+    private void write_applier (List<Diff> diffs){
         try {
             this.writeDiffs(diffs);
             super.writeTikz(this.graph.toString(), this.getTikzPath());
@@ -284,6 +318,5 @@ public class Project extends TikzIO implements Comparable<Project> {
         } catch (IOException e) {
             logger.warning("Couldn't save new diff history: " + e.toString());
         }
-
     }
 }

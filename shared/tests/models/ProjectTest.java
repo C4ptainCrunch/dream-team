@@ -203,7 +203,7 @@ public class ProjectTest {
     }
 
     @Test
-    public void testUndo() throws Exception {
+    public void testUndoRedo() throws Exception {
         Project p = getEmptyProject();
         p.save();
 
@@ -218,5 +218,10 @@ public class ProjectTest {
 
         Assert.assertEquals(listDiff.size()-1, p.getDiffs().size());
         Assert.assertEquals(p.getGraph().size(), 0);
+
+        p.redo();
+        Assert.assertEquals(listDiff.size(), p.getDiffs().size());
+        Assert.assertEquals(p.getGraph().size(), 1);
     }
+
 }

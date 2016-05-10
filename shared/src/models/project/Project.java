@@ -152,8 +152,8 @@ public class Project implements Comparable<Project>{
 
     synchronized public void writeSource(String name, String tikz) throws IOException {
         try (FileSystem fs = getFs()) {
-            Path diffPath = fs.getPath("/" + name + ".tikz");
-            Files.write(diffPath, tikz.getBytes(), TRUNCATE_EXISTING, CREATE);
+            Path sourcePath = fs.getPath("/" + name + ".tikz");
+            Files.write(sourcePath, tikz.getBytes(), TRUNCATE_EXISTING, CREATE);
             logger.fine("Source written");
         }
     }

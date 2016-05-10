@@ -7,9 +7,6 @@ import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Set;
 
-/**
- * Created by acaccia on 22/04/16.
- */
 public class TikzColors {
     private final static HashMap<String, Color> string2color = new HashMap<String, Color>() {{
         put("black", new Color(0x00, 0x00, 0x00));

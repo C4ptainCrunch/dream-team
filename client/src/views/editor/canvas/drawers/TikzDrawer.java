@@ -7,9 +7,6 @@ import views.editor.canvas.drawables.DrawableTikzComponent;
 
 import java.awt.*;
 
-/**
- * Created by jhellinckx on 13/04/16.
- */
 public interface TikzDrawer {
     DrawableTikzComponent toDrawable(TikzComponent component, JComponent panel);
 }

@@ -1,12 +1,9 @@
 package misc.drag.transferable;
 
-import misc.drag.transfertdata.TransferTikz;
+import misc.drag.transfereddata.TransferTikz;
 import models.tikz.TikzComponent;
 import constants.GUI;
 
-/**
- * Created by aurelien on 15/04/16.
- */
 public class CanvasTransferableTikz extends TransferableTikz {
 
     public CanvasTransferableTikz(TikzComponent comp, GUI.Drag.DropOptions opt) {

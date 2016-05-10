@@ -1,248 +1,99 @@
 package models.project;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Logger;
+import com.sun.nio.zipfs.ZipFileSystem;
 
-import models.tikz.TikzGraph;
-import utils.DiffUtil;
-import utils.Log;
-import utils.RecentProjects;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.nio.file.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.zip.ZipOutputStream;
 
-/**
- * This class represents a single project created by a user. A project consists
- * of a tikz graph and a file path containing the specific files (save, diffs
- * ..) for this project
- */
-public class Project extends TikzIO implements Comparable<Project> {
-    private final static Logger logger = Log.getLogger(Project.class);
+public class Project {
     private Path path;
-    private boolean isTempDir = false;
+    private FileSystem fs;
+    private boolean isTemporary = false;
 
-
-
-    /**
-     * Constructs a new Project with a given file path. The project must have
-     * been already created in order to use this constructor.
-     *
-     * @param path
-     *            The file path
-     * @throws IOException
-     */
-    public Project(Path path) {
-        super();
+    public Project(Path path) throws IOException {
         this.path = path;
-        try {
-            this.graph = new TikzGraph(this.getTikzPath().toString());
-        } catch (IOException e) {
-            logger.fine("Warning: error while opening the project's tikz file: " + e.toString());
-            this.graph = new TikzGraph();
-        }
+        this.fs = FileSystems.newFileSystem(path, null);
     }
 
     public Project() throws IOException {
-        super();
-        this.graph = new TikzGraph();
-        this.path = Files.createTempDirectory(null);
-        this.isTempDir = true;
+        this(createTempZip());
+        this.isTemporary = true;
     }
 
-    /**
-     * Transforms the project into a string (ie. the path of the project)
-     *
-     * @return The name of the poject (ie. the path)
-     */
-    @Override
-    public String toString() {
-        return this.getName();
+    private static Path createTempZip() throws IOException {
+        Path p = File.createTempFile("creatikz-project", ".zip").toPath();
+        ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(p.toString()));
+        zip.close();
+        return p;
     }
 
-    /**
-     * Getter for the path of this project
-     *
-     * @return The path
-     */
-    public Path getPath() {
-        return path;
+    public Path getDirectory() {
+        return this.path.getParent();
     }
 
-    /**
-     * Getter for the path of the modifications file of this project
-     *
-     * @return The path of the modification file
-     */
-    public Path getRevisionPath() {
-        return this.getPath().resolve(constants.Models.Project.DIFF_FILE);
+    public Path getDiagramSource(String name) {
+        return this.fs.getPath("/" + name + ".tikz");
     }
 
-    /**
-     * Getter for the name of this project (ie. the path)
-     *
-     * @return The name
-     */
-    public String getName() {
-        return this.path.getFileName().toString();
+    public Path getDiagramDiff(String name) {
+        return this.fs.getPath("/" + name + ".diff");
     }
 
-    /**
-     * Saves the project to disk. It computes the diff between the actual
-     * version and the last one, writes the new history to disk and then writes
-     * the source to disk. It also adds the project to the recent projects list.
-     *
-     * @throws IOException
-     *             when writing to the disk failed
-     * @throws ClassNotFoundException
-     *             when the diff file is corrupted
-     */
-    public void save() throws IOException, ClassNotFoundException {
-        if(!Files.exists(this.path)){
-            this.path.toFile().mkdirs();
+    public Diagram getDiagram(String name) {
+        return new Diagram(name, this);
+    }
+
+    public void renameDiagram(String oldName, String newName) throws IOException {
+        Path newSource = this.fs.getPath("/" + newName + ".tikz");
+        Files.move(this.getDiagramSource(oldName), newSource);
+
+        Path newDiff = this.fs.getPath("/" + newName + ".diff");
+        Files.move(this.getDiagramDiff(oldName), newDiff);
+
+        this.sync();
+    }
+
+    public Set<String> getDiagramNames() {
+        Set<String> names = new HashSet<>();
+
+        for(Path p :fs.getRootDirectories()) {
+            String name = p.getFileName().toString();
+            if (name.indexOf(".") > 0){
+                name = name.substring(0, name.lastIndexOf("."));
+            }
+            names.add(name);
         }
 
-        List<Diff> diffs = null;
-        try {
-            diffs = this.getDiffs();
-        } catch (IOException | ClassNotFoundException e) {
-            logger.fine("Warning while reading the diff file : " + e.toString());
-            diffs = new ArrayList<>();
-        }
-
-        String originalTikz = "";
-        try {
-            originalTikz = this.getDiskTikz();
-        } catch (IOException e) {
-            logger.fine("Warning while reading the save file : " + e.toString());
-        }
-
-        String diffString = DiffUtil.diff(originalTikz, this.graph.toString());
-        diffs.add(new Diff(new Date(), diffString));
-
-        this.writeDiffs(diffs);
-        super.writeTikz(this.graph.toString(), this.getTikzPath());
-        RecentProjects.addProject(this);
-    }
-
-    /**
-     * Getter for the tikz text contained in the save file of this project.
-     *
-     * @return The current saved tikz text
-     * @throws IOException
-     */
-    public String getDiskTikz() throws IOException {
-        return new String(Files.readAllBytes(this.getTikzPath()));
-    }
-
-    /**
-     * Getter for the path of the save file for this project.
-     *
-     * @return The path
-     */
-    public Path getTikzPath() {
-        return this.path.resolve(constants.Models.Project.SAVE_FILE);
-    }
-
-    /**
-     * Getter for the path of the modifications file for this project.
-     *
-     * @return The path
-     */
-    public Path getDiffPath() {
-        return Paths.get(this.path + "/" + constants.Models.Project.DIFF_FILE);
-    }
-
-    /**
-     * Renames the project with a given file
-     *
-     * @param newDir
-     *            The new file to be renamed with
-     * @throws IOException
-     */
-    public void rename(File newDir) throws IOException {
-        File original = this.getPath().toFile();
-        original.renameTo(newDir);
-        this.path = newDir.toPath();
-        this.isTempDir = false;
-        RecentProjects.addProject(this);
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    /**
-     * Gets the list of diffs from the diff file.
-     *
-     * @return A list of Diff objects
-     * @throws IOException
-     *             : when reading the file failed
-     * @throws ClassNotFoundException
-     *             : when the file is corrupted
-     */
-    public List<Diff> getDiffs() throws IOException, ClassNotFoundException {
-        FileInputStream fs = new FileInputStream(this.getDiffPath().toFile());
-        ObjectInputStream os = new ObjectInputStream(fs);
-        List<Diff> diffs = (List<Diff>) os.readObject();
-        os.close();
-        fs.close();
-
-        return diffs;
-    }
-
-    /**
-     * Serializes the diffs to the diff file
-     *
-     * @param diffs
-     * @throws IOException
-     *             when writing to the file failed
-     */
-    public void writeDiffs(List<Diff> diffs) throws IOException {
-        FileOutputStream fs = new FileOutputStream(this.getDiffPath().toFile());
-        ObjectOutputStream os = new ObjectOutputStream(fs);
-        os.writeObject(diffs);
-
-        os.close();
-        fs.close();
-    }
-
-    /**
-     * Compares this Project with the given Project for order (uses the path for
-     * comparison).
-     *
-     * @param other
-     *            The project to be compared with
-     * @return The order
-     */
-    @Override
-    public int compareTo(Project other) {
-        return this.getPath().compareTo(other.getPath());
-    }
-
-    /**
-     * Gets the date of the last change of the project
-     *
-     * @return Date the date
-     * @throws IOException
-     *             when the diff file does not exist
-     * @throws ClassNotFoundException
-     *             when the diff file is corrupted
-     */
-    public Date getLastChange() throws IOException, ClassNotFoundException {
-        List<Diff> diffs = this.getDiffs();
-        if (diffs.size() == 0) {
-            return null;
-        }
-        return diffs.get(diffs.size() - 1).getDate();
-    }
-
-    public boolean exists() {
-        return Files.exists(this.path);
+        return names;
     }
 
     public boolean isTemporary() {
-        return isTempDir;
+        return isTemporary;
+    }
+
+    public void move(File newFile) throws IOException {
+        this.isTemporary = false;
+        this.fs.close();
+        Files.move(this.path, newFile.toPath());
+        this.path = newFile.toPath();
+        this.fs = FileSystems.newFileSystem(this.path, null);
+    }
+
+    public void sync() {
+        // http://mail.openjdk.java.net/pipermail/nio-dev/2012-July/001764.html
+        try {
+            Method m = ZipFileSystem.class.getDeclaredMethod("sync");
+            m.setAccessible(true);//Abracadabra
+            m.invoke(this.fs);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }

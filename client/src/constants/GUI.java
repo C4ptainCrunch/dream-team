@@ -5,9 +5,6 @@ import utils.Dirs;
 import java.awt.*;
 import java.util.*;
 
-/**
- * Created by nikita on 3/27/16.
- */
 public final class GUI {
     public static final class MenuBar {
         public static final String FILE_MENU = "File";
@@ -22,16 +19,19 @@ public final class GUI {
         public static final String APP_NAME = "CreaTikZ";
         public static final String OPTIONS_MENU = "Options";
         public static final String COLOR_BLIND = "ColorBlind mode";
+        public static final String EDIT_MENU = "Edit";
+        public static final String UNDO = "Undo";
+        public static final String REDO = "Redo";
     }
 
     public static final class ProjectManagement {
         public static final String CREATE_BUTTON = "Create";
         public static final String OPEN_BUTTON = "Open";
-        public static final String RENAME_BUTTON = "Rename";
+        public static final String RENAME_BUTTON = "Move project";
         public static final String CREATE_PANEL = "Choose location to create your project";
         public static final String IMPORT_PANEL = "Choose location to import your project";
         public static final String DROPDOWN_HEADER = "Choose existing project from this list" + " and press 'Open' or 'Rename'.";
-        public static final String BLANK_INFO_PANEL = "INFORMATION ABOUT SELECTED PROJECT:\nProject Name: %s"
+        public static final String BLANK_INFO_PANEL = "INFORMATION ABOUT SELECTED PROJECT:\nDiagram Name: %s"
                 + "\nUser: %s\nLast revision: %s\n";
         public static final String DIFF_TEXT = "Diff History";
     }

@@ -8,10 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-
-/**
- * Created by bambalaam on 27/04/16.
- */
 public class EditUserView extends JFrame{
 
     private EditUserController controller;

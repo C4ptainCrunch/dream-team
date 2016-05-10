@@ -2,6 +2,7 @@ package models.tikz;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,11 +29,11 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
      * the tikz code that represents the graph, which can be parsed and
      * transformed into nodes and edges objects
      *
-     * @param filePath
-     *            The file path
+     * @param sourcePath
+     *            The source path
      */
-    public TikzGraph(String filePath) throws IOException {
-        String stringGraph = new String(Files.readAllBytes(Paths.get(filePath)));
+    public TikzGraph(Path sourcePath) throws IOException {
+        String stringGraph = new String(Files.readAllBytes(sourcePath));
         NodeParser.parseDocument(this).parse(stringGraph);
     }
 
@@ -83,9 +84,9 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
      */
     public void replace(TikzGraph other) {
         List<TikzNode> oldNodes = this.getNodes();
-        oldNodes.forEach(this::remove);
-        this.addAllNodes(other.getNodes());
-        this.addAllEdges(other.getEdges());
+        oldNodes.forEach(n -> this.remove(n, false));
+        this.addAllNodes(other.getNodes(), false);
+        this.addAllEdges(other.getEdges(), false);
         setChanged();
         notifyObservers();
     }
@@ -98,12 +99,23 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
      *
      */
     public void add(TikzNode node) {
+        this.add(node, true);
+    }
+
+    /**
+     * Add a node to this graph and notifies its observer if notify
+     * @param node
+     * @param notify
+     */
+    public void add(TikzNode node, boolean notify) {
         if (!this.nodes.contains(node)) {
             nodes.add(node);
             node.addObserver(this);
             setChanged();
         }
-        notifyObservers();
+        if(notify) {
+            notifyObservers();
+        }
     }
 
     /**
@@ -113,14 +125,25 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
      *            The edge to be added
      */
     public void add(TikzEdge edge) {
-        this.add(edge.getFirstNode());
-        this.add(edge.getSecondNode());
+        this.add(edge, true);
+    }
+
+    /**
+     * Adds an edge to this graph and notifies its observers if notify
+     * @param edge
+     * @param notify
+     */
+    public void add(TikzEdge edge, boolean notify) {
+        this.add(edge.getFirstNode(), notify);
+        this.add(edge.getSecondNode(), notify);
         if (!this.edges.contains(edge)) {
             this.edges.add(edge);
             edge.addObserver(this);
             setChanged();
         }
-        notifyObservers();
+        if(notify) {
+            notifyObservers();
+        }
     }
 
     /**
@@ -142,8 +165,19 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
      *            The edges to be added
      */
     public void addAllEdges(Collection<TikzEdge> edges) {
-        edges.forEach(this::add);
-        notifyObservers();
+        this.addAllEdges(edges, true);
+    }
+
+    /**
+     * Adds a collection of edges to this graph and notifies its observers if notify
+     * @param edges
+     * @param notify
+     */
+    public void addAllEdges(Collection<TikzEdge> edges, boolean notify) {
+        edges.forEach(e -> this.add(e, false));
+        if(notify) {
+            notifyObservers();
+        }
     }
 
     /**
@@ -153,8 +187,20 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
      *            The nodes to be added
      */
     public void addAllNodes(Collection<TikzNode> nodes) {
-        nodes.forEach(this::add);
-        notifyObservers();
+        this.addAllNodes(nodes, true);
+    }
+
+    /**
+     * Adds a collection of nodes to this graph and notifies its observers if notify
+     * @param nodes
+     * @param notify
+     */
+    public void addAllNodes(Collection<TikzNode> nodes, boolean notify) {
+        nodes.forEach(n -> this.add(n, false));
+        if(notify) {
+            notifyObservers();
+        }
+
     }
 
     /**
@@ -214,40 +260,63 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
     }
 
     /**
-     * Removes the given edge from this graph
+     * Removes the given edge from this graph and notify its observer
      *
      * @param edge
      *            The edge to be deleted
      */
     public void remove(TikzEdge edge) {
+        this.remove(edge, true);
+    }
+
+    /**
+     * Removes the given edge from this graph and notify its observer if notify
+     * @param edge
+     * @param notify
+     */
+    public void remove(TikzEdge edge, boolean notify) {
         this.edges.remove(edge);
         setChanged();
-        notifyObservers();
+        if(notify) {
+            notifyObservers();
+        }
         edge.deleteObserver(this);
     }
 
     /**
      * Removes the given node from this graph. If edges are linked to the node,
-     * they are removed too
+     * they are removed too and notify its observer
      *
      * @param node
      *            The node to be removed
      * @return The edges linked to the node to be removed
      */
     public List<TikzEdge> remove(TikzNode node) {
+        return this.remove(node, true);
+    }
+
+    /**
+     * Removes the given node from this graph. If edges are linked to the node,
+     * they are removed too and notify its observer if notify
+     * @param node
+     * @param notify
+     * @return
+     */
+    public List<TikzEdge> remove(TikzNode node, boolean notify) {
         ArrayList<TikzEdge> edges = new ArrayList<>();
         for (int i = 0; i < this.edges.size(); i++) {
             TikzEdge edge = this.edges.get(i);
             if (node == edge.getFirstNode() || node == edge.getSecondNode()) {
                 edges.add(edge);
-                this.edges.remove(i);
-                edge.deleteObserver(this);
+                this.remove(edge, false);
                 i--;
             }
         }
         nodes.remove(node);
         setChanged();
-        notifyObservers();
+        if(notify) {
+            notifyObservers();
+        }
         node.deleteObserver(this);
         return edges;
     }

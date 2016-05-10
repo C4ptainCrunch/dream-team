@@ -88,7 +88,7 @@ public class MenuController implements Observer {
     public void compileAndOpen() {
         // TODO : should we move this to the model ?
         try {
-            PdfRenderer.compileAndOpen(new File(this.diagram.getProject().getDirectory() + "/tikz.pdf"), this.diagram.getGraph());
+            PdfRenderer.compileAndOpen(new File(this.diagram.getProject().getDirectory() + "/" + this.diagram.getName() + ".pdf"), this.diagram.getGraph());
         } catch (PdfCompilationError e) {
             showMessageDialog(null, "Error during compilation");
         }

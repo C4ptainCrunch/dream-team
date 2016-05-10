@@ -55,6 +55,17 @@ public class MenuView extends JMenuBar {
         exit_item.addActionListener(actionEvent -> controller.saveAndQuit(parentView));
         file_menu.add(exit_item);
 
+        JMenu edit_menu = new JMenu(GUI.MenuBar.EDIT_MENU);
+        this.add(edit_menu);
+
+        JMenuItem undo_item = new JMenuItem(GUI.MenuBar.UNDO);
+        undo_item.addActionListener(actionEvent -> project.undo());
+        edit_menu.add(undo_item);
+
+        JMenuItem redo_item = new JMenuItem(GUI.MenuBar.REDO);
+        redo_item.addActionListener(actionEvent -> project.redo());
+        edit_menu.add(redo_item);
+
         JMenu help_menu = new JMenu(GUI.MenuBar.HELP_MENU);
         this.add(help_menu);
 

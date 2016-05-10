@@ -22,6 +22,9 @@ public final class GUI {
         public static final String APP_NAME = "CreaTikZ";
         public static final String OPTIONS_MENU = "Options";
         public static final String COLOR_BLIND = "ColorBlind mode";
+        public static final String EDIT_MENU = "Edit";
+        public static final String UNDO = "Undo";
+        public static final String REDO = "Redo";
     }
 
     public static final class ProjectManagement {

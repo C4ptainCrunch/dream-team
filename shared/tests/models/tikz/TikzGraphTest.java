@@ -300,8 +300,8 @@ public class TikzGraphTest {
             TikzNode node = graph.getNodes().get(i);
             Point2D.Float p = node.getPosition();
             Point2D.Float start = starts.get(i);
-            assertEquals(start.x + dx, p.x);
-            assertEquals(start.y + dy, p.y);
+            assertEquals(start.x + dx, p.x, 0.01);
+            assertEquals(start.y + dy, p.y, 0.01);
         }
     }
 
@@ -336,7 +336,7 @@ public class TikzGraphTest {
         graph.addAllNodes(nodes);
         graph.addAllEdges(edges);
 
-        String expectedString = "\\documentclass{article}\n" + "\\usepackage{tikz}\n" + "\\begin{document}\n"
+        String expectedString = "\\documentclass{article}\n" + "\\usepackage{tikz}\n" + "\\usetikzlibrary{shapes.geometric}\n" + "\\begin{document}\n"
                 + "\\begin{tikzpicture}[x=0.0625em,y=0.0625em]\n" + "\\node[circle, draw](a) at (0,0){};\n"
                 + "\\node[circle, draw](b) at (0,1){};\n" + "\\node[circle, draw](c) at (0,2){};\n" + "\\node[circle, draw](d) at (0,3){};\n"
                 + "\\draw[] (a) -- (b);\n" + "\\draw[] (b) -- (c);\n" + "\\draw[] (c) -- (d);\n" + "\\end{tikzpicture}\n"

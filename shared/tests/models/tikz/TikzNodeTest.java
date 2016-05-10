@@ -46,7 +46,7 @@ public class TikzNodeTest {
         tikzNode.setPosition(new Point2D.Float(start.x, start.y));
         tikzNode.translate(dx, dy);
 
-        assertEquals(start.x + dx, tikzNode.getPosition().x);
-        assertEquals(start.y + dy, tikzNode.getPosition().y);
+        assertEquals(start.x + dx, tikzNode.getPosition().x, 0.01);
+        assertEquals(start.y + dy, tikzNode.getPosition().y, 0.01);
     }
 }

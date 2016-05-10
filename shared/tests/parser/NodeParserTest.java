@@ -14,11 +14,11 @@ import org.junit.Test;
 
 public class NodeParserTest {
     @Test
-    public void testDecimal() throws Exception {
-        Assert.assertEquals(NodeParser.decimal().parse("-457"), new Integer(-457));
-        Assert.assertEquals(NodeParser.decimal().parse("457"), new Integer(457));
-        Assert.assertEquals(NodeParser.decimal().parse("-457.97"), new Integer(-458));
-        Assert.assertEquals(NodeParser.decimal().parse("457.97"), new Integer(458));
+    public void testNumber() throws Exception {
+        Assert.assertEquals(NodeParser.number().parse("-457"), new Float(-457));
+        Assert.assertEquals(NodeParser.number().parse("457"), new Float(457));
+        Assert.assertEquals(NodeParser.number().parse("-457.97"), new Float(-457.97));
+        Assert.assertEquals(NodeParser.number().parse("457.97"), new Float(457.97));
     }
 
     @org.junit.Test
@@ -47,11 +47,11 @@ public class NodeParserTest {
     @Test
     public void testNodeFromDraw() throws Exception {
         Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node [draw] {a}").toString(),
-                "Coordinates: java.awt.Point2D.Float[x=0,y=0], Options: {draw=}, Label: a");
+                "Coordinates: Point2D.Float[0.0, 0.0], Options: {draw=}, Label: a");
         Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node {a}").toString(),
-                "Coordinates: java.awt.Point2D.Float[x=0,y=0], Options: {}, Label: a");
+                "Coordinates: Point2D.Float[0.0, 0.0], Options: {}, Label: a");
         Assert.assertEquals(NodeParser.nodeFromDraw().parse("(0,0) node[circle split, hello] {}").toString(),
-                "Coordinates: java.awt.Point2D.Float[x=0,y=0], Options: {hello=, circle split=}, Label: ");
+                "Coordinates: Point2D.Float[0.0, 0.0], Options: {hello=, circle split=}, Label: ");
     }
 
     @Test

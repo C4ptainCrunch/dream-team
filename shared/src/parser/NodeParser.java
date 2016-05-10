@@ -46,14 +46,14 @@ public class NodeParser {
     }
 
     /**
-     * Parses a decimal number
+     * Parses a number number
      * 
      * @return a parser object containing the parsed integer
      */
-    public static Parser<Integer> decimal() {
+    public static Parser<Float> number() {
         return Parsers.sequence(Scanners.string("-").optional().source(),
                 MAYBEWHITESPACES.next(Terminals.DecimalLiteral.TOKENIZER).source(),
-                (minus, nums) -> Math.round(Float.parseFloat(minus + nums)));
+                (minus, nums) -> Float.parseFloat(minus + nums));
     }
 
     /**
@@ -117,7 +117,7 @@ public class NodeParser {
      */
     public static Parser<Point2D.Float> coordinates() {
         final Parser<Void> sep = Parsers.sequence(MAYBEWHITESPACES, Scanners.isChar(','), MAYBEWHITESPACES);
-        final Parser<Point2D.Float> coord = Parsers.sequence(decimal(), sep.next(decimal()), Point2D.Float::new);
+        final Parser<Point2D.Float> coord = Parsers.sequence(number(), sep.next(number()), Point2D.Float::new);
         return Parsers.between(Scanners.isChar('('), coord, Scanners.isChar(')'));
     }
 

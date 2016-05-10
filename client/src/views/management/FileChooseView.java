@@ -5,6 +5,7 @@ import utils.Dirs;
 import java.io.File;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class FileChooseView extends JPanel {
     JFileChooser chooser;
@@ -22,5 +23,10 @@ public class FileChooseView extends JPanel {
         } else {
             return null;
         }
+    }
+
+    public void setFileRestriction(String fileType, String fileExtension) {
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(fileType, fileExtension);
+        chooser.setFileFilter(filter);
     }
 }

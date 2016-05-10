@@ -63,12 +63,18 @@ public class Project {
     public Set<String> getDiagramNames() {
         Set<String> names = new HashSet<>();
 
-        for(Path p :fs.getRootDirectories()) {
-            String name = p.getFileName().toString();
-            if (name.indexOf(".") > 0){
-                name = name.substring(0, name.lastIndexOf("."));
+        Iterable<Path> dirs = fs.getRootDirectories();
+
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dirs.iterator().next())) {
+            for (Path file: stream) {
+                String name = file.getFileName().toString();
+                if (name.indexOf(".") > 0){
+                    name = name.substring(0, name.lastIndexOf("."));
+                }
+                names.add(name);
             }
-            names.add(name);
+        } catch (IOException | DirectoryIteratorException e) {
+            e.printStackTrace();
         }
 
         return names;

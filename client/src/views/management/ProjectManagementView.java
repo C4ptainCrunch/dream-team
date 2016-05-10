@@ -37,14 +37,18 @@ public class ProjectManagementView extends JFrame {
         JButton create = new JButton(GUI.ProjectManagement.CREATE_BUTTON);
         create.addActionListener(e -> controller.createProject());
 
-        JButton open = new JButton(GUI.ProjectManagement.OPEN_BUTTON);
-        open.addActionListener(e -> controller.openProject());
+        JButton openRecentDiagram = new JButton(GUI.ProjectManagement.OPEN_RECENT_BUTTON);
+        openRecentDiagram.addActionListener(e -> controller.openRecentDiagram());
+
+        JButton openProject = new JButton(GUI.ProjectManagement.OPEN_PROJECT_BUTTON);
+        openProject.addActionListener(e -> controller.openProjects());
 
         JButton rename = new JButton(GUI.ProjectManagement.RENAME_BUTTON);
         rename.addActionListener(e -> controller.moveProject());
 
         buttons.add(create);
-        buttons.add(open);
+        buttons.add(openRecentDiagram);
+        buttons.add(openProject);
         buttons.add(rename);
 
         this.add(buttons, BorderLayout.NORTH);

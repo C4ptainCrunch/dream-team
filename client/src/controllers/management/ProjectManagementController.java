@@ -2,6 +2,7 @@ package controllers.management;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.swing.*;
@@ -61,7 +62,7 @@ public class ProjectManagementController {
     }
 
 
-    public void openProject() {
+    public void openRecentDiagram() {
         Diagram diagram = view.getSelectedProject();
         if (diagram != null) {
             try {
@@ -70,6 +71,20 @@ public class ProjectManagementController {
                 JOptionPane.showMessageDialog(view, Errors.OPEN_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
                 logger.severe("Failed to open the diagram: " + e.getMessage());
             }
+        }
+    }
+
+    public void openProjects(){
+
+        FileChooseView choose = new FileChooseView("Select project", JFileChooser.FILES_ONLY);
+        choose.setFileRestriction("Archive files","zip");
+        File projectFile = choose.ask();
+        try {
+            Project currentProject = new Project(projectFile.toPath());
+            Set<String> diagramNames = currentProject.getDiagramNames();
+            System.out.println(diagramNames.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

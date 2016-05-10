@@ -61,6 +61,19 @@ public class ProjectManagementController {
         } catch (IOException e) {}
     }
 
+
+    public void openRecentDiagram() {
+        Diagram diagram = view.getSelectedProject();
+        if (diagram != null) {
+            try {
+                editProject(diagram);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(view, Errors.OPEN_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
+                logger.severe("Failed to open the diagram: " + e.getMessage());
+            }
+        }
+    }
+
     public void openProjects(){
 
         FileChooseView choose = new FileChooseView("Select project", JFileChooser.FILES_ONLY);

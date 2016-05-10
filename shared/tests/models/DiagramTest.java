@@ -16,10 +16,7 @@ import models.project.Project;
 import models.tikz.TikzCircle;
 import models.tikz.TikzGraph;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 
 public class DiagramTest {
@@ -108,7 +105,9 @@ public class DiagramTest {
 
     @Test
     public void testRename() throws Exception {
-        // TODO
+        Diagram d = new Diagram("my-dia", project);
+        d.rename("my-new-dia");
+        assertEquals(d.getName(), "my-new-dia");
     }
 
     @Test
@@ -132,6 +131,17 @@ public class DiagramTest {
         assertEquals(d2, dia.getLastChange());
     }
 
+    @Test
+    public void testGetProject() throws Exception{
+        Diagram d = new Diagram("", project);
+        assertEquals(d.getProject(), project);
+    }
+
+    @Test
+    public void testIsTemporary() throws Exception{
+        Diagram d = new Diagram("", project);
+        assertEquals(d.isTemporary(), project.isTemporary());
+    }
 
     @Test
     public void testGetDiffs() throws Exception {

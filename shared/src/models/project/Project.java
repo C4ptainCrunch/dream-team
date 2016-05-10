@@ -129,6 +129,7 @@ public class Project extends TikzIO implements Comparable<Project> {
         this.writeDiffs(diffs);
         super.writeTikz(this.graph.toString(), this.getTikzPath());
         RecentProjects.addProject(this);
+        redoList = new ArrayList<>();
     }
 
     /**

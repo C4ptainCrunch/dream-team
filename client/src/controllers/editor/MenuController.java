@@ -65,8 +65,8 @@ public class MenuController implements Observer {
     public void save() {
         try {
             if(this.diagram.isTemporary()){
-                // TODO andré : choisir un nom
-                this.diagram.rename("Nouveau_nom");
+                String diagramName = this.view.getDiagramName();
+                this.diagram.rename(diagramName);
                 this.diagram.save();
                 boolean addToExistingProject = false;
                 if(addToExistingProject){

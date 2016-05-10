@@ -70,6 +70,11 @@ public class MenuView extends JMenuBar {
         options_menu.add(color_blind_mode_item);
     }
 
+    public String getDiagramName() {
+        String path = JOptionPane.showInputDialog("Enter a diagram name");
+        return path;
+    }
+
     /**
      * Calls the saveAndQuit function of the controller of this view. This will saveAndQuit
      * the tikz text into a file in the current diagram's file

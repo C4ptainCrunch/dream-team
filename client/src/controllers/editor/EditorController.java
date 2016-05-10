@@ -10,6 +10,7 @@ import javax.swing.*;
 import constants.GUI;
 import models.project.Diagram;
 import utils.Log;
+import utils.RecentProjects;
 import views.editor.EditorView;
 import constants.Errors;
 
@@ -37,6 +38,11 @@ public class EditorController implements Observer {
         this.diagram = diagram;
         this.diagram.getGraph().addObserver(this);
         this.diagram.addObserver(this);
+        try {
+            RecentProjects.addProject(this.diagram.getProject());
+        } catch (IOException e) {
+            logger.warning("Failed to add the project to the recent list: " + e.toString());
+        }
     }
 
     public void update(Observable o, Object arg) {

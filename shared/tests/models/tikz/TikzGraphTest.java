@@ -337,7 +337,7 @@ public class TikzGraphTest {
         graph.addAllEdges(edges);
 
         String expectedString = "\\documentclass{article}\n" + "\\usepackage{tikz}\n" + "\\usetikzlibrary{shapes.geometric}\n" + "\\begin{document}\n"
-                + "\\begin{tikzpicture}[x=0.0625em,y=0.0625em]\n" + "\\node[circle, draw](a) at (0.000,0.000){};\n"
+                + "\\begin{tikzpicture}\n" + "\\node[circle, draw](a) at (0.000,0.000){};\n"
                 + "\\node[circle, draw](b) at (0.000,1.000){};\n" + "\\node[circle, draw](c) at (0.000,2.000){};\n" + "\\node[circle, draw](d) at (0.000,3.000){};\n"
                 + "\\draw[] (a) -- (b);\n" + "\\draw[] (b) -- (c);\n" + "\\draw[] (c) -- (d);\n" + "\\end{tikzpicture}\n"
                 + "\\end{document}\n";

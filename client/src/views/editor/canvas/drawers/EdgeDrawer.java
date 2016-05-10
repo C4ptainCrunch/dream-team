@@ -2,6 +2,7 @@ package views.editor.canvas.drawers;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
@@ -37,10 +38,10 @@ public abstract class EdgeDrawer extends ComponentDrawer {
      * @param panel the panel on which the edge is drawn
      * @return the swing from point of the edge
      */
-    public Point fromPosition(TikzEdge edge, JComponent panel) {
-        Point start;
+    public Point2D.Float fromPosition(TikzEdge edge, JComponent panel) {
+        Point2D.Float start;
         if (edge.getFirstNode() == null || edge.getSecondNode() == null) {
-            start = Converter.tikz2swing(new Point(-Models.DEFAULT.EDGE_X_LENGTH / 2, 0), panel);
+            start = Converter.tikz2swing(new Point2D.Float(-Models.DEFAULT.EDGE_X_LENGTH / 2, 0), panel);
         } else {
             // Get closest anchor
             start = Drawer.closestAnchor(edge.getFirstNode(), edge.getToPosition(), panel);
@@ -57,10 +58,10 @@ public abstract class EdgeDrawer extends ComponentDrawer {
      * @param panel the panel on which the edge is drawn
      * @return the swing to point of the edge
      */
-    public Point toPosition(TikzEdge edge, JComponent panel) {
-        Point end;
+    public Point2D.Float toPosition(TikzEdge edge, JComponent panel) {
+        Point2D.Float end;
         if (edge.getFirstNode() == null || edge.getSecondNode() == null) {
-            end = Converter.tikz2swing(new Point(Models.DEFAULT.EDGE_X_LENGTH / 2, 0), panel);
+            end = Converter.tikz2swing(new Point2D.Float(Models.DEFAULT.EDGE_X_LENGTH / 2, 0), panel);
         } else {
             end = Drawer.closestAnchor(edge.getSecondNode(), edge.getFromPosition(), panel);
         }

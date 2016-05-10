@@ -27,7 +27,7 @@ public class Project extends TikzIO implements Comparable<Project> {
     private Path path;
     private boolean isTempDir = false;
     private List<Diff> redoList = new ArrayList<>();
-
+    private boolean undoRedoFlag = false;
 
 
     /**
@@ -104,6 +104,9 @@ public class Project extends TikzIO implements Comparable<Project> {
      *             when the diff file is corrupted
      */
     public void save() throws IOException, ClassNotFoundException {
+        if(undoRedoFlag){
+            return;
+        }
         if(!Files.exists(this.path)){
             this.path.toFile().mkdirs();
         }
@@ -298,6 +301,7 @@ public class Project extends TikzIO implements Comparable<Project> {
 
 
     private void apply_patch (Diff last) {
+        undoRedoFlag = true;
         DiffMatchPatch undo = new DiffMatchPatch();
         final List<DiffMatchPatch.Patch> patches = undo.patchFromText(last.getPatch());
         String original = this.graph.toString();
@@ -308,6 +312,7 @@ public class Project extends TikzIO implements Comparable<Project> {
 
 
         this.graph.replace(reversed);
+        undoRedoFlag = false;
     }
 
     private void write_applier (List<Diff> diffs){

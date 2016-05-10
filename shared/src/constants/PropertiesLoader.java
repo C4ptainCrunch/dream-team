@@ -16,7 +16,7 @@ import static constants.Network.*;
  */
 
 public class PropertiesLoader {
-    private static final String CREATIKZ_PROPERTIES_FILENAME = "creatikz.properties";
+    private static final String MODELS_PROPERTIES_FILENAME = "models.properties";
     private static final String NETWORK_PROPERTIES_FILENAME = "network.properties";
     private static final String UTILS_PROPERTIES_FILENAME = "utils.properties";
 
@@ -38,13 +38,13 @@ public class PropertiesLoader {
     }
 
     public static void loadAll(){
-        loadCreatikzProperties();
+        loadModelsProperties();
         loadNetworkProperties();
         loadUtilsProperties();
     }
 
-    public static void loadCreatikzProperties(){
-        load(CREATIKZ_PROPERTIES_FILENAME, new CreatikzPropertiesReader());
+    public static void loadModelsProperties(){
+        load(MODELS_PROPERTIES_FILENAME, new ModelsPropertiesReader());
     }
 
     public static void loadNetworkProperties(){
@@ -59,7 +59,7 @@ interface PropertiesReader{
     public void read(Properties properties);
 }
 
-class CreatikzPropertiesReader implements PropertiesReader{
+class ModelsPropertiesReader implements PropertiesReader{
     @Override
     public void read(Properties properties){
         DEFAULT.STROKE = Integer.valueOf(properties.getProperty("DEFAULT_STROKE_WIDTH"));

@@ -2,6 +2,7 @@ package models.project;
 
 import com.sun.nio.zipfs.ZipFileSystem;
 import jdk.nashorn.internal.ir.Node;
+import utils.RecentProjects;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -61,6 +62,7 @@ public class Project implements Comparable<Project>{
         Path newDiff = this.fs.getPath("/" + newName + ".diff");
         Files.move(this.getDiagramDiff(oldName), newDiff);
 
+        RecentProjects.addProject(this);
         this.sync();
     }
 
@@ -94,6 +96,7 @@ public class Project implements Comparable<Project>{
         Files.move(this.path, newFile.toPath());
         this.path = newFile.toPath();
         this.fs = FileSystems.newFileSystem(this.path, null);
+        RecentProjects.addProject(this);
     }
 
     public void sync() {

@@ -12,6 +12,7 @@ import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import parser.NodeParser;
 import utils.DiffUtil;
 import utils.Log;
+import utils.RecentProjects;
 
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
@@ -108,6 +109,7 @@ public class Diagram extends Observable{
 
         redoList = new ArrayList<>();
 
+        RecentProjects.addProject(this.getProject());
         this.project.sync();
     }
 
@@ -128,6 +130,7 @@ public class Diagram extends Observable{
         this.setChanged();
         this.notifyObservers();
         this.project.sync();
+        RecentProjects.addProject(this.getProject());
     }
 
     /**
@@ -277,7 +280,7 @@ public class Diagram extends Observable{
         try {
             this.writeDiffs(diffs);
             this.writeTikz(this.graph.toString());
-            //RecentProjects.addProject(this);
+            RecentProjects.addProject(this.getProject());
         } catch (IOException e) {
             logger.warning("Couldn't save new diff history: " + e.toString());
         }

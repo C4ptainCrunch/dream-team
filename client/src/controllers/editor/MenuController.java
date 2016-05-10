@@ -68,14 +68,10 @@ public class MenuController implements Observer {
                 // TODO andré : choisir un nom
                 this.diagram.rename("Nouveau_nom");
                 this.diagram.save();
-                boolean addToExistingProject = false;
-                if(addToExistingProject){
-                    // TODO nikita
-                } else {
-                    File newDir = new FileChooseView("Save diagram", JFileChooser.DIRECTORIES_ONLY).ask();
-                    if(newDir != null){
-                        this.diagram.getProject().move(newDir);
-                    }
+
+                File newDir = new FileChooseView("Save diagram", JFileChooser.DIRECTORIES_ONLY).ask();
+                if(newDir != null){
+                    this.diagram.getProject().move(newDir);
                 }
             }
             this.diagram.save();

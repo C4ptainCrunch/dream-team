@@ -102,4 +102,8 @@ public class Project {
             e.printStackTrace();
         }
     }
+
+    public Path getPath() {
+        return path;
+    }
 }

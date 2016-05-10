@@ -32,7 +32,7 @@ public class ClientPropertiesLoader extends PropertiesLoader {
 }
 
 class ErrorsPropertiesReader implements PropertiesReader{
-    
+
     @Override
     public void read(Properties properties){
         ERROR = properties.getProperty("ERROR");

@@ -81,7 +81,7 @@ public final class GUI {
 
     }
 
-    public static final class Config {
+    public static final class Drawing {
         public static final double ARROW_LENGTH = 30;
         public static final double ARROW_ANGLE = Math.PI / 6;
     }

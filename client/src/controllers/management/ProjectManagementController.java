@@ -1,14 +1,12 @@
 package controllers.management;
 
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.logging.Logger;
 
 import javax.swing.*;
 
-import models.project.Project;
+import models.project.Diagram;
 import models.project.RecentProjects;
 import utils.Log;
 import views.editor.EditorView;
@@ -25,10 +23,10 @@ public class ProjectManagementController {
         this.view = view;
     }
 
-    public void editProject(Project project) throws IOException {
-        RecentProjects.addProject(project);
+    public void editProject(Diagram diagram) throws IOException {
+        RecentProjects.addProject(diagram);
 
-        java.awt.EventQueue.invokeLater(() -> new EditorView(project));
+        java.awt.EventQueue.invokeLater(() -> new EditorView(diagram));
         view.dispose(); // Exit previous windows
     }
 
@@ -38,15 +36,15 @@ public class ProjectManagementController {
      * @param comboBox
      */
     public void dropdownSelected(JComboBox comboBox) {
-        Project selectedProject = (Project) comboBox.getSelectedItem();
-        if(selectedProject == null){
+        Diagram selectedDiagram = (Diagram) comboBox.getSelectedItem();
+        if(selectedDiagram == null){
             return;
         }
-        logger.info(selectedProject.toString());
+        logger.info(selectedDiagram.toString());
 
         try {
-            String text = String.format(ProjectManagement.BLANK_INFO_PANEL, selectedProject.getName(), "Local",
-                    selectedProject.getLastChange().toString());
+            String text = String.format(ProjectManagement.BLANK_INFO_PANEL, selectedDiagram.getName(), "Local",
+                    selectedDiagram.getLastChange().toString());
             this.view.setInfoText(text);
         } catch (IOException | ClassNotFoundException e) {
             logger.severe("Error while reading the diff file: " + e.toString());
@@ -58,37 +56,37 @@ public class ProjectManagementController {
      */
     public void createProject() {
         try {
-            editProject(new Project());
+            editProject(new Diagram());
         } catch (IOException e) {}
     }
 
 
     public void openProject() {
-        Project project = view.getSelectedProject();
-        if (project != null) {
+        Diagram diagram = view.getSelectedProject();
+        if (diagram != null) {
             try {
-                editProject(project);
+                editProject(diagram);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(view, Errors.OPEN_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
-                logger.severe("Failed to open the project: " + e.getMessage());
+                logger.severe("Failed to open the diagram: " + e.getMessage());
             }
         }
     }
 
     public void renameProject() {
-        Project project = view.getSelectedProject();
-        if (project == null) {
+        Diagram diagram = view.getSelectedProject();
+        if (diagram == null) {
             return;
         }
 
-        FileChooseView choose = new FileChooseView("Rename project", JFileChooser.DIRECTORIES_ONLY);
+        FileChooseView choose = new FileChooseView("Rename diagram", JFileChooser.DIRECTORIES_ONLY);
         File path = choose.ask();
         if (path != null) {
             try {
-                project.rename(path);
+                diagram.rename(path);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(view, Errors.RENAME_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
-                logger.severe("Failed to rename the project: " + e.getMessage());
+                logger.severe("Failed to rename the diagram: " + e.getMessage());
             }
         }
     }

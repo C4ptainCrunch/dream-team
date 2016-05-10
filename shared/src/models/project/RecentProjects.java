@@ -21,8 +21,8 @@ public class RecentProjects {
         return Dirs.getDataDir().resolve(Paths.get("recent.paths"));
     }
 
-    public static SortedSet<Project> getRecentProjects() {
-        TreeSet<Project> projects = new TreeSet<>();
+    public static SortedSet<Diagram> getRecentProjects() {
+        TreeSet<Diagram> diagrams = new TreeSet<>();
 
         Path recentProjectsPath = getFilePath();
         FileReader fileReader;
@@ -31,38 +31,38 @@ public class RecentProjects {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                Project p = new Project(Paths.get(line));
+                Diagram p = new Diagram(Paths.get(line));
                 if(p.exists()){
-                    projects.add(p);
+                    diagrams.add(p);
                 }
             }
             bufferedReader.close();
         } catch (IOException e) {
-            logger.info("Failed to read recent projects file");
-            return projects;
+            logger.info("Failed to read recent diagrams file");
+            return diagrams;
         }
 
-        return projects;
+        return diagrams;
     }
 
-    public static void addProject(Project project) throws IOException {
-        if(!project.isTemporary()) {
-            SortedSet<Project> projects = getRecentProjects();
+    public static void addProject(Diagram diagram) throws IOException {
+        if(!diagram.isTemporary()) {
+            SortedSet<Diagram> diagrams = getRecentProjects();
 
-            // Add the project to the end (and don't have it twice in the list)
-            projects.remove(project);
-            projects.add(project);
+            // Add the diagram to the end (and don't have it twice in the list)
+            diagrams.remove(diagram);
+            diagrams.add(diagram);
 
-            writeToDisk(projects);
+            writeToDisk(diagrams);
         }
     }
 
-    private static void writeToDisk(SortedSet<Project> projects) throws IOException {
+    private static void writeToDisk(SortedSet<Diagram> diagrams) throws IOException {
         Files.createDirectories(getFilePath().getParent());
         FileWriter fw = new FileWriter(getFilePath().toFile());
         BufferedWriter bw = new BufferedWriter(fw);
 
-        List<String> projectPaths = projects.stream().map(Project::getPath).map(Object::toString).collect(Collectors.toList());
+        List<String> projectPaths = diagrams.stream().map(Diagram::getPath).map(Object::toString).collect(Collectors.toList());
         String txt = String.join(System.lineSeparator(), projectPaths);
 
         bw.write(txt);

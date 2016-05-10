@@ -2,7 +2,7 @@
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import models.project.Project;
+import models.project.Diagram;
 import utils.Log;
 import views.accounts.LoginWindowView;
 import views.editor.EditorView;
@@ -16,7 +16,7 @@ public class Main {
             logger.info("Skip to the editor");
             java.awt.EventQueue.invokeLater(() -> {
                 try {
-                    new EditorView(new Project());
+                    new EditorView(new Diagram());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

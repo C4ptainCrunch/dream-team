@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import models.project.Diagram;
 import models.project.Diff;
-import models.project.Project;
 import models.tikz.TikzCircle;
 import models.tikz.TikzGraph;
 
@@ -20,14 +20,14 @@ import org.junit.rules.TemporaryFolder;
 
 import constants.Models;
 
-public class ProjectTest {
+public class DiagramTest {
 
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
 
-    private Project getEmptyProject() throws IOException {
+    private Diagram getEmptyProject() throws IOException {
         File path = new File(folder.getRoot(), "my-project");
-        return new Project(path.toPath());
+        return new Diagram(path.toPath());
     }
 
     @Test
@@ -36,7 +36,7 @@ public class ProjectTest {
         folder.newFile(Models.Project.DIFF_FILE);
         Path path = Paths.get(save.getParent());
 
-        Project p = new Project(path);
+        Diagram p = new Diagram(path);
         assertEquals(p.getPath(), path);
     }
 
@@ -45,7 +45,7 @@ public class ProjectTest {
         File path = new File(folder.getRoot(), "my-project");
         assertFalse(path.exists());
 
-        Project p = new Project(path.toPath());
+        Diagram p = new Diagram(path.toPath());
         assertFalse(path.exists());
         p.save();
 
@@ -55,7 +55,7 @@ public class ProjectTest {
 
     @Test
     public void testToString() throws Exception {
-        Project p = getEmptyProject();
+        Diagram p = getEmptyProject();
         assertEquals(p.toString(), "my-project");
     }
 
@@ -66,7 +66,7 @@ public class ProjectTest {
         writer.print("\\node[circle, draw]() at (0,0) {test-label}");
         writer.close();
 
-        Project p = new Project(folder.getRoot().toPath());
+        Diagram p = new Diagram(folder.getRoot().toPath());
 
         assertEquals(p.getGraph().getNodes().size(), 1);
 
@@ -74,20 +74,20 @@ public class ProjectTest {
 
     @Test
     public void testGetPath() throws Exception {
-        Project p = getEmptyProject();
+        Diagram p = getEmptyProject();
         assertEquals(p.getPath().toString(), new File(folder.getRoot(), "my-project").getPath());
     }
 
     @Test
     public void testGetRevisionPath() throws Exception {
         File path = new File(folder.getRoot(), "my-project");
-        Project p = getEmptyProject();
+        Diagram p = getEmptyProject();
         assertEquals(p.getRevisionPath(), new File(path, Models.Project.DIFF_FILE).toPath());
     }
 
     @Test
     public void testGetName() throws Exception {
-        Project p = getEmptyProject();
+        Diagram p = getEmptyProject();
         assertEquals(p.getName(), "my-project");
     }
 
@@ -104,7 +104,7 @@ public class ProjectTest {
         writer.print(tikz);
         writer.close();
 
-        Project p = new Project(folder.getRoot().toPath());
+        Diagram p = new Diagram(folder.getRoot().toPath());
         TikzGraph g = p.getGraph();
         g.add(new TikzCircle(10));
 
@@ -114,14 +114,14 @@ public class ProjectTest {
 
     @Test
     public void testGetTikzPath() throws Exception {
-        Project p = getEmptyProject();
+        Diagram p = getEmptyProject();
         File projectPath = new File(folder.getRoot(), "my-project");
         assertEquals(p.getTikzPath().toString(), new File(projectPath, Models.Project.SAVE_FILE).toString());
     }
 
     @Test
     public void testGetDiffPath() throws Exception {
-        Project p = getEmptyProject();
+        Diagram p = getEmptyProject();
         File projectPath = new File(folder.getRoot(), "my-project");
         assertEquals(p.getDiffPath().toString(), new File(projectPath, Models.Project.DIFF_FILE).toString());
     }
@@ -133,7 +133,7 @@ public class ProjectTest {
 
     @Test
     public void testGetLastChange() throws Exception {
-        Project p = getEmptyProject();
+        Diagram p = getEmptyProject();
         p.save();
 
         List<Diff> diffs = new ArrayList<>();
@@ -150,22 +150,22 @@ public class ProjectTest {
 
     @Test
     public void testCompareToSame() throws Exception {
-        Project p1 = new Project(Paths.get("abc"));
-        Project p2 = new Project(Paths.get("abc"));
+        Diagram p1 = new Diagram(Paths.get("abc"));
+        Diagram p2 = new Diagram(Paths.get("abc"));
         assertEquals(p1.compareTo(p2), 0);
     }
 
     @Test
     public void testCompareToDifferent() throws Exception {
-        Project p1 = new Project(Paths.get("abc"));
-        Project p2 = new Project(Paths.get("def"));
+        Diagram p1 = new Diagram(Paths.get("abc"));
+        Diagram p2 = new Diagram(Paths.get("def"));
         assertTrue(p1.compareTo(p2) < 0);
         assertTrue(p2.compareTo(p1) > 0);
     }
 
     @Test
     public void testGetDiffs() throws Exception {
-        Project p = getEmptyProject();
+        Diagram p = getEmptyProject();
         p.save();
         List<Diff> diffs = new ArrayList<>();
         diffs.add(new Diff(new Date(0), "diff one"));
@@ -183,7 +183,7 @@ public class ProjectTest {
 
     @Test
     public void testWriteDiffs() throws Exception {
-        Project p = getEmptyProject();
+        Diagram p = getEmptyProject();
         p.save();
 
         List<Diff> diffs = new ArrayList<>();

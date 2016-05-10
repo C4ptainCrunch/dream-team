@@ -12,29 +12,28 @@ import java.util.logging.Logger;
 import models.tikz.TikzGraph;
 import utils.DiffUtil;
 import utils.Log;
-import constants.Models;
 
 /**
  * This class represents a single project created by a user. A project consists
  * of a tikz graph and a file path containing the specific files (save, diffs
  * ..) for this project
  */
-public class Project extends TikzIO implements Comparable<Project> {
-    private final static Logger logger = Log.getLogger(Project.class);
+public class Diagram extends TikzIO implements Comparable<Diagram> {
+    private final static Logger logger = Log.getLogger(Diagram.class);
     private Path path;
     private boolean isTempDir = false;
 
 
 
     /**
-     * Constructs a new Project with a given file path. The project must have
+     * Constructs a new Diagram with a given file path. The project must have
      * been already created in order to use this constructor.
      *
      * @param path
      *            The file path
      * @throws IOException
      */
-    public Project(Path path) {
+    public Diagram(Path path) {
         super();
         this.path = path;
         try {
@@ -45,7 +44,7 @@ public class Project extends TikzIO implements Comparable<Project> {
         }
     }
 
-    public Project() throws IOException {
+    public Diagram() throws IOException {
         super();
         this.graph = new TikzGraph();
         this.path = Files.createTempDirectory(null);
@@ -209,7 +208,7 @@ public class Project extends TikzIO implements Comparable<Project> {
     }
 
     /**
-     * Compares this Project with the given Project for order (uses the path for
+     * Compares this Diagram with the given Diagram for order (uses the path for
      * comparison).
      *
      * @param other
@@ -217,7 +216,7 @@ public class Project extends TikzIO implements Comparable<Project> {
      * @return The order
      */
     @Override
-    public int compareTo(Project other) {
+    public int compareTo(Diagram other) {
         return this.getPath().compareTo(other.getPath());
     }
 

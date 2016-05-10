@@ -9,12 +9,11 @@ import views.editor.CanvasView;
 import constants.GUI;
 
 /**
- * Created by aurelien on 15/04/16.
+ * Create a Transferable Object from the source that will be retrieved by
+ * the destination.
  */
-public class CanvasTransferHandler extends TikzTransferHandler {
 
-    // Create a Transferable Object from the source that will be retrieved by
-    // the destination.
+public class CanvasTransferHandler extends TikzTransferHandler {
 
     @Override
     protected Transferable createTransferable(JComponent c) {

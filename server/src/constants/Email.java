@@ -1,8 +1,5 @@
 package constants;
 
-/**
- * Created by bambalaam on 26/04/16.
- */
 public final class Email {
 
     public static final String subjectLine = "Account confirmation token.";

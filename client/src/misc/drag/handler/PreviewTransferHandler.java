@@ -8,9 +8,6 @@ import misc.drag.transferable.PreviewTransferableTikz;
 import views.editor.toolbox.PreviewView;
 import constants.GUI;
 
-/**
- * Created by aurelien on 15/04/16.
- */
 public class PreviewTransferHandler extends TikzTransferHandler {
 
     protected Transferable createTransferable(JComponent c) {

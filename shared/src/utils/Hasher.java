@@ -6,9 +6,6 @@ import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-/**
- * Created by nikita on 4/27/16.
- */
 public class Hasher {
     private static final int ITERATIONS = 1000;
     private static final int KEY_LENGTH = 192; // bits

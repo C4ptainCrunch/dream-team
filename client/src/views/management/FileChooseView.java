@@ -16,6 +16,10 @@ public class FileChooseView extends JPanel {
         chooser.setFileSelectionMode(selectionMode);
     }
 
+    /**
+     * Request a specific file
+     * @return The requested file
+     */
     public File ask() {
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             return chooser.getSelectedFile();

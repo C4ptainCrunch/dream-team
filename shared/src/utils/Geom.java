@@ -2,9 +2,6 @@ package utils;
 
 import java.awt.*;
 
-/**
- * Created by jhellinckx on 26/04/16.
- */
 public class Geom {
     /**
      * Computes the euclidean distance between the two points

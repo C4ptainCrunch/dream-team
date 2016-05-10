@@ -16,6 +16,9 @@ public class ProjectManagementView extends JFrame {
         this.render();
     }
 
+    /**
+     * Render the main window and launch functions to build its' components.
+     */
     public final void render() {
         this.setTitle("TikzCreator : choose a project");
         this.setPreferredSize(new Dimension(900, 200));
@@ -79,10 +82,18 @@ public class ProjectManagementView extends JFrame {
         this.add(this.infoPanel, BorderLayout.EAST);
     }
 
+    /**
+     * Fetch the selected diagram
+     * @return The selected diagram
+     */
     public Diagram getSelectedProject() {
         return (Diagram) this.projectChooser.getSelectedItem();
     }
 
+    /**
+     * Sets the information from the selected diagram in the info panel
+     * @param infoText The selected diagram's information
+     */
     public void setInfoText(String infoText) {
         this.infoPanel.setText(infoText);
     }

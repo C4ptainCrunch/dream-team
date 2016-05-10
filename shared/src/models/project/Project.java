@@ -47,10 +47,10 @@ public class Project {
     }
 
     public void renameDiagram(String oldName, String newName) throws IOException {
-        Path newSource = Paths.get("/" + newName + ".tikz");
+        Path newSource = this.fs.getPath("/" + newName + ".tikz");
         Files.move(this.getDiagramSource(oldName), newSource);
 
-        Path newDiff = Paths.get("/" + newName + ".diff");
+        Path newDiff = this.fs.getPath("/" + newName + ".diff");
         Files.move(this.getDiagramDiff(oldName), newDiff);
     }
 

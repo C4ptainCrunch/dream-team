@@ -51,8 +51,6 @@ public class Project {
     }
 
     public void renameDiagram(String oldName, String newName) throws IOException {
-        this.sync();
-
         Path newSource = this.fs.getPath("/" + newName + ".tikz");
         Files.move(this.getDiagramSource(oldName), newSource);
 
@@ -80,8 +78,11 @@ public class Project {
         return isTemporary;
     }
 
-    public void move(File newFile) {
-        // TODO nikita : move zip
+    public void move(File newFile) throws IOException {
+        this.fs.close();
+        Files.move(this.path, newFile.toPath());
+        this.path = newFile.toPath();
+        this.fs = FileSystems.newFileSystem(this.path, null);
     }
 
     public void sync() {

@@ -82,12 +82,12 @@ public class ProjectManagementController {
         FileChooseView choose = new FileChooseView("Move project", JFileChooser.DIRECTORIES_ONLY);
         File path = choose.ask();
         if (path != null) {
-//            try {
+            try {
                 diagram.getProject().move(path);
-//            } catch (IOException e) {
-//                JOptionPane.showMessageDialog(view, Errors.RENAME_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
-//                logger.severe("Failed to rename the diagram: " + e.getMessage());
-//            }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(view, Errors.RENAME_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
+                logger.severe("Failed to rename the diagram: " + e.getMessage());
+            }
         }
     }
 }

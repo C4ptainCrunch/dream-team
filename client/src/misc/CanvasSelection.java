@@ -17,8 +17,6 @@ import javax.swing.*;
 
 public class CanvasSelection extends JPanel {
 
-    private static final int INCREMENT = 5;
-
     private Rectangle selection;
 
     /**
@@ -54,25 +52,12 @@ public class CanvasSelection extends JPanel {
     }
 
     /**
-     * Get all the Points composing the selection rectangle.
-     *
-     * Actually, because a Point is basically a pixel, this function returns
-     * significantly less points because close Points are likely to appear
-     * similar to the user. As so, the number of Points returned is equals to
-     * the total amount of Points in the selection rectangle divided by a
-     * constant&sup2;.
-     *
-     * @return A list of Point objects composing the selection rectangle.
+     * Get the selection as an awt.Rectangle object.
+     * @return the selection's rectangle
      */
 
-    public List<Point> getShapePoints() {
-        ArrayList<Point> points = new ArrayList<>();
-        for (int i = 0; i < selection.getWidth(); i += INCREMENT) {
-            for (int j = 0; j < selection.getHeight(); j += INCREMENT) {
-                points.add(new Point((int) (i + selection.getX()), (int) (j + selection.getY())));
-            }
-        }
-        return points;
+    public Rectangle getSelectionRectangle(){
+        return this.selection;
     }
 
     @Override

@@ -1,21 +1,15 @@
 package views.editor.canvas.drawers;
 
-import java.awt.*;
-import java.util.ArrayList;
-
-import javax.swing.*;
-
-import misc.utils.Converter;
 import models.tikz.TikzComponent;
 import models.tikz.TikzNode;
 import models.tikz.TikzRectangle;
 import views.editor.canvas.drawables.DrawableTikzNode;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 public class RectangleDrawer extends NodeDrawer {
-
-    public RectangleDrawer() {
-        // this was left intentionally blank
-    }
 
     /**
      * Creates a swing drawable rectangle object by adding a Rectangle shape to the list of shapes of the drawable

@@ -80,6 +80,6 @@ public class DAOFactory {
      * @return A DAO for the database's Users table
      */
     public UsersDAO getUsersDAO() {
-        return new UsersDAOImpl(this);
+        return new UsersDAO(this);
     }
 }

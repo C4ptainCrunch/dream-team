@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import models.tikz.TikzGraph;
 import utils.DiffUtil;
 import utils.Log;
-import constants.Models;
+import utils.RecentProjects;
 
 /**
  * This class represents a single project created by a user. A project consists

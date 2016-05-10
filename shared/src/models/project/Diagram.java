@@ -103,8 +103,6 @@ public class Diagram extends Observable{
         this.writeDiffs(diffs);
         this.writeTikz(this.graph.toString());
 
-        System.out.println("save done");
-
         this.project.sync();
     }
 

@@ -5,9 +5,6 @@ import utils.Dirs;
 import java.awt.*;
 import java.util.*;
 
-/**
- * Created by nikita on 3/27/16.
- */
 public final class GUI {
     public static final class MenuBar {
         public static final String FILE_MENU = "File";

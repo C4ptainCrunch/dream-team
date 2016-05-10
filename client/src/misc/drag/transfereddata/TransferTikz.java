@@ -1,4 +1,4 @@
-package misc.drag.transfertdata;
+package misc.drag.transfereddata;
 
 import models.tikz.TikzComponent;
 import models.tikz.TikzGraph;

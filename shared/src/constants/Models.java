@@ -2,9 +2,6 @@ package constants;
 
 import java.awt.*;
 
-/**
- * Created by jhellinckx on 29/02/16.
- */
 public final class Models {
     public static final class DEFAULT {
         public static final Color COLOR = Color.black;

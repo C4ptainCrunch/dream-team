@@ -8,9 +8,6 @@ import misc.drag.transferable.TemplateToolTransferable;
 import views.editor.toolbox.templateview.TemplateList;
 import constants.GUI;
 
-/**
- * Created by aurelien on 20/04/16.
- */
 public class TemplateToolTransferHandler extends TikzTransferHandler {
 
     protected Transferable createTransferable(JComponent c) {

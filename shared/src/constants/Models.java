@@ -3,9 +3,6 @@ package constants;
 import java.awt.*;
 import java.util.ResourceBundle;
 
-/**
- * Created by jhellinckx on 29/02/16.
- */
 public final class Models {
     public static final class DEFAULT {
         public static Color COLOR = Color.black;

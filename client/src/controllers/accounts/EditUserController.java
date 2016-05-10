@@ -17,8 +17,9 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 /**
- * Created by bambalaam on 27/04/16.
+ * The controller related to the EditUserView.
  */
+
 public class EditUserController {
 
     private final EditUserView view;
@@ -29,11 +30,20 @@ public class EditUserController {
         this.view = view;
     }
 
+    /**
+     * Launches the creation of the edit panel
+     * @param originalUsername The user's username
+     */
     public void launchEditPanel(String originalUsername) {
         this.view.hideLogginView();
         this.view.showEditPanel(getUserData(originalUsername));
     }
 
+    /**
+     * Get stored data from a user via a username
+     * @param originalUsername The user's username
+     * @return The user's data
+     */
     public ArrayList<String> getUserData(String originalUsername) {
         Form postForm = new Form("username",originalUsername);
 
@@ -60,9 +70,10 @@ public class EditUserController {
     }
 
     /**
-     * Check if the data entered by the user are correct (i.e. allow him to enter the program).
+     * Check if the data entered by the user is correct
      * @param fields The text fields
      * @param originalUsername The original username from the user
+     * @param originalEmail The original email from the user
      */
 
     public void validateFields(ArrayList<JTextField> fields, String originalUsername, String originalEmail) {
@@ -81,6 +92,9 @@ public class EditUserController {
         }
     }
 
+    /**
+     * Action launched when the Cancel button is pressed
+     */
     public void cancelEdit() {
         this.view.dispose();
         java.awt.EventQueue.invokeLater(LoginWindowView::new);

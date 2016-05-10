@@ -9,7 +9,7 @@ import java.util.Set;
 
 import javax.swing.*;
 
-import models.project.Project;
+import models.project.Diagram;
 import models.tikz.TikzComponent;
 import models.tikz.TikzGraph;
 import views.editor.toolbox.ToolBoxView;
@@ -25,24 +25,24 @@ public class EditorView extends JFrame {
     private final SourceView sourceView;
     private final MenuView menuView;
     private final ToolBoxView toolBoxView;
-    private Project project;
+    private Diagram diagram;
     private EditorController controller;
 
     /**
-     * Constructs a new View for the Editor, with a given Project. Creates all
+     * Constructs a new View for the Editor, with a given Diagram. Creates all
      * the views that are contained within this view.
      *
-     * @param project
-     *            The project
+     * @param diagram
+     *            The diagram
      */
-    public EditorView(Project project) {
-        TikzGraph graph = project.getGraph();
-        this.project = project;
-        this.controller = new EditorController(this, project);
+    public EditorView(Diagram diagram) {
+        TikzGraph graph = diagram.getGraph();
+        this.diagram = diagram;
+        this.controller = new EditorController(this, diagram);
 
         this.canvasView = new CanvasView(this, graph);
         this.sourceView = new SourceView(this, graph);
-        this.menuView = new MenuView(this, project);
+        this.menuView = new MenuView(this, diagram);
         this.toolBoxView = new ToolBoxView();
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

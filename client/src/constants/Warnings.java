@@ -1,8 +1,5 @@
 package constants;
 
-/**
- * Created by bambalaam on 15/04/16.
- */
 public class Warnings {
     public static String WARNING_TYPE = "%s Warning";
     public static String FIRSTNAME_WARNING = "First Name can't contain numbers or special characters.";

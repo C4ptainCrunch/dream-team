@@ -5,9 +5,6 @@ import utils.Dirs;
 import java.awt.*;
 import java.util.*;
 
-/**
- * Created by nikita on 3/27/16.
- */
 public final class GUI {
     public static final class MenuBar {
         public static String FILE_MENU = "File";
@@ -28,13 +25,14 @@ public final class GUI {
     }
 
     public static final class ProjectManagement {
-        public static String CREATE_BUTTON = "Create";
-        public static String OPEN_BUTTON = "Open";
-        public static String RENAME_BUTTON = "Rename";
-        public static String CREATE_PANEL = "Choose location to create your project";
-        public static String IMPORT_PANEL = "Choose location to import your project";
-        public static String DROPDOWN_HEADER = "Choose existing project from this list" + " and press 'Open' or 'Rename'.";
-        public static String BLANK_INFO_PANEL = "INFORMATION ABOUT SELECTED PROJECT:\nProject Name: %s"
+
+        public static final String CREATE_BUTTON = "Create";
+        public static final String OPEN_BUTTON = "Open";
+        public static final String RENAME_BUTTON = "Move project";
+        public static final String CREATE_PANEL = "Choose location to create your project";
+        public static final String IMPORT_PANEL = "Choose location to import your project";
+        public static final String DROPDOWN_HEADER = "Choose existing project from this list" + " and press 'Open' or 'Rename'.";
+        public static final String BLANK_INFO_PANEL = "INFORMATION ABOUT SELECTED PROJECT:\nDiagram Name: %s"
                 + "\nUser: %s\nLast revision: %s\n";
         public static String DIFF_TEXT = "Diff History";
     }

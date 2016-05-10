@@ -81,7 +81,7 @@ public class Template extends TikzIO {
     public void loadTemplate(File file) throws IOException {
         Path p = Paths.get(file.getAbsolutePath());
         template_file = file;
-        graph = new TikzGraph(p.toString());
+        graph = new TikzGraph(p);
     }
 
     /**

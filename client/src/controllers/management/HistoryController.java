@@ -10,32 +10,32 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import models.project.Diagram;
 import models.project.Diff;
-import models.project.Project;
 import utils.Log;
 import views.management.HistoryView;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the
  * History. The History keeps track of every modifications done to the current
- * project. This class fills the history window with the modifications
+ * diagram. This class fills the history window with the modifications
  */
 public class HistoryController {
     private final static Logger logger = Log.getLogger(HistoryController.class);
     private final HistoryView view;
-    private final Project project;
+    private final Diagram diagram;
 
     /**
      * Constructs a new controller for the History, with a given Historyview and
-     * Project
+     * Diagram
      *
      * @param view
      *            The HistoryView which is associated with this controller
-     * @param project
-     *            The project
+     * @param diagram
+     *            The diagram
      */
-    public HistoryController(HistoryView view, Project project) {
-        this.project = project;
+    public HistoryController(HistoryView view, Diagram diagram) {
+        this.diagram = diagram;
         this.view = view;
     }
 
@@ -67,7 +67,7 @@ public class HistoryController {
      */
     public void fillView() {
         try {
-            for (Diff diff : project.getDiffs()) {
+            for (Diff diff : diagram.getDiffs()) {
                 this.appendString(diff.getDate().toString() + "\n", Color.green);
 
                 for (String s : diff.getPatch().split(System.getProperty("line.separator"))) {

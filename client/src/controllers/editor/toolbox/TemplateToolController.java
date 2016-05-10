@@ -13,9 +13,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-/**
- * Created by aurelien on 21/04/16.
- */
 public class TemplateToolController {
 
     private TemplateToolView view;

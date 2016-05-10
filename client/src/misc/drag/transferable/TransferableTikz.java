@@ -5,7 +5,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
-import misc.drag.transfertdata.TransferTikz;
+import misc.drag.transfereddata.TransferTikz;
 
 /**
  * Implementation of the Transferable interface that can be used to provide Tikz

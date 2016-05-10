@@ -4,30 +4,30 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import models.project.Project;
+import models.project.Diagram;
 import constants.GUI.ProjectManagement;
 import controllers.management.HistoryController;
 
 /**
  * Implementation of the View (from the MVC architectural pattern) for the
  * History. The History keeps track of every modifications done to the current
- * project. This class opens a new window that displays the history.
+ * diagram. This class opens a new window that displays the history.
  */
 public class HistoryView extends JFrame {
     private final HistoryController controller;
     private final JTextPane historyPane = new JTextPane();
     private final JScrollPane scroll = new JScrollPane(getHistoryPane());
-    private Project project;
+    private Diagram diagram;
 
     /**
-     * Constructs a new view for the History with a given Project
+     * Constructs a new view for the History with a given Diagram
      *
-     * @param project
-     *            The project
+     * @param diagram
+     *            The diagram
      */
-    public HistoryView(Project project) {
-        this.project = project;
-        controller = new HistoryController(this, project);
+    public HistoryView(Diagram diagram) {
+        this.diagram = diagram;
+        controller = new HistoryController(this, diagram);
 
         this.setTitle(ProjectManagement.DIFF_TEXT);
         this.setSize(800, 600);

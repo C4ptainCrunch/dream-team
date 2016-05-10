@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import constants.GUI;
-import models.project.Project;
+import models.project.Diagram;
 import utils.Log;
 import views.editor.EditorView;
 import constants.Errors;
@@ -21,31 +21,32 @@ import constants.Errors;
 public class EditorController implements Observer {
     private final static Logger logger = Log.getLogger(EditorController.class);
     private final EditorView view;
-    private final Project project;
+    private final Diagram diagram;
 
     /**
-     * Constructs a new Controller for the Editor, with a given Project and
+     * Constructs a new Controller for the Editor, with a given Diagram and
      * EditorView
      *
      * @param view
      *            The EditorView which is associated with this controller
-     * @param project
-     *            The Project
+     * @param diagram
+     *            The Diagram
      */
-    public EditorController(EditorView view, Project project) {
+    public EditorController(EditorView view, Diagram diagram) {
         this.view = view;
-        this.project = project;
-        this.project.getGraph().addObserver(this);
-        this.project.addObserver(this);
+        this.diagram = diagram;
+        this.diagram.getGraph().addObserver(this);
+        this.diagram.addObserver(this);
     }
 
     public void update(Observable o, Object arg) {
         try {
-            this.project.save();
+            this.diagram.save();
             this.setTitle();
         } catch (IOException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(view, Errors.SAVE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
-            logger.severe("Project saved failed : " + e.toString());
+            logger.severe("Diagram saved failed : " + e.toString());
+            e.printStackTrace();
         }
     }
 
@@ -54,10 +55,10 @@ public class EditorController implements Observer {
      */
     public void setTitle() {
         String title = GUI.MenuBar.APP_NAME + " - ";
-        if(this.project.isTemporary()){
+        if(this.diagram.getProject().isTemporary()){
             title = title + "(Unsaved)";
         } else {
-            title = title + this.project.getName() + ".tikz";
+            title = title + this.diagram.getName() + ".tikz";
         }
         this.view.setTitle(title);
     }

@@ -1,31 +1,32 @@
 package constants;
 
 import java.awt.*;
+import java.util.ResourceBundle;
 
 /**
  * Created by jhellinckx on 29/02/16.
  */
 public final class Models {
     public static final class DEFAULT {
-        public static final Color COLOR = Color.black;
-        public static final int STROKE = 1;
-        public static final int X = 0;
-        public static final int Y = 0;
-        public static final String LABEL = "";
-        public static final int WIDTH = 1;
-        public static final int LENGTH = 100;
-        public static final int SIDES = 3;
-        public static final Color BACKGROUND_COLOR = Color.white;
-        public static final int EDGE_X_LENGTH = 100;
+        public static Color COLOR;
+        public static int STROKE;
+        public static int X;
+        public static int Y;
+        public static String LABEL;
+        public static int LENGTH;
+        public static int SIDES;
+        public static Color BACKGROUND_COLOR;
+        public static int EDGE_X_LENGTH;
     }
 
-    public class Project {
-        public static final String SAVE_FILE = "save.tikz";
-        public static final String DIFF_FILE = "diffs";
+    public static class Project {
+        public static String SAVE_FILE;
+        public static String DIFF_FILE;
     }
 
-    public class Graph {
-        public static final String latexPrelude = "\\documentclass{article}\n\\usepackage{tikz}\n\\begin{document}\n\\begin{tikzpicture}[x=0.0625em,y=0.0625em]\n";
-        public static final String latexPostlude = "\\end{tikzpicture}\n\\end{document}\n";
+    public static class Graph {
+        public static String LATEX_PRELUDE;
+        public static String LATEX_POSTLUDE;
     }
+
 }

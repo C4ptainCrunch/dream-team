@@ -2,6 +2,7 @@ package models.project;
 
 import com.sun.nio.zipfs.ZipFileSystem;
 import jdk.nashorn.internal.ir.Node;
+import utils.Log;
 import utils.RecentProjects;
 
 import java.io.File;
@@ -14,6 +15,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.zip.ZipOutputStream;
 
@@ -23,6 +25,7 @@ import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 public class Project implements Comparable<Project>{
     private Path path;
     private boolean isTemporary = false;
+    private final static Logger logger = Log.getLogger(Project.class);
 
     public Project(Path path) throws IOException {
         this.path = path;
@@ -41,6 +44,7 @@ public class Project implements Comparable<Project>{
     }
 
     private FileSystem getFs() throws IOException {
+        logger.info("Get fs");
         return FileSystems.newFileSystem(path, null);
     }
 
@@ -48,13 +52,13 @@ public class Project implements Comparable<Project>{
         return this.path.getParent();
     }
 
-    public String getDiagramSource(String name) throws IOException {
+    synchronized public String getDiagramSource(String name) throws IOException {
         try (FileSystem fs = getFs()) {
             return new String(Files.readAllBytes(fs.getPath("/" + name + ".tikz")));
         }
     }
 
-    public byte[] getDiagramDiff(String name) throws IOException {
+    synchronized public byte[] getDiagramDiff(String name) throws IOException {
         try (FileSystem fs = getFs()) {
             return Files.readAllBytes(fs.getPath("/" + name + ".diff"));
         }
@@ -64,7 +68,7 @@ public class Project implements Comparable<Project>{
         return new Diagram(name, this);
     }
 
-    public void renameDiagram(String oldName, String newName) throws IOException {
+    synchronized public void renameDiagram(String oldName, String newName) throws IOException {
         try (FileSystem fs = getFs()) {
 
             Path newSource = fs.getPath("/" + newName + ".tikz");
@@ -79,7 +83,7 @@ public class Project implements Comparable<Project>{
         }
     }
 
-    public Set<String> getDiagramNames() throws IOException {
+    synchronized public Set<String> getDiagramNames() throws IOException {
         Set<String> names = new HashSet<>();
         try (FileSystem fs = getFs()) {
 
@@ -104,7 +108,7 @@ public class Project implements Comparable<Project>{
         return isTemporary;
     }
 
-    public void move(File newFile) throws IOException {
+    synchronized public void move(File newFile) throws IOException {
         this.isTemporary = false;
         Files.move(this.path, newFile.toPath());
         this.path = newFile.toPath();
@@ -119,7 +123,7 @@ public class Project implements Comparable<Project>{
         return this.path.getFileName().toString();
     }
 
-    public Date getLastChange() throws IOException {
+    synchronized public Date getLastChange() throws IOException {
         return this.getDiagramNames().stream().map(name -> {
             try {
                 return this.getDiagram(name).getLastChange();
@@ -139,14 +143,14 @@ public class Project implements Comparable<Project>{
         return this.getPath().toString();
     }
 
-    public void writeDiff(String name, byte[] bytes) throws IOException {
+    synchronized public void writeDiff(String name, byte[] bytes) throws IOException {
         try (FileSystem fs = getFs()) {
             Path diffPath = fs.getPath("/" + name + ".diff");
             Files.write(diffPath, bytes, TRUNCATE_EXISTING, CREATE);
         }
     }
 
-    public void writeSource(String name, String tikz) throws IOException {
+    synchronized public void writeSource(String name, String tikz) throws IOException {
         try (FileSystem fs = getFs()) {
             Path diffPath = fs.getPath("/" + name + ".tike");
             Files.write(diffPath, tikz.getBytes(), TRUNCATE_EXISTING, CREATE);

@@ -14,9 +14,7 @@ public class ManagementView extends JFrame {
         this.setTitle("CreaTikZ - Manage your projects");
         this.setSize(new Dimension(1200, 600));
 
-        getContentPane().setLayout(
-                new BoxLayout(getContentPane(), BoxLayout.X_AXIS)
-        );
+        getContentPane().setLayout(new BorderLayout());
 
         this.render();
         this.setVisible(true);
@@ -34,15 +32,21 @@ public class ManagementView extends JFrame {
         openProject.addActionListener(e -> controller.openProject());
         buttons.add(openProject);
 
-        this.add(buttons);
+        this.add(buttons, BorderLayout.NORTH);
     }
 
     public void render() {
         this.createFirstButtonsPanel();
+
         ProjectManagementView pmv = new ProjectManagementView(this);
-        this.add(pmv);
         CloudManagementView cmv = new CloudManagementView(this);
-        this.add(cmv);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        this.add(panel, BorderLayout.CENTER);
+
+        panel.add(pmv);
+        panel.add(cmv);
 
     }
 }

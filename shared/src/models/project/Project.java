@@ -226,7 +226,7 @@ public class Project extends Observable implements Comparable<Project>{
 
     /**
      * Write the given string to the given project tikz file
-     * @param name the project name
+     * @param name the diagram name
      * @param tikz the tikz to write
      * @throws IOException
      */

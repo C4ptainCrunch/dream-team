@@ -2,7 +2,9 @@ package controllers.accounts;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
+import misc.utils.RequestBuilder;
 import models.NetworkRequest;
 import views.accounts.LoginWindowView;
 import views.accounts.TokenActivationView;
@@ -28,14 +30,11 @@ public class TokenActivationController {
      */
 
     public void validateToken(String token, String username) {
-
         Form postForm = new Form("token",token);
-        NetworkRequest request = new NetworkRequest(Network.HOST.COMPLETE_HOSTNAME, BASE_PATH+username, MediaType.TEXT_PLAIN_TYPE);
-        request.post(postForm);
+        Response r = RequestBuilder.post("/user/activate/" + username, postForm).invoke();
+        String resp = r.readEntity(String.class);
 
-        String response = request.getResponseAsString();
-
-        if(response.equals(Network.Token.TOKEN_OK)){
+        if(resp.equals(Network.Token.TOKEN_OK)){
             this.view.dispose();
             this.view.correctTokenDialog();
             new LoginWindowView();

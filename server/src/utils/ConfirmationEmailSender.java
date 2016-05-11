@@ -19,6 +19,9 @@ import constants.Email;
 public class ConfirmationEmailSender {
     private final static Logger logger = Log.getLogger(ConfirmationEmailSender.class);
 
+    private ConfirmationEmailSender() {
+    }
+
     public static void send(String recipient, String token) throws MessagingException {
         try {
             Properties config = new Properties();

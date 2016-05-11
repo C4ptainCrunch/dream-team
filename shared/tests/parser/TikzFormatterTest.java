@@ -73,8 +73,8 @@ public class TikzFormatterTest {
         String tikzSource = rectangle.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzRectangle parsedRectangle = (TikzRectangle) getFirstShape();
-        Assert.assertEquals(parsedRectangle.getWidth(),testeWidth);
-        Assert.assertEquals(parsedRectangle.getLength(),testedHeight);
+        Assert.assertEquals(parsedRectangle.getWidth(),testeWidth, 0.01);
+        Assert.assertEquals(parsedRectangle.getLength(),testedHeight, 0.01);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class TikzFormatterTest {
         String tikzSource = circle.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzCircle parsedCircle = (TikzCircle) getFirstShape();
-        Assert.assertEquals(parsedCircle.getRadius(),testedRadius);
+        Assert.assertEquals(parsedCircle.getRadius(),testedRadius, 0.01);
     }
 
     @Test
@@ -107,7 +107,7 @@ public class TikzFormatterTest {
         String tikzSource = polygon.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzPolygon parsedPolygon = (TikzPolygon) getFirstShape();
-        Assert.assertEquals(parsedPolygon.getLength(),testedLength);
+        Assert.assertEquals(parsedPolygon.getLength(),testedLength, 0.01);
     }
 
     @Test

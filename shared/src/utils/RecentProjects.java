@@ -30,7 +30,6 @@ public class RecentProjects {
      * Retrieves the recent Projects by loading them from the correct directory.
      * @return A SortedSet of the Projects Loaded.
      */
-
     public static SortedSet<Project> getRecentProjects() {
         TreeSet<Project> projects = new TreeSet<>();
 

@@ -90,13 +90,14 @@ public class ProjectManagementController {
         FileChooseView choose = new FileChooseView("Select project", JFileChooser.FILES_ONLY);
         choose.setFileRestriction("CreaTikz files","crea");
         File projectFile = choose.ask();
-        // TODO andré : projectFile might be null
-        try {
-            Project currentProject = new Project(projectFile.toPath());
-            new DiagramManagementView(currentProject);
-            this.view.dispose();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(projectFile != null) {
+            try {
+                Project currentProject = new Project(projectFile.toPath());
+                new DiagramManagementView(currentProject);
+                this.view.dispose();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

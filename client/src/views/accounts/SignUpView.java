@@ -146,6 +146,7 @@ public class SignUpView extends JFrame {
 
         JButton OKButton = new JButton(SignUp.OK_BUTTON);
         OKButton.addActionListener(e -> controller.validateFields(this.fields, this.passwordField));
+        this.getRootPane().setDefaultButton(OKButton);
 
         JButton cancelButton = new JButton(SignUp.CANCEL_BUTTON);
         cancelButton.addActionListener(e -> controller.cancelSignUp());

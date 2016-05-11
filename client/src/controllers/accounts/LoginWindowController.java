@@ -71,24 +71,6 @@ public class LoginWindowController {
         }
     }
 
-    /**
-     * Launch the edit profile process.
-     * @param username The user's username
-     * @param password The user's password
-     */
-    public void editProfile(String username, String password){
-
-        String response = getToken(username,password);
-
-        if(response.equals(Network.Login.LOGIN_OK)){
-            this.view.dispose();
-            new EditUserView(this.view, username);
-        }else if(response.equals(Network.Login.ACCOUNT_NOT_ACTIVATED)){
-            JOptionPane.showMessageDialog(this.view, Errors.ACTIVE_ACCOUNT_FIRST, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
-        }else {
-            JOptionPane.showMessageDialog(this.view, Errors.LOGIN_FAILED, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
     /**
      * Launch the sign up process.

@@ -5,6 +5,8 @@ import controllers.management.ManagementController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ManagementView extends JFrame {
     private final ManagementController controller;
@@ -14,39 +16,51 @@ public class ManagementView extends JFrame {
         this.setTitle("CreaTikZ - Manage your projects");
         this.setSize(new Dimension(1200, 600));
 
-        getContentPane().setLayout(new BorderLayout());
+        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 
         this.render();
         this.setVisible(true);
     }
 
-    private void createFirstButtonsPanel() {
-        JPanel buttons = new JPanel();
-        buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
+    private void addMenubar() {
+        JMenuBar bar = new JMenuBar();
 
-        JButton create = new JButton(GUI.ProjectManagement.CREATE_BUTTON);
-        create.addActionListener(e -> controller.createProject());
-        buttons.add(create);
+        JMenu fileMenu = new JMenu("File");
+        bar.add(fileMenu);
 
-        JButton openProject = new JButton(GUI.ProjectManagement.OPEN_PROJECT_BUTTON);
-        openProject.addActionListener(e -> controller.openProject());
-        buttons.add(openProject);
+        JMenuItem create = new JMenuItem(GUI.ProjectManagement.CREATE_BUTTON);
+        create.addActionListener(actionEvent -> controller.createProject());
+        fileMenu.add(create);
 
-        this.add(buttons, BorderLayout.NORTH);
+        JMenuItem open = new JMenuItem(GUI.ProjectManagement.OPEN_PROJECT_BUTTON);
+        open.addActionListener(actionEvent -> controller.openProject());
+        fileMenu.add(open);
+
+        this.setJMenuBar(bar);
+
+        JMenu userMenu = new JMenu("User");
+        bar.add(userMenu);
+
+        JMenuItem edit = new JMenuItem("Edit profile");
+        edit.addActionListener(actionEvent -> controller.editProfile());
+        userMenu.add(edit);
+
+        JMenuItem logout = new JMenuItem("Logout");
+        logout.addActionListener(actionEvent -> controller.logout());
+        userMenu.add(logout);
+
+        this.setJMenuBar(bar);
+
     }
 
     public void render() {
-        this.createFirstButtonsPanel();
+        this.addMenubar();
 
         ProjectManagementView pmv = new ProjectManagementView(this);
         CloudManagementView cmv = new CloudManagementView(this);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-        this.add(panel, BorderLayout.CENTER);
-
-        panel.add(pmv);
-        panel.add(cmv);
+        this.add(pmv);
+        this.add(cmv);
 
     }
 }

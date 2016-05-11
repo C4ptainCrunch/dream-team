@@ -1,15 +1,22 @@
 package controllers.management;
 
 
+import constants.Errors;
+import constants.Network;
+import misc.utils.RequestBuilder;
 import models.project.Diagram;
 import models.project.Project;
+import models.users.User;
 import utils.RecentProjects;
+import views.accounts.EditUserView;
+import views.accounts.LoginWindowView;
 import views.editor.EditorView;
 import views.management.DiagramManagementView;
 import views.management.FileChooseView;
 import views.management.ManagementView;
 
 import javax.swing.*;
+import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
 
@@ -60,5 +67,20 @@ public class ManagementController {
 
         java.awt.EventQueue.invokeLater(() -> new EditorView(diagram));
         this.view.dispose(); // Exit previous windows
+    }
+
+    public void logout() {
+        RequestBuilder.setToken("");
+        this.view.dispose();
+        java.awt.EventQueue.invokeLater(LoginWindowView::new);
+    }
+
+    public void editProfile(){
+        this.view.dispose();
+        java.awt.EventQueue.invokeLater(() -> {
+            Response r = RequestBuilder.get("/user/get").invoke();
+            User user = r.readEntity(User.class);
+            new EditUserView(user);
+        });
     }
 }

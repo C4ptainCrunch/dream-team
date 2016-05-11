@@ -24,9 +24,10 @@ public class UserEndpoint {
 
     @GET
     @Secured
-    @Path("/get/{user}")
+    @Path("/get")
     @Produces("application/xml")
-    public User getUserData(@PathParam("user") String username){
+    public User getUserData(@Context SecurityContext securityContext){
+        String username = securityContext.getUserPrincipal().getName();
         User user = this.usersDAO.findByUsername(username);
         if(user == null){
             throw new NotFoundException("User not found");

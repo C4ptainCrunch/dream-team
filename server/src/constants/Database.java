@@ -49,10 +49,16 @@ public final class Database {
     public static final String SQL_ACTIVATE_USER = "UPDATE Users SET activated = 1 WHERE username = ?";
     public static final String SQL_DISABLE_USER = "UPDATE Users SET activated = 0, token = ? WHERE username=?";
     public static final String SQL_DELETE_USER = "DELETE FROM Users WHERE username = ?";
+
     public static final String SQL_INSERT_PROJECT = "INSERT INTO Projects(user_id, path, last_modification, default_perm_write, default_perm_read) VALUES (?, ?, ?, ?, ?);";
     public static final String SQL_EDIT_PROJECT = "UPDATE Projects SET path = ?, last_modification = ?, default_perm_write = ?, default_perm_read = ? WHERE path = ?";
     public static final String SQL_SELECT_PROJECT_BY_ID = "SELECT id, user_id, path, last_modification, default_perm_write, default_perm_read FROM Projects WHERE id = ?";
     public static final String SQL_PROJECT_IS_READABLE = "SELECT default_perm_read FROM Projects WHERE id = ?";
     public static final String SQL_PROJECT_IS_WRITABLE = "SELECT default_perm_write FROM Projects WHERE id = ?";
     public static final String SQL_PROJECT_DELETE = "DELETE FROM Projects WHERE id = ?";
+
+    public static final String SQL_INSERT_PERMISSIONS = "INSERT INTO Permissions(project_id, user_id, write_perm, read_perm) VALUES (?,?,?,?);";
+    public static final String SQL_SELECT_PERMISSIONS = "SELECT * FROM Permissions WHERE project_id = ? AND user_id = ? ;";
+    public static final String SQL_CHANGE_PERMISSIONS = "UPDATE Permissions SET read_perm = ?, write_perm = ? WHERE project_id = ? AND user_id = ? ;";
+    public static final String SQL_PERMISSINOS_DELETE = "DELETE FROM Permissions WHERE project_id = ? AND user_id = ? ;";
 }

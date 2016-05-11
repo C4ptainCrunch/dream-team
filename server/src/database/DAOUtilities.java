@@ -3,6 +3,7 @@ package database;
 import java.sql.*;
 import java.util.logging.Logger;
 
+import models.databaseModels.Permissions;
 import models.databaseModels.Project;
 import models.databaseModels.User;
 import utils.Log;
@@ -142,5 +143,13 @@ public class DAOUtilities {
         boolean default_perm_read = resultSetProject.getInt("default_perm_read") == 1;
         User user = mapUser(resultSetUser);
         return new Project(id, user, path, last_modification, default_perm_write, default_perm_read);
+    }
+
+    public static Permissions mapPermissions(ResultSet resultSet) throws SQLException{
+        int userID = resultSet.getInt("user_id");
+        int projectID = resultSet.getInt("project_id");
+        boolean readable = resultSet.getInt("read_perm") == 1;
+        boolean writeable = resultSet.getInt("write_perm") == 1;
+        return new Permissions(projectID, userID, writeable, readable);
     }
 }

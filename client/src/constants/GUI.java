@@ -25,9 +25,9 @@ public final class GUI {
     }
 
     public static final class ProjectManagement {
-        public static final String CREATE_BUTTON = "Create";
-        public static final String OPEN_RECENT_BUTTON = "Open Recent Diagram";
+        public static final String CREATE_BUTTON = "Create new project";
         public static final String OPEN_PROJECT_BUTTON = "Open Project";
+        public static final String OPEN_RECENT_BUTTON = "Open Recent Diagram";
         public static final String RENAME_BUTTON = "Move project";
         public static final String CREATE_PANEL = "Choose location to create your project";
         public static final String IMPORT_PANEL = "Choose location to import your project";

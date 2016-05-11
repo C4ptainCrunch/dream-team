@@ -2,8 +2,10 @@
 import java.io.IOException;
 import java.util.logging.Logger;
 
+
 import models.project.Project;
 import utils.Log;
+import views.accounts.LoginWindowView;
 import views.editor.EditorView;
 import views.management.ProjectManagementView;
 
@@ -28,7 +30,7 @@ public class Main {
             });
         } else {
             logger.info("Starting project management view");
-            //java.awt.EventQueue.invokeLater(LoginWindowView::new);
+            java.awt.EventQueue.invokeLater(LoginWindowView::new);
         }
 
     }

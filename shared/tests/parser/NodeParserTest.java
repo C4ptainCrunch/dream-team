@@ -5,10 +5,10 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 
 import models.tikz.TikzGraph;
-
 import models.tikz.TikzNode;
 import models.tikz.TikzRectangle;
 import models.tikz.TikzShape;
+
 import org.junit.Assert;
 import org.junit.Test;
 

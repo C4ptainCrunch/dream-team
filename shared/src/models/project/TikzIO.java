@@ -1,8 +1,6 @@
 package models.project;
 
 
-import models.tikz.TikzGraph;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,6 +8,8 @@ import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Observable;
+
+import models.tikz.TikzGraph;
 
 public abstract class TikzIO extends Observable{
 

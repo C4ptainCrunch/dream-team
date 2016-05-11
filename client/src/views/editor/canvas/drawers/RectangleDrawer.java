@@ -1,15 +1,16 @@
 package views.editor.canvas.drawers;
 
-import models.tikz.TikzComponent;
-import models.tikz.TikzNode;
-import models.tikz.TikzRectangle;
-import views.editor.canvas.drawables.DrawableTikzNode;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.*;
+
+import models.tikz.TikzComponent;
+import models.tikz.TikzNode;
+import models.tikz.TikzRectangle;
+import views.editor.canvas.drawables.DrawableTikzNode;
 public class RectangleDrawer extends NodeDrawer {
 
     /**

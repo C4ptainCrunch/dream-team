@@ -6,7 +6,6 @@ import java.awt.geom.Rectangle2D;
 import models.tikz.TikzComponent;
 import models.tikz.TikzNode;
 import models.tikz.TikzShape;
-
 import constants.Models;
 
 public class DrawableTikzNode extends DrawableTikzComponent {

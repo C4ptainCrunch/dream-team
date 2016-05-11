@@ -1,27 +1,27 @@
 package models.project;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import models.tikz.TikzGraph;
+
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
+
 import parser.NodeParser;
 import utils.DiffUtil;
 import utils.Log;
-
-import static java.nio.file.StandardOpenOption.CREATE;
-import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
+import utils.RecentProjects;
 
 /**
  * This class represents a single project created by a user. A project consists
  * of a tikz graph and a file path containing the specific files (save, diffs
  * ..) for this project
  */
-public class Diagram extends Observable{
+public class Diagram{
     private final static Logger logger = Log.getLogger(Diagram.class);
     private String name;
     private Project project;
@@ -30,25 +30,49 @@ public class Diagram extends Observable{
     private boolean undoRedoFlag = false;
 
 
+    /**
+     * Constructs a Diagram from a name and a project.
+     * If the source and diff files from the diagram does
+     * not exist, we create them
+     * @param name
+     * @param project
+     */
     public Diagram(String name, Project project) {
         this.name = name;
         this.project = project;
         try {
-            this.graph = new TikzGraph(this.getSourcePath());
+            this.graph = new TikzGraph(this.getSource());
         } catch (IOException e) {
             logger.fine("Warning: new graph created because the original file was not found");
             this.graph = new TikzGraph();
+            try {
+                this.save();
+            } catch (IOException | ClassNotFoundException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
-    public Path getSourcePath() {
+    /**
+     * Get the tikz source from the project zip
+     * @return the tikz source
+     * @throws IOException if an error appeared during the read
+     */
+    public String getSource() throws IOException {
         return this.project.getDiagramSource(this.name);
     }
 
-    public Path getDiffPath() {
+    /**
+     * Get the binary diff form the project zip
+     * @throws IOException if an error appeared during the read
+     */
+    public byte[] getDiff() throws IOException {
         return this.project.getDiagramDiff(this.name);
     }
 
+    /**
+     * @return the graph
+     */
     public TikzGraph getGraph() {
         return this.graph;
     }
@@ -109,7 +133,8 @@ public class Diagram extends Observable{
 
         redoList = new ArrayList<>();
 
-        this.project.sync();
+        RecentProjects.addProject(this.getProject());
+
     }
 
     /**
@@ -119,16 +144,19 @@ public class Diagram extends Observable{
      * @throws IOException
      */
     public String getDiskTikz() throws IOException {
-        return new String(Files.readAllBytes(this.getSourcePath()));
+        return this.getSource();
     }
 
 
+    /**
+     * Rename this diagram inside the project zip
+     * @param newName
+     * @throws IOException of the move failed
+     */
     public void rename(String newName) throws IOException {
         this.project.renameDiagram(this.name, newName);
         this.name = newName;
-        this.setChanged();
-        this.notifyObservers();
-        this.project.sync();
+        RecentProjects.addProject(this.getProject());
     }
 
     /**
@@ -141,7 +169,7 @@ public class Diagram extends Observable{
      *             : when the file is corrupted
      */
     public List<Diff> getDiffs() throws IOException, ClassNotFoundException {
-        byte[] bytes = Files.readAllBytes(this.getDiffPath());
+        byte[] bytes = this.getDiff();
         ByteArrayInputStream bs = new ByteArrayInputStream(bytes);
         ObjectInputStream os = new ObjectInputStream(bs);
         List<Diff> diffs = (List<Diff>) os.readObject();
@@ -163,14 +191,23 @@ public class Diagram extends Observable{
         ObjectOutputStream os = new ObjectOutputStream(bs);
         os.writeObject(diffs);
 
-        Files.write(this.getDiffPath(), bs.toByteArray(), TRUNCATE_EXISTING, CREATE);
+        this.writeDiff(bs.toByteArray());
 
         os.close();
         bs.close();
     }
 
+    /**
+     * Write the binary diff to the project zip
+     * @param bytes the diff
+     * @throws IOException
+     */
+    private void writeDiff(byte[] bytes) throws IOException {
+        this.project.writeDiff(this.name, bytes);
+    }
+
     private void writeTikz(String tikz) throws IOException {
-        Files.write(this.getSourcePath(), tikz.getBytes(), TRUNCATE_EXISTING, CREATE);
+        this.project.writeSource(this.name, tikz);
     }
 
 
@@ -191,16 +228,23 @@ public class Diagram extends Observable{
         return diffs.get(diffs.size() - 1).getDate();
     }
 
+    /**
+     * @return the diagram project's
+     */
     public Project getProject() {
         return project;
     }
 
+    /**
+     * @return true if the project is not saved in a definitive location
+     */
     public boolean isTemporary() {
         return this.project.isTemporary();
     }
 
+
     /**
-     * function to undo an action in a project
+     * Undo the last operation that was applied to the tikz
      */
     public void undo() {
         List<Diff> diffs;
@@ -224,8 +268,9 @@ public class Diagram extends Observable{
         write_applier(diffs);
     }
 
+
     /**
-     * function to redo an action in a project
+     * Redo the last action that was undone on the tikz
      */
     public void redo() {
         if (redoList.isEmpty()) {return; }
@@ -292,7 +337,7 @@ public class Diagram extends Observable{
         try {
             this.writeDiffs(diffs);
             this.writeTikz(this.graph.toString());
-            //RecentProjects.addProject(this);
+            RecentProjects.addProject(this.getProject());
         } catch (IOException e) {
             logger.warning("Couldn't save new diff history: " + e.toString());
         }

@@ -2,17 +2,11 @@ package views.editor.toolbox.templateview;
 
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import javax.swing.*;
 
-import controllers.editor.toolbox.TemplateToolController;
-import misc.managers.TemplateIOManager;
 import models.Template;
-import constants.Errors;
-import constants.GUI;
+import controllers.editor.toolbox.TemplateToolController;
 
 /**
  * A View that will display all the Templates available.

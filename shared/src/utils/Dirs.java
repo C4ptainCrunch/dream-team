@@ -3,9 +3,9 @@ package utils;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import constants.Utils;
-
 import javax.swing.filechooser.FileSystemView;
+
+import constants.Utils;
 
 public class Dirs {
     public static Path getDataDir() {

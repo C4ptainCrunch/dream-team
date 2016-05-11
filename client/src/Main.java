@@ -1,8 +1,5 @@
-
 import java.io.IOException;
 import java.util.logging.Logger;
-
-
 import models.project.Project;
 import utils.Log;
 import views.accounts.LoginWindowView;

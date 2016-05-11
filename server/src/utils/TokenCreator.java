@@ -1,8 +1,8 @@
 package utils;
 
-import constants.Tokens;
-
 import java.security.SecureRandom;
+
+import constants.Tokens;
 
 /**
  * Implementation of a Token Creator used for the email confirmation.

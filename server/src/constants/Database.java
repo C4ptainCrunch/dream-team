@@ -6,6 +6,7 @@ public final class Database {
     public static final String DB_FILE = DB_DIR + "/CreaTikZ.db";
     public static final String SQLITE_JDBC = "org.sqlite.JDBC";
     public static final String SQLITE_DB_CONNECTION = "jdbc:sqlite:"+ DB_FILE;
+    public static final String SQLITE_DB_ACTIVATE_PRAGMAS = "PRAGMA foreign_keys = ON;";
     public static final String SQLITE_CREATE_TABLE_USERS = "CREATE TABLE Users(" +
             "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
             "first_name VARCHAR(16)," +
@@ -17,11 +18,20 @@ public final class Database {
             "password TEXT);";
     public static final String SQLITE_CREATE_TABLE_PROJECTS = "CREATE TABLE Projects("+
             "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-            "user_id INTEGER NOT NULL REFERENCES Users(id)," +
+            "user_id INTEGER NOT NULL," +
             "path VARCHAR(1023) NOT NULL," +
             "last_modification TEXT NOT NULL," +
-            "default_perm_write BOOLEAN NOT NULL DEFAULT false," +
-            "default_perm_read BOOLEAN NOT NULL DEFAULT false);";
+            "default_perm_write INTEGER NOT NULL DEFAULT false," +
+            "default_perm_read INTEGER NOT NULL DEFAULT false)," +
+            "FOREIGN KEY(user_id) REFERENCES Users(id) ON UPDATE CASCADE ON DELETE CASCADE;";
+    public static final String SQLITE_CREATE_TABLE_PERMISSIONS = "CREATE TABLE Permissions("+
+            "project_id INTEGER NOT NULL," +
+            "user_id INTEGER NOT NULL," +
+            "write_perm INTEGER NOT NULL," +
+            "read_perm INTEGER NOT NULL," +
+            "write_perm INTEGER NOT NULL," +
+            "FOREIGN KEY(project_id) REFERENCES Projects(id) ON UPDATE CASCADE ON DELETE CASCADE," +
+            "FOREIGN KEY(user_id) REFERENCES Users(id) ON UPDATE CASCADE ON DELETE CASCADE;";
     public static final String SQL_SELECT_BY_USERNAME = "SELECT id, first_name, last_name, username, email " +
                                                          "FROM Users WHERE username = ?";
     public static final String SQL_MATCH_USERNAME_PASSWORD = "SELECT username, password " +

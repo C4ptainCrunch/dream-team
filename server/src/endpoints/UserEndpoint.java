@@ -76,9 +76,6 @@ public class UserEndpoint {
     public String editUser(
             User user,
             @Context SecurityContext securityContext) {
-
-        System.out.println(user.getFirstName());
-
         String username = securityContext.getUserPrincipal().getName();
         if(!user.getUsername().equals(username)){
             throw new BadRequestException("User username isn't the same as the db username");
@@ -86,7 +83,7 @@ public class UserEndpoint {
         User dbUser = usersDAO.findByUsername(username);
         dbUser.setFirstName(user.getFirstName());
         dbUser.setLastName(user.getLastName());
-        boolean should_reset_email = dbUser.getEmail().equals(user.getEmail());
+        boolean should_reset_email = !dbUser.getEmail().equals(user.getEmail());
         dbUser.setEmail(user.getEmail());
 
         this.usersDAO.update(dbUser);

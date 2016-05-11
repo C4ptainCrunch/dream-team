@@ -1,8 +1,9 @@
 package views.editor.toolbox;
 
+import java.awt.*;
+
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
-import java.awt.*;
 
 public class TikzColorChooser {
 

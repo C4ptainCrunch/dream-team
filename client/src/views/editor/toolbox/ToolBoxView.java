@@ -6,9 +6,9 @@ import java.io.File;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
-import constants.GUI;
 import models.tikz.TikzComponent;
 import views.editor.toolbox.templateview.TemplateToolView;
+import constants.GUI;
 
 /**
  * implementation of the view (from the mvc architectural pattern) for the

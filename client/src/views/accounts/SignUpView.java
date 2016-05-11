@@ -1,14 +1,13 @@
 package views.accounts;
 
-import constants.GUI;
-import controllers.accounts.SignUpController;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-import constants.GUI.SignUp;
+import javax.swing.*;
+
 import misc.utils.JTextFieldSizeLimiter;
+import constants.GUI.SignUp;
+import controllers.accounts.SignUpController;
 
 
 /**

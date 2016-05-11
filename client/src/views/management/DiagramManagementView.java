@@ -1,12 +1,12 @@
 package views.management;
 
-import controllers.management.DiagramManagementController;
-import models.project.Project;
-
-import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Set;
+
+import javax.swing.*;
+
+import models.project.Project;
+import controllers.management.DiagramManagementController;
 
 public class DiagramManagementView extends JDialog {
 

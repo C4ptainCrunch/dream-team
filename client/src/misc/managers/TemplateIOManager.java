@@ -13,7 +13,6 @@ import models.tikz.TikzComponent;
 import models.tikz.TikzEdge;
 import models.tikz.TikzGraph;
 import models.tikz.TikzNode;
-import views.management.FileChooseView;
 import constants.GUI;
 
 /**

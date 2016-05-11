@@ -1,18 +1,19 @@
 package models;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import models.tikz.TikzCircle;
 import models.tikz.TikzGraph;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class TemplateTest {
 

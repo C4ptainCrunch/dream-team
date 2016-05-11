@@ -1,23 +1,18 @@
 package models.project;
 
-import com.sun.nio.zipfs.ZipFileSystem;
-import jdk.nashorn.internal.ir.Node;
-import utils.Log;
-import utils.RecentProjects;
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.nio.file.*;
 import java.util.*;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import java.util.zip.ZipOutputStream;
 
-import static java.nio.file.StandardOpenOption.CREATE;
-import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
+import utils.Log;
+import utils.RecentProjects;
 
 public class Project  extends Observable implements Comparable<Project>{
     private Path path;

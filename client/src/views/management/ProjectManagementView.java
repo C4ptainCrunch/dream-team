@@ -3,11 +3,13 @@ package views.management;
 import java.awt.*;
 import java.util.Collections;
 import java.util.Vector;
+
 import javax.swing.*;
-import constants.GUI;
-import controllers.management.ProjectManagementController;
+
 import models.project.Project;
 import utils.RecentProjects;
+import constants.GUI;
+import controllers.management.ProjectManagementController;
 
 public class ProjectManagementView extends JDialog {
     private ProjectManagementController controller = new ProjectManagementController(this);

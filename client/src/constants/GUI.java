@@ -1,9 +1,9 @@
 package constants;
 
-import utils.Dirs;
-
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+
+import utils.Dirs;
 
 public final class GUI {
     public static final class MenuBar {

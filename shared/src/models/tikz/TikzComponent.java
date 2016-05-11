@@ -4,8 +4,8 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.UUID;
 
-import constants.Models;
 import parser.TikzFormatter;
+import constants.Models;
 
 /**
  * This abstract class defines the common elements of a tikz component (node,

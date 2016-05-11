@@ -1,21 +1,20 @@
 package models.project;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import models.tikz.TikzGraph;
+
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
+
 import parser.NodeParser;
 import utils.DiffUtil;
 import utils.Log;
 import utils.RecentProjects;
-
-import static java.nio.file.StandardOpenOption.CREATE;
-import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 
 /**
  * This class represents a single project created by a user. A project consists

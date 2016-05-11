@@ -7,12 +7,12 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
-import constants.GUI;
 import models.project.Diagram;
 import utils.Log;
 import utils.RecentProjects;
 import views.editor.EditorView;
 import constants.Errors;
+import constants.GUI;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the

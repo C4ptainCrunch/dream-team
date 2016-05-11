@@ -1,13 +1,13 @@
 package views.editor;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
 import javax.swing.*;
 
 import models.project.Diagram;
 import constants.GUI;
 import controllers.editor.MenuController;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
 /**
  * Implementation of the View (from the MVC architectural pattern) for the Menu.

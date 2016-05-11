@@ -3,12 +3,10 @@ package controllers.management;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystemNotFoundException;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.swing.*;
 
-import constants.GUI;
 import models.project.Diagram;
 import models.project.Project;
 import utils.Log;

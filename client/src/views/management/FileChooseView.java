@@ -1,6 +1,7 @@
 package views.management;
 
-import utils.Dirs;
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,8 +12,7 @@ import java.nio.file.Paths;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import static java.nio.file.StandardOpenOption.CREATE;
-import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
+import utils.Dirs;
 
 public class FileChooseView extends JPanel {
     JFileChooser chooser;

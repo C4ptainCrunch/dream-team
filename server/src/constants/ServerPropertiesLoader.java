@@ -11,7 +11,7 @@ import static constants.Tokens.*;
 public class ServerPropertiesLoader extends PropertiesLoader {
     private static final String DATABASE_PROPERTIES_FILENAME = "database.properties";
     private static final String EMAIL_PROPERTIES_FILENAME = "email.properties";
-    private static final String TOKENS_PROPERTIES_FILENAME = "tokens_properties";
+    private static final String TOKENS_PROPERTIES_FILENAME = "tokens.properties";
 
     public static void loadAll(){
         PropertiesLoader.loadAll();

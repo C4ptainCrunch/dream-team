@@ -2,6 +2,7 @@ package misc;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
@@ -16,7 +17,7 @@ import constants.GUI;
 
 public class CanvasSelection extends JPanel {
 
-    private Rectangle selection;
+    private Rectangle2D selection;
 
     /**
      * Default constructor.
@@ -29,7 +30,7 @@ public class CanvasSelection extends JPanel {
         this.setSize(new Dimension(0, 0));
         this.setBackground(GUI.Selection.BKG_COLOR);
         this.setLocation(new Point((int)pos.x, (int)pos.y));
-        selection = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        selection = new Rectangle2D.Float(this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 
     /**
@@ -55,13 +56,13 @@ public class CanvasSelection extends JPanel {
      * @return the selection's rectangle
      */
 
-    public Rectangle getSelectionRectangle(){
+    public Rectangle2D getSelectionRectangle(){
         return this.selection;
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        selection.setBounds(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        selection.setRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 }

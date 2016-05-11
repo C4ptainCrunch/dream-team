@@ -5,15 +5,12 @@ import static org.junit.Assert.assertEquals;
 import models.tikz.TikzCircle;
 import models.tikz.TikzGraph;
 import models.tikz.TikzUndirectedEdge;
-import org.junit.Rule;
-import org.junit.rules.TemporaryFolder;
 import utils.SharedTest;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,7 +23,7 @@ public class ProjectTest extends SharedTest {
     private final long time_diff = 60000L;
     private final String first_diagram_name = "test_diagram";
     private final String second_diagram_name = "second_diagram";
-    private final String new_project_path = "second_name";
+    private final String new_path = "second_name";
 
     private Project project;
     private Diagram diagram;
@@ -60,6 +57,7 @@ public class ProjectTest extends SharedTest {
         graph.add(circle1);
         graph.add(circle2);
         graph.add(edge);
+        project.writeSource(first_diagram_name, graph.toString());
     }
 
     @After
@@ -70,14 +68,11 @@ public class ProjectTest extends SharedTest {
     @Test
     public void testWriteSource() throws Exception {
         String base_source = graph.toString();
-        project.writeSource(first_diagram_name, base_source);
         assertEquals(base_source, project.getDiagramSource(first_diagram_name));
     }
 
     @Test
     public void testLastChange() throws Exception {
-        project.writeSource(first_diagram_name, graph.toString());
-        diagram.save();
         Diagram second_diagram = new Diagram(second_diagram_name, project);
         second_diagram.save();
         Date date = getLaterTime();
@@ -90,8 +85,24 @@ public class ProjectTest extends SharedTest {
     @Test
     public void testMoveProject() throws Exception {
         Path dir = Files.createTempDirectory("test");
-        Path p = Paths.get(dir.toString(), new_project_path);
+        Path p = Paths.get(dir.toString(), new_path);
         project.move(p.toFile());
         assertEquals(p, project.getPath());
     }
+
+    @Test
+    public void testRenameDiagram() throws Exception{
+        project.renameDiagram(first_diagram_name, second_diagram_name);
+        Diagram fromDisk = project.getDiagram(second_diagram_name);
+        TikzGraph diskGraph = fromDisk.getGraph();
+        assertEquals(diskGraph.toString(), graph.toString());
+    }
+
+    @Test
+    public void testGetDiagramNames() throws Exception{
+        Set<String> names = new HashSet<>(Arrays.asList(first_diagram_name));
+        assertEquals(project.getDiagramNames(), names);
+    }
+
+
 }

@@ -78,6 +78,7 @@ public class DiagramManagementView extends JDialog {
         this.newDiagramName.setEditable(false);
         this.newDiagramName.setPreferredSize(new Dimension(189,25));
         this.okButton = new JButton("Open");
+        this.getRootPane().setDefaultButton(this.okButton);
         okButton.addActionListener(e -> controller.openDiagram(this.diagramList.getSelectedValue(),
                                                                this.newDiagramName.getText()));
 

@@ -1,6 +1,8 @@
 package views.management;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Vector;
 
@@ -48,6 +50,7 @@ public class DiagramManagementView extends JDialog {
         diagramList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         diagramList.setLayoutOrientation(JList.VERTICAL);
         diagramList.setVisibleRowCount(-1);
+        diagramList.setSelectedIndex(0);
 
         diagramList.addListSelectionListener(listSelectionEvent -> {
             if(diagramList.getSelectedValue().equals("Create new diagram")) {
@@ -75,11 +78,19 @@ public class DiagramManagementView extends JDialog {
         this.newDiagramName.setEditable(false);
         this.newDiagramName.setPreferredSize(new Dimension(189,25));
         this.okButton = new JButton("Open");
+        this.getRootPane().setDefaultButton(this.okButton);
         okButton.addActionListener(e -> controller.openDiagram(this.diagramList.getSelectedValue(),
                                                                this.newDiagramName.getText()));
 
+        JButton cancel = new JButton("Cancel");
+        cancel.addActionListener(actionEvent -> {
+            dispose();
+            EventQueue.invokeLater(ProjectManagementView::new);
+        });
+
         newDiagramPanel.add(this.newDiagramName);
         newDiagramPanel.add(okButton);
+        newDiagramPanel.add(cancel);
         this.add(newDiagramPanel, BorderLayout.CENTER);
     }
 

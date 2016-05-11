@@ -2,6 +2,7 @@ package models.tikz;
 
 import static org.junit.Assert.assertEquals;
 
+import utils.SharedTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,7 @@ import constants.Models;
 /**
  * Created by etnarek on 2/29/16.
  */
-public class TikzCircleTest {
+public class TikzCircleTest extends SharedTest {
 
     TikzCircle circle;
 

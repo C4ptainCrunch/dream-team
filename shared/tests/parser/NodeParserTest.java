@@ -11,8 +11,9 @@ import models.tikz.TikzShape;
 
 import org.junit.Assert;
 import org.junit.Test;
+import utils.SharedTest;
 
-public class NodeParserTest {
+public class NodeParserTest extends SharedTest {
     @Test
     public void testNumber() throws Exception {
         Assert.assertEquals(NodeParser.number().parse("-457"), new Float(-457));

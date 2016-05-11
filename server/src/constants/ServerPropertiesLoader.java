@@ -15,6 +15,10 @@ public class ServerPropertiesLoader extends PropertiesLoader {
 
     public static void loadAll(){
         PropertiesLoader.loadAll();
+        loadServerProperties();
+    }
+
+    public static void loadServerProperties(){
         loadDatabaseProperties();
         loadEmailProperties();
         loadTokensProperties();

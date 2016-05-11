@@ -75,8 +75,9 @@ class ModelsPropertiesReader implements PropertiesReader{
         Project.SAVE_FILE = properties.getProperty("DEFAULT_SAVE_FILENAME");
         Project.DIFF_FILE = properties.getProperty("DEFAULT_DIFF_FILENAME");
 
-        Graph.LATEX_POSTLUDE = properties.getProperty("DEFAULT_LATEX_PRELUDE");
-        Graph.LATEX_PRELUDE = properties.getProperty("DEFAULT_LATEX_POSTLUDE");
+        Graph.LATEX_PRELUDE = properties.getProperty("DEFAULT_LATEX_PRELUDE");
+        Graph.LATEX_POSTLUDE = properties.getProperty("DEFAULT_LATEX_POSTLUDE");
+
     }
 }
 

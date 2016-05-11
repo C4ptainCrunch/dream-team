@@ -8,11 +8,12 @@ import java.util.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import utils.SharedTest;
 
 /**
  * Created by jhellinckx on 01/03/16.
  */
-public class TikzGraphTest {
+public class TikzGraphTest extends SharedTest {
     TikzGraph graph;
 
     @Before

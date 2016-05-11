@@ -9,11 +9,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import constants.Models;
+import utils.SharedTest;
 
 /**
  * Created by etnarek on 2/29/16.
  */
-public class TikzRectangleTest {
+public class TikzRectangleTest extends SharedTest {
 
     TikzRectangle rectangle;
 

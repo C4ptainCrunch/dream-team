@@ -4,6 +4,7 @@ import static java.awt.Color.black;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import utils.SharedTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,7 @@ import org.junit.Test;
 /**
  * Created by jhellinckx on 29/02/16.
  */
-public class TikzComponentTest {
+public class TikzComponentTest extends SharedTest {
     private TikzComponent tikzComponent;
 
     private String label;

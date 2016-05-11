@@ -30,7 +30,7 @@ public class ProjectManagerTest {
         conflictResolver.update(baseFile,localFile,conflictFile);
         List<Diff> resolvedDiff = conflictResolver.resolve("saveUserVersionOnly");
         String tikzGraph = projectManager.createTikzFromDiffs(resolvedDiff);
-        assertEquals(tikzGraph,"\\node[circle, draw, radius=50](10b7aa06-3811-49d3-96fd-6f7c8b891d86) at (0.794,4.710){};\n" +
-                "\\node[regular polygon, draw, minimum size=50](473f94bf-bb60-4cc8-9b74-af5aed97f5fe) at (-0.423,-0.370){};\n");
+        assertEquals(tikzGraph,"\\node[circle, draw, radius=1.25](02165a2d-55da-4db7-8ab0-7fc2d3807e53) at (-5.794,7.091){};\n" +
+                "\\node[rectangle, draw](974bde44-205b-442d-ae20-bea5ce297951) at (4.657,3.307){};\n");
     }
 }

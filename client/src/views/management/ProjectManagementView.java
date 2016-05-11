@@ -13,7 +13,7 @@ import controllers.management.ProjectManagementController;
 
 public class ProjectManagementView extends JDialog {
     private ProjectManagementController controller = new ProjectManagementController(this);
-    private JComboBox<Project> projectChooser;
+    private JList<Project> projectChooser;
     private JTextPane infoPanel;
 
     public ProjectManagementView() {
@@ -68,11 +68,11 @@ public class ProjectManagementView extends JDialog {
         Vector<Project> recentProjects = new Vector<>(RecentProjects.getRecentProjects());
         Collections.reverse(recentProjects);
 
-        this.projectChooser = new JComboBox<>();
+        this.projectChooser = new JList<>(recentProjects);
         this.projectChooser.setModel(new DefaultComboBoxModel(recentProjects));
 
-        this.projectChooser.addActionListener(e -> controller.dropdownSelected((JComboBox) e.getSource()));
-        controller.dropdownSelected(this.projectChooser);
+        this.projectChooser.addListSelectionListener(e -> controller.dropdownSelected(projectChooser.getSelectedValue()));
+        this.projectChooser.setSelectedIndex(0);
 
         chooserPanel.add(new JLabel(GUI.ProjectManagement.DROPDOWN_HEADER), BorderLayout.NORTH);
         chooserPanel.add(this.projectChooser, BorderLayout.CENTER);
@@ -95,7 +95,7 @@ public class ProjectManagementView extends JDialog {
      * @return The selected project
      */
     public Project getSelectedProject() {
-        return (Project) this.projectChooser.getSelectedItem();
+        return (Project) this.projectChooser.getSelectedValue();
     }
 
     /**

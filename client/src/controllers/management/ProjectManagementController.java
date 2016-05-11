@@ -43,10 +43,9 @@ public class ProjectManagementController {
     /**
      * Updates the project description with the selected project
      * Should be called when the dropdown is updated.
-     * @param comboBox
+     * @param selectedProject
      */
-    public void dropdownSelected(JComboBox comboBox) {
-        Project selectedProject = (Project) comboBox.getSelectedItem();
+    public void dropdownSelected(Project selectedProject) {
         if(selectedProject == null){
             return;
         }

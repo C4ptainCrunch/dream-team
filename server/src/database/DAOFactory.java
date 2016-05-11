@@ -47,8 +47,14 @@ public class DAOFactory {
             Class.forName(Database.SQLITE_JDBC);
             connection = DriverManager.getConnection(Database.SQLITE_DB_CONNECTION);
             statement = connection.createStatement();
-            String sqlCreate = Database.SQLITE_CREATE_TABLE_USERS;
-            statement.executeUpdate(sqlCreate);
+            String sqlActivatePragmas = Database.SQLITE_DB_ACTIVATE_PRAGMAS;
+            String sqlCreateUsers = Database.SQLITE_CREATE_TABLE_USERS;
+            String sqlCreateProjects = Database.SQLITE_CREATE_TABLE_PROJECTS;
+            String sqlCreatePermissions = Database.SQLITE_CREATE_TABLE_PERMISSIONS;
+            statement.executeUpdate(sqlActivatePragmas);
+            statement.executeUpdate(sqlCreateUsers);
+            statement.executeUpdate(sqlCreateProjects);
+            statement.executeUpdate(sqlCreatePermissions);
             statement.close();
             connection.close();
         } catch (Exception e) {

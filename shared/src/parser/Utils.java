@@ -135,12 +135,12 @@ class Utils {
      *            map
      * @return an optional integer result
      */
-    private static Optional<Integer> getOptionInt(String opt, Map<String, String> m1, Map<String, String> m2) {
+    private static Optional<Float> getNumericOption(String opt, Map<String, String> m1, Map<String, String> m2) {
         if (m1.containsKey(opt)) {
-            return Optional.of(Integer.parseInt(m1.get(opt)));
+            return Optional.of(Float.parseFloat(m1.get(opt)));
         }
         if (m2.containsKey(opt)) {
-            return Optional.of(Integer.parseInt(m2.get(opt)));
+            return Optional.of(Float.parseFloat(m2.get(opt)));
         }
         return Optional.empty();
     }
@@ -213,15 +213,15 @@ class Utils {
         final int stroke = getOptionStroke(defaultOptions, node.getOptions()).orElse(Models.DEFAULT.STROKE);
         TikzShape res;
         if (rectangles.contains(shape)) {
-            int width = getOptionInt("minimum width", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.LENGTH);
-            int height = getOptionInt("minimum height", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.LENGTH);
+            float width = getNumericOption("minimum width", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.LENGTH);
+            float height = getNumericOption("minimum height", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.LENGTH);
             res = new TikzRectangle(width, height);
         } else if (circles.contains(shape)) {
-            int radius = getOptionInt("radius", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.LENGTH);
+            float radius = getNumericOption("radius", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.LENGTH);
             res = new TikzCircle(radius);
         } else if (polygons.contains(shape)) {
-            int size = getOptionInt("minimum size", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.LENGTH);
-            int sides = getOptionInt("regular polygon sides", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.SIDES);
+            float size = getNumericOption("minimum size", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.LENGTH);
+            int sides = getNumericOption("regular polygon sides", defaultOptions, node.getOptions()).orElse((float)Models.DEFAULT.SIDES).intValue();
             res = new TikzPolygon(size, sides);
         } else{
             return null;

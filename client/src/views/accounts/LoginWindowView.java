@@ -90,21 +90,15 @@ public class LoginWindowView extends JFrame {
         JButton login = new JButton(LoginWindow.LOGIN_BUTTON);
         login.addActionListener(e -> controller.login(this.usernameText.getText(),
                                                       this.passwordText.getText()));
+        buttons.add(login);
 
         JButton signUp = new JButton(LoginWindow.SIGNUP_BUTTON);
         signUp.addActionListener(e -> controller.signUp());
+        buttons.add(signUp);
 
         JButton tokenActivation = new JButton(LoginWindow.TOKEN_BUTTON);
         tokenActivation.addActionListener(e -> controller.tokenActivation());
-
-        JButton edit = new JButton(LoginWindow.EDIT_BUTTON);
-        edit.addActionListener(e -> controller.editProfile(this.usernameText.getText(),
-                                                            this.passwordText.getText()));
-
-        buttons.add(login);
-        buttons.add(signUp);
         buttons.add(tokenActivation);
-        buttons.add(edit);
 
         this.loginWindowPanel.add(buttons);
     }

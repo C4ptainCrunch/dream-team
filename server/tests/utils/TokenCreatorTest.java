@@ -20,9 +20,8 @@ public class TokenCreatorTest {
     @Before
     public void setUp() throws Exception {
         tokens = new ArrayList<>();
-        tc = new TokenCreator();
         for(int i=0;i<200;i++){
-            tokens.add(tc.newToken());
+            tokens.add(TokenCreator.newToken());
         }
     }
 

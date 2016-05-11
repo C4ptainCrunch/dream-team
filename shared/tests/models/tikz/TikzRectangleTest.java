@@ -29,20 +29,20 @@ public class TikzRectangleTest {
 
     @Test
     public void testGetWidth() throws Exception {
-        assertEquals(rectangle.getWidth(), Models.DEFAULT.LENGTH);
+        assertEquals(rectangle.getWidth(), Models.DEFAULT.LENGTH, 0.01);
     }
 
     @Test
     public void testSetWidth() throws Exception {
         int width = 7;
         rectangle.setWidth(width);
-        assertEquals(rectangle.getWidth(), width);
+        assertEquals(rectangle.getWidth(), width, 0.01);
 
     }
 
     @Test
     public void testGetLength() throws Exception {
-        assertEquals(rectangle.getLength(), Models.DEFAULT.LENGTH);
+        assertEquals(rectangle.getLength(), Models.DEFAULT.LENGTH, 0.01);
 
     }
 
@@ -50,7 +50,7 @@ public class TikzRectangleTest {
     public void testSetLength() throws Exception {
         int length = 9;
         rectangle.setLength(length);
-        assertEquals(rectangle.getLength(), length);
+        assertEquals(rectangle.getLength(), length, 0.01);
     }
 
     @Test
@@ -59,8 +59,8 @@ public class TikzRectangleTest {
         rectangle.setWidth(8);
         rectangle.setStrokeColor(Color.BLACK);
         TikzRectangle o_rectangle = new TikzRectangle(rectangle);
-        assertEquals(o_rectangle.getLength(), rectangle.getLength());
-        assertEquals(o_rectangle.getWidth(), rectangle.getWidth());
+        assertEquals(o_rectangle.getLength(), rectangle.getLength(), 0.01);
+        assertEquals(o_rectangle.getWidth(), rectangle.getWidth(), 0.01);
         assertEquals(o_rectangle.getStrokeColor(), rectangle.getStrokeColor());
     }
 }

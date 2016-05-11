@@ -1,14 +1,14 @@
 package models.tikz;
 
-import parser.TikzFormatter;
 import constants.Models;
+import parser.TikzFormatter;
 
 /**
  * Implementation of the Circle Model (from the MVC architectural pattern) This
  * class represents a circle that is linked to a tikz code
  */
 public class TikzCircle extends TikzShape {
-    private int radius;
+    private float radius;
 
     /**
      * Constructs a default tikz circle
@@ -24,7 +24,7 @@ public class TikzCircle extends TikzShape {
      * @param radius
      *            The radius of the circle
      */
-    public TikzCircle(int radius) {
+    public TikzCircle(float radius) {
         super();
         this.radius = radius;
     }
@@ -59,7 +59,7 @@ public class TikzCircle extends TikzShape {
      * @param reference
      *            the reference
      */
-    public TikzCircle(int radius, String reference) {
+    public TikzCircle(float radius, String reference) {
         super(reference);
         this.radius = radius;
     }
@@ -83,7 +83,7 @@ public class TikzCircle extends TikzShape {
      *
      * @return The radius
      */
-    public int getRadius() {
+    public float getRadius() {
         return radius;
     }
 
@@ -93,7 +93,7 @@ public class TikzCircle extends TikzShape {
      * @param radius
      *            the radius
      */
-    public void setRadius(int radius) {
+    public void setRadius(float radius) {
         this.radius = radius;
     }
 

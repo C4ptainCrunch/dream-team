@@ -15,6 +15,7 @@ public class User {
     private String lastName;
     private String email;
     private List<String> documents;
+    private String firstname;
 
 
     public User() {
@@ -62,4 +63,16 @@ public class User {
     }
 
     public void setId(int id) {this.id = id;}
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

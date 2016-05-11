@@ -40,14 +40,14 @@ public final class Database {
                                                               "FROM Users WHERE username = ? and password = ?";
     public static final String SQL_INSERT_USER = "INSERT INTO Users(first_name, last_name, username, email, token, activated) " +
                                              "VALUES (?, ?, ?, ?, ?, 0)";
-    public static final String SQL_EDIT_USER = "UPDATE Users " +
-                                               "SET first_name = ?,last_name = ?,username= ?,email= ?" +
+    public static final String SQL_UPDATE_USER = "UPDATE Users " +
+                                               "SET first_name = ?,last_name = ?,email= ?" +
                                                "WHERE username= ?";
     public static final String SQL_SET_PASSWORD_TO_USER = "UPDATE Users SET password = ? WHERE username = ?";
     public static final String SQL_GET_TOKEN_BY_USERNAME = "SELECT token FROM Users WHERE username = ?";
     public static final String SQL_IS_ACTIVATED = "SELECT activated FROM Users WHERE username = ?";
     public static final String SQL_ACTIVATE_USER = "UPDATE Users SET activated = 1 WHERE username = ?";
-    public static final String SQL_DISABLE_USER = "UPDATE Users SET activated = 0, token = ? WHERE username=?";
+    public static final String SQL_SET_TOKEN_BY_USERNAME = "UPDATE Users SET activated = 0, token = ? WHERE username=?";
     public static final String SQL_DELETE_USER = "DELETE FROM Users WHERE username = ?";
 
     public static final String SQL_INSERT_PROJECT = "INSERT INTO Projects(user_id, path, last_modification, default_perm_write, default_perm_read) VALUES (?, ?, ?, ?, ?);";

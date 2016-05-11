@@ -1,16 +1,14 @@
 package parser;
 
-import java.awt.*;
-import java.util.List;
-
+import constants.Models;
 import junit.framework.Assert;
 import models.tikz.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import constants.Models;
+import java.awt.*;
+import java.util.List;
 
 /**
  * Created by jhellinckx on 26/04/16.
@@ -75,8 +73,8 @@ public class TikzFormatterTest {
         String tikzSource = rectangle.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzRectangle parsedRectangle = (TikzRectangle) getFirstShape();
-        Assert.assertEquals(parsedRectangle.getWidth(),testeWidth);
-        Assert.assertEquals(parsedRectangle.getLength(),testedHeight);
+        Assert.assertEquals(parsedRectangle.getWidth(),testeWidth, 0.01);
+        Assert.assertEquals(parsedRectangle.getLength(),testedHeight, 0.01);
     }
 
     @Test
@@ -87,7 +85,7 @@ public class TikzFormatterTest {
         String tikzSource = circle.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzCircle parsedCircle = (TikzCircle) getFirstShape();
-        Assert.assertEquals(parsedCircle.getRadius(),testedRadius);
+        Assert.assertEquals(parsedCircle.getRadius(),testedRadius, 0.01);
     }
 
     @Test
@@ -109,7 +107,7 @@ public class TikzFormatterTest {
         String tikzSource = polygon.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzPolygon parsedPolygon = (TikzPolygon) getFirstShape();
-        Assert.assertEquals(parsedPolygon.getLength(),testedLength);
+        Assert.assertEquals(parsedPolygon.getLength(),testedLength, 0.01);
     }
 
     @Test

@@ -8,16 +8,15 @@ import constants.Tokens;
  * Implementation of a Token Creator used for the email confirmation.
  */
 public class TokenCreator {
-
-    public TokenCreator(){
-
+    private TokenCreator() {
+         // Static class
     }
 
     /**
      * Create and returns a new Token.
      * @return the created Token
      */
-    public String newToken(){
+    public static String newToken(){
         char[] chars = Tokens.TOKEN_ALPHABET.toCharArray();
         StringBuilder sb = new StringBuilder();
         SecureRandom random = new SecureRandom();

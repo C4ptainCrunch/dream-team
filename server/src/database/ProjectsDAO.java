@@ -26,7 +26,7 @@ public class ProjectsDAO {
         boolean error = false;
         try {
             connection = daoFactory.getConnection();
-            preparedStatement = initializationPreparedRequest(connection, Database.SQL_INSERT_PROJECT, true, project.getUserID().getId(), project.getPath(), project.getLast_modification(), project.isWrite_default(), project.isRead_default());
+            preparedStatement = initializationPreparedRequest(connection, Database.SQL_INSERT_PROJECT, true, project.getUserID(), project.getPath(), project.getLast_modification(), project.isWrite_default(), project.isRead_default());
             int statut = preparedStatement.executeUpdate();
             if (statut == 0) {
                 logger.severe("Failed to create a project");

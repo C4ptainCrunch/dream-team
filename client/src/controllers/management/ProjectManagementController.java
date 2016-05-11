@@ -44,7 +44,7 @@ public class ProjectManagementController {
         RecentProjects.addProject(project);
 
         new DiagramManagementView(project);
-        this.view.dispose();
+        this.view. dispose();
     }
 
     /**
@@ -56,7 +56,7 @@ public class ProjectManagementController {
         RecentProjects.addProject(diagram.getProject());
 
         java.awt.EventQueue.invokeLater(() -> new EditorView(diagram));
-        view.dispose(); // Exit previous windows
+        this.view.dispose(); // Exit previous windows
     }
 
     /**

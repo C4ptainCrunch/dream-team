@@ -15,15 +15,17 @@ import controllers.management.ProjectManagementController;
  * JDialog that serves as a "Main Menu". From here, the users can create a new diagram, open a project,
  * move/rename a project and open a recently edited project.
  */
-public class ProjectManagementView extends JDialog {
+public class ProjectManagementView extends JPanel {
     private ProjectManagementController controller = new ProjectManagementController(this);
     private JList<Project> projectChooser;
     private JTextPane infoPanel;
     private JPanel firstButtons;
     private JPanel secondButtons;
     private JPanel chooserPanel;
+    private ManagementView parentView;
 
-    public ProjectManagementView() {
+    public ProjectManagementView(ManagementView parentView) {
+        this.parentView = parentView;
         this.render();
     }
 
@@ -31,13 +33,9 @@ public class ProjectManagementView extends JDialog {
      * Render the main window and launch functions to build its' components.
      */
     public final void render() {
-        this.setTitle("TikzCreator : choose a project");
         this.setPreferredSize(new Dimension(600, 300));
         this.setSize(900, 200);
-        this.setLocationRelativeTo(null);
-        getContentPane().setLayout(
-                new BoxLayout(getContentPane(), BoxLayout.Y_AXIS)
-        );
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         createFirstButtonsPanel();
         createInfoPanel();
@@ -47,8 +45,7 @@ public class ProjectManagementView extends JDialog {
 
         createSecondButtonsPanel();
 
-        this.pack();
-        this.setVisible(true);
+        //this.setVisible(true);
     }
 
     private void createFirstButtonsPanel() {
@@ -123,5 +120,9 @@ public class ProjectManagementView extends JDialog {
      */
     public void setInfoText(String infoText) {
         this.infoPanel.setText(infoText);
+    }
+
+    public void dispose() {
+        this.parentView.dispose();
     }
 }

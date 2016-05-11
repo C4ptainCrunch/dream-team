@@ -9,6 +9,7 @@ import views.accounts.EditUserView;
 import views.accounts.LoginWindowView;
 import views.accounts.SignUpView;
 import views.accounts.TokenActivationView;
+import views.management.ManagementView;
 import views.management.ProjectManagementView;
 import constants.Errors;
 import constants.Network;
@@ -55,7 +56,7 @@ public class LoginWindowController {
 
         if(response.equals(Network.Login.LOGIN_OK)){
             this.view.dispose();
-            new ProjectManagementView();
+            new ManagementView();
         }else if(response.equals(Network.Login.ACCOUNT_NOT_ACTIVATED)){
             JOptionPane.showMessageDialog(this.view, Errors.ACTIVE_ACCOUNT_FIRST, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
         }else {

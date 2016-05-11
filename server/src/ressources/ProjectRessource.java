@@ -1,8 +1,10 @@
 package ressources;
 
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import utils.Log;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,8 +28,8 @@ public class ProjectRessource {
     @POST
     @Path("/set/{projectId}")
     @Produces("text/plain")
-    @Consumes({})
-    public String setProject(@PathParam("projectId") int projectId, InputStream project) throws IOException {
+    @Consumes({MediaType.MULTIPART_FORM_DATA})
+    public String setProject(@PathParam("projectId") int projectId, @FormDataParam("project")InputStream project) throws IOException {
         FileOutputStream output = new FileOutputStream("/tmp/plap.zip");
         output.write(project.read());
         return "OK";

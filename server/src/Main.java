@@ -5,6 +5,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import constants.Network;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import ressources.ProjectRessource;
@@ -20,6 +21,7 @@ public class Main {
 
         URI baseUri = UriBuilder.fromUri(Network.HOST.HOSTNAME+"/").port(Network.HOST.PORT).build();
         ResourceConfig config = new ResourceConfig(UserRessource.class);
+        config.register(MultiPartFeature.class);
         config.register(ProjectRessource.class);
         JdkHttpServerFactory.createHttpServer(baseUri, config);
 

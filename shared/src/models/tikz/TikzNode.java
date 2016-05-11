@@ -125,8 +125,8 @@ public abstract class TikzNode extends TikzComponent {
     /**
      * Move this tikz node by adding x and y to its coordinates.
      *
-     * @param x
-     * @param y
+     * @param dx
+     * @param dy
      */
     public void translate(float dx, float dy) {
         float x = this.position.x;

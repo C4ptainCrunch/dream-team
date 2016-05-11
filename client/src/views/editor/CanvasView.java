@@ -79,7 +79,7 @@ public class CanvasView extends JPanel {
                     requestFocusInWindow();
                     CanvasView view = (CanvasView) e.getSource();
                     TikzComponent component = view.getSelectedComponent();
-                    if ((selection != null) && selection.contains(e.getPoint())) {
+                    if ((selection != null) && selection.contains(new Point2D.Float(e.getX(), e.getY()))) {
                         selectionPopupMenu.show(view, e.getX(), e.getY());
                     } else if (component != null) {
                         popupMenu.show(view, e.getX(), e.getY());

@@ -28,16 +28,16 @@ public class Main {
             });
         } else if (args.length > 0 && args[0].equals("project")) {
             logger.info("Skip to the projects");
-            java.awt.EventQueue.invokeLater(() -> new ProjectManagementView());
+            java.awt.EventQueue.invokeLater(ProjectManagementView::new);
         } else {
-            logger.info("Starting project management view");
+            logger.info("Starting login window");
             java.awt.EventQueue.invokeLater(LoginWindowView::new);
         }
 
     }
 
     private static String getDiskToken() {
-        Path tokenPath = Dirs.getDataDir().resolve(Paths.get("last-save.path"));
+        Path tokenPath = Dirs.getDataDir().resolve(Paths.get("token"));
         try {
             return new String(Files.readAllBytes(tokenPath));
         } catch (IOException e) {

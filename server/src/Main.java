@@ -7,6 +7,7 @@ import constants.Network;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import ressources.ProjectRessource;
 import ressources.UserRessource;
 import utils.Log;
 import database.DAOFactory;
@@ -19,6 +20,7 @@ public class Main {
 
         URI baseUri = UriBuilder.fromUri(Network.HOST.HOSTNAME+"/").port(Network.HOST.PORT).build();
         ResourceConfig config = new ResourceConfig(UserRessource.class);
+        config.register(ProjectRessource.class);
         JdkHttpServerFactory.createHttpServer(baseUri, config);
 
         logger.info("Server started on" + Network.HOST.COMPLETE_HOSTNAME);

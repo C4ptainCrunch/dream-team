@@ -30,24 +30,33 @@ public class EditUserView extends JFrame{
 
     public final void render() {
         this.setSize(new Dimension(300,200));
+
         this.panel = new JPanel();
-        this.add(this.panel);
+        this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
 
         this.initFields();
         this.initButtons();
+        this.add(this.panel);
         this.setVisible(true);
     }
 
     private void initFields() {
         JPanel fieldsPanel = new JPanel();
+        fieldsPanel.setLayout(new GridLayout(0,2));
 
+        JLabel firstNameLabel = new JLabel("First Name: ");
         this.firstNameField = new JTextField(this.user.getFirstName());
+        fieldsPanel.add(firstNameLabel);
         fieldsPanel.add(this.firstNameField);
 
+        JLabel lastNameLabel = new JLabel("Last Name: ");
         this.lastNameField = new JTextField(this.user.getLastName());
+        fieldsPanel.add(lastNameLabel);
         fieldsPanel.add(this.lastNameField);
 
+        JLabel emailLabel = new JLabel("Email: ");
         this.emailField = new JTextField(this.user.getEmail());
+        fieldsPanel.add(emailLabel);
         fieldsPanel.add(this.emailField);
 
         this.panel.add(fieldsPanel);

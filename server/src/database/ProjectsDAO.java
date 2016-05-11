@@ -26,7 +26,7 @@ public class ProjectsDAO {
         boolean error = false;
         try {
             connection = daoFactory.getConnection();
-            preparedStatement = initializationPreparedRequest(connection, Database.SQL_INSERT_PROJECT, true, project.getUser().getId(), project.getPath(), project.getLast_modification(), project.isWrite_default(), project.isRead_default());
+            preparedStatement = initializationPreparedRequest(connection, Database.SQL_INSERT_PROJECT, true, project.getUserID().getId(), project.getPath(), project.getLast_modification(), project.isWrite_default(), project.isRead_default());
             int statut = preparedStatement.executeUpdate();
             if (statut == 0) {
                 logger.severe("Failed to create a project");
@@ -58,20 +58,17 @@ public class ProjectsDAO {
     public Project findByID(int id) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSetProject = null;
-        ResultSet resultSetUser = null;
+        ResultSet resultSet = null;
         Project project = null;
         try{
-            resultSetProject = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSetProject, Database.SQL_SELECT_PROJECT_BY_ID, id);
-            resultSetUser = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSetUser, Database.SQL_SELECT_BY_ID, resultSetProject.getString("id"));
-            if (resultSetProject.next() && resultSetUser.next()){
-                project = DAOUtilities.mapProject(resultSetProject, resultSetUser);
+            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, Database.SQL_SELECT_PROJECT_BY_ID, id);
+            if (resultSet.next()){
+                project = DAOUtilities.mapProject(resultSet);
             }
         } catch (SQLException e) {
             logger.severe(String.format("%s: %s", e.getClass().getName(), e.getMessage()));
         } finally {
-            silentClosures(resultSetProject, preparedStatement, connection);
-            silentClosures(resultSetUser, preparedStatement, connection);
+            silentClosures(resultSet, preparedStatement, connection);
         }
         return project;
     }

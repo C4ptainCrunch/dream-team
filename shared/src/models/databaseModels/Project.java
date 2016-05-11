@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 public class Project {
     private int id;
-    private User user;
+    private int userID;
     private String path;
     private String last_modification;
     private boolean write_default;
@@ -12,17 +12,17 @@ public class Project {
 
     public Project(){}
 
-    public Project(User user, String path, String last_modification, boolean write_default, boolean read_default) {
-        this.user = user;
+    public Project(int user, String path, String last_modification, boolean write_default, boolean read_default) {
+        this.userID = user;
         this.path = path;
         this.last_modification = last_modification;
         this.write_default = write_default;
         this.read_default = read_default;
     }
 
-    public Project(int id, User user, String path, String last_modification, boolean write_default, boolean read_default) {
+    public Project(int id, int user, String path, String last_modification, boolean write_default, boolean read_default) {
         this.id = id;
-        this.user = user;
+        this.userID = user;
         this.path = path;
         this.last_modification = last_modification;
         this.write_default = write_default;
@@ -31,8 +31,8 @@ public class Project {
 
 
     @XmlAttribute
-    public User getUser() {
-        return user;
+    public int getUserID() {
+        return userID;
     }
 
     @XmlAttribute

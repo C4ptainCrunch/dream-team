@@ -135,14 +135,14 @@ public class DAOUtilities {
         return new User(id, username, first_name, last_name, email);
     }
 
-    public static Project mapProject(ResultSet resultSetProject, ResultSet resultSetUser) throws SQLException {
-        int id = resultSetProject.getInt("id");
-        String path = resultSetProject.getString("path");
-        String last_modification = resultSetProject.getString("last_modification");
-        boolean default_perm_write = resultSetProject.getInt("default_perm_write") == 1;
-        boolean default_perm_read = resultSetProject.getInt("default_perm_read") == 1;
-        User user = mapUser(resultSetUser);
-        return new Project(id, user, path, last_modification, default_perm_write, default_perm_read);
+    public static Project mapProject(ResultSet resultSet) throws SQLException {
+        int id = resultSet.getInt("id");
+        int user_id = resultSet.getInt("user_id");
+        String path = resultSet.getString("path");
+        String last_modification = resultSet.getString("last_modification");
+        boolean default_perm_write = resultSet.getInt("default_perm_write") == 1;
+        boolean default_perm_read = resultSet.getInt("default_perm_read") == 1;
+        return new Project(id, user_id, path, last_modification, default_perm_write, default_perm_read);
     }
 
     public static Permissions mapPermissions(ResultSet resultSet) throws SQLException{

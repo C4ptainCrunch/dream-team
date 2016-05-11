@@ -26,6 +26,7 @@ public class ProjectManagementView extends JDialog {
     public final void render() {
         this.setTitle("TikzCreator : choose a project");
         this.setPreferredSize(new Dimension(900, 200));
+        this.setSize(900, 200);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
 
@@ -75,7 +76,9 @@ public class ProjectManagementView extends JDialog {
         this.projectChooser.setSelectedIndex(0);
 
         chooserPanel.add(new JLabel(GUI.ProjectManagement.DROPDOWN_HEADER), BorderLayout.NORTH);
-        chooserPanel.add(this.projectChooser, BorderLayout.CENTER);
+
+        JScrollPane listScroller = new JScrollPane(this.projectChooser);
+        chooserPanel.add(listScroller, BorderLayout.CENTER);
 
         this.add(chooserPanel, BorderLayout.CENTER);
 

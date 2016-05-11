@@ -241,6 +241,6 @@ public class UsersDAO {
     }
 
     public void setToken(User user, String token) {
-        // TODO
+        executeUpdate(Database.SQL_SET_TOKEN_BY_USERNAME, false, token , user.getUsername());
     }
 }

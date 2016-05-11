@@ -28,6 +28,6 @@ public final class Database {
     public static final String SQL_GET_TOKEN_BY_USERNAME = "SELECT token FROM Users WHERE username = ?";
     public static final String SQL_IS_ACTIVATED = "SELECT activated FROM Users WHERE username = ?";
     public static final String SQL_ACTIVATE_USER = "UPDATE Users SET activated = 1 WHERE username = ?";
-    public static final String SQL_DISABLE_USER = "UPDATE Users SET activated = 0, token = ? WHERE username=?";
+    public static final String SQL_SET_TOKEN_BY_USERNAME = "UPDATE Users SET activated = 0, token = ? WHERE username=?";
     public static final String SQL_DELETE_USER = "DELETE FROM Users WHERE username = ?";
 }

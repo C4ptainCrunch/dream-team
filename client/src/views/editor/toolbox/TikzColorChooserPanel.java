@@ -1,16 +1,14 @@
 package views.editor.toolbox;
 
-import parser.TikzColors;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.colorchooser.AbstractColorChooserPanel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import javax.swing.*;
+import javax.swing.colorchooser.AbstractColorChooserPanel;
+
+import parser.TikzColors;
 
 /**
  * A swatch-like color chooser that accepts only valid Tikz colors

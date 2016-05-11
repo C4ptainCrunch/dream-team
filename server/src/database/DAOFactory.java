@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Logger;
 
+
 class FactoryRequests{
     public static final String SQLITE_CREATE_TABLE_USERS = "CREATE TABLE Users(" +
             "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
@@ -21,7 +22,6 @@ class FactoryRequests{
             "activated INTEGER(1) NOT NULL,"+
             "password TEXT);";
 }
-
 
 /**
  * Implementation of a Data Access Objects (DAO) Factory, which will be used to let the server communicate with the database

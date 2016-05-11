@@ -2,16 +2,6 @@ package controllers.accounts;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by bambalaam on 27/04/16.

@@ -79,7 +79,7 @@ class GUIPropertiesReader implements PropertiesReader{
         GUI.MenuBar.REDO = properties.getProperty("REDO");
 
         ProjectManagement.CREATE_BUTTON = properties.getProperty("CREATE_BUTTON");
-        ProjectManagement.OPEN_BUTTON = properties.getProperty("OPEN_BUTTON");
+        ProjectManagement.OPEN_PROJECT_BUTTON = properties.getProperty("OPEN_BUTTON");
         ProjectManagement.RENAME_BUTTON = properties.getProperty("RENAME_BUTTON");
         ProjectManagement.CREATE_PANEL = properties.getProperty("CREATE_PANEL");
         ProjectManagement.IMPORT_PANEL = properties.getProperty("IMPORT_PANEL");

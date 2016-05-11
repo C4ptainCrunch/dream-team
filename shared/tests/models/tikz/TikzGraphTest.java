@@ -1,12 +1,9 @@
 package models.tikz;
+
 import static org.junit.Assert.*;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.*;
-import java.util.List;
-
-import models.tikz.*;
 
 import org.junit.After;
 import org.junit.Before;

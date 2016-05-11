@@ -1,9 +1,7 @@
-
 import java.io.IOException;
 import java.util.logging.Logger;
 
 import constants.ClientPropertiesLoader;
-import models.project.Diagram;
 import models.project.Project;
 import utils.Log;
 import views.accounts.LoginWindowView;

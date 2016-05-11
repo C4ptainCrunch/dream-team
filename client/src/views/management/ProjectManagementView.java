@@ -1,18 +1,29 @@
 package views.management;
 
 import java.awt.*;
+import java.util.Collections;
+import java.util.Vector;
+
 import javax.swing.*;
-import models.project.Diagram;
+
+import models.project.Project;
+import utils.RecentProjects;
 import constants.GUI;
 import controllers.management.ProjectManagementController;
 
-public class ProjectManagementView extends JFrame {
+/**
+ * JDialog that serves as a "Main Menu". From here, the users can create a new diagram, open a project,
+ * move/rename a project and open a recently edited project.
+ */
+public class ProjectManagementView extends JDialog {
     private ProjectManagementController controller = new ProjectManagementController(this);
-    private JComboBox<Diagram> projectChooser;
+    private JList<Project> projectChooser;
     private JTextPane infoPanel;
+    private JPanel firstButtons;
+    private JPanel secondButtons;
+    private JPanel chooserPanel;
 
     public ProjectManagementView() {
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.render();
     }
 
@@ -21,78 +32,94 @@ public class ProjectManagementView extends JFrame {
      */
     public final void render() {
         this.setTitle("TikzCreator : choose a project");
-        this.setPreferredSize(new Dimension(900, 200));
+        this.setPreferredSize(new Dimension(600, 300));
+        this.setSize(900, 200);
         this.setLocationRelativeTo(null);
-        this.setLayout(new BorderLayout());
+        getContentPane().setLayout(
+                new BoxLayout(getContentPane(), BoxLayout.Y_AXIS)
+        );
 
-        createButtonsPanel();
+        createFirstButtonsPanel();
         createInfoPanel();
         createChooserPanel();
+        this.add(this.chooserPanel);
+        this.add(this.infoPanel);
+
+        createSecondButtonsPanel();
 
         this.pack();
         this.setVisible(true);
     }
 
-    private void createButtonsPanel() {
-        JPanel buttons = new JPanel();
-        buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
+    private void createFirstButtonsPanel() {
+        this.firstButtons = new JPanel();
+        this.firstButtons.setLayout(new BoxLayout(this.firstButtons, BoxLayout.X_AXIS));
 
         JButton create = new JButton(GUI.ProjectManagement.CREATE_BUTTON);
         create.addActionListener(e -> controller.createProject());
 
-        JButton open = new JButton(GUI.ProjectManagement.OPEN_BUTTON);
-        open.addActionListener(e -> controller.openProject());
+        JButton openProject = new JButton(GUI.ProjectManagement.OPEN_PROJECT_BUTTON);
+        openProject.addActionListener(e -> controller.openProjects());
+
+        this.firstButtons.add(create);
+        this.firstButtons.add(openProject);
+
+        this.add(this.firstButtons);
+    }
+
+    private void createSecondButtonsPanel() {
+        this.secondButtons = new JPanel();
+        this.secondButtons.setLayout(new BoxLayout(this.secondButtons, BoxLayout.X_AXIS));
+
+        JButton openRecentProject = new JButton(GUI.ProjectManagement.OPEN_RECENT_BUTTON);
+        openRecentProject.addActionListener(e -> controller.openRecentProject());
 
         JButton rename = new JButton(GUI.ProjectManagement.RENAME_BUTTON);
         rename.addActionListener(e -> controller.moveProject());
 
-        buttons.add(create);
-        buttons.add(open);
-        buttons.add(rename);
+        this.secondButtons.add(rename);
+        this.secondButtons.add(openRecentProject);
 
-        this.add(buttons, BorderLayout.NORTH);
+        this.add(this.secondButtons);
+
     }
 
     private void createChooserPanel() {
-        JPanel chooserPanel = new JPanel();
-        chooserPanel.setLayout(new BorderLayout());
+        this.chooserPanel = new JPanel();
+        this.chooserPanel.setLayout(new BorderLayout());
 
-//        Vector<Diagram> recentDiagrams = new Vector<>(RecentProjects.getRecentProjects());
-//        Collections.reverse(recentDiagrams);
+        Vector<Project> recentProjects = new Vector<>(RecentProjects.getRecentProjects());
+        Collections.reverse(recentProjects);
 
-        this.projectChooser = new JComboBox<>();
-//        this.projectChooser.setModel(new DefaultComboBoxModel(recentDiagrams));
+        this.projectChooser = new JList<>(recentProjects);
+        this.projectChooser.addListSelectionListener(e -> controller.dropdownSelected(projectChooser.getSelectedValue()));
+        this.projectChooser.setSelectedIndex(0);
 
-        this.projectChooser.addActionListener(e -> controller.dropdownSelected((JComboBox) e.getSource()));
-        controller.dropdownSelected(this.projectChooser);
+        this.chooserPanel.add(new JLabel(GUI.ProjectManagement.DROPDOWN_HEADER), BorderLayout.NORTH);
 
-        chooserPanel.add(new JLabel(GUI.ProjectManagement.DROPDOWN_HEADER), BorderLayout.NORTH);
-        chooserPanel.add(this.projectChooser, BorderLayout.CENTER);
-
-        this.add(chooserPanel, BorderLayout.CENTER);
+        JScrollPane listScroller = new JScrollPane(this.projectChooser);
+        this.chooserPanel.add(listScroller, BorderLayout.CENTER);
 
     }
 
     private void createInfoPanel() {
-        JPanel infoPanel = new JPanel();
         this.infoPanel = new JTextPane();
-        this.setInfoText("                                                        ");
-
-        infoPanel.add(this.infoPanel);
-        this.add(this.infoPanel, BorderLayout.EAST);
+        this.infoPanel.setOpaque(false);
+        this.infoPanel.setEnabled(false);
+        this.infoPanel.setPreferredSize(new Dimension(100,100));
     }
 
     /**
-     * Fetch the selected diagram
-     * @return The selected diagram
+     * Fetch the selected project
+     * @return The selected project
      */
-    public Diagram getSelectedProject() {
-        return (Diagram) this.projectChooser.getSelectedItem();
+    public Project getSelectedProject() {
+        return (Project) this.projectChooser.getSelectedValue();
     }
 
     /**
-     * Sets the information from the selected diagram in the info panel
-     * @param infoText The selected diagram's information
+     * Sets the information from the selected project in the info panel
+     * @param infoText The selected project's information
      */
     public void setInfoText(String infoText) {
         this.infoPanel.setText(infoText);

@@ -10,6 +10,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import ressources.UserRessource;
 import utils.Log;
+import constants.Network;
 import database.DAOFactory;
 
 public class Main {

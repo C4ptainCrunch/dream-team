@@ -1,11 +1,10 @@
 package parser;
 
-import constants.Models;
-
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Set;
+
+import constants.Models;
 
 public class TikzColors {
     private final static HashMap<String, Color> string2color = new HashMap<String, Color>() {{

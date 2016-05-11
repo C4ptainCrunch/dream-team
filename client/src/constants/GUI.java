@@ -1,9 +1,9 @@
 package constants;
 
-import utils.Dirs;
-
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+
+import utils.Dirs;
 
 public final class GUI {
     public static final class MenuBar {
@@ -22,16 +22,20 @@ public final class GUI {
         public static String EDIT_MENU = "Edit";
         public static String UNDO = "Undo";
         public static String REDO = "Redo";
+        public static String OPEN = "Open";
+        public static String OPEN_DIAGRAM = "Open diagram";
     }
 
     public static final class ProjectManagement {
 
-        public static String CREATE_BUTTON = "Create";
-        public static String OPEN_BUTTON = "Open";
+        public static String CREATE_BUTTON = "Create new project";
+        public static String OPEN_PROJECT_BUTTON = "Open Project";
+        public static String OPEN_RECENT_BUTTON = "Open Recent Project";
         public static String RENAME_BUTTON = "Move project";
         public static String CREATE_PANEL = "Choose location to create your project";
         public static String IMPORT_PANEL = "Choose location to import your project";
-        public static String DROPDOWN_HEADER = "Choose existing project from this list" + " and press 'Open' or 'Rename'.";
+        public static String DROPDOWN_HEADER = "Choose recent diagram from this list" + " and press " +
+                "'Open Recent Diagram'";
         public static String BLANK_INFO_PANEL = "INFORMATION ABOUT SELECTED PROJECT:\nDiagram Name: %s"
                 + "\nUser: %s\nLast revision: %s\n";
         public static String DIFF_TEXT = "Diff History";

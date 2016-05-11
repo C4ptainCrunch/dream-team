@@ -1,16 +1,17 @@
 package ressources;
 
-import constants.Network;
-import database.DAOFactory;
-import database.UsersDAO;
-import models.users.User;
-import utils.ConfirmationEmailSender;
-import utils.Log;
+import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import javax.mail.MessagingException;
 import javax.ws.rs.*;
-import java.util.ArrayList;
-import java.util.logging.Logger;
+
+import models.users.User;
+import utils.ConfirmationEmailSender;
+import utils.Log;
+import constants.Network;
+import database.DAOFactory;
+import database.UsersDAO;
 
 @Path("user")
 public class UserRessource {
@@ -96,7 +97,7 @@ public class UserRessource {
 
         ArrayList<String> data = new ArrayList<>();
         data.add(firstname); data.add(lastname); data.add(username); data.add(email);
-        
+
         String flag = this.usersDAO.edit(data,originalUsername,originalEmail);
         if (flag != "Error"){
             if(! originalEmail.equals(email)){

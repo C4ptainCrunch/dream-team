@@ -37,7 +37,6 @@ public class UserEndpoint {
     }
 
     @POST
-    @Secured
     @Path("/activate/{username}")
     @Produces("text/plain")
     public String validateToken(@PathParam("username") String username, @FormParam("token") String token){

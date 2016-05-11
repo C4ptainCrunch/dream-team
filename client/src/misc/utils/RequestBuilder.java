@@ -38,8 +38,6 @@ public class RequestBuilder {
         }
     }
 
-
-
     public static void setToken(String token) {
         RequestBuilder.token = token;
         try {

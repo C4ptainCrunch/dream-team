@@ -33,7 +33,9 @@ public class EditUserView extends JFrame{
 
     private void initFields() {
         JPanel fieldsPanel = new JPanel();
-
+        System.out.println(this.user.getFirstName());
+        System.out.println(this.user.getLastName());
+        System.out.println(this.user.getEmail());
         this.firstNameField = new JTextField(this.user.getFirstName());
         fieldsPanel.add(this.firstNameField);
 

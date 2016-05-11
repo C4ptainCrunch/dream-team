@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import middleware.Secured;
@@ -81,7 +80,7 @@ public class UserEndpoint {
 
         String username = securityContext.getUserPrincipal().getName();
         User user = usersDAO.findByUsername(username);
-        user.setFirstname(firstname);
+        user.setFirstName(firstname);
         user.setLastName(lastname);
         boolean should_reset_email = user.getEmail().equals(email);
         user.setEmail(email);

@@ -1,14 +1,14 @@
 package database;
 
-import constants.Database;
-import utils.Log;
-
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Logger;
+
+import utils.Log;
+import constants.Database;
 
 /**
  * Implementation of a Data Access Objects (DAO) Factory, which will be used to let the server communicate with the database

@@ -1,9 +1,7 @@
 package models.tikz;
 
-import constants.Models;
 import parser.TikzFormatter;
-
-import java.awt.*;
+import constants.Models;
 
 /**
  * Implementation of the Circle Model (from the MVC architectural pattern) This

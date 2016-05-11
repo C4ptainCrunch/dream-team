@@ -3,11 +3,8 @@ package views.editor;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Set;
 
@@ -18,15 +15,17 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 
-import constants.Errors;
-import constants.GUI;
 import models.tikz.TikzComponent;
 import models.tikz.TikzGraph;
-import controllers.editor.SourceController;
+
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
+
+import constants.Errors;
+import constants.GUI;
+import controllers.editor.SourceController;
 
 /**
  * Implementation of the View (from the MVC architectural pattern) for the

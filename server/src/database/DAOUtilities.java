@@ -1,9 +1,9 @@
 package database;
 
-import utils.Log;
-
 import java.sql.*;
 import java.util.logging.Logger;
+
+import utils.Log;
 
 /**
  * Implementation of class regrouping common methods used by every DAO.

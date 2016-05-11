@@ -1,12 +1,12 @@
 package views.accounts;
 
-import constants.GUI;
-import controllers.accounts.EditUserController;
-import misc.utils.JTextFieldSizeLimiter;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+
+import javax.swing.*;
+
+import constants.GUI;
+import controllers.accounts.EditUserController;
 
 public class EditUserView extends JFrame{
 

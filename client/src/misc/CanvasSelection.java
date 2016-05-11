@@ -1,13 +1,11 @@
 package misc;
 
-import constants.GUI;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.*;
+
+import constants.GUI;
 
 /**
  * A CanvasSelection is a JPanel that represents the selection of components on

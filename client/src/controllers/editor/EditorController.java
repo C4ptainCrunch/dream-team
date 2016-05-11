@@ -7,11 +7,12 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
-import constants.GUI;
 import models.project.Diagram;
 import utils.Log;
+import utils.RecentProjects;
 import views.editor.EditorView;
 import constants.Errors;
+import constants.GUI;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the
@@ -36,7 +37,12 @@ public class EditorController implements Observer {
         this.view = view;
         this.diagram = diagram;
         this.diagram.getGraph().addObserver(this);
-        this.diagram.addObserver(this);
+        this.diagram.getProject().addObserver(this);
+        try {
+            RecentProjects.addProject(this.diagram.getProject());
+        } catch (IOException e) {
+            logger.warning("Failed to add the project to the recent list: " + e.toString());
+        }
     }
 
     public void update(Observable o, Object arg) {
@@ -55,10 +61,10 @@ public class EditorController implements Observer {
      */
     public void setTitle() {
         String title = GUI.MenuBar.APP_NAME + " - ";
-        if(this.diagram.getProject().isTemporary()){
+        if(this.diagram.isTemporary()){
             title = title + "(Unsaved)";
         } else {
-            title = title + this.diagram.getName() + ".tikz";
+            title = title + this.diagram.getProject().getName() + " - " + this.diagram.getName() + ".tikz";
         }
         this.view.setTitle(title);
     }

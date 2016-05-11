@@ -13,7 +13,7 @@ import controllers.management.HistoryController;
  * History. The History keeps track of every modifications done to the current
  * diagram. This class opens a new window that displays the history.
  */
-public class HistoryView extends JFrame {
+public class HistoryView extends JDialog {
     private final HistoryController controller;
     private final JTextPane historyPane = new JTextPane();
     private final JScrollPane scroll = new JScrollPane(getHistoryPane());

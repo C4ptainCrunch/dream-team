@@ -2,8 +2,6 @@ package models.tikz;
 
 import parser.TikzFormatter;
 
-import java.awt.*;
-
 /**
  * Implementation of the Undirected Edge Model (from the MVC architectural
  * pattern) This class represents an undirected edge that links two tikz node.

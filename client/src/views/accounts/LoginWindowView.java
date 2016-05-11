@@ -1,12 +1,12 @@
 package views.accounts;
 
-import constants.GUI;
-import controllers.accounts.LoginWindowController;
-import constants.GUI.LoginWindow;
+import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import java.awt.*;
+
+import constants.GUI.LoginWindow;
+import controllers.accounts.LoginWindowController;
 
 /**
  * LoginWindowView is the main window for the login process.

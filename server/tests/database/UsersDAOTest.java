@@ -1,13 +1,16 @@
 package database;
 
-import constants.Database;
+import static org.junit.Assert.*;
+
+import java.io.File;
+
 import models.users.User;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import java.io.File;
 
-import static org.junit.Assert.*;
+import constants.Database;
 
 /**
  * Created by mrmmtb on 27.04.16.

@@ -1,10 +1,11 @@
 package views.accounts;
 
-import constants.GUI;
-import controllers.accounts.TokenActivationController;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
+
+import constants.GUI;
+import controllers.accounts.TokenActivationController;
 
 /**
  * A view for the token activation process.

@@ -11,8 +11,8 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.MouseInputAdapter;
 
-import constants.Models;
 import models.ToolModel;
+import constants.Models;
 import controllers.editor.toolbox.AttributesChooserController;
 
 /**

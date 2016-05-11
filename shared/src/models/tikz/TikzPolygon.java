@@ -1,7 +1,7 @@
 package models.tikz;
 
-import constants.Models;
 import parser.TikzFormatter;
+import constants.Models;
 
 /**
  * Implementation of the Polygon Model (from the MVC architectural pattern) This

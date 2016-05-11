@@ -1,20 +1,23 @@
 package controllers.accounts;
 
-import constants.Errors;
-import constants.GUI;
-import constants.Network;
-import constants.Warnings;
-import models.NetworkRequest;
-import org.apache.commons.validator.routines.EmailValidator;
-import views.accounts.EditUserView;
-import views.accounts.LoginWindowView;
-import views.accounts.TokenActivationView;
+import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import javax.swing.*;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.regex.Pattern;
+
+import models.NetworkRequest;
+
+import org.apache.commons.validator.routines.EmailValidator;
+
+import views.accounts.EditUserView;
+import views.accounts.LoginWindowView;
+import views.accounts.TokenActivationView;
+import constants.Errors;
+import constants.GUI;
+import constants.Network;
+import constants.Warnings;
 
 /**
  * The controller related to the EditUserView.

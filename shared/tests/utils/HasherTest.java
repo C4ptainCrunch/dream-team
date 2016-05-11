@@ -1,8 +1,8 @@
 package utils;
 
-import org.junit.Test;
-
 import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 public class HasherTest {
     private static final String HASH = "$p5k2$3e8$longlongsalt$-1a89558e9b6542993789d3c844422f818ad5732bd957c441";

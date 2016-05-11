@@ -2,7 +2,7 @@ package views.editor.canvas.drawers;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -12,7 +12,6 @@ import misc.utils.Converter;
 import models.tikz.TikzComponent;
 import models.tikz.TikzNode;
 import models.tikz.TikzPolygon;
-import models.tikz.TikzShape;
 import utils.Geom;
 import utils.Log;
 import views.editor.canvas.drawables.DrawableTikzNode;

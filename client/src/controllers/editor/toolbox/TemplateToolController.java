@@ -1,17 +1,18 @@
 package controllers.editor.toolbox;
 
-import constants.Errors;
-import constants.GUI;
-import misc.managers.TemplateIOManager;
-import models.Template;
-import views.editor.toolbox.templateview.TemplateList;
-import views.editor.toolbox.templateview.TemplateToolView;
-
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import javax.swing.*;
+
+import misc.managers.TemplateIOManager;
+import models.Template;
+import views.editor.toolbox.templateview.TemplateList;
+import views.editor.toolbox.templateview.TemplateToolView;
+import constants.Errors;
+import constants.GUI;
 
 public class TemplateToolController {
 

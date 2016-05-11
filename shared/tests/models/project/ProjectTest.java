@@ -2,8 +2,6 @@ package models.project;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 
 public class ProjectTest {
     @Test

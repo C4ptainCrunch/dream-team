@@ -75,6 +75,7 @@ public class MenuController implements Observer {
                 File newDir = choose.ask();
                 if(newDir != null){
                     this.diagram.getProject().move(newDir);
+                    FileChooseView.setRecent(newDir);
                 }
             }
             this.diagram.save();

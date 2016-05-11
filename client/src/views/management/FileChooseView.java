@@ -3,16 +3,27 @@ package views.management;
 import utils.Dirs;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 
 public class FileChooseView extends JPanel {
     JFileChooser chooser;
 
     public FileChooseView(String title, int selectionMode) {
         chooser = new JFileChooser();
-        chooser.setCurrentDirectory(Dirs.getDefaultDirectory().toFile());
+        try {
+            chooser.setCurrentDirectory(this.getRecent().toFile());
+        } catch (IOException e) {
+            chooser.setCurrentDirectory(Dirs.getDefaultDirectory().toFile());
+        }
         chooser.setDialogTitle(title);
         chooser.setFileSelectionMode(selectionMode);
     }
@@ -36,5 +47,22 @@ public class FileChooseView extends JPanel {
 
     public void setSelectedFile(File f){
         chooser.setSelectedFile(f);
+    }
+
+    private static Path getRecentPath() {
+        return Dirs.getDataDir().resolve(Paths.get("last-save.path"));
+    }
+
+    public static void setRecent(File fPath) throws IOException {
+        String line = fPath.toPath().getParent().toAbsolutePath().toString();
+        Files.write(getRecentPath(), line.getBytes(), TRUNCATE_EXISTING, CREATE);
+    }
+
+    public static Path getRecent() throws IOException {
+        Path p = Paths.get(new String(Files.readAllBytes(getRecentPath())));
+        if(!p.toFile().exists()) {
+            throw new IOException("Recent path does not exist anymore");
+        }
+        return p;
     }
 }

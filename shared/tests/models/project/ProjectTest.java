@@ -9,15 +9,21 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TemporaryFolder;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 
 public class ProjectTest extends SharedTest{
 
     private Project project;
     private Diagram diagram;
 
+    @Rule
+    TemporaryFolder tmpFolder = new TemporaryFolder();
+
     @Before
     public void setUp() throws Exception{
-
+        Path p = Paths.get(tmpFolder.getRoot().getPath());
     }
 
     @After
@@ -26,28 +32,11 @@ public class ProjectTest extends SharedTest{
     }
 
     @Test
-    public void getDiagramSource() throws Exception {
+    public void testWriteSource() throws Exception{
 
     }
 
     @Test
-    public void getDiagramDiff() throws Exception {
+    public void testWriteDiff() throws Exception{
 
     }
-
-    @Test
-    public void getDiagram() throws Exception {
-
-    }
-
-    @Test
-    public void renameDiagram() throws Exception {
-
-    }
-
-    @Test
-    public void getDiagramNames() throws Exception {
-
-    }
-
-}

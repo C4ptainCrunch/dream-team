@@ -20,7 +20,7 @@ import utils.RecentProjects;
  * files in the zip (diagram_name.tikz and diagram_name.diff).
  * All read and writes to the zip are synchronised to avoid race-conditions
  */
-public class Project  extends Observable implements Comparable<Project>{
+public class Project extends Observable implements Comparable<Project>{
     private Path path;
     private boolean isTemporary = false;
     private final static Logger logger = Log.getLogger(Project.class);

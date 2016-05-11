@@ -1,15 +1,15 @@
 package endpoints;
 
-import constants.Network;
-import database.DAOFactory;
-import database.UsersDAO;
-import models.users.User;
-import utils.TokenCreator;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
+
+import models.users.User;
+import utils.TokenCreator;
+import database.DAOFactory;
+import database.UsersDAO;
 
 @Path("/authentication")
 public class AuthenticationEndpoint {

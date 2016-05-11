@@ -1,6 +1,5 @@
 package endpoints;
 
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import javax.mail.MessagingException;
@@ -12,10 +11,10 @@ import middleware.Secured;
 import models.users.User;
 import utils.ConfirmationEmailSender;
 import utils.Log;
+import utils.TokenCreator;
 import constants.Network;
 import database.DAOFactory;
 import database.UsersDAO;
-import utils.TokenCreator;
 
 @Path("user")
 public class UserEndpoint {

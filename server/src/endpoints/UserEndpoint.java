@@ -72,25 +72,27 @@ public class UserEndpoint {
     @Secured
     @Path("/edit")
     @Produces("text/plain")
+    @Consumes("application/xml")
     public String editUser(
-            @FormParam("firstname") String firstname,
-            @FormParam("lastname") String lastname,
-            @FormParam("email") String email,
+            User user,
             @Context SecurityContext securityContext) {
 
         String username = securityContext.getUserPrincipal().getName();
-        User user = usersDAO.findByUsername(username);
-        user.setFirstName(firstname);
-        user.setLastName(lastname);
-        boolean should_reset_email = user.getEmail().equals(email);
-        user.setEmail(email);
+        if(!user.getUsername().equals(username)){
+            throw new BadRequestException("User username isn't the same as the db username");
+        }
+        User dbUser = usersDAO.findByUsername(username);
+        dbUser.setFirstName(user.getFirstName());
+        dbUser.setLastName(user.getLastName());
+        boolean should_reset_email = dbUser.getEmail().equals(user.getEmail());
+        dbUser.setEmail(user.getEmail());
 
-        this.usersDAO.update(user);
+        this.usersDAO.update(dbUser);
         if(should_reset_email) {
             String token = TokenCreator.newToken();
-            this.usersDAO.setToken(user, token);
+            this.usersDAO.setToken(dbUser, token);
             try {
-                ConfirmationEmailSender.send(user.getEmail(),token);
+                ConfirmationEmailSender.send(dbUser.getEmail(),token);
             } catch (MessagingException e) {
                 e.printStackTrace();
             }

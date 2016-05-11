@@ -2,7 +2,6 @@
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import misc.utils.ConflictResolver;
 import models.project.Project;
 import utils.Log;
 import views.editor.EditorView;
@@ -30,7 +29,6 @@ public class Main {
         } else {
             logger.info("Starting project management view");
             //java.awt.EventQueue.invokeLater(LoginWindowView::new);
-            ConflictResolver c = new ConflictResolver();
         }
 
     }

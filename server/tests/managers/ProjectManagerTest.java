@@ -20,7 +20,7 @@ public class ProjectManagerTest {
     public void setUp() throws Exception {
         baseFile = new File("tests/utils/diffsFiles/base.diff");
         localFile = new File("tests/utils/diffsFiles/local.diff");
-        conflictFile = new File("tests/utils/diffsFiles/local.diff");
+        conflictFile = new File("tests/utils/diffsFiles/conflict.diff");
         projectManager = new ProjectManager();
     }
 

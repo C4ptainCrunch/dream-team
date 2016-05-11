@@ -1,6 +1,5 @@
 package utils;
 
-import models.project.Diff;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

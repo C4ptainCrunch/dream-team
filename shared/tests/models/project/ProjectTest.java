@@ -13,30 +13,28 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 
-public class ProjectTest extends SharedTest{
+public class ProjectTest extends SharedTest {
 
     private Project project;
     private Diagram diagram;
 
-    @Rule
-    TemporaryFolder tmpFolder = new TemporaryFolder();
-
     @Before
-    public void setUp() throws Exception{
-        Path p = Paths.get(tmpFolder.getRoot().getPath());
+    public void setUp() throws Exception {
+        project = new Project();
     }
 
     @After
-    public void tearDown() throws Exception{
+    public void tearDown() throws Exception {
 
     }
 
     @Test
-    public void testWriteSource() throws Exception{
+    public void testWriteSource() throws Exception {
 
     }
 
     @Test
-    public void testWriteDiff() throws Exception{
+    public void testWriteDiff() throws Exception {
 
     }
+}

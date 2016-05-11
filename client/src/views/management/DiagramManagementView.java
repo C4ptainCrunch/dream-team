@@ -13,6 +13,10 @@ import javax.swing.event.ListSelectionListener;
 import models.project.Project;
 import controllers.management.DiagramManagementController;
 
+/**
+ * JDialog that allows the user to either choose an existing diagram in a previously
+ * selected project, or to create a new diagram
+ */
 public class DiagramManagementView extends JDialog {
 
     private DiagramManagementController controller;
@@ -21,6 +25,10 @@ public class DiagramManagementView extends JDialog {
     private JTextField newDiagramName;
     private JButton okButton;
 
+    /** Constructs the DiagramManagementView
+     * @param currentProject The project in which the diagrams are
+     * @throws IOException
+     */
     public DiagramManagementView(Project currentProject) throws IOException {
         this.controller = new DiagramManagementController(this, currentProject);
         this.diagramNames = new Vector<>(currentProject.getDiagramNames());
@@ -29,6 +37,9 @@ public class DiagramManagementView extends JDialog {
         this.render();
     }
 
+    /**
+     * Creates elements in the window and sets it as visible.
+     */
     public final void render(){
         this.setTitle("TikzCreator : choose a diagram or create a new one");
         this.setPreferredSize(new Dimension(400, 250));

@@ -18,14 +18,28 @@ import views.management.ProjectManagementView;
 import constants.Errors;
 import constants.GUI.ProjectManagement;
 
+/**
+ * Controller for the ProjectManagementView
+ */
+
 public class ProjectManagementController {
     private final static Logger logger = Log.getLogger(ProjectManagementController.class);
     private final ProjectManagementView view;
 
+    /**
+     * Creates a controller for the ProjectManagementView
+     * @param view The corresponding view, created elsewhere
+     */
     public ProjectManagementController(ProjectManagementView view) {
         this.view = view;
     }
 
+    /**
+     * Closes the current view and prompts the user to open a new diagram in the
+     * current project.
+     * @param project The current project
+     * @throws IOException
+     */
     public void editProject(Project project) throws IOException {
         RecentProjects.addProject(project);
 
@@ -33,6 +47,11 @@ public class ProjectManagementController {
         this.view.dispose();
     }
 
+    /**
+     * Launches edition of a given diagram
+     * @param diagram The diagram to be edited
+     * @throws IOException
+     */
     public void editDiagram(Diagram diagram) throws IOException {
         RecentProjects.addProject(diagram.getProject());
 
@@ -73,6 +92,9 @@ public class ProjectManagementController {
     }
 
 
+    /**
+     * Opens for edition a project that was selected in the view.
+     */
     public void openRecentProject() {
         Project project = view.getSelectedProject();
         if (project != null) {
@@ -85,6 +107,9 @@ public class ProjectManagementController {
         }
     }
 
+    /**
+     * Opens a FileChooser to select an existing project in the file system
+     */
     public void openProjects(){
 
         FileChooseView choose = new FileChooseView("Select project", JFileChooser.FILES_ONLY);
@@ -101,6 +126,9 @@ public class ProjectManagementController {
         }
     }
 
+    /**
+     * Renames and/or moves a project in the file system
+     */
     public void moveProject() {
         Project project = view.getSelectedProject();
         if (project == null) {

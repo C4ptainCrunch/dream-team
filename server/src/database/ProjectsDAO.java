@@ -1,16 +1,13 @@
 package database;
 
 import constants.Database;
-import models.users.Project;
-import models.users.User;
+import models.databaseModels.Project;
 import utils.Log;
 
 import static database.DAOUtilities.initializationPreparedRequest;
-import static database.DAOUtilities.mapUser;
 import static database.DAOUtilities.silentClosures;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class ProjectsDAO {

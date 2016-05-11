@@ -29,9 +29,9 @@ public final class Database {
             "user_id INTEGER NOT NULL," +
             "write_perm INTEGER NOT NULL," +
             "read_perm INTEGER NOT NULL," +
-            "write_perm INTEGER NOT NULL," +
             "FOREIGN KEY(project_id) REFERENCES Projects(id) ON UPDATE CASCADE ON DELETE CASCADE," +
-            "FOREIGN KEY(user_id) REFERENCES Users(id) ON UPDATE CASCADE ON DELETE CASCADE;";
+            "FOREIGN KEY(user_id) REFERENCES Users(id) ON UPDATE CASCADE ON DELETE CASCADE," +
+            "PRIMARY KEY (project_id, user_id);";
     public static final String SQL_SELECT_BY_USERNAME = "SELECT id, first_name, last_name, username, email " +
                                                          "FROM Users WHERE username = ?";
     public static final String SQL_SELECT_BY_ID = "SELECT id, first_name, last_name, username, email " +

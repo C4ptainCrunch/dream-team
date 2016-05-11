@@ -1,4 +1,4 @@
-package models.users;
+package models.databaseModels;
 
 import java.util.List;
 

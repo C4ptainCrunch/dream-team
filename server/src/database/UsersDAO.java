@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import models.users.User;
+import models.databaseModels.User;
 import utils.Hasher;
 import utils.Log;
 import utils.TokenCreator;

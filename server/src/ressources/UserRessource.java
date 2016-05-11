@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.ws.rs.*;
 
-import models.users.User;
+import models.databaseModels.User;
 import utils.ConfirmationEmailSender;
 import utils.Log;
 import constants.Network;

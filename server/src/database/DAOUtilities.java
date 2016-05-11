@@ -3,8 +3,8 @@ package database;
 import java.sql.*;
 import java.util.logging.Logger;
 
-import models.users.Project;
-import models.users.User;
+import models.databaseModels.Project;
+import models.databaseModels.User;
 import utils.Log;
 
 /**

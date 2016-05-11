@@ -1,4 +1,4 @@
-package models.users;
+package models.databaseModels;
 
 import javax.xml.bind.annotation.XmlAttribute;
 

@@ -22,7 +22,7 @@ import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
  * of a tikz graph and a file path containing the specific files (save, diffs
  * ..) for this project
  */
-public class Diagram extends Observable{
+public class Diagram{
     private final static Logger logger = Log.getLogger(Diagram.class);
     private String name;
     private Project project;
@@ -111,6 +111,7 @@ public class Diagram extends Observable{
         redoList = new ArrayList<>();
 
         RecentProjects.addProject(this.getProject());
+
     }
 
     /**
@@ -127,8 +128,6 @@ public class Diagram extends Observable{
     public void rename(String newName) throws IOException {
         this.project.renameDiagram(this.name, newName);
         this.name = newName;
-        this.setChanged();
-        this.notifyObservers();
         RecentProjects.addProject(this.getProject());
     }
 

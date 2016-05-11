@@ -11,10 +11,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.*;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.zip.ZipOutputStream;
@@ -22,7 +19,7 @@ import java.util.zip.ZipOutputStream;
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 
-public class Project implements Comparable<Project>{
+public class Project  extends Observable implements Comparable<Project>{
     private Path path;
     private boolean isTemporary = false;
     private final static Logger logger = Log.getLogger(Project.class);
@@ -79,6 +76,8 @@ public class Project implements Comparable<Project>{
             Files.move(oldDiff, newDiff);
 
             RecentProjects.addProject(this);
+            this.setChanged();
+            this.notifyObservers();
         }
     }
 
@@ -112,6 +111,8 @@ public class Project implements Comparable<Project>{
         Files.move(this.path, newFile.toPath());
         this.path = newFile.toPath();
         RecentProjects.addProject(this);
+        this.setChanged();
+        this.notifyObservers();
     }
 
     public Path getPath() {

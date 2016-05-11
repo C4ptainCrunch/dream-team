@@ -12,6 +12,27 @@ import utils.Log;
 import utils.TokenCreator;
 import constants.Database;
 
+class UserRequests{
+    public static final String SQL_SELECT_BY_USERNAME = "SELECT id, first_name, last_name, username, email " +
+            "FROM Users WHERE username = ?";
+    public static final String SQL_MATCH_USERNAME_PASSWORD = "SELECT username, password " +
+            "FROM Users WHERE username = ? and password = ?";
+    public static final String SQL_INSERT_USER = "INSERT INTO Users(first_name, last_name, username, email, token, activated) " +
+            "VALUES (?, ?, ?, ?, ?, 0)";
+
+    public static final String SQL_SET_PASSWORD_TO_USER = "UPDATE Users SET password = ? WHERE username = ?";
+    public static final String SQL_GET_TOKEN_BY_USERNAME = "SELECT token FROM Users WHERE username = ?";
+    public static final String SQL_IS_ACTIVATED = "SELECT activated FROM Users WHERE username = ?";
+    public static final String SQL_ACTIVATE_USER = "UPDATE Users SET activated = 1 WHERE username = ?";
+    public static final String SQL_DELETE_USER = "DELETE FROM Users WHERE username = ?";
+
+    public static final String SQL_UPDATE_USER = "UPDATE Users " +
+            "SET first_name = ?,last_name = ?,email= ?" +
+            "WHERE username= ?";
+    public static final String SQL_SET_TOKEN_BY_USERNAME = "UPDATE Users SET activated = 0, token = ? WHERE username=?";
+
+}
+
 /**
  * Implementation of a DAO to get and set information to the database's Users table.
  */
@@ -43,7 +64,7 @@ public class UsersDAO {
             connection = daoFactory.getConnection();
             preparedStatement = initializationPreparedRequest(
                     connection,
-                    Database.SQL_INSERT_USER,
+                    UserRequests.SQL_INSERT_USER,
                     true,
                     user.getFirstName(),
                     user.getLastName(),
@@ -82,7 +103,7 @@ public class UsersDAO {
         ResultSet resultSet = null;
         User user = null;
         try {
-            resultSet = DAOUtilities.executeQuery( daoFactory, connection, preparedStatement, resultSet, Database.SQL_SELECT_BY_USERNAME, username);
+            resultSet = DAOUtilities.executeQuery( daoFactory, connection, preparedStatement, resultSet, UserRequests.SQL_SELECT_BY_USERNAME, username);
             if ( resultSet.next() ) {
                 user = DAOUtilities.mapUser( resultSet );
             }
@@ -107,7 +128,7 @@ public class UsersDAO {
         User user = null;
         String hash = Hasher.hash(password, username);
         try {
-            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet,  Database.SQL_MATCH_USERNAME_PASSWORD, username, hash);
+            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet,  UserRequests.SQL_MATCH_USERNAME_PASSWORD, username, hash);
             if (resultSet.next()) {
                 user = findByUsername(username);
             }
@@ -126,7 +147,7 @@ public class UsersDAO {
      */
     public void setPasswordToUser(User user, String password) {
         String hash = Hasher.hash(password, user.getUsername());
-        int statut = DAOUtilities.executeUpdate(daoFactory, Database.SQL_SET_PASSWORD_TO_USER, hash, user.getUsername());
+        int statut = DAOUtilities.executeUpdate(daoFactory, UserRequests.SQL_SET_PASSWORD_TO_USER, hash, user.getUsername());
         if ( statut == 0 ) {
             logger.severe( "Failed to update user's password" );
         }
@@ -143,7 +164,7 @@ public class UsersDAO {
         ResultSet resultSet = null;
         Boolean activated = false;
         try {
-            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, Database.SQL_IS_ACTIVATED, user.getUsername());
+            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, UserRequests.SQL_IS_ACTIVATED, user.getUsername());
             if (resultSet.next() ) {
                 activated = (resultSet.getInt("activated") == 1) ? true : false;
             }
@@ -160,9 +181,10 @@ public class UsersDAO {
      * @param username the username of the account to activate
      */
     public void activateUser(String username) {
-        int statut = DAOUtilities.executeUpdate(daoFactory, Database.SQL_ACTIVATE_USER, false, username);
-        if ( statut == 0 ) {
-            logger.severe("Failed to activate user");
+        try {
+            DAOUtilities.executeUpdate(daoFactory, UserRequests.SQL_ACTIVATE_USER, username);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -177,7 +199,7 @@ public class UsersDAO {
         ResultSet resultSet = null;
         String token = null;
         try {
-            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, Database.SQL_GET_TOKEN_BY_USERNAME, username);
+            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, UserRequests.SQL_GET_TOKEN_BY_USERNAME, username);
             if (resultSet.next() ) {
                 token = (resultSet.getString("token"));
             }
@@ -194,17 +216,17 @@ public class UsersDAO {
      * @param user The User to delete
      */
     public void deleteUser(User user) {
-        int statut = DAOUtilities.executeUpdate(daoFactory, Database.SQL_DELETE_USER, user.getUsername());
+        int statut = DAOUtilities.executeUpdate(daoFactory, UserRequests.SQL_DELETE_USER, user.getUsername());
         if ( statut == 0 ) {
             logger.severe( "Failed to delete user" );
         }
     }
 
     public void update(User user) {
-        DAOUtilities.executeUpdate(daoFactory, Database.SQL_UPDATE_USER, false, user.getFirstName(), user.getLastName(), user.getEmail(), user.getUsername());
+        DAOUtilities.executeUpdate(daoFactory, UserRequests.SQL_UPDATE_USER, user.getFirstName(), user.getLastName(), user.getEmail(), user.getUsername());
     }
 
     public void setToken(User user, String token) {
-        DAOUtilities.executeUpdate(daoFactory, Database.SQL_SET_TOKEN_BY_USERNAME, false, token , user.getUsername());
+        DAOUtilities.executeUpdate(daoFactory, UserRequests.SQL_SET_TOKEN_BY_USERNAME, token , user.getUsername());
     }
 }

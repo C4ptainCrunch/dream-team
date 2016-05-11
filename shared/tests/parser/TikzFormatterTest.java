@@ -6,6 +6,7 @@ import models.tikz.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import utils.SharedTest;
 
 import java.awt.*;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by jhellinckx on 26/04/16.
  */
-public class TikzFormatterTest {
+public class TikzFormatterTest extends SharedTest {
     private TikzGraph graph;
 
     @Before

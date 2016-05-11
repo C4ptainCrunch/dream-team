@@ -1,7 +1,7 @@
 package views.editor.canvas.drawers;
 
-import static constants.GUI.Config.ARROW_ANGLE;
-import static constants.GUI.Config.ARROW_LENGTH;
+import static constants.GUI.Drawing.ARROW_ANGLE;
+import static constants.GUI.Drawing.ARROW_LENGTH;
 
 import java.awt.*;
 import java.awt.geom.Line2D;

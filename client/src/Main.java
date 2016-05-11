@@ -1,23 +1,20 @@
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 import controllers.accounts.LoginWindowController;
+import constants.ClientPropertiesLoader;
 import models.project.Project;
-import utils.Dirs;
 import utils.Log;
 import views.accounts.LoginWindowView;
 import views.editor.EditorView;
 import views.management.ManagementView;
-import views.management.ProjectManagementView;
 
 public class Main {
     private static final Logger logger = Log.getLogger(Main.class);
 
     public static void main(String... args) {
         Log.init();
+        ClientPropertiesLoader.loadAll();
         if(args.length > 0 && args[0].equals("editor")){
             logger.info("Skip to the editor");
             java.awt.EventQueue.invokeLater(() -> {

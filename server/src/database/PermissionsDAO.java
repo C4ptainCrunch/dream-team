@@ -10,6 +10,13 @@ import java.util.logging.Logger;
 import static database.DAOUtilities.initializationPreparedRequest;
 import static database.DAOUtilities.silentClosures;
 
+class PermissionsRequests {
+    public static final String SQL_INSERT_PERMISSIONS = "INSERT INTO Permissions(project_id, user_id, write_perm, read_perm) VALUES (?,?,?,?);";
+    public static final String SQL_SELECT_PERMISSIONS = "SELECT * FROM Permissions WHERE project_id = ? AND user_id = ? ;";
+    public static final String SQL_CHANGE_PERMISSIONS = "UPDATE Permissions SET read_perm = ?, write_perm = ? WHERE project_id = ? AND user_id = ? ;";
+    public static final String SQL_PERMISSINOS_DELETE = "DELETE FROM Permissions WHERE project_id = ? AND user_id = ? ;";
+}
+
 public class PermissionsDAO {
     private static final Logger logger = Log.getLogger(UsersDAO.class);
 
@@ -26,7 +33,7 @@ public class PermissionsDAO {
         boolean error = false;
         try {
             connection = daoFactory.getConnection();
-            preparedStatement = initializationPreparedRequest(connection, Database.SQL_INSERT_PERMISSIONS, true, permissions.getProjectID(), permissions.getUserID(), permissions.isReadable(), permissions.isWritable());
+            preparedStatement = initializationPreparedRequest(connection, PermissionsRequests.SQL_INSERT_PERMISSIONS, true, permissions.getProjectID(), permissions.getUserID(), permissions.isReadable(), permissions.isWritable());
             int statut = preparedStatement.executeUpdate();
             if (statut == 0) {
                 logger.severe("Failed to create a new permissions instance");
@@ -45,7 +52,7 @@ public class PermissionsDAO {
         ResultSet resultSet = null;
         Permissions permissions = null;
         try {
-            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, Database.SQL_SELECT_PERMISSIONS, project_id, user_id);
+            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, PermissionsRequests.SQL_SELECT_PERMISSIONS, project_id, user_id);
             if (resultSet.next()){
                 permissions = DAOUtilities.mapPermissions(resultSet);
             }
@@ -56,7 +63,7 @@ public class PermissionsDAO {
     }
 
     public boolean changePermissions(int user_id, int project_id, boolean read_perm, boolean write_perm) {
-        int statut = DAOUtilities.executeUpdate(daoFactory, Database.SQL_CHANGE_PERMISSIONS, project_id, user_id);
+        int statut = DAOUtilities.executeUpdate(daoFactory, PermissionsRequests.SQL_CHANGE_PERMISSIONS, project_id, user_id);
         if (statut == 0) {
             logger.severe(String.format("Failed to set permissions for User %d in Project %d", user_id, project_id));
         }
@@ -64,7 +71,7 @@ public class PermissionsDAO {
     }
 
     public boolean deletePermissions(int user_id, int project_id) {
-        int statut = DAOUtilities.executeUpdate(daoFactory, Database.SQL_PERMISSINOS_DELETE, project_id, user_id);
+        int statut = DAOUtilities.executeUpdate(daoFactory, PermissionsRequests.SQL_PERMISSINOS_DELETE, project_id, user_id);
         if (statut == 0) {
             logger.severe(String.format("Failed to delete permissions for User %d in Project %d", user_id, project_id));
         }

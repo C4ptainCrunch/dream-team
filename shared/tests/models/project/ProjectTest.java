@@ -1,9 +1,10 @@
 package models.project;
 
+import utils.SharedTest;
 import org.junit.Test;
 
 
-public class ProjectTest {
+public class ProjectTest extends SharedTest{
     @Test
     public void getDiagramSource() throws Exception {
 

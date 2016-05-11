@@ -70,8 +70,8 @@ public class ConfirmationEmailSender {
                     RecipientType.TO,
                     new InternetAddress(recipient)
             );
-            message.setSubject(Email.subjectLine);
-            message.setText(Email.emailBodyPartOne + token + Email.emailBodyPartTwo);
+            message.setSubject(Email.SUBJECT_LINE);
+            message.setText(Email.EMAIL_BODY_PART_ONE + token + Email.EMAIL_BODY_PART_TWO);
 
             Transport.send(message);
         } catch (IOException e) {

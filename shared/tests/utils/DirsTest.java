@@ -12,7 +12,7 @@ import org.junit.Test;
 /**
  * Created by bambalaam on 19/04/16.
  */
-public class DirsTest {
+public class DirsTest extends SharedTest {
     String storeSystemOS;
     String storeSystemOSHome;
     String storeSystemUser;

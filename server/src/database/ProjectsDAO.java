@@ -10,6 +10,16 @@ import static database.DAOUtilities.silentClosures;
 import java.sql.*;
 import java.util.logging.Logger;
 
+class ProjectRequests {
+    public static final String SQL_INSERT_PROJECT = "INSERT INTO Projects(user_id, path, last_modification, default_perm_write, default_perm_read) VALUES (?, ?, ?, ?, ?);";
+    public static final String SQL_EDIT_PROJECT = "UPDATE Projects SET path = ?, last_modification = ?, default_perm_write = ?, default_perm_read = ? WHERE path = ?";
+    public static final String SQL_SELECT_PROJECT_BY_ID = "SELECT id, user_id, path, last_modification, default_perm_write, default_perm_read FROM Projects WHERE id = ?";
+    public static final String SQL_PROJECT_IS_READABLE = "SELECT default_perm_read FROM Projects WHERE id = ?";
+    public static final String SQL_PROJECT_IS_WRITABLE = "SELECT default_perm_write FROM Projects WHERE id = ?";
+    public static final String SQL_PROJECT_DELETE = "DELETE FROM Projects WHERE id = ?";
+
+}
+
 public class ProjectsDAO {
     private DAOFactory daoFactory;
 
@@ -26,7 +36,7 @@ public class ProjectsDAO {
         boolean error = false;
         try {
             connection = daoFactory.getConnection();
-            preparedStatement = initializationPreparedRequest(connection, Database.SQL_INSERT_PROJECT, true, project.getUserID(), project.getPath(), project.getLast_modification(), project.isWrite_default(), project.isRead_default());
+            preparedStatement = initializationPreparedRequest(connection, ProjectRequests.SQL_INSERT_PROJECT, true, project.getUserID(), project.getPath(), project.getLast_modification(), project.isWrite_default(), project.isRead_default());
             int statut = preparedStatement.executeUpdate();
             if (statut == 0) {
                 logger.severe("Failed to create a project");
@@ -51,7 +61,7 @@ public class ProjectsDAO {
     }
 
     public String edit(String path, String last_modification, boolean write_perm, boolean read_perm, String old_path){
-        int statut = DAOUtilities.executeUpdate(daoFactory, Database.SQL_EDIT_PROJECT, false, path, last_modification, write_perm ? 1 : 0, read_perm ? 1 : 0, old_path);
+        int statut = DAOUtilities.executeUpdate(daoFactory, ProjectRequests.SQL_EDIT_PROJECT, path, last_modification, write_perm ? 1 : 0, read_perm ? 1 : 0, old_path);
         return statut == 0 ? "Error" : "OK";
     }
 
@@ -61,7 +71,7 @@ public class ProjectsDAO {
         ResultSet resultSet = null;
         Project project = null;
         try{
-            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, Database.SQL_SELECT_PROJECT_BY_ID, id);
+            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, ProjectRequests.SQL_SELECT_PROJECT_BY_ID, id);
             if (resultSet.next()){
                 project = DAOUtilities.mapProject(resultSet);
             }
@@ -92,15 +102,15 @@ public class ProjectsDAO {
     }
 
     public boolean isReadableByDefault(int id) {
-        return isAbleByDefault(Database.SQL_PROJECT_IS_READABLE, id);
+        return isAbleByDefault(ProjectRequests.SQL_PROJECT_IS_READABLE, id);
     }
 
     public boolean isWritableByDefault(int id) {
-        return isAbleByDefault(Database.SQL_PROJECT_IS_WRITABLE, id);
+        return isAbleByDefault(ProjectRequests.SQL_PROJECT_IS_WRITABLE, id);
     }
 
     public void deleteProject(int id) {
-        int statut = DAOUtilities.executeUpdate(daoFactory, Database.SQL_PROJECT_DELETE, id);
+        int statut = DAOUtilities.executeUpdate(daoFactory, ProjectRequests.SQL_PROJECT_DELETE, id);
         if (statut == 0) {
             logger.severe("Failed to delete project " + id);
         }

@@ -9,8 +9,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import misc.utils.RequestBuilder;
-import models.users.User;
 
+import models.databaseModels.User;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import utils.Log;

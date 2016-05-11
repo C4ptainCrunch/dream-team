@@ -15,22 +15,21 @@ public class DiagramManagementController {
     }
 
     public void openDiagram(String selectedValue, String newName) {
-        if (selectedValue == null && newName.equals("") ) {
-            this.view.showAlert("Please either choose an existing project" +
-                                " or insert a name in the text dialog to create" +
-                                " a new diagram."); // TO DO: move to constants when Jerome's branch works.
-        }
-        else{
-            if(selectedValue == "Create new diagram") {
+        if(selectedValue == "Create new diagram") {
+            if (newName.equals("") ){
+                this.view.showAlert("Please set a name for your diagram");
+                        // TO DO: move to constants when Jerome's branch works.
+            } else {
                 // Create new diagram an open editor
                 Diagram newDiagram = new Diagram(newName, this.currentProject);
                 new EditorView(newDiagram);
+                this.view.dispose();
             }
-            else {
-                // Open editor with selected diagram
-                Diagram selectedDiagram = this.currentProject.getDiagram(selectedValue);
-                new EditorView(selectedDiagram);
-            }
+        }
+        else {
+            // Open editor with selected diagram
+            Diagram selectedDiagram = this.currentProject.getDiagram(selectedValue);
+            new EditorView(selectedDiagram);
             this.view.dispose();
         }
 

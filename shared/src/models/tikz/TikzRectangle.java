@@ -8,8 +8,8 @@ import constants.Models;
  * This class represents a rectangle that is linked to a tikz code
  */
 public class TikzRectangle extends TikzShape {
-    private int width;
-    private int length;
+    private float width;
+    private float length;
 
     /**
      * Constructs a default tikz rectangle
@@ -22,13 +22,11 @@ public class TikzRectangle extends TikzShape {
 
     /**
      * Constructs a tikz rectangle with a given width and length
-     *
-     * @param width
+     *  @param width
      *            The width of the rectangle
      * @param length
-     *            The length of the rectangle
      */
-    public TikzRectangle(int width, int length) {
+    public TikzRectangle(float width, float length) {
         super();
         setWidth(width);
         setLength(length);
@@ -68,7 +66,7 @@ public class TikzRectangle extends TikzShape {
      * @param reference
      *            the reference
      */
-    public TikzRectangle(int width, int length, String reference) {
+    public TikzRectangle(float width, float length, String reference) {
         super(reference);
         setWidth(width);
         setLength(length);
@@ -94,7 +92,7 @@ public class TikzRectangle extends TikzShape {
      *
      * @return the width
      */
-    public int getWidth() {
+    public float getWidth() {
         return width;
     }
 
@@ -104,7 +102,7 @@ public class TikzRectangle extends TikzShape {
      * @param width
      *            The width
      */
-    public void setWidth(int width) {
+    public void setWidth(float width) {
         this.width = width;
         setChanged();
         notifyObservers();
@@ -115,7 +113,7 @@ public class TikzRectangle extends TikzShape {
      *
      * @return the length
      */
-    public int getLength() {
+    public float getLength() {
         return length;
     }
 
@@ -125,7 +123,7 @@ public class TikzRectangle extends TikzShape {
      * @param length
      *            The length
      */
-    public void setLength(int length) {
+    public void setLength(float length) {
         this.length = length;
         setChanged();
         notifyObservers();

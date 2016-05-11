@@ -1,10 +1,10 @@
 package parser;
 
+import constants.Models;
+import models.tikz.*;
+
 import java.awt.geom.Point2D;
 import java.util.*;
-
-import models.tikz.*;
-import constants.Models;
 
 public class TikzFormatter {
     private TikzFormatter(){}
@@ -46,7 +46,7 @@ public class TikzFormatter {
 
     public static String format(TikzCircle circle) {
         List<String> options = new ArrayList<>(Arrays.asList("circle", "draw"));
-        if (circle.getRadius() != Models.DEFAULT.LENGTH) {options.add("radius=" + Integer.toString(circle.getRadius()));}
+        if (circle.getRadius() != Models.DEFAULT.LENGTH) {options.add("radius=" + circle.getRadius());}
         options.addAll(getCommonOptions(circle));
         options.addAll(getShapeOptions(circle));
         return tikzSource(circle, String.join(", ",  options));
@@ -60,8 +60,8 @@ public class TikzFormatter {
 
     public static String format(TikzRectangle rectangle){
         List<String> options = new ArrayList<>(Arrays.asList("rectangle", "draw"));
-        if (rectangle.getWidth() != Models.DEFAULT.LENGTH) {options.add("minimum width=" + Integer.toString(rectangle.getWidth()));}
-        if (rectangle.getLength() != Models.DEFAULT.LENGTH) {options.add("minimum height=" + Integer.toString(rectangle.getLength()));}
+        if (rectangle.getWidth() != Models.DEFAULT.LENGTH) {options.add("minimum width=" + Float.toString(rectangle.getWidth()));}
+        if (rectangle.getLength() != Models.DEFAULT.LENGTH) {options.add("minimum height=" + Float.toString(rectangle.getLength()));}
         options.addAll(getCommonOptions(rectangle));
         options.addAll(getShapeOptions(rectangle));
         return tikzSource(rectangle, String.join(", ", options));
@@ -75,8 +75,8 @@ public class TikzFormatter {
 
     public static String format(TikzPolygon polygon){
         ArrayList<String> options = new ArrayList<>(Arrays.asList("regular polygon", "draw"));
-        if (polygon.getLength() != Models.DEFAULT.LENGTH) {options.add("minimum size=" + Integer.toString(polygon.getLength()));}
-        if (polygon.getSides() != Models.DEFAULT.SIDES) {options.add("regular polygon sides=" + Integer.toString(polygon.getSides()));}
+        if (polygon.getLength() != Models.DEFAULT.LENGTH) {options.add("minimum size=" + Float.toString(polygon.getLength()));}
+        if (polygon.getSides() != Models.DEFAULT.SIDES) {options.add("regular polygon sides=" + Float.toString(polygon.getSides()));}
         options.addAll(getCommonOptions(polygon));
         options.addAll(getShapeOptions(polygon));
         return tikzSource(polygon, String.join(", ", options));

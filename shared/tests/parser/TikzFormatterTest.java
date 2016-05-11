@@ -1,16 +1,14 @@
 package parser;
 
-import java.awt.*;
-import java.util.List;
-
+import constants.Models;
 import junit.framework.Assert;
 import models.tikz.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import constants.Models;
+import java.awt.*;
+import java.util.List;
 
 /**
  * Created by jhellinckx on 26/04/16.

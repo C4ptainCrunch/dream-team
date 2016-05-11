@@ -40,11 +40,14 @@ public abstract class EdgeDrawer extends ComponentDrawer {
     public Point2D.Float fromPosition(TikzEdge edge, JComponent panel) {
         Point2D.Float start;
         if (edge.getFirstNode() == null || edge.getSecondNode() == null) {
+            System.out.println("LOLOLOOLOL");
             start = Converter.tikz2swing(new Point2D.Float(-Models.DEFAULT.EDGE_X_LENGTH / 2, 0), panel);
         } else {
             // Get closest anchor
             start = Drawer.closestAnchor(edge.getFirstNode(), edge.getToPosition(), panel);
         }
+        System.out.println("start");
+        System.out.println(start);
         return start;
     }
 
@@ -60,10 +63,14 @@ public abstract class EdgeDrawer extends ComponentDrawer {
     public Point2D.Float toPosition(TikzEdge edge, JComponent panel) {
         Point2D.Float end;
         if (edge.getFirstNode() == null || edge.getSecondNode() == null) {
+            System.out.println("lalalalal");
             end = Converter.tikz2swing(new Point2D.Float(Models.DEFAULT.EDGE_X_LENGTH / 2, 0), panel);
         } else {
             end = Drawer.closestAnchor(edge.getSecondNode(), edge.getFromPosition(), panel);
         }
+        System.out.println("end");
+        System.out.println(end);
+        System.out.println(edge.getSecondNode());
         return end;
     }
 }

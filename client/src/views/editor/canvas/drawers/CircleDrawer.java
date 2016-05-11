@@ -37,7 +37,8 @@ public class CircleDrawer extends NodeDrawer {
      * @return the awt circle shape
      */
     public Ellipse2D getAwtCircle(TikzCircle circle){
-        float radius = circle.getRadius()*2;
+        float radius = (float)Converter.centimetersToPixels(circle.getRadius()*2);
+        System.out.println(circle.getRadius());
         return new Ellipse2D.Float(0, 0, radius, radius);
     }
 
@@ -50,7 +51,7 @@ public class CircleDrawer extends NodeDrawer {
     @Override
     public List<Point2D.Float> getAnchors(TikzNode node, JComponent panel){
         TikzCircle circle = (TikzCircle) node;
-        int radius = circle.getRadius();
+        float radius = circle.getRadius();
         Point2D.Float position = circle.getPosition();
 
         List<Point2D.Float> anchors = new ArrayList<>();
@@ -58,6 +59,8 @@ public class CircleDrawer extends NodeDrawer {
         anchors.add(Converter.tikz2swing(new Point2D.Float(position.x - radius, position.y), panel));
         anchors.add(Converter.tikz2swing(new Point2D.Float(position.x, position.y + radius), panel));
         anchors.add(Converter.tikz2swing(new Point2D.Float(position.x, position.y - radius), panel));
+        System.out.println(anchors);
+        System.out.println(radius);
         return anchors;
     }
 }

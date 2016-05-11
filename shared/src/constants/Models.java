@@ -9,11 +9,11 @@ public final class Models {
         public static final int X = 0;
         public static final int Y = 0;
         public static final String LABEL = "";
-        public static final int WIDTH = 1;
-        public static final int LENGTH = 100;
-        public static final int SIDES = 3;
+        public static final float WIDTH = 1;
+        public static final float LENGTH = 2.5f;
+        public static final int SIDES = 1;
         public static final Color BACKGROUND_COLOR = Color.white;
-        public static final int EDGE_X_LENGTH = 100;
+        public static final float EDGE_X_LENGTH = 3;
     }
 
     public class Project {

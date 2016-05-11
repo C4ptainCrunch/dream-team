@@ -30,6 +30,13 @@ public class Diagram{
     private boolean undoRedoFlag = false;
 
 
+    /**
+     * Constructs a Diagram from a name and a project.
+     * If the source and diff files from the diagram does
+     * not exist, we create them
+     * @param name
+     * @param project
+     */
     public Diagram(String name, Project project) {
         this.name = name;
         this.project = project;
@@ -46,14 +53,26 @@ public class Diagram{
         }
     }
 
+    /**
+     * Get the tikz source from the project zip
+     * @return the tikz source
+     * @throws IOException if an error appeared during the read
+     */
     public String getSource() throws IOException {
         return this.project.getDiagramSource(this.name);
     }
 
+    /**
+     * Get the binary diff form the project zip
+     * @throws IOException if an error appeared during the read
+     */
     public byte[] getDiff() throws IOException {
         return this.project.getDiagramDiff(this.name);
     }
 
+    /**
+     * @return the graph
+     */
     public TikzGraph getGraph() {
         return this.graph;
     }
@@ -129,6 +148,11 @@ public class Diagram{
     }
 
 
+    /**
+     * Rename this diagram inside the project zip
+     * @param newName
+     * @throws IOException of the move failed
+     */
     public void rename(String newName) throws IOException {
         this.project.renameDiagram(this.name, newName);
         this.name = newName;
@@ -173,6 +197,11 @@ public class Diagram{
         bs.close();
     }
 
+    /**
+     * Write the binary diff to the project zip
+     * @param bytes the diff
+     * @throws IOException
+     */
     private void writeDiff(byte[] bytes) throws IOException {
         this.project.writeDiff(this.name, bytes);
     }
@@ -199,16 +228,23 @@ public class Diagram{
         return diffs.get(diffs.size() - 1).getDate();
     }
 
+    /**
+     * @return the diagram project's
+     */
     public Project getProject() {
         return project;
     }
 
+    /**
+     * @return true if the project is not saved in a definitive location
+     */
     public boolean isTemporary() {
         return this.project.isTemporary();
     }
 
+
     /**
-     * function to undo an action in a project
+     * Undo the last operation that was applied to the tikz
      */
     public void undo() {
         List<Diff> diffs;
@@ -232,8 +268,9 @@ public class Diagram{
         write_applier(diffs);
     }
 
+
     /**
-     * function to redo an action in a project
+     * Redo the last action that was undone on the tikz
      */
     public void redo() {
         if (redoList.isEmpty()) {return; }

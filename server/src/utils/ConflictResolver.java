@@ -89,7 +89,7 @@ public class ConflictResolver{
 
     }
 
-    private List<Diff> getDifferenceDiffs(List<Diff> diff1, List<Diff> diff2){
+    public List<Diff> getDifferenceDiffs(List<Diff> diff1, List<Diff> diff2){
         if(diff1.size() == diff2.size()) {
             return new ArrayList<Diff>();
         }else if (diff1.size() > diff2.size()){

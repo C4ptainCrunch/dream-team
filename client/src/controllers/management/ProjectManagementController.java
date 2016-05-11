@@ -110,7 +110,7 @@ public class ProjectManagementController {
     /**
      * Opens a FileChooser to select an existing project in the file system
      */
-    public void openProjects(){
+    public void openProject(){
 
         FileChooseView choose = new FileChooseView("Select project", JFileChooser.FILES_ONLY);
         choose.setFileRestriction("CreaTikz files","crea");
@@ -145,5 +145,14 @@ public class ProjectManagementController {
                 logger.severe("Failed to rename the diagram: " + e.getMessage());
             }
         }
+    }
+
+    public void uploadProject() {
+        Project project = view.getSelectedProject();
+        if (project == null) {
+            return;
+        }
+
+        // TODO : upload project to server
     }
 }

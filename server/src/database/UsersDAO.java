@@ -237,7 +237,7 @@ public class UsersDAO {
     }
 
     public void update(User user) {
-        // TODO
+        executeUpdate(Database.SQL_UPDATE_USER, false, user.getFirstName(), user.getLastName(), user.getEmail(), user.getUsername());
     }
 
     public void setToken(User user, String token) {

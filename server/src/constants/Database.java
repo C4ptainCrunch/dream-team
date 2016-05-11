@@ -21,8 +21,8 @@ public final class Database {
                                                               "FROM Users WHERE username = ? and password = ?";
     public static final String SQL_INSERT_USER = "INSERT INTO Users(first_name, last_name, username, email, token, activated) " +
                                              "VALUES (?, ?, ?, ?, ?, 0)";
-    public static final String SQL_EDIT_USER = "UPDATE Users " +
-                                               "SET first_name = ?,last_name = ?,username= ?,email= ?" +
+    public static final String SQL_UPDATE_USER = "UPDATE Users " +
+                                               "SET first_name = ?,last_name = ?,email= ?" +
                                                "WHERE username= ?";
     public static final String SQL_SET_PASSWORD_TO_USER = "UPDATE Users SET password = ? WHERE username = ?";
     public static final String SQL_GET_TOKEN_BY_USERNAME = "SELECT token FROM Users WHERE username = ?";

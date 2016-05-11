@@ -11,9 +11,8 @@ public class ManagementView extends JFrame {
 
     public ManagementView() {
         this.controller = new ManagementController(this);
-
-        this.setTitle("Trololo");
-        this.setSize(new Dimension(600, 600));
+        this.setTitle("CreaTikZ - Manage your projects");
+        this.setSize(new Dimension(1200, 600));
 
         getContentPane().setLayout(
                 new BoxLayout(getContentPane(), BoxLayout.X_AXIS)

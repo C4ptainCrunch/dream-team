@@ -11,7 +11,7 @@ import utils.RecentProjects;
 import constants.GUI;
 import controllers.management.ProjectManagementController;
 
-/**
+/** TODO: Change this JavaDoc, it is outdated
  * JDialog that serves as a "Main Menu". From here, the users can create a new diagram, open a project,
  * move/rename a project and open a recently edited project.
  */

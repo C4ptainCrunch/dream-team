@@ -15,7 +15,11 @@ public class DiffUtil {
      */
     public static String diff(String old, String current) throws UnsupportedEncodingException {
         DiffMatchPatch diff = new DiffMatchPatch();
-        return diff.patchToText(diff.patchMake(current, old));
+        return diff.patchToText(diff.patchMake(old, current));
+    }
 
+    public static String diffForUndo(String old, String current) throws UnsupportedEncodingException {
+        DiffMatchPatch diff = new DiffMatchPatch();
+        return diff.patchToText(diff.patchMake(current, old));
     }
 }

@@ -258,7 +258,8 @@ public class Diagram extends Observable{
     private void apply_patch (Diff last) {
         undoRedoFlag = true;
         DiffMatchPatch undo = new DiffMatchPatch();
-        final List<DiffMatchPatch.Patch> patches = undo.patchFromText(last.getPatch());
+        Diff inverted_last = invertDiff(last);
+        final List<DiffMatchPatch.Patch> patches = undo.patchFromText(inverted_last.getPatch());
         String original = this.graph.toString();
         final Object[] modified = undo.patchApply((LinkedList<DiffMatchPatch.Patch>) patches, original);
 
@@ -268,6 +269,19 @@ public class Diagram extends Observable{
 
         this.graph.replace(reversed);
         undoRedoFlag = false;
+    }
+
+    private Diff invertDiff(Diff last){
+        String text = last.getPatch();
+        int last_at_pos = text.indexOf("\n");
+        char operation = text.charAt(last_at_pos+1);
+        if (operation == '+'){
+            operation = '-';
+        } else {
+            operation = '+';
+        }
+        String new_text = text.substring(0, last_at_pos+1) + operation + text.substring(last_at_pos+2, text.length());
+        return new Diff(last.getDate(), new_text);
     }
 
     /**

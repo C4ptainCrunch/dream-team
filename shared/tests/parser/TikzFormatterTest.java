@@ -16,6 +16,8 @@ import java.util.List;
  * Created by jhellinckx on 26/04/16.
  */
 public class TikzFormatterTest extends SharedTest {
+
+    private final float precision = 0.0001f;
     private TikzGraph graph;
 
     @Before
@@ -123,7 +125,7 @@ public class TikzFormatterTest extends SharedTest {
         String tikzSource = circle.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzCircle parsedCircle = (TikzCircle) getFirstShape();
-        assertEquals(parsedCircle.getRadius(), Models.DEFAULT.LENGTH);
+        assertEquals(parsedCircle.getRadius(), Models.DEFAULT.LENGTH, precision);
         assertEquals(parsedCircle.getBackgroundColor(), Models.DEFAULT.BACKGROUND_COLOR);
         assertEquals(parsedCircle.getStrokeColor(), Models.DEFAULT.COLOR);
         assertEquals(parsedCircle.getStroke(), Models.DEFAULT.STROKE);
@@ -131,10 +133,14 @@ public class TikzFormatterTest extends SharedTest {
 
     @Test
     public void testDirectedEdgeFormat() throws Exception{
-        TikzDirectedEdge edge = new TikzDirectedEdge(new TikzCircle("3"), new TikzCircle("2"), "1");
+        TikzCircle node1 = new TikzCircle();
+        TikzCircle node2 = new TikzCircle();
+        this.graph.add(node1);
+        this.graph.add(node2);
+        TikzDirectedEdge edge = new TikzDirectedEdge(node1, node2);
         String edgeSource = edge.toString();
         NodeParser.parseDocument(graph).parse(edgeSource);
         TikzEdge parsedEdge = getFirstEdge();
-        assertEquals(edge, parsedEdge);
+        assertEquals(edge.toString(), parsedEdge.toString());
     }
 }

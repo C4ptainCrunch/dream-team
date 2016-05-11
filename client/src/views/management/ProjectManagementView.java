@@ -101,7 +101,7 @@ public class ProjectManagementView extends JDialog {
     private void createInfoPanel() {
         this.infoPanel = new JTextPane();
         this.infoPanel.setOpaque(false);
-        this.setInfoText("                                                        ");
+        this.infoPanel.setEnabled(false);
         this.infoPanel.setPreferredSize(new Dimension(100,100));
     }
 

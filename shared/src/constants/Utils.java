@@ -1,10 +1,10 @@
 package constants;
 
 public final class Utils {
-    public static String HISTORY_PATH = ".history";
-    public static String LINUX_PATH = "/.local/share/CreaTiKz";
-    public static String MAC_PATH = "/Library/Application Support/CreaTiKz";
-    public static String WINDOWS_PATH_ONE = "Documents and Settings/";
-    public static String WINDOWS_PATH_TWO = "/Application Data/Local Settings/GroupeUn/CreaTiKz";
-    public static String DATE_FORMAT = "yyyy/MM/dd HH:mm:ss";
+    public static String HISTORY_PATH;
+    public static String LINUX_PATH;
+    public static String MAC_PATH;
+    public static String WINDOWS_PATH_ONE;
+    public static String WINDOWS_PATH_TWO;
+    public static String DATE_FORMAT;
 }

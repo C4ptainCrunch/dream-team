@@ -1,6 +1,7 @@
 package parser;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -45,14 +46,14 @@ public class NodeParser {
     }
 
     /**
-     * Parses a decimal number
+     * Parses a number number
      * 
      * @return a parser object containing the parsed integer
      */
-    public static Parser<Integer> decimal() {
+    public static Parser<Float> number() {
         return Parsers.sequence(Scanners.string("-").optional().source(),
                 MAYBEWHITESPACES.next(Terminals.DecimalLiteral.TOKENIZER).source(),
-                (minus, nums) -> Math.round(Float.parseFloat(minus + nums)));
+                (minus, nums) -> Float.parseFloat(minus + nums));
     }
 
     /**
@@ -108,15 +109,15 @@ public class NodeParser {
     /**
      * Parses a tikz coordinates. A coordinates is tikz code written between "("
      * and ")", containing two integer separated by commas In order to get the
-     * Point object situated between the parentheses, one should call parse() on
+     * Point2D.Float object situated between the parentheses, one should call parse() on
      * the returned parser.
      *
-     * @return a parser object that represents the Point object between the
+     * @return a parser object that represents the Point2D.Float object between the
      *         parentheses
      */
-    public static Parser<Point> coordinates() {
+    public static Parser<Point2D.Float> coordinates() {
         final Parser<Void> sep = Parsers.sequence(MAYBEWHITESPACES, Scanners.isChar(','), MAYBEWHITESPACES);
-        final Parser<Point> coord = Parsers.sequence(decimal(), sep.next(decimal()), Point::new);
+        final Parser<Point2D.Float> coord = Parsers.sequence(number(), sep.next(number()), Point2D.Float::new);
         return Parsers.between(Scanners.isChar('('), coord, Scanners.isChar(')'));
     }
 

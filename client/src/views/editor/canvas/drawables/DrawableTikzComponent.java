@@ -1,6 +1,7 @@
 package views.editor.canvas.drawables;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -43,7 +44,7 @@ public abstract class DrawableTikzComponent implements Drawable {
 
     public java.util.List<Shape> getStrokes() { return strokes; }
 
-    public boolean contains(Point point) {
+    public boolean contains(Point2D.Float point) {
         for (Shape shape : shapes) {
             if (shape.contains(point)) {
                 return true;

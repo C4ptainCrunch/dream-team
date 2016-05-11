@@ -1,6 +1,7 @@
 package parser;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.Map;
 import java.util.Optional;
 
@@ -9,7 +10,7 @@ import java.util.Optional;
  * while parsing the tikz text
  */
 class DestructuredNode {
-    private final Point coordinates;
+    private final Point2D.Float coordinates;
     private final Map<String, String> options;
     private final String label;
     private final Optional<String> ref;
@@ -25,7 +26,7 @@ class DestructuredNode {
      * @param u
      *            The label
      */
-    public DestructuredNode(Point s, Map<String, String> t, String u) {
+    public DestructuredNode(Point2D.Float s, Map<String, String> t, String u) {
         coordinates = s;
         options = t;
         label = u;
@@ -44,7 +45,7 @@ class DestructuredNode {
      * @param label
      *            the label
      */
-    public DestructuredNode(Map<String, String> options, String ref, Point coordinates, String label) {
+    public DestructuredNode(Map<String, String> options, String ref, Point2D.Float coordinates, String label) {
         this.coordinates = coordinates;
         this.options = options;
         this.label = label;
@@ -54,9 +55,9 @@ class DestructuredNode {
     /**
      * Getter for the coordinates of the destructured node
      *
-     * @return the Point object representing the coordinates
+     * @return the Point2D.Float object representing the coordinates
      */
-    public Point getCoordinates() {
+    public Point2D.Float getCoordinates() {
         return coordinates;
     }
 

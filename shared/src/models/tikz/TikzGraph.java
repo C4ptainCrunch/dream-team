@@ -3,7 +3,6 @@ package models.tikz;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -329,11 +328,10 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
 
     /**
      * Apply a translation with x and y as offset to all nodes in the graph
-     *
-     * @param x
+     *  @param x
      * @param y
      */
-    public void translation(int x, int y) {
+    public void translation(float x, float y) {
         for (TikzNode node : this) {
             node.translate(x, y);
         }

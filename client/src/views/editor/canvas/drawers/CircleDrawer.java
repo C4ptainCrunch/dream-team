@@ -2,6 +2,7 @@ package views.editor.canvas.drawers;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -49,16 +50,16 @@ public class CircleDrawer extends NodeDrawer {
      * @return a list of swing anchors
      */
     @Override
-    public List<Point> getAnchors(TikzNode node, JComponent panel){
+    public List<Point2D.Float> getAnchors(TikzNode node, JComponent panel){
         TikzCircle circle = (TikzCircle) node;
         int radius = circle.getRadius();
-        Point position = circle.getPosition();
+        Point2D.Float position = circle.getPosition();
 
-        List<Point> anchors = new ArrayList<>();
-        anchors.add(Converter.tikz2swing(new Point(position.x + radius, position.y), panel));
-        anchors.add(Converter.tikz2swing(new Point(position.x - radius, position.y), panel));
-        anchors.add(Converter.tikz2swing(new Point(position.x, position.y + radius), panel));
-        anchors.add(Converter.tikz2swing(new Point(position.x, position.y - radius), panel));
+        List<Point2D.Float> anchors = new ArrayList<>();
+        anchors.add(Converter.tikz2swing(new Point2D.Float(position.x + radius, position.y), panel));
+        anchors.add(Converter.tikz2swing(new Point2D.Float(position.x - radius, position.y), panel));
+        anchors.add(Converter.tikz2swing(new Point2D.Float(position.x, position.y + radius), panel));
+        anchors.add(Converter.tikz2swing(new Point2D.Float(position.x, position.y - radius), panel));
         return anchors;
     }
 }

@@ -7,6 +7,7 @@ import views.editor.canvas.drawables.DrawableTikzNode;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 public class RectangleDrawer extends NodeDrawer {
@@ -44,7 +45,7 @@ public class RectangleDrawer extends NodeDrawer {
      * @return a list of swing anchors
      */
     @Override
-    public List<Point> getAnchors(TikzNode node, JComponent panel){
+    public List<Point2D.Float> getAnchors(TikzNode node, JComponent panel){
         TikzRectangle rectangle = (TikzRectangle) node;
         Shape shape = getPositionedShape(getAwtRectangle(rectangle), rectangle, panel);
 
@@ -54,11 +55,11 @@ public class RectangleDrawer extends NodeDrawer {
         int height = bounds.height;
         int widthOffset = width / 2;
         int heightOffset = height / 2;
-        List<Point> anchors = new ArrayList<>();
-        anchors.add(new Point(x + widthOffset, y));
-        anchors.add(new Point(x + widthOffset, y + height));
-        anchors.add(new Point(x, y + heightOffset));
-        anchors.add(new Point(x + width, y + heightOffset));
+        List<Point2D.Float> anchors = new ArrayList<>();
+        anchors.add(new Point2D.Float(x + widthOffset, y));
+        anchors.add(new Point2D.Float(x + widthOffset, y + height));
+        anchors.add(new Point2D.Float(x, y + heightOffset));
+        anchors.add(new Point2D.Float(x + width, y + heightOffset));
         return anchors;
     }
 }

@@ -3,6 +3,7 @@ package misc;
 import constants.GUI;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +27,10 @@ public class CanvasSelection extends JPanel {
      *            The position where the selection will be displayed.
      */
 
-    public CanvasSelection(Point pos) {
+    public CanvasSelection(Point2D.Float pos) {
         this.setSize(new Dimension(0, 0));
         this.setBackground(GUI.Selection.BKG_COLOR);
-        this.setLocation(pos);
+        this.setLocation(new Point((int)pos.x, (int)pos.y));
         selection = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 
@@ -41,13 +42,13 @@ public class CanvasSelection extends JPanel {
      *            rectangle.
      */
 
-    public void resize(Point bottom_right) {
+    public void resize(Point2D.Float bottom_right) {
         int delta_x = (int) bottom_right.getX() - this.getX();
         int delta_y = (int) bottom_right.getY() - this.getY();
         this.setSize(new Dimension(delta_x, delta_y));
     }
 
-    public boolean contains(Point point) {
+    public boolean contains(Point2D.Float point) {
         return selection.contains(point);
     }
 

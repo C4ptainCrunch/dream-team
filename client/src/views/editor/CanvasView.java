@@ -5,6 +5,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import java.io.File;
 
 import javax.swing.*;
@@ -85,11 +86,11 @@ public class CanvasView extends JPanel {
                         popupMenu.setComponent(component);
                     }
                 } else {
-                    parentView.highlightTextLine(controller.findComponentByPosition(e.getPoint()));
+                    parentView.highlightTextLine(controller.findComponentByPosition(new Point2D.Float(e.getX(), e.getY())));
                     CanvasView view = (CanvasView) e.getSource();
                     controller.unselectComponents();
                     view.resetSelection();
-                    if (controller.hasComponentAtPosition(e.getPoint())) {
+                    if (controller.hasComponentAtPosition(new Point2D.Float(e.getX(), e.getY()))) {
                         TransferHandler handler = view.getTransferHandler();
                         handler.exportAsDrag(view, e, TransferHandler.MOVE);
                     }
@@ -109,7 +110,7 @@ public class CanvasView extends JPanel {
             @Override
             public void mouseDragged(MouseEvent e) {
                 CanvasView view = (CanvasView) e.getSource();
-                view.resizeSelection(e.getPoint());
+                view.resizeSelection(new Point2D.Float(e.getX(),e.getY()));
                 view.repaint();
             }
         });
@@ -191,7 +192,7 @@ public class CanvasView extends JPanel {
     }
 
     public TikzComponent getSelectedComponent() {
-        return controller.findComponentByPosition(getMousePosition());
+        return controller.findComponentByPosition(new Point2D.Float(getMousePosition().x, getMousePosition().y));
     }
 
     /**
@@ -204,7 +205,7 @@ public class CanvasView extends JPanel {
      *            The location where the component has been dropped
      */
 
-    public void dragEvent(TransferTikz transfer_data, Point location) {
+    public void dragEvent(TransferTikz transfer_data, Point2D.Float location) {
         this.requestFocus();
         controller.mouseDropped(transfer_data, location);
     }
@@ -220,7 +221,7 @@ public class CanvasView extends JPanel {
      *            The bottom right corner of the selection rectangle.
      */
 
-    public void resizeSelection(Point bottom_right) {
+    public void resizeSelection(Point2D.Float bottom_right) {
         if (selection == null) {
             selection = new CanvasSelection(bottom_right);
             this.add(selection);

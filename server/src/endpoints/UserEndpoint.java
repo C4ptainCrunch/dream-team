@@ -77,6 +77,8 @@ public class UserEndpoint {
             User user,
             @Context SecurityContext securityContext) {
 
+        System.out.println(user.getFirstName());
+
         String username = securityContext.getUserPrincipal().getName();
         if(!user.getUsername().equals(username)){
             throw new BadRequestException("User username isn't the same as the db username");

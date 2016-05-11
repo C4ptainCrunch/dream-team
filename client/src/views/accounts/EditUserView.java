@@ -76,4 +76,8 @@ public class EditUserView extends JFrame{
     public User getUser() {
         return user;
     }
+
+    public String getOriginalEmail() {
+        return originalEmail;
+    }
 }

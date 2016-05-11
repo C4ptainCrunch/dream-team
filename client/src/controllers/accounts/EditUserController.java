@@ -1,5 +1,6 @@
 package controllers.accounts;
 
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ import models.users.User;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
+import utils.Log;
 import views.accounts.EditUserView;
 import views.accounts.TokenActivationView;
 import views.management.ManagementView;
@@ -26,6 +28,7 @@ import constants.Warnings;
 public class EditUserController {
 
     private final EditUserView view;
+    private final static Logger logger = Log.getLogger(EditUserController.class);
 
     public EditUserController(EditUserView view) {
         this.view = view;
@@ -59,13 +62,22 @@ public class EditUserController {
     public void submit() {
         if(this.checkFields()) {
             User u = this.view.getUser();
+            u.setEmail(this.view.getEmail());
+            u.setFirstName(this.view.getFirstName());
+            u.setLastName(this.view.getLastName());
+
             Entity e = Entity.entity(u, MediaType.APPLICATION_XML);
             Response r = RequestBuilder.post("/user/edit", e).invoke();
-            if(r.readEntity(String.class).equals("sdfsdfs")) {
+            boolean emailChanged = !this.view.getOriginalEmail().equals(u.getEmail());
+            if(emailChanged) {
+                logger.info("Email changed");
+            }
+            if(!emailChanged && r.getStatus() == 200) {
                 java.awt.EventQueue.invokeLater(TokenActivationView::new);
             } else {
                 java.awt.EventQueue.invokeLater(ManagementView::new);
             }
+            this.view.dispose();
         }
     }
 

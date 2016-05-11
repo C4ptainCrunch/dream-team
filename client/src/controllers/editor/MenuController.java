@@ -19,6 +19,7 @@ import utils.PdfRenderer;
 import views.editor.EditorView;
 import views.editor.MenuView;
 import views.help.HelpView;
+import views.management.DiagramManagementView;
 import views.management.FileChooseView;
 import views.management.HistoryView;
 import constants.Errors;
@@ -158,5 +159,16 @@ public class MenuController implements Observer {
             save();
         }
         return shouldQuit;
+    }
+
+    public void openDiagram() {
+        this.view.disposeParent();
+        EventQueue.invokeLater(() -> {
+            try {
+                new DiagramManagementView(this.view.getDiagram().getProject());
+            } catch (IOException e) {
+                new ProjectManagementView();
+            }
+        });
     }
 }

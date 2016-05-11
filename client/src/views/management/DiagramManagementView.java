@@ -50,6 +50,7 @@ public class DiagramManagementView extends JDialog {
         diagramList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         diagramList.setLayoutOrientation(JList.VERTICAL);
         diagramList.setVisibleRowCount(-1);
+        diagramList.setSelectedIndex(0);
 
         diagramList.addListSelectionListener(listSelectionEvent -> {
             if(diagramList.getSelectedValue().equals("Create new diagram")) {

@@ -88,6 +88,18 @@ public class MenuView extends JMenuBar {
         addShortcutItem(menu, action, GUI.MenuBar.OPEN, key, KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK);
     }
 
+    private void addOpenDiagramItem(JMenu menu) {
+        String key = "Open Diagram";
+
+        Action action = new AbstractAction(key) {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                controller.openDiagram();
+            }
+        };
+        addShortcutItem(menu, action, GUI.MenuBar.OPEN_DIAGRAM, key, KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK);
+    }
+
     /**
      * Renders the view by setting the different buttons composing the menu
      */
@@ -97,6 +109,7 @@ public class MenuView extends JMenuBar {
 
         addOpenItem(file_menu);
         addSaveItem(file_menu);
+        addOpenDiagramItem(file_menu);
 
         JMenuItem build_pdf = new JMenuItem(GUI.MenuBar.PDF);
         build_pdf.addActionListener(actionEvent -> controller.compileAndOpen());
@@ -152,5 +165,9 @@ public class MenuView extends JMenuBar {
 
     public void disposeParent() {
         this.parentView.dispose();
+    }
+
+    public Diagram getDiagram() {
+        return diagram;
     }
 }

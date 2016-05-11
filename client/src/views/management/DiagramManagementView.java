@@ -23,6 +23,7 @@ public class DiagramManagementView extends JDialog {
         this.controller = new DiagramManagementController(this, currentProject);
         this.diagramNames = new Vector<>(currentProject.getDiagramNames());
         this.diagramNames.add("Create new diagram");
+        this.setSize(new Dimension(400, 300));
         this.render();
     }
 

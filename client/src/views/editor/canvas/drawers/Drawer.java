@@ -1,6 +1,5 @@
 package views.editor.canvas.drawers;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;

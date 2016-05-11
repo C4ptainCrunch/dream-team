@@ -1,6 +1,5 @@
 package parser;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +46,7 @@ public class NodeParser {
 
     /**
      * Parses a number number
-     * 
+     *
      * @return a parser object containing the parsed integer
      */
     public static Parser<Float> number() {

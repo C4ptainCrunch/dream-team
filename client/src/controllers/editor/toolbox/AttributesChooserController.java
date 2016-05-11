@@ -4,11 +4,7 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.*;
-import javax.swing.colorchooser.AbstractColorChooserPanel;
-
 import models.ToolModel;
-import parser.TikzColors;
 import views.editor.toolbox.AttributesChooserView;
 import views.editor.toolbox.TikzColorChooser;
 

@@ -1,6 +1,7 @@
 package utils;
 
 import static org.junit.Assert.assertEquals;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 

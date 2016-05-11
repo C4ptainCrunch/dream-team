@@ -1,10 +1,8 @@
 package models.tikz;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 import constants.Models;
-import utils.Geom;
 
 /**
  * This abstract class defines the common elements of a tikz node (shape, text,

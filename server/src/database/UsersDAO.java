@@ -1,16 +1,17 @@
 package database;
 
-import constants.Database;
-import models.users.User;
-import utils.Hasher;
-import utils.Log;
-import utils.TokenCreator;
+import static database.DAOUtilities.initializationPreparedRequest;
+import static database.DAOUtilities.silentClosures;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import static database.DAOUtilities.*;
+import models.users.User;
+import utils.Hasher;
+import utils.Log;
+import utils.TokenCreator;
+import constants.Database;
 
 /**
  * Implementation of a DAO to get and set information to the database's Users table.

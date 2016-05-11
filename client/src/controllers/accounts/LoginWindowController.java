@@ -1,18 +1,17 @@
 package controllers.accounts;
 
-import constants.Errors;
-import constants.Network;
+import javax.swing.*;
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
+
 import models.NetworkRequest;
 import views.accounts.EditUserView;
 import views.accounts.LoginWindowView;
 import views.accounts.SignUpView;
 import views.accounts.TokenActivationView;
 import views.management.ProjectManagementView;
-
-import javax.swing.*;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import constants.Errors;
+import constants.Network;
 
 /**
  * The controller related to the LoginWindowView.

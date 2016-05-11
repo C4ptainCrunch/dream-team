@@ -3,7 +3,6 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.core.UriBuilder;
 
-import constants.Network;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -11,6 +10,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import ressources.ProjectRessource;
 import ressources.UserRessource;
 import utils.Log;
+import constants.Network;
 import database.DAOFactory;
 
 public class Main {

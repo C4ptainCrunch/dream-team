@@ -13,7 +13,7 @@ import views.editor.toolbox.AttributesChooserView;
  * TikzComponent.
  */
 
-public class NodeEditionView extends JFrame {
+public class NodeEditionView extends JDialog {
 
     private AttributesChooserView modifierView;
     private TikzComponent component;
@@ -28,7 +28,6 @@ public class NodeEditionView extends JFrame {
         this.pack();
         this.getContentPane().setLayout(new BorderLayout());
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
     }
 

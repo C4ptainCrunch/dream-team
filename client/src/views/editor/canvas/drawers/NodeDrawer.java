@@ -2,6 +2,8 @@ package views.editor.canvas.drawers;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -10,9 +12,6 @@ import models.tikz.TikzComponent;
 import models.tikz.TikzNode;
 import utils.Geom;
 import views.editor.canvas.drawables.DrawableTikzNode;
-
-import java.awt.geom.Point2D;
-import java.util.List;
 
 public abstract class NodeDrawer extends ComponentDrawer {
     @Override

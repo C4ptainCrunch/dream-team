@@ -1,11 +1,10 @@
 package parser;
 
-import constants.Models;
-import models.tikz.*;
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.*;
-import java.util.List;
+
+import models.tikz.*;
+import constants.Models;
 
 public class TikzFormatter {
     private TikzFormatter(){}

@@ -1,51 +1,62 @@
 package models.project;
 
-import static org.junit.Assert.*;
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.io.*;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import models.project.Diagram;
-import models.project.Diff;
-import models.project.Project;
 import models.tikz.TikzCircle;
 import models.tikz.TikzGraph;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 public class DiagramTest {
     private Project project;
 
     class ProjectMock extends Project {
-        private Path source;
-        private Path diff;
+        public Path source;
+        public Path diff;
 
         public ProjectMock() throws IOException {
             this.source = File.createTempFile("source", null).toPath();
             this.diff = File.createTempFile("diff", null).toPath();
         }
 
-        public Path getDiagramSource(String name) {
-            return this.source;
+        synchronized public String getDiagramSource(String name) throws IOException {
+            return new String(Files.readAllBytes(this.source));
         }
 
-        public Path getDiagramDiff(String name) {
-            return this.diff;
+        synchronized public byte[] getDiagramDiff(String name) throws IOException {
+            return Files.readAllBytes(this.diff);
+        }
+
+        synchronized public void writeDiff(String name, byte[] bytes) throws IOException {
+            Files.write(this.diff, bytes, TRUNCATE_EXISTING, CREATE);
+        }
+
+        synchronized public void writeSource(String name, String tikz) throws IOException {
+            Files.write(this.source, tikz.getBytes(), TRUNCATE_EXISTING, CREATE);
+        }
+
+        synchronized public void renameDiagram(String oldName, String newName) throws IOException {
+            // Do not perform any IO operations
         }
     }
 
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
-
-    private Diagram getEmptyDiagram() throws IOException {
-        return new Diagram("my-project", new ProjectMock());
-    }
 
     @Before
     public void setUp() throws Exception {
@@ -65,10 +76,8 @@ public class DiagramTest {
 
     @Test
     public void testGetGraph() throws Exception {
-        File save = project.getDiagramSource("my-diagram").toFile();
-        PrintWriter writer = new PrintWriter(save);
-        writer.print("\\node[circle, draw]() at (0,0) {test-label}");
-        writer.close();
+        final String tikz = "\\node[circle, draw]() at (0,0) {test-label}";
+        project.writeSource("my-dia", tikz);
 
         Diagram d = new Diagram("my-diagram", project);
 
@@ -89,11 +98,8 @@ public class DiagramTest {
 //
     @Test
     public void testGetDiskTikz() throws Exception {
-        File save = project.getDiagramSource("my-dia").toFile();
-        PrintWriter writer = new PrintWriter(save);
         final String tikz = "\\node[circle, draw]() at (0,0) {test-label}";
-        writer.print(tikz);
-        writer.close();
+        project.writeSource("my-dia", tikz);
 
         Diagram d = new Diagram("my-dia", project);
         TikzGraph g = d.getGraph();
@@ -127,7 +133,6 @@ public class DiagramTest {
 
         m.invoke(dia, diffs);
 
-        project.sync();
         assertEquals(d2, dia.getLastChange());
     }
 
@@ -150,11 +155,15 @@ public class DiagramTest {
         List<Diff> diffs = new ArrayList<>();
         diffs.add(new Diff(new Date(0), "diff one"));
 
-        FileOutputStream fs = new FileOutputStream(d.getDiffPath().toFile());
-        ObjectOutputStream os = new ObjectOutputStream(fs);
+        ByteArrayOutputStream bs = new ByteArrayOutputStream();
+        ObjectOutputStream os = new ObjectOutputStream(bs);
         os.writeObject(diffs);
+
+        project.writeDiff("my-dia", bs.toByteArray());
+
         os.close();
-        fs.close();
+        bs.close();
+
 
         List<Diff> readDiffs = d.getDiffs();
         assertEquals(readDiffs.get(0).getDate(), new Date(0));
@@ -173,13 +182,13 @@ public class DiagramTest {
         m.setAccessible(true);
 
         m.invoke(d, diffs);
-        project.sync();
 
-        FileInputStream fs = new FileInputStream(d.getDiffPath().toFile());
-        ObjectInputStream os = new ObjectInputStream(fs);
+        ByteArrayInputStream bs = new ByteArrayInputStream(project.getDiagramDiff("my-dia"));
+        ObjectInputStream os = new ObjectInputStream(bs);
+
         List<Diff> writtenDiffs = (List<Diff>) os.readObject();
         os.close();
-        fs.close();
+        bs.close();
 
         assertEquals(writtenDiffs.get(0).getDate(), new Date(0));
         assertEquals(writtenDiffs.get(0).getPatch(), "diff one");

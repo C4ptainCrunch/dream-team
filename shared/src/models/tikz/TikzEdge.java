@@ -2,7 +2,6 @@ package models.tikz;
 
 import static constants.Models.DEFAULT.*;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**

@@ -1,10 +1,7 @@
 package models.tikz;
 
-import constants.Models;
 import parser.TikzFormatter;
-
-import java.awt.*;
-import java.util.ArrayList;
+import constants.Models;
 
 /**
  * Implementation of the Rectangle Model (from the MVC architectural pattern)

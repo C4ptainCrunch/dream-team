@@ -22,7 +22,6 @@ public class MenuView extends JMenuBar {
 
     /**
      * Constructs a new View for the Menu, with a given Diagram and parentView
-     *
      * @param parentView
      *            The view which contains this view (ie. EditorView)
      * @param diagram
@@ -146,6 +145,10 @@ public class MenuView extends JMenuBar {
         options_menu.add(color_blind_mode_item);
     }
 
+    /**
+     * Generates a JOptionPane to prompt the user to give a name to its diagram.
+     * @return The diagram name inserted by the user
+     */
     public String getDiagramName() {
         String path = null;
         while (path == null || path.equals("")) {
@@ -162,14 +165,25 @@ public class MenuView extends JMenuBar {
         controller.saveAndQuit(parentView);
     }
 
+    /**
+     * Sets or unsets the colorblind mode
+     * @param set_mode Boolean to set or unset
+     */
     public void setBlindMode(boolean set_mode) {
         parentView.setTextAreaColorBlindMode(set_mode);
     }
 
+    /**
+     * Hides the parent view
+     */
     public void disposeParent() {
         this.parentView.dispose();
     }
 
+    /**
+     * Gets the diagram being currently edited
+     * @return The diagram being edited
+     */
     public Diagram getDiagram() {
         return diagram;
     }

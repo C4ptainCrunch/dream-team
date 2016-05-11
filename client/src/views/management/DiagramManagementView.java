@@ -105,6 +105,10 @@ public class DiagramManagementView extends JDialog {
         this.add(newDiagramPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Generates an alert with a given text
+     * @param alertText Text to be put in the alert box
+     */
     public void showAlert(String alertText) {
         JOptionPane.showMessageDialog(this,
                 alertText,

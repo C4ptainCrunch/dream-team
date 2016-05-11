@@ -263,7 +263,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
     }
 
     public String toLatex(){
-        return constants.Models.Graph.latexPrelude + this.toString() + constants.Models.Graph.latexPostlude;
+        return constants.Models.Graph.LATEX_PRELUDE + this.toString() + constants.Models.Graph.LATEX_POSTLUDE;
     }
 
     /**

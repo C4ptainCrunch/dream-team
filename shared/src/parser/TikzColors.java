@@ -42,7 +42,8 @@ public class TikzColors {
      * @return an awt.Color object.
      */
     public static Color StringToColor(String name){
-        return string2color.getOrDefault(name.toLowerCase(), Models.DEFAULT.COLOR);
+        if(name != null) { name = name.toLowerCase(); }
+        return string2color.getOrDefault(name, Models.DEFAULT.COLOR);
     }
 
 

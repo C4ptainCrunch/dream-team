@@ -1,5 +1,8 @@
 package database;
 
+import constants.Database;
+import utils.Log;
+
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,8 +10,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Logger;
 
-import utils.Log;
-import constants.Database;
+
+class FactoryRequests{
+    public static final String SQLITE_CREATE_TABLE_USERS = "CREATE TABLE Users(" +
+            "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "first_name VARCHAR(16)," +
+            "last_name VARCHAR(32)," +
+            "username VARCHAR(16) NOT NULL UNIQUE," +
+            "email VARCHAR(32) NOT NULL UNIQUE," +
+            "token VARCHAR(32) NOT NULL," +
+            "activated INTEGER(1) NOT NULL,"+
+            "password TEXT);";
+}
 
 /**
  * Implementation of a Data Access Objects (DAO) Factory, which will be used to let the server communicate with the database
@@ -47,7 +60,7 @@ public class DAOFactory {
             Class.forName(Database.SQLITE_JDBC);
             connection = DriverManager.getConnection(Database.SQLITE_DB_CONNECTION);
             statement = connection.createStatement();
-            String sqlCreate = Database.SQLITE_CREATE_TABLE_USERS;
+            String sqlCreate = FactoryRequests.SQLITE_CREATE_TABLE_USERS;
             statement.executeUpdate(sqlCreate);
             statement.close();
             connection.close();

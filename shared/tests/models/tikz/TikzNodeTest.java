@@ -7,11 +7,12 @@ import java.awt.geom.Point2D;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import utils.SharedTest;
 
 /**
  * Created by jhellinckx on 29/02/16.
  */
-public class TikzNodeTest {
+public class TikzNodeTest extends SharedTest {
     private TikzNode tikzNode;
 
     @Before

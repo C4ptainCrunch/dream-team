@@ -25,6 +25,7 @@ dependencies {
     compile 'javax.activation:activation:1.1.1'
 
     compile project(':shared')
+    testCompile project(':shared')
 }
 
 repositories {
@@ -37,10 +38,16 @@ sourceSets {
         java {
             srcDirs = ["tests/"]
         }
+        resources {
+            srcDirs = ["resources/"]
+        }
     }
     main {
         java {
             srcDir "src/"
+        }
+        resources {
+            srcDirs = ["resources/"]
         }
     }
 }

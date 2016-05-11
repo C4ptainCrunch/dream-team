@@ -12,7 +12,7 @@ import org.junit.Test;
 /**
  * Created by bambalaam on 25/04/16.
  */
-public class TokenCreatorTest {
+public class TokenCreatorTest extends ServerTest  {
 
     ArrayList<String> tokens;
     TokenCreator tc;

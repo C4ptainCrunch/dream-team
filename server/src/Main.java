@@ -3,6 +3,8 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.core.UriBuilder;
 
+import constants.Network;
+import constants.ServerPropertiesLoader;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -16,7 +18,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         DAOFactory daoFactory = DAOFactory.getInstance();
-
+        ServerPropertiesLoader.loadAll();
         URI baseUri = UriBuilder.fromUri(Network.HOST.HOSTNAME+"/").port(Network.HOST.PORT).build();
         ResourceConfig config = new ResourceConfig(UserRessource.class);
         JdkHttpServerFactory.createHttpServer(baseUri, config);

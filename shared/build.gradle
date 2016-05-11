@@ -35,10 +35,16 @@ sourceSets {
         java {
             srcDirs = ["tests/"]
         }
+        resources {
+           srcDirs = ["resources/"]
+        }
     }
     main {
         java {
             srcDir "src/"
+        }
+        resources{
+            srcDirs = ["resources/"]
         }
     }
 }

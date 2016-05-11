@@ -5,11 +5,12 @@ import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import utils.SharedTest;
 
 /**
  * Created by jhellinckx on 29/02/16.
  */
-public class TikzEdgeTest {
+public class TikzEdgeTest extends SharedTest {
     private TikzNode first;
     private TikzNode second;
     private TikzEdge edge;

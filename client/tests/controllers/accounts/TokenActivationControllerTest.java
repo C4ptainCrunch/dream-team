@@ -1,12 +1,13 @@
 package controllers.accounts;
 
+import misc.utils.ClientTest;
 import org.junit.After;
 import org.junit.Before;
 
 /**
  * Created by bambalaam on 27/04/16.
  */
-public class TokenActivationControllerTest {
+public class TokenActivationControllerTest extends ClientTest {
 
     @Before
     public void setUp() throws Exception {

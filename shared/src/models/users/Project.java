@@ -51,12 +51,16 @@ public class Project {
     }
 
     @XmlAttribute
-    public boolean isWrite_default() {
-        return write_default;
+    public int isWrite_default() {
+        return write_default ? 1 : 0;
     }
 
     @XmlAttribute
-    public boolean isRead_default() {
-        return read_default;
+    public int isRead_default() {
+        return read_default ? 1 : 0;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 }

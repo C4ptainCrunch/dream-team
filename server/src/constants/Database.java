@@ -34,6 +34,8 @@ public final class Database {
             "FOREIGN KEY(user_id) REFERENCES Users(id) ON UPDATE CASCADE ON DELETE CASCADE;";
     public static final String SQL_SELECT_BY_USERNAME = "SELECT id, first_name, last_name, username, email " +
                                                          "FROM Users WHERE username = ?";
+    public static final String SQL_SELECT_BY_ID = "SELECT id, first_name, last_name, username, email " +
+            "FROM Users WHERE id = ?";
     public static final String SQL_MATCH_USERNAME_PASSWORD = "SELECT username, password " +
                                                               "FROM Users WHERE username = ? and password = ?";
     public static final String SQL_INSERT_USER = "INSERT INTO Users(first_name, last_name, username, email, token, activated) " +
@@ -47,4 +49,7 @@ public final class Database {
     public static final String SQL_ACTIVATE_USER = "UPDATE Users SET activated = 1 WHERE username = ?";
     public static final String SQL_DISABLE_USER = "UPDATE Users SET activated = 0, token = ? WHERE username=?";
     public static final String SQL_DELETE_USER = "DELETE FROM Users WHERE username = ?";
+    public static final String SQL_INSERT_PROJECT = "INSERT INTO Projects(user_id, path, last_modification, default_perm_write, default_perm_read) VALUES (?, ?, ?, ?, ?);";
+    public static final String SQL_EDIT_PROJECT = "UPDATE Projects SET path = ?, last_modification = ?, default_perm_write = ?, default_perm_read = ? WHERE path = ?";
+    public static final String SQL_SELECT_PROJECT_BY_ID = "SELECT id, user_id, path, last_modification, default_perm_write, default_perm_read FROM Projects WHERE id = ?";
 }

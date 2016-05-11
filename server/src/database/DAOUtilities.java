@@ -3,6 +3,8 @@ package database;
 import java.sql.*;
 import java.util.logging.Logger;
 
+import models.users.Project;
+import models.users.User;
 import utils.Log;
 
 /**
@@ -94,5 +96,51 @@ public class DAOUtilities {
         silentClosing( resultSet );
         silentClosing( statement );
         silentClosing( connection );
+    }
+
+    public static ResultSet executeQuery(DAOFactory daoFactory, Connection connection, PreparedStatement preparedStatement, ResultSet resultSet, String sqlQuery, Object... objects) {
+        try {
+            connection = daoFactory.getConnection();
+            preparedStatement = initializationPreparedRequest(connection, sqlQuery, false, objects);
+            resultSet = preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            logger.severe(e.toString());
+        }
+        return resultSet;
+    }
+
+    public static int executeUpdate(DAOFactory daoFactory, String sqlQuery, Object... objects) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        int status = 0;
+        try {
+            connection = daoFactory.getConnection();
+            preparedStatement = initializationPreparedRequest(connection, sqlQuery, false, objects);
+            status = preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            logger.severe(e.toString());
+        } finally {
+            silentClosures(preparedStatement, connection);
+        }
+        return status;
+    }
+
+    public static User mapUser(ResultSet resultSet) throws SQLException {
+        int id = resultSet.getInt("id");
+        String first_name = resultSet.getString("first_name");
+        String last_name = resultSet.getString("last_name");
+        String username = resultSet.getString("username");
+        String email = resultSet.getString("email");
+        return new User(id, username, first_name, last_name, email);
+    }
+
+    public static Project mapProject(ResultSet resultSetProject, ResultSet resultSetUser) throws SQLException {
+        int id = resultSetProject.getInt("id");
+        String path = resultSetProject.getString("path");
+        String last_modification = resultSetProject.getString("last_modification");
+        boolean default_perm_write = resultSetProject.getInt("default_perm_write") == 1;
+        boolean default_perm_read = resultSetProject.getInt("default_perm_read") == 1;
+        User user = mapUser(resultSetUser);
+        return new Project(id, user, path, last_modification, default_perm_write, default_perm_read);
     }
 }

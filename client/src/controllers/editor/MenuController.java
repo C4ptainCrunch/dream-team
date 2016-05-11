@@ -19,11 +19,8 @@ import utils.PdfRenderer;
 import views.editor.EditorView;
 import views.editor.MenuView;
 import views.help.HelpView;
-import views.management.DiagramManagementView;
-import views.management.FileChooseView;
-import views.management.HistoryView;
+import views.management.*;
 import constants.Errors;
-import views.management.ProjectManagementView;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the
@@ -141,7 +138,7 @@ public class MenuController implements Observer {
     public void openNew() {
         if(this.askToSave()){
             this.view.disposeParent();
-            EventQueue.invokeLater(ProjectManagementView::new);
+            EventQueue.invokeLater(ManagementView::new);
         }
     }
 
@@ -167,7 +164,7 @@ public class MenuController implements Observer {
             try {
                 new DiagramManagementView(this.view.getDiagram().getProject());
             } catch (IOException e) {
-                new ProjectManagementView();
+                new ManagementView();
             }
         });
     }

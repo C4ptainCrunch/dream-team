@@ -11,19 +11,21 @@ import utils.RecentProjects;
 import constants.GUI;
 import controllers.management.ProjectManagementController;
 
-/**
+/** TODO: Change this JavaDoc, it is outdated
  * JDialog that serves as a "Main Menu". From here, the users can create a new diagram, open a project,
  * move/rename a project and open a recently edited project.
  */
-public class ProjectManagementView extends JDialog {
+public class ProjectManagementView extends JPanel {
     private ProjectManagementController controller = new ProjectManagementController(this);
     private JList<Project> projectChooser;
     private JTextPane infoPanel;
     private JPanel firstButtons;
     private JPanel secondButtons;
     private JPanel chooserPanel;
+    private ManagementView parentView;
 
-    public ProjectManagementView() {
+    public ProjectManagementView(ManagementView parentView) {
+        this.parentView = parentView;
         this.render();
     }
 
@@ -31,41 +33,18 @@ public class ProjectManagementView extends JDialog {
      * Render the main window and launch functions to build its' components.
      */
     public final void render() {
-        this.setTitle("TikzCreator : choose a project");
         this.setPreferredSize(new Dimension(600, 300));
         this.setSize(900, 200);
-        this.setLocationRelativeTo(null);
-        getContentPane().setLayout(
-                new BoxLayout(getContentPane(), BoxLayout.Y_AXIS)
-        );
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        createFirstButtonsPanel();
         createInfoPanel();
         createChooserPanel();
         this.add(this.chooserPanel);
         this.add(this.infoPanel);
 
         createSecondButtonsPanel();
-
-        this.pack();
-        this.setVisible(true);
     }
 
-    private void createFirstButtonsPanel() {
-        this.firstButtons = new JPanel();
-        this.firstButtons.setLayout(new BoxLayout(this.firstButtons, BoxLayout.X_AXIS));
-
-        JButton create = new JButton(GUI.ProjectManagement.CREATE_BUTTON);
-        create.addActionListener(e -> controller.createProject());
-
-        JButton openProject = new JButton(GUI.ProjectManagement.OPEN_PROJECT_BUTTON);
-        openProject.addActionListener(e -> controller.openProjects());
-
-        this.firstButtons.add(create);
-        this.firstButtons.add(openProject);
-
-        this.add(this.firstButtons);
-    }
 
     private void createSecondButtonsPanel() {
         this.secondButtons = new JPanel();
@@ -73,12 +52,17 @@ public class ProjectManagementView extends JDialog {
 
         JButton openRecentProject = new JButton(GUI.ProjectManagement.OPEN_RECENT_BUTTON);
         openRecentProject.addActionListener(e -> controller.openRecentProject());
+        this.secondButtons.add(openRecentProject);
 
         JButton rename = new JButton(GUI.ProjectManagement.RENAME_BUTTON);
         rename.addActionListener(e -> controller.moveProject());
-
         this.secondButtons.add(rename);
-        this.secondButtons.add(openRecentProject);
+
+        JButton uplaod = new JButton("Upload selected project");
+        // TODO : use constant
+        uplaod.addActionListener(e -> controller.uploadProject());
+        this.secondButtons.add(uplaod);
+
 
         this.add(this.secondButtons);
 
@@ -123,5 +107,9 @@ public class ProjectManagementView extends JDialog {
      */
     public void setInfoText(String infoText) {
         this.infoPanel.setText(infoText);
+    }
+
+    public void dispose() {
+        this.parentView.dispose();
     }
 }

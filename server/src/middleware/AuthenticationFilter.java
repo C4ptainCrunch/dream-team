@@ -69,11 +69,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     }
 
     private void validateToken(String token) throws Exception {
-        System.out.println("validation");
         if(!AuthenticationEndpoint.validateToken(token)){
-            System.out.println("validation error");
             throw new Exception("Invalid token");
         }
-        System.out.println("validation ok");
     }
 }

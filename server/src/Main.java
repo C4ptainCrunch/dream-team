@@ -17,7 +17,7 @@ public class Main {
     private static final Logger logger = Log.getLogger(Main.class);
 
     public static void main(String[] args) throws Exception {
-        DAOFactory daoFactory = DAOFactory.getInstance();
+        Log.init();
 
         URI baseUri = UriBuilder.fromUri(Network.HOST.HOSTNAME+"/").port(Network.HOST.PORT).build();
         ResourceConfig config = new ResourceConfig(

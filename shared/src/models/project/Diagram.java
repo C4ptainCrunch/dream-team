@@ -38,6 +38,11 @@ public class Diagram{
         } catch (IOException e) {
             logger.fine("Warning: new graph created because the original file was not found");
             this.graph = new TikzGraph();
+            try {
+                this.save();
+            } catch (IOException | ClassNotFoundException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 

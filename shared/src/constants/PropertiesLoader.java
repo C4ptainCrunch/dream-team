@@ -68,9 +68,9 @@ class ModelsPropertiesReader implements PropertiesReader{
         DEFAULT.X = Integer.valueOf(properties.getProperty("DEFAULT_X_POSITION"));
         DEFAULT.Y = Integer.valueOf(properties.getProperty("DEFAULT_Y_POSITION"));
         DEFAULT.LABEL = properties.getProperty("DEFAULT_LABEL");
-        DEFAULT.LENGTH = Integer.valueOf(properties.getProperty("DEFAULT_LENGTH"));
+        DEFAULT.LENGTH = Float.valueOf(properties.getProperty("DEFAULT_LENGTH"));
         DEFAULT.SIDES = Integer.valueOf(properties.getProperty("DEFAULT_POLYGON_SIDES"));
-        DEFAULT.EDGE_X_LENGTH = Integer.valueOf(properties.getProperty("DEFAULT_EDGE_X_LENGTH"));
+        DEFAULT.EDGE_X_LENGTH = Float.valueOf(properties.getProperty("DEFAULT_EDGE_X_LENGTH"));
 
         Project.SAVE_FILE = properties.getProperty("DEFAULT_SAVE_FILENAME");
         Project.DIFF_FILE = properties.getProperty("DEFAULT_DIFF_FILENAME");

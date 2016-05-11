@@ -10,10 +10,10 @@ public final class Models {
         public static int X;
         public static int Y;
         public static String LABEL;
-        public static int LENGTH;
+        public static float LENGTH;
         public static int SIDES;
         public static Color BACKGROUND_COLOR;
-        public static int EDGE_X_LENGTH;
+        public static float EDGE_X_LENGTH;
     }
 
     public static class Project {

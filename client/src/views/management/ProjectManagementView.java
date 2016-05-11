@@ -88,8 +88,6 @@ public class ProjectManagementView extends JDialog {
         Collections.reverse(recentProjects);
 
         this.projectChooser = new JList<>(recentProjects);
-        this.projectChooser.setModel(new DefaultComboBoxModel(recentProjects));
-
         this.projectChooser.addListSelectionListener(e -> controller.dropdownSelected(projectChooser.getSelectedValue()));
         this.projectChooser.setSelectedIndex(0);
 

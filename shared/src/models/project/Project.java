@@ -119,13 +119,17 @@ public class Project  extends Observable implements Comparable<Project>{
     }
 
     synchronized public Date getLastChange() throws IOException {
-        return this.getDiagramNames().stream().map(name -> {
-            try {
-                return this.getDiagram(name).getLastChange();
-            } catch (IOException | ClassNotFoundException e) {
-                return null;
-            }
-        }).filter(recent -> recent != null).max(Comparator.comparing(e -> e)).get();
+        try {
+            return this.getDiagramNames().stream().map(name -> {
+                try {
+                    return this.getDiagram(name).getLastChange();
+                } catch (IOException | ClassNotFoundException e) {
+                    return null;
+                }
+            }).filter(recent -> recent != null).max(Comparator.comparing(e -> e)).get();
+        } catch (NoSuchElementException e){
+            return new Date(0);
+        }
     }
 
     @Override

@@ -92,8 +92,6 @@ public class ProjectManagementView extends JDialog {
         Collections.reverse(recentProjects);
 
         this.projectChooser = new JList<>(recentProjects);
-        this.projectChooser.setModel(new DefaultComboBoxModel(recentProjects));
-
         this.projectChooser.addListSelectionListener(e -> controller.dropdownSelected(projectChooser.getSelectedValue()));
         this.projectChooser.setSelectedIndex(0);
 
@@ -107,7 +105,7 @@ public class ProjectManagementView extends JDialog {
     private void createInfoPanel() {
         this.infoPanel = new JTextPane();
         this.infoPanel.setOpaque(false);
-        this.setInfoText("                                                        ");
+        this.infoPanel.setEnabled(false);
         this.infoPanel.setPreferredSize(new Dimension(100,100));
     }
 

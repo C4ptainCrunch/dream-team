@@ -20,6 +20,7 @@ public class ProjectRessource {
     @Path("/get/{projectId}")
     @Produces("application/octet-stream")
     public StreamingOutput getProject(@PathParam("projectId") int projectId){
+        // TODO do this
         java.nio.file.Path zipPath = Paths.get("");
         return output -> output.write(Files.readAllBytes(zipPath));
     }
@@ -29,6 +30,7 @@ public class ProjectRessource {
     @Produces("text/plain")
     @Consumes({MediaType.MULTIPART_FORM_DATA})
     public String setProject(@PathParam("projectId") int projectId, @FormDataParam("project")InputStream project) throws IOException {
+        // TODO do this
         java.nio.file.Path projectPath = Paths.get("/tmp/plap.zip");
         Files.copy(project, projectPath);
         return "OK";

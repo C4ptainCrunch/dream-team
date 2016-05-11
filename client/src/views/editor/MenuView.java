@@ -147,7 +147,10 @@ public class MenuView extends JMenuBar {
     }
 
     public String getDiagramName() {
-        String path = JOptionPane.showInputDialog("Enter a diagram name");
+        String path = null;
+        while (path == null || path.equals("")) {
+            path = JOptionPane.showInputDialog("Enter a diagram name");
+        }
         return path;
     }
 

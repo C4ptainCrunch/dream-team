@@ -33,4 +33,8 @@ public class FileChooseView extends JPanel {
         FileNameExtensionFilter filter = new FileNameExtensionFilter(fileType, fileExtension);
         chooser.setFileFilter(filter);
     }
+
+    public void setSelectedFile(File f){
+        chooser.setSelectedFile(f);
+    }
 }

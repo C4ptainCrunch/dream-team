@@ -91,7 +91,7 @@ public class ProjectManagementController {
     public void openProjects(){
 
         FileChooseView choose = new FileChooseView("Select project", JFileChooser.FILES_ONLY);
-        choose.setFileRestriction("Archive files","zip");
+        choose.setFileRestriction("CreaTikz files","crea");
         File projectFile = choose.ask();
         // TODO andré : projectFile might be null
         try {

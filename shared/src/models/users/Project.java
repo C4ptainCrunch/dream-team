@@ -1,5 +1,7 @@
 package models.users;
 
+import javax.xml.bind.annotation.XmlAttribute;
+
 public class Project {
     private int id;
     private User user;
@@ -25,5 +27,36 @@ public class Project {
         this.last_modification = last_modification;
         this.write_default = write_default;
         this.read_default = read_default;
+    }
+
+
+    @XmlAttribute
+    public User getUser() {
+        return user;
+    }
+
+    @XmlAttribute
+    public int getId() {
+        return id;
+    }
+
+    @XmlAttribute
+    public String getPath() {
+        return path;
+    }
+
+    @XmlAttribute
+    public String getLast_modification() {
+        return last_modification;
+    }
+
+    @XmlAttribute
+    public boolean isWrite_default() {
+        return write_default;
+    }
+
+    @XmlAttribute
+    public boolean isRead_default() {
+        return read_default;
     }
 }

@@ -10,7 +10,7 @@ import constants.Models;
  * length of all the other sides.
  */
 public class TikzPolygon extends TikzShape {
-    private int length;
+    private float length;
     private int sides;
 
     /**
@@ -24,13 +24,11 @@ public class TikzPolygon extends TikzShape {
 
     /**
      * Constructs a polygon with a given length and a given number of sides.
-     *
-     * @param length
+     *  @param length
      *            The length of one side
      * @param sides
-     *            The number of sides
      */
-    public TikzPolygon(int length, int sides) {
+    public TikzPolygon(float length, int sides) {
         super();
         this.length = length;
         this.sides = sides;
@@ -97,7 +95,7 @@ public class TikzPolygon extends TikzShape {
      *
      * @return The length
      */
-    public int getLength() {
+    public float getLength() {
         return length;
     }
 
@@ -107,7 +105,7 @@ public class TikzPolygon extends TikzShape {
      * @param length
      *            The length
      */
-    public void setLength(int length) {
+    public void setLength(float length) {
         this.length = length;
         setChanged();
         notifyObservers();

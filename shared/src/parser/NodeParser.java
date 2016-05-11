@@ -216,6 +216,8 @@ public class NodeParser {
     public static Parser<Void> parseTexPrelude() {
         return Parsers.sequence(Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(), Scanners.string("\\documentclass{article}\n"),
                 Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES), Scanners.string("\\usepackage{tikz}\n"),
+                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES),
+                Parsers.sequence(Scanners.string("\\usetikzlibrary{"), Scanners.notChar('}').many(), Scanners.isChar('}')).optional(),
                 Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES), Scanners.string("\\begin{document}\n"),
                 Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES), Scanners.string("\\begin{tikzpicture}\n"),
                 Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES)).cast();

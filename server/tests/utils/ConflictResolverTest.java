@@ -8,16 +8,23 @@ import static org.junit.Assert.*;
 
 
 public class ConflictResolverTest {
+    String add1;
+    String add2;
+    String add3;
+
+    String del1;
+    String del2;
+    String del3;
 
     @Before
     public void setUp() throws Exception {
-        String add1 = ("");
-        String add2 = ("");
-        String add3 = ("");
+        add1 = ("");
+        add2 = ("");
+        add3 = ("");
 
-        String del1 = ("");
-        String del2 = ("");
-        String del3 = ("");
+        del1 = ("");
+        del2 = ("");
+        del3 = ("");
 
     }
 
@@ -28,6 +35,6 @@ public class ConflictResolverTest {
 
     @Test
     public void testGetDifferenceDiffs() throws Exception {
-        
+
     }
 }

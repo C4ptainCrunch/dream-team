@@ -123,7 +123,7 @@ public class ConflictResolver{
      * @param diff2 The second diff list to compare
      * @return The diffs list containing the differences between the two diffs lists
      */
-    public List<Diff> getDifferenceDiffs(List<Diff> diff1, List<Diff> diff2){
+    private List<Diff> getDifferenceDiffs(List<Diff> diff1, List<Diff> diff2){
         if(diff1.size() == diff2.size()) {
             return new ArrayList<Diff>();
         }else if (diff1.size() > diff2.size()){

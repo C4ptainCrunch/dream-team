@@ -96,7 +96,7 @@ public class DiagramManagementView extends JDialog {
         JButton cancel = new JButton("Cancel");
         cancel.addActionListener(actionEvent -> {
             dispose();
-            EventQueue.invokeLater(ProjectManagementView::new);
+            EventQueue.invokeLater(ManagementView::new);
         });
 
         newDiagramPanel.add(this.newDiagramName);

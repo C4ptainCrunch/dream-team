@@ -1,11 +1,13 @@
 import java.io.IOException;
 import java.util.logging.Logger;
-import constants.ClientPropertiesLoader;
+
 import models.project.Project;
 import utils.Log;
 import views.accounts.LoginWindowView;
 import views.editor.EditorView;
-import views.management.ProjectManagementView;
+import views.management.ManagementView;
+import constants.ClientPropertiesLoader;
+import controllers.accounts.LoginWindowController;
 
 public class Main {
     private static final Logger logger = Log.getLogger(Main.class);
@@ -24,12 +26,14 @@ public class Main {
             });
         } else if (args.length > 0 && args[0].equals("project")) {
             logger.info("Skip to the projects");
-            java.awt.EventQueue.invokeLater(() -> {
-                new ProjectManagementView();
-            });
+            java.awt.EventQueue.invokeLater(ManagementView::new);
         } else {
-            logger.info("Starting project management view");
-            java.awt.EventQueue.invokeLater(LoginWindowView::new);
+            logger.info("Starting login window");
+            if(LoginWindowController.shouldSkipAuth()){
+                java.awt.EventQueue.invokeLater(ManagementView::new);
+            } else {
+                java.awt.EventQueue.invokeLater(LoginWindowView::new);
+            }
         }
 
     }

@@ -11,7 +11,8 @@ import java.sql.Statement;
 import java.util.logging.Logger;
 
 
-class FactoryRequests{
+class FactoryRequests {
+    public static final String SQLITE_DB_ACTIVATE_PRAGMAS = "PRAGMA foreign_keys = ON;";
     public static final String SQLITE_CREATE_TABLE_USERS = "CREATE TABLE Users(" +
             "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
             "first_name VARCHAR(16)," +
@@ -21,6 +22,22 @@ class FactoryRequests{
             "token VARCHAR(32) NOT NULL," +
             "activated INTEGER(1) NOT NULL,"+
             "password TEXT);";
+    public static final String SQLITE_CREATE_TABLE_PROJECTS = "CREATE TABLE Projects("+
+            "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "user_id INTEGER NOT NULL," +
+            "path VARCHAR(1023) NOT NULL UNIQUE," +
+            "last_modification TEXT NOT NULL," +
+            "default_perm_write INTEGER NOT NULL DEFAULT false," +
+            "default_perm_read INTEGER NOT NULL DEFAULT false," +
+            "FOREIGN KEY(user_id) REFERENCES Users(id) ON UPDATE CASCADE ON DELETE CASCADE);";
+    public static final String SQLITE_CREATE_TABLE_PERMISSIONS = "CREATE TABLE Permissions("+
+            "project_id INTEGER NOT NULL," +
+            "user_id INTEGER NOT NULL," +
+            "write_perm INTEGER NOT NULL," +
+            "read_perm INTEGER NOT NULL," +
+            "FOREIGN KEY(project_id) REFERENCES Projects(id) ON UPDATE CASCADE ON DELETE CASCADE," +
+            "FOREIGN KEY(user_id) REFERENCES Users(id) ON UPDATE CASCADE ON DELETE CASCADE," +
+            "PRIMARY KEY (project_id, user_id));";
 }
 
 /**
@@ -60,8 +77,16 @@ public class DAOFactory {
             Class.forName(Database.SQLITE_JDBC);
             connection = DriverManager.getConnection(Database.SQLITE_DB_CONNECTION);
             statement = connection.createStatement();
-            String sqlCreate = FactoryRequests.SQLITE_CREATE_TABLE_USERS;
-            statement.executeUpdate(sqlCreate);
+
+            String sqlActivatePragmas = FactoryRequests.SQLITE_DB_ACTIVATE_PRAGMAS;
+            String sqlCreateUsers = FactoryRequests.SQLITE_CREATE_TABLE_USERS;
+            String sqlCreateProjects = FactoryRequests.SQLITE_CREATE_TABLE_PROJECTS;
+            String sqlCreatePermissions = FactoryRequests.SQLITE_CREATE_TABLE_PERMISSIONS;
+            statement.executeUpdate(sqlActivatePragmas);
+            statement.executeUpdate(sqlCreateUsers);
+            statement.executeUpdate(sqlCreateProjects);
+            statement.executeUpdate(sqlCreatePermissions);
+
             statement.close();
             connection.close();
         } catch (Exception e) {

@@ -1,4 +1,4 @@
-package models.users;
+package models.databaseModels;
 
 import java.util.List;
 
@@ -14,7 +14,6 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private List<String> documents;
 
 
     public User() {
@@ -55,11 +54,22 @@ public class User {
     @XmlAttribute
     public String getEmail() { return email; }
 
-    @XmlElementWrapper
-    @XmlElement(name="document")
-    public List<String> getDocuments() {
-        return documents;
-    }
 
     public void setId(int id) {this.id = id;}
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

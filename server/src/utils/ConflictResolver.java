@@ -67,29 +67,37 @@ public class ConflictResolver{
         List<Integer> serverConflictsIndexes = conflictsIndexes.get(1);
 
         List<Diff> resolvedDiffs = baseDiffs;
-        if(userChoice.equals("saveUserVersion")){
+        if(userChoice.equals("saveUserVersionOnly")){
             resolvedDiffs.addAll(localDiffs);
-            int i = 0;
-            for(Diff serverDiff: serverDiffs){
-                if(!serverConflictsIndexes.contains(i)){
-                    resolvedDiffs.add(serverDiff);
-                }
-                i++;
-            }
+        }else if(userChoice.equals("saveUserVersion")){
+            resolvedDiffs.addAll(localDiffs);
+            addConflictsIndexes(serverDiffs, serverConflictsIndexes, resolvedDiffs);
+        }else if(userChoice.equals("saveServerVersionOnly")){
+            resolvedDiffs.addAll(serverDiffs);
         }else if(userChoice.equals("saveServerVersion")){
             resolvedDiffs.addAll(serverDiffs);
-            int i = 0;
-            for (Diff localDiff : localDiffs){
-                if(!localConflictsIndexes.contains(i)){
-                    resolvedDiffs.add(localDiff);
-                }
-                i++;
-            }
-
+            addConflictsIndexes(localDiffs, localConflictsIndexes, resolvedDiffs);
         }else{
             //TODO: merge
         }
         return resolvedDiffs;
+    }
+
+    /**
+     * Adds conflict indexes to the resulting diff that will
+     * be needed to create the new graph
+     * @param diffs     The diffs list from where to get conflict diffs
+     * @param conflictIndexes   List of indexes of conflict diffs
+     * @param resolvedDiffs The resulting diff list
+     */
+    private void addConflictsIndexes(List<Diff> diffs, List<Integer> conflictIndexes, List<Diff> resolvedDiffs){
+        int i = 0;
+        for(Diff diff : diffs){
+            if(!conflictIndexes.contains(i)){
+                resolvedDiffs.add(diff);
+            }
+        }
+        i++;
     }
 
 

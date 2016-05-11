@@ -1,16 +1,16 @@
 package views.editor.canvas.drawers;
 
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.*;
-
+import misc.utils.Converter;
 import models.tikz.TikzComponent;
 import models.tikz.TikzNode;
 import models.tikz.TikzRectangle;
 import views.editor.canvas.drawables.DrawableTikzNode;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 public class RectangleDrawer extends NodeDrawer {
 
     /**
@@ -35,7 +35,7 @@ public class RectangleDrawer extends NodeDrawer {
      * @return the awt rectangle
      */
     public Rectangle getAwtRectangle(TikzRectangle rectangle){
-        return new Rectangle(rectangle.getWidth(), rectangle.getLength());
+        return new Rectangle((int)Converter.centimetersToPixels(rectangle.getWidth()), (int)Converter.centimetersToPixels(rectangle.getLength()));
     }
 
     /**

@@ -41,9 +41,9 @@ public class PolygonDrawer extends NodeDrawer {
      */
     private Polygon getAwtPolygon(TikzPolygon polygon) {
         int vertices = polygon.getSides();
-        int size = polygon.getLength();
+        float size = polygon.getLength();
 
-        return new Polygon(getPolygonXCoords(vertices, size), getPolygonYCoords(vertices, size), vertices);
+        return new Polygon(getPolygonXCoords(vertices, (int)Converter.centimetersToPixels(size)), getPolygonYCoords(vertices, (int)Converter.centimetersToPixels(size)), vertices);
     }
 
     /**

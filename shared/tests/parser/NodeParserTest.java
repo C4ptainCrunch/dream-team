@@ -94,8 +94,8 @@ public class NodeParserTest {
             TikzShape shape = (TikzShape) node;
             Assert.assertEquals(shape.isRectangle(), true);
             TikzRectangle rectangle = (TikzRectangle) shape;
-            Assert.assertEquals(rectangle.getWidth(), 10);
-            Assert.assertEquals(rectangle.getLength(), 25);
+            Assert.assertEquals(rectangle.getWidth(), 10, 0.01);
+            Assert.assertEquals(rectangle.getLength(), 25, 0.01);
             Assert.assertEquals(rectangle.getBackgroundColor(), Color.red);
         }
 

@@ -72,7 +72,7 @@ public class EditUserController {
             if(emailChanged) {
                 logger.info("Email changed");
             }
-            if(!emailChanged && r.getStatus() == 200) {
+            if(emailChanged && r.getStatus() == 200) {
                 java.awt.EventQueue.invokeLater(TokenActivationView::new);
             } else {
                 java.awt.EventQueue.invokeLater(ManagementView::new);

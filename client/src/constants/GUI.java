@@ -22,6 +22,7 @@ public final class GUI {
         public static final String EDIT_MENU = "Edit";
         public static final String UNDO = "Undo";
         public static final String REDO = "Redo";
+        public static final String OPEN = "Open";
     }
 
     public static final class ProjectManagement {

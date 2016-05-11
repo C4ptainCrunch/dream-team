@@ -1,5 +1,6 @@
 package views.editor;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -8,6 +9,7 @@ import javax.swing.*;
 import models.project.Diagram;
 import constants.GUI;
 import controllers.editor.MenuController;
+import views.management.ProjectManagementView;
 
 /**
  * Implementation of the View (from the MVC architectural pattern) for the Menu.
@@ -74,6 +76,18 @@ public class MenuView extends JMenuBar {
         addShortcutItem(menu, action, GUI.MenuBar.SAVE, key, KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK);
     }
 
+    private void addOpenItem(JMenu menu) {
+        String key = "Open";
+
+        Action action = new AbstractAction(key) {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                controller.openNew();
+            }
+        };
+        addShortcutItem(menu, action, GUI.MenuBar.OPEN, key, KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK);
+    }
+
     /**
      * Renders the view by setting the different buttons composing the menu
      */
@@ -81,6 +95,7 @@ public class MenuView extends JMenuBar {
         JMenu file_menu = new JMenu(GUI.MenuBar.FILE_MENU);
         this.add(file_menu);
 
+        addOpenItem(file_menu);
         addSaveItem(file_menu);
 
         JMenuItem build_pdf = new JMenuItem(GUI.MenuBar.PDF);
@@ -133,5 +148,9 @@ public class MenuView extends JMenuBar {
 
     public void setBlindMode(boolean set_mode) {
         parentView.setTextAreaColorBlindMode(set_mode);
+    }
+
+    public void disposeParent() {
+        this.parentView.dispose();
     }
 }

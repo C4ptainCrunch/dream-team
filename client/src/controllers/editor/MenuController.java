@@ -2,6 +2,7 @@ package controllers.editor;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +22,7 @@ import views.help.HelpView;
 import views.management.FileChooseView;
 import views.management.HistoryView;
 import constants.Errors;
+import views.management.ProjectManagementView;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the
@@ -125,8 +127,26 @@ public class MenuController implements Observer {
      *            controller is contained
      */
     public void saveAndQuit(EditorView parentView) {
+        if(this.askToSave()){
+            parentView.dispose();
+        }
+    }
+
+    public void setColorBlindMode(int stateChange) {
+        boolean set_mode = (stateChange == ItemEvent.SELECTED ? true : false);
+        view.setBlindMode(set_mode);
+    }
+
+    public void openNew() {
+        if(this.askToSave()){
+            this.view.disposeParent();
+            EventQueue.invokeLater(ProjectManagementView::new);
+        }
+    }
+
+    private boolean askToSave() {
         boolean shouldQuit = true;
-        if(this.diagram.isTemporary()){
+        if(diagram.isTemporary()){
             int r = JOptionPane.showConfirmDialog(this.view, "Would you like to save your diagram ?");
             if(r == JOptionPane.NO_OPTION){
             } else if (r == JOptionPane.CANCEL_OPTION){
@@ -137,13 +157,6 @@ public class MenuController implements Observer {
         } else {
             save();
         }
-        if(shouldQuit){
-            parentView.dispose();
-        }
-    }
-
-    public void setColorBlindMode(int stateChange) {
-        boolean set_mode = (stateChange == ItemEvent.SELECTED ? true : false);
-        view.setBlindMode(set_mode);
+        return shouldQuit;
     }
 }

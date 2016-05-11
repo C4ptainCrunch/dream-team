@@ -54,11 +54,10 @@ public class ProjectManagementView extends JPanel {
 
         JButton create = new JButton(GUI.ProjectManagement.CREATE_BUTTON);
         create.addActionListener(e -> controller.createProject());
+        this.firstButtons.add(create);
 
         JButton openProject = new JButton(GUI.ProjectManagement.OPEN_PROJECT_BUTTON);
-        openProject.addActionListener(e -> controller.openProjects());
-
-        this.firstButtons.add(create);
+        openProject.addActionListener(e -> controller.openProject());
         this.firstButtons.add(openProject);
 
         this.add(this.firstButtons);
@@ -70,12 +69,17 @@ public class ProjectManagementView extends JPanel {
 
         JButton openRecentProject = new JButton(GUI.ProjectManagement.OPEN_RECENT_BUTTON);
         openRecentProject.addActionListener(e -> controller.openRecentProject());
+        this.secondButtons.add(openRecentProject);
 
         JButton rename = new JButton(GUI.ProjectManagement.RENAME_BUTTON);
         rename.addActionListener(e -> controller.moveProject());
-
         this.secondButtons.add(rename);
-        this.secondButtons.add(openRecentProject);
+
+        JButton uplaod = new JButton("Upload selected project");
+        // TODO : use constant
+        uplaod.addActionListener(e -> controller.uploadProject());
+        this.secondButtons.add(uplaod);
+
 
         this.add(this.secondButtons);
 

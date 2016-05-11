@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
+import middleware.Secured;
 import models.users.User;
 import utils.TokenCreator;
 import database.DAOFactory;
@@ -54,5 +55,13 @@ public class AuthenticationEndpoint {
 
     public static String getUsernameFromToken(String token) {
         return tokens.get(token);
+    }
+
+    @GET
+    @Secured
+    @Path("/checktoken")
+    @Produces("text/plain")
+    public String checkToken(){
+        return "OK";
     }
 }

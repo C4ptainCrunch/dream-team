@@ -6,6 +6,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import misc.utils.ClientTest;
 import models.tikz.TikzCircle;
 import models.tikz.TikzGraph;
 
@@ -15,7 +16,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-public class TemplateTest {
+public class TemplateTest extends ClientTest {
 
     private static final String TEST_1_FILENAME = "test";
     private static final String TEST_2_FILENAME = "test2";

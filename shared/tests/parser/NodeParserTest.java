@@ -11,8 +11,9 @@ import models.tikz.TikzShape;
 
 import org.junit.Assert;
 import org.junit.Test;
+import utils.SharedTest;
 
-public class NodeParserTest {
+public class NodeParserTest extends SharedTest {
     @Test
     public void testNumber() throws Exception {
         Assert.assertEquals(NodeParser.number().parse("-457"), new Float(-457));
@@ -94,8 +95,8 @@ public class NodeParserTest {
             TikzShape shape = (TikzShape) node;
             Assert.assertEquals(shape.isRectangle(), true);
             TikzRectangle rectangle = (TikzRectangle) shape;
-            Assert.assertEquals(rectangle.getWidth(), 10);
-            Assert.assertEquals(rectangle.getLength(), 25);
+            Assert.assertEquals(rectangle.getWidth(), 10, 0.01);
+            Assert.assertEquals(rectangle.getLength(), 25, 0.01);
             Assert.assertEquals(rectangle.getBackgroundColor(), Color.red);
         }
 

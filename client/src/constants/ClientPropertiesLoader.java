@@ -20,6 +20,10 @@ public class ClientPropertiesLoader extends PropertiesLoader {
 
     public static void loadAll(){
         PropertiesLoader.loadAll();
+        loadClientProperties();
+    }
+
+    public static void loadClientProperties(){
         loadErrorsProperties();
         loadGUIProperties();
         loadWarningsProperties();

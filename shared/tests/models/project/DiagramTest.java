@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import utils.SharedTest;
 import models.tikz.TikzCircle;
 import models.tikz.TikzGraph;
 
@@ -22,7 +23,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-public class DiagramTest {
+public class DiagramTest extends SharedTest {
     private Project project;
 
     class ProjectMock extends Project {

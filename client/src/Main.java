@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 import misc.utils.ConflictResolver;
 import models.project.Project;
 import utils.Log;
-import views.accounts.LoginWindowView;
 import views.editor.EditorView;
 import views.management.ProjectManagementView;
 

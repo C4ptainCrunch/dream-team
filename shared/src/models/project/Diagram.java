@@ -316,6 +316,12 @@ public class Diagram{
         undoRedoFlag = false;
     }
 
+    /**
+     * Inverts the operation of a Diff object. INSERT becomes DELETE and vice versa.
+     * @param last The diff object that will be inverted.
+     * @return The inverted Diff.
+     */
+
     private Diff invertDiff(Diff last){
         String text = last.getPatch();
         String add_pattern = "\n+";

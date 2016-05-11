@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import middleware.Secured;
@@ -23,17 +24,15 @@ public class UserEndpoint {
 
     @GET
     @Secured
-    @Path("/get/{user}")
-    @Produces("text/plain")
-    public String getUserData(@PathParam("user") String username){
-        User gotUser = this.usersDAO.findByUsername(username);
-        if(gotUser != null){
-            String toReturn = gotUser.getFirstName() + "/" + gotUser.getLastName() + "/" +
-                              gotUser.getUsername() + "/" + gotUser.getEmail();
-            return toReturn;
-        } else {
-            return "NOK";
+    @Path("/get")
+    @Produces("application/xml")
+    public User getUserData(@Context SecurityContext securityContext){
+        String username = securityContext.getUserPrincipal().getName();
+        User user = this.usersDAO.findByUsername(username);
+        if(user == null){
+            throw new NotFoundException("User not found");
         }
+        return user;
     }
 
     @POST

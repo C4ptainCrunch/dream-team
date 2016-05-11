@@ -47,17 +47,6 @@ public class ProjectManagementController {
         this.view. dispose();
     }
 
-    /**
-     * Launches edition of a given diagram
-     * @param diagram The diagram to be edited
-     * @throws IOException
-     */
-    public void editDiagram(Diagram diagram) throws IOException {
-        RecentProjects.addProject(diagram.getProject());
-
-        java.awt.EventQueue.invokeLater(() -> new EditorView(diagram));
-        this.view.dispose(); // Exit previous windows
-    }
 
     /**
      * Updates the project description with the selected project
@@ -83,16 +72,6 @@ public class ProjectManagementController {
     }
 
     /**
-     * Creates a new project and opens it in the editor.
-     */
-    public void createProject() {
-        try {
-            editDiagram(new Project().getDiagram("unsaved"));
-        } catch (IOException e) {}
-    }
-
-
-    /**
      * Opens for edition a project that was selected in the view.
      */
     public void openRecentProject() {
@@ -107,24 +86,6 @@ public class ProjectManagementController {
         }
     }
 
-    /**
-     * Opens a FileChooser to select an existing project in the file system
-     */
-    public void openProject(){
-
-        FileChooseView choose = new FileChooseView("Select project", JFileChooser.FILES_ONLY);
-        choose.setFileRestriction("CreaTikz files","crea");
-        File projectFile = choose.ask();
-        if(projectFile != null) {
-            try {
-                Project currentProject = new Project(projectFile.toPath());
-                new DiagramManagementView(currentProject);
-                this.view.dispose();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     /**
      * Renames and/or moves a project in the file system

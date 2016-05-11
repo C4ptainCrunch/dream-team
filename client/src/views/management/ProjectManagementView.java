@@ -37,31 +37,14 @@ public class ProjectManagementView extends JPanel {
         this.setSize(900, 200);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        createFirstButtonsPanel();
         createInfoPanel();
         createChooserPanel();
         this.add(this.chooserPanel);
         this.add(this.infoPanel);
 
         createSecondButtonsPanel();
-
-        //this.setVisible(true);
     }
 
-    private void createFirstButtonsPanel() {
-        this.firstButtons = new JPanel();
-        this.firstButtons.setLayout(new BoxLayout(this.firstButtons, BoxLayout.X_AXIS));
-
-        JButton create = new JButton(GUI.ProjectManagement.CREATE_BUTTON);
-        create.addActionListener(e -> controller.createProject());
-        this.firstButtons.add(create);
-
-        JButton openProject = new JButton(GUI.ProjectManagement.OPEN_PROJECT_BUTTON);
-        openProject.addActionListener(e -> controller.openProject());
-        this.firstButtons.add(openProject);
-
-        this.add(this.firstButtons);
-    }
 
     private void createSecondButtonsPanel() {
         this.secondButtons = new JPanel();

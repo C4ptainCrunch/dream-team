@@ -1,4 +1,4 @@
-package ressources;
+package endpoints;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.ws.rs.*;
 
+import middleware.Secured;
 import models.users.User;
 import utils.ConfirmationEmailSender;
 import utils.Log;
@@ -14,20 +15,14 @@ import database.DAOFactory;
 import database.UsersDAO;
 
 @Path("user")
-public class UserRessource {
+public class UserEndpoint {
 
     DAOFactory daoFactory = DAOFactory.getInstance();
     UsersDAO usersDAO = daoFactory.getUsersDAO();
-    private final static Logger logger = Log.getLogger(UserRessource.class);
+    private final static Logger logger = Log.getLogger(UserEndpoint.class);
 
     @GET
-    @Path("{user}")
-    @Produces("application/xml")
-    public String getUser(@PathParam("user") String username){
-        return "Test";
-    }
-
-    @POST
+    @Secured
     @Path("/get/{user}")
     @Produces("text/plain")
     public String getUserData(@PathParam("user") String username){

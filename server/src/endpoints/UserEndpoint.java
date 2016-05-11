@@ -5,6 +5,8 @@ import java.util.logging.Logger;
 
 import javax.mail.MessagingException;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.SecurityContext;
 
 import middleware.Secured;
 import models.users.User;
@@ -13,12 +15,11 @@ import utils.Log;
 import constants.Network;
 import database.DAOFactory;
 import database.UsersDAO;
+import utils.TokenCreator;
 
 @Path("user")
 public class UserEndpoint {
-
-    DAOFactory daoFactory = DAOFactory.getInstance();
-    UsersDAO usersDAO = daoFactory.getUsersDAO();
+    UsersDAO usersDAO = DAOFactory.getInstance().getUsersDAO();
     private final static Logger logger = Log.getLogger(UserEndpoint.class);
 
     @GET
@@ -37,9 +38,10 @@ public class UserEndpoint {
     }
 
     @POST
-    @Path("/activate/{user}")
+    @Secured
+    @Path("/activate/{username}")
     @Produces("text/plain")
-    public String validateToken(@PathParam("user") String username, @FormParam("token") String token){
+    public String validateToken(@PathParam("username") String username, @FormParam("token") String token){
         if(this.usersDAO.getTokenOfUser(username).equals(token)){
             this.usersDAO.activateUser(username);
             return Network.Token.TOKEN_OK;
@@ -49,31 +51,19 @@ public class UserEndpoint {
     }
 
     @POST
-    @Path("/login/{user}")
-    @Produces("text/plain")
-    public String login(@FormParam("username") String username, @FormParam("password") String password){
-        User testUser = this.usersDAO.findByUsernameAndPassword(username,password);
-        if(testUser!=null) {
-            if(this.usersDAO.isActivated(testUser)) {
-                return Network.Login.LOGIN_OK;
-            }
-            return Network.Login.ACCOUNT_NOT_ACTIVATED;
-        }
-        return Network.Login.LOGIN_FAILED;
-    }
-
-    @POST
     @Path("/signup/{user}")
     @Produces("text/plain")
-    public String signUp(@FormParam("username") String username, @FormParam("firstname") String firstname,
-                         @FormParam("lastname") String lastname, @FormParam("email") String email, @FormParam("password") String password){
+    public String signUp(@FormParam("username") String username,
+                         @FormParam("firstname") String firstname,
+                         @FormParam("lastname") String lastname,
+                         @FormParam("email") String email,
+                         @FormParam("password") String password){
         User user = new User(username, firstname, lastname, email);
         boolean failed = this.usersDAO.create(user);
         if (!failed){
             this.usersDAO.setPasswordToUser(user, password);
-            ConfirmationEmailSender emailSender = new ConfirmationEmailSender();
             try{
-                emailSender.send(email,this.usersDAO.getTokenOfUser(username));
+                ConfirmationEmailSender.send(email,this.usersDAO.getTokenOfUser(username));
             } catch (MessagingException ex) {
                 logger.info("Email sending to " + email + " failed.");
             }
@@ -83,30 +73,33 @@ public class UserEndpoint {
     }
 
     @POST
-    @Path("/edit/{user}")
+    @Secured
+    @Path("/edit")
     @Produces("text/plain")
-    public String editUser(@FormParam("username") String username, @FormParam("firstname") String firstname,
-                         @FormParam("lastname") String lastname, @FormParam("email") String email,
-                         @FormParam("originalUsername") String originalUsername,
-                         @FormParam("originalEmail") String originalEmail) {
+    public String editUser(
+            @FormParam("firstname") String firstname,
+            @FormParam("lastname") String lastname,
+            @FormParam("email") String email,
+            @Context SecurityContext securityContext) {
 
-        ArrayList<String> data = new ArrayList<>();
-        data.add(firstname); data.add(lastname); data.add(username); data.add(email);
+        String username = securityContext.getUserPrincipal().getName();
+        User user = usersDAO.findByUsername(username);
+        user.setFirstname(firstname);
+        user.setLastName(lastname);
+        boolean should_reset_email = user.getEmail().equals(email);
+        user.setEmail(email);
 
-        String flag = this.usersDAO.edit(data,originalUsername,originalEmail);
-        if (flag != "Error"){
-            if(! originalEmail.equals(email)){
-                ConfirmationEmailSender emailSender = new ConfirmationEmailSender();
-                try{
-                    emailSender.send(email,flag);
-                } catch (MessagingException ex) {
-                    logger.info("Email sending to " + email + " failed.");
-                }
+        this.usersDAO.update(user);
+        if(should_reset_email) {
+            String token = TokenCreator.newToken();
+            this.usersDAO.setToken(user, token);
+            try {
+                ConfirmationEmailSender.send(user.getEmail(),token);
+            } catch (MessagingException e) {
+                e.printStackTrace();
             }
-            return Network.Signup.SIGN_UP_OK;
         }
-        return Network.Signup.SIGN_UP_FAILED;
-
+        return Network.Token.TOKEN_OK;
 
     }
 }

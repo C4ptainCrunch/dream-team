@@ -51,4 +51,8 @@ public class AuthenticationEndpoint {
     public static boolean validateToken(String token) {
         return tokens.containsKey(token);
     }
+
+    public static String getUsernameFromToken(String token) {
+        return tokens.get(token);
+    }
 }

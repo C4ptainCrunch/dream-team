@@ -9,7 +9,7 @@ import javax.swing.*;
 
 import constants.GUI;
 import controllers.accounts.EditUserController;
-import models.users.User;
+import models.databaseModels.User;
 
 public class EditUserView extends JFrame{
 

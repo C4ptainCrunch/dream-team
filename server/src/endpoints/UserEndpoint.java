@@ -8,7 +8,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
 
 import middleware.Secured;
-import models.users.User;
+import models.databaseModels.User;
 import utils.ConfirmationEmailSender;
 import utils.Log;
 import utils.TokenCreator;

@@ -7,7 +7,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 import middleware.Secured;
-import models.users.User;
+import models.databaseModels.User;
 import utils.TokenCreator;
 import database.DAOFactory;
 import database.UsersDAO;

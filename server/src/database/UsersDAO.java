@@ -6,7 +6,7 @@ import static database.DAOUtilities.silentClosures;
 import java.sql.*;
 import java.util.logging.Logger;
 
-import models.users.User;
+import models.databaseModels.User;
 import utils.Hasher;
 import utils.Log;
 import utils.TokenCreator;
@@ -82,9 +82,9 @@ public class UsersDAO {
         ResultSet resultSet = null;
         User user = null;
         try {
-            resultSet = executeQuery( connection, preparedStatement, resultSet, Database.SQL_SELECT_BY_USERNAME, username);
+            resultSet = DAOUtilities.executeQuery( daoFactory, connection, preparedStatement, resultSet, Database.SQL_SELECT_BY_USERNAME, username);
             if ( resultSet.next() ) {
-                user = map( resultSet );
+                user = DAOUtilities.mapUser( resultSet );
             }
         } catch ( SQLException e ) {
             logger.severe(e.getClass().getName() + ": " + e.getMessage());
@@ -107,7 +107,7 @@ public class UsersDAO {
         User user = null;
         String hash = Hasher.hash(password, username);
         try {
-            resultSet = executeQuery( connection, preparedStatement, resultSet,  Database.SQL_MATCH_USERNAME_PASSWORD, username, hash);
+            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet,  Database.SQL_MATCH_USERNAME_PASSWORD, username, hash);
             if (resultSet.next()) {
                 user = findByUsername(username);
             }
@@ -126,7 +126,7 @@ public class UsersDAO {
      */
     public void setPasswordToUser(User user, String password) {
         String hash = Hasher.hash(password, user.getUsername());
-        int statut = executeUpdate(Database.SQL_SET_PASSWORD_TO_USER, false, hash, user.getUsername());
+        int statut = DAOUtilities.executeUpdate(daoFactory, Database.SQL_SET_PASSWORD_TO_USER, hash, user.getUsername());
         if ( statut == 0 ) {
             logger.severe( "Failed to update user's password" );
         }
@@ -143,7 +143,7 @@ public class UsersDAO {
         ResultSet resultSet = null;
         Boolean activated = false;
         try {
-            resultSet = executeQuery( connection, preparedStatement, resultSet, Database.SQL_IS_ACTIVATED, user.getUsername());
+            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, Database.SQL_IS_ACTIVATED, user.getUsername());
             if (resultSet.next() ) {
                 activated = (resultSet.getInt("activated") == 1) ? true : false;
             }
@@ -160,7 +160,7 @@ public class UsersDAO {
      * @param username the username of the account to activate
      */
     public void activateUser(String username) {
-        int statut = executeUpdate(Database.SQL_ACTIVATE_USER, false, username);
+        int statut = DAOUtilities.executeUpdate(daoFactory, Database.SQL_ACTIVATE_USER, false, username);
         if ( statut == 0 ) {
             logger.severe("Failed to activate user");
         }
@@ -177,7 +177,7 @@ public class UsersDAO {
         ResultSet resultSet = null;
         String token = null;
         try {
-            resultSet = executeQuery(connection, preparedStatement, resultSet, Database.SQL_GET_TOKEN_BY_USERNAME, username);
+            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, Database.SQL_GET_TOKEN_BY_USERNAME, username);
             if (resultSet.next() ) {
                 token = (resultSet.getString("token"));
             }
@@ -194,53 +194,17 @@ public class UsersDAO {
      * @param user The User to delete
      */
     public void deleteUser(User user) {
-        int statut = executeUpdate(Database.SQL_DELETE_USER, false, user.getUsername());
+        int statut = DAOUtilities.executeUpdate(daoFactory, Database.SQL_DELETE_USER, user.getUsername());
         if ( statut == 0 ) {
             logger.severe( "Failed to delete user" );
         }
     }
 
-    private ResultSet executeQuery(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet, String sqlQuery, Object... objects) {
-        try {
-            connection = daoFactory.getConnection();
-            preparedStatement = initializationPreparedRequest(connection, sqlQuery, false, objects);
-            resultSet = preparedStatement.executeQuery();
-        } catch (SQLException e) {
-            logger.severe(e.toString());
-        }
-        return resultSet;
-    }
-
-    private int executeUpdate(String sqlQuery, Boolean returnGeneratedKeys, Object... objects) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        int status = 0;
-        try {
-           connection = daoFactory.getConnection();
-           preparedStatement = initializationPreparedRequest(connection, sqlQuery, returnGeneratedKeys, objects);
-           status = preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-           logger.severe(e.toString());
-        } finally {
-            silentClosures(preparedStatement, connection);
-        }
-        return status;
-    }
-
-    private static User map(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt("id");
-        String first_name = resultSet.getString("first_name");
-        String last_name = resultSet.getString("last_name");
-        String username = resultSet.getString("username");
-        String email = resultSet.getString("email");
-        return new User(id, username, first_name, last_name, email);
-    }
-
     public void update(User user) {
-        executeUpdate(Database.SQL_UPDATE_USER, false, user.getFirstName(), user.getLastName(), user.getEmail(), user.getUsername());
+        DAOUtilities.executeUpdate(daoFactory, Database.SQL_UPDATE_USER, false, user.getFirstName(), user.getLastName(), user.getEmail(), user.getUsername());
     }
 
     public void setToken(User user, String token) {
-        executeUpdate(Database.SQL_SET_TOKEN_BY_USERNAME, false, token , user.getUsername());
+        DAOUtilities.executeUpdate(daoFactory, Database.SQL_SET_TOKEN_BY_USERNAME, false, token , user.getUsername());
     }
 }

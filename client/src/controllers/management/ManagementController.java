@@ -6,7 +6,7 @@ import constants.Network;
 import misc.utils.RequestBuilder;
 import models.project.Diagram;
 import models.project.Project;
-import models.users.User;
+import models.databaseModels.User;
 import utils.RecentProjects;
 import views.accounts.EditUserView;
 import views.accounts.LoginWindowView;

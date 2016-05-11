@@ -15,6 +15,13 @@ public final class Database {
             "token VARCHAR(32) NOT NULL," +
             "activated INTEGER(1) NOT NULL,"+
             "password TEXT);";
+    public static final String SQLITE_CREATE_TABLE_PROJECTS = "CREATE TABLE Projects("+
+            "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "user_id INTEGER NOT NULL REFERENCES Users(id)," +
+            "path VARCHAR(1023) NOT NULL," +
+            "last_modification TEXT NOT NULL," +
+            "default_perm_write BOOLEAN NOT NULL DEFAULT false," +
+            "default_perm_read BOOLEAN NOT NULL DEFAULT false);";
     public static final String SQL_SELECT_BY_USERNAME = "SELECT id, first_name, last_name, username, email " +
                                                          "FROM Users WHERE username = ?";
     public static final String SQL_MATCH_USERNAME_PASSWORD = "SELECT username, password " +

@@ -20,7 +20,7 @@ public class ProjectManagerTest {
     public void setUp() throws Exception {
         baseFile = new File("tests/utils/diffsFiles/base.diff");
         localFile = new File("tests/utils/diffsFiles/local.diff");
-        conflictFile = new File("tests/utils/diffsFiles/conflict.diff");
+        conflictFile = new File("tests/utils/diffsFiles/local.diff");
         projectManager = new ProjectManager();
     }
 
@@ -29,9 +29,8 @@ public class ProjectManagerTest {
         ConflictResolver conflictResolver = projectManager.getConflictResolver();
         conflictResolver.update(baseFile,localFile,conflictFile);
         List<Diff> resolvedDiff = conflictResolver.resolve("saveUserVersionOnly");
-        System.out.println(resolvedDiff.size());
-        String tikzGraph = projectManager.createTikzFromDiffs(resolvedDiff.get(0));
-        System.out.println("Ok");
-        System.out.println(tikzGraph);
+        String tikzGraph = projectManager.createTikzFromDiffs(resolvedDiff);
+        assertEquals(tikzGraph,"\\node[circle, draw, radius=50](10b7aa06-3811-49d3-96fd-6f7c8b891d86) at (0.794,4.710){};\n" +
+                "\\node[regular polygon, draw, minimum size=50](473f94bf-bb60-4cc8-9b74-af5aed97f5fe) at (-0.423,-0.370){};\n");
     }
 }

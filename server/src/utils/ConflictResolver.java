@@ -44,6 +44,7 @@ public class ConflictResolver{
         }
 
         differenceDiffsBaseServer = getDifferenceDiffs(baseDiffs, serverDiffs);
+
         differenceDiffsBaseLocal = getDifferenceDiffs(baseDiffs, localDiffs);
     }
 
@@ -68,12 +69,12 @@ public class ConflictResolver{
 
         List<Diff> resolvedDiffs = baseDiffs;
         if(userChoice.equals("saveUserVersionOnly")){
-            resolvedDiffs.addAll(localDiffs);
+            resolvedDiffs.addAll(differenceDiffsBaseLocal);
         }else if(userChoice.equals("saveUserVersion")){
             resolvedDiffs.addAll(localDiffs);
             addConflictsIndexes(serverDiffs, serverConflictsIndexes, resolvedDiffs);
         }else if(userChoice.equals("saveServerVersionOnly")){
-            resolvedDiffs.addAll(serverDiffs);
+            resolvedDiffs.addAll(differenceDiffsBaseServer);
         }else if(userChoice.equals("saveServerVersion")){
             resolvedDiffs.addAll(serverDiffs);
             addConflictsIndexes(localDiffs, localConflictsIndexes, resolvedDiffs);

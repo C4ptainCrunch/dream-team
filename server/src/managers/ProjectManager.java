@@ -34,15 +34,14 @@ public class ProjectManager {
         return conflictResolver;
     }
 
-    public String createTikzFromDiffs(Diff diffs){
-        DiffMatchPatch undo = new DiffMatchPatch();
-        List<DiffMatchPatch.Patch> patches = undo.patchFromText(diffs.getPatch());
-        for (DiffMatchPatch.Patch pa : patches){
-            System.out.println(pa.toString());
+    public String createTikzFromDiffs(List<Diff> diffs){
+        DiffMatchPatch dmp = new DiffMatchPatch();
+        List<DiffMatchPatch.Patch> patches = new LinkedList<>();
+        for(Diff diff : diffs){
+            patches.addAll(dmp.patchFromText(diff.getPatch()));
         }
-        TikzGraph graph = new TikzGraph();
-        String original = graph.toString();
-        final Object[] modified = undo.patchApply((LinkedList<DiffMatchPatch.Patch>) patches, original);
+        String original = "";
+        final Object[] modified = dmp.patchApply((LinkedList<DiffMatchPatch.Patch>) patches, original);
         return (String) modified[0];
     }
 }

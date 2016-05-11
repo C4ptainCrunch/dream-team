@@ -27,9 +27,11 @@ public class TemplateIOManager {
     private static void moveTemplateGraphToOrigin(TikzGraph g) {
         List<TikzNode> comps = g.getNodes();
         TikzNode first_node = comps.get(0);
-        int origin_delta_x = -((int) first_node.getPosition().getX());
-        int origin_delta_y = -((int) first_node.getPosition().getY());
-        g.translation(origin_delta_x, origin_delta_y);
+        float delta_x = new Double(first_node.getPosition().getX()).floatValue();
+        float delta_y = new Double(first_node.getPosition().getY()).floatValue();
+        delta_x = (delta_x < 0 ? -delta_x : delta_x);
+        delta_y = (delta_y < 0 ? -delta_y : delta_y);
+        g.translation(delta_x, delta_y);
 
     }
 
@@ -55,9 +57,10 @@ public class TemplateIOManager {
                 }
             }
         }
-        moveTemplateGraphToOrigin(g.getClone());
+        TikzGraph clone = g.getClone();
+        moveTemplateGraphToOrigin(clone);
         String name = JOptionPane.showInputDialog(new JFrame(), "Enter template name:");
-        Template template = new Template(g);
+        Template template = new Template(clone);
         return template.saveTemplate(name);
     }
 

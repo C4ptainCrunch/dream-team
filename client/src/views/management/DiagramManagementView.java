@@ -31,7 +31,7 @@ public class DiagramManagementView extends JDialog {
 
     public final void render(){
         this.setTitle("TikzCreator : choose a diagram or create a new one");
-        this.setPreferredSize(new Dimension(400, 300));
+        this.setPreferredSize(new Dimension(400, 250));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
 
@@ -63,7 +63,7 @@ public class DiagramManagementView extends JDialog {
         });
 
         JScrollPane listScroller = new JScrollPane(diagramList);
-        listScroller.setPreferredSize(new Dimension(250, 80));
+        listScroller.setPreferredSize(new Dimension(250, 130));
 
         diagramPanel.add(listScroller);
         this.add(diagramPanel, BorderLayout.NORTH);

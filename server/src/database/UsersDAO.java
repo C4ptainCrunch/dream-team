@@ -13,6 +13,24 @@ import utils.Log;
 import utils.TokenCreator;
 import constants.Database;
 
+class UserRequests{
+    public static final String SQL_SELECT_BY_USERNAME = "SELECT id, first_name, last_name, username, email " +
+            "FROM Users WHERE username = ?";
+    public static final String SQL_MATCH_USERNAME_PASSWORD = "SELECT username, password " +
+            "FROM Users WHERE username = ? and password = ?";
+    public static final String SQL_INSERT_USER = "INSERT INTO Users(first_name, last_name, username, email, token, activated) " +
+            "VALUES (?, ?, ?, ?, ?, 0)";
+    public static final String SQL_EDIT_USER = "UPDATE Users " +
+            "SET first_name = ?,last_name = ?,username= ?,email= ?" +
+            "WHERE username= ?";
+    public static final String SQL_SET_PASSWORD_TO_USER = "UPDATE Users SET password = ? WHERE username = ?";
+    public static final String SQL_GET_TOKEN_BY_USERNAME = "SELECT token FROM Users WHERE username = ?";
+    public static final String SQL_IS_ACTIVATED = "SELECT activated FROM Users WHERE username = ?";
+    public static final String SQL_ACTIVATE_USER = "UPDATE Users SET activated = 1 WHERE username = ?";
+    public static final String SQL_DISABLE_USER = "UPDATE Users SET activated = 0, token = ? WHERE username=?";
+    public static final String SQL_DELETE_USER = "DELETE FROM Users WHERE username = ?";
+}
+
 /**
  * Implementation of a DAO to get and set information to the database's Users table.
  */
@@ -45,7 +63,7 @@ public class UsersDAO {
         String token = this.tokenCreator.newToken();
         try {
             connection = daoFactory.getConnection();
-            preparedStatement = initializationPreparedRequest( connection, Database.SQL_INSERT_USER, true,
+            preparedStatement = initializationPreparedRequest( connection, UserRequests.SQL_INSERT_USER, true,
                                                                user.getFirstName(), user.getLastName(),
                                                                user.getUsername(), user.getEmail(), token
                                                              );
@@ -81,7 +99,7 @@ public class UsersDAO {
      */
     public String edit(ArrayList<String> data, String originalUserName, String originalEmail) {
         String flag;
-        int statut = executeUpdate(Database.SQL_EDIT_USER, false, data.get(0), data.get(1), data.get(2), data.get(3), originalUserName);
+        int statut = executeUpdate(UserRequests.SQL_EDIT_USER, false, data.get(0), data.get(1), data.get(2), data.get(3), originalUserName);
         if ( statut == 0 ) {
             return "Error";
         }
@@ -103,7 +121,7 @@ public class UsersDAO {
         ResultSet resultSet = null;
         User user = null;
         try {
-            resultSet = executeQuery( connection, preparedStatement, resultSet, Database.SQL_SELECT_BY_USERNAME, username);
+            resultSet = executeQuery( connection, preparedStatement, resultSet, UserRequests.SQL_SELECT_BY_USERNAME, username);
             if ( resultSet.next() ) {
                 user = map( resultSet );
             }
@@ -128,7 +146,7 @@ public class UsersDAO {
         User user = null;
         String hash = Hasher.hash(password, username);
         try {
-            resultSet = executeQuery( connection, preparedStatement, resultSet,  Database.SQL_MATCH_USERNAME_PASSWORD, username, hash);
+            resultSet = executeQuery( connection, preparedStatement, resultSet,  UserRequests.SQL_MATCH_USERNAME_PASSWORD, username, hash);
             if (resultSet.next()) {
                 user = findByUsername(username);
             }
@@ -147,7 +165,7 @@ public class UsersDAO {
      */
     public void setPasswordToUser(User user, String password) {
         String hash = Hasher.hash(password, user.getUsername());
-        int statut = executeUpdate(Database.SQL_SET_PASSWORD_TO_USER, false, hash, user.getUsername());
+        int statut = executeUpdate(UserRequests.SQL_SET_PASSWORD_TO_USER, false, hash, user.getUsername());
         if ( statut == 0 ) {
             logger.severe( "Failed to update user's password" );
         }
@@ -164,7 +182,7 @@ public class UsersDAO {
         ResultSet resultSet = null;
         Boolean activated = false;
         try {
-            resultSet = executeQuery( connection, preparedStatement, resultSet, Database.SQL_IS_ACTIVATED, user.getUsername());
+            resultSet = executeQuery( connection, preparedStatement, resultSet, UserRequests.SQL_IS_ACTIVATED, user.getUsername());
             if (resultSet.next() ) {
                 activated = (resultSet.getInt("activated") == 1) ? true : false;
             }
@@ -181,7 +199,7 @@ public class UsersDAO {
      * @param username the username of the account to activate
      */
     public void activateUser( String username ) {
-        int statut = executeUpdate(Database.SQL_ACTIVATE_USER, false, username);
+        int statut = executeUpdate(UserRequests.SQL_ACTIVATE_USER, false, username);
         if ( statut == 0 ) {
             logger.severe("Failed to activate user");
         }
@@ -194,7 +212,7 @@ public class UsersDAO {
     public String disableUser(String username){
         TokenCreator tc = new TokenCreator();
         String token = tc.newToken();
-        int statut = executeUpdate(Database.SQL_DISABLE_USER, false, token, username);
+        int statut = executeUpdate(UserRequests.SQL_DISABLE_USER, false, token, username);
         if ( statut == 0 ) {
             logger.severe("Failed to disable user");
         }
@@ -213,7 +231,7 @@ public class UsersDAO {
         ResultSet resultSet = null;
         String token = null;
         try {
-            resultSet = executeQuery(connection, preparedStatement, resultSet, Database.SQL_GET_TOKEN_BY_USERNAME, username);
+            resultSet = executeQuery(connection, preparedStatement, resultSet, UserRequests.SQL_GET_TOKEN_BY_USERNAME, username);
             if (resultSet.next() ) {
                 token = (resultSet.getString("token"));
             }
@@ -230,7 +248,7 @@ public class UsersDAO {
      * @param user The User to delete
      */
     public void deleteUser(User user) {
-        int statut = executeUpdate(Database.SQL_DELETE_USER, false, user.getUsername());
+        int statut = executeUpdate(UserRequests.SQL_DELETE_USER, false, user.getUsername());
         if ( statut == 0 ) {
             logger.severe( "Failed to delete user" );
         }

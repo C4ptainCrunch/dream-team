@@ -1,28 +1,29 @@
 package constants;
 
 import java.awt.*;
+import java.util.ResourceBundle;
 
 public final class Models {
     public static final class DEFAULT {
-        public static final Color COLOR = Color.black;
-        public static final int STROKE = 1;
-        public static final int X = 0;
-        public static final int Y = 0;
-        public static final String LABEL = "";
-        public static final int WIDTH = 1;
-        public static final int LENGTH = 100;
-        public static final int SIDES = 3;
-        public static final Color BACKGROUND_COLOR = Color.white;
-        public static final int EDGE_X_LENGTH = 100;
+        public static Color COLOR = Color.black;
+        public static int STROKE = 1;
+        public static int X = 0;
+        public static int Y = 0;
+        public static String LABEL = "";
+        public static int LENGTH = 100;
+        public static int SIDES = 3;
+        public static Color BACKGROUND_COLOR = Color.white;
+        public static int EDGE_X_LENGTH = 100;
     }
 
-    public class Project {
-        public static final String SAVE_FILE = "save.tikz";
-        public static final String DIFF_FILE = "diffs";
+    public static class Project {
+        public static String SAVE_FILE = "save.tikz";
+        public static String DIFF_FILE = "diff";
     }
 
-    public class Graph {
-        public static final String latexPrelude = "\\documentclass{article}\n\\usepackage{tikz}\n\\usetikzlibrary{shapes.geometric}\n\\begin{document}\n\\begin{tikzpicture}\n";
-        public static final String latexPostlude = "\\end{tikzpicture}\n\\end{document}\n";
+    public static class Graph {
+        public static String LATEX_PRELUDE = "\\documentclass{article}\n\\usepackage{tikz}\n\\usetikzlibrary{shapes.geometric}\n\\begin{document}\n\\begin{tikzpicture}\n";
+        public static String LATEX_POSTLUDE = "\\end{tikzpicture}\n\\end{document}\n";
     }
+
 }

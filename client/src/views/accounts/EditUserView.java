@@ -1,6 +1,8 @@
 package views.accounts;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -17,6 +19,7 @@ public class EditUserView extends JFrame{
     private JTextField emailField;
     private String originalEmail;
     private User user;
+    private JPanel panel;
 
     public EditUserView(User user) {
         this.user = user;
@@ -27,15 +30,17 @@ public class EditUserView extends JFrame{
 
     public final void render() {
         this.setSize(new Dimension(300,200));
+        this.panel = new JPanel();
+        this.add(this.panel);
+
         this.initFields();
+        this.initButtons();
         this.setVisible(true);
     }
 
     private void initFields() {
         JPanel fieldsPanel = new JPanel();
-        System.out.println(this.user.getFirstName());
-        System.out.println(this.user.getLastName());
-        System.out.println(this.user.getEmail());
+
         this.firstNameField = new JTextField(this.user.getFirstName());
         fieldsPanel.add(this.firstNameField);
 
@@ -45,8 +50,30 @@ public class EditUserView extends JFrame{
         this.emailField = new JTextField(this.user.getEmail());
         fieldsPanel.add(this.emailField);
 
-        this.add(fieldsPanel);
+        this.panel.add(fieldsPanel);
+    }
+
+    private void initButtons() {
+        JButton ok = new JButton("Submit");
+        this.getRootPane().setDefaultButton(ok);
+        ok.addActionListener(actionEvent -> controller.submit());
+        this.panel.add(ok);
     }
 
 
+    public String getFirstName() {
+        return this.firstNameField.getText();
+    }
+
+    public String getLastName() {
+        return this.lastNameField.getText();
+    }
+
+    public String getEmail() {
+        return this.emailField.getText();
+    }
+
+    public User getUser() {
+        return user;
+    }
 }

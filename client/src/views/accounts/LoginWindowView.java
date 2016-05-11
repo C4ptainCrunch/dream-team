@@ -90,6 +90,7 @@ public class LoginWindowView extends JFrame {
         JButton login = new JButton(LoginWindow.LOGIN_BUTTON);
         login.addActionListener(e -> controller.login(this.usernameText.getText(),
                                                       this.passwordText.getText()));
+        this.getRootPane().setDefaultButton(login);
         buttons.add(login);
 
         JButton signUp = new JButton(LoginWindow.SIGNUP_BUTTON);

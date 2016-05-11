@@ -10,6 +10,7 @@ import views.accounts.EditUserView;
 import views.accounts.LoginWindowView;
 import views.accounts.SignUpView;
 import views.accounts.TokenActivationView;
+import views.management.ManagementView;
 import views.management.ProjectManagementView;
 import constants.Errors;
 import constants.Network;
@@ -64,7 +65,7 @@ public class LoginWindowController {
         if(!token.trim().equals("")){
             this.view.dispose();
             RequestBuilder.setToken(token);
-            new ProjectManagementView();
+            new ManagementView();
         }else {
             JOptionPane.showMessageDialog(this.view, Errors.LOGIN_FAILED, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
         }

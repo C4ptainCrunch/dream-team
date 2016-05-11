@@ -10,6 +10,7 @@ import utils.Dirs;
 import utils.Log;
 import views.accounts.LoginWindowView;
 import views.editor.EditorView;
+import views.management.ManagementView;
 import views.management.ProjectManagementView;
 
 public class Main {
@@ -28,11 +29,11 @@ public class Main {
             });
         } else if (args.length > 0 && args[0].equals("project")) {
             logger.info("Skip to the projects");
-            java.awt.EventQueue.invokeLater(ProjectManagementView::new);
+            java.awt.EventQueue.invokeLater(ManagementView::new);
         } else {
             logger.info("Starting login window");
             if(LoginWindowController.shouldSkipAuth()){
-                java.awt.EventQueue.invokeLater(ProjectManagementView::new);
+                java.awt.EventQueue.invokeLater(ManagementView::new);
             } else {
                 java.awt.EventQueue.invokeLater(LoginWindowView::new);
             }

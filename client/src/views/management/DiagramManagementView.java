@@ -2,6 +2,7 @@ package views.management;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Vector;
 
 import javax.swing.*;
 
@@ -11,13 +12,14 @@ import controllers.management.DiagramManagementController;
 public class DiagramManagementView extends JDialog {
 
     private DiagramManagementController controller;
-    private Object[] diagramNames;
+    private Vector<String> diagramNames;
     private JList<String> diagramList;
     private JTextField newDiagramName;
 
     public DiagramManagementView(Project currentProject) throws IOException {
         this.controller = new DiagramManagementController(this, currentProject);
-        this.diagramNames = currentProject.getDiagramNames().toArray();
+        this.diagramNames = new Vector<>(currentProject.getDiagramNames());
+        this.diagramNames.add("Create new diagram");
         this.render();
     }
 

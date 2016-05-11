@@ -48,17 +48,14 @@ public class DiagramManagementView extends JDialog {
         diagramList.setLayoutOrientation(JList.VERTICAL);
         diagramList.setVisibleRowCount(-1);
 
-        diagramList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent listSelectionEvent) {
-                if(diagramList.getSelectedValue().equals("Create new diagram")) {
-                    newDiagramName.setEditable(true);
-                    okButton.setText("Create");
+        diagramList.addListSelectionListener(listSelectionEvent -> {
+            if(diagramList.getSelectedValue().equals("Create new diagram")) {
+                newDiagramName.setEditable(true);
+                okButton.setText("Create");
 
-                } else {
-                    newDiagramName.setText("");
-                    okButton.setText("Open");
-                }
+            } else {
+                newDiagramName.setText("");
+                okButton.setText("Open");
             }
         });
 

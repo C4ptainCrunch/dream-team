@@ -4,16 +4,27 @@ import models.project.Project;
 import views.editor.EditorView;
 import views.management.DiagramManagementView;
 
+/**
+ * Controller for the DiagramManagementView
+ */
 public class DiagramManagementController {
 
     private DiagramManagementView view;
     private Project currentProject;
 
+    /** Creates a controller for the DiagramManagementView
+     * @param view The corresponding view, created elsewhere
+     * @param currentProject The project in which the diagram is
+     */
     public DiagramManagementController(DiagramManagementView view, Project currentProject) {
         this.view = view;
         this.currentProject = currentProject;
     }
 
+    /** Opens a diagram in the editor, either an old one or a new one.
+     * @param selectedValue Selected diagram on a list (either an old one or the option to create a new one)
+     * @param newName Name given in a text box for a new diagram
+     */
     public void openDiagram(String selectedValue, String newName) {
         if(selectedValue == "Create new diagram") {
             if (newName.equals("") ){

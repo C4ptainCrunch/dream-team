@@ -36,6 +36,10 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
         NodeParser.parseDocument(this).parse(stringGraph);
     }
 
+    /**
+     * Constructs a graph from the source string.
+     * @param source
+     */
     public TikzGraph(String source) {
         NodeParser.parseDocument(this).parse(source);
     }

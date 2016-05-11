@@ -304,10 +304,10 @@ public class Diagram{
         undoRedoFlag = true;
         DiffMatchPatch undo = new DiffMatchPatch();
         Diff inverted_last = invertDiff(last);
+        System.out.println(last.getPatch() + "\n" + inverted_last.getPatch());
         final List<DiffMatchPatch.Patch> patches = undo.patchFromText(inverted_last.getPatch());
         String original = this.graph.toString();
         final Object[] modified = undo.patchApply((LinkedList<DiffMatchPatch.Patch>) patches, original);
-
         TikzGraph reversed = new TikzGraph();
         NodeParser.parseDocument(reversed).parse((String) modified[0]);
 
@@ -316,16 +316,28 @@ public class Diagram{
         undoRedoFlag = false;
     }
 
+    /**
+     * Inverts the operation of a Diff object. INSERT becomes DELETE and vice versa.
+     * @param last The diff object that will be inverted.
+     * @return The inverted Diff.
+     */
+
     private Diff invertDiff(Diff last){
         String text = last.getPatch();
-        int last_at_pos = text.indexOf("\n");
-        char operation = text.charAt(last_at_pos+1);
-        if (operation == '+'){
+        String add_pattern = "\n+";
+        String del_pattern = "\n-";
+        int add_pos = text.indexOf(add_pattern);
+        int del_pos = text.indexOf(del_pattern);
+        char operation = ' ';
+        int operation_pos = 0;
+        if (add_pos != -1){
             operation = '-';
-        } else {
+            operation_pos = add_pos;
+        } else if (del_pos != -1){
             operation = '+';
+            operation_pos = del_pos;
         }
-        String new_text = text.substring(0, last_at_pos+1) + operation + text.substring(last_at_pos+2, text.length());
+        String new_text = text.substring(0, operation_pos+1) + operation + text.substring(operation_pos+2, text.length());
         return new Diff(last.getDate(), new_text);
     }
 

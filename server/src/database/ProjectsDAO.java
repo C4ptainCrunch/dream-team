@@ -53,8 +53,8 @@ public class ProjectsDAO {
         return error;
     }
 
-    public String edit(ArrayList<String> data, String old_path){
-        int statut = DAOUtilities.executeUpdate(daoFactory, Database.SQL_EDIT_PROJECT, false, data.get(0), data.get(1), data.get(2), data.get(3), old_path);
+    public String edit(String path, String last_modification, boolean write_perm, boolean read_perm, String old_path){
+        int statut = DAOUtilities.executeUpdate(daoFactory, Database.SQL_EDIT_PROJECT, false, path, last_modification, write_perm ? 1 : 0, read_perm ? 1 : 0, old_path);
         return statut == 0 ? "Error" : "OK";
     }
 
@@ -77,5 +77,31 @@ public class ProjectsDAO {
             silentClosures(resultSetUser, preparedStatement, connection);
         }
         return project;
+    }
+
+    private boolean isAbleByDefault(String query, int id){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        boolean res = false;
+        try{
+            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, query, id);
+            if (resultSet.next()){
+                res = resultSet.getInt(0) == 1;
+            }
+        } catch (SQLException e) {
+            logger.severe(e.getClass().getName() + ": " + e.getMessage());
+        } finally {
+            silentClosures(resultSet, preparedStatement, connection);
+        }
+        return res;
+    }
+
+    public boolean isReadableByDefault(int id) {
+        return isAbleByDefault(Database.SQL_PROJECT_IS_READABLE, id);
+    }
+
+    public boolean isWritableByDefault(int id) {
+        return isAbleByDefault(Database.SQL_PROJECT_IS_WRITABLE, id);
     }
 }

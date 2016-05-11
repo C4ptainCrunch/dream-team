@@ -19,7 +19,7 @@ public final class Database {
     public static final String SQLITE_CREATE_TABLE_PROJECTS = "CREATE TABLE Projects("+
             "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
             "user_id INTEGER NOT NULL," +
-            "path VARCHAR(1023) NOT NULL," +
+            "path VARCHAR(1023) NOT NULL UNIQUE," +
             "last_modification TEXT NOT NULL," +
             "default_perm_write INTEGER NOT NULL DEFAULT false," +
             "default_perm_read INTEGER NOT NULL DEFAULT false)," +
@@ -52,4 +52,7 @@ public final class Database {
     public static final String SQL_INSERT_PROJECT = "INSERT INTO Projects(user_id, path, last_modification, default_perm_write, default_perm_read) VALUES (?, ?, ?, ?, ?);";
     public static final String SQL_EDIT_PROJECT = "UPDATE Projects SET path = ?, last_modification = ?, default_perm_write = ?, default_perm_read = ? WHERE path = ?";
     public static final String SQL_SELECT_PROJECT_BY_ID = "SELECT id, user_id, path, last_modification, default_perm_write, default_perm_read FROM Projects WHERE id = ?";
+    public static final String SQL_PROJECT_IS_READABLE = "SELECT default_perm_read FROM Projects WHERE id = ?";
+    public static final String SQL_PROJECT_IS_WRITABLE = "SELECT default_perm_write FROM Projects WHERE id = ?";
+
 }

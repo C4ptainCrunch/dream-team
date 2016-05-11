@@ -6,7 +6,6 @@ import utils.Log;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -30,8 +29,8 @@ public class ProjectRessource {
     @Produces("text/plain")
     @Consumes({MediaType.MULTIPART_FORM_DATA})
     public String setProject(@PathParam("projectId") int projectId, @FormDataParam("project")InputStream project) throws IOException {
-        FileOutputStream output = new FileOutputStream("/tmp/plap.zip");
-        output.write(project.read());
+        java.nio.file.Path projectPath = Paths.get("/tmp/plap.zip");
+        Files.copy(project, projectPath);
         return "OK";
     }
 }

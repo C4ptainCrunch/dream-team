@@ -39,7 +39,7 @@ public class Main {
     private static String getDiskToken() {
         Path tokenPath = Dirs.getDataDir().resolve(Paths.get("last-save.path"));
         try {
-            return new String(Files.readAllBytes(tokenPath);
+            return new String(Files.readAllBytes(tokenPath));
         } catch (IOException e) {
             return "";
         }

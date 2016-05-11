@@ -1,14 +1,10 @@
 package controllers.accounts;
 
 import javax.swing.*;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 
 import misc.utils.RequestBuilder;
-import models.NetworkRequest;
 import utils.Log;
 import views.accounts.EditUserView;
 import views.accounts.LoginWindowView;
@@ -47,22 +43,13 @@ public class LoginWindowController {
 
     }
 
-    /**
-     * Checks the validity of the Username/Password pair
-     * @param username The user's username
-     * @param password The user's password
-     * @return The server's response
-     */
-    private String checkUsernamePasswordPair(String username, String password) {
+    private String getToken(String username, String password) {
         Form postForm = new Form();
         postForm.param("username", username);
         postForm.param("password", password);
 
-        NetworkRequest request = new NetworkRequest(Network.HOST.COMPLETE_HOSTNAME,BASE_PATH+username, MediaType.TEXT_PLAIN_TYPE);
-        request.post(postForm);
-
-        String response = request.getResponseAsString();
-        return response;
+        Response r = RequestBuilder.post("/authentication", postForm).invoke();
+        return r.readEntity(String.class);
     }
 
     /**
@@ -72,13 +59,12 @@ public class LoginWindowController {
      */
     public void login(String username, String password) {
 
-        String response = checkUsernamePasswordPair(username,password);
+        String token = getToken(username,password);
 
-        if(response.equals(Network.Login.LOGIN_OK)){
+        if(!token.trim().equals("")){
             this.view.dispose();
+            RequestBuilder.setToken(token);
             new ProjectManagementView();
-        }else if(response.equals(Network.Login.ACCOUNT_NOT_ACTIVATED)){
-            JOptionPane.showMessageDialog(this.view, Errors.ACTIVE_ACCOUNT_FIRST, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
         }else {
             JOptionPane.showMessageDialog(this.view, Errors.LOGIN_FAILED, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
         }
@@ -91,7 +77,7 @@ public class LoginWindowController {
      */
     public void editProfile(String username, String password){
 
-        String response = checkUsernamePasswordPair(username,password);
+        String response = getToken(username,password);
 
         if(response.equals(Network.Login.LOGIN_OK)){
             this.view.dispose();

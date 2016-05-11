@@ -24,11 +24,16 @@ public class RequestBuilder {
     }
 
     public static Invocation post(String path, Form form) {
+        return post(path, Entity.form(form));
+    }
+
+    public static Invocation post(String path, Entity entity) {
         return ClientBuilder.newClient()
                 .target(Network.HOST.COMPLETE_HOSTNAME).path(path)
                 .request().header("Authorization", "Bearer " + token)
-                .buildPost(Entity.form(form));
+                .buildPost(entity);
     }
+
 
     private static String getDiskToken() {
         try {

@@ -14,8 +14,6 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private List<String> documents;
-    private String firstname;
 
 
     public User() {
@@ -56,16 +54,11 @@ public class User {
     @XmlAttribute
     public String getEmail() { return email; }
 
-    @XmlElementWrapper
-    @XmlElement(name="document")
-    public List<String> getDocuments() {
-        return documents;
-    }
 
     public void setId(int id) {this.id = id;}
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public void setLastName(String lastName) {

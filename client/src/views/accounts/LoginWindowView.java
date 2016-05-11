@@ -53,7 +53,32 @@ public class LoginWindowView extends JFrame {
 
         createUsernamePanel();
         createPasswordPanel();
+        this.setFocusTraversalPolicy(new FocusTraversalPolicy() {
+            @Override
+            public Component getComponentAfter(Container container, Component component) {
+                return passwordText;
+            }
 
+            @Override
+            public Component getComponentBefore(Container container, Component component) {
+                return usernameText;
+            }
+
+            @Override
+            public Component getFirstComponent(Container container) {
+                return usernameText;
+            }
+
+            @Override
+            public Component getLastComponent(Container container) {
+                return passwordText;
+            }
+
+            @Override
+            public Component getDefaultComponent(Container container) {
+                return usernameText;
+            }
+        });
     }
 
     private void createUsernamePanel() {
@@ -90,6 +115,7 @@ public class LoginWindowView extends JFrame {
         JButton login = new JButton(LoginWindow.LOGIN_BUTTON);
         login.addActionListener(e -> controller.login(this.usernameText.getText(),
                                                       this.passwordText.getText()));
+        this.getRootPane().setDefaultButton(login);
         buttons.add(login);
 
         JButton signUp = new JButton(LoginWindow.SIGNUP_BUTTON);

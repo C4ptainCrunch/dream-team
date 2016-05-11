@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
 
+import controllers.accounts.LoginWindowController;
 import models.project.Project;
 import utils.Dirs;
 import utils.Log;
@@ -13,7 +14,6 @@ import views.management.ProjectManagementView;
 
 public class Main {
     private static final Logger logger = Log.getLogger(Main.class);
-    private static String token = getDiskToken();
 
     public static void main(String... args) {
         Log.init();
@@ -31,25 +31,12 @@ public class Main {
             java.awt.EventQueue.invokeLater(ProjectManagementView::new);
         } else {
             logger.info("Starting login window");
-            java.awt.EventQueue.invokeLater(LoginWindowView::new);
+            if(LoginWindowController.shouldSkipAuth()){
+                java.awt.EventQueue.invokeLater(ProjectManagementView::new);
+            } else {
+                java.awt.EventQueue.invokeLater(LoginWindowView::new);
+            }
         }
 
-    }
-
-    private static String getDiskToken() {
-        Path tokenPath = Dirs.getDataDir().resolve(Paths.get("token"));
-        try {
-            return new String(Files.readAllBytes(tokenPath));
-        } catch (IOException e) {
-            return "";
-        }
-    }
-
-    public static String getToken(){
-        return token;
-    }
-
-    public static void setToken(String token) {
-        Main.token = token;
     }
 }

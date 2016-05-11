@@ -1,10 +1,15 @@
 package controllers.accounts;
 
 import javax.swing.*;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
+import javax.ws.rs.core.Response;
 
+import misc.utils.RequestBuilder;
 import models.NetworkRequest;
+import utils.Log;
 import views.accounts.EditUserView;
 import views.accounts.LoginWindowView;
 import views.accounts.SignUpView;
@@ -12,6 +17,8 @@ import views.accounts.TokenActivationView;
 import views.management.ProjectManagementView;
 import constants.Errors;
 import constants.Network;
+
+import java.util.logging.Logger;
 
 /**
  * The controller related to the LoginWindowView.
@@ -21,9 +28,23 @@ public class LoginWindowController {
 
     private final LoginWindowView view;
     private final String BASE_PATH = "user/login/";
+    private final static Logger logger = Log.getLogger(LoginWindowController.class);
 
     public LoginWindowController(LoginWindowView view) {
         this.view = view;
+    }
+
+    public static boolean shouldSkipAuth() {
+        Response r = RequestBuilder.get("/authentication/checktoken").invoke();
+
+        if(r.getStatus() == 200) {
+            logger.info("Token was good, skipping login");
+            return true;
+        } else {
+            logger.fine("Old token was invalid, " + Integer.toString(r.getStatus()));
+            return false;
+        }
+
     }
 
     /**

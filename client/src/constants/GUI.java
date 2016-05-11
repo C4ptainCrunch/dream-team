@@ -7,90 +7,77 @@ import utils.Dirs;
 
 public final class GUI {
     public static final class MenuBar {
-        public static String FILE_MENU = "File";
-        public static String SAVE = "Save";
-        public static String PDF = "Build PDF";
-        public static String EXIT = "Exit";
-        public static String VIEW_MENU = "View";
-        public static String GRID_VISIBILTY = "Show/Hide Grid";
-        public static String HELP_MENU = "Help";
-        public static String HELP = "See help panel";
-        public static String DIFF = "Show History";
-        public static String APP_NAME = "CreaTikZ";
-        public static String OPTIONS_MENU = "Options";
-        public static String COLOR_BLIND = "ColorBlind mode";
-        public static String EDIT_MENU = "Edit";
-        public static String UNDO = "Undo";
-        public static String REDO = "Redo";
-        public static String OPEN = "Open";
-        public static String OPEN_DIAGRAM = "Open diagram";
+        public static String FILE_MENU;
+        public static String SAVE;
+        public static String PDF;
+        public static String EXIT;
+        public static String VIEW_MENU;
+        public static String GRID_VISIBILTY;
+        public static String HELP_MENU;
+        public static String HELP;
+        public static String DIFF;
+        public static String APP_NAME;
+        public static String OPTIONS_MENU;
+        public static String COLOR_BLIND;
+        public static String EDIT_MENU;
+        public static String UNDO;
+        public static String REDO;
+        public static String OPEN;
+        public static String OPEN_DIAGRAM;
     }
 
     public static final class ProjectManagement {
 
-        public static String CREATE_BUTTON = "Create new project";
-        public static String OPEN_PROJECT_BUTTON = "Open Project";
-        public static String OPEN_RECENT_BUTTON = "Open Recent Project";
-        public static String RENAME_BUTTON = "Move project";
-        public static String CREATE_PANEL = "Choose location to create your project";
-        public static String IMPORT_PANEL = "Choose location to import your project";
-        public static String DROPDOWN_HEADER = "Choose recent diagram from this list" + " and press " +
-                "'Open Recent Diagram'";
-        public static String BLANK_INFO_PANEL = "INFORMATION ABOUT SELECTED PROJECT:\nDiagram Name: %s"
-                + "\nUser: %s\nLast revision: %s\n";
-        public static String DIFF_TEXT = "Diff History";
+        public static String CREATE_BUTTON;
+        public static String OPEN_PROJECT_BUTTON;
+        public static String OPEN_RECENT_BUTTON;
+        public static String RENAME_BUTTON;
+        public static String CREATE_PANEL;
+        public static String IMPORT_PANEL;
+        public static String DROPDOWN_HEADER;
+        public static String BLANK_INFO_PANEL;
+        public static String DIFF_TEXT;
     }
 
     public static final class LoginWindow {
-        public static String LOGIN_BUTTON = "Login";
-        public static String SIGNUP_BUTTON = "Sign Up";
-        public static String TOKEN_BUTTON = "Token Activation";
-        public static String EDIT_BUTTON = "Edit profile";
+        public static String LOGIN_BUTTON;
+        public static String SIGNUP_BUTTON;
+        public static String TOKEN_BUTTON;
+        public static String EDIT_BUTTON;
 
     }
 
     public static final class TokenWindow {
-        public static String WIN_LABEL = "An email has been sent to you. Please copy here the" +
-                                           " token enclosed within the email and press OK.";
-        public static String OK_BUTTON = "OK";
-        public static String USER_LABEL = "Username: ";
-        public static String TOKEN_LABEL = "Token: ";
-        public static String TOKEN_VALID = "Congratulations! Your account is now validated.\\nYou may log in now.";
-        public static String TOKEN_WRONG = "That token is wrong. Please make sure you have copied it well.";
+        public static String WIN_LABEL;
+        public static String OK_BUTTON;
+        public static String USER_LABEL;
+        public static String TOKEN_LABEL;
+        public static String TOKEN_VALID;
+        public static String TOKEN_WRONG;
     }
 
     public static final class SignUp {
-        public static ArrayList<String> FIELD_LABELS = new ArrayList<String>(){{
-            add("First Name: ");
-            add("Last Name: ");
-            add("Username: ");
-            add("Email: ");
-        }};
+        public static ArrayList<String> FIELD_LABELS;
 
-        public static ArrayList<Integer> FIELD_SIZES = new ArrayList<Integer>(){{
-            add(16);
-            add(32);
-            add(16);
-            add(32);
-        }};
+        public static ArrayList<Integer> FIELD_SIZES;
 
-        public static String PASSWORD_LABEL = "Password: ";
-        public static String OK_BUTTON = "OK";
-        public static String CANCEL_BUTTON = "Cancel";
+        public static String PASSWORD_LABEL;
+        public static String OK_BUTTON;
+        public static String CANCEL_BUTTON;
 
-        public static String NAMES_REGEX = "^[\\p{L} .'-]+$";
-        public static String USERNAME_REGEX = "[A-Za-z0-9]+";
+        public static String NAMES_REGEX;
+        public static String USERNAME_REGEX;
 
     }
 
     public static final class Drawing {
-        public static double ARROW_LENGTH = 30;
-        public static double ARROW_ANGLE = Math.PI / 6;
+        public static double ARROW_LENGTH;
+        public static double ARROW_ANGLE;
     }
 
     public static final class Tabs {
-        public static String SHAPE_TAB = "<html>S<br>H<br>A<br>P<br>E<br>S</html>";
-        public static String TEMPLATE_TAB = "<html>T<br>E<br>M<br>P<br>L<br>A<br>T<br>E<br>S</html>";
+        public static String SHAPE_TAB;
+        public static String TEMPLATE_TAB;
     }
 
     public static final class Drag {
@@ -100,15 +87,15 @@ public final class GUI {
     }
 
     public static final class Selection {
-        public static Color BKG_COLOR = new Color(0, 50, 120, 50);
+        public static Color BKG_COLOR;
     }
 
     public static final class Template {
-        public static String DIR = Dirs.getDataDir().resolve("templates").toString();
+        public static String DIR;
     }
 
     public static final class TextArea {
-        public static String DEFAULT_THEME = "syntax_themes/default.xml";
-        public static String DEFAULT_COLOR_BLINDNESS_THEME = "syntax_themes/default_color_blindness.xml";
+        public static String DEFAULT_THEME;
+        public static String DEFAULT_COLOR_BLINDNESS_THEME;
     }
 }

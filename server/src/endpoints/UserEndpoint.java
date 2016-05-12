@@ -9,18 +9,18 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import database.DAOFactorySingleton;
 import middleware.Secured;
 import models.databaseModels.User;
 import utils.ConfirmationEmailSender;
 import utils.Log;
 import utils.TokenCreator;
 import constants.Network;
-import database.DAOFactory;
 import database.UsersDAO;
 
 @Path("user")
 public class UserEndpoint {
-    UsersDAO usersDAO = DAOFactory.getInstance().getUsersDAO();
+    UsersDAO usersDAO = DAOFactorySingleton.getInstance().getUsersDAO();
     private final static Logger logger = Log.getLogger(UserEndpoint.class);
 
     @GET

@@ -25,10 +25,8 @@ public class CloudLogic {
 
     public static void cloudifyProject(Project project) throws IOException {
         InputStream stream = new FileInputStream(project.getPath().toFile());
-        FormDataMultiPart form = new FormDataMultiPart()
-                .field("project", stream, MediaType.APPLICATION_OCTET_STREAM_TYPE);
 
-        Response r = RequestBuilder.put("/project/upload", form).invoke();
+        Response r = RequestBuilder.put("/project/upload", stream, MediaType.APPLICATION_OCTET_STREAM).invoke();
 
         if(r.getStatus() == 400) {
             logger.info("The project is already existing in the cloud");

@@ -7,7 +7,9 @@ import utils.Dirs;
 
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,18 +34,10 @@ public class RequestBuilder {
                 .buildPost(entity);
     }
 
-    public static Invocation put(String path, Form form) {
-        return put(path, Entity.form(form));
-    }
-
-    public static Invocation put(String path, MultiPart multipart) {
-        return put(path, Entity.entity(multipart, multipart.getMediaType()));
-    }
-
-    public static Invocation put(String path, Entity entity) {
+    public static Invocation put(String path, InputStream stream, String type) {
         return  getClient().path(path).request()
                 .header("Authorization", "Bearer " + token)
-                .buildPut(entity);
+                .buildPut(Entity.entity(stream, type));
     }
 
     private static WebTarget getClient(){

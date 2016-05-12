@@ -81,6 +81,15 @@ public class ConflictResolver{
         }
     }
 
+    /**
+     * Resolve conflicts between two projects. One from the user and the server's one.
+     * @param userChoice The conflict resolution choice of the user.
+     *                  It can be PUSH, PUSH FORCE, USER MERGE, OTHER USER MERGE AND OTHER USER PUSH FORCE (see projectconflicts.properties).
+     * @return The Project resulting from the conflicts resolution
+     * @throws IOException If an I/O failed.
+     * @throws ClassNotFoundException @see Diagram#getDiffs.
+     */
+
     public Project resolve(String userChoice) throws IOException, ClassNotFoundException {
         java.nio.file.Path tmpFile = File.createTempFile("project-final", ".crea").toPath();
         this.finalProject = new models.project.Project(tmpFile);

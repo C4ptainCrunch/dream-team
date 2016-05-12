@@ -192,7 +192,7 @@ public class ProjectEndpoint {
         }
 
         if(user == null){
-            throw  new NotFoundException("this user doesn't exist")
+            throw  new NotFoundException("this user doesn't exist");
         }
 
         if(!hasReadPerm(dbProject, userEditor)){
@@ -212,11 +212,13 @@ public class ProjectEndpoint {
     @Secured
     @Path("/set_permission_for_user/{projectUid}")
     public Response setPermissionForUser(@PathParam("projectUid") String projectUid,
-                                         @FormParam("userId") int userId,
-                                         @FormParam("readPermission") boolean readPermission,
-                                         @FormParam("writePermission") boolean writePermission,
+                                         @FormParam("userName") String username,
+                                         @FormParam("readPerm") boolean readPermission,
+                                         @FormParam("writePerm") boolean writePermission,
                                          @Context SecurityContext securityContext) throws Exception {
-        String username = securityContext.getUserPrincipal().getName();
+        String editorUsername = securityContext.getUserPrincipal().getName();
+        User userEditor = this.usersDAO.findByUsername(editorUsername);
+
         User user = this.usersDAO.findByUsername(username);
 
         Project dbProject = this.projectsDAO.findByUid(projectUid);
@@ -224,15 +226,18 @@ public class ProjectEndpoint {
         if(dbProject == null){
             throw new NotFoundException("Project not found");
         }
-        if(!(user.getId() == dbProject.getUserID())){
+        if(user == null){
+            throw  new NotFoundException("User not found");
+        }
+        if(!(userEditor.getId() == dbProject.getUserID())){
             throw new NotAuthorizedException("You can't edit this project permission");
         }
-        Permissions perm = new Permissions(projectUid, userId, writePermission, readPermission, "");
+        Permissions perm = new Permissions(projectUid, user.getId(), writePermission, readPermission, "");
 
-        Permissions servPerm = permissionsDAO.findPermissions(projectUid, userId);
+        Permissions servPerm = permissionsDAO.findPermissions(projectUid, user.getId());
 
         if(servPerm != null){
-            permissionsDAO.changePermissions(userId, projectUid, readPermission, writePermission);
+            permissionsDAO.changePermissions(user.getId(), projectUid, readPermission, writePermission);
         } else {
             permissionsDAO.create(perm);
         }

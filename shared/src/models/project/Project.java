@@ -159,9 +159,12 @@ public class Project extends Observable implements Comparable<Project>{
         this.isTemporary = false;
         Files.move(this.path, newFile.toPath());
         this.path = newFile.toPath();
-        this.setName(this.path.getFileName().toString());
         this.setChanged();
         this.notifyObservers();
+    }
+
+    public void rename(String name) throws IOException {
+        this.setName(name);
     }
 
     /**

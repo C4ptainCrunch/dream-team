@@ -103,6 +103,7 @@ public class ProjectManagementController {
         if (path != null) {
             try {
                 project.move(path);
+                project.rename(path.toPath().getFileName().toString());
                 RecentProjects.addProject(project);
                 this.view.getParentView().refresh();
             } catch (IOException e) {

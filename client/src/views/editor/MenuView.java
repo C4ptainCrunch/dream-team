@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 
+import constants.Errors;
 import models.project.Diagram;
 import constants.GUI;
 import controllers.editor.MenuController;
@@ -143,6 +144,13 @@ public class MenuView extends JMenuBar {
         JMenuItem color_blind_mode_item = new JCheckBoxMenuItem(GUI.MenuBar.COLOR_BLIND);
         color_blind_mode_item.addItemListener(itemEvent -> controller.setColorBlindMode(itemEvent.getStateChange()));
         options_menu.add(color_blind_mode_item);
+
+        JMenu sync_menu = new JMenu(GUI.MenuBar.SYNC);
+        this.add(sync_menu);
+
+        JMenuItem sync_item = new JMenuItem(GUI.MenuBar.SYNC + " Project");
+        sync_item.addActionListener(actionEvent -> controller.syncProject());
+        sync_menu.add(sync_item);
     }
 
     /**
@@ -186,5 +194,11 @@ public class MenuView extends JMenuBar {
      */
     public Diagram getDiagram() {
         return diagram;
+    }
+
+    public void syncOKPopup() {
+        // TODO: Consants
+        JOptionPane.showMessageDialog(this, "Sync is ok", "OK", JOptionPane.INFORMATION_MESSAGE);
+
     }
 }

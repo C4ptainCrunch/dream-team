@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;

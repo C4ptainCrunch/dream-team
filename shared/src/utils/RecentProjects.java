@@ -42,7 +42,12 @@ public class RecentProjects {
             while ((line = bufferedReader.readLine()) != null) {
                 Project p = new Project(Paths.get(line));
                 if(p.exists() && !p.isCloud()) {
-                    projects.add(p);
+                    try {
+                        p.getName();
+                        projects.add(p);
+                    } catch (Exception e){
+                        logger.fine("Invalid project found, skipping: " + p.getPath().toString());
+                    }
                 } else {
                     logger.fine("Project " + line + " does not exist anymore");
                 }

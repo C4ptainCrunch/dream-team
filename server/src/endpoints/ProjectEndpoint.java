@@ -175,6 +175,32 @@ public class ProjectEndpoint {
 
     @POST
     @Secured
+    @Path("/get_permission_for_user/{projectUid}")
+    @Produces("application/xml")
+    public Permissions getPermissionForUser(@PathParam("projectUid") String projectUid,
+                                            @FormParam("userId") int userId,
+                                            @Context SecurityContext securityContext) throws SQLException {
+
+        String username = securityContext.getUserPrincipal().getName();
+        User user = this.usersDAO.findByUsername(username);
+
+        Project dbProject = this.projectsDAO.findByUid(projectUid);
+        if(dbProject == null){
+            throw new NotFoundException("Project not found");
+        }
+        if(!hasReadPerm(dbProject, user)){
+            throw new NotAuthorizedException("You can't see this project permission");
+        }
+
+        Permissions perm = permissionsDAO.findPermissions(dbProject.getUid(), userId);
+        if(perm == null){
+            throw new  NotFoundException("There aren't any permission for this user on this project");
+        }
+        return perm;
+    }
+
+    @POST
+    @Secured
     @Path("/set_permission_for_user/{projectUid}")
     public Response setPermissionForUser(@PathParam("projectUid") String projectUid,
                                          @FormParam("userId") int userId,

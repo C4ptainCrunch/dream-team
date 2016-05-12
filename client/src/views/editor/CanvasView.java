@@ -27,6 +27,7 @@ import controllers.editor.CanvasController;
 public class CanvasView extends JPanel {
     private final EditorView parentView;
     private final TikzGraph graph;
+
     private final CanvasController controller;
     private boolean isFocused;
     private PopupMenuView popupMenu;
@@ -62,6 +63,10 @@ public class CanvasView extends JPanel {
     private void render() {
         setFocusable(true);
         // requestFocusInWindow();
+    }
+
+    public CanvasController getController() {
+        return controller;
     }
 
     private void highlightTextArea(MouseEvent e){

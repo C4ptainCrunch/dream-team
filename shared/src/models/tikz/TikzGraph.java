@@ -75,6 +75,33 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
     }
 
     /**
+     * Check whether the graph has a size of 0
+     *
+     * @return true if size == 0 else false
+     */
+    public boolean isEmpty(){
+        return size() == 0;
+    }
+
+    /**
+     * Check if the list of nodes contains the given node.
+     * @param node the node that is searched
+     * @return boolean indicating if this graph contains the node
+     */
+    public boolean contains(TikzNode node){
+        return nodes.contains(node);
+    }
+
+    /**
+     * Check if the list of edges contains the given edge.
+     * @param edge the edge that is searched
+     * @return boolean indicating if this graph contains the edge
+     */
+    public boolean contains(TikzEdge edge){
+        return edges.contains(edge);
+    }
+
+    /**
      * Getter for an iterator object of the nodes composing the graph
      *
      * @return The iterator of the nodes

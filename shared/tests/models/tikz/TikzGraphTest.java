@@ -343,4 +343,24 @@ public class TikzGraphTest extends SharedTest {
         assertEquals(expectedString, graph.toLatex());
 
     }
+
+    @Test
+    public void testContainsEdgeAndNode() throws Exception{
+        TikzNode firstNode = new TikzCircle();
+        TikzNode secondNode = new TikzRectangle();
+        TikzEdge edge = new TikzUndirectedEdge(firstNode, secondNode);
+        graph.add(firstNode);
+        graph.add(secondNode);
+        graph.add(edge);
+        assertTrue(graph.contains(edge));
+        assertTrue(graph.contains(firstNode));
+        assertTrue(graph.contains(secondNode));
+    }
+
+    @Test
+    public void testIsEmpty() throws Exception{
+        assertTrue(graph.isEmpty());
+        graph.add(new TikzCircle());
+        assertFalse(graph.isEmpty());
+    }
 }

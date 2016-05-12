@@ -66,7 +66,7 @@ public class ProjectsDAO {
         return project;
     }
 
-    private boolean isAbleByDefault(String query, String uid) throws SQLException {
+    private boolean isAbleByDefault(String query, String uid, String column) throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -74,7 +74,7 @@ public class ProjectsDAO {
         try{
             resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, query, uid);
             if (resultSet.next()){
-                res = resultSet.getInt(0) == 1;
+                res = resultSet.getBoolean(column);
             }
         } finally {
             silentClosures(resultSet, preparedStatement, connection);
@@ -83,11 +83,11 @@ public class ProjectsDAO {
     }
 
     public boolean isReadableByDefault(String uid) throws SQLException {
-        return isAbleByDefault(ProjectRequests.SQL_PROJECT_IS_READABLE, uid);
+        return isAbleByDefault(ProjectRequests.SQL_PROJECT_IS_READABLE, uid, "default_perm_read");
     }
 
     public boolean isWritableByDefault(String uid) throws SQLException {
-        return isAbleByDefault(ProjectRequests.SQL_PROJECT_IS_WRITABLE, uid);
+        return isAbleByDefault(ProjectRequests.SQL_PROJECT_IS_WRITABLE, uid, "default_perm_write");
     }
 
     public void deleteProject(String uid) {

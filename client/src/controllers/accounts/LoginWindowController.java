@@ -75,17 +75,17 @@ public class LoginWindowController {
     /**
      * Launch the sign up process.
      */
-
     public void signUp() {
-        new SignUpView(this.view);
+        this.view.dispose();
+        java.awt.EventQueue.invokeLater(() -> new SignUpView(this.view));
     }
 
     /**
      * Launch the token activation process.
      */
-
     public void tokenActivation() {
-        new TokenActivationView();
+        this.view.dispose();
+        java.awt.EventQueue.invokeLater(TokenActivationView::new);
     }
 
 }

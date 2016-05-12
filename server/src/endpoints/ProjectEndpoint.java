@@ -83,6 +83,7 @@ public class ProjectEndpoint {
 
         Project dbProject = new Project(p);
         if(!dbProject.hasWritePerm(user)){
+            throw new NotAuthorizedException("You can't edit this project");
         }
 
         return Response.ok().build();

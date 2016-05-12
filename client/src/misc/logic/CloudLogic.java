@@ -76,13 +76,15 @@ public class CloudLogic {
         logger.fine("Downloading project " + project.getUid());
         return CloudLogic.getLocalCopy(project);
     }
-    
+
     public static boolean AskForMerge(Project p) throws FileNotFoundException {
         InputStream stream = new FileInputStream(p.getPath().toFile());
         Response r = RequestBuilder
                 .put("/project/checkConflicts", stream, MediaType.APPLICATION_OCTET_STREAM)
                 .invoke();
-        return r.readEntity(Boolean.class);
+        String s=  r.readEntity(String.class);
+        System.out.println(s);
+        return s.equals("1");
     }
 
     public static boolean Merge(Project p, String policy) throws FileNotFoundException {

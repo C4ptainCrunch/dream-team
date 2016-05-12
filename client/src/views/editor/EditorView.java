@@ -46,13 +46,7 @@ public class EditorView extends JFrame {
         this.toolBoxView = new ToolBoxView();
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent windowEvent) {
-                menuView.saveAndQuit();
-                super.windowClosing(windowEvent);
-            }
-        });
+
 
         this.setVisible(true);
         canvasView.repaint();
@@ -63,6 +57,13 @@ public class EditorView extends JFrame {
      * views that are contained within this view
      */
     public final void render() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                menuView.saveAndQuit();
+                super.windowClosing(windowEvent);
+            }
+        });
         this.controller.setTitle();
 
         DisplayMode gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();

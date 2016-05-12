@@ -1,11 +1,14 @@
 package endpoints;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Logger;
 
+import javax.jws.soap.SOAPBinding;
 import javax.mail.MessagingException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
@@ -34,6 +37,13 @@ public class UserEndpoint {
             throw new NotFoundException("User not found");
         }
         return user;
+    }
+
+    @GET
+    @Path("/list")
+    @Produces("application/xml")
+    public GenericEntity<List<User>> list() throws SQLException {
+        return new GenericEntity<List<User>>(usersDAO.getAll()){};
     }
 
     @POST

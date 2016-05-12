@@ -6,6 +6,7 @@ import java.io.IOException;
 
 @XmlRootElement
 public class Project {
+    private String username;
     private String uid;
     private int userID;
     private String path;
@@ -14,7 +15,10 @@ public class Project {
     private boolean read_default;
     private String name;
 
-    public Project(){}
+    private boolean currentUserWritePerm = false;
+    private boolean currentUserReadPerm = false;
+
+    public Project(){ }
 
     public Project(models.project.Project project) throws IOException {
         this.path = project.getPath().toString();
@@ -26,7 +30,7 @@ public class Project {
         this.name = project.getName();
     }
 
-    public Project(String uid, int user, String path, String last_modification, boolean write_default, boolean read_default, String name) {
+    public Project(String uid, int user, String path, String last_modification, boolean write_default, boolean read_default, String name, String username) {
         this.uid = uid;
         this.userID = user;
         this.path = path;
@@ -34,6 +38,7 @@ public class Project {
         this.write_default = write_default;
         this.read_default = read_default;
         this.name = name;
+        this.username = username;
     }
 
     public String toString(){
@@ -100,5 +105,32 @@ public class Project {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @XmlAttribute
+    public boolean isCurrentUserWritePerm() {
+        return currentUserWritePerm;
+    }
+
+    public void setCurrentUserWritePerm(boolean currentUserWritePerm) {
+        this.currentUserWritePerm = currentUserWritePerm;
+    }
+
+    @XmlAttribute
+    public boolean isCurrentUserReadPerm() {
+        return currentUserReadPerm;
+    }
+
+    public void setCurrentUserReadPerm(boolean currentUserReadPerm) {
+        this.currentUserReadPerm = currentUserReadPerm;
+    }
+
+    @XmlAttribute
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

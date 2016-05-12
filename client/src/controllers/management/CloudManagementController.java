@@ -40,8 +40,8 @@ public class CloudManagementController {
      * @param selectedProject The project to get information from
      */
     public void dropdownSelected(models.databaseModels.Project selectedProject) {
-        String infoText = "INFORMATION ABOUT SELECTED PROJECT:\nCreator: PLACEHOLDER\nLast revision: "+
-                          selectedProject.getLast_modification()+"\nWrite Permission: PLACEHOLDER";
+        String infoText = "INFORMATION ABOUT SELECTED PROJECT:\nCreator: " + selectedProject.getUsername() + "\nLast revision: "+
+                          selectedProject.getLast_modification()+"\nWrite Permission: " + (selectedProject.isCurrentUserWritePerm() ? "Yes": "No");
         this.view.setInfoText(infoText);
     }
 

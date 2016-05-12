@@ -134,7 +134,6 @@ public class Diagram{
         redoList = new ArrayList<>();
 
         RecentProjects.addProject(this.getProject());
-
     }
 
     /**

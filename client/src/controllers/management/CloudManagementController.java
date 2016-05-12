@@ -3,6 +3,7 @@ package controllers.management;
 import misc.logic.CloudLogic;
 import models.project.Project;
 import utils.Dirs;
+import utils.Log;
 import utils.RecentProjects;
 import views.editor.SyncModeSelectionView;
 import views.management.CloudManagementView;
@@ -16,10 +17,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Logger;
 
 public class CloudManagementController {
 
     private final CloudManagementView view;
+    private Logger logger = Log.getLogger(CloudManagementController.class);
 
     public CloudManagementController(CloudManagementView cloudManagementView) {
         this.view = cloudManagementView;
@@ -30,36 +33,31 @@ public class CloudManagementController {
     }
 
     public void openSharedProject() {
-        models.databaseModels.Project dbProject = this.view.getSelectedProject();
-
-        Project project = null;
-        Path cloudDir = Dirs.getDataDir().resolve("cloud");
-        Path path = cloudDir.resolve(dbProject.getUid() + ".crea");
-        // TODO create dirs
         try {
-            try {
-                project = new Project(path);
-                project.getName();
-            } catch (Exception e) {
-                Path localZip = CloudLogic.getLocalCopy(dbProject);
-                System.out.println(localZip);
-                System.out.println(path);
-                Files.move(localZip, path);
-                project = new Project(path);
+            models.databaseModels.Project dbProject = this.view.getSelectedProject();
+
+            Path projectPath = CloudLogic.getLocalOrDistantCopy(dbProject);
+
+            Path cloudDir = Dirs.getDataDir().resolve("cloud");
+            Path path = cloudDir.resolve(dbProject.getUid() + ".crea");
+
+            if (!projectPath.equals(path)) {
+                Files.move(projectPath, path);
             }
-            Project finalProject = project;
+
+            Project project = new Project(path);
             java.awt.EventQueue.invokeLater(() -> {
                 try {
-                    new DiagramManagementView(finalProject);
+                    new DiagramManagementView(project);
                     this.view.dispose();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             });
-        } catch (Exception e) {
+        } catch (IOException e) {
+            logger.severe("Load failed");
             e.printStackTrace();
         }
-
 
     }
 
@@ -73,9 +71,8 @@ public class CloudManagementController {
             return;
         }
         try {
-            Path localZip = CloudLogic.getLocalCopy(project);
+            Path localZip = CloudLogic.getLocalOrDistantCopy(project);
 
-            ImportProjectSelectorView view = new ImportProjectSelectorView(localZip);
             FileChooseView choose = new FileChooseView("Save local copy", JFileChooser.FILES_AND_DIRECTORIES);
             choose.setFileRestriction("CreaTikz files","crea");
             choose.setSelectedFile(new File(project.getName()));
@@ -83,6 +80,7 @@ public class CloudManagementController {
 
             if(destination != null) {
                 Files.move(localZip, destination.toPath());
+                new ImportProjectSelectorView(destination.toPath());
                 RecentProjects.addProject(new Project(destination.toPath()));
                 this.view.getParentView().refresh();
             }

@@ -56,4 +56,22 @@ public class CloudLogic {
         Files.copy(is, tmp, StandardCopyOption.REPLACE_EXISTING);
         return tmp;
     }
+
+    public static Path getLocalOrDistantCopy(models.databaseModels.Project project) throws IOException {
+        Path cloudDir = Dirs.getDataDir().resolve("cloud");
+        if(!cloudDir.toFile().exists()) {
+            Files.createDirectories(cloudDir);
+        }
+        Path path = cloudDir.resolve(project.getUid() + ".crea");
+        try {
+            if (new Project(path).getUid().equals(project.getUid())) {
+                logger.info("Project " + project.getUid() + " was not on disk");
+                return path;
+            }
+        } catch(Exception e) {
+            logger.info("Project " + project.getUid() + " was not on disk");
+        }
+        logger.fine("Downloading project " + project.getUid());
+        return CloudLogic.getLocalCopy(project);
+    }
 }

@@ -8,6 +8,7 @@ import middleware.Secured;
 import models.databaseModels.Permissions;
 import models.databaseModels.Project;
 import models.databaseModels.User;
+import utils.ConflictResolver;
 import utils.Log;
 
 import javax.ws.rs.*;
@@ -93,7 +94,7 @@ public class ProjectEndpoint {
         java.nio.file.Path tmpFile = File.createTempFile("project-upload", ".crea").toPath();
 
         models.project.Project p = new models.project.Project(tmpFile);
-        if (projectsDAO.findByUid(p.getUid()) != null){
+        if (projectsDAO.findByUid(p.getUid()) == null){
             throw new BadRequestException("Project does not exist");
         }
 
@@ -103,6 +104,31 @@ public class ProjectEndpoint {
         }
 
         return Response.ok().build();
+    }
+
+    @PUT
+    @Secured
+    @Path("/checkConflicts")
+    @Consumes("application/octet-stream")
+    public Boolean checkConflicts(InputStream project,
+                                  @Context SecurityContext securityContext) throws IOException, SQLException, ClassNotFoundException {
+        String username = securityContext.getUserPrincipal().getName();
+        User user = usersDAO.findByUsername(username);
+
+        java.nio.file.Path tmpFile = File.createTempFile("project-upload", ".crea").toPath();
+
+        models.project.Project clientProject = new models.project.Project(tmpFile);
+        Project dbServerProject = projectsDAO.findByUid(clientProject.getUid());
+        if (dbServerProject == null){
+            throw new BadRequestException("Project does not exist");
+        }
+        models.project.Project serverProject = new models.project.Project(Paths.get(dbServerProject.getPath()));
+        Project dbProject = new Project(clientProject);
+        if(!hasWritePerm(dbProject, user)){
+            throw new NotAuthorizedException("You can't edit this project");
+        }
+        ConflictResolver resolver = new ConflictResolver(clientProject, serverProject);
+        return resolver.checkHasConflict();
     }
 
     @GET

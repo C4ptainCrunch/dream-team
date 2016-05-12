@@ -2,6 +2,7 @@ package utils;
 
 import constants.ProjectConflicts;
 import models.project.Diff;
+import models.project.Project;
 import models.tikz.TikzGraph;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import org.codehaus.jparsec.error.ParserException;
@@ -9,10 +10,7 @@ import parser.DiffParser;
 import parser.NodeParser;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -20,6 +18,8 @@ import java.util.logging.Logger;
  */
 public class ConflictResolver{
     private final static Logger logger = Log.getLogger(ConflictResolver.class);
+    private Project localProject;
+    private Project serverProject;
     private List<Diff> baseDiffs;
     private List<Diff> localDiffs = new ArrayList<>();
     private List<Diff> serverDiffs = new ArrayList<>();
@@ -28,6 +28,11 @@ public class ConflictResolver{
 
 
     public ConflictResolver(){
+    }
+
+    public ConflictResolver(Project localProject, Project serverProject){
+        this.localProject = localProject;
+        this.serverProject = serverProject;
     }
 
     /**
@@ -49,6 +54,13 @@ public class ConflictResolver{
         differenceDiffsBaseServer = getDifferenceDiffs(baseDiffs, serverDiffs);
         differenceDiffsBaseLocal = getDifferenceDiffs(baseDiffs, localDiffs);
 
+    }
+
+    private void update(List<Diff> localDiffs, List<Diff> serverDiffs){
+        this.localDiffs = localDiffs;
+        this.serverDiffs = serverDiffs;
+        differenceDiffsBaseServer = getDifferenceDiffs(baseDiffs, serverDiffs);
+        differenceDiffsBaseLocal = getDifferenceDiffs(baseDiffs, localDiffs);
     }
 
     private void constructBaseDiffs(){
@@ -115,12 +127,46 @@ public class ConflictResolver{
         }
     }
 
+    /**
+     * Checks whether local and server projects have conflicts lines
+     * @return Whether local and server projects have conflicts lines
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public Boolean checkHasConflict() throws IOException, ClassNotFoundException {
+        List<String> checkedDiagram = new ArrayList<>();
+        Set<String> localDiagramNames = localProject.getDiagramNames();
+        Set<String> serverDiagramNames = serverProject.getDiagramNames();
+        Boolean conflicts = checkListConflicts(localDiagramNames, serverDiagramNames, checkedDiagram);
+        if(!conflicts){
+            conflicts = checkListConflicts(serverDiagramNames, localDiagramNames, checkedDiagram);
+        }
+        return conflicts;
+    }
+
+    private Boolean checkListConflicts(Set<String> diagramNamesList, Set<String> otherDiagramList, List<String> checkedDiagram) throws IOException,ClassNotFoundException{
+        Boolean conflicts = false;
+        for(String diagram : diagramNamesList){
+            if(otherDiagramList.contains(diagram)){
+                update(localProject.getDiagram(diagram).getDiffs(), serverProject.getDiagram(diagram).getDiffs());
+                String conflict = checkDiagramHasConflict();
+                if(conflict.equals(ProjectConflicts.MERGE_HAS_CONFLICTS)){
+                    conflicts = true;
+                    break;
+                }
+                checkedDiagram.add(diagram);
+            }else{
+                checkedDiagram.add(diagram);
+            }
+        }
+        return conflicts;
+    }
 
     /**
      * Checks whether local and server versions have conflicts lines
      * @return Whether local and server versions have conflicts lines
      */
-    public String checkHasConflict(){
+    public String checkDiagramHasConflict(){
         if(differenceDiffsBaseServer.size()==0){
             return ProjectConflicts.MERGE_OK;
         }else {

@@ -101,4 +101,8 @@ public class CloudManagementView extends JPanel {
     public models.databaseModels.Project getSelectedProject() {
         return this.projectChooser.getSelectedValue();
     }
+
+    public ManagementView getParentView() {
+        return parentView;
+    }
 }

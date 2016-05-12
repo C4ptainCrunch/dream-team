@@ -2,6 +2,7 @@ package controllers.management;
 
 import misc.logic.CloudLogic;
 import models.project.Project;
+import utils.RecentProjects;
 import views.management.CloudManagementView;
 import views.management.FileChooseView;
 
@@ -45,6 +46,8 @@ public class CloudManagementController {
             File destination = choose.ask();
             if(destination != null) {
                 Files.move(localZip, destination.toPath());
+                RecentProjects.addProject(new Project(destination.toPath()));
+                this.view.getParentView().refresh();
             }
         } catch (IOException e) {
             e.printStackTrace();

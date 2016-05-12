@@ -29,14 +29,15 @@ public class LoginWindowController {
 
     public static boolean shouldSkipAuth() {
         Response r = RequestBuilder.get("/authentication/checktoken").invoke();
-
+        Boolean shouldSkip;
         if (r.getStatus() == 200) {
             logger.info("Token was good, skipping login");
-            return true;
+            shouldSkip = true;
         } else {
             logger.fine("Old token was invalid, " + Integer.toString(r.getStatus()));
-            return false;
+            shouldSkip = false;
         }
+        return shouldSkip;
 
     }
 

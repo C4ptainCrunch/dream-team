@@ -43,13 +43,14 @@ public class PreviewController implements Observer {
     public TikzGraph getModelAsGraph() {
         TikzComponent comp = model.getComponentClone();
         TikzNode node = null;
+        TikzGraph tikzGraphModel;
         if (comp != null && comp.isNode()) {
             node = (TikzNode) comp;
-            return node.toGraph();
+            tikzGraphModel = node.toGraph();
+        }else {
+            tikzGraphModel = new TikzGraph();
         }
-        else {
-            return new TikzGraph();
-        }
+        return tikzGraphModel;
     }
 
     public void resetModel() {

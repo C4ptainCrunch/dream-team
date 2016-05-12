@@ -34,8 +34,9 @@ public abstract class DrawableTikzComponent implements Drawable {
                 bounds.add(shapes.get(i).getBounds2D());
             }
             return bounds;
-        } else
+        } else{
             return new Rectangle2D.Double();
+        }
     }
 
     public java.util.List<Shape> getShapes() {

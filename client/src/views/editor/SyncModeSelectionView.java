@@ -1,5 +1,6 @@
 package views.editor;
 
+import constants.SyncModelSelection;
 import controllers.editor.SyncModeSelectionController;
 
 import javax.swing.*;
@@ -29,7 +30,7 @@ public class SyncModeSelectionView extends JFrame {
     }
 
     private void render() {
-        this.setTitle("TikzCreator : choose a sync method");
+        this.setTitle(SyncModelSelection.Title.TITLE);
         this.setPreferredSize(new Dimension(300, 160));
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -49,10 +50,10 @@ public class SyncModeSelectionView extends JFrame {
 
         //TODO : Constants
         this.optionNames = new Vector<>();
-        this.optionNames.add("Ours"); this.optionNames.add("Theirs"); this.optionNames.add("Ours Merge");
-        this.optionNames.add("Theirs Merge"); this.optionNames.add("Fusion");
+        this.optionNames.add(SyncModelSelection.Option.OPTION_OURS); this.optionNames.add(SyncModelSelection.Option.OPTION_THEIRS); this.optionNames.add(SyncModelSelection.Option.OPTION_OURS_MERGE);
+        this.optionNames.add(SyncModelSelection.Option.OPTION_THEIRS_MERGE); this.optionNames.add(SyncModelSelection.Option.OPTION_FUSION);
 
-        if(flag.equals("NOFUSION")) {
+        if(flag.equals(SyncModelSelection.Option.OPTION_NO_FUSION)) {
             this.optionNames.remove(4);
         }
 
@@ -72,7 +73,7 @@ public class SyncModeSelectionView extends JFrame {
     }
 
     private void createButton() {
-        JButton syncButton = new JButton("Sync");
+        JButton syncButton = new JButton(SyncModelSelection.Button.BUTTON_SYNC);
         syncButton.addActionListener(actionEvent -> {
             this.controller.activateSelection();
         });

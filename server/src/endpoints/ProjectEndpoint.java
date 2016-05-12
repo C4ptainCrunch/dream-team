@@ -203,7 +203,7 @@ public class ProjectEndpoint {
 
         Permissions perm = permissionsDAO.findPermissions(dbProject.getUid(), user.getId());
         if(perm == null){
-            throw new  NotFoundException("There aren't any permission for this user on this project");
+            return new Permissions(projectUid, user.getId(), false, false, user.getUsername());
         }
         return perm;
     }

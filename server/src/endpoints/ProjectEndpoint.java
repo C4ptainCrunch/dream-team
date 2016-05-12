@@ -131,9 +131,9 @@ public class ProjectEndpoint {
     @Path("/info/{projectUid}")
     @Produces({"application/xml"})
     public Project getInfo(@PathParam("projectUid") String projectUid,
-        @Context SecurityContext securityContext) throws SQLException, IOException {
-            String username = securityContext.getUserPrincipal().getName();
-            User user = this.usersDAO.findByUsername(username);
+                           @Context SecurityContext securityContext) throws SQLException, IOException {
+        String username = securityContext.getUserPrincipal().getName();
+        User user = this.usersDAO.findByUsername(username);
 
         Project dbProject = this.projectsDAO.findByUid(projectUid);
         if(dbProject == null){
@@ -144,6 +144,33 @@ public class ProjectEndpoint {
         }
 
         return dbProject;
+    }
+
+    @POST
+    @Secured
+    @Path("/set_permissions/{projectUid}")
+    public Response setPermissions(@PathParam("projectUid") String projectUid,
+                                   @FormParam("readPermission") boolean readPermission,
+                                   @FormParam("writePermission") boolean writePermission,
+                                   @Context SecurityContext securityContext) throws SQLException {
+        String username = securityContext.getUserPrincipal().getName();
+        User user = this.usersDAO.findByUsername(username);
+
+        Project dbProject = this.projectsDAO.findByUid(projectUid);
+
+        if(dbProject == null){
+            throw new NotFoundException("Project not found");
+        }
+        if(!hasReadPerm(dbProject, user)){
+            throw new NotAuthorizedException("You can't read this project");
+        }
+
+        dbProject.setWrite_default(writePermission);
+        dbProject.setRead_default(readPermission);
+
+        this.projectsDAO.update(dbProject);
+
+        return Response.ok().build();
     }
 
     private boolean hasWritePerm(Project project, User user) throws SQLException {

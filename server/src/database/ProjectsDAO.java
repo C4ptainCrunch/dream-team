@@ -14,7 +14,7 @@ import static database.DAOUtilities.*;
 
 class ProjectRequests {
     public static final String SQL_INSERT_PROJECT = "INSERT INTO Projects(uid ,user_id, path, last_modification, default_perm_write, default_perm_read, name) VALUES (?, ?, ?, ?, ?, ?, ?);";
-    public static final String SQL_EDIT_PROJECT = "UPDATE Projects SET uid = ?, path = ?, last_modification = ?, default_perm_write = ?, default_perm_read = ?, name = ? WHERE path = ?";
+    public static final String SQL_UPDATE_PROJECT = "UPDATE Projects SET path = ?, last_modification = ?, default_perm_write = ?, default_perm_read = ?, name = ? WHERE uid = ?";
     public static final String SQL_SELECT_PROJECT_BY_UID = "SELECT uid, user_id, path, last_modification, default_perm_write, default_perm_read, name FROM Projects WHERE uid = ?";
     public static final String SQL_PROJECT_IS_READABLE = "SELECT default_perm_read FROM Projects WHERE uid = ?";
     public static final String SQL_PROJECT_IS_WRITABLE = "SELECT default_perm_write FROM Projects WHERE uid = ?";
@@ -130,4 +130,7 @@ public class ProjectsDAO {
         return projects;
     }
 
+    public void update(Project dbProject) {
+        DAOUtilities.executeUpdate(daoFactorySingleton, ProjectRequests.SQL_UPDATE_PROJECT, dbProject.getPath(), dbProject.getLast_modification(), dbProject.isWrite_default(), dbProject.isRead_default(), dbProject.getName(), dbProject.getUid());
+    }
 }

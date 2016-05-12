@@ -101,11 +101,12 @@ public class CanvasControllerTest extends ClientTest{
 
     @Test
     public void testAddGraph() throws Exception {
-        
-    }
-
-    @Test
-    public void testMoveComponent() throws Exception {
-
+        TikzGraph graph = new TikzGraph();
+        TikzNode firstNode = new TikzCircle();
+        TikzNode secondNode = new TikzPolygon();
+        graph.add(firstNode);
+        graph.add(secondNode);
+        controller.addGraph(graph, new Point2D.Float(0, 0));
+        assertEquals(graph.getNodes(), testedGraph.getNodes());
     }
 }

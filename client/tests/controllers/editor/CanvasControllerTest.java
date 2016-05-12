@@ -61,16 +61,31 @@ public class CanvasControllerTest extends ClientTest{
 
     @Test
     public void testDeleteItem() throws Exception {
-        
+        TikzNode node = new TikzCircle();
+        testedGraph.add(node);
+        controller.deleteItem(node);
+        assertTrue(testedGraph.isEmpty());
+    }
+
+
+    @Test
+    public void testAddNodeToGraph() throws Exception {
+        TikzNode node = new TikzCircle();
+
     }
 
     @Test
-    public void testEditItem() throws Exception {
+    public void testAddEdgeToGraph() throws Exception {
 
     }
 
     @Test
-    public void testExportSelectionAsTemplate() throws Exception {
+    public void testAddGraph() throws Exception {
+
+    }
+
+    @Test
+    public void testMoveComponent() throws Exception {
 
     }
 }

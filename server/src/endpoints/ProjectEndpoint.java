@@ -85,8 +85,7 @@ public class ProjectEndpoint {
             throw new BadRequestException("Project does not exist");
         }
 
-        Project dbProject = new Project(p);
-        if(!dbProject.hasWritePerm(user)){
+        if(!hasWritePerm(p, user)){
             throw new NotAuthorizedException("You can't edit this project");
         }
 

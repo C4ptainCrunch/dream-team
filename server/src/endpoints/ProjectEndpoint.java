@@ -14,6 +14,7 @@ import utils.Log;
 import javax.ws.rs.*;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.*;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +33,7 @@ public class ProjectEndpoint {
     @GET
     @Secured
     @Path("/list")
-    @Produces("application/xml")
+    @Produces(MediaType.APPLICATION_XML)
     public GenericEntity<List<Project>> getProjectList(@Context SecurityContext securityContext){
         String username = securityContext.getUserPrincipal().getName();
         User user = usersDAO.findByUsername(username);

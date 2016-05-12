@@ -64,7 +64,6 @@ public class ManagementController {
      */
     public void editDiagram(Diagram diagram) throws IOException {
         RecentProjects.addProject(diagram.getProject());
-
         java.awt.EventQueue.invokeLater(() -> new EditorView(diagram));
         this.view.dispose(); // Exit previous windows
     }

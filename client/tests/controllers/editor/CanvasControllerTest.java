@@ -39,7 +39,7 @@ public class CanvasControllerTest extends ClientTest{
         try {
             project = new Project();
             diagram = new Diagram("slt", project);
-            parentView = new EditorView(diagram);
+            parentView = new EditorView(diagram, false);
             testedGraph = diagram.getGraph();
             view = parentView.getCanvasView();
             controller = view.getController();

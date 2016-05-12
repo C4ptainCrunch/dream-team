@@ -40,13 +40,8 @@ public class CloudManagementView extends JPanel {
     private void createChooserPanel() {
         this.chooserPanel = new JPanel();
         this.chooserPanel.setLayout(new BorderLayout());
-        List<models.databaseModels.Project> projectsList = CloudLogic.getSharedProjects();
-        Vector<models.databaseModels.Project> sharedProjects = new Vector<>();
-        if(projectsList != null){
-            sharedProjects = new Vector<>(projectsList);
-        }
 
-        this.projectChooser = new JList<>(sharedProjects);
+        this.projectChooser = new JList<>(this.getListModel());
         this.projectChooser.addListSelectionListener(e -> controller.dropdownSelected(projectChooser.getSelectedValue()));
         this.projectChooser.setSelectedIndex(0);
 
@@ -65,6 +60,15 @@ public class CloudManagementView extends JPanel {
     }
 
     public void refresh() {
-        // TODO
+        this.projectChooser.setModel(this.getListModel());
+    }
+
+    private DefaultListModel getListModel(){
+        DefaultListModel model = new DefaultListModel();
+        List<models.databaseModels.Project> projectsList = CloudLogic.getSharedProjects();
+        if(projectsList != null) {
+            projectsList.forEach(model::addElement);
+        }
+        return model;
     }
 }

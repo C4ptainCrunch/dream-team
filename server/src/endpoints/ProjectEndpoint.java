@@ -110,9 +110,11 @@ public class ProjectEndpoint {
         if(!hasWritePerm(dbServerProject, user)){
             throw new NotAuthorizedException("You can't edit this project");
         }
+
         if(userChoice == ProjectConflicts.PUSH){
             userChoice = ProjectConflicts.SAVE_USER_VERSION;
         }
+
         ConflictResolver conflictResolver = new ConflictResolver(clientProject, serverProject);
         models.project.Project finalProject = conflictResolver.resolve(userChoice);
         finalProject.setUid(serverProject.getUid());

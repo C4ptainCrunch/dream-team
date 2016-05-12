@@ -14,6 +14,9 @@ public class Project {
     private boolean read_default;
     private String name;
 
+    private boolean currentUserWritePerm = false;
+    private boolean currentUserReadPerm = false;
+
     public Project(){}
 
     public Project(models.project.Project project) throws IOException {
@@ -100,5 +103,23 @@ public class Project {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @XmlAttribute
+    public boolean isCurrentUserWritePerm() {
+        return currentUserWritePerm;
+    }
+
+    public void setCurrentUserWritePerm(boolean currentUserWritePerm) {
+        this.currentUserWritePerm = currentUserWritePerm;
+    }
+
+    @XmlAttribute
+    public boolean isCurrentUserReadPerm() {
+        return currentUserReadPerm;
+    }
+
+    public void setCurrentUserReadPerm(boolean currentUserReadPerm) {
+        this.currentUserReadPerm = currentUserReadPerm;
     }
 }

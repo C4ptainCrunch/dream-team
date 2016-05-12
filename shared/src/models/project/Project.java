@@ -120,6 +120,15 @@ public class Project extends Observable implements Comparable<Project>{
         }
     }
 
+    synchronized public void removeDiagram(String name) throws IOException {
+        try (FileSystem fs = getFs()) {
+            Path source = fs.getPath("/" + name + ".tikz");
+            Path diff = fs.getPath("/" + name + ".diff");
+            Files.delete(source);
+            Files.delete(diff);
+        }
+    }
+
     /**
      * Get a set of all diagram names contained in the project
      * @return the set of names

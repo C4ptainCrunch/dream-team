@@ -5,14 +5,19 @@ import models.project.Project;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import utils.Dirs;
 import utils.Log;
+import views.management.FileChooseView;
 
+import javax.swing.*;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -39,5 +44,16 @@ public class CloudLogic {
     public static List<models.databaseModels.Project> getSharedProjects() {
         Response r = RequestBuilder.get("/project/list").invoke();
         return r.readEntity(new GenericType<List<models.databaseModels.Project>>(){});
+    }
+
+    public static Path getLocalCopy(models.databaseModels.Project project) throws IOException {
+        Response r = RequestBuilder.get("/project/" + project.getUid()).invoke();
+        if(r.getStatus() != 200) {
+            throw new IOException("Error while downloading project :" + r.getStatus());
+        }
+        InputStream is = r.readEntity(InputStream.class);
+        Path tmp = File.createTempFile("local-copy", ".crea").toPath();
+        Files.copy(is, tmp, StandardCopyOption.REPLACE_EXISTING);
+        return tmp;
     }
 }

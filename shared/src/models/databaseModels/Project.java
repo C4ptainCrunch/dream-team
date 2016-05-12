@@ -4,20 +4,19 @@ import javax.xml.bind.annotation.XmlAttribute;
 import java.io.IOException;
 
 public class Project {
-    private int id;
+    private String uid;
     private int userID;
     private String path;
     private String last_modification;
     private boolean write_default;
     private boolean read_default;
-    private int userId;
 
     public Project(){}
 
     public Project(models.project.Project project) throws IOException {
         this.path = project.getPath().toString();
-        this.userID = project.getUserID();
-        this.id = project.getID();
+        this.uid = project.getUid();
+        this.userID = 0;
         this.last_modification = project.getLastChange().toString();
         this.write_default = project.getWriteDefault();
         this.read_default = project.getReadDefault();
@@ -31,8 +30,8 @@ public class Project {
         this.read_default = read_default;
     }
 
-    public Project(int id, int user, String path, String last_modification, boolean write_default, boolean read_default) {
-        this.id = id;
+    public Project(String uid, int user, String path, String last_modification, boolean write_default, boolean read_default) {
+        this.uid = uid;
         this.userID = user;
         this.path = path;
         this.last_modification = last_modification;
@@ -47,8 +46,8 @@ public class Project {
     }
 
     @XmlAttribute
-    public int getId() {
-        return id;
+    public String getUid() {
+        return uid;
     }
 
     @XmlAttribute
@@ -74,11 +73,15 @@ public class Project {
         return read_default ? 1 : 0;
     }
 
-    public void setId(int id){
-        this.id = id;
+    public void setUid(String uid){
+        this.uid = uid;
     }
 
-    public void setUserID(int userId) {
-        this.userId = userId;
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public boolean hasWritePerm(User user){
+        return true; //TODO
     }
 }

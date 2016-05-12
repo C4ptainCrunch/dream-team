@@ -138,6 +138,7 @@ class ProjectConflictsPropertiesReader implements  PropertiesReader{
         SAVE_USER_VERSION_ONLY = properties.getProperty("SAVE_USER_VERSION_ONLY");
         SAVE_USER_VERSION = properties.getProperty("SAVE_USER_VERSION");
         SAVE_SERVER_VERSION_ONLY = properties.getProperty("SAVE_SERVER_VERSION_ONLY");
-        SAVE_SERVER_VERSION = properties.getProperty("SAVE_SERVER_VERSIION");
+        SAVE_SERVER_VERSION = properties.getProperty("SAVE_SERVER_VERSION");
+        PUSH = properties.getProperty("PUSH");
     }
 }

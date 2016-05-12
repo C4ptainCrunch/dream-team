@@ -71,13 +71,13 @@ public class ConflictResolver{
         if(userChoice.equals("saveUserVersionOnly")){
             resolvedDiffs.addAll(differenceDiffsBaseLocal);
         }else if(userChoice.equals("saveUserVersion")){
-            resolvedDiffs.addAll(localDiffs);
-            addConflictsIndexes(serverDiffs, serverConflictsIndexes, resolvedDiffs);
+            resolvedDiffs.addAll(differenceDiffsBaseLocal);
+            addConflictsIndexes(differenceDiffsBaseServer, serverConflictsIndexes, resolvedDiffs);
         }else if(userChoice.equals("saveServerVersionOnly")){
             resolvedDiffs.addAll(differenceDiffsBaseServer);
         }else if(userChoice.equals("saveServerVersion")){
-            resolvedDiffs.addAll(serverDiffs);
-            addConflictsIndexes(localDiffs, localConflictsIndexes, resolvedDiffs);
+            resolvedDiffs.addAll(differenceDiffsBaseServer);
+            addConflictsIndexes(differenceDiffsBaseLocal, localConflictsIndexes, resolvedDiffs);
         }else{
             //TODO: merge
         }
@@ -97,8 +97,8 @@ public class ConflictResolver{
             if(!conflictIndexes.contains(i)){
                 resolvedDiffs.add(diff);
             }
+            i++;
         }
-        i++;
     }
 
 
@@ -108,17 +108,19 @@ public class ConflictResolver{
      */
     public Integer checkHasConflict(){
         if(differenceDiffsBaseServer.size()==0){
-            System.out.println("PUSH OK : NO MODIFICATIONS DONE ON SERVER");
+            //TODO: Push ok, no modifications done on server
             return 0;
         }else {
             if (differenceDiffsBaseLocal.size() == 0) {
-                System.out.println("NO MODIFICATION DONE LOCALLY");
-                return 2; //Keep server version
+                //TODO: Keep server version, don't "push" because no modification done locally
+                return 2;
             } else {
                 List<List<Integer>> hasConflict = getConflictsIndexes(differenceDiffsBaseLocal, differenceDiffsBaseServer,true);
                 if(hasConflict.size() == 1){
+                    //TODO: alert the user that his push has conflict(s)
                     return 1;
                 }else{
+                    //TODO: push ok, no conflicts
                     return 0;
                 }
             }

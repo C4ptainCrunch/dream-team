@@ -304,7 +304,6 @@ public class Diagram{
         undoRedoFlag = true;
         DiffMatchPatch undo = new DiffMatchPatch();
         Diff inverted_last = invertDiff(last);
-        System.out.println(last.getPatch() + "\n" + inverted_last.getPatch());
         final List<DiffMatchPatch.Patch> patches = undo.patchFromText(inverted_last.getPatch());
         String original = this.graph.toString();
         final Object[] modified = undo.patchApply((LinkedList<DiffMatchPatch.Patch>) patches, original);

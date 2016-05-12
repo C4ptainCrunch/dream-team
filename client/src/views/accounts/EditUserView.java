@@ -16,7 +16,7 @@ public class EditUserView extends JFrame{
     private User user;
     private JPanel panel;
 
-    public EditUserView(User user) {
+    public EditUserView(final User user) {
         this.user = user;
         this.originalEmail = user.getEmail();
         this.controller = new EditUserController(this);

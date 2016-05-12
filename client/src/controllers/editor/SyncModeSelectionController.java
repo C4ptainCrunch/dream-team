@@ -13,7 +13,7 @@ public class SyncModeSelectionController {
      * Creates a controller for the SyncModeSelectionView
      * @param view The corresponding view, created elsewhere
      */
-    public SyncModeSelectionController(SyncModeSelectionView view) {
+    public SyncModeSelectionController(final SyncModeSelectionView view) {
         this.view = view;
     }
 

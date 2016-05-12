@@ -48,7 +48,7 @@ public class MenuController implements Observer {
      * @param diagram
      *            The Diagram
      */
-    public MenuController(MenuView view, Diagram diagram) {
+    public MenuController(final MenuView view, final Diagram diagram) {
         this.view = view;
 
         this.diagram = diagram;
@@ -63,7 +63,7 @@ public class MenuController implements Observer {
      * @param arg
      *            The arguments given by the Observable
      */
-    public void update(Observable o, Object arg) {
+    public void update(final Observable o, final Object arg) {
         // this was left intentionally blank
     }
 
@@ -134,7 +134,7 @@ public class MenuController implements Observer {
      *            The view in which the menu view associated with this
      *            controller is contained
      */
-    public void saveAndQuit(EditorView parentView) {
+    public void saveAndQuit(final EditorView parentView) {
         if(this.askToSave()){
             parentView.dispose();
         }
@@ -144,7 +144,7 @@ public class MenuController implements Observer {
      * Sets the Color blind mode on or off
      * @param stateChange State change
      */
-    public void setColorBlindMode(int stateChange) {
+    public void setColorBlindMode(final int stateChange) {
         boolean set_mode = (stateChange == ItemEvent.SELECTED ? true : false);
         view.setBlindMode(set_mode);
     }

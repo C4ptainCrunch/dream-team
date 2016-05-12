@@ -26,7 +26,7 @@ public class SelectorComponent extends JPanel {
      * @param lis
      *            The listener
      */
-    public SelectorComponent(TikzComponent comp, SelectorComponentListener lis) {
+    public SelectorComponent(final TikzComponent comp, final SelectorComponentListener lis) {
         component = comp;
         listener = lis;
         initMouseListener();
@@ -39,7 +39,7 @@ public class SelectorComponent extends JPanel {
     private void initMouseListener() {
         this.addMouseListener(new MouseInputAdapter() {
             @Override
-            public void mouseClicked(MouseEvent mouseEvent) {
+            public void mouseClicked(final MouseEvent mouseEvent) {
                 if (SwingUtilities.isLeftMouseButton(mouseEvent)) {
                     listener.componentSelected(component);
                 }
@@ -53,7 +53,7 @@ public class SelectorComponent extends JPanel {
      * @param g
      *            The Graphics to be painted
      */
-    public void paintComponent(Graphics g) {
+    public void paintComponent(final Graphics g) {
         super.paintComponent(g);
         DrawableTikzComponent drawable = Drawer.toDrawable(component, this);
         drawable.draw((Graphics2D) g);

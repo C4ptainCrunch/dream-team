@@ -46,7 +46,7 @@ public abstract class TransferableTikz implements Transferable {
      *            the requested flavor for the data
      * @return true if the data flavor is supported
      */
-    public boolean isDataFlavorSupported(DataFlavor df) {
+    public boolean isDataFlavorSupported(final DataFlavor df) {
         return df.equals(data) || df.equals(DataFlavor.stringFlavor);
     }
 
@@ -63,7 +63,7 @@ public abstract class TransferableTikz implements Transferable {
      * @throws IOException
      *             - if the data is no longer available in the requested flavor.
      */
-    public Object getTransferData(DataFlavor df) throws UnsupportedFlavorException, IOException {
+    public Object getTransferData(final DataFlavor df) throws UnsupportedFlavorException, IOException {
         if (df == null) {
             throw new IOException();
         }

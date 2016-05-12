@@ -13,7 +13,7 @@ import javax.swing.text.PlainDocument;
 public class JTextFieldSizeLimiter extends PlainDocument {
     private int fieldLimit;
 
-    public JTextFieldSizeLimiter (int limit) {
+    public JTextFieldSizeLimiter (final int limit) {
         super();
         this.fieldLimit = limit;
     }
@@ -24,7 +24,7 @@ public class JTextFieldSizeLimiter extends PlainDocument {
      * @param str The current string
      * @param attr Attribute
      */
-    public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
+    public void insertString(final int offset, final String str, final AttributeSet attr) throws BadLocationException {
         if (str == null) {
             return ;
         }

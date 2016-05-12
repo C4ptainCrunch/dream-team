@@ -26,7 +26,7 @@ public class CloudManagementController {
      * Creates a controller for the CloudManagementView
      * @param cloudManagementView The corresponding view, created elsewhere
      */
-    public CloudManagementController(CloudManagementView cloudManagementView) {
+    public CloudManagementController(final CloudManagementView cloudManagementView) {
         this.view = cloudManagementView;
     }
 
@@ -34,7 +34,7 @@ public class CloudManagementController {
      * Creates the information to be set in the info panel
      * @param selectedProject The project to get information from
      */
-    public void dropdownSelected(models.databaseModels.Project selectedProject) {
+    public void dropdownSelected(final models.databaseModels.Project selectedProject) {
         String infoText = "INFORMATION ABOUT SELECTED PROJECT:\nCreator: " + selectedProject.getUsername() + "\nLast revision: "+
                           selectedProject.getLast_modification()+"\nWrite Permission: " + (selectedProject.isCurrentUserWritePerm() ? "Yes": "No");
         this.view.setInfoText(infoText);

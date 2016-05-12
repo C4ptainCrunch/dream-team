@@ -33,7 +33,7 @@ public class SourceController implements Observer {
      * @param graph
      *            The TikzGraph
      */
-    public SourceController(SourceView view, TikzGraph graph) {
+    public SourceController(final SourceView view, final TikzGraph graph) {
         this.view = view;
         this.graph = graph;
         this.graph.addObserver(this);
@@ -49,7 +49,7 @@ public class SourceController implements Observer {
      * @param arg
      *            The arguments given by the Observable
      */
-    public void update(Observable o, Object arg) {
+    public void update(final Observable o, final Object arg) {
         logger.finest("Got an update event");
         if (!view.getIsFocused()) {
             updateTikzText();
@@ -62,7 +62,7 @@ public class SourceController implements Observer {
      * @param raw_text
      *            The new Tikz text
      */
-    private void updateGraphFromText(String raw_text) {
+    private void updateGraphFromText(final String raw_text) {
         String text = raw_text.trim();
             TikzGraph new_graph = new TikzGraph();
             try {
@@ -135,11 +135,11 @@ public class SourceController implements Observer {
      * @return The index of the line corresponding to the component.
      */
 
-    public int getLine(TikzComponent comp) {
+    public int getLine(final TikzComponent comp) {
         return line_to_component_map.get(comp);
     }
 
-    public List<Integer> getLines(Set<TikzComponent> selectedComponents) {
+    public List<Integer> getLines(final Set<TikzComponent> selectedComponents) {
         List<Integer> lines = new ArrayList<>();
         for (TikzComponent comp: selectedComponents){
             lines.add(getLine(comp));

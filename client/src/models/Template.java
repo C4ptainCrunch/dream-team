@@ -22,7 +22,7 @@ public class Template extends TikzIO {
         super();
     }
 
-    public Template(TikzGraph g) {
+    public Template(final TikzGraph g) {
         super(g);
     }
 
@@ -39,7 +39,7 @@ public class Template extends TikzIO {
      * @throws IOException if an I/O error occurs.
      */
 
-    public static File createSaveFile(String filename, String dir) throws IOException {
+    public static File createSaveFile(final String filename, final String dir) throws IOException {
         File file = TikzIO.createSaveFile(filename, dir);
         return file;
     }
@@ -52,7 +52,7 @@ public class Template extends TikzIO {
      * @throws IOException if an I/O error occurs.
      */
 
-    public File saveTemplate(String name, String dir) throws IOException {
+    public File saveTemplate(final String name, final String dir) throws IOException {
         createDirectory();
         if (graph != null && name != null) {
             template_file = createSaveFile(name, dir);
@@ -68,7 +68,7 @@ public class Template extends TikzIO {
      * @throws IOException if an I/O error occurs.
      */
 
-    public File saveTemplate(String name) throws IOException {
+    public File saveTemplate(final String name) throws IOException {
         return saveTemplate(name, GUI.Template.DIR);
     }
 
@@ -78,7 +78,7 @@ public class Template extends TikzIO {
      * @throws IOException if an I/O error occurs.
      */
 
-    public void loadTemplate(File file) throws IOException {
+    public void loadTemplate(final File file) throws IOException {
         Path p = Paths.get(file.getAbsolutePath());
         template_file = file;
         graph = new TikzGraph(p);

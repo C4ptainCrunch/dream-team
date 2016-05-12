@@ -21,7 +21,7 @@ public class CloudLogic {
     private CloudLogic() {
     }
 
-    public static void cloudifyProject(Project project) throws IOException {
+    public static void cloudifyProject(final Project project) throws IOException {
         InputStream stream = new FileInputStream(project.getPath().toFile());
 
         Response r = RequestBuilder.put("/project/upload", stream, MediaType.APPLICATION_OCTET_STREAM).invoke();
@@ -40,7 +40,7 @@ public class CloudLogic {
         return r.readEntity(new GenericType<List<models.databaseModels.Project>>(){});
     }
 
-    public static Path getLocalCopy(String uid) throws IOException {
+    public static Path getLocalCopy(final String uid) throws IOException {
         Response r = RequestBuilder.get("/project/" + uid).invoke();
         if(r.getStatus() != 200) {
             throw new IOException("Error while downloading project :" + r.getStatus());
@@ -51,12 +51,12 @@ public class CloudLogic {
         return tmp;
     }
 
-    public static Path getLocalCopy(models.databaseModels.Project project) throws IOException {
+    public static Path getLocalCopy(final models.databaseModels.Project project) throws IOException {
         return getLocalCopy(project.getUid());
     }
 
 
-    public static Path getLocalOrDistantCopy(models.databaseModels.Project project) throws IOException {
+    public static Path getLocalOrDistantCopy(final models.databaseModels.Project project) throws IOException {
         Path cloudDir = Dirs.getDataDir().resolve("cloud");
         if (!cloudDir.toFile().exists()) {
             Files.createDirectories(cloudDir);
@@ -74,7 +74,7 @@ public class CloudLogic {
         return CloudLogic.getLocalCopy(project);
     }
 
-    public static boolean AskForMerge(Project p) throws FileNotFoundException {
+    public static boolean AskForMerge(final Project p) throws FileNotFoundException {
         InputStream stream = new FileInputStream(p.getPath().toFile());
         Response r = RequestBuilder
                 .put("/project/checkConflicts", stream, MediaType.APPLICATION_OCTET_STREAM)
@@ -84,7 +84,7 @@ public class CloudLogic {
         return s.equals("1");
     }
 
-    public static boolean Merge(Project p, String policy) throws FileNotFoundException {
+    public static boolean Merge(final Project p, final String policy) throws FileNotFoundException {
         InputStream stream = new FileInputStream(p.getPath().toFile());
         Response r = RequestBuilder
                 .put("/project/update/" + policy, stream, MediaType.APPLICATION_OCTET_STREAM)

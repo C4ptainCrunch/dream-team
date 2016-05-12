@@ -9,7 +9,7 @@ public class ImportProjectSelectorController {
 
     private ImportProjectSelectorView view;
 
-    public ImportProjectSelectorController(ImportProjectSelectorView view) {
+    public ImportProjectSelectorController(final ImportProjectSelectorView view) {
         this.view = view;
     }
 

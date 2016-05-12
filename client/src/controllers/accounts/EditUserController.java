@@ -30,7 +30,7 @@ public class EditUserController {
     private final EditUserView view;
     private final static Logger logger = Log.getLogger(EditUserController.class);
 
-    public EditUserController(EditUserView view) {
+    public EditUserController(final EditUserView view) {
         this.view = view;
     }
 
@@ -55,7 +55,7 @@ public class EditUserController {
         return valid;
     }
 
-    public void showWarning(String text) {
+    public void showWarning(final String text) {
         JOptionPane.showMessageDialog(this.view, text, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
     }
 

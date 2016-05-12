@@ -10,11 +10,11 @@ import constants.GUI;
 
 public class PreviewTransferHandler extends TikzTransferHandler {
 
-    protected Transferable createTransferable(JComponent c) {
+    protected Transferable createTransferable(final JComponent c) {
         return new PreviewTransferableTikz(((PreviewView) c).getComponentAsGraph(), GUI.Drag.DropOptions.ADD);
     }
 
-    protected void exportDone(JComponent c, Transferable t, int action) {
+    protected void exportDone(final JComponent c, final Transferable t, final int action) {
         ((PreviewView) c).reset();
     }
 }

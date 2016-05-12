@@ -27,7 +27,7 @@ public class SignUpController {
     private SignUpView view;
     private final String BASE_PATH = "user/signup/";
 
-    public SignUpController(SignUpView v) {
+    public SignUpController(final SignUpView v) {
         this.view = v;
     }
 
@@ -39,7 +39,7 @@ public class SignUpController {
         this.view.showSignUpPanel();
     }
 
-    private boolean checkField(JTextField field, String regex, String warning){
+    private boolean checkField(final JTextField field, final String regex, final String warning){
         boolean valid = Pattern.matches(regex, field.getText());
         if (!valid){
             this.view.initWarning(warning);
@@ -77,7 +77,7 @@ public class SignUpController {
         java.awt.EventQueue.invokeLater(LoginWindowView::new);
     }
 
-    private void accountCreation(ArrayList<JTextField> fields, JPasswordField passwordField) {
+    private void accountCreation(final ArrayList<JTextField> fields, final JPasswordField passwordField) {
         Form postForm = new Form();
 
         for(int i = 0 ; i<fields.size(); i++) {

@@ -28,7 +28,7 @@ public class ProjectManagementController {
      * Creates a controller for the ProjectManagementView
      * @param view The corresponding view, created elsewhere
      */
-    public ProjectManagementController(ProjectManagementView view) {
+    public ProjectManagementController(final ProjectManagementView view) {
         this.view = view;
     }
 
@@ -38,7 +38,7 @@ public class ProjectManagementController {
      * @param project The current project
      * @throws IOException
      */
-    public void editProject(Project project) throws IOException {
+    public void editProject(final Project project) throws IOException {
         RecentProjects.addProject(project);
 
         new DiagramManagementView(project);
@@ -51,7 +51,7 @@ public class ProjectManagementController {
      * Should be called when the dropdown is updated.
      * @param selectedProject
      */
-    public void dropdownSelected(Project selectedProject) {
+    public void dropdownSelected(final Project selectedProject) {
         if(selectedProject == null){
             return;
         }

@@ -45,7 +45,7 @@ public class ClientPropertiesLoader extends PropertiesLoader {
 class ErrorsPropertiesReader implements PropertiesReader{
 
     @Override
-    public void read(Properties properties){
+    public void read(final Properties properties){
         ERROR = properties.getProperty("ERROR");
         CREATE_ERROR = properties.getProperty("CREATE_ERROR");
         SAVE_ERROR = properties.getProperty("SAVE_ERROR");
@@ -65,7 +65,7 @@ class ErrorsPropertiesReader implements PropertiesReader{
 class GUIPropertiesReader implements PropertiesReader{
 
     @Override
-    public void read(Properties properties) {
+    public void read(final Properties properties) {
         GUI.MenuBar.FILE_MENU = properties.getProperty("FILE_MENU");
         GUI.MenuBar.SAVE = properties.getProperty("SAVE");
         GUI.MenuBar.PDF = properties.getProperty("PDF");
@@ -142,7 +142,7 @@ class GUIPropertiesReader implements PropertiesReader{
 class WarningsPropertiesReader implements PropertiesReader{
 
     @Override
-    public void read(Properties properties) {
+    public void read(final Properties properties) {
         WARNING_TYPE = properties.getProperty("WARNING_TYPE");
         FIRSTNAME_WARNING = properties.getProperty("FIRSTNAME_WARNING");
         LASTNAME_WARNING = properties.getProperty("LASTNAME_WARNING");

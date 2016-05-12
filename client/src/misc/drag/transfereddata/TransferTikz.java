@@ -36,13 +36,13 @@ public class TransferTikz {
      *            An option defining which drop process will be done.
      */
 
-    public TransferTikz(TikzComponent comp, GUI.Drag.DropOptions opt) {
+    public TransferTikz(final TikzComponent comp, final GUI.Drag.DropOptions opt) {
         this.component = comp;
         this.option = opt;
         this.graph = null;
     }
 
-    public TransferTikz(TikzGraph graph, GUI.Drag.DropOptions opt) {
+    public TransferTikz(final TikzGraph graph, final GUI.Drag.DropOptions opt) {
         this.component = null;
         this.graph = graph;
         this.option = opt;

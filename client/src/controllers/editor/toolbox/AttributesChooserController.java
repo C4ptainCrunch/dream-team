@@ -31,7 +31,7 @@ public class AttributesChooserController implements Observer {
      * @param m
      *            The tool model
      */
-    public AttributesChooserController(AttributesChooserView v, ToolModel m) {
+    public AttributesChooserController(final AttributesChooserView v, final ToolModel m) {
         view = v;
         model = m;
     }
@@ -42,7 +42,7 @@ public class AttributesChooserController implements Observer {
      * @param color
      *            The color
      */
-    private void colorSelected(Color color) {
+    private void colorSelected(final Color color) {
         model.setComponentColor(color);
     }
 
@@ -81,7 +81,7 @@ public class AttributesChooserController implements Observer {
      *            The Object given by the Observable
      */
     @Override
-    public void update(Observable o, Object obj) {
+    public void update(final Observable o, final Object obj) {
         view.repaint();
     }
 }

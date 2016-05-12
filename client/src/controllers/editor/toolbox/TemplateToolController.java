@@ -19,7 +19,7 @@ public class TemplateToolController {
     private TemplateToolView view;
     private TemplateList templates;
 
-    public TemplateToolController(TemplateToolView v){
+    public TemplateToolController(final TemplateToolView v){
         this.view = v;
         templates = new TemplateList(new DefaultListModel<>());
         addTemplatesToList();
@@ -47,7 +47,7 @@ public class TemplateToolController {
      *            The file where the Template is saved.
      */
 
-    public void addTemplateFromFile(File file) {
+    public void addTemplateFromFile(final File file) {
         try {
             if (file != null) {
                 Path p = Paths.get(GUI.Template.DIR);

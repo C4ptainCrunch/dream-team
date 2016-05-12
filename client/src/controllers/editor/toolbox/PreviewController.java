@@ -28,7 +28,7 @@ public class PreviewController implements Observer {
      * @param m
      *            The tool model
      */
-    public PreviewController(PreviewView v, ToolModel m) {
+    public PreviewController(final PreviewView v, final ToolModel m) {
         view = v;
         model = m;
         model.addObserver(this);
@@ -67,7 +67,7 @@ public class PreviewController implements Observer {
      *            The Object given by the Observable
      */
     @Override
-    public void update(Observable o, Object obj) {
+    public void update(final Observable o, final Object obj) {
         view.setComponent(model.getComponentClone());
         view.repaint();
     }

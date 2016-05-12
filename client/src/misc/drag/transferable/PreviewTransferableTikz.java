@@ -6,7 +6,7 @@ import constants.GUI;
 
 public class PreviewTransferableTikz extends TransferableTikz {
 
-    public PreviewTransferableTikz(TikzGraph graph, GUI.Drag.DropOptions opt) {
+    public PreviewTransferableTikz(final TikzGraph graph, final GUI.Drag.DropOptions opt) {
         try {
             initializeData();
             transfert_data = new TransferTikz(graph, opt);

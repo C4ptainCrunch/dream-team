@@ -17,7 +17,7 @@ public class TokenActivationController {
     private TokenActivationView view;
     private final String BASE_PATH = "user/activate/";
 
-    public TokenActivationController(TokenActivationView view) {
+    public TokenActivationController(final TokenActivationView view) {
         this.view = view;
     }
 
@@ -27,7 +27,7 @@ public class TokenActivationController {
      * @param username The username
      */
 
-    public void validateToken(String token, String username) {
+    public void validateToken(final String token, final String username) {
         Form postForm = new Form("token",token);
         Response r = RequestBuilder.post("/user/activate/" + username, postForm).invoke();
         String resp = r.readEntity(String.class);

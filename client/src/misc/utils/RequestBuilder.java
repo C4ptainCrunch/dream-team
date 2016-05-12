@@ -21,23 +21,23 @@ public class RequestBuilder {
     private static String token = getDiskToken();
     private static final Logger logger = Log.getLogger(RequestBuilder.class);
 
-    public static Invocation get(String path) {
+    public static Invocation get(final String path) {
         return getClient().path(path).request()
                 .header("Authorization", "Bearer " + token)
                 .buildGet();
     }
 
-    public static Invocation post(String path, Form form) {
+    public static Invocation post(final String path, final Form form) {
         return post(path, Entity.form(form));
     }
 
-    public static Invocation post(String path, Entity entity) {
+    public static Invocation post(final String path, final Entity entity) {
         return getClient().path(path).request()
                 .header("Authorization", "Bearer " + token)
                 .buildPost(entity);
     }
 
-    public static Invocation put(String path, InputStream stream, String type) {
+    public static Invocation put(final String path, final InputStream stream, final String type) {
         return  getClient().path(path).request()
                 .header("Authorization", "Bearer " + token)
                 .buildPut(Entity.entity(stream, type));
@@ -57,7 +57,7 @@ public class RequestBuilder {
         }
     }
 
-    public static void setToken(String token) {
+    public static void setToken(final String token) {
         RequestBuilder.token = token;
         try {
             Files.write(getTokenPath(), token.trim().getBytes());

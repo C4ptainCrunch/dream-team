@@ -136,12 +136,6 @@ public class ProjectsDAO {
             resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, ProjectRequests.SQL_PROJECT_GETALLREADABLES, userID);
             while (resultSet.next()) {
                 Project p = mapProject(resultSet);
-                //Optional<Permissions> permissions = permissionsDAO.findPermissions(p.getUid(), userID);
-                //if (permissions.isPresent() && permissions.get().isReadable()) {
-                //    projects.add(p);
-                //} else if (!permissions.isPresent()){
-                //    projects.add(p);
-                //}
                 projects.add(p);
             }
         } catch (SQLException e) {

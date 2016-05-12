@@ -88,28 +88,47 @@ public class ConflictResolver{
         Set<String> localDiagramNames = localProject.getDiagramNames();
         Set<String> serverDiagramNames = serverProject.getDiagramNames();
         for(String localDiagram : localDiagramNames){
-            Diagram resolvedDiagram = new Diagram(localDiagram, this.finalProject);
-            List<Diff> finalDiagramDiffs;
-            String tikZCode;
-            if(serverDiagramNames.contains(localDiagram)) {
+            resolveLocalDiagrams(localDiagram, serverDiagramNames, userChoice, resolvedDiagrams);
+        }
+        for(String serverDiagram : serverDiagramNames){
+            resolveServerDiagrams(resolvedDiagrams, serverDiagram);
+
+        }
+        return this.finalProject;
+    }
+
+    private void resolveServerDiagrams(List<String> resolvedDiagrams, String serverDiagram) {
+        if(!resolvedDiagrams.contains(serverDiagram)) {
+            Diagram resolvedDiagram = new Diagram(serverDiagram, this.finalProject);
+            try {
+                List<Diff> finalDiagramDiffs = serverProject.getDiagram(serverDiagram).getDiffs();
+                resolvedDiagram.writeDiffs(finalDiagramDiffs);
+                this.finalProject.writeSource(serverDiagram, serverProject.getDiagram(serverDiagram).getSource());
+            }catch(IOException | ClassNotFoundException e){
+                logger.severe("A problem occured while resolving server diagrams");
+            }
+        }
+    }
+
+    private void resolveLocalDiagrams(String localDiagram, Set<String> serverDiagramNames, String userChoice, List<String> resolvedDiagrams) {
+        Diagram resolvedDiagram = new Diagram(localDiagram, this.finalProject);
+        List<Diff> finalDiagramDiffs;
+        String tikZCode;
+        try {
+            if (serverDiagramNames.contains(localDiagram)) {
                 update(localProject.getDiagram(localDiagram).getDiffs(), serverProject.getDiagram(localDiagram).getDiffs());
                 finalDiagramDiffs = resolveDiagram(userChoice);
                 tikZCode = createTikzFromDiffs(finalDiagramDiffs);
-            }else{
+            } else {
                 finalDiagramDiffs = localProject.getDiagram(localDiagram).getDiffs();
                 tikZCode = localProject.getDiagram(localDiagram).getSource();
             }
             resolvedDiagram.writeDiffs(finalDiagramDiffs);
             this.finalProject.writeSource(localDiagram, tikZCode);
             resolvedDiagrams.add(localDiagram);
+        }catch(IOException | ClassNotFoundException e){
+            logger.severe("A problem occured whil resolving local diagrams");
         }
-        for(String serverDiagram : serverDiagramNames){
-            Diagram resolvedDiagram = new Diagram(serverDiagram, this.finalProject);
-            List<Diff> finalDiagramDiffs = serverProject.getDiagram(serverDiagram).getDiffs();
-            resolvedDiagram.writeDiffs(finalDiagramDiffs);
-            this.finalProject.writeSource(serverDiagram, serverProject.getDiagram(serverDiagram).getSource());
-        }
-        return this.finalProject;
     }
 
     /**

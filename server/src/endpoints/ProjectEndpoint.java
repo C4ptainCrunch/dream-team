@@ -161,8 +161,8 @@ public class ProjectEndpoint {
         if(dbProject == null){
             throw new NotFoundException("Project not found");
         }
-        if(!hasReadPerm(dbProject, user)){
-            throw new NotAuthorizedException("You can't read this project");
+        if(!(user.getId() == dbProject.getUserID())){
+            throw new NotAuthorizedException("You can't edit this project information");
         }
 
         dbProject.setWrite_default(writePermission);
@@ -172,6 +172,37 @@ public class ProjectEndpoint {
 
         return Response.ok().build();
     }
+
+    @POST
+    @Secured
+    @Path("/set_permission_for_user/{projectUid}")
+    public Response setPermissionForUser(@PathParam("projectUid") String projectUid,
+                                         @FormParam("userId") int userId,
+                                         @FormParam("readPermission") boolean readPermission,
+                                         @FormParam("writePermission") boolean writePermission,
+                                         @Context SecurityContext securityContext) throws Exception {
+        String username = securityContext.getUserPrincipal().getName();
+        User user = this.usersDAO.findByUsername(username);
+
+        Project dbProject = this.projectsDAO.findByUid(projectUid);
+
+        if(dbProject == null){
+            throw new NotFoundException("Project not found");
+        }
+        if(!(user.getId() == dbProject.getUserID())){
+            throw new NotAuthorizedException("You can't edit this project permission");
+        }
+        Permissions perm = new Permissions(projectUid, userId, writePermission, readPermission, "");
+
+        Permissions servPerm = permissionsDAO.findPermissions(projectUid, userId);
+
+        if(servPerm != null){
+            permissionsDAO.changePermissions(userId, projectUid, readPermission, writePermission);
+        } else {
+            permissionsDAO.create(perm);
+        }
+    }
+
 
     private boolean hasWritePerm(Project project, User user) throws SQLException {
         if(user.getId() == project.getUserID()){

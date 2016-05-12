@@ -97,10 +97,10 @@ public class ProjectEndpoint {
 
     @GET
     @Secured
-    @Path(("/{projectUid}"))
-    @Produces("application/octet-stream")
-    public OutputStream get(@PathParam("projectUid") String projectUid,
-                            @Context SecurityContext securityContext) throws SQLException, FileNotFoundException {
+    @Path("/{projectUid}")
+    @Produces({"application/octet-stream"})
+    public Response get(@PathParam("projectUid") String projectUid,
+                            @Context SecurityContext securityContext) throws SQLException, IOException {
         String username = securityContext.getUserPrincipal().getName();
         User user = this.usersDAO.findByUsername(username);
 
@@ -110,7 +110,7 @@ public class ProjectEndpoint {
         }
 
         // TODO check permission
-        return new FileOutputStream(dbProject.getPath());
+        return Response.ok(Files.readAllBytes(Paths.get(dbProject.getPath())), "application/octet-stream").build();
 
     }
 

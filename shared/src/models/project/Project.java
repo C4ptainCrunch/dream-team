@@ -241,7 +241,7 @@ public class Project extends Observable implements Comparable<Project>{
      */
     @Override
     public String toString() {
-        return this.getPath().toString();
+        return this.getName();
     }
 
     /**

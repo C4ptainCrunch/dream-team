@@ -62,7 +62,7 @@ public class ProjectManagementController {
 
         String text = null;
         try {
-            text = String.format(ProjectManagement.BLANK_INFO_PANEL, selectedProject.getName(), "Local",
+            text = String.format(ProjectManagement.BLANK_INFO_PANEL, selectedProject.getPath().toString(),
                         selectedProject.getLastChange().toString());
         } catch (FileSystemNotFoundException e) {
             logger.fine("Get last change from project failed");

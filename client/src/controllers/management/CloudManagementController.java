@@ -6,4 +6,12 @@ public class CloudManagementController {
     public void dropdownSelected(String selectedValue) {
 
     }
+
+    public void openSharedProject() {
+
+    }
+
+    public void setPermissionsToSelectedProject() {
+
+    }
 }

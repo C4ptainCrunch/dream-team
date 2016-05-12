@@ -19,8 +19,7 @@ public class ProjectManagementView extends JPanel {
     private ProjectManagementController controller = new ProjectManagementController(this);
     private JList<Project> projectChooser;
     private JTextPane infoPanel;
-    private JPanel firstButtons;
-    private JPanel secondButtons;
+    private JPanel buttons;
     private JPanel chooserPanel;
     private ManagementView parentView;
 
@@ -41,35 +40,12 @@ public class ProjectManagementView extends JPanel {
         createChooserPanel();
         this.add(this.chooserPanel);
         this.add(this.infoPanel);
-
-        createSecondButtonsPanel();
-    }
-
-
-    private void createSecondButtonsPanel() {
-        this.secondButtons = new JPanel();
-        this.secondButtons.setLayout(new BoxLayout(this.secondButtons, BoxLayout.X_AXIS));
-
-        JButton openRecentProject = new JButton(GUI.ProjectManagement.OPEN_RECENT_BUTTON);
-        openRecentProject.addActionListener(e -> controller.openRecentProject());
-        this.secondButtons.add(openRecentProject);
-
-        JButton rename = new JButton(GUI.ProjectManagement.RENAME_BUTTON);
-        rename.addActionListener(e -> controller.moveProject());
-        this.secondButtons.add(rename);
-
-        JButton uplaod = new JButton("Upload selected project");
-        // TODO : use constant
-        uplaod.addActionListener(e -> controller.uploadProject());
-        this.secondButtons.add(uplaod);
-
-
-        this.add(this.secondButtons);
-
+        createButtonsPanel();
     }
 
     private void createChooserPanel() {
         this.chooserPanel = new JPanel();
+        this.chooserPanel.setPreferredSize(new Dimension(300,100));
         this.chooserPanel.setLayout(new BorderLayout());
 
         Vector<Project> recentProjects = new Vector<>(RecentProjects.getRecentProjects());
@@ -90,7 +66,27 @@ public class ProjectManagementView extends JPanel {
         this.infoPanel = new JTextPane();
         this.infoPanel.setOpaque(false);
         this.infoPanel.setEnabled(false);
-        this.infoPanel.setPreferredSize(new Dimension(100,100));
+        this.infoPanel.setPreferredSize(new Dimension(100,50));
+    }
+
+    private void createButtonsPanel() {
+        this.buttons = new JPanel();
+        this.buttons.setLayout(new BoxLayout(this.buttons, BoxLayout.X_AXIS));
+
+        JButton openRecentProject = new JButton(GUI.ProjectManagement.OPEN_RECENT_BUTTON);
+        openRecentProject.addActionListener(e -> controller.openRecentProject());
+        this.buttons.add(openRecentProject);
+
+        JButton rename = new JButton(GUI.ProjectManagement.RENAME_BUTTON);
+        rename.addActionListener(e -> controller.moveProject());
+        this.buttons.add(rename);
+
+        JButton upload = new JButton("Upload selected project");
+        // TODO : use constant
+        upload.addActionListener(e -> controller.uploadProject());
+        this.buttons.add(upload);
+        this.add(this.buttons);
+
     }
 
     /**
@@ -109,6 +105,9 @@ public class ProjectManagementView extends JPanel {
         this.infoPanel.setText(infoText);
     }
 
+    /**
+     * Dispose of the parent view
+     */
     public void dispose() {
         this.parentView.dispose();
     }

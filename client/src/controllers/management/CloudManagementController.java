@@ -29,7 +29,9 @@ public class CloudManagementController {
     }
 
     public void dropdownSelected(models.databaseModels.Project selectedProject) {
-
+        String infoText = "INFORMATION ABOUT SELECTED PROJECT:\nCreator: PLACEHOLDER\nLast revision: "+
+                          selectedProject.getLast_modification()+"\nWrite Permission: PLACEHOLDER";
+        this.view.setInfoText(infoText);
     }
 
     public void openSharedProject() {

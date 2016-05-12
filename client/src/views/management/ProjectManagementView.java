@@ -18,7 +18,7 @@ import controllers.management.ProjectManagementController;
 public class ProjectManagementView extends JPanel {
     private ProjectManagementController controller = new ProjectManagementController(this);
     private JList<Project> projectChooser;
-    private JTextPane infoPanel;
+    private JTextPane cloudInfoPanel;
     private JPanel buttons;
     private JPanel chooserPanel;
     private ManagementView parentView;
@@ -39,7 +39,7 @@ public class ProjectManagementView extends JPanel {
         createInfoPanel();
         createChooserPanel();
         this.add(this.chooserPanel);
-        this.add(this.infoPanel);
+        this.add(this.cloudInfoPanel);
         createButtonsPanel();
     }
 
@@ -69,11 +69,11 @@ public class ProjectManagementView extends JPanel {
     }
 
     private void createInfoPanel() {
-        this.infoPanel = new JTextPane();
-        this.infoPanel.setOpaque(false);
-        this.infoPanel.setEnabled(false);
-        this.infoPanel.setDisabledTextColor(Color.BLACK);
-        this.infoPanel.setPreferredSize(new Dimension(100,50));
+        this.cloudInfoPanel = new JTextPane();
+        this.cloudInfoPanel.setOpaque(false);
+        this.cloudInfoPanel.setEnabled(false);
+        this.cloudInfoPanel.setDisabledTextColor(Color.BLACK);
+        this.cloudInfoPanel.setPreferredSize(new Dimension(100,100));
     }
 
     private void createButtonsPanel() {
@@ -109,7 +109,7 @@ public class ProjectManagementView extends JPanel {
      * @param infoText The selected project's information
      */
     public void setInfoText(String infoText) {
-        this.infoPanel.setText(infoText);
+        this.cloudInfoPanel.setText(infoText);
     }
 
     /**

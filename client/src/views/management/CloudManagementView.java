@@ -109,6 +109,8 @@ public class CloudManagementView extends JPanel {
         return model;
     }
 
+    public void setInfoText(String infoText) { this.infoPanel.setText(infoText); }
+
     public models.databaseModels.Project getSelectedProject() {
         return this.projectChooser.getSelectedValue();
     }

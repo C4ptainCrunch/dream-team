@@ -3,9 +3,7 @@ package views.management;
 import java.awt.*;
 import java.util.Collections;
 import java.util.Vector;
-
 import javax.swing.*;
-
 import models.project.Project;
 import utils.RecentProjects;
 import constants.GUI;
@@ -66,6 +64,7 @@ public class ProjectManagementView extends JPanel {
         this.infoPanel = new JTextPane();
         this.infoPanel.setOpaque(false);
         this.infoPanel.setEnabled(false);
+        this.infoPanel.setDisabledTextColor(Color.BLACK);
         this.infoPanel.setPreferredSize(new Dimension(100,50));
     }
 

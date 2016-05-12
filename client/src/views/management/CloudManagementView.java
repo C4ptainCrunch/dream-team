@@ -61,6 +61,7 @@ public class CloudManagementView extends JPanel {
         this.infoPanel = new JTextPane();
         this.infoPanel.setOpaque(false);
         this.infoPanel.setEnabled(false);
+        this.infoPanel.setDisabledTextColor(Color.BLACK);
         this.infoPanel.setPreferredSize(new Dimension(100,100));
     }
 

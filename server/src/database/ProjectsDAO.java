@@ -5,9 +5,12 @@ import models.databaseModels.Project;
 import utils.Log;
 
 import static database.DAOUtilities.initializationPreparedRequest;
+import static database.DAOUtilities.mapProject;
 import static database.DAOUtilities.silentClosures;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 class ProjectRequests {
@@ -17,7 +20,7 @@ class ProjectRequests {
     public static final String SQL_PROJECT_IS_READABLE = "SELECT default_perm_read FROM Projects WHERE id = ?";
     public static final String SQL_PROJECT_IS_WRITABLE = "SELECT default_perm_write FROM Projects WHERE id = ?";
     public static final String SQL_PROJECT_DELETE = "DELETE FROM Projects WHERE id = ?";
-
+    public static final String SQL_PROJECT_GETALL = "SELECT id, user_id, path, last_modification, default_perm_write, default_perm_read FROM Projects";
 }
 
 public class ProjectsDAO {
@@ -114,5 +117,21 @@ public class ProjectsDAO {
         if (statut == 0) {
             logger.severe("Failed to delete project " + id);
         }
+    }
+
+    public ArrayList<Project> getAllProjects() {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        ArrayList<Project> projects = new ArrayList<>();
+        try {
+            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, ProjectRequests.SQL_PROJECT_GETALL);
+            while (resultSet.next()){
+                projects.add(mapProject(resultSet));
+            }
+        } catch (SQLException e) {
+            logger.severe("Counldn't retrieve all projects");
+        }
+        return projects;
     }
 }

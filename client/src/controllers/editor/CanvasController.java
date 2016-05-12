@@ -216,10 +216,9 @@ public class CanvasController implements Observer {
     public void mousePressed(MouseEvent e, TikzComponent selectedTool) {
         if (view.getIsFocused()) {
             if (selectedTool != null && selectedTool.isNode()) {
-                // this.
-                addNodeToGraph(selectedTool, new Point2D.Float(e.getX(), e.getY()));
+                this.addNodeToGraph(selectedTool, new Point2D.Float(e.getX(), e.getY()));
             } else if (selectedTool != null && selectedTool.isEdge()) {
-                addEdgeToModel(selectedTool, new Point2D.Float(e.getX(), e.getY()));
+                this.addEdgeToModel(selectedTool, new Point2D.Float(e.getX(), e.getY()));
             }
         } else {
             view.requestFocusInWindow();

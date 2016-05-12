@@ -24,10 +24,28 @@ Créer un fichier zip pour le client et le serveur (localisé dans ´zip/´):
 Pour lancer le client ou le serveur depuis les zips générés précédemment, il faut les extraire et lancer le bon exécutable dans le dossier ´bin´.
 Le fichier en ´.bat´ sous windows et celui sans extension sous UNIX.
 
-Créer un jar pour le client (commande a lancer deux fois):
+Créer un jar pour le client :
 
-    gradle onejar
+    gradle onejar && gradle onejar
+    
+    
+Les jar résulatantes se trouvent dans `jar/`.
+Pour les lancer, utilisez `java -jar jar/client.jar` et `java -jar jar/server.jar`
 
+# Configuration :
+
+## Serveur 
+
+Configurez l'envoi de mail avec le serveur smtp avec le fichier `server/config.ini`
+(un exemple se trouve dans `server/config.ini.example`).
+Si le fichier `server/config.ini` n'existe pas, les mails ne seront pas envoyés au smtp mais simplement écrits dans `stdout`
+
+## Client
+
+Le client va se connecter par défaut sur `http://localhost:5555` pour qu'il se connecte ailleurs,
+modifiez la valeur `HOSTNAME` et `PORT` dans `shared/resources/network.properties`.
+
+Vu que le client ne doit pas changer le serveur lui même, les valeurs de configuration sont fixées à la compilation.
 
 # Tests
 

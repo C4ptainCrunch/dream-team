@@ -37,7 +37,7 @@ public class TokenActivationController {
         if(resp.equals(Network.Token.TOKEN_OK)){
             this.view.dispose();
             this.view.correctTokenDialog();
-            new LoginWindowView();
+            java.awt.EventQueue.invokeLater(LoginWindowView::new);
         } else {
             this.view.wrongTokenWarning();
         }

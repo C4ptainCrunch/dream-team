@@ -19,11 +19,7 @@ public final class PdfRenderer {
         writer.close();
     }
 
-    public static void compileAndOpen(File pdfTarget, TikzGraph graph) throws PdfCompilationError {
-        File buildDir = new File(pdfTarget.getParent(), ".build/");
-        File source = new File(buildDir, "source.tex");
-        File pdf = new File(buildDir, "source.pdf");
-
+    private static void createPdfDirectory(File buildDir) throws  PdfCompilationError{
         if (!buildDir.exists()) {
             try {
                 buildDir.mkdir();
@@ -31,22 +27,9 @@ public final class PdfRenderer {
                 throw new PdfCompilationError("Could not create build dir", e);
             }
         }
+    }
 
-        try {
-            toSourceFile(source, graph);
-        } catch (FileNotFoundException | UnsupportedEncodingException e) {
-            throw new PdfCompilationError("Could not write .tex to file", e);
-        }
-
-        Process p;
-        try {
-            String[] tex_compile_command = { "pdflatex", "-output-directory=" + buildDir.getAbsolutePath(), source.getAbsolutePath() };
-            p = Runtime.getRuntime().exec(tex_compile_command);
-
-        } catch (IOException e) {
-            throw new PdfCompilationError("pdflatex failed", e);
-        }
-
+    private static void openCompiledPdf(Process p, File pdf, File pdfTarget ){
         SwingUtilities.invokeLater(() -> {
             try {
                 p.waitFor();
@@ -68,5 +51,28 @@ public final class PdfRenderer {
                 showMessageDialog(null, "Compilation ended : " + pdfTarget.toString());
             }
         });
+    }
+
+    public static void compileAndOpen(File pdfTarget, TikzGraph graph) throws PdfCompilationError {
+        File buildDir = new File(pdfTarget.getParent(), ".build/");
+        File source = new File(buildDir, "source.tex");
+        File pdf = new File(buildDir, "source.pdf");
+
+        createPdfDirectory(buildDir);
+        try {
+            toSourceFile(source, graph);
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            throw new PdfCompilationError("Could not write .tex to file", e);
+        }
+
+        Process p;
+        try {
+            String[] tex_compile_command = { "pdflatex", "-output-directory=" + buildDir.getAbsolutePath(), source.getAbsolutePath() };
+            p = Runtime.getRuntime().exec(tex_compile_command);
+
+        } catch (IOException e) {
+            throw new PdfCompilationError("pdflatex failed", e);
+        }
+        openCompiledPdf(p, pdf, pdfTarget);
     }
 }

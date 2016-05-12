@@ -1,8 +1,9 @@
 package parser;
 
 import constants.Models;
-import junit.framework.Assert;
 import models.tikz.*;
+import static org.junit.Assert.*;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +16,8 @@ import java.util.List;
  * Created by jhellinckx on 26/04/16.
  */
 public class TikzFormatterTest extends SharedTest {
+
+    private final float precision = 0.0001f;
     private TikzGraph graph;
 
     @Before
@@ -31,6 +34,11 @@ public class TikzFormatterTest extends SharedTest {
         return nodes.isEmpty() ? new TikzCircle() : (TikzShape) nodes.get(0);
     }
 
+    private TikzEdge getFirstEdge() {
+        List<TikzEdge> edges = graph.getEdges();
+        return edges.isEmpty() ? new TikzDirectedEdge() : edges.get(0);
+    }
+
     @Test
     public void testStringBackgroundColor() throws Exception{
         final Color testedColor = Color.red;
@@ -39,7 +47,7 @@ public class TikzFormatterTest extends SharedTest {
         String tikzSource = circle.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzCircle parsedCircle = (TikzCircle) getFirstShape();
-        Assert.assertEquals(parsedCircle.getBackgroundColor(),testedColor);
+        assertEquals(parsedCircle.getBackgroundColor(),testedColor);
     }
 
     @Test
@@ -50,7 +58,7 @@ public class TikzFormatterTest extends SharedTest {
         String tikzSource = circle.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzCircle parsedCircle = (TikzCircle) getFirstShape();
-        Assert.assertEquals(parsedCircle.getStroke(),testedStroke);
+        assertEquals(parsedCircle.getStroke(),testedStroke);
     }
 
     @Test
@@ -61,7 +69,7 @@ public class TikzFormatterTest extends SharedTest {
         String tikzSource = circle.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzCircle parsedCircle = (TikzCircle) getFirstShape();
-        Assert.assertEquals(parsedCircle.getStrokeColor(),testedStrokeColor);
+        assertEquals(parsedCircle.getStrokeColor(),testedStrokeColor);
     }
 
     @Test
@@ -74,8 +82,8 @@ public class TikzFormatterTest extends SharedTest {
         String tikzSource = rectangle.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzRectangle parsedRectangle = (TikzRectangle) getFirstShape();
-        Assert.assertEquals(parsedRectangle.getWidth(),testeWidth, 0.01);
-        Assert.assertEquals(parsedRectangle.getLength(),testedHeight, 0.01);
+        assertEquals(parsedRectangle.getWidth(),testeWidth, 0.01);
+        assertEquals(parsedRectangle.getLength(),testedHeight, 0.01);
     }
 
     @Test
@@ -86,7 +94,7 @@ public class TikzFormatterTest extends SharedTest {
         String tikzSource = circle.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzCircle parsedCircle = (TikzCircle) getFirstShape();
-        Assert.assertEquals(parsedCircle.getRadius(),testedRadius, 0.01);
+        assertEquals(parsedCircle.getRadius(),testedRadius, 0.01);
     }
 
     @Test
@@ -97,7 +105,7 @@ public class TikzFormatterTest extends SharedTest {
         String tikzSource = polygon.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzPolygon parsedPolygon = (TikzPolygon) getFirstShape();
-        Assert.assertEquals(parsedPolygon.getSides(),numSidesTested);
+        assertEquals(parsedPolygon.getSides(),numSidesTested);
     }
 
     @Test
@@ -108,7 +116,7 @@ public class TikzFormatterTest extends SharedTest {
         String tikzSource = polygon.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzPolygon parsedPolygon = (TikzPolygon) getFirstShape();
-        Assert.assertEquals(parsedPolygon.getLength(),testedLength, 0.01);
+        assertEquals(parsedPolygon.getLength(),testedLength, 0.01);
     }
 
     @Test
@@ -117,9 +125,22 @@ public class TikzFormatterTest extends SharedTest {
         String tikzSource = circle.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzCircle parsedCircle = (TikzCircle) getFirstShape();
-        Assert.assertEquals(parsedCircle.getRadius(), Models.DEFAULT.LENGTH);
-        Assert.assertEquals(parsedCircle.getBackgroundColor(), Models.DEFAULT.BACKGROUND_COLOR);
-        Assert.assertEquals(parsedCircle.getStrokeColor(), Models.DEFAULT.COLOR);
-        Assert.assertEquals(parsedCircle.getStroke(), Models.DEFAULT.STROKE);
+        assertEquals(parsedCircle.getRadius(), Models.DEFAULT.LENGTH, precision);
+        assertEquals(parsedCircle.getBackgroundColor(), Models.DEFAULT.BACKGROUND_COLOR);
+        assertEquals(parsedCircle.getStrokeColor(), Models.DEFAULT.COLOR);
+        assertEquals(parsedCircle.getStroke(), Models.DEFAULT.STROKE);
+    }
+
+    @Test
+    public void testDirectedEdgeFormat() throws Exception{
+        TikzCircle node1 = new TikzCircle();
+        TikzCircle node2 = new TikzCircle();
+        this.graph.add(node1);
+        this.graph.add(node2);
+        TikzDirectedEdge edge = new TikzDirectedEdge(node1, node2);
+        String edgeSource = edge.toString();
+        NodeParser.parseDocument(graph).parse(edgeSource);
+        TikzEdge parsedEdge = getFirstEdge();
+        assertEquals(edge.toString(), parsedEdge.toString());
     }
 }

@@ -83,12 +83,12 @@ public class ProjectEndpoint {
         return Response.ok().build();
     }
 
-    @POST
+    @PUT
     @Secured
-    @Path("/update")
-    @Consumes("multipart/form-data")
-    public Response update(@FormDataParam("project") InputStream project,
-                           @FormParam("userChoice") String userChoice,
+    @Path("/update/{userChoice}")
+    @Consumes("application/octet-stream")
+    public Response update(@PathParam("userChoice") String userChoice,
+                           InputStream project,
                            @Context SecurityContext securityContext) throws IOException, SQLException {
         String username = securityContext.getUserPrincipal().getName();
         User user = usersDAO.findByUsername(username);

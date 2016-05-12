@@ -69,7 +69,7 @@ public class CanvasView extends JPanel {
         return controller;
     }
 
-    private void highlightTextArea(MouseEvent e){
+    private void highlightTextArea(){
         if (selection != null){
             parentView.highlightTextZone(controller.getSelectedComponents(selection.getSelectionRectangle()));
         }
@@ -105,7 +105,7 @@ public class CanvasView extends JPanel {
 
             @Override
             public void mouseReleased(MouseEvent e){
-                highlightTextArea(e);
+                highlightTextArea();
             }
         });
     }

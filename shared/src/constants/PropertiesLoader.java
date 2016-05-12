@@ -60,7 +60,7 @@ public class PropertiesLoader {
 }
 
 interface PropertiesReader{
-    public void read(Properties properties);
+    void read(Properties properties);
 }
 
 class ModelsPropertiesReader implements PropertiesReader{

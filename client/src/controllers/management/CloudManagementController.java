@@ -54,10 +54,11 @@ public class CloudManagementController {
 
             Path projectPath = CloudLogic.getLocalOrDistantCopy(dbProject);
 
-            Path cloudDir = Dirs.getDataDir().resolve("cloud");
+            Path cloudDir = Dirs.getDataDir().resolve("cloud/" + CloudLogic.getUsername());
             Path path = cloudDir.resolve(dbProject.getUid() + ".crea");
 
             if (!projectPath.equals(path)) {
+                logger.fine("Writing project to path: " + path.toString());
                 Files.move(projectPath, path);
             }
 

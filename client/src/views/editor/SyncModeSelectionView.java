@@ -2,6 +2,7 @@ package views.editor;
 
 import constants.Errors;
 import controllers.editor.SyncModeSelectionController;
+import views.management.ManagementView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,8 @@ public class SyncModeSelectionView extends JFrame {
     private String flag;
     private JList<String> optionsList;
     private Vector<String> optionNames;
-
+    private JPanel syncPanel;
+    private Object selection;
 
     public SyncModeSelectionView(String flag) {
         this.controller = new SyncModeSelectionController(this);
@@ -23,16 +25,19 @@ public class SyncModeSelectionView extends JFrame {
 
     private void render() {
         this.setTitle("TikzCreator : choose a sync method");
-        this.setPreferredSize(new Dimension(400, 250));
+        this.setPreferredSize(new Dimension(300, 160));
         this.setLocationRelativeTo(null);
-        this.setLayout(new BorderLayout());
+        this.setResizable(false);
+
+        this.syncPanel = new JPanel();
+        this.syncPanel.setLayout(new BoxLayout(this.syncPanel, BoxLayout.Y_AXIS));
 
         createSelectionList();
         createButton();
 
+        this.add(this.syncPanel);
         this.pack();
         this.setVisible(true);
-
     }
 
     private void createSelectionList() {
@@ -47,21 +52,29 @@ public class SyncModeSelectionView extends JFrame {
         }
 
         JPanel diagramPanel = new JPanel();
-        JList options = new JList(this.optionNames);
+        this.optionsList = new JList(this.optionNames);
 
-        options.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        options.setLayoutOrientation(JList.VERTICAL);
-        options.setVisibleRowCount(-1);
-        options.setSelectedIndex(0);
+        this.optionsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.optionsList.setLayoutOrientation(JList.VERTICAL);
+        this.optionsList.setVisibleRowCount(-1);
+        this.optionsList.setSelectedIndex(0);
 
-        JScrollPane listScroller = new JScrollPane(options);
+        JScrollPane listScroller = new JScrollPane(this.optionsList);
         listScroller.setPreferredSize(new Dimension(250, 130));
 
         diagramPanel.add(listScroller);
-        this.add(diagramPanel, BorderLayout.NORTH);
+        this.syncPanel.add(diagramPanel);
     }
 
     private void createButton() {
+        JButton syncButton = new JButton("Sync");
+        syncButton.addActionListener(actionEvent -> {
+            this.controller.activateSelection();
+        });
+        this.syncPanel.add(syncButton);
+    }
 
+    public String getSelection() {
+        return this.optionsList.getSelectedValue();
     }
 }

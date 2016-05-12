@@ -2,6 +2,7 @@ package views.management;
 
 import controllers.management.CloudManagementController;
 import misc.logic.CloudLogic;
+import models.project.Project;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +11,7 @@ import java.util.List;
 public class CloudManagementView extends JPanel {
 
     private ManagementView parentView;
-    private CloudManagementController controller = new CloudManagementController();
+    private CloudManagementController controller;
     private JList<models.databaseModels.Project> projectChooser;
     private JTextPane infoPanel;
     private JPanel chooserPanel;
@@ -18,6 +19,7 @@ public class CloudManagementView extends JPanel {
 
 
     public CloudManagementView(ManagementView parentView) {
+        this.controller = new CloudManagementController(this);
         this.parentView = parentView;
         this.render();
     }
@@ -73,6 +75,10 @@ public class CloudManagementView extends JPanel {
         JButton setPermissions = new JButton("Set permissions");
         setPermissions.addActionListener(e -> controller.setPermissionsToSelectedProject());
         this.buttons.add(setPermissions);
+
+        JButton local = new JButton("Get local copy");
+        local.addActionListener(e -> controller.getLocalCopy());
+        this.buttons.add(local);
     }
 
     public void dispose() {
@@ -90,5 +96,9 @@ public class CloudManagementView extends JPanel {
             projectsList.forEach(model::addElement);
         }
         return model;
+    }
+
+    public models.databaseModels.Project getSelectedProject() {
+        return this.projectChooser.getSelectedValue();
     }
 }

@@ -11,10 +11,7 @@ import javax.swing.*;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -23,6 +20,7 @@ import java.util.logging.Logger;
 
 public class CloudLogic {
     private static Logger logger = Log.getLogger(CloudLogic.class);
+    private static String username = "";
 
     private CloudLogic() {
     }
@@ -63,11 +61,12 @@ public class CloudLogic {
 
 
     public static Path getLocalOrDistantCopy(models.databaseModels.Project project) throws IOException {
-        Path cloudDir = Dirs.getDataDir().resolve("cloud");
-        if (!cloudDir.toFile().exists()) {
+        Path cloudDir = Dirs.getDataDir().resolve("cloud/" + CloudLogic.getUsername());
+        if(!cloudDir.toFile().exists()) {
             Files.createDirectories(cloudDir);
         }
         Path path = cloudDir.resolve(project.getUid() + ".crea");
+        logger.fine("Trying to open project at " + path.toString());
         try {
             if (new Project(path).getUid().equals(project.getUid())) {
                 logger.info("Project " + project.getUid() + " was not on disk");
@@ -80,11 +79,29 @@ public class CloudLogic {
         return CloudLogic.getLocalCopy(project);
     }
 
-    public static boolean AskForMerge(Project p) {
-        return true;
+    public static boolean AskForMerge(Project p) throws FileNotFoundException {
+        InputStream stream = new FileInputStream(p.getPath().toFile());
+        Response r = RequestBuilder
+                .put("/project/checkConflicts", stream, MediaType.APPLICATION_OCTET_STREAM)
+                .invoke();
+        String s=  r.readEntity(String.class);
+        System.out.println(s);
+        return s.equals("true");
     }
 
-    public static boolean Merge(Project p, String policy) {
-        return true;
+    public static boolean Merge(Project p, String policy) throws FileNotFoundException {
+        InputStream stream = new FileInputStream(p.getPath().toFile());
+        Response r = RequestBuilder
+                .put("/project/update/" + policy, stream, MediaType.APPLICATION_OCTET_STREAM)
+                .invoke();
+        return r.getStatus() == 200;
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static void setUsername(String username) {
+        CloudLogic.username = username;
     }
 }

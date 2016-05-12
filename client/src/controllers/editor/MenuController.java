@@ -5,6 +5,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,6 +16,7 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
+import constants.ProjectConflicts;
 import misc.logic.CloudLogic;
 import models.project.Diagram;
 import models.project.Project;
@@ -196,41 +198,44 @@ public class MenuController implements Observer {
      * to ask the user which sync mode he desires.
      */
     public void syncProject(){
-        Project p = this.view.getDiagram().getProject();
-        boolean hasConflicts = CloudLogic.AskForMerge(p);
-        String policy = null;
-        if (hasConflicts){
-            SyncModeSelectionView sv = new SyncModeSelectionView(p);
-            policy = sv.getMode();
-        } else {
-            policy = "DEFAULT CHOICE";
-        }
-
-        logger.info("Starting merge with policy: " + policy);
-
-        if(CloudLogic.Merge(p, policy)) {
-            try {
-                Path tmp = CloudLogic.getLocalCopy(p.getUid());
-                Files.move(tmp, p.getPath(), StandardCopyOption.REPLACE_EXISTING);
-
-                this.view.disposeParent();
-                this.view.syncOKPopup();
-                java.awt.EventQueue.invokeLater(() -> {
-                    try {
-                        String oldDiagramName = this.view.getDiagram().getName();
-                        Project newProject = new Project(p.getPath());
-                        new EditorView(newProject.getDiagram(oldDiagramName));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-                return;
-            } catch (IOException e) {
-                logger.warning("Merge with policy failed");
-                e.printStackTrace();
+        try {
+            Project p = this.view.getDiagram().getProject();
+            boolean hasConflicts = CloudLogic.AskForMerge(p);
+            String policy = null;
+            if (hasConflicts) {
+                SyncModeSelectionView sv = new SyncModeSelectionView(p);
+                policy = sv.getMode();
+            } else {
+                policy = ProjectConflicts.PUSH;
             }
-        }
 
+            logger.info("Starting merge with policy: " + policy);
+
+            if (CloudLogic.Merge(p, policy)) {
+                try {
+                    Path tmp = CloudLogic.getLocalCopy(p.getUid());
+                    Files.move(tmp, p.getPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                    this.view.disposeParent();
+                    this.view.syncOKPopup();
+                    java.awt.EventQueue.invokeLater(() -> {
+                        try {
+                            String oldDiagramName = this.view.getDiagram().getName();
+                            Project newProject = new Project(p.getPath());
+                            new EditorView(newProject.getDiagram(oldDiagramName));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    return;
+                } catch (IOException e) {
+                    logger.warning("Merge with policy failed");
+                    e.printStackTrace();
+                }
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
         logger.warning("Merge failed");
 
     }

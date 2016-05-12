@@ -1,13 +1,17 @@
 package utils;
 
 import constants.ProjectConflicts;
+import models.project.Diagram;
 import models.project.Diff;
+import models.project.Project;
+import models.tikz.TikzGraph;
+import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
+import org.codehaus.jparsec.error.ParserException;
 import parser.DiffParser;
+import parser.NodeParser;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -15,14 +19,27 @@ import java.util.logging.Logger;
  */
 public class ConflictResolver{
     private final static Logger logger = Log.getLogger(ConflictResolver.class);
+    private Project localProject;
+    private Project serverProject;
     private List<Diff> baseDiffs;
     private List<Diff> localDiffs = new ArrayList<>();
     private List<Diff> serverDiffs = new ArrayList<>();
     private List<Diff> differenceDiffsBaseServer = new ArrayList<>();
     private List<Diff> differenceDiffsBaseLocal = new ArrayList<>();
+    private Project finalProject;
 
 
     public ConflictResolver(){
+    }
+
+    /**
+     * Constructor for a Conflict Resolver between two projects
+     * @param localProject the localProject to resolve conflicts
+     * @param serverProject the serverProject to resolve conflicts
+     */
+    public ConflictResolver(Project localProject, Project serverProject){
+        this.localProject = localProject;
+        this.serverProject = serverProject;
     }
 
     /**
@@ -46,6 +63,14 @@ public class ConflictResolver{
 
     }
 
+    private void update(List<Diff> localDiffs, List<Diff> serverDiffs){
+        this.localDiffs = localDiffs;
+        this.serverDiffs = serverDiffs;
+        constructBaseDiffs();
+        differenceDiffsBaseServer = getDifferenceDiffs(baseDiffs, serverDiffs);
+        differenceDiffsBaseLocal = getDifferenceDiffs(baseDiffs, localDiffs);
+    }
+
     private void constructBaseDiffs(){
         baseDiffs = new ArrayList<>();
         for(int i = 0 ; i< Math.min(localDiffs.size(),serverDiffs.size());i++){
@@ -54,6 +79,68 @@ public class ConflictResolver{
             }else{
                 break;
             }
+        }
+    }
+
+    /**
+     * Resolve conflicts between two projects. One from the user and the server's one.
+     * @param userChoice The conflict resolution choice of the user.
+     *                  It can be PUSH, PUSH FORCE, USER MERGE, OTHER USER MERGE AND OTHER USER PUSH FORCE (see projectconflicts.properties).
+     * @return The Project resulting from the conflicts resolution
+     * @throws IOException If an I/O failed.
+     * @throws ClassNotFoundException @see Diagram#getDiffs.
+     */
+
+    public Project resolve(String userChoice) throws IOException, ClassNotFoundException {
+        this.finalProject = new models.project.Project();
+        List<String> resolvedDiagrams = new ArrayList<>();
+        Set<String> localDiagramNames = localProject.getDiagramNames();
+        Set<String> serverDiagramNames = serverProject.getDiagramNames();
+        for(String localDiagram : localDiagramNames){
+            resolveLocalDiagrams(localDiagram, serverDiagramNames, userChoice, resolvedDiagrams);
+        }
+        for(String serverDiagram : serverDiagramNames){
+            resolveServerDiagrams(resolvedDiagrams, serverDiagram);
+
+        }
+        return this.finalProject;
+    }
+
+    private void resolveServerDiagrams(List<String> resolvedDiagrams, String serverDiagram) {
+        if(!resolvedDiagrams.contains(serverDiagram)) {
+            Diagram resolvedDiagram = new Diagram(serverDiagram, this.finalProject);
+            try {
+                List<Diff> finalDiagramDiffs = serverProject.getDiagram(serverDiagram).getDiffs();
+                resolvedDiagram.writeDiffs(finalDiagramDiffs);
+                this.finalProject.writeSource(serverDiagram, serverProject.getDiagram(serverDiagram).getSource());
+            }catch(IOException | ClassNotFoundException e){
+                logger.severe("A problem occured while resolving server diagrams");
+            }
+        }
+    }
+
+    private void resolveLocalDiagrams(String localDiagram, Set<String> serverDiagramNames, String userChoice, List<String> resolvedDiagrams) {
+        try {
+            Diagram resolvedDiagram = this.finalProject.getDiagram(localDiagram);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        List<Diff> finalDiagramDiffs;
+        String tikZCode;
+        try {
+            if (serverDiagramNames.contains(localDiagram)) {
+                update(localProject.getDiagram(localDiagram).getDiffs(), serverProject.getDiagram(localDiagram).getDiffs());
+                finalDiagramDiffs = resolveDiagram(userChoice);
+                tikZCode = createTikzFromDiffs(finalDiagramDiffs);
+            } else {
+                finalDiagramDiffs = localProject.getDiagram(localDiagram).getDiffs();
+                tikZCode = localProject.getDiagram(localDiagram).getSource();
+            }
+            //resolvedDiagram.writeDiffs(finalDiagramDiffs);
+            this.finalProject.writeSource(localDiagram, tikZCode);
+            resolvedDiagrams.add(localDiagram);
+        }catch(IOException | ClassNotFoundException e){
+            logger.severe("A problem occured whil resolving local diagrams");
         }
     }
 
@@ -67,11 +154,11 @@ public class ConflictResolver{
      * diffs from local diffs that causes conflicts
      *
      * @param userChoice
-     *          The choice of the user wheter the user wants to keep local or server version
+     *          The choice of the user whether the user wants to keep local or server version
      *          or wants to merge versions
      * @return  The merged diffs
      */
-    public List<Diff> resolve(String userChoice){
+    private List<Diff> resolveDiagram(String userChoice){
         List<List<Integer>> conflictsIndexes = getConflictsIndexes(differenceDiffsBaseLocal, differenceDiffsBaseServer, false);
         List<Integer> localConflictsIndexes = conflictsIndexes.get(0);
         List<Integer> serverConflictsIndexes = conflictsIndexes.get(1);
@@ -88,7 +175,7 @@ public class ConflictResolver{
             resolvedDiffs.addAll(differenceDiffsBaseServer);
             addConflictsIndexes(differenceDiffsBaseLocal, localConflictsIndexes, resolvedDiffs);
         }else{
-            //TODO: merge
+            //TODO: fusion
         }
         return resolvedDiffs;
     }
@@ -110,31 +197,89 @@ public class ConflictResolver{
         }
     }
 
-
     /**
-     * Checks wheter local and server versions have conflicts lines
-     * @return Wheter local and server versions have conflicts lines
+     * Checks whether local and server projects have conflicts lines
+     * @return Whether local and server projects have conflicts lines
+     * @throws IOException
+     * @throws ClassNotFoundException
      */
-    public Integer checkHasConflict(){
-        if(differenceDiffsBaseServer.size()==0){
-            //TODO: Push ok, no modifications done on server
-            return 0;
-        }else {
-            if (differenceDiffsBaseLocal.size() == 0) {
-                //TODO: Keep server version, don't "push" because no modification done locally
-                return 2;
-            } else {
-                List<List<Integer>> hasConflict = getConflictsIndexes(differenceDiffsBaseLocal, differenceDiffsBaseServer,true);
-                if(hasConflict.size() == 1){
-                    //TODO: alert the user that his push has conflict(s)
-                    return 1;
-                }else{
-                    //TODO: push ok, no conflicts
-                    return 0;
+    public Boolean checkHasConflict() throws IOException, ClassNotFoundException {
+        List<String> checkedDiagram = new ArrayList<>();
+        Set<String> localDiagramNames = localProject.getDiagramNames();
+        Set<String> serverDiagramNames = serverProject.getDiagramNames();
+        Boolean conflicts = checkListConflicts(localDiagramNames, serverDiagramNames, checkedDiagram);
+        if(!conflicts){
+            conflicts = checkListConflicts(serverDiagramNames, localDiagramNames, checkedDiagram);
+        }
+        return conflicts;
+    }
+
+    private Boolean checkListConflicts(Set<String> diagramNamesList, Set<String> otherDiagramList, List<String> checkedDiagram) throws IOException,ClassNotFoundException{
+        Boolean conflicts = false;
+        for(String diagram : diagramNamesList){
+            if(! checkedDiagram.contains(diagram)) {
+                if (otherDiagramList.contains(diagram)) {
+                    update(localProject.getDiagram(diagram).getDiffs(), serverProject.getDiagram(diagram).getDiffs());
+                    String conflict = checkDiagramHasConflict();
+                    if (conflict.equals(ProjectConflicts.MERGE_HAS_CONFLICTS)) {
+                        conflicts = true;
+                        break;
+                    }
+                    checkedDiagram.add(diagram);
+                } else {
+                    checkedDiagram.add(diagram);
                 }
             }
         }
+        return conflicts;
+    }
 
+    /**
+     * Checks whether local and server versions have conflicts lines
+     * @return Whether local and server versions have conflicts lines
+     */
+    public String checkDiagramHasConflict(){
+        if(differenceDiffsBaseServer.size()==0){
+            return ProjectConflicts.MERGE_OK;
+        }else {
+            if (differenceDiffsBaseLocal.size() == 0) {
+                return ProjectConflicts.NO_LOCAL_MODIFICATION;
+            } else {
+                List<List<Integer>> hasConflict = getConflictsIndexes(differenceDiffsBaseLocal, differenceDiffsBaseServer,true);
+                if(hasConflict.size() == 1){
+                    return ProjectConflicts.MERGE_HAS_CONFLICTS;
+                }else{
+                    return ProjectConflicts.MERGE_OK;
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns the Tikz code created from a list of diffs
+     * @param diffs the given list of diffs
+     * @return the Tikz code created
+     */
+    public String createTikzFromDiffs(List<Diff> diffs){
+        DiffMatchPatch dmp = new DiffMatchPatch();
+        List<DiffMatchPatch.Patch> patches = new LinkedList<>();
+        for(Diff diff : diffs){
+            patches.addAll(dmp.patchFromText(diff.getPatch()));
+        }
+        String original = "";
+        final Object[] modified = dmp.patchApply((LinkedList<DiffMatchPatch.Patch>) patches, original);
+        return (String) modified[0];
+    }
+
+    public String constructFusionDiagram(String tikzCode) {
+        TikzGraph new_graph = new TikzGraph();
+        try {
+            NodeParser.parseDocument(new_graph).parse(tikzCode);
+        } catch (ParserException e) {
+            logger.info("Error during TikZ parsing : " + e.getMessage());
+            return "";
+        }
+        return new_graph.toString();
     }
 
     /**

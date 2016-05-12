@@ -1,5 +1,6 @@
 package endpoints;
 
+import constants.ProjectConflicts;
 import database.DAOFactorySingleton;
 import database.PermissionsDAO;
 import database.ProjectsDAO;
@@ -8,6 +9,8 @@ import middleware.Secured;
 import models.databaseModels.Permissions;
 import models.databaseModels.Project;
 import models.databaseModels.User;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+import utils.ConflictResolver;
 import utils.Log;
 
 import javax.ws.rs.*;
@@ -29,6 +32,14 @@ public class ProjectEndpoint {
     UsersDAO usersDAO = DAOFactorySingleton.getInstance().getUsersDAO();
     PermissionsDAO permissionsDAO = DAOFactorySingleton.getInstance().getPermissionsDAO();
     private final static Logger logger = Log.getLogger(ProjectEndpoint.class);
+
+    private void moveProject(models.project.Project p) throws IOException{
+        java.nio.file.Path storageDir = Paths.get("server/projects/");
+        if(!storageDir.toFile().exists()){
+            Files.createDirectories(storageDir);
+        }
+        p.move(storageDir.resolve(p.getUid() + ".crea").toFile());
+    }
 
     @GET
     @Secured
@@ -65,12 +76,7 @@ public class ProjectEndpoint {
         if (projectsDAO.findByUid(p.getUid()) != null){
             throw new BadRequestException("Project already exist");
         }
-
-        java.nio.file.Path storageDir = Paths.get("server/projects/");
-        if(!storageDir.toFile().exists()){
-            Files.createDirectories(storageDir);
-        }
-        p.move(storageDir.resolve(p.getUid() + ".crea").toFile());
+        moveProject(p);
 
         Project dbProject = new Project(p);
         dbProject.setUserID(user.getId());
@@ -83,26 +89,65 @@ public class ProjectEndpoint {
 
     @PUT
     @Secured
-    @Path("/update")
+    @Path("/update/{userChoice}")
     @Consumes("application/octet-stream")
-    public Response update(InputStream project,
-                           @Context SecurityContext securityContext) throws IOException, SQLException {
+    public Response update(@PathParam("userChoice") String userChoice,
+                           InputStream project,
+                           @Context SecurityContext securityContext) throws IOException, SQLException, ClassNotFoundException {
         String username = securityContext.getUserPrincipal().getName();
         User user = usersDAO.findByUsername(username);
 
         java.nio.file.Path tmpFile = File.createTempFile("project-upload", ".crea").toPath();
+        Files.copy(project, tmpFile, StandardCopyOption.REPLACE_EXISTING);
 
-        models.project.Project p = new models.project.Project(tmpFile);
-        if (projectsDAO.findByUid(p.getUid()) != null){
+        models.project.Project clientProject = new models.project.Project(tmpFile);
+        Project dbServerProject = projectsDAO.findByUid(clientProject.getUid());
+        if (dbServerProject == null){
             throw new BadRequestException("Project does not exist");
         }
 
-        Project dbProject = new Project(p);
-        if(!hasWritePerm(dbProject, user)){
+        models.project.Project serverProject = new models.project.Project(Paths.get(dbServerProject.getPath()));
+        if(!hasWritePerm(dbServerProject, user)){
             throw new NotAuthorizedException("You can't edit this project");
         }
 
+        if(userChoice == ProjectConflicts.PUSH){
+            userChoice = ProjectConflicts.SAVE_USER_VERSION;
+        }
+
+        ConflictResolver conflictResolver = new ConflictResolver(clientProject, serverProject);
+        models.project.Project finalProject = conflictResolver.resolve(userChoice);
+        finalProject.setUid(serverProject.getUid());
+        File initFile = new File(serverProject.getPath().toString());
+        initFile.delete();
+        moveProject(finalProject);
         return Response.ok().build();
+    }
+
+    @PUT
+    @Secured
+    @Path("/checkConflicts")
+    @Consumes("application/octet-stream")
+    public Boolean checkConflicts(InputStream project,
+                                  @Context SecurityContext securityContext) throws IOException, SQLException, ClassNotFoundException {
+        String username = securityContext.getUserPrincipal().getName();
+        User user = usersDAO.findByUsername(username);
+
+        java.nio.file.Path tmpFile = File.createTempFile("project-upload", ".crea").toPath();
+        Files.copy(project, tmpFile, StandardCopyOption.REPLACE_EXISTING);
+
+        models.project.Project clientProject = new models.project.Project(tmpFile);
+        Project dbServerProject = projectsDAO.findByUid(clientProject.getUid());
+        if (dbServerProject == null){
+            throw new BadRequestException("Project does not exist");
+        }
+        models.project.Project serverProject = new models.project.Project(Paths.get(dbServerProject.getPath()));
+        if(!hasWritePerm(dbServerProject, user)){
+            throw new NotAuthorizedException("You can't edit this project");
+        }
+        ConflictResolver resolver = new ConflictResolver(clientProject, serverProject);
+        Boolean res=  resolver.checkHasConflict();
+        return res;
     }
 
     @GET

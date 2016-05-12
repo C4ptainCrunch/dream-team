@@ -1,5 +1,6 @@
 package utils;
 
+import constants.ProjectConflicts;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,12 +34,12 @@ public class ConflictResolverTest {
     @Test
     public void testcheckHasConflict() throws Exception {
         conflictResolver.update(localFile, baseFile);
-        assertEquals(conflictResolver.checkHasConflict(), new Integer(0));
+        assertEquals(conflictResolver.checkDiagramHasConflict(), ProjectConflicts.MERGE_OK);
 
         conflictResolver.update(localFile, conflictFile);
-        assertEquals(conflictResolver.checkHasConflict(), new Integer(2));
+        assertEquals(conflictResolver.checkDiagramHasConflict(), ProjectConflicts.NO_LOCAL_MODIFICATION);
 
         conflictResolver.update(localFile, oneConflictOneSimpleAdd);
-        assertEquals(conflictResolver.checkHasConflict(), new Integer(1));
+        assertEquals(conflictResolver.checkDiagramHasConflict(), ProjectConflicts.MERGE_HAS_CONFLICTS);
     }
 }

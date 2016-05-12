@@ -63,4 +63,3 @@ class TokensPropertiesReader implements PropertiesReader{
         TOKEN_ALPHABET = properties.getProperty("TOKEN_ALPHABET");
     }
 }
-

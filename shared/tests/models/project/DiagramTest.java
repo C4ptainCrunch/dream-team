@@ -91,12 +91,7 @@ public class DiagramTest extends SharedTest {
         Diagram d = new Diagram("my-diagram", project);
         assertEquals(d.getName(), "my-diagram");
     }
-//
-//    @Test
-//    public void testSave() throws Exception {
-//        // TODO
-//    }
-//
+
     @Test
     public void testGetDiskTikz() throws Exception {
         final String tikz = "\\node[circle, draw]() at (0,0) {test-label}";

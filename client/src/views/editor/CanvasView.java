@@ -62,7 +62,6 @@ public class CanvasView extends JPanel {
      */
     private void render() {
         setFocusable(true);
-        // requestFocusInWindow();
     }
 
     public CanvasController getController() {

@@ -63,7 +63,6 @@ public class SignUpController {
             this.view.initWarning(Warnings.EMAIL_WARNING);
         }
 
-        // PASSWORD VALIDATION HERE: Need to discuss password rules.
         if(firstNameCheck && lastNameCheck && userNameCheck && emailCheck) {
             accountCreation(fields, passwordField);
         }

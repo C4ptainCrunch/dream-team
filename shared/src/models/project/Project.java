@@ -3,9 +3,7 @@ package models.project;
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 import java.util.logging.Logger;
@@ -235,6 +233,28 @@ public class Project extends Observable implements Comparable<Project>{
             Path sourcePath = fs.getPath("/" + name + ".tikz");
             Files.write(sourcePath, tikz.getBytes(), TRUNCATE_EXISTING, CREATE);
             logger.fine("Source written");
+        }
+    }
+
+    synchronized private Properties getProperties() throws IOException {
+        try (FileSystem fs = getFs()) {
+            Path propsPath = fs.getPath("/" + "metadata.properties");
+            Properties props = new Properties();
+            byte[] bytes = Files.readAllBytes(propsPath);
+            ByteArrayInputStream bs = new ByteArrayInputStream(bytes);
+            props.load(bs);
+            bs.close();
+            return props;
+        }
+    }
+
+    synchronized private void Properties(Properties props) throws IOException {
+        try (FileSystem fs = getFs()) {
+            Path propsPath = fs.getPath("/" + "metadata.properties");
+            ByteArrayOutputStream bs = new ByteArrayOutputStream();
+            props.store(bs, null);
+            Files.write(propsPath, bs.toByteArray(), TRUNCATE_EXISTING, CREATE);
+            bs.close();
         }
     }
 

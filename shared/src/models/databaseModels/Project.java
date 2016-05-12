@@ -15,8 +15,8 @@ public class Project {
 
     public Project(models.project.Project project) throws IOException {
         this.path = project.getPath().toString();
-        this.userID = project.getUserID();
-        this.uid = project.getID();
+        this.uid = project.getUid();
+        this.userID = 0;
         this.last_modification = project.getLastChange().toString();
         this.write_default = project.getWriteDefault();
         this.read_default = project.getReadDefault();

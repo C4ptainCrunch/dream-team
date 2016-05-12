@@ -104,6 +104,7 @@ public class ProjectManagementController {
             try {
                 project.move(path);
                 RecentProjects.addProject(project);
+                this.view.getParentView().refresh();
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(view, Errors.RENAME_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
                 logger.severe("Failed to rename the diagram: " + e.getMessage());

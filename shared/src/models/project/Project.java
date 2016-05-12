@@ -11,7 +11,6 @@ import java.util.zip.ZipOutputStream;
 
 import utils.Dirs;
 import utils.Log;
-import utils.RecentProjects;
 
 /**
  * A project represents a .crea file in a zip format.
@@ -43,6 +42,7 @@ public class Project extends Observable implements Comparable<Project>{
         this.setUid(UUID.randomUUID().toString());
         this.setWriteDefault(false);
         this.setReadDefault(false);
+        this.setName("Unsaved project");
         this.isTemporary = true;
     }
 
@@ -159,6 +159,7 @@ public class Project extends Observable implements Comparable<Project>{
         this.isTemporary = false;
         Files.move(this.path, newFile.toPath());
         this.path = newFile.toPath();
+        this.setName(this.path.getFileName().toString());
         this.setChanged();
         this.notifyObservers();
     }
@@ -174,7 +175,25 @@ public class Project extends Observable implements Comparable<Project>{
      * @return the name of .crea file (with the extension)
      */
     public String getName() {
-        return this.path.getFileName().toString();
+        Properties props = null;
+        try {
+            props = this.getProperties();
+            if(props.getProperty("name") == null){
+                String name = this.getPath().getFileName().toString();
+                this.setName(name);
+                return name;
+            } else {
+                return props.getProperty("name");
+            }
+        } catch (IOException e) {
+            return "Unknown name";
+        }
+    }
+
+    public void setName(String name) throws IOException {
+        Properties props = this.getProperties();
+        props.setProperty("name", name);
+        this.setProperties(props);
     }
 
     /**

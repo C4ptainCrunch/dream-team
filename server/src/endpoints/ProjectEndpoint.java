@@ -8,18 +8,19 @@ import middleware.Secured;
 import models.databaseModels.Permissions;
 import models.databaseModels.Project;
 import models.databaseModels.User;
-import org.glassfish.jersey.media.multipart.FormDataParam;
 import utils.Log;
 
 import javax.ws.rs.*;
-import javax.ws.rs.Path;
 import javax.ws.rs.core.*;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import java.io.*;
-import java.nio.file.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 @Path("project")
@@ -36,7 +37,16 @@ public class ProjectEndpoint {
     public GenericEntity<List<Project>> getProjectList(@Context SecurityContext securityContext) throws SQLException {
         String username = securityContext.getUserPrincipal().getName();
         User user = usersDAO.findByUsername(username);
-        return new GenericEntity<List<Project>>(projectsDAO.getAllReadableProject(user.getId())) {};
+
+        List<Project> projects = new ArrayList<>();
+        for (Project project: projectsDAO.getAllReadableProject(user.getId())) {
+            if (hasReadPerm(project, user)){
+                project.setCurrentUserReadPerm(true);
+                project.setCurrentUserWritePerm(hasWritePerm(project, user));
+                projects.add(project);
+            }
+        }
+        return new GenericEntity<List<Project>>(projects) {};
     }
 
     @PUT
@@ -109,15 +119,31 @@ public class ProjectEndpoint {
             throw new NotFoundException("Project not found");
         }
 
-        // TODO check permission
+        if(!hasReadPerm(dbProject, user)){
+            throw new NotAuthorizedException("You can't read this project");
+        }
         return Response.ok(Files.readAllBytes(Paths.get(dbProject.getPath())), "application/octet-stream").build();
 
     }
 
     private boolean hasWritePerm(Project project, User user) throws SQLException {
-        Optional<Permissions> personnalWritePermissions = permissionsDAO.findPermissions(project.getUid(), user.getId());
-        if (personnalWritePermissions.isPresent()){
-            return personnalWritePermissions.get().isWritable();
+        if(user.getId() == project.getUserID()){
+            return true;
+        }
+        Permissions writePermissions = permissionsDAO.findPermissions(project.getUid(), user.getId());
+        if (writePermissions != null){
+            return writePermissions.isWritable();
+        }
+        return project.isWrite_default();
+    }
+
+    private boolean hasReadPerm(Project project, User user) throws SQLException {
+        if(user.getId() == project.getUserID()){
+            return true;
+        }
+        Permissions readPermissions = permissionsDAO.findPermissions(project.getUid(), user.getId());
+        if (readPermissions != null){
+            return readPermissions.isWritable();
         }
         return project.isRead_default();
     }

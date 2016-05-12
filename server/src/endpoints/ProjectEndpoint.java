@@ -178,21 +178,30 @@ public class ProjectEndpoint {
     @Path("/get_permission_for_user/{projectUid}")
     @Produces("application/xml")
     public Permissions getPermissionForUser(@PathParam("projectUid") String projectUid,
-                                            @FormParam("userId") int userId,
+                                            @FormParam("userName") String username,
                                             @Context SecurityContext securityContext) throws SQLException {
 
-        String username = securityContext.getUserPrincipal().getName();
+        String editorUsername = securityContext.getUserPrincipal().getName();
+        User userEditor = this.usersDAO.findByUsername(editorUsername);
+
         User user = this.usersDAO.findByUsername(username);
 
         Project dbProject = this.projectsDAO.findByUid(projectUid);
         if(dbProject == null){
             throw new NotFoundException("Project not found");
         }
-        if(!hasReadPerm(dbProject, user)){
+
+        if(user == null){
+            throw  new NotFoundException("this user doesn't exist")
+        }
+
+        if(!hasReadPerm(dbProject, userEditor)){
             throw new NotAuthorizedException("You can't see this project permission");
         }
 
-        Permissions perm = permissionsDAO.findPermissions(dbProject.getUid(), userId);
+
+
+        Permissions perm = permissionsDAO.findPermissions(dbProject.getUid(), user.getId());
         if(perm == null){
             throw new  NotFoundException("There aren't any permission for this user on this project");
         }

@@ -56,24 +56,32 @@ public class ConfirmationEmailSender {
             props.put("mail.smtp.host", smtpHost);
             props.put("mail.smtp.port", "587");
 
-            Session session = Session.getInstance(props,
-                    new javax.mail.Authenticator() {
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(smtpUsername, smtpPassword);
-                        }
-                    });
+            Thread thread = new Thread(() -> {
+                Session session = Session.getInstance(props,
+                        new javax.mail.Authenticator() {
+                            protected PasswordAuthentication getPasswordAuthentication() {
+                                return new PasswordAuthentication(smtpUsername, smtpPassword);
+                            }
+                        });
 
+                MimeMessage message = new MimeMessage(session);
+                try {
+                    message.setFrom(new InternetAddress(from));
+                    message.addRecipient(
+                            RecipientType.TO,
+                            new InternetAddress(recipient)
+                    );
+                    message.setSubject(Email.SUBJECT_LINE);
+                    message.setText(Email.EMAIL_BODY_PART_ONE + token + Email.EMAIL_BODY_PART_TWO);
 
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(from));
-            message.addRecipient(
-                    RecipientType.TO,
-                    new InternetAddress(recipient)
-            );
-            message.setSubject(Email.SUBJECT_LINE);
-            message.setText(Email.EMAIL_BODY_PART_ONE + token + Email.EMAIL_BODY_PART_TWO);
+                    Transport.send(message);
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+            });
 
-            Transport.send(message);
+            thread.start();
+
         } catch (IOException e) {
             logger.info("No email configured. Mocking email to " + recipient + " : " + token);
         }

@@ -1,6 +1,8 @@
 package managers;
 
+import models.databaseModels.User;
 import models.project.Diff;
+import models.project.Project;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import utils.ConflictResolver;
 
@@ -12,6 +14,8 @@ import java.util.List;
  */
 public class ProjectManager {
     ConflictResolver conflictResolver;
+    Project project;
+    User user;
 
     /**
      * Creates a new ProjectManager & creates a new ConflictsResolver
@@ -43,4 +47,11 @@ public class ProjectManager {
         final Object[] modified = dmp.patchApply((LinkedList<DiffMatchPatch.Patch>) patches, original);
         return (String) modified[0];
     }
+
+    public void update(Project project, User user){
+        this.project = project;
+        this.user = user;
+    }
+
+
 }

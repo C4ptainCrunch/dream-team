@@ -1,7 +1,5 @@
 package controllers.management;
 
-import constants.SyncModeSelection;
-import jdk.internal.instrumentation.Logger;
 import misc.utils.RequestBuilder;
 import models.databaseModels.Project;
 import models.databaseModels.User;
@@ -11,7 +9,6 @@ import views.management.PermissionWindowView;
 import views.management.UserPermissionWindowView;
 
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import java.util.List;

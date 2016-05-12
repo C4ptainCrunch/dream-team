@@ -39,7 +39,7 @@ public class PermissionsDAO {
         }
     }
 
-    public Optional<Permissions> findPermissions(String project_uid, int user_id) throws SQLException {
+    public Permissions findPermissions(String project_uid, int user_id) throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -52,7 +52,7 @@ public class PermissionsDAO {
         } finally {
             silentClosures(resultSet, preparedStatement, connection);
         }
-        return Optional.ofNullable(permissions);
+        return permissions;
     }
 
     public void changePermissions(int user_id, String project_uid, boolean read_perm, boolean write_perm) throws Exception {

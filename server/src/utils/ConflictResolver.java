@@ -1,5 +1,6 @@
 package utils;
 
+import constants.ProjectConflicts;
 import models.project.Diff;
 import parser.DiffParser;
 
@@ -68,14 +69,14 @@ public class ConflictResolver{
         List<Integer> serverConflictsIndexes = conflictsIndexes.get(1);
 
         List<Diff> resolvedDiffs = baseDiffs;
-        if(userChoice.equals("saveUserVersionOnly")){
+        if(userChoice.equals(ProjectConflicts.SAVE_USER_VERSION_ONLY)){
             resolvedDiffs.addAll(differenceDiffsBaseLocal);
-        }else if(userChoice.equals("saveUserVersion")){
+        }else if(userChoice.equals(ProjectConflicts.SAVE_USER_VERSION)){
             resolvedDiffs.addAll(differenceDiffsBaseLocal);
             addConflictsIndexes(differenceDiffsBaseServer, serverConflictsIndexes, resolvedDiffs);
-        }else if(userChoice.equals("saveServerVersionOnly")){
+        }else if(userChoice.equals(ProjectConflicts.SAVE_SERVER_VERSION_ONLY)){
             resolvedDiffs.addAll(differenceDiffsBaseServer);
-        }else if(userChoice.equals("saveServerVersion")){
+        }else if(userChoice.equals(ProjectConflicts.SAVE_SERVER_VERSION)){
             resolvedDiffs.addAll(differenceDiffsBaseServer);
             addConflictsIndexes(differenceDiffsBaseLocal, localConflictsIndexes, resolvedDiffs);
         }else{

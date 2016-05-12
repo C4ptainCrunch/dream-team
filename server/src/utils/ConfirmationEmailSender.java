@@ -25,7 +25,7 @@ public class ConfirmationEmailSender {
     public static void send(String recipient, String token) throws MessagingException {
         try {
             Properties config = new Properties();
-            config.load(new FileInputStream("config.ini"));
+            config.load(new FileInputStream("server/config.ini"));
 
             String from = (String) config.get("email_from");
             if(from == null){

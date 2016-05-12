@@ -24,6 +24,7 @@ public class UsersDAOTest extends ServerTest {
 
     @Before
     public void setup() throws Exception {
+        CreateDatabase.createDatabaseIfDoesntExists();
         this.daoFactory = DAOFactory.getInstance();
         this.usersDAO = this.daoFactory.getUsersDAO();
         this.testUser = new User(0,"testUser","Test","User","testUser@gmail.com");

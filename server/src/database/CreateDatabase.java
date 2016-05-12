@@ -47,7 +47,9 @@ class DatabaseCreationRequests {
             "FOREIGN KEY(user_id) REFERENCES Users(id) ON UPDATE CASCADE ON DELETE CASCADE);";
 }
 
-
+/**
+ * Class to create the SQLite database
+ */
 public class CreateDatabase {
     private static final Logger logger = Log.getLogger(CreateDatabase.class);
 
@@ -95,6 +97,9 @@ public class CreateDatabase {
         }
     }
 
+    /**
+     * Creates the database if it doesn't exists
+     */
     public static void createDatabaseIfDoesntExists(){
         if (!databaseExists()) {
             createDatabase();

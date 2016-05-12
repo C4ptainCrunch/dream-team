@@ -148,9 +148,9 @@ public class DAOUtilities {
 
     public static Permissions mapPermissions(ResultSet resultSet) throws SQLException{
         int userID = resultSet.getInt("user_id");
-        int projectID = resultSet.getInt("project_id");
+        String projectUID = resultSet.getString("project_uid");
         boolean readable = resultSet.getInt("read_perm") == 1;
         boolean writeable = resultSet.getInt("write_perm") == 1;
-        return new Permissions(projectID, userID, writeable, readable);
+        return new Permissions(projectUID, userID, writeable, readable);
     }
 }

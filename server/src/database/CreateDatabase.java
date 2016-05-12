@@ -21,7 +21,7 @@ class DatabaseCreationRequests {
             "activated INTEGER(1) NOT NULL,"+
             "password TEXT);";
     public static final String SQLITE_CREATE_TABLE_PROJECTS = "CREATE TABLE Projects("+
-            "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "uid TEXT NOT NULL PRIMARY KEY," +
             "user_id INTEGER NOT NULL," +
             "path VARCHAR(1023) NOT NULL UNIQUE," +
             "last_modification TEXT NOT NULL," +
@@ -30,22 +30,13 @@ class DatabaseCreationRequests {
             "name VARCHAR (255) NOT NULL UNIQUE , "+
             "FOREIGN KEY(user_id) REFERENCES Users(id) ON UPDATE CASCADE ON DELETE CASCADE);";
     public static final String SQLITE_CREATE_TABLE_PERMISSIONS = "CREATE TABLE Permissions("+
-            "project_id INTEGER NOT NULL," +
+            "project_uid TEXT NOT NULL," +
             "user_id INTEGER NOT NULL," +
             "write_perm INTEGER NOT NULL," +
             "read_perm INTEGER NOT NULL," +
-            "FOREIGN KEY(project_id) REFERENCES Projects(id) ON UPDATE CASCADE ON DELETE CASCADE," +
+            "FOREIGN KEY(project_uid) REFERENCES Projects(uid) ON UPDATE CASCADE ON DELETE CASCADE," +
             "FOREIGN KEY(user_id) REFERENCES Users(id) ON UPDATE CASCADE ON DELETE CASCADE," +
-            "PRIMARY KEY (project_id, user_id));";
-    public static final String SQLITE_CREATE_TABE_PROJECTS_WAITING_VALIDATION = "CREATE TABLE Projects_waiting_validation("+
-            "project_id INTEGER NOT NULL," +
-            "diagram_name VARCHAR(64) NOT NULL," +
-            "user_id INTEGER NOT NULL," +
-            "path_diff_base VARCHAR(1023)," +
-            "path_diff_user VARCHAR(1023)," +
-            "path_diff_server VARCHAR(1023)," +
-            "FOREIGN KEY(project_id) REFERENCES Projects(id) ON UPDATE CASCADE ON DELETE CASCADE," +
-            "FOREIGN KEY(user_id) REFERENCES Users(id) ON UPDATE CASCADE ON DELETE CASCADE);";
+            "PRIMARY KEY (project_uid, user_id));";
 }
 
 /**
@@ -83,12 +74,10 @@ public class CreateDatabase {
             String sqlCreateUsers = DatabaseCreationRequests.SQLITE_CREATE_TABLE_USERS;
             String sqlCreateProjects = DatabaseCreationRequests.SQLITE_CREATE_TABLE_PROJECTS;
             String sqlCreatePermissions = DatabaseCreationRequests.SQLITE_CREATE_TABLE_PERMISSIONS;
-            String sqlCreateProjectsWaitingValidation = DatabaseCreationRequests.SQLITE_CREATE_TABE_PROJECTS_WAITING_VALIDATION;
             statement.executeUpdate(sqlActivatePragmas);
             statement.executeUpdate(sqlCreateUsers);
             statement.executeUpdate(sqlCreateProjects);
             statement.executeUpdate(sqlCreatePermissions);
-            statement.executeUpdate(sqlCreateProjectsWaitingValidation);
 
             statement.close();
             connection.close();

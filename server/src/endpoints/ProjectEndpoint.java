@@ -8,6 +8,7 @@ import middleware.Secured;
 import models.databaseModels.Permissions;
 import models.databaseModels.Project;
 import models.databaseModels.User;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import utils.ConflictResolver;
 import utils.Log;
 
@@ -82,11 +83,12 @@ public class ProjectEndpoint {
         return Response.ok().build();
     }
 
-    @PUT
+    @POST
     @Secured
     @Path("/update")
-    @Consumes("application/octet-stream")
-    public Response update(InputStream project,
+    @Consumes("multipart/form-data")
+    public Response update(@FormDataParam("project") InputStream project,
+                           @FormParam("userChoice") String userChoice,
                            @Context SecurityContext securityContext) throws IOException, SQLException {
         String username = securityContext.getUserPrincipal().getName();
         User user = usersDAO.findByUsername(username);
@@ -102,6 +104,7 @@ public class ProjectEndpoint {
         if(!hasWritePerm(dbProject, user)){
             throw new NotAuthorizedException("You can't edit this project");
         }
+        
 
         return Response.ok().build();
     }

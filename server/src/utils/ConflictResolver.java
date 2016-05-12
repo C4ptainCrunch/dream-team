@@ -1,6 +1,7 @@
 package utils;
 
 import constants.ProjectConflicts;
+import models.project.Diagram;
 import models.project.Diff;
 import models.project.Project;
 import models.tikz.TikzGraph;
@@ -25,6 +26,7 @@ public class ConflictResolver{
     private List<Diff> serverDiffs = new ArrayList<>();
     private List<Diff> differenceDiffsBaseServer = new ArrayList<>();
     private List<Diff> differenceDiffsBaseLocal = new ArrayList<>();
+    private Project finalProject;
 
 
     public ConflictResolver(){
@@ -79,6 +81,37 @@ public class ConflictResolver{
         }
     }
 
+    public Project resolve(String userChoice) throws IOException, ClassNotFoundException {
+        java.nio.file.Path tmpFile = File.createTempFile("project-final", ".crea").toPath();
+        this.finalProject = new models.project.Project(tmpFile);
+        List<String> resolvedDiagrams = new ArrayList<>();
+        Set<String> localDiagramNames = localProject.getDiagramNames();
+        Set<String> serverDiagramNames = serverProject.getDiagramNames();
+        for(String localDiagram : localDiagramNames){
+            Diagram resolvedDiagram = new Diagram(localDiagram, this.finalProject);
+            List<Diff> finalDiagramDiffs;
+            String tikZCode;
+            if(serverDiagramNames.contains(localDiagram)) {
+                update(localProject.getDiagram(localDiagram).getDiffs(), serverProject.getDiagram(localDiagram).getDiffs());
+                finalDiagramDiffs = resolveDiagram(userChoice);
+                tikZCode = createTikzFromDiffs(finalDiagramDiffs);
+            }else{
+                finalDiagramDiffs = localProject.getDiagram(localDiagram).getDiffs();
+                tikZCode = localProject.getDiagram(localDiagram).getSource();
+            }
+            resolvedDiagram.writeDiffs(finalDiagramDiffs);
+            this.finalProject.writeSource(localDiagram, tikZCode);
+            resolvedDiagrams.add(localDiagram);
+        }
+        for(String serverDiagram : serverDiagramNames){
+            Diagram resolvedDiagram = new Diagram(serverDiagram, this.finalProject);
+            List<Diff> finalDiagramDiffs = serverProject.getDiagram(serverDiagram).getDiffs();
+            resolvedDiagram.writeDiffs(finalDiagramDiffs);
+            this.finalProject.writeSource(serverDiagram, serverProject.getDiagram(serverDiagram).getSource());
+        }
+        return this.finalProject;
+    }
+
     /**
      * Resolves conflicts between the local and server diffs given the choice of the user
      * The choice can either be:
@@ -93,7 +126,7 @@ public class ConflictResolver{
      *          or wants to merge versions
      * @return  The merged diffs
      */
-    public List<Diff> resolveDiagram(String userChoice){
+    private List<Diff> resolveDiagram(String userChoice){
         List<List<Integer>> conflictsIndexes = getConflictsIndexes(differenceDiffsBaseLocal, differenceDiffsBaseServer, false);
         List<Integer> localConflictsIndexes = conflictsIndexes.get(0);
         List<Integer> serverConflictsIndexes = conflictsIndexes.get(1);

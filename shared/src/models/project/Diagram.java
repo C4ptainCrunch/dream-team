@@ -185,7 +185,7 @@ public class Diagram{
      * @throws IOException
      *             when writing to the file failed
      */
-    private void writeDiffs(List<Diff> diffs) throws IOException {
+    public void writeDiffs(List<Diff> diffs) throws IOException {
         ByteArrayOutputStream bs = new ByteArrayOutputStream();
         ObjectOutputStream os = new ObjectOutputStream(bs);
         os.writeObject(diffs);

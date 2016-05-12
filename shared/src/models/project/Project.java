@@ -258,6 +258,10 @@ public class Project extends Observable implements Comparable<Project>{
         }
     }
 
+    synchronized public void writeDiffs(String name, List<Diff> diffs){
+
+    }
+
     /**
      * Write the given string to the given project tikz file
      * @param name the diagram name

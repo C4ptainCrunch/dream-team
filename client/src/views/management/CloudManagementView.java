@@ -2,19 +2,17 @@ package views.management;
 
 import constants.GUI;
 import controllers.management.CloudManagementController;
-import misc.utils.CloudHelper;
-import models.project.Project;
+import misc.logic.CloudLogic;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Collections;
-import java.util.Vector;
+import java.util.*;
 
 public class CloudManagementView extends JPanel {
 
     private ManagementView parentView;
     private CloudManagementController controller = new CloudManagementController();
-    private JList<String> projectChooser;
+    private JList<models.databaseModels.Project> projectChooser;
     private JTextPane infoPanel;
     private JPanel chooserPanel;
 
@@ -42,7 +40,7 @@ public class CloudManagementView extends JPanel {
         this.chooserPanel = new JPanel();
         this.chooserPanel.setLayout(new BorderLayout());
 
-        Vector<String> sharedProjects = CloudHelper.getSharedProjects();
+        Vector<models.databaseModels.Project> sharedProjects = new Vector<>(CloudLogic.getSharedProjects());
 
         this.projectChooser = new JList<>(sharedProjects);
         this.projectChooser.addListSelectionListener(e -> controller.dropdownSelected(projectChooser.getSelectedValue()));

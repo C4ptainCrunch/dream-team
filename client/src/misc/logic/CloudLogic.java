@@ -6,12 +6,15 @@ import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import utils.Dirs;
 import utils.Log;
 
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Vector;
 import java.util.logging.Logger;
 
 public class CloudLogic {
@@ -36,5 +39,10 @@ public class CloudLogic {
             logger.info("Unknown error while uploading");
             // TODO : alert unknown error
         }
+    }
+
+    public static List<models.databaseModels.Project> getSharedProjects() {
+        Response r = RequestBuilder.get("/project/list").invoke();
+        return r.readEntity(new GenericType<List<models.databaseModels.Project>>(){});
     }
 }

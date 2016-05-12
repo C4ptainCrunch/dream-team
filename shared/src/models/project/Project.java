@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.logging.Logger;
 import java.util.zip.ZipOutputStream;
 
+import utils.Dirs;
 import utils.Log;
 import utils.RecentProjects;
 
@@ -22,8 +23,6 @@ public class Project extends Observable implements Comparable<Project>{
     private Path path;
     private boolean isTemporary = false;
     private final static Logger logger = Log.getLogger(Project.class);
-    private boolean readDefault;
-    private boolean writeDefault;
 
     /**
      * Create a Project from a .crea file on the disk
@@ -254,8 +253,6 @@ public class Project extends Observable implements Comparable<Project>{
         }
     }
 
-
-
     synchronized private void setProperties(Properties props) throws IOException {
         try (FileSystem fs = getFs()) {
             Path propsPath = fs.getPath("/" + "metadata.properties");
@@ -310,5 +307,10 @@ public class Project extends Observable implements Comparable<Project>{
         Properties props = this.getProperties();
         props.setProperty("readdefault", readDefault ? "true" : "false");
         this.setProperties(props);
+    }
+
+    public boolean isCloud() {
+        Path cloudPath = Dirs.getDataDir().resolve(Paths.get("cloud"));
+        return this.getPath().startsWith(cloudPath);
     }
 }

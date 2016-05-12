@@ -101,6 +101,6 @@ public class ProjectEndpoint {
         if (personnalWritePermissions.isPresent()){
             return personnalWritePermissions.get().isWritable();
         }
-        return project.readable();
+        return project.isRead_default();
     }
 }

@@ -15,9 +15,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.*;
 import javax.xml.bind.annotation.XmlElementWrapper;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -95,6 +93,25 @@ public class ProjectEndpoint {
         }
 
         return Response.ok().build();
+    }
+
+    @GET
+    @Secured
+    @Path(("/{projectUid}"))
+    @Produces("application/octet-stream")
+    public OutputStream get(@PathParam("projectUid") String projectUid,
+                            @Context SecurityContext securityContext) throws SQLException, FileNotFoundException {
+        String username = securityContext.getUserPrincipal().getName();
+        User user = this.usersDAO.findByUsername(username);
+
+        Project dbProject = this.projectsDAO.findByUid(projectUid);
+        if(dbProject == null){
+            throw new NotFoundException("Project not found");
+        }
+
+        // TODO check permission
+        return new FileOutputStream(dbProject.getPath());
+
     }
 
     private boolean hasWritePerm(Project project, User user) throws SQLException {

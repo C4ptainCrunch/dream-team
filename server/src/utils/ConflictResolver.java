@@ -96,11 +96,9 @@ public class ConflictResolver{
         List<String> resolvedDiagrams = new ArrayList<>();
         Set<String> localDiagramNames = localProject.getDiagramNames();
         Set<String> serverDiagramNames = serverProject.getDiagramNames();
-        System.out.println("1");
         for(String localDiagram : localDiagramNames){
             resolveLocalDiagrams(localDiagram, serverDiagramNames, userChoice, resolvedDiagrams);
         }
-        System.out.println("2");
         for(String serverDiagram : serverDiagramNames){
             resolveServerDiagrams(resolvedDiagrams, serverDiagram);
 
@@ -122,28 +120,21 @@ public class ConflictResolver{
     }
 
     private void resolveLocalDiagrams(String localDiagram, Set<String> serverDiagramNames, String userChoice, List<String> resolvedDiagrams) {
-        System.out.println(localDiagram);
         try {
-            System.out.println(finalProject.getPath());
             Diagram resolvedDiagram = this.finalProject.getDiagram(localDiagram);
         }catch (Exception e){
             e.printStackTrace();
         }
-        System.out.println("res");
         List<Diff> finalDiagramDiffs;
         String tikZCode;
         try {
             if (serverDiagramNames.contains(localDiagram)) {
-                System.out.println("3");
                 update(localProject.getDiagram(localDiagram).getDiffs(), serverProject.getDiagram(localDiagram).getDiffs());
                 finalDiagramDiffs = resolveDiagram(userChoice);
                 tikZCode = createTikzFromDiffs(finalDiagramDiffs);
-                System.out.println("4");
             } else {
-                System.out.println("5");
                 finalDiagramDiffs = localProject.getDiagram(localDiagram).getDiffs();
                 tikZCode = localProject.getDiagram(localDiagram).getSource();
-                System.out.println("6");
             }
             //resolvedDiagram.writeDiffs(finalDiagramDiffs);
             this.finalProject.writeSource(localDiagram, tikZCode);

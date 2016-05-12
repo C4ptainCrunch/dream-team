@@ -30,6 +30,11 @@ public class ConflictResolver{
     public ConflictResolver(){
     }
 
+    /**
+     * Constructor for a Conflict Resolver between two projects
+     * @param localProject the localProject to resolve conflicts
+     * @param serverProject the serverProject to resolve conflicts
+     */
     public ConflictResolver(Project localProject, Project serverProject){
         this.localProject = localProject;
         this.serverProject = serverProject;
@@ -84,11 +89,11 @@ public class ConflictResolver{
      * diffs from local diffs that causes conflicts
      *
      * @param userChoice
-     *          The choice of the user wheter the user wants to keep local or server version
+     *          The choice of the user whether the user wants to keep local or server version
      *          or wants to merge versions
      * @return  The merged diffs
      */
-    public List<Diff> resolve(String userChoice){
+    public List<Diff> resolveDiagram(String userChoice){
         List<List<Integer>> conflictsIndexes = getConflictsIndexes(differenceDiffsBaseLocal, differenceDiffsBaseServer, false);
         List<Integer> localConflictsIndexes = conflictsIndexes.get(0);
         List<Integer> serverConflictsIndexes = conflictsIndexes.get(1);
@@ -147,16 +152,18 @@ public class ConflictResolver{
     private Boolean checkListConflicts(Set<String> diagramNamesList, Set<String> otherDiagramList, List<String> checkedDiagram) throws IOException,ClassNotFoundException{
         Boolean conflicts = false;
         for(String diagram : diagramNamesList){
-            if(otherDiagramList.contains(diagram)){
-                update(localProject.getDiagram(diagram).getDiffs(), serverProject.getDiagram(diagram).getDiffs());
-                String conflict = checkDiagramHasConflict();
-                if(conflict.equals(ProjectConflicts.MERGE_HAS_CONFLICTS)){
-                    conflicts = true;
-                    break;
+            if(! checkedDiagram.contains(diagram)) {
+                if (otherDiagramList.contains(diagram)) {
+                    update(localProject.getDiagram(diagram).getDiffs(), serverProject.getDiagram(diagram).getDiffs());
+                    String conflict = checkDiagramHasConflict();
+                    if (conflict.equals(ProjectConflicts.MERGE_HAS_CONFLICTS)) {
+                        conflicts = true;
+                        break;
+                    }
+                    checkedDiagram.add(diagram);
+                } else {
+                    checkedDiagram.add(diagram);
                 }
-                checkedDiagram.add(diagram);
-            }else{
-                checkedDiagram.add(diagram);
             }
         }
         return conflicts;

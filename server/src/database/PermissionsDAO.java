@@ -5,6 +5,7 @@ import models.databaseModels.Permissions;
 import utils.Log;
 
 import java.sql.*;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import static database.DAOUtilities.initializationPreparedRequest;
@@ -46,7 +47,7 @@ public class PermissionsDAO {
         return error;
     }
 
-    public Permissions findPermissions(int project_id, int user_id) {
+    public Optional<Permissions> findPermissions(int project_id, int user_id) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -57,9 +58,11 @@ public class PermissionsDAO {
                 permissions = DAOUtilities.mapPermissions(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.severe(String.format("%s: %s", e.getClass().getName(), e.getMessage()));
+        } finally {
+            silentClosures(resultSet, preparedStatement, connection);
         }
-        return permissions;
+        return Optional.ofNullable(permissions);
     }
 
     public boolean changePermissions(int user_id, int project_id, boolean read_perm, boolean write_perm) {

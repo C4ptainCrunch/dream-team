@@ -1,6 +1,7 @@
 package models.databaseModels;
 
 import javax.xml.bind.annotation.XmlAttribute;
+import java.io.IOException;
 
 public class Project {
     private int id;
@@ -9,8 +10,18 @@ public class Project {
     private String last_modification;
     private boolean write_default;
     private boolean read_default;
+    private int userId;
 
     public Project(){}
+
+    public Project(models.project.Project project) throws IOException {
+        this.path = project.getPath().toString();
+        this.userID = project.getUserID();
+        this.id = project.getID();
+        this.last_modification = project.getLastChange().toString();
+        this.write_default = project.getWriteDefault();
+        this.read_default = project.getReadDefaukt();
+    }
 
     public Project(int user, String path, String last_modification, boolean write_default, boolean read_default) {
         this.userID = user;
@@ -50,6 +61,9 @@ public class Project {
         return last_modification;
     }
 
+    public boolean readable() {return read_default;}
+    public boolean writeable() {return write_default;}
+
     @XmlAttribute
     public int isWrite_default() {
         return write_default ? 1 : 0;
@@ -62,5 +76,9 @@ public class Project {
 
     public void setId(int id){
         this.id = id;
+    }
+
+    public void setUserID(int userId) {
+        this.userId = userId;
     }
 }

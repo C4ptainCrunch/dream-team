@@ -43,6 +43,7 @@ public class EditorView extends JFrame {
         this.sourceView = new SourceView(this, graph);
         this.menuView = new MenuView(this, diagram);
         this.toolBoxView = new ToolBoxView();
+        render();
     }
 
     /**

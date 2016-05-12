@@ -1,7 +1,7 @@
 package constants;
 
 
-public final class SyncModelSelection {
+public final class SyncModeSelection {
     public static final class Title{
         public static String TITLE;
     }

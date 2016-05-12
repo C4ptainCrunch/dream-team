@@ -10,14 +10,14 @@ import java.util.Properties;
 
 import static constants.Models.*;
 import static constants.Network.*;
-import static constants.SyncModelSelection.*;
+import static constants.SyncModeSelection.*;
 
 
 public class PropertiesLoader {
     private static final String MODELS_PROPERTIES_FILENAME = "models.properties";
     private static final String NETWORK_PROPERTIES_FILENAME = "network.properties";
     private static final String UTILS_PROPERTIES_FILENAME = "utils.properties";
-    private static final String SYNCMODELSSELECTION_PROPERTIES_FILENAME = "syncmodelselection.properties";
+    private static final String SYNCMODESELECTION_PROPERTIES_FILENAME = "syncmodeselection.properties";
 
     protected static void load(String filename, PropertiesReader reader){
         InputStream stream = PropertiesLoader.class.getClassLoader().getResourceAsStream(filename);
@@ -40,7 +40,7 @@ public class PropertiesLoader {
         loadModelsProperties();
         loadNetworkProperties();
         loadUtilsProperties();
-        loadsyncmodelselectionProperties();
+        loadsyncmodeselectionProperties();
     }
 
     public static void loadModelsProperties(){
@@ -52,7 +52,7 @@ public class PropertiesLoader {
     public static void loadUtilsProperties(){
         load(UTILS_PROPERTIES_FILENAME, new UtilsPropertiesReader());
     }
-    public static void loadsyncmodelselectionProperties() { load(SYNCMODELSSELECTION_PROPERTIES_FILENAME, new SyncmodelselectionPropertiesReader());}
+    public static void loadsyncmodeselectionProperties() { load(SYNCMODESELECTION_PROPERTIES_FILENAME, new SyncmodeSelectionPropertiesReader());}
 }
 
 interface PropertiesReader{
@@ -112,7 +112,7 @@ class UtilsPropertiesReader implements  PropertiesReader{
     }
 }
 
-class SyncmodelselectionPropertiesReader implements  PropertiesReader{
+class SyncmodeSelectionPropertiesReader implements  PropertiesReader{
     @Override
     public void read(Properties properties){
         Title.TITLE = properties.getProperty("TITLE");

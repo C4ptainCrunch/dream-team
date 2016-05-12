@@ -126,6 +126,26 @@ public class ProjectEndpoint {
 
     }
 
+    @GET
+    @Secured
+    @Path("/info/{projectUid}")
+    @Produces({"application/xml"})
+    public Project getInfo(@PathParam("projectUid") String projectUid,
+        @Context SecurityContext securityContext) throws SQLException, IOException {
+            String username = securityContext.getUserPrincipal().getName();
+            User user = this.usersDAO.findByUsername(username);
+
+        Project dbProject = this.projectsDAO.findByUid(projectUid);
+        if(dbProject == null){
+            throw new NotFoundException("Project not found");
+        }
+        if(!hasReadPerm(dbProject, user)){
+            throw new NotAuthorizedException("You can't read this project");
+        }
+
+        return dbProject;
+    }
+
     private boolean hasWritePerm(Project project, User user) throws SQLException {
         if(user.getId() == project.getUserID()){
             return true;

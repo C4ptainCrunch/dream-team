@@ -2,11 +2,16 @@ package utils;
 
 import constants.ProjectConflicts;
 import models.project.Diff;
+import models.tikz.TikzGraph;
+import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
+import org.codehaus.jparsec.error.ParserException;
 import parser.DiffParser;
+import parser.NodeParser;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -88,7 +93,7 @@ public class ConflictResolver{
             resolvedDiffs.addAll(differenceDiffsBaseServer);
             addConflictsIndexes(differenceDiffsBaseLocal, localConflictsIndexes, resolvedDiffs);
         }else{
-            //TODO: merge
+            //TODO: fusion
         }
         return resolvedDiffs;
     }
@@ -112,29 +117,51 @@ public class ConflictResolver{
 
 
     /**
-     * Checks wheter local and server versions have conflicts lines
-     * @return Wheter local and server versions have conflicts lines
+     * Checks whether local and server versions have conflicts lines
+     * @return Whether local and server versions have conflicts lines
      */
-    public Integer checkHasConflict(){
+    public String checkHasConflict(){
         if(differenceDiffsBaseServer.size()==0){
-            //TODO: Push ok, no modifications done on server
-            return 0;
+            return ProjectConflicts.MERGE_OK;
         }else {
             if (differenceDiffsBaseLocal.size() == 0) {
-                //TODO: Keep server version, don't "push" because no modification done locally
-                return 2;
+                return ProjectConflicts.NO_LOCAL_MODIFICATION;
             } else {
                 List<List<Integer>> hasConflict = getConflictsIndexes(differenceDiffsBaseLocal, differenceDiffsBaseServer,true);
                 if(hasConflict.size() == 1){
-                    //TODO: alert the user that his push has conflict(s)
-                    return 1;
+                    return ProjectConflicts.MERGE_HAS_CONFLICTS;
                 }else{
-                    //TODO: push ok, no conflicts
-                    return 0;
+                    return ProjectConflicts.MERGE_OK;
                 }
             }
         }
+    }
 
+    /**
+     * Returns the Tikz code created from a list of diffs
+     * @param diffs the given list of diffs
+     * @return the Tikz code created
+     */
+    public String createTikzFromDiffs(List<Diff> diffs){
+        DiffMatchPatch dmp = new DiffMatchPatch();
+        List<DiffMatchPatch.Patch> patches = new LinkedList<>();
+        for(Diff diff : diffs){
+            patches.addAll(dmp.patchFromText(diff.getPatch()));
+        }
+        String original = "";
+        final Object[] modified = dmp.patchApply((LinkedList<DiffMatchPatch.Patch>) patches, original);
+        return (String) modified[0];
+    }
+
+    public String constructFusionDiagram(String tikzCode) {
+        TikzGraph new_graph = new TikzGraph();
+        try {
+            NodeParser.parseDocument(new_graph).parse(tikzCode);
+        } catch (ParserException e) {
+            logger.info("Error during TikZ parsing : " + e.getMessage());
+            return "";
+        }
+        return new_graph.toString();
     }
 
     /**

@@ -245,7 +245,12 @@ public class Project extends Observable implements Comparable<Project>{
         try (FileSystem fs = getFs()) {
             Path propsPath = fs.getPath("/" + "metadata.properties");
             Properties props = new Properties();
-            byte[] bytes = Files.readAllBytes(propsPath);
+            byte[] bytes;
+            try {
+                bytes = Files.readAllBytes(propsPath);
+            } catch (NoSuchFileException e) {
+                bytes = "".getBytes();
+            }
             ByteArrayInputStream bs = new ByteArrayInputStream(bytes);
             props.load(bs);
             bs.close();

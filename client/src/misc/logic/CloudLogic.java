@@ -36,7 +36,7 @@ public class CloudLogic {
         } else if (r.getStatus() == 200){
             project.move(Dirs.getDataDir().resolve(Paths.get("cloud/" + project.getName())).toFile());
         } else {
-            logger.info("Unknown error while uploading");
+            logger.info("Unknown error while uploading: " + Integer.toString(r.getStatus()));
             // TODO : alert unknown error
         }
     }

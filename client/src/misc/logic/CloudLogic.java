@@ -12,6 +12,8 @@ import javax.ws.rs.core.Response;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Vector;
@@ -32,7 +34,11 @@ public class CloudLogic {
             logger.info("The project is already existing in the cloud");
             // TODO alert : project is existing
         } else if (r.getStatus() == 200){
-            project.move(Dirs.getDataDir().resolve(Paths.get("cloud/" + project.getName())).toFile());
+            Path cloudDir = Dirs.getDataDir().resolve(Paths.get("cloud"));
+            if(!cloudDir.toFile().exists()) {
+                Files.createDirectories(cloudDir);
+            }
+            project.move(cloudDir.resolve(Paths.get(project.getName())).toFile());
         } else {
             logger.info("Unknown error while uploading: " + Integer.toString(r.getStatus()));
             // TODO : alert unknown error

@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import static database.DAOUtilities.*;
@@ -97,11 +98,11 @@ public class ProjectsDAO {
         }
     }
 
-    public ArrayList<Project> getAllProjects() throws SQLException {
+    public List<Project> getAllProjects() throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        ArrayList<Project> projects = new ArrayList<>();
+        List<Project> projects = new ArrayList<>();
         try {
             resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, ProjectRequests.SQL_PROJECT_GETALL);
             while (resultSet.next()){

@@ -1,7 +1,7 @@
 package controllers.management;
 
 import constants.SyncModeSelection;
-import jdk.internal.instrumentation.Logger;
+import misc.logic.CloudLogic;
 import misc.utils.RequestBuilder;
 import models.databaseModels.Project;
 import models.databaseModels.User;
@@ -46,6 +46,8 @@ public class PermissionWindowController {
         List<User> userList = r.readEntity(new GenericType<List<User>>(){});
         this.serverUsers = new Vector<>();
         userList.forEach(u ->this.serverUsers.add(u.getUsername()));
+        // TODO : use real user REMISE
+        userList.remove("me");
         return serverUsers;
     }
 

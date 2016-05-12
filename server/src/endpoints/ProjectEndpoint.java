@@ -30,6 +30,7 @@ public class ProjectEndpoint {
     @GET
     @Secured
     @Path("/list")
+    @Produces("application/xml")
     public List<Project> getProjectList(@Context SecurityContext securityContext){
         String username = securityContext.getUserPrincipal().getName();
         User user = usersDAO.findByUsername(username);
@@ -38,7 +39,7 @@ public class ProjectEndpoint {
 
     @PUT
     @Secured
-    @Path("/project/upload")
+    @Path("/upload")
     @Consumes({MediaType.MULTIPART_FORM_DATA})
     public Response upload(@FormDataParam("project")InputStream project,
                            @Context SecurityContext securityContext) throws IOException {
@@ -49,16 +50,41 @@ public class ProjectEndpoint {
         Files.copy(project, tmpFile);
 
         models.project.Project p = new models.project.Project(tmpFile);
-        p.move(new File("server/projects/" + p.getName()));
-        Project dbProject = new Project(p);
-        if (projectsDAO.findByID(dbProject.getId()) != null){
+        if (projectsDAO.findByID(p.getUid()) != null){
             throw new BadRequestException("Project already exist");
         }
+
+        p.move(new File("server/projects/" + p.getUid()));
+        Project dbProject = new Project(p);
         dbProject.setUserID(user.getId());
 
         p.setUserName(user.getUsername());
 
         projectsDAO.create(dbProject);
+        return Response.ok().build();
+    }
+
+    @PUT
+    @Secured
+    @Path("/update")
+    @Consumes({MediaType.MULTIPART_FORM_DATA})
+    public Response update(@FormDataParam("project") InputStream project,
+                           @Context SecurityContext securityContext) throws IOException {
+        String username = securityContext.getUserPrincipal().getName();
+        User user = usersDAO.findByUsername(username);
+
+        java.nio.file.Path tmpFile = File.createTempFile("project-upload", ".crea").toPath();
+        Files.copy(project, tmpFile);
+
+        models.project.Project p = new models.project.Project(tmpFile);
+        if (projectsDAO.findByID(p.getUid()) != null){
+            throw new BadRequestException("Project does not exist");
+        }
+
+        Project dbProject = new Project(p);
+        if(!dbProject.hasWritePerm(user)){
+        }
+
         return Response.ok().build();
     }
 }

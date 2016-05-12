@@ -9,7 +9,6 @@ import misc.utils.JTextFieldSizeLimiter;
 import constants.GUI.SignUp;
 import controllers.accounts.SignUpController;
 
-
 /**
  * View designed for sign up process.
  */
@@ -27,10 +26,12 @@ public class SignUpView extends JFrame {
 
     /**
      * Default constructor.
-     * @param loginView The parent view
+     *
+     * @param loginView
+     *            The parent view
      */
 
-    public SignUpView(LoginWindowView loginView) {
+    public SignUpView(final LoginWindowView loginView) {
         this.controller = new SignUpController(this);
         this.loginView = loginView;
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,7 +45,7 @@ public class SignUpView extends JFrame {
 
     public final void render() {
         this.setTitle("TikzCreator : Login or Sign Up");
-        this.setPreferredSize(new Dimension(300,200));
+        this.setPreferredSize(new Dimension(300, 200));
         initServiceCondition();
         this.setResizable(false);
         this.pack();
@@ -53,22 +54,17 @@ public class SignUpView extends JFrame {
 
     private void initServiceCondition() {
         JOptionPane optionPane = new JOptionPane(
-                "<html>Do you accept the service conditions?<br>" +
-                        "The conditions are : <br>" +
-                        "As long as you retain this notice you can do whatever you want with this stuff. <br>" +
-                        "If we meet some day, and you think this stuff is worth it, you can buy us a beer in return." +
-                        "</html>",
-                JOptionPane.QUESTION_MESSAGE,
-                JOptionPane.YES_NO_OPTION);
-        JDialog dialog = optionPane.createDialog(this,"Service conditions");
+                "<html>Do you accept the service conditions?<br>" + "The conditions are : <br>"
+                        + "As long as you retain this notice you can do whatever you want with this stuff. <br>"
+                        + "If we meet some day, and you think this stuff is worth it, you can buy us a beer in return." + "</html>",
+                JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
+        JDialog dialog = optionPane.createDialog(this, "Service conditions");
         dialog.pack();
         dialog.setVisible(true);
-        if((Integer) optionPane.getValue() == JOptionPane.YES_OPTION) {
+        if ((Integer) optionPane.getValue() == JOptionPane.YES_OPTION) {
             controller.launchSignUpPanel();
-        }else{
-            JOptionPane.showMessageDialog(this,
-                    "You can't create an account without accepting service conditions",
-                    "Warning",
+        } else {
+            JOptionPane.showMessageDialog(this, "You can't create an account without accepting service conditions", "Warning",
                     JOptionPane.WARNING_MESSAGE);
             this.dispose();
             System.exit(0);
@@ -77,10 +73,12 @@ public class SignUpView extends JFrame {
 
     /**
      * Show a warning dialog
-     * @param warningText The warning text displayed in the dialog
+     *
+     * @param warningText
+     *            The warning text displayed in the dialog
      */
 
-    public void initWarning(String warningText) {
+    public void initWarning(final String warningText) {
         JOptionPane.showMessageDialog(this, warningText, "Warning", JOptionPane.WARNING_MESSAGE);
     }
 
@@ -96,7 +94,7 @@ public class SignUpView extends JFrame {
         this.add(signUpPanel);
     }
 
-    private void initInformationPanel(JPanel signUpPanel) {
+    private void initInformationPanel(final JPanel signUpPanel) {
         JPanel informationPanel = new JPanel();
         informationPanel.setLayout(new BoxLayout(informationPanel, BoxLayout.Y_AXIS));
 
@@ -110,12 +108,12 @@ public class SignUpView extends JFrame {
         signUpPanel.add(informationPanel);
     }
 
-    private void initInfoPanelOptions(JPanel informationPanel) {
+    private void initInfoPanelOptions(final JPanel informationPanel) {
 
-        for(int i=0; i< this.fields.size(); i++){
+        for (int i = 0; i < this.fields.size(); i++) {
             JPanel newPanel = new JPanel();
-            newPanel.setLayout(new GridLayout(1,2));
-            newPanel.setMaximumSize( new Dimension(500,100));
+            newPanel.setLayout(new GridLayout(1, 2));
+            newPanel.setMaximumSize(new Dimension(500, 100));
             newPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             JLabel thisLabel = new JLabel(SignUp.FIELD_LABELS.get(i));
@@ -128,8 +126,8 @@ public class SignUpView extends JFrame {
         }
 
         JPanel passwordPanel = new JPanel();
-        passwordPanel.setLayout(new GridLayout(1,2));
-        passwordPanel.setMaximumSize( new Dimension(500,100));
+        passwordPanel.setLayout(new GridLayout(1, 2));
+        passwordPanel.setMaximumSize(new Dimension(500, 100));
         passwordPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel passwordLabel = new JLabel(SignUp.PASSWORD_LABEL);
@@ -140,7 +138,7 @@ public class SignUpView extends JFrame {
         informationPanel.add(passwordPanel);
     }
 
-    private void initButtonsPanel(JPanel signupPanel) {
+    private void initButtonsPanel(final JPanel signupPanel) {
         JPanel buttons = new JPanel();
         buttons.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -157,11 +155,11 @@ public class SignUpView extends JFrame {
         signupPanel.add(buttons);
     }
 
-    public void showLogginView(){
+    public void showLogginView() {
         this.loginView.setVisible(true);
     }
 
-    public void hideLogginView(){
+    public void hideLogginView() {
         this.loginView.setVisible(false);
     }
 

@@ -1,12 +1,12 @@
 package views.management;
 
-import controllers.management.UserPermissionWindowController;
-import models.databaseModels.Permissions;
-import models.databaseModels.Project;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
-import java.security.Permission;
+
+import models.databaseModels.Permissions;
+import models.databaseModels.Project;
+import controllers.management.UserPermissionWindowController;
 
 public class UserPermissionWindowView extends JDialog {
 
@@ -30,7 +30,7 @@ public class UserPermissionWindowView extends JDialog {
     }
 
     private void render() {
-        this.setTitle("TikzCreator : set permissions for "+ this.user);
+        this.setTitle("TikzCreator : set permissions for " + this.user);
         this.setLocationRelativeTo(null);
         this.mainPanel = new JPanel();
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
@@ -49,9 +49,7 @@ public class UserPermissionWindowView extends JDialog {
         this.permsPanel.add(write);
 
         this.permsButton = new JButton("Set permissions for project");
-        this.permsButton.addActionListener(
-                e -> controller.setPermissions(read.isSelected(), write.isSelected())
-        );
+        this.permsButton.addActionListener(e -> controller.setPermissions(read.isSelected(), write.isSelected()));
 
         this.permsPanel.add(this.permsButton);
     }

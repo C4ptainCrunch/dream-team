@@ -33,7 +33,7 @@ public class TikzText extends TikzNode {
     }
 
     @Override
-    public boolean isText(){
+    public boolean isText() {
         return true;
     }
 }

@@ -9,8 +9,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import misc.utils.RequestBuilder;
-
 import models.databaseModels.User;
+
 import org.apache.commons.validator.routines.EmailValidator;
 
 import utils.Log;
@@ -27,27 +27,26 @@ import constants.Warnings;
 
 public class EditUserController {
 
-    private final EditUserView view;
     private final static Logger logger = Log.getLogger(EditUserController.class);
+    private final EditUserView view;
 
-    public EditUserController(EditUserView view) {
+    public EditUserController(final EditUserView view) {
         this.view = view;
     }
 
-
     private boolean checkFields() {
         boolean valid = true;
-        if(!Pattern.matches(GUI.SignUp.NAMES_REGEX, this.view.getFirstName())) {
+        if (!Pattern.matches(GUI.SignUp.NAMES_REGEX, this.view.getFirstName())) {
             this.showWarning(Warnings.FIRSTNAME_WARNING);
             valid = false;
         }
 
-        if(!Pattern.matches(GUI.SignUp.NAMES_REGEX, this.view.getLastName())) {
+        if (!Pattern.matches(GUI.SignUp.NAMES_REGEX, this.view.getLastName())) {
             this.showWarning(Warnings.LASTNAME_WARNING);
             valid = false;
         }
 
-        if(!EmailValidator.getInstance().isValid(this.view.getEmail())) {
+        if (!EmailValidator.getInstance().isValid(this.view.getEmail())) {
             this.showWarning(Warnings.EMAIL_WARNING);
             valid = false;
         }
@@ -55,12 +54,12 @@ public class EditUserController {
         return valid;
     }
 
-    public void showWarning(String text) {
+    public void showWarning(final String text) {
         JOptionPane.showMessageDialog(this.view, text, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
     }
 
     public void submit() {
-        if(this.checkFields()) {
+        if (this.checkFields()) {
             User u = this.view.getUser();
             u.setEmail(this.view.getEmail());
             u.setFirstName(this.view.getFirstName());
@@ -69,10 +68,10 @@ public class EditUserController {
             Entity e = Entity.entity(u, MediaType.APPLICATION_XML);
             Response r = RequestBuilder.post("/user/edit", e).invoke();
             boolean emailChanged = !this.view.getOriginalEmail().equals(u.getEmail());
-            if(emailChanged) {
+            if (emailChanged) {
                 logger.info("Email changed");
             }
-            if(emailChanged && r.getStatus() == 200) {
+            if (emailChanged && r.getStatus() == 200) {
                 java.awt.EventQueue.invokeLater(TokenActivationView::new);
             } else {
                 java.awt.EventQueue.invokeLater(ManagementView::new);
@@ -80,6 +79,5 @@ public class EditUserController {
             this.view.dispose();
         }
     }
-
 
 }

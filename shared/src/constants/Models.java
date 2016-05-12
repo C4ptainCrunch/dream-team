@@ -1,7 +1,6 @@
 package constants;
 
 import java.awt.*;
-import java.util.ResourceBundle;
 
 public final class Models {
     public static final class DEFAULT {

@@ -20,24 +20,30 @@ public class NetworkRequest {
 
     /**
      * Default constructor.
-     * @param target The target of the request
-     * @param path The url path
-     * @param type  The type of the data passed
+     *
+     * @param target
+     *            The target of the request
+     * @param path
+     *            The url path
+     * @param type
+     *            The type of the data passed
      */
 
-    public NetworkRequest(String target, String path, MediaType type){
+    public NetworkRequest(final String target, final String path, final MediaType type) {
         Client client = ClientBuilder.newClient();
         this.request_builder = client.target(target).path(path).request(type);
     }
 
-    public void post(Form postFrom){
+    public void post(final Form postFrom) {
         this.response = this.request_builder.post(Entity.form(postFrom));
         this.string_response = this.response.readEntity(String.class);
     }
 
-    public Response getResponse() { return this.response; }
+    public Response getResponse() {
+        return this.response;
+    }
 
-    public String getResponseAsString(){
+    public String getResponseAsString() {
         return this.string_response;
     }
 }

@@ -15,11 +15,11 @@ public class Main {
     public static void main(String... args) {
         Log.init();
         ClientPropertiesLoader.loadAll();
-        if(args.length > 0 && args[0].equals("editor")){
+        if (args.length > 0 && args[0].equals("editor")) {
             logger.info("Skip to the editor");
             java.awt.EventQueue.invokeLater(() -> {
                 try {
-                     new EditorView(new Project().getDiagram("unsaved"));
+                    new EditorView(new Project().getDiagram("unsaved"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -29,7 +29,7 @@ public class Main {
             java.awt.EventQueue.invokeLater(ManagementView::new);
         } else {
             logger.info("Starting login window");
-            if(LoginWindowController.shouldSkipAuth()){
+            if (LoginWindowController.shouldSkipAuth()) {
                 java.awt.EventQueue.invokeLater(ManagementView::new);
             } else {
                 java.awt.EventQueue.invokeLater(LoginWindowView::new);

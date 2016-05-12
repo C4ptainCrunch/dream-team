@@ -1,16 +1,16 @@
 package models;
 
-import misc.utils.ClientTest;
-import models.tikz.TikzCircle;
-import models.tikz.TikzComponent;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.awt.*;
 
-import static org.junit.Assert.*;
+import misc.utils.ClientTest;
+import models.tikz.TikzCircle;
+import models.tikz.TikzComponent;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class ToolModelTest extends ClientTest {
 
@@ -19,13 +19,13 @@ public class ToolModelTest extends ClientTest {
     private TikzComponent other_component;
 
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
         component = new TikzCircle();
         model = new ToolModel(component);
     }
 
     @After
-    public void tearDown() throws Exception{
+    public void tearDown() throws Exception {
 
     }
 

@@ -28,9 +28,13 @@ public final class Drawer {
     }
 
     /**
-     * Create a drawable swing object from a tikz component that has to be drawn on the given panel.
-     * @param component the tikz component to draw
-     * @param panel the panel to draw onto
+     * Create a drawable swing object from a tikz component that has to be drawn
+     * on the given panel.
+     *
+     * @param component
+     *            the tikz component to draw
+     * @param panel
+     *            the panel to draw onto
      * @return the swing drawalbe object
      */
     public static DrawableTikzComponent toDrawable(TikzComponent component, JComponent panel) {
@@ -38,7 +42,7 @@ public final class Drawer {
         return componentDrawer.toDrawable(component, panel);
     }
 
-    public static Point2D.Float closestAnchor(TikzNode node, Point2D.Float point, JComponent panel){
+    public static Point2D.Float closestAnchor(TikzNode node, Point2D.Float point, JComponent panel) {
         NodeDrawer nodeDrawer = (NodeDrawer) drawers.get(node.getClass());
         return nodeDrawer.closestAnchor(node, point, panel);
     }

@@ -10,8 +10,8 @@ import models.tikz.TikzGraph;
 import constants.GUI;
 
 /**
- * A Template object is a model representing a TikzGraph that can be saved as a template and
- * used in the current or the other projects as a droppable object.
+ * A Template object is a model representing a TikzGraph that can be saved as a
+ * template and used in the current or the other projects as a droppable object.
  */
 
 public class Template extends TikzIO {
@@ -22,8 +22,25 @@ public class Template extends TikzIO {
         super();
     }
 
-    public Template(TikzGraph g) {
+    public Template(final TikzGraph g) {
         super(g);
+    }
+
+    /**
+     * Create the File object in which the template will be saved.
+     *
+     * @param filename
+     *            the filename of the File object.
+     * @param dir
+     *            the directory where the File will be located.
+     * @return the File object created.
+     * @throws IOException
+     *             if an I/O error occurs.
+     */
+
+    public static File createSaveFile(final String filename, final String dir) throws IOException {
+        File file = TikzIO.createSaveFile(filename, dir);
+        return file;
     }
 
     private void createDirectory() throws IOException {
@@ -32,27 +49,18 @@ public class Template extends TikzIO {
     }
 
     /**
-     * Create the File object in which the template will be saved.
-     * @param filename the filename of the File object.
-     * @param dir the directory where the File will be located.
-     * @return the File object created.
-     * @throws IOException if an I/O error occurs.
-     */
-
-    public static File createSaveFile(String filename, String dir) throws IOException {
-        File file = TikzIO.createSaveFile(filename, dir);
-        return file;
-    }
-
-    /**
      * I/O operation that saves the Template object in a file.
-     * @param name the name of the template.
-     * @param dir the directory where the Template will be saved.
+     *
+     * @param name
+     *            the name of the template.
+     * @param dir
+     *            the directory where the Template will be saved.
      * @return the File object in which the template has been saved.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException
+     *             if an I/O error occurs.
      */
 
-    public File saveTemplate(String name, String dir) throws IOException {
+    public File saveTemplate(final String name, final String dir) throws IOException {
         createDirectory();
         if (graph != null && name != null) {
             template_file = createSaveFile(name, dir);
@@ -63,22 +71,28 @@ public class Template extends TikzIO {
 
     /**
      * This method overloads the previous one.
-     * @param name the name of the template.
+     *
+     * @param name
+     *            the name of the template.
      * @return the File object in which the template has been saved.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException
+     *             if an I/O error occurs.
      */
 
-    public File saveTemplate(String name) throws IOException {
+    public File saveTemplate(final String name) throws IOException {
         return saveTemplate(name, GUI.Template.DIR);
     }
 
     /**
      * Load a template in the current project.
-     * @param file The File object where the template is located.
-     * @throws IOException if an I/O error occurs.
+     *
+     * @param file
+     *            The File object where the template is located.
+     * @throws IOException
+     *             if an I/O error occurs.
      */
 
-    public void loadTemplate(File file) throws IOException {
+    public void loadTemplate(final File file) throws IOException {
         Path p = Paths.get(file.getAbsolutePath());
         template_file = file;
         graph = new TikzGraph(p);
@@ -86,6 +100,7 @@ public class Template extends TikzIO {
 
     /**
      * Get the name of the template.
+     *
      * @return the template's name.
      */
 

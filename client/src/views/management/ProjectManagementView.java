@@ -5,14 +5,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Collections;
 import java.util.Vector;
+
 import javax.swing.*;
+
 import models.project.Project;
 import utils.RecentProjects;
 import constants.GUI;
 import controllers.management.ProjectManagementController;
 
-/** TODO: Change this JavaDoc, it is outdated
- * JDialog that serves as a "Main Menu". From here, the users can create a new diagram, open a project,
+/**
+ * TODO: Change this JavaDoc, it is outdated JDialog that serves as a
+ * "Main Menu". From here, the users can create a new diagram, open a project,
  * move/rename a project and open a recently edited project.
  */
 public class ProjectManagementView extends JPanel {
@@ -45,7 +48,7 @@ public class ProjectManagementView extends JPanel {
 
     private void createChooserPanel() {
         this.chooserPanel = new JPanel();
-        this.chooserPanel.setPreferredSize(new Dimension(300,100));
+        this.chooserPanel.setPreferredSize(new Dimension(300, 100));
         this.chooserPanel.setLayout(new BorderLayout());
 
         this.projectChooser = new JList<>(this.getListModel());
@@ -73,7 +76,7 @@ public class ProjectManagementView extends JPanel {
         this.cloudInfoPanel.setOpaque(false);
         this.cloudInfoPanel.setEnabled(false);
         this.cloudInfoPanel.setDisabledTextColor(Color.BLACK);
-        this.cloudInfoPanel.setPreferredSize(new Dimension(100,100));
+        this.cloudInfoPanel.setPreferredSize(new Dimension(100, 100));
     }
 
     private void createButtonsPanel() {
@@ -98,6 +101,7 @@ public class ProjectManagementView extends JPanel {
 
     /**
      * Fetch the selected project
+     *
      * @return The selected project
      */
     public Project getSelectedProject() {
@@ -106,7 +110,9 @@ public class ProjectManagementView extends JPanel {
 
     /**
      * Sets the information from the selected project in the info panel
-     * @param infoText The selected project's information
+     *
+     * @param infoText
+     *            The selected project's information
      */
     public void setInfoText(String infoText) {
         this.cloudInfoPanel.setText(infoText);
@@ -127,7 +133,7 @@ public class ProjectManagementView extends JPanel {
         this.projectChooser.setModel(this.getListModel());
     }
 
-    private DefaultListModel getListModel(){
+    private DefaultListModel getListModel() {
         DefaultListModel model = new DefaultListModel();
         Vector<Project> recentProjects = new Vector<>(RecentProjects.getRecentProjects());
         Collections.reverse(recentProjects);

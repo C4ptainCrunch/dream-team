@@ -33,7 +33,7 @@ public class EditorController implements Observer {
      * @param diagram
      *            The Diagram
      */
-    public EditorController(EditorView view, Diagram diagram) {
+    public EditorController(final EditorView view, final Diagram diagram) {
         this.view = view;
         this.diagram = diagram;
         this.diagram.getGraph().addObserver(this);
@@ -45,7 +45,7 @@ public class EditorController implements Observer {
         }
     }
 
-    public void update(Observable o, Object arg) {
+    public void update(final Observable o, final Object arg) {
         try {
             this.diagram.save();
             this.setTitle();
@@ -61,7 +61,7 @@ public class EditorController implements Observer {
      */
     public void setTitle() {
         String title = GUI.MenuBar.APP_NAME + " - ";
-        if(this.diagram.isTemporary()){
+        if (this.diagram.isTemporary()) {
             title = title + "(Unsaved)";
         } else {
             title = title + this.diagram.getProject().getName() + " - " + this.diagram.getName() + ".tikz";

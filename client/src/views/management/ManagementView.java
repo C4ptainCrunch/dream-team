@@ -1,12 +1,11 @@
 package views.management;
 
-import constants.GUI;
-import controllers.management.ManagementController;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import constants.GUI;
+import controllers.management.ManagementController;
 
 public class ManagementView extends JFrame {
     private final ManagementController controller;

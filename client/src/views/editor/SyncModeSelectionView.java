@@ -1,15 +1,17 @@
 package views.editor;
 
-import constants.SyncModeSelection;
-import controllers.editor.SyncModeSelectionController;
-import models.project.Project;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 
+import javax.swing.*;
+
+import models.project.Project;
+import constants.SyncModeSelection;
+import controllers.editor.SyncModeSelectionController;
+
 /**
- * Window that allows the user to select one of several possible sync modes for his diagram
+ * Window that allows the user to select one of several possible sync modes for
+ * his diagram
  */
 public class SyncModeSelectionView extends JDialog {
 
@@ -74,6 +76,7 @@ public class SyncModeSelectionView extends JDialog {
 
     /**
      * Get the user's selection
+     *
      * @return The user's selection
      */
     public String getSelection() {

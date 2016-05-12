@@ -9,14 +9,15 @@ import constants.Tokens;
  */
 public class TokenCreator {
     private TokenCreator() {
-         // Static class
+        // Static class
     }
 
     /**
      * Create and returns a new Token.
+     *
      * @return the created Token
      */
-    public static String newToken(){
+    public static String newToken() {
         char[] chars = Tokens.TOKEN_ALPHABET.toCharArray();
         StringBuilder sb = new StringBuilder();
         SecureRandom random = new SecureRandom();

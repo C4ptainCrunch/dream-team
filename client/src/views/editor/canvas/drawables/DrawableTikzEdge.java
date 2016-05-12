@@ -30,7 +30,7 @@ public class DrawableTikzEdge extends DrawableTikzComponent {
             g.fill(shape);
         }
 
-        for(Shape stroke : getStrokes()){
+        for (Shape stroke : getStrokes()) {
             g.fill(stroke);
         }
 

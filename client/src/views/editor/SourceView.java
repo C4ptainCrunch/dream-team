@@ -31,7 +31,8 @@ import controllers.editor.SourceController;
  * Implementation of the View (from the MVC architectural pattern) for the
  * Source. The Source is the area of the GUI where the Tikz is edited.
  *
- * @see <a href=http://javadoc.fifesoft.com/rsyntaxtextarea/org/fife/ui/rsyntaxtextarea/RSyntaxTextArea.html>RSyntaxTextArea doc</a>
+ * @see <a href=http://javadoc.fifesoft.com/rsyntaxtextarea/org/fife/ui/
+ *      rsyntaxtextarea/RSyntaxTextArea.html>RSyntaxTextArea doc</a>
  */
 public class SourceView extends JPanel {
     private static final int TEXT_LINE_WIDTH = 40;
@@ -51,11 +52,11 @@ public class SourceView extends JPanel {
      * @param graph
      *            The TikzGraph
      */
-    public SourceView(EditorView parentView, TikzGraph graph) {
+    public SourceView(final EditorView parentView, final TikzGraph graph) {
         this.parentView = parentView;
         this.graph = graph;
         this.controller = new SourceController(this, graph);
-        this.textArea = new RSyntaxTextArea(0,TEXT_LINE_WIDTH);
+        this.textArea = new RSyntaxTextArea(0, TEXT_LINE_WIDTH);
         initPanel();
         initTextArea();
         setThemeToDefault();
@@ -77,29 +78,25 @@ public class SourceView extends JPanel {
      * Initializes the text area with syntaxic color
      */
     private void initTextArea() {
-        DisplayMode gd = GraphicsEnvironment.
-                getLocalGraphicsEnvironment().
-                getDefaultScreenDevice().
-                getDisplayMode();
+        DisplayMode gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
         int h = gd.getHeight();
 
-        int nbOfLinesToSet = h/this.textArea.getLineHeight();
+        int nbOfLinesToSet = h / this.textArea.getLineHeight();
         this.textArea.setRows(nbOfLinesToSet);
         this.textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_LATEX);
         this.textArea.setCodeFoldingEnabled(true);
         this.controller.updateTikzText();
     }
 
-    private void applyTheme(String file_path){
+    private void applyTheme(final String file_path) {
         try {
             InputStream stream = GUI.class.getClassLoader().getResourceAsStream(file_path);
             Theme theme = Theme.load(stream);
             theme.apply(this.textArea);
-        } catch (IOException e){
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(this, Errors.LOAD_TEXT_AREA_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
     /**
      * Adds listeners for focus and document events to the view Reacts to a
@@ -108,24 +105,24 @@ public class SourceView extends JPanel {
     private void addListeners() {
         textArea.addFocusListener(new FocusListener() {
             @Override
-            public void focusGained(FocusEvent focusEvent) {
+            public void focusGained(final FocusEvent focusEvent) {
                 controller.focusGained();
             }
 
             @Override
-            public void focusLost(FocusEvent focusEvent) {
+            public void focusLost(final FocusEvent focusEvent) {
                 controller.focusLost();
             }
         });
 
         textArea.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void insertUpdate(DocumentEvent documentEvent) {
+            public void insertUpdate(final DocumentEvent documentEvent) {
                 controller.updateGraphIfFocused();
             }
 
             @Override
-            public void removeUpdate(DocumentEvent documentEvent) {
+            public void removeUpdate(final DocumentEvent documentEvent) {
                 controller.updateGraphIfFocused();
             }
 
@@ -136,34 +133,35 @@ public class SourceView extends JPanel {
         });
     }
 
-    private void highlightLine(Highlighter.HighlightPainter painter, int line_number){
+    private void highlightLine(Highlighter.HighlightPainter painter, int line_number) {
         try {
             Highlighter highlighter = this.textArea.getHighlighter();
             highlighter.addHighlight(this.textArea.getLineStartOffset(line_number), this.textArea.getLineEndOffset(line_number), painter);
-        } catch (BadLocationException e){
+        } catch (BadLocationException e) {
             e.printStackTrace();
         }
     }
 
-    private Highlighter.HighlightPainter createHighlightPainter(){
-        DefaultHighlighter.DefaultHighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(this.textArea.getCurrentLineHighlightColor());
+    private Highlighter.HighlightPainter createHighlightPainter() {
+        DefaultHighlighter.DefaultHighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(
+                this.textArea.getCurrentLineHighlightColor());
         return painter;
     }
 
-    private void moveTextAreaCaretToRightPosition(int line_number){
+    private void moveTextAreaCaretToRightPosition(int line_number) {
         try {
             textArea.setCaretPosition(textArea.getLineStartOffset(line_number));
             textArea.setHighlightCurrentLine(true);
-        } catch (BadLocationException e){
+        } catch (BadLocationException e) {
             e.printStackTrace();
         }
     }
 
-    private void setThemeToDefault(){
+    private void setThemeToDefault() {
         applyTheme(GUI.TextArea.DEFAULT_THEME);
     }
 
-    private void setThemeToDaltonian(){
+    private void setThemeToDaltonian() {
         applyTheme(GUI.TextArea.DEFAULT_COLOR_BLINDNESS_THEME);
     }
 
@@ -209,10 +207,10 @@ public class SourceView extends JPanel {
      * Highlights the line corresponding to the given component
      *
      * @param comp
-     *          The comp corresponding to the line to highlight
+     *            The comp corresponding to the line to highlight
      */
 
-    public void highlightCorrespondingLine(TikzComponent comp){
+    public void highlightCorrespondingLine(TikzComponent comp) {
         if (comp != null) {
             int index = controller.getLine(comp);
             moveTextAreaCaretToRightPosition(index);
@@ -220,16 +218,19 @@ public class SourceView extends JPanel {
     }
 
     /**
-     * Highlights a zone in the text area corresponding to the given component sets.
+     * Highlights a zone in the text area corresponding to the given component
+     * sets.
+     *
      * @param selectedComponents
-     *                      The set of components corresponding to the zone of the text area to highlight.
+     *            The set of components corresponding to the zone of the text
+     *            area to highlight.
      */
 
     public void highlightCorrespondingZone(Set<TikzComponent> selectedComponents) {
         List<Integer> lines = controller.getLines(selectedComponents);
         Highlighter.HighlightPainter painter = createHighlightPainter();
 
-        for (Integer line : lines){
+        for (Integer line : lines) {
             highlightLine(painter, line);
         }
 
@@ -241,18 +242,18 @@ public class SourceView extends JPanel {
     public void removeHighlights() {
         Highlighter highlighter = textArea.getHighlighter();
         highlighter.removeAllHighlights();
-        int end_line = textArea.getLineCount()-1;
+        int end_line = textArea.getLineCount() - 1;
         try {
             textArea.setCaretPosition(textArea.getLineStartOffset(end_line));
-        } catch (BadLocationException e){
+        } catch (BadLocationException e) {
             e.printStackTrace();
         }
     }
 
     public void setColorBlindMode(boolean set_mode) {
-        if (set_mode){
+        if (set_mode) {
             setThemeToDaltonian();
-        } else{
+        } else {
             setThemeToDefault();
         }
     }

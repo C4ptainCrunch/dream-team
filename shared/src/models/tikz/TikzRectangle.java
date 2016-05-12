@@ -22,7 +22,8 @@ public class TikzRectangle extends TikzShape {
 
     /**
      * Constructs a tikz rectangle with a given width and length
-     *  @param width
+     *
+     * @param width
      *            The width of the rectangle
      * @param length
      */
@@ -129,7 +130,6 @@ public class TikzRectangle extends TikzShape {
         notifyObservers();
     }
 
-
     /**
      * Getter for a clone (ie. copy of the current tikz rectangle)
      *
@@ -142,7 +142,7 @@ public class TikzRectangle extends TikzShape {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return TikzFormatter.format(this);
     }
 

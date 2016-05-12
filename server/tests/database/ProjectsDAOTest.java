@@ -1,18 +1,20 @@
 package database;
 
-import constants.Database;
-import models.databaseModels.Project;
-import models.databaseModels.User;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import utils.ServerTest;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import models.databaseModels.Project;
+import models.databaseModels.User;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import utils.ServerTest;
+import constants.Database;
 
 public class ProjectsDAOTest extends ServerTest {
 
@@ -38,7 +40,7 @@ public class ProjectsDAOTest extends ServerTest {
         project = new Project(project_uid, user_id, path, last_modification, write_default, read_default, name, username);
         this.dao = daoFactory.getProjectDAO();
         this.usersDAO = this.daoFactory.getUsersDAO();
-        this.testUser = new User(user_id,username,"Test","User","testUser@gmail.com");
+        this.testUser = new User(user_id, username, "Test", "User", "testUser@gmail.com");
         this.usersDAO.create(this.testUser);
         this.dao.create(project);
     }
@@ -47,7 +49,10 @@ public class ProjectsDAOTest extends ServerTest {
     public void tearDown() throws Exception {
         this.dao.deleteProject(project_uid);
         this.usersDAO.deleteUser(this.testUser);
-        /* To delete dirs made by the tests (because db creation depends on the actual path) */
+        /*
+         * To delete dirs made by the tests (because db creation depends on the
+         * actual path)
+         */
         File db = new File(Database.DB_FILE);
         db.delete();
         File db_dir = new File(Database.DB_DIR);

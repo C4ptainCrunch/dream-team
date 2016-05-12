@@ -4,10 +4,11 @@ import static java.awt.Color.black;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import utils.SharedTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import utils.SharedTest;
 
 /**
  * Created by jhellinckx on 29/02/16.

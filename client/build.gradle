@@ -53,7 +53,7 @@ task onejar(type: OneJar) {
 }
 
 run {
-    if ( project.hasProperty("appArgs") ) {
+    if (project.hasProperty("appArgs")) {
         args Eval.me(appArgs)
     }
 }

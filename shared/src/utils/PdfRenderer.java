@@ -4,12 +4,15 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 import java.awt.*;
 import java.io.*;
+import java.util.logging.Logger;
 
 import javax.swing.*;
 
 import models.tikz.TikzGraph;
 
 public final class PdfRenderer {
+    private static final Logger logger = Log.getLogger(PdfRenderer.class);
+
     private PdfRenderer() {
     }
 
@@ -19,7 +22,7 @@ public final class PdfRenderer {
         writer.close();
     }
 
-    private static void createPdfDirectory(File buildDir) throws  PdfCompilationError{
+    private static void createPdfDirectory(File buildDir) throws PdfCompilationError {
         if (!buildDir.exists()) {
             try {
                 buildDir.mkdir();
@@ -29,7 +32,7 @@ public final class PdfRenderer {
         }
     }
 
-    private static void openCompiledPdf(Process p, File pdf, File pdfTarget ){
+    private static void openCompiledPdf(Process p, File pdf, File pdfTarget) {
         SwingUtilities.invokeLater(() -> {
             try {
                 p.waitFor();
@@ -46,6 +49,7 @@ public final class PdfRenderer {
                     // if opening the file failed, just silently skip
                     // because it is not important, the file has already been
                     // compiled
+                    logger.fine("File already compiled");
                 }
             } else {
                 showMessageDialog(null, "Compilation ended : " + pdfTarget.toString());

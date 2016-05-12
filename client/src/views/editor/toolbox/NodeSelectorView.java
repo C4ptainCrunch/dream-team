@@ -1,11 +1,11 @@
 package views.editor.toolbox;
 
-import constants.Models;
 import misc.SelectorComponent;
 import models.ToolModel;
 import models.tikz.TikzCircle;
 import models.tikz.TikzPolygon;
 import models.tikz.TikzRectangle;
+import constants.Models;
 
 /**
  * Implementation of the View (from the MVC architectural pattern) for the
@@ -53,7 +53,7 @@ public class NodeSelectorView extends SelectorView {
     }
 
     private void addTriangle() {
-        TikzPolygon triangle = new TikzPolygon(Models.DEFAULT.LENGTH/2, 3);
+        TikzPolygon triangle = new TikzPolygon(Models.DEFAULT.LENGTH / 2, 3);
         this.addComponent(new SelectorComponent(triangle, this));
     }
 }

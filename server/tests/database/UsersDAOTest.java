@@ -11,9 +11,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import constants.Database;
 import utils.ServerTest;
-
+import constants.Database;
 
 public class UsersDAOTest extends ServerTest {
 
@@ -26,7 +25,7 @@ public class UsersDAOTest extends ServerTest {
         CreateDatabase.createDatabaseIfDoesntExists();
         this.daoFactorySingleton = DAOFactorySingleton.getInstance();
         this.usersDAO = this.daoFactorySingleton.getUsersDAO();
-        this.testUser = new User(0,"testUser","Test","User","testUser@gmail.com");
+        this.testUser = new User(0, "testUser", "Test", "User", "testUser@gmail.com");
         this.usersDAO.create(this.testUser);
 
     }
@@ -34,7 +33,10 @@ public class UsersDAOTest extends ServerTest {
     @After
     public void tearDown() throws Exception {
         this.usersDAO.deleteUser(this.testUser);
-        /* To delete dirs made by the tests (because db creation depends on the actual path) */
+        /*
+         * To delete dirs made by the tests (because db creation depends on the
+         * actual path)
+         */
         File db = new File(Database.DB_FILE);
         db.delete();
         File db_dir = new File(Database.DB_DIR);
@@ -43,12 +45,11 @@ public class UsersDAOTest extends ServerTest {
         db_dir_first.delete();
     }
 
-
     @Test
     public void testRetrieveUsers() throws SQLException {
         User resultUser = this.usersDAO.findByUsername("testUser");
         assertNotNull(resultUser);
-        assertEquals(this.testUser.getUsername(),resultUser.getUsername());
+        assertEquals(this.testUser.getUsername(), resultUser.getUsername());
     }
 
     @Test

@@ -1,11 +1,11 @@
 task zip {
-    copy{
+    copy {
         dependsOn ":client:distZip"
         from "client/build/distributions"
         into "zip"
         include "*.zip"
     }
-    copy{
+    copy {
         dependsOn ":server:distZip"
         from "server/build/distributions"
         into "zip"
@@ -25,7 +25,7 @@ buildscript {
 }
 
 task onejar {
-    copy{
+    copy {
         dependsOn ":client:onejar"
         dependsOn ":server:onejar"
         from "client/build/libs/client-standalone.jar"
@@ -35,7 +35,7 @@ task onejar {
             fileName.replace('-standalone', '')
         }
     }
-    copy{
+    copy {
         dependsOn ":client:onejar"
         dependsOn ":server:onejar"
         from "server/build/libs/server-standalone.jar"

@@ -28,10 +28,12 @@ public class Dirs {
     }
 
     /**
-     * Returns the OS dependent document path (~ on Linux, "My Documents" on Windows, ...)
+     * Returns the OS dependent document path (~ on Linux, "My Documents" on
+     * Windows, ...)
+     *
      * @return The path
      */
-    public static Path getDefaultDirectory(){
+    public static Path getDefaultDirectory() {
         return FileSystemView.getFileSystemView().getDefaultDirectory().toPath();
     }
 }

@@ -24,10 +24,10 @@ import constants.Warnings;
  */
 public class SignUpController {
 
-    private SignUpView view;
     private final String BASE_PATH = "user/signup/";
+    private SignUpView view;
 
-    public SignUpController(SignUpView v) {
+    public SignUpController(final SignUpView v) {
         this.view = v;
     }
 
@@ -39,18 +39,22 @@ public class SignUpController {
         this.view.showSignUpPanel();
     }
 
-    private boolean checkField(JTextField field, String regex, String warning){
+    private boolean checkField(final JTextField field, final String regex, final String warning) {
         boolean valid = Pattern.matches(regex, field.getText());
-        if (!valid){
+        if (!valid) {
             this.view.initWarning(warning);
         }
         return valid;
     }
 
     /**
-     * Check if the data entered by the user are correct (i.e. allow him to enter the program).
-     * @param fields The text fields
-     * @param passwordField The password field
+     * Check if the data entered by the user are correct (i.e. allow him to
+     * enter the program).
+     *
+     * @param fields
+     *            The text fields
+     * @param passwordField
+     *            The password field
      */
     public void validateFields(ArrayList<JTextField> fields, JPasswordField passwordField) {
         boolean firstNameCheck = checkField(fields.get(0), GUI.SignUp.NAMES_REGEX, Warnings.FIRSTNAME_WARNING);
@@ -59,11 +63,11 @@ public class SignUpController {
 
         EmailValidator emailValidator = EmailValidator.getInstance();
         Boolean emailCheck = emailValidator.isValid(fields.get(3).getText());
-        if(!emailCheck) {
+        if (!emailCheck) {
             this.view.initWarning(Warnings.EMAIL_WARNING);
         }
 
-        if(firstNameCheck && lastNameCheck && userNameCheck && emailCheck) {
+        if (firstNameCheck && lastNameCheck && userNameCheck && emailCheck) {
             accountCreation(fields, passwordField);
         }
     }
@@ -76,23 +80,21 @@ public class SignUpController {
         java.awt.EventQueue.invokeLater(LoginWindowView::new);
     }
 
-    private void accountCreation(ArrayList<JTextField> fields, JPasswordField passwordField) {
+    private void accountCreation(final ArrayList<JTextField> fields, final JPasswordField passwordField) {
         Form postForm = new Form();
 
-        for(int i = 0 ; i<fields.size(); i++) {
+        for (int i = 0; i < fields.size(); i++) {
             postForm.param(Network.Signup.FIELDS_NAMES.get(i), fields.get(i).getText());
         }
         postForm.param("password", new String(passwordField.getPassword()));
 
-
-        NetworkRequest request = new NetworkRequest(Network.HOST.COMPLETE_HOSTNAME,BASE_PATH+fields.get(2), MediaType.TEXT_PLAIN_TYPE);
+        NetworkRequest request = new NetworkRequest(Network.HOST.COMPLETE_HOSTNAME, BASE_PATH + fields.get(2), MediaType.TEXT_PLAIN_TYPE);
         request.post(postForm);
 
-
-        if(request.getResponse().getStatus() == 200){
+        if (request.getResponse().getStatus() == 200) {
             new TokenActivationView();
             this.view.dispose();
-        }else {
+        } else {
             JOptionPane.showMessageDialog(this.view, Errors.SIGNUP_FAILED, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
         }
 

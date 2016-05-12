@@ -1,10 +1,6 @@
 package models.databaseModels;
 
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -14,7 +10,6 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-
 
     public User() {
         // JAX-RS needs a constructor without any parameters
@@ -40,36 +35,43 @@ public class User {
         return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @XmlAttribute
     public int getId() {
         return id;
     }
 
-    @XmlAttribute
-    public String getFirstName() { return firstName; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @XmlAttribute
-    public String getLastName() { return lastName; }
-
-    @XmlAttribute
-    public String getEmail() { return email; }
-
-
-    public void setId(int id) {this.id = id;}
+    public String getFirstName() {
+        return firstName;
+    }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    @XmlAttribute
+    public String getLastName() {
+        return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    @XmlAttribute
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -25,7 +25,6 @@ public abstract class DrawableTikzComponent implements Drawable {
         strokes.add(new BasicStroke(this.component.getStroke()).createStrokedShape(shape));
     }
 
-
     // Useful for drawing the Label.
     public Rectangle2D getBounds() {
         if (!shapes.isEmpty()) {
@@ -34,15 +33,18 @@ public abstract class DrawableTikzComponent implements Drawable {
                 bounds.add(shapes.get(i).getBounds2D());
             }
             return bounds;
-        } else
+        } else {
             return new Rectangle2D.Double();
+        }
     }
 
     public java.util.List<Shape> getShapes() {
         return shapes;
     }
 
-    public java.util.List<Shape> getStrokes() { return strokes; }
+    public java.util.List<Shape> getStrokes() {
+        return strokes;
+    }
 
     public boolean contains(Point2D.Float point) {
         for (Shape shape : shapes) {
@@ -50,22 +52,22 @@ public abstract class DrawableTikzComponent implements Drawable {
                 return true;
             }
         }
-        for(Shape stroke : strokes){
-            if(stroke.contains(point)){
+        for (Shape stroke : strokes) {
+            if (stroke.contains(point)) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean intersects(Shape s){
-        for (Shape shape : shapes){
-            if (shape.intersects(s.getBounds2D())){
+    public boolean intersects(Shape s) {
+        for (Shape shape : shapes) {
+            if (shape.intersects(s.getBounds2D())) {
                 return true;
             }
         }
-        for (Shape stroke: strokes){
-            if (stroke.intersects(s.getBounds2D())){
+        for (Shape stroke : strokes) {
+            if (stroke.intersects(s.getBounds2D())) {
                 return true;
             }
         }

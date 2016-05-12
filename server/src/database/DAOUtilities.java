@@ -19,87 +19,110 @@ public class DAOUtilities {
     }
 
     /**
-     * Creates and returns a PreparedStatement wich will be send to the database with a given connection and SQL query.
-     * @param connection The connection to the database
-     * @param sql The SQL query
-     * @param returnGeneratedKeys A boolean to return (if true) auto generated keys by the SQL query (like the auto generated id when creating a user)
-     * @param objets Parameters of the SQL query
+     * Creates and returns a PreparedStatement wich will be send to the database
+     * with a given connection and SQL query.
+     *
+     * @param connection
+     *            The connection to the database
+     * @param sql
+     *            The SQL query
+     * @param returnGeneratedKeys
+     *            A boolean to return (if true) auto generated keys by the SQL
+     *            query (like the auto generated id when creating a user)
+     * @param objets
+     *            Parameters of the SQL query
      * @return
      * @throws SQLException
      */
-    public static PreparedStatement initializationPreparedRequest( Connection connection, String sql, boolean returnGeneratedKeys, Object... objets ) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement( sql, returnGeneratedKeys ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS );
-        for ( int i = 0; i < objets.length; i++ ) {
-            preparedStatement.setObject( i + 1, objets[i] );
+    public static PreparedStatement initializationPreparedRequest(Connection connection, String sql, boolean returnGeneratedKeys,
+            Object... objets) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(sql,
+                returnGeneratedKeys ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
+        for (int i = 0; i < objets.length; i++) {
+            preparedStatement.setObject(i + 1, objets[i]);
         }
         return preparedStatement;
     }
 
     /**
      * Closes the given ResultSet.
-     * @param resultSet The ResultSet to close
+     *
+     * @param resultSet
+     *            The ResultSet to close
      */
-    public static void silentClosing( ResultSet resultSet ) {
-        if ( resultSet != null ) {
+    public static void silentClosing(ResultSet resultSet) {
+        if (resultSet != null) {
             try {
                 resultSet.close();
-            } catch ( SQLException e ) {
-                logger.warning( "Failed to close the ResultSet : " + e.toString() );
+            } catch (SQLException e) {
+                logger.warning("Failed to close the ResultSet : " + e.toString());
             }
         }
     }
 
     /**
      * Closes the given Statement.
-     * @param statement The Statement to close
+     *
+     * @param statement
+     *            The Statement to close
      */
-    public static void silentClosing( Statement statement ) {
-        if ( statement != null ) {
+    public static void silentClosing(Statement statement) {
+        if (statement != null) {
             try {
                 statement.close();
-            } catch ( SQLException e ) {
-                logger.warning( "Failed to close the Statement : " + e.toString() );
+            } catch (SQLException e) {
+                logger.warning("Failed to close the Statement : " + e.toString());
             }
         }
     }
 
     /**
      * Closes the given Connection.
-     * @param connection The Connection to close
+     *
+     * @param connection
+     *            The Connection to close
      */
-    public static void silentClosing( Connection connection ) {
-        if ( connection != null ) {
+    public static void silentClosing(Connection connection) {
+        if (connection != null) {
             try {
                 connection.close();
-            } catch ( SQLException e ) {
-                logger.warning( "Failed to close the connection : " + e.toString() );
+            } catch (SQLException e) {
+                logger.warning("Failed to close the connection : " + e.toString());
             }
         }
     }
 
     /**
      * Closes a given Statement and Connection.
-     * @param statement the Statement to close
-     * @param connection the Connection to close
+     *
+     * @param statement
+     *            the Statement to close
+     * @param connection
+     *            the Connection to close
      */
-    public static void silentClosures(Statement statement, Connection connection ) {
-        silentClosing( statement );
-        silentClosing( connection );
+    public static void silentClosures(Statement statement, Connection connection) {
+        silentClosing(statement);
+        silentClosing(connection);
     }
 
     /**
      * Closes a give ResultSet, Statement and Connection.
-     * @param resultSet the ResultSet to close
-     * @param statement the Statement to close
-     * @param connection the Connection to close
+     *
+     * @param resultSet
+     *            the ResultSet to close
+     * @param statement
+     *            the Statement to close
+     * @param connection
+     *            the Connection to close
      */
-    public static void silentClosures( ResultSet resultSet, Statement statement, Connection connection ) {
-        silentClosing( resultSet );
-        silentClosing( statement );
-        silentClosing( connection );
+    public static void silentClosures(ResultSet resultSet, Statement statement, Connection connection) {
+        silentClosing(resultSet);
+        silentClosing(statement);
+        silentClosing(connection);
     }
 
-    public static ResultSet executeQuery(DAOFactorySingleton daoFactorySingleton, Connection connection, PreparedStatement preparedStatement, ResultSet resultSet, String sqlQuery, Object... objects) {
+    public static ResultSet executeQuery(DAOFactorySingleton daoFactorySingleton, Connection connection,
+            PreparedStatement preparedStatement, ResultSet resultSet, String sqlQuery, Object... objects) {
         try {
             connection = daoFactorySingleton.getConnection();
             preparedStatement = initializationPreparedRequest(connection, sqlQuery, false, objects);
@@ -148,7 +171,7 @@ public class DAOUtilities {
         return new Project(uid, user_id, path, last_modification, default_perm_write, default_perm_read, name, username);
     }
 
-    public static Permissions mapPermissions(ResultSet resultSet) throws SQLException{
+    public static Permissions mapPermissions(ResultSet resultSet) throws SQLException {
         int userID = resultSet.getInt("user_id");
         String projectUID = resultSet.getString("project_uid");
         boolean readable = resultSet.getInt("read_perm") == 1;

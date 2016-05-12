@@ -41,7 +41,7 @@ public class TikzColorChooserPanel extends AbstractColorChooserPanel {
         setLayout(new GridLayout(square / 2, square * 2));
         ButtonGroup group = new ButtonGroup();
 
-        for(Color color: tikzColors){
+        for (Color color : tikzColors) {
             JToggleButton b = createColorButton(color);
             b.addActionListener(e -> getColorSelectionModel().setSelectedColor(color));
             this.buttons.put(color, b);
@@ -62,4 +62,3 @@ public class TikzColorChooserPanel extends AbstractColorChooserPanel {
         return null;
     }
 }
-

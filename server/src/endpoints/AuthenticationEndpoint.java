@@ -6,22 +6,29 @@ import java.util.Map;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import database.DAOFactorySingleton;
 import middleware.Secured;
 import models.databaseModels.User;
 import utils.TokenCreator;
+import database.DAOFactorySingleton;
 import database.UsersDAO;
 
 @Path("/authentication")
 public class AuthenticationEndpoint {
-    UsersDAO usersDAO = DAOFactorySingleton.getInstance().getUsersDAO();
     final static Map<String, String> tokens = new HashMap<>();
+    UsersDAO usersDAO = DAOFactorySingleton.getInstance().getUsersDAO();
+
+    public static boolean validateToken(String token) {
+        return tokens.containsKey(token);
+    }
+
+    public static String getUsernameFromToken(String token) {
+        return tokens.get(token);
+    }
 
     @POST
     @Produces("text/plain")
     @Consumes("application/x-www-form-urlencoded")
-    public Response authenticateUser(@FormParam("username") String username,
-                                     @FormParam("password") String password) {
+    public Response authenticateUser(@FormParam("username") String username, @FormParam("password") String password) {
 
         try {
             authenticate(username, password);
@@ -49,19 +56,11 @@ public class AuthenticationEndpoint {
         return token;
     }
 
-    public static boolean validateToken(String token) {
-        return tokens.containsKey(token);
-    }
-
-    public static String getUsernameFromToken(String token) {
-        return tokens.get(token);
-    }
-
     @GET
     @Secured
     @Path("/checktoken")
     @Produces("text/plain")
-    public String checkToken(){
+    public String checkToken() {
         return "OK";
     }
 }

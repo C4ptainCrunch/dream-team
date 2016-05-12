@@ -20,30 +20,28 @@ public class TemplateTest extends ClientTest {
 
     private static final String TEST_1_FILENAME = "test";
     private static final String TEST_2_FILENAME = "test2";
-
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
     private Template template;
 
-    private void deleteFile(String filename, Path p) throws Exception{
+    private void deleteFile(String filename, Path p) throws Exception {
         File f = p.resolve(filename).toFile();
-        if (f != null){
+        if (f != null) {
             f.delete();
         }
     }
 
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
         template = new Template(new TikzGraph());
     }
 
     @After
-    public void tearDown() throws Exception{
+    public void tearDown() throws Exception {
         Path p = Paths.get(folder.toString());
         deleteFile(TEST_1_FILENAME, p);
         deleteFile(TEST_2_FILENAME, p);
     }
-
-    @Rule
-    public TemporaryFolder folder = new TemporaryFolder();
 
     @Test
     public void testFileCreation() throws Exception {

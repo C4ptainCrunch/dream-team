@@ -2,14 +2,6 @@ package models.project;
 
 import static org.junit.Assert.assertEquals;
 
-import models.tikz.TikzCircle;
-import models.tikz.TikzGraph;
-import models.tikz.TikzUndirectedEdge;
-import utils.SharedTest;
-import org.junit.Test;
-import org.junit.After;
-import org.junit.Before;
-
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
@@ -17,6 +9,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import models.tikz.TikzCircle;
+import models.tikz.TikzGraph;
+import models.tikz.TikzUndirectedEdge;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import utils.SharedTest;
 
 public class ProjectTest extends SharedTest {
 
@@ -29,14 +30,14 @@ public class ProjectTest extends SharedTest {
     private Diagram diagram;
     private TikzGraph graph;
 
-    private Date getLaterTime(){
+    private Date getLaterTime() {
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
-        date.setTime(date.getTime()+time_diff);
-       return date;
+        date.setTime(date.getTime() + time_diff);
+        return date;
     }
 
-    private void writeDiff(List<Diff> diff) throws Exception{
+    private void writeDiff(List<Diff> diff) throws Exception {
         ByteArrayOutputStream bs = new ByteArrayOutputStream();
         ObjectOutputStream os = new ObjectOutputStream(bs);
         os.writeObject(diff);
@@ -91,7 +92,7 @@ public class ProjectTest extends SharedTest {
     }
 
     @Test
-    public void testRenameDiagram() throws Exception{
+    public void testRenameDiagram() throws Exception {
         project.renameDiagram(first_diagram_name, second_diagram_name);
         Diagram fromDisk = project.getDiagram(second_diagram_name);
         TikzGraph diskGraph = fromDisk.getGraph();
@@ -99,10 +100,9 @@ public class ProjectTest extends SharedTest {
     }
 
     @Test
-    public void testGetDiagramNames() throws Exception{
+    public void testGetDiagramNames() throws Exception {
         Set<String> names = new HashSet<>(Arrays.asList(first_diagram_name));
         assertEquals(project.getDiagramNames(), names);
     }
-
 
 }

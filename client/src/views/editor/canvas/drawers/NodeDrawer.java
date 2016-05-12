@@ -21,11 +21,16 @@ public abstract class NodeDrawer extends ComponentDrawer {
     }
 
     /**
-     * Set the position of the given shape. uses swing coordinates. The shape
-     * is centered and translated by the node coordinates converted to swing coordinates
-     * @param shape shape to position.
-     * @param node node corresponding to the shape
-     * @param panel panel to draw the shape onto
+     * Set the position of the given shape. uses swing coordinates. The shape is
+     * centered and translated by the node coordinates converted to swing
+     * coordinates
+     *
+     * @param shape
+     *            shape to position.
+     * @param node
+     *            node corresponding to the shape
+     * @param panel
+     *            panel to draw the shape onto
      * @return the positioned shape
      */
     public Shape getPositionedShape(Shape shape, TikzNode node, JComponent panel) {
@@ -40,10 +45,11 @@ public abstract class NodeDrawer extends ComponentDrawer {
         return toSwingTransform.createTransformedShape(shape);
     }
 
-
     /**
      * Centers the shape
-     * @param shape shape to center
+     *
+     * @param shape
+     *            shape to center
      * @return centered shape
      */
     public Shape getCenteredShape(Shape shape) {
@@ -52,22 +58,25 @@ public abstract class NodeDrawer extends ComponentDrawer {
         return center.createTransformedShape(shape);
     }
 
-
     /**
      * Determine the closest node anchor from the point
-     * @param node the node to get the anchors from
-     * @param point point to get the node closest anchor from
-     * @param panel panel on whoch the node is drawn
+     *
+     * @param node
+     *            the node to get the anchors from
+     * @param point
+     *            point to get the node closest anchor from
+     * @param panel
+     *            panel on whoch the node is drawn
      * @return the node closest anchor from the point
      */
-    public Point2D.Float closestAnchor(TikzNode node, Point2D.Float point, JComponent panel){
+    public Point2D.Float closestAnchor(TikzNode node, Point2D.Float point, JComponent panel) {
         double distance = Double.MAX_VALUE;
         double other_distance;
         Point2D.Float closest = null;
         point = Converter.tikz2swing(point, panel);
-        for(Point2D.Float anchor : this.getAnchors(node, panel)){
+        for (Point2D.Float anchor : this.getAnchors(node, panel)) {
             other_distance = Geom.euclideanDistance(anchor, point);
-            if(other_distance < distance){
+            if (other_distance < distance) {
                 distance = other_distance;
                 closest = anchor;
             }
@@ -76,8 +85,5 @@ public abstract class NodeDrawer extends ComponentDrawer {
     }
 
     public abstract List<Point2D.Float> getAnchors(TikzNode node, JComponent panel);
-
-
-
 
 }

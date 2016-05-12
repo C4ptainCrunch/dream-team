@@ -1,20 +1,19 @@
 package controllers.management;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.logging.Logger;
+
+import javax.swing.*;
+
 import misc.logic.CloudLogic;
 import models.project.Project;
 import utils.Dirs;
 import utils.Log;
 import utils.RecentProjects;
-import views.editor.SyncModeSelectionView;
 import views.management.*;
-
-import javax.swing.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.logging.Logger;
 
 /**
  * Controller for the CloudManagementView
@@ -26,19 +25,24 @@ public class CloudManagementController {
 
     /**
      * Creates a controller for the CloudManagementView
-     * @param cloudManagementView The corresponding view, created elsewhere
+     *
+     * @param cloudManagementView
+     *            The corresponding view, created elsewhere
      */
-    public CloudManagementController(CloudManagementView cloudManagementView) {
+    public CloudManagementController(final CloudManagementView cloudManagementView) {
         this.view = cloudManagementView;
     }
 
     /**
      * Creates the information to be set in the info panel
-     * @param selectedProject The project to get information from
+     *
+     * @param selectedProject
+     *            The project to get information from
      */
-    public void dropdownSelected(models.databaseModels.Project selectedProject) {
-        String infoText = "INFORMATION ABOUT SELECTED PROJECT:\nCreator: " + selectedProject.getUsername() + "\nLast revision: "+
-                          selectedProject.getLast_modification()+"\nWrite Permission: " + (selectedProject.isCurrentUserWritePerm() ? "Yes": "No");
+    public void dropdownSelected(final models.databaseModels.Project selectedProject) {
+        String infoText = "INFORMATION ABOUT SELECTED PROJECT:\nCreator: " + selectedProject.getUsername() + "\nLast revision: "
+                + selectedProject.getLast_modification() + "\nWrite Permission: "
+                + (selectedProject.isCurrentUserWritePerm() ? "Yes" : "No");
         this.view.setInfoText(infoText);
     }
 
@@ -98,11 +102,11 @@ public class CloudManagementController {
             Path localZip = CloudLogic.getLocalOrDistantCopy(project);
 
             FileChooseView choose = new FileChooseView("Save local copy", JFileChooser.FILES_AND_DIRECTORIES);
-            choose.setFileRestriction("CreaTikz files","crea");
+            choose.setFileRestriction("CreaTikz files", "crea");
             choose.setSelectedFile(new File(project.getName()));
             File destination = choose.ask();
 
-            if(destination != null) {
+            if (destination != null) {
                 Files.move(localZip, destination.toPath());
                 new ImportProjectSelectorView(destination.toPath());
                 RecentProjects.addProject(new Project(destination.toPath()));

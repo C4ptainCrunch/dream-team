@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.jws.soap.SOAPBinding;
 import javax.mail.MessagingException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -12,19 +11,19 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-import database.DAOFactorySingleton;
 import middleware.Secured;
 import models.databaseModels.User;
 import utils.ConfirmationEmailSender;
 import utils.Log;
 import utils.TokenCreator;
 import constants.Network;
+import database.DAOFactorySingleton;
 import database.UsersDAO;
 
 @Path("user")
 public class UserEndpoint {
-    UsersDAO usersDAO = DAOFactorySingleton.getInstance().getUsersDAO();
     private final static Logger logger = Log.getLogger(UserEndpoint.class);
+    UsersDAO usersDAO = DAOFactorySingleton.getInstance().getUsersDAO();
 
     @GET
     @Secured
@@ -33,7 +32,7 @@ public class UserEndpoint {
     public User getUserData(@Context SecurityContext securityContext) throws SQLException {
         String username = securityContext.getUserPrincipal().getName();
         User user = this.usersDAO.findByUsername(username);
-        if(user == null){
+        if (user == null) {
             throw new NotFoundException("User not found");
         }
         return user;
@@ -43,14 +42,15 @@ public class UserEndpoint {
     @Path("/list")
     @Produces("application/xml")
     public GenericEntity<List<User>> list() throws SQLException {
-        return new GenericEntity<List<User>>(usersDAO.getAll()){};
+        return new GenericEntity<List<User>>(usersDAO.getAll()) {
+        };
     }
 
     @POST
     @Path("/activate/{username}")
     @Produces("text/plain")
     public String validateToken(@PathParam("username") String username, @FormParam("token") String token) throws SQLException {
-        if(this.usersDAO.getTokenOfUser(username).equals(token)){
+        if (this.usersDAO.getTokenOfUser(username).equals(token)) {
             this.usersDAO.activateUser(username);
             return Network.Token.TOKEN_OK;
         } else {
@@ -60,11 +60,9 @@ public class UserEndpoint {
 
     @POST
     @Path("/signup/{user}")
-    public Response signUp(@FormParam("username") String username,
-                           @FormParam("firstname") String firstname,
-                           @FormParam("lastname") String lastname,
-                           @FormParam("email") String email,
-                           @FormParam("password") String password) throws SQLException {
+    public Response signUp(@FormParam("username") String username, @FormParam("firstname") String firstname,
+            @FormParam("lastname") String lastname, @FormParam("email") String email, @FormParam("password") String password)
+                    throws SQLException {
         User user = new User(username, firstname, lastname, email);
         try {
             this.usersDAO.create(user);
@@ -75,7 +73,7 @@ public class UserEndpoint {
                 logger.info("Email sending to " + email + " failed.");
             }
             return Response.ok().build();
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.warning("Error while signup");
             e.printStackTrace();
             throw new ServerErrorException("Error while signup", 500);
@@ -87,11 +85,9 @@ public class UserEndpoint {
     @Path("/edit")
     @Produces("text/plain")
     @Consumes("application/xml")
-    public String editUser(
-            User user,
-            @Context SecurityContext securityContext) throws SQLException {
+    public String editUser(User user, @Context SecurityContext securityContext) throws SQLException {
         String username = securityContext.getUserPrincipal().getName();
-        if(!user.getUsername().equals(username)){
+        if (!user.getUsername().equals(username)) {
             throw new BadRequestException("User username isn't the same as the db username");
         }
         User dbUser = usersDAO.findByUsername(username);
@@ -101,11 +97,11 @@ public class UserEndpoint {
         dbUser.setEmail(user.getEmail());
 
         this.usersDAO.update(dbUser);
-        if(should_reset_email) {
+        if (should_reset_email) {
             String token = TokenCreator.newToken();
             this.usersDAO.setToken(dbUser, token);
             try {
-                ConfirmationEmailSender.send(dbUser.getEmail(),token);
+                ConfirmationEmailSender.send(dbUser.getEmail(), token);
             } catch (MessagingException e) {
                 e.printStackTrace();
             }

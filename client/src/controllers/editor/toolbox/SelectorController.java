@@ -27,7 +27,7 @@ public class SelectorController implements Observer {
      * @param m
      *            The tool model
      */
-    public SelectorController(SelectorView v, ToolModel m) {
+    public SelectorController(final SelectorView v, final ToolModel m) {
         view = v;
         model = m;
     }
@@ -38,7 +38,7 @@ public class SelectorController implements Observer {
      * @param component
      *            The component being selected
      */
-    public void itemSelected(TikzComponent component) {
+    public void itemSelected(final TikzComponent component) {
         model.setComponent(component);
 
         AttributesChooserView attributes = view.getParentView().getAttributesChooserView();
@@ -56,7 +56,7 @@ public class SelectorController implements Observer {
      *            The Object given by the Observable
      */
     @Override
-    public void update(Observable o, Object obj) {
+    public void update(final Observable o, final Object obj) {
         // this was left intentionally blank
     }
 }

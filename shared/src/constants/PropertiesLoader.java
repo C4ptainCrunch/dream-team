@@ -1,6 +1,9 @@
 package constants;
 
-import parser.TikzColors;
+import static constants.Models.*;
+import static constants.Network.*;
+import static constants.ProjectConflicts.*;
+import static constants.SyncModeSelection.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,11 +11,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
 
-import static constants.Models.*;
-import static constants.Network.*;
-import static constants.ProjectConflicts.*;
-import static constants.SyncModeSelection.*;
+import parser.TikzColors;
 
+interface PropertiesReader {
+    void read(Properties properties);
+}
 
 public class PropertiesLoader {
     private static final String MODELS_PROPERTIES_FILENAME = "models.properties";
@@ -21,24 +24,26 @@ public class PropertiesLoader {
     private static final String SYNCMODESELECTION_PROPERTIES_FILENAME = "syncmodeselection.properties";
     private static final String PROJECTSCONFLICTS_PROPERTIES_FILENAME = "projectconflicts.properties";
 
-    protected static void load(String filename, PropertiesReader reader){
+    protected static void load(String filename, PropertiesReader reader) {
         InputStream stream = PropertiesLoader.class.getClassLoader().getResourceAsStream(filename);
         try {
-            if(stream == null) { throw new IOException(); }
+            if (stream == null) {
+                throw new IOException();
+            }
             Properties properties = new Properties();
             properties.load(stream);
             reader.read(properties);
 
-        } catch(IOException e){
+        } catch (IOException e) {
             System.err.println("Could not load properties file '" + filename + "'. Using default values. ");
-        } catch (ClassCastException e){
+        } catch (ClassCastException e) {
             System.err.println("Syntax error in property file '" + filename + "'.");
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.err.println("Syntax error in property file '" + filename + "'.");
         }
     }
 
-    public static void loadAll(){
+    public static void loadAll() {
         loadModelsProperties();
         loadNetworkProperties();
         loadUtilsProperties();
@@ -46,26 +51,30 @@ public class PropertiesLoader {
         loadProjectConflictsProperties();
     }
 
-    public static void loadModelsProperties(){
+    public static void loadModelsProperties() {
         load(MODELS_PROPERTIES_FILENAME, new ModelsPropertiesReader());
     }
-    public static void loadNetworkProperties(){
+
+    public static void loadNetworkProperties() {
         load(NETWORK_PROPERTIES_FILENAME, new NetworkPropertiesReader());
     }
-    public static void loadUtilsProperties(){
+
+    public static void loadUtilsProperties() {
         load(UTILS_PROPERTIES_FILENAME, new UtilsPropertiesReader());
     }
-    public static void loadsyncmodeselectionProperties() { load(SYNCMODESELECTION_PROPERTIES_FILENAME, new SyncmodeSelectionPropertiesReader());}
-    public static void loadProjectConflictsProperties(){PropertiesLoader.load(PROJECTSCONFLICTS_PROPERTIES_FILENAME, new ProjectConflictsPropertiesReader());}
+
+    public static void loadsyncmodeselectionProperties() {
+        load(SYNCMODESELECTION_PROPERTIES_FILENAME, new SyncmodeSelectionPropertiesReader());
+    }
+
+    public static void loadProjectConflictsProperties() {
+        PropertiesLoader.load(PROJECTSCONFLICTS_PROPERTIES_FILENAME, new ProjectConflictsPropertiesReader());
+    }
 }
 
-interface PropertiesReader{
-    public void read(Properties properties);
-}
-
-class ModelsPropertiesReader implements PropertiesReader{
+class ModelsPropertiesReader implements PropertiesReader {
     @Override
-    public void read(Properties properties){
+    public void read(Properties properties) {
         DEFAULT.STROKE = Integer.valueOf(properties.getProperty("DEFAULT_STROKE_WIDTH"));
         DEFAULT.COLOR = TikzColors.StringToColor(properties.getProperty("DEFAULT_OUTLINE_COLOR"));
         DEFAULT.BACKGROUND_COLOR = TikzColors.StringToColor(properties.getProperty("DEFAULT_BACKGROUND_COLOR"));
@@ -85,9 +94,9 @@ class ModelsPropertiesReader implements PropertiesReader{
     }
 }
 
-class NetworkPropertiesReader implements  PropertiesReader{
+class NetworkPropertiesReader implements PropertiesReader {
     @Override
-    public void read(Properties properties){
+    public void read(Properties properties) {
         HOST.HOSTNAME = properties.getProperty("HOSTNAME");
         HOST.PORT = Integer.valueOf(properties.getProperty("PORT"));
         HOST.COMPLETE_HOSTNAME = HOST.HOSTNAME + ":" + Integer.toString(HOST.PORT);
@@ -104,9 +113,9 @@ class NetworkPropertiesReader implements  PropertiesReader{
     }
 }
 
-class UtilsPropertiesReader implements  PropertiesReader{
+class UtilsPropertiesReader implements PropertiesReader {
     @Override
-    public void read(Properties properties){
+    public void read(Properties properties) {
         Utils.HISTORY_PATH = properties.getProperty("HISTORY_PATH");
         Utils.LINUX_PATH = properties.getProperty("LINUX_PATH");
         Utils.MAC_PATH = properties.getProperty("MAC_PATH");
@@ -116,7 +125,7 @@ class UtilsPropertiesReader implements  PropertiesReader{
     }
 }
 
-class SyncmodeSelectionPropertiesReader implements  PropertiesReader {
+class SyncmodeSelectionPropertiesReader implements PropertiesReader {
     @Override
     public void read(Properties properties) {
         Title.TITLE = properties.getProperty("TITLE");
@@ -132,9 +141,9 @@ class SyncmodeSelectionPropertiesReader implements  PropertiesReader {
     }
 }
 
-class ProjectConflictsPropertiesReader implements  PropertiesReader{
+class ProjectConflictsPropertiesReader implements PropertiesReader {
     @Override
-    public void read(Properties properties){
+    public void read(Properties properties) {
         SAVE_USER_VERSION_ONLY = properties.getProperty("SAVE_USER_VERSION_ONLY");
         SAVE_USER_VERSION = properties.getProperty("SAVE_USER_VERSION");
         SAVE_SERVER_VERSION_ONLY = properties.getProperty("SAVE_SERVER_VERSION_ONLY");

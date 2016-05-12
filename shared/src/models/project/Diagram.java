@@ -21,7 +21,7 @@ import utils.RecentProjects;
  * of a tikz graph and a file path containing the specific files (save, diffs
  * ..) for this project
  */
-public class Diagram{
+public class Diagram {
     private final static Logger logger = Log.getLogger(Diagram.class);
     private String name;
     private Project project;
@@ -29,11 +29,10 @@ public class Diagram{
     private List<Diff> redoList = new ArrayList<>();
     private boolean undoRedoFlag = false;
 
-
     /**
-     * Constructs a Diagram from a name and a project.
-     * If the source and diff files from the diagram does
-     * not exist, we create them
+     * Constructs a Diagram from a name and a project. If the source and diff
+     * files from the diagram does not exist, we create them
+     *
      * @param name
      * @param project
      */
@@ -55,8 +54,10 @@ public class Diagram{
 
     /**
      * Get the tikz source from the project zip
+     *
      * @return the tikz source
-     * @throws IOException if an error appeared during the read
+     * @throws IOException
+     *             if an error appeared during the read
      */
     public String getSource() throws IOException {
         return this.project.getDiagramSource(this.name);
@@ -64,7 +65,9 @@ public class Diagram{
 
     /**
      * Get the binary diff form the project zip
-     * @throws IOException if an error appeared during the read
+     *
+     * @throws IOException
+     *             if an error appeared during the read
      */
     public byte[] getDiff() throws IOException {
         return this.project.getDiagramDiff(this.name);
@@ -79,6 +82,7 @@ public class Diagram{
 
     /**
      * Transforms the project into a string (ie. the path of the project)
+     *
      * @return The name of the poject (ie. the path)
      */
     @Override
@@ -88,6 +92,7 @@ public class Diagram{
 
     /**
      * Getter for the name of this diagram
+     *
      * @return The name
      */
     public String getName() {
@@ -105,7 +110,7 @@ public class Diagram{
      *             when the diff file is corrupted
      */
     public void save() throws IOException, ClassNotFoundException {
-        if(undoRedoFlag){
+        if (undoRedoFlag) {
             return;
         }
 
@@ -125,7 +130,7 @@ public class Diagram{
         }
 
         String diffString = DiffUtil.diff(originalTikz, this.graph.toString());
-        if(!diffString.trim().equals("")) {
+        if (!diffString.trim().equals("")) {
             diffs.add(new Diff(new Date(), diffString));
         }
         this.writeDiffs(diffs);
@@ -146,11 +151,12 @@ public class Diagram{
         return this.getSource();
     }
 
-
     /**
      * Rename this diagram inside the project zip
+     *
      * @param newName
-     * @throws IOException of the move failed
+     * @throws IOException
+     *             of the move failed
      */
     public void rename(String newName) throws IOException {
         this.project.renameDiagram(this.name, newName);
@@ -198,7 +204,9 @@ public class Diagram{
 
     /**
      * Write the binary diff to the project zip
-     * @param bytes the diff
+     *
+     * @param bytes
+     *            the diff
      * @throws IOException
      */
     private void writeDiff(byte[] bytes) throws IOException {
@@ -208,7 +216,6 @@ public class Diagram{
     private void writeTikz(String tikz) throws IOException {
         this.project.writeSource(this.name, tikz);
     }
-
 
     /**
      * Gets the date of the last change of the project
@@ -241,7 +248,6 @@ public class Diagram{
         return this.project.isTemporary();
     }
 
-
     /**
      * Undo the last operation that was applied to the tikz
      */
@@ -253,7 +259,9 @@ public class Diagram{
             logger.warning("Couldn't undo: " + e.toString());
             return;
         }
-        if (diffs.isEmpty()) {return;}
+        if (diffs.isEmpty()) {
+            return;
+        }
         Diff last = diffs.remove(diffs.size() - 1);
         String original = this.graph.toString();
         apply_patch(last);
@@ -267,13 +275,14 @@ public class Diagram{
         write_applier(diffs);
     }
 
-
     /**
      * Redo the last action that was undone on the tikz
      */
     public void redo() {
-        if (redoList.isEmpty()) {return; }
-        Diff diff = redoList.remove(redoList.size()-1);
+        if (redoList.isEmpty()) {
+            return;
+        }
+        Diff diff = redoList.remove(redoList.size() - 1);
         String original = this.graph.toString();
         apply_patch(diff);
         String diffString = null;
@@ -297,9 +306,11 @@ public class Diagram{
 
     /**
      * Apply a patch and replace graph with result
-     * @param last a diff to change the tikz
+     *
+     * @param last
+     *            a diff to change the tikz
      */
-    private void apply_patch (Diff last) {
+    private void apply_patch(Diff last) {
         undoRedoFlag = true;
         DiffMatchPatch undo = new DiffMatchPatch();
         Diff inverted_last = invertDiff(last);
@@ -309,18 +320,20 @@ public class Diagram{
         TikzGraph reversed = new TikzGraph();
         NodeParser.parseDocument(reversed).parse((String) modified[0]);
 
-
         this.graph.replace(reversed);
         undoRedoFlag = false;
     }
 
     /**
-     * Inverts the operation of a Diff object. INSERT becomes DELETE and vice versa.
-     * @param last The diff object that will be inverted.
+     * Inverts the operation of a Diff object. INSERT becomes DELETE and vice
+     * versa.
+     *
+     * @param last
+     *            The diff object that will be inverted.
      * @return The inverted Diff.
      */
 
-    private Diff invertDiff(Diff last){
+    private Diff invertDiff(Diff last) {
         String text = last.getPatch();
         String add_pattern = "\n+";
         String del_pattern = "\n-";
@@ -328,22 +341,24 @@ public class Diagram{
         int del_pos = text.indexOf(del_pattern);
         char operation = ' ';
         int operation_pos = 0;
-        if (add_pos != -1){
+        if (add_pos != -1) {
             operation = '-';
             operation_pos = add_pos;
-        } else if (del_pos != -1){
+        } else if (del_pos != -1) {
             operation = '+';
             operation_pos = del_pos;
         }
-        String new_text = text.substring(0, operation_pos+1) + operation + text.substring(operation_pos+2, text.length());
+        String new_text = text.substring(0, operation_pos + 1) + operation + text.substring(operation_pos + 2, text.length());
         return new Diff(last.getDate(), new_text);
     }
 
     /**
      * update list of diffs and save graph
-     * @param diffs the list of diffs
+     *
+     * @param diffs
+     *            the list of diffs
      */
-    private void write_applier (List<Diff> diffs){
+    private void write_applier(List<Diff> diffs) {
         try {
             this.writeDiffs(diffs);
             this.writeTikz(this.graph.toString());

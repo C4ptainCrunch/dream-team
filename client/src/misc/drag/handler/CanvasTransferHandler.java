@@ -9,14 +9,14 @@ import views.editor.CanvasView;
 import constants.GUI;
 
 /**
- * Create a Transferable Object from the source that will be retrieved by
- * the destination.
+ * Create a Transferable Object from the source that will be retrieved by the
+ * destination.
  */
 
 public class CanvasTransferHandler extends TikzTransferHandler {
 
     @Override
-    protected Transferable createTransferable(JComponent c) {
+    protected Transferable createTransferable(final JComponent c) {
         return new CanvasTransferableTikz(((CanvasView) c).getSelectedComponent(), GUI.Drag.DropOptions.MOVE);
     }
 }

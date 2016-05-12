@@ -15,8 +15,8 @@ import models.project.Project;
 /**
  * This class is a container for the recent Projects.
  *
- * A Project is considered as recent if the user made a specific operation with it.
- * The specific operations are: Open, Rename, Save and Create a project.
+ * A Project is considered as recent if the user made a specific operation with
+ * it. The specific operations are: Open, Rename, Save and Create a project.
  */
 
 public class RecentProjects {
@@ -28,6 +28,7 @@ public class RecentProjects {
 
     /**
      * Retrieves the recent Projects by loading them from the correct directory.
+     *
      * @return A SortedSet of the Projects Loaded.
      */
     public static SortedSet<Project> getRecentProjects() {
@@ -41,11 +42,11 @@ public class RecentProjects {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 Project p = new Project(Paths.get(line));
-                if(p.exists() && !p.isCloud()) {
+                if (p.exists() && !p.isCloud()) {
                     try {
                         p.getName();
                         projects.add(p);
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         logger.fine("Invalid project found, skipping: " + p.getPath().toString());
                     }
                 } else {
@@ -62,13 +63,17 @@ public class RecentProjects {
     }
 
     /**
-     * Add a Project to the "Recent Projects". This method is called when
-     * one of the four operations described above is performed.
-     * @param project The Project to be added.
-     * @throws IOException if an I/O error occurs (because this method call a private one that write the Project the a File).
+     * Add a Project to the "Recent Projects". This method is called when one of
+     * the four operations described above is performed.
+     *
+     * @param project
+     *            The Project to be added.
+     * @throws IOException
+     *             if an I/O error occurs (because this method call a private
+     *             one that write the Project the a File).
      */
     public static void addProject(Project project) throws IOException {
-        if(!project.isTemporary()) {
+        if (!project.isTemporary()) {
             SortedSet<Project> projects = getRecentProjects();
 
             // Add the project to the end (and don't have it twice in the list)

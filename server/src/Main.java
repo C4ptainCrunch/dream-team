@@ -23,13 +23,9 @@ public class Main {
         Log.init();
         ServerPropertiesLoader.loadAll();
         CreateDatabase.createDatabaseIfDoesntExists();
-        URI baseUri = UriBuilder.fromUri(Network.HOST.HOSTNAME+"/").port(Network.HOST.PORT).build();
-        ResourceConfig config = new ResourceConfig(
-                UserEndpoint.class,
-                ProjectEndpoint.class,
-                AuthenticationEndpoint.class,
-                AuthenticationFilter.class
-        );
+        URI baseUri = UriBuilder.fromUri(Network.HOST.HOSTNAME + "/").port(Network.HOST.PORT).build();
+        ResourceConfig config = new ResourceConfig(UserEndpoint.class, ProjectEndpoint.class, AuthenticationEndpoint.class,
+                AuthenticationFilter.class);
         JdkHttpServerFactory.createHttpServer(baseUri, config);
 
         logger.info("Server started on : " + baseUri);

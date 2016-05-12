@@ -145,8 +145,13 @@ public abstract class TikzNode extends TikzComponent {
         return false;
     }
 
-    public boolean isVoid() { return false; }
-    public boolean isText() { return false; }
+    public boolean isVoid() {
+        return false;
+    }
+
+    public boolean isText() {
+        return false;
+    }
 
     public TikzGraph toGraph() {
         TikzGraph graph = new TikzGraph();

@@ -47,7 +47,7 @@ public class CanvasController implements Observer {
      * @param graph
      *            The TikzGraph
      */
-    public CanvasController(CanvasView view, TikzGraph graph) {
+    public CanvasController(final CanvasView view, final TikzGraph graph) {
         this.view = view;
 
         this.graph = graph;
@@ -66,7 +66,7 @@ public class CanvasController implements Observer {
      * @param arg
      *            The arguments given by the Observable
      */
-    public void update(Observable o, Object arg) {
+    public void update(final Observable o, final Object arg) {
         view.repaint();
     }
 
@@ -88,10 +88,10 @@ public class CanvasController implements Observer {
      *            The position
      * @return a tikz component
      */
-    public TikzComponent findComponentByPosition(Point2D.Float position) {
+    public TikzComponent findComponentByPosition(final Point2D.Float position) {
         TikzComponent comp = null;
 
-        for(int j = drawables.size() - 1; j >= 0; j--){
+        for (int j = drawables.size() - 1; j >= 0; j--) {
             DrawableTikzComponent draw = drawables.get(j);
             if (draw.contains(position)) {
                 comp = draw.getComponent();
@@ -110,16 +110,16 @@ public class CanvasController implements Observer {
      * @return A boolean value
      */
 
-    public boolean hasComponentAtPosition(Point2D.Float position) {
+    public boolean hasComponentAtPosition(final Point2D.Float position) {
         if (findComponentByPosition(position) != null) {
             return true;
         }
         return false;
     }
 
-    public Set<TikzComponent> getSelectedComponents(Shape shape){
-        for (DrawableTikzComponent draw: drawables){
-            if (draw.intersects(shape)){
+    public Set<TikzComponent> getSelectedComponents(final Shape shape) {
+        for (DrawableTikzComponent draw : drawables) {
+            if (draw.intersects(shape)) {
                 selected_comp.add(draw.getComponent());
             }
         }
@@ -139,7 +139,7 @@ public class CanvasController implements Observer {
      *            The tikz position where the component will be added
      */
 
-    public void addNodeToGraph(TikzComponent component, Point2D.Float position) {
+    public void addNodeToGraph(final TikzComponent component, final Point2D.Float position) {
         TikzNode node = (TikzNode) component;
         node.setPosition(Converter.swing2tikz(position, view));
         graph.add(node);
@@ -156,7 +156,7 @@ public class CanvasController implements Observer {
      * @param destination
      *            The destination node to which the edge will end
      */
-    public void addEdgeToGraph(TikzEdge edge, TikzNode source, TikzNode destination) {
+    public void addEdgeToGraph(final TikzEdge edge, final TikzNode source, final TikzNode destination) {
         if ((source != null) && (destination != null)) {
             edge.setFirstNode(source);
             edge.setSecondNode(destination);
@@ -173,7 +173,7 @@ public class CanvasController implements Observer {
      * @param position
      *            The position of the component to which the edge will end
      */
-    public void addEdgeToModel(TikzComponent component, Point2D.Float position) {
+    public void addEdgeToModel(final TikzComponent component, final Point2D.Float position) {
         TikzComponent clickedComponent = findComponentByPosition(position);
         if (clickedComponent != null && !clickedComponent.isEdge()) {
             if (state.initialized()) {
@@ -189,14 +189,14 @@ public class CanvasController implements Observer {
     }
 
     // Location has to be a swing position !
-    public void addGraph(TikzGraph g, Point2D.Float location) {
+    public void addGraph(final TikzGraph g, final Point2D.Float location) {
         location.setLocation(Converter.swing2tikz(location, view));
         g.translation(location.x, location.y);
         graph.add(g);
     }
 
     // Location has to be a swing position !!
-    public void moveComponent(TikzComponent comp, Point2D.Float location) {
+    public void moveComponent(final TikzComponent comp, final Point2D.Float location) {
         location.setLocation(Converter.swing2tikz(location, view));
         if (comp != null && comp.isNode()) {
             ((TikzNode) comp).setPosition(location);
@@ -213,7 +213,7 @@ public class CanvasController implements Observer {
      *            The component that has been clicked on
      */
 
-    public void mousePressed(MouseEvent e, TikzComponent selectedTool) {
+    public void mousePressed(final MouseEvent e, final TikzComponent selectedTool) {
         if (view.getIsFocused()) {
             if (selectedTool != null && selectedTool.isNode()) {
                 this.addNodeToGraph(selectedTool, new Point2D.Float(e.getX(), e.getY()));
@@ -235,7 +235,7 @@ public class CanvasController implements Observer {
      *            dropped
      */
 
-    public void mouseDropped(TransferTikz transfer_data, Point2D.Float location) {
+    public void mouseDropped(final TransferTikz transfer_data, final Point2D.Float location) {
         switch (transfer_data.getOption()) {
         case MOVE:
             moveComponent(transfer_data.getComponent(), location);
@@ -273,7 +273,7 @@ public class CanvasController implements Observer {
      * @param draw
      *            The DrawableTikzComponent to be added
      */
-    public void addDrawableComponent(DrawableTikzComponent draw) {
+    public void addDrawableComponent(final DrawableTikzComponent draw) {
         drawables.add(draw);
     }
 
@@ -284,7 +284,7 @@ public class CanvasController implements Observer {
      *            the item that will be removed.
      */
 
-    public void deleteItem(TikzComponent itemToDelete) {
+    public void deleteItem(final TikzComponent itemToDelete) {
         if (itemToDelete != null) {
             if (itemToDelete.isNode()) {
                 this.graph.remove((TikzNode) itemToDelete);
@@ -294,7 +294,7 @@ public class CanvasController implements Observer {
         }
     }
 
-    public void editItem(TikzComponent itemToEdit) {
+    public void editItem(final TikzComponent itemToEdit) {
         new NodeEditionView(itemToEdit);
     }
 
@@ -349,7 +349,7 @@ class CanvasState {
      * @param pos
      *            The related component
      */
-    public CanvasState(TikzComponent comp, TikzComponent pos) {
+    public CanvasState(final TikzComponent comp, final TikzComponent pos) {
         component = comp;
         related_component = pos;
     }
@@ -361,7 +361,7 @@ class CanvasState {
      *            The other canvas state to be compared with
      * @return whether the given canvas state is equals to this canavs state
      */
-    public boolean equalsTo(CanvasState o_state) {
+    public boolean equalsTo(final CanvasState o_state) {
         return ((o_state.getComponent() == this.component) && (o_state.getRelatedComponent() == this.getRelatedComponent()));
     }
 
@@ -382,7 +382,7 @@ class CanvasState {
      *            the component to be compared with
      * @return true if the component and the specified component are equals
      */
-    public boolean componentEqualsTo(TikzComponent comp) {
+    public boolean componentEqualsTo(final TikzComponent comp) {
         return comp == this.component;
     }
 
@@ -401,7 +401,7 @@ class CanvasState {
      * @param component
      *            the component to be set with
      */
-    public void setComponent(TikzComponent component) {
+    public void setComponent(final TikzComponent component) {
         this.component = component;
     }
 
@@ -420,7 +420,7 @@ class CanvasState {
      * @param related_component
      *            the relative component to be set with
      */
-    public void setRelatedComponent(TikzComponent related_component) {
+    public void setRelatedComponent(final TikzComponent related_component) {
         this.related_component = related_component;
     }
 

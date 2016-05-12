@@ -1,14 +1,15 @@
 package constants;
 
-import utils.Dirs;
+import static constants.Errors.*;
+import static constants.GUI.*;
+import static constants.Warnings.*;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
-import static constants.Errors.*;
-import static constants.GUI.*;
-import static constants.Warnings.*;
+
+import utils.Dirs;
 
 /**
  * Created by jhellinckx on 10/05/16.
@@ -18,34 +19,34 @@ public class ClientPropertiesLoader extends PropertiesLoader {
     private static final String GUI_PROPERTIES_FILENAME = "gui.properties";
     private static final String WARNINGS_PROPERTIES_FILENAME = "warnings.properties";
 
-    public static void loadAll(){
+    public static void loadAll() {
         PropertiesLoader.loadAll();
         loadClientProperties();
     }
 
-    public static void loadClientProperties(){
+    public static void loadClientProperties() {
         loadErrorsProperties();
         loadGUIProperties();
         loadWarningsProperties();
     }
 
-    public static void loadErrorsProperties(){
+    public static void loadErrorsProperties() {
         PropertiesLoader.load(ERRORS_PROPERTIES_FILENAME, new ErrorsPropertiesReader());
     }
 
-    public static void loadGUIProperties(){
+    public static void loadGUIProperties() {
         PropertiesLoader.load(GUI_PROPERTIES_FILENAME, new GUIPropertiesReader());
     }
 
-    public static void loadWarningsProperties(){
+    public static void loadWarningsProperties() {
         PropertiesLoader.load(WARNINGS_PROPERTIES_FILENAME, new WarningsPropertiesReader());
     }
 }
 
-class ErrorsPropertiesReader implements PropertiesReader{
+class ErrorsPropertiesReader implements PropertiesReader {
 
     @Override
-    public void read(Properties properties){
+    public void read(final Properties properties) {
         ERROR = properties.getProperty("ERROR");
         CREATE_ERROR = properties.getProperty("CREATE_ERROR");
         SAVE_ERROR = properties.getProperty("SAVE_ERROR");
@@ -62,10 +63,10 @@ class ErrorsPropertiesReader implements PropertiesReader{
     }
 }
 
-class GUIPropertiesReader implements PropertiesReader{
+class GUIPropertiesReader implements PropertiesReader {
 
     @Override
-    public void read(Properties properties) {
+    public void read(final Properties properties) {
         GUI.MenuBar.FILE_MENU = properties.getProperty("FILE_MENU");
         GUI.MenuBar.SAVE = properties.getProperty("SAVE");
         GUI.MenuBar.PDF = properties.getProperty("PDF");
@@ -84,7 +85,6 @@ class GUIPropertiesReader implements PropertiesReader{
         GUI.MenuBar.OPEN = properties.getProperty("OPEN");
         GUI.MenuBar.OPEN_DIAGRAM = properties.getProperty("OPEN_DIAGRAM");
         GUI.MenuBar.SYNC = properties.getProperty("SYNC");
-
 
         ProjectManagement.CREATE_BUTTON = properties.getProperty("CREATE_BUTTON");
         ProjectManagement.OPEN_PROJECT_BUTTON = properties.getProperty("OPEN_PROJECT_BUTTON");
@@ -107,12 +107,14 @@ class GUIPropertiesReader implements PropertiesReader{
         TokenWindow.TOKEN_LABEL = properties.getProperty("TOKEN_LABEL");
         TokenWindow.TOKEN_VALID = properties.getProperty("TOKEN_VALID");
         TokenWindow.TOKEN_WRONG = properties.getProperty("TOKEN_WRONG");
-        
+
         SignUp.FIELD_LABELS = new ArrayList<>(Arrays.asList(properties.getProperty("FIELD_LABELS").split("#")));
 
         String[] sizesStrings = properties.getProperty("FIELD_SIZES").split("#");
         SignUp.FIELD_SIZES = new ArrayList<>();
-        for(int i = 0; i < sizesStrings.length; ++i){ SignUp.FIELD_SIZES.add(Integer.valueOf(sizesStrings[i])); }
+        for (int i = 0; i < sizesStrings.length; ++i) {
+            SignUp.FIELD_SIZES.add(Integer.valueOf(sizesStrings[i]));
+        }
 
         SignUp.PASSWORD_LABEL = properties.getProperty("PASSWORD_LABEL");
         SignUp.OK_BUTTON = properties.getProperty("OK_BUTTON");
@@ -128,7 +130,9 @@ class GUIPropertiesReader implements PropertiesReader{
 
         String[] rgbStrings = properties.getProperty("BKG_COLOR").split("#");
         int[] rgb = new int[4];
-        for(int i = 0; i < rgbStrings.length; ++i){ rgb[i] = Integer.parseInt(rgbStrings[i]); }
+        for (int i = 0; i < rgbStrings.length; ++i) {
+            rgb[i] = Integer.parseInt(rgbStrings[i]);
+        }
         Selection.BKG_COLOR = new Color(rgb[0], rgb[1], rgb[2], rgb[3]);
 
         Template.DIR = Dirs.getDataDir().resolve(properties.getProperty("TEMPLATE_DIR")).toString();
@@ -139,10 +143,10 @@ class GUIPropertiesReader implements PropertiesReader{
     }
 }
 
-class WarningsPropertiesReader implements PropertiesReader{
+class WarningsPropertiesReader implements PropertiesReader {
 
     @Override
-    public void read(Properties properties) {
+    public void read(final Properties properties) {
         WARNING_TYPE = properties.getProperty("WARNING_TYPE");
         FIRSTNAME_WARNING = properties.getProperty("FIRSTNAME_WARNING");
         LASTNAME_WARNING = properties.getProperty("LASTNAME_WARNING");

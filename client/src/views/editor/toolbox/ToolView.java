@@ -111,7 +111,7 @@ public class ToolView extends JPanel {
         model.reset();
     }
 
-    public AttributesChooserView getAttributesChooserView(){
+    public AttributesChooserView getAttributesChooserView() {
         return this.attributesChooserView;
     }
 

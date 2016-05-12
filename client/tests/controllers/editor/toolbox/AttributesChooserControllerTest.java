@@ -1,17 +1,19 @@
 package controllers.editor.toolbox;
 
-import constants.Models;
-import misc.utils.ClientTest;
-import models.ToolModel;
-import models.tikz.TikzCircle;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import views.editor.toolbox.AttributesChooserView;
+import static org.junit.Assert.assertEquals;
 
 import java.awt.*;
 
-import static org.junit.Assert.*;
+import misc.utils.ClientTest;
+import models.ToolModel;
+import models.tikz.TikzCircle;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import views.editor.toolbox.AttributesChooserView;
+import constants.Models;
 
 /**
  * Created by jhellinckx on 12/05/16.
@@ -26,7 +28,7 @@ public class AttributesChooserControllerTest extends ClientTest {
     private Color testColor;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         testLabel = "testLabel";
         testStroke = 5;
         testColor = Color.yellow;
@@ -40,10 +42,9 @@ public class AttributesChooserControllerTest extends ClientTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
 
     }
-
 
     @Test
     public void testLabelEntered() throws Exception {

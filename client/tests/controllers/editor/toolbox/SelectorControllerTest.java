@@ -1,19 +1,20 @@
 package controllers.editor.toolbox;
 
+import static org.junit.Assert.assertEquals;
+
+import java.awt.*;
+
 import misc.utils.ClientTest;
 import models.ToolModel;
 import models.tikz.TikzCircle;
 import models.tikz.TikzComponent;
 import models.tikz.TikzNode;
-import models.tikz.TikzRectangle;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import views.editor.toolbox.SelectorView;
 import views.editor.toolbox.ToolView;
-
-import java.awt.*;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by jhellinckx on 12/05/16.
@@ -26,7 +27,7 @@ public class SelectorControllerTest extends ClientTest {
     private ToolView parentView;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         node = new TikzCircle();
         node.setStrokeColor(Color.blue);
         node.setLabel("its a prank");
@@ -35,7 +36,6 @@ public class SelectorControllerTest extends ClientTest {
         view = new SelectorView(parentView, model);
         controller = new SelectorController(view, model);
     }
-
 
     @Test
     public void testItemSelected() throws Exception {

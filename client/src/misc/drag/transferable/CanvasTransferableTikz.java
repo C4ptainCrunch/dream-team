@@ -6,7 +6,7 @@ import constants.GUI;
 
 public class CanvasTransferableTikz extends TransferableTikz {
 
-    public CanvasTransferableTikz(TikzComponent comp, GUI.Drag.DropOptions opt) {
+    public CanvasTransferableTikz(final TikzComponent comp, final GUI.Drag.DropOptions opt) {
         try {
             initializeData();
             transfert_data = new TransferTikz(comp, opt);

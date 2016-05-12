@@ -1,18 +1,18 @@
 package views.management;
 
-import controllers.management.CloudManagementController;
-import misc.logic.CloudLogic;
-import models.project.Project;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+import javax.swing.*;
+
+import misc.logic.CloudLogic;
+import controllers.management.CloudManagementController;
+
 /**
- * Panel that allows the user to see which projects he has shared or have
- * been shared with him. From here, he has several possible options to apply to these
+ * Panel that allows the user to see which projects he has shared or have been
+ * shared with him. From here, he has several possible options to apply to these
  * projects.
  */
 public class CloudManagementView extends JPanel {
@@ -24,8 +24,11 @@ public class CloudManagementView extends JPanel {
     private JPanel chooserPanel;
     private JPanel buttons;
 
-    /** Constructs the CloudManagementView
-     * @param parentView The view from the parent
+    /**
+     * Constructs the CloudManagementView
+     *
+     * @param parentView
+     *            The view from the parent
      */
     public CloudManagementView(ManagementView parentView) {
         this.controller = new CloudManagementController(this);
@@ -50,9 +53,9 @@ public class CloudManagementView extends JPanel {
     }
 
     private void createChooserPanel() {
-        //TODO: Use constants!
+        // TODO: Use constants!
         this.chooserPanel = new JPanel();
-        this.chooserPanel.setPreferredSize(new Dimension(300,100));
+        this.chooserPanel.setPreferredSize(new Dimension(300, 100));
         this.chooserPanel.setLayout(new BorderLayout());
 
         this.projectChooser = new JList<>(this.getListModel());
@@ -80,9 +83,8 @@ public class CloudManagementView extends JPanel {
         this.infoPanel.setOpaque(false);
         this.infoPanel.setEnabled(false);
         this.infoPanel.setDisabledTextColor(Color.BLACK);
-        this.infoPanel.setPreferredSize(new Dimension(100,100));
+        this.infoPanel.setPreferredSize(new Dimension(100, 100));
     }
-
 
     private void createButtonsPanel() {
         // TODO: Use constants!
@@ -113,10 +115,10 @@ public class CloudManagementView extends JPanel {
         this.projectChooser.setModel(this.getListModel());
     }
 
-    private DefaultListModel getListModel(){
+    private DefaultListModel getListModel() {
         DefaultListModel model = new DefaultListModel();
         List<models.databaseModels.Project> projectsList = CloudLogic.getSharedProjects();
-        if(projectsList != null) {
+        if (projectsList != null) {
             projectsList.forEach(model::addElement);
         }
         return model;
@@ -124,9 +126,13 @@ public class CloudManagementView extends JPanel {
 
     /**
      * Sets the information from the selected project in the info panel
-     * @param infoText The selected project's information
+     *
+     * @param infoText
+     *            The selected project's information
      */
-    public void setInfoText(String infoText) { this.infoPanel.setText(infoText); }
+    public void setInfoText(String infoText) {
+        this.infoPanel.setText(infoText);
+    }
 
     public models.databaseModels.Project getSelectedProject() {
         return this.projectChooser.getSelectedValue();
@@ -134,6 +140,7 @@ public class CloudManagementView extends JPanel {
 
     /**
      * Get the view from the parent
+     *
      * @return The parent view
      */
     public ManagementView getParentView() {

@@ -11,6 +11,7 @@ import models.tikz.TikzShape;
 
 import org.junit.Assert;
 import org.junit.Test;
+
 import utils.SharedTest;
 
 public class NodeParserTest extends SharedTest {
@@ -22,12 +23,12 @@ public class NodeParserTest extends SharedTest {
         Assert.assertEquals(NodeParser.number().parse("457.97"), new Float(457.97));
     }
 
-    @org.junit.Test
+    @Test
     public void testReference() throws Exception {
         Assert.assertEquals(NodeParser.reference().parse("(hello_world)"), "hello_world");
     }
 
-    @org.junit.Test
+    @Test
     public void testLabel() throws Exception {
         Assert.assertEquals(NodeParser.label().parse("{Hello, my dear little world}"), "Hello, my dear little world");
     }
@@ -80,7 +81,7 @@ public class NodeParserTest extends SharedTest {
         graph.add(new TikzRectangle("b"));
         graph.add(new TikzRectangle("c"));
         NodeParser.edgesFromDraw(graph).parse("\\draw[color=blue, ->] (a) -- (b) -- (c) -- (a)");
-        Assert.assertEquals(graph.getEdges().size(),  3);
+        Assert.assertEquals(graph.getEdges().size(), 3);
     }
 
     @Test
@@ -88,10 +89,10 @@ public class NodeParserTest extends SharedTest {
         TikzGraph graph = new TikzGraph();
         NodeParser.parseTeXDocument(graph)
                 .parse("\\documentclass{article}\n" + "\\usepackage{tikz}\n" + "\\begin{document}\n" + "\t\\begin{tikzpicture}\n" + "\n"
-                        + "\t\t\\draw[color=red, fill=red, rectangle, minimum width=10, minimum height=25] (0,0) node[draw] {a} -- (2,0) node[draw] {l} -- (0,5) node[draw] {p};\n" + "\n"
-                        + "\t\\end{tikzpicture}\n" + "\\end{document}");
+                        + "\t\t\\draw[color=red, fill=red, rectangle, minimum width=10, minimum height=25] (0,0) node[draw] {a} -- (2,0) node[draw] {l} -- (0,5) node[draw] {p};\n"
+                        + "\n" + "\t\\end{tikzpicture}\n" + "\\end{document}");
         Assert.assertEquals(graph.size(), 3);
-        for(TikzNode node : graph.getNodes()){
+        for (TikzNode node : graph.getNodes()) {
             TikzShape shape = (TikzShape) node;
             Assert.assertEquals(shape.isRectangle(), true);
             TikzRectangle rectangle = (TikzRectangle) shape;
@@ -105,11 +106,11 @@ public class NodeParserTest extends SharedTest {
     @Test
     public void testParseDocument() throws Exception {
         TikzGraph graph = new TikzGraph();
-        NodeParser.parseDocument(graph)
-                .parse("\t\t\\draw[color=red, line width=3, circle] (0,0) node[draw] {a} -- (2,0) node[draw] {l} -- (0,5) node[draw] {p};\n");
+        NodeParser.parseDocument(graph).parse(
+                "\t\t\\draw[color=red, line width=3, circle] (0,0) node[draw] {a} -- (2,0) node[draw] {l} -- (0,5) node[draw] {p};\n");
         Assert.assertEquals(graph.size(), 3);
-        for(TikzNode node : graph.getNodes()){
-            Assert.assertEquals(node.getStrokeColor(),Color.red);
+        for (TikzNode node : graph.getNodes()) {
+            Assert.assertEquals(node.getStrokeColor(), Color.red);
             Assert.assertEquals(node.isShape(), true);
             Assert.assertEquals(node.getStroke(), 3);
         }

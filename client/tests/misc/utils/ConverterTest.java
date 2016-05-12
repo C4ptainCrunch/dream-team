@@ -1,19 +1,22 @@
 package misc.utils;
 
-import org.junit.Test;
-
-import javax.swing.*;
+import static org.junit.Assert.assertEquals;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.logging.Logger;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
+
+import utils.Log;
 
 /**
  * Created by jhellinckx on 12/05/16.
  */
-public class ConverterTest extends ClientTest{
+public class ConverterTest extends ClientTest {
+    private static final Logger logger = Log.getLogger(ConverterTest.class);
     private double precision = 0.001;
+
     @Test
     public void testTikz2swing() throws Exception {
         try {
@@ -26,9 +29,12 @@ public class ConverterTest extends ClientTest{
             float testedPointx = (float) Converter.centimetersToPixels(testedPointxcm);
             float testedPointy = (float) Converter.centimetersToPixels(testedPointycm);
             Point2D.Float testedPoint = new Point2D.Float(testedPointxcm, testedPointycm);
-            Point2D.Float expectedPoint = new Point2D.Float((int) (testedWidth / 2 + testedPointx), (int) (testedHeight / 2 - testedPointy));
+            Point2D.Float expectedPoint = new Point2D.Float((int) (testedWidth / 2 + testedPointx),
+                    (int) (testedHeight / 2 - testedPointy));
             assertEquals(expectedPoint, Converter.tikz2swing(testedPoint, testedWidth, testedHeight));
-        }catch(HeadlessException e){}
+        } catch (HeadlessException e) {
+            logger.fine("Failed to test tikz to swing");
+        }
     }
 
     @Test
@@ -44,7 +50,9 @@ public class ConverterTest extends ClientTest{
             Point2D.Float actualPointCm = Converter.swing2tikz(testedPoint, (int) testedWidth, (int) testedHeight);
             assertEquals(Converter.pixelsToCentimeters(expectedPointPixels.getX()), actualPointCm.getX(), precision);
             assertEquals(Converter.pixelsToCentimeters(expectedPointPixels.getY()), actualPointCm.getY(), precision);
-        }catch(HeadlessException e){}
+        } catch (HeadlessException e) {
+            logger.fine("Failed to test swing to tikz");
+        }
     }
 
 }

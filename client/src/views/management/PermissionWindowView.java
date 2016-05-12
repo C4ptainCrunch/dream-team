@@ -1,11 +1,11 @@
 package views.management;
 
-
-import controllers.management.PermissionWindowController;
-import models.databaseModels.Project;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
+
+import models.databaseModels.Project;
+import controllers.management.PermissionWindowController;
 
 public class PermissionWindowView extends JDialog {
 
@@ -49,15 +49,11 @@ public class PermissionWindowView extends JDialog {
         this.defaultPermsPanel.add(defaultWrite);
 
         this.defaultPermsButton = new JButton("Set default perms");
-        this.defaultPermsButton.addActionListener(
-                e -> controller.setDefaultPermissions(
-                        defaultRead.isSelected(),
-                        defaultWrite.isSelected())
-                );
+        this.defaultPermsButton
+                .addActionListener(e -> controller.setDefaultPermissions(defaultRead.isSelected(), defaultWrite.isSelected()));
 
         this.defaultPermsPanel.add(this.defaultPermsButton);
     }
-
 
     private void createUsersSelectionPanel() {
         this.usersSelectPanel = new JPanel();
@@ -73,9 +69,8 @@ public class PermissionWindowView extends JDialog {
         this.usersSelectPanel.add(listScroller);
 
         this.userPermsButton = new JButton("Set perms for selected user");
-        this.userPermsButton.addActionListener(
-                e -> controller.setUserPermissions(this.project, this.usersList.getSelectedValue().toString())
-        );
+        this.userPermsButton
+                .addActionListener(e -> controller.setUserPermissions(this.project, this.usersList.getSelectedValue().toString()));
 
         this.usersSelectPanel.add(this.userPermsButton);
 

@@ -36,7 +36,7 @@ public class TemplateToolView extends JPanel {
         this.add(scroll_zone);
     }
 
-    public void addTemplateFromFile(File file){
+    public void addTemplateFromFile(File file) {
         controller.addTemplateFromFile(file);
     }
 }

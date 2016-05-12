@@ -76,12 +76,12 @@ public class TikzUndirectedEdge extends TikzEdge {
     }
 
     @Override
-    public boolean isUndirectedEdge(){
+    public boolean isUndirectedEdge() {
         return true;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return TikzFormatter.format(this);
     }
 }

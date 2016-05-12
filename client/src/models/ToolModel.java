@@ -17,7 +17,7 @@ public class ToolModel extends Observable {
         this.component = null;
     }
 
-    public ToolModel(TikzComponent component) {
+    public ToolModel(final TikzComponent component) {
         this.component = component;
     }
 
@@ -36,7 +36,7 @@ public class ToolModel extends Observable {
      * @param label
      *            The label
      */
-    public void setComponentLabel(String label) {
+    public void setComponentLabel(final String label) {
         if (component != null) {
             component.setLabel(label);
             alertObservers();
@@ -49,7 +49,7 @@ public class ToolModel extends Observable {
      * @param color
      *            The color
      */
-    public void setComponentColor(Color color) {
+    public void setComponentColor(final Color color) {
         if (component != null) {
             component.setStrokeColor(color);
             alertObservers();
@@ -80,7 +80,7 @@ public class ToolModel extends Observable {
      * @param component
      *            the tikz component to be set with
      */
-    public void setComponent(TikzComponent component) {
+    public void setComponent(final TikzComponent component) {
         this.component = component.getClone();
         alertObservers();
     }
@@ -91,7 +91,7 @@ public class ToolModel extends Observable {
      * @param width
      *            The width
      */
-    public void setComponentStrokeWidth(int width) {
+    public void setComponentStrokeWidth(final int width) {
         if (component != null) {
             component.setStroke(width);
             alertObservers();

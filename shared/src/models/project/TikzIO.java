@@ -1,6 +1,5 @@
 package models.project;
 
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,15 +10,15 @@ import java.util.Observable;
 
 import models.tikz.TikzGraph;
 
-public abstract class TikzIO extends Observable{
+public abstract class TikzIO extends Observable {
 
     protected TikzGraph graph;
 
-    protected TikzIO(){
+    protected TikzIO() {
         this.graph = null;
     }
 
-    protected TikzIO(TikzGraph g){
+    protected TikzIO(TikzGraph g) {
         this.graph = g;
     }
 

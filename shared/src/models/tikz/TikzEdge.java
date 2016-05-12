@@ -205,6 +205,11 @@ public abstract class TikzEdge extends TikzComponent {
         return true;
     }
 
-    public boolean isDirectedEdge() { return false; }
-    public boolean isUndirectedEdge() { return false; }
+    public boolean isDirectedEdge() {
+        return false;
+    }
+
+    public boolean isUndirectedEdge() {
+        return false;
+    }
 }

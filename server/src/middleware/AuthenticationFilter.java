@@ -1,6 +1,7 @@
 package middleware;
 
-import endpoints.AuthenticationEndpoint;
+import java.io.IOException;
+import java.security.Principal;
 
 import javax.annotation.Priority;
 import javax.ws.rs.NotAuthorizedException;
@@ -11,8 +12,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
-import java.io.IOException;
-import java.security.Principal;
+
+import endpoints.AuthenticationEndpoint;
 
 @Secured
 @Provider
@@ -23,10 +24,10 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext) throws IOException {
 
         // Get the HTTP Authorization header from the request
-        String authorizationHeader =
-                requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
+        String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
-        // Check if the HTTP Authorization header is present and formatted correctly
+        // Check if the HTTP Authorization header is present and formatted
+        // correctly
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             throw new NotAuthorizedException("Authorization header must be provided");
         }
@@ -39,8 +40,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             setSecurityContext(requestContext, token);
 
         } catch (Exception e) {
-            requestContext.abortWith(
-                    Response.status(Response.Status.UNAUTHORIZED).build());
+            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
         }
     }
 
@@ -69,7 +69,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     }
 
     private void validateToken(String token) throws Exception {
-        if(!AuthenticationEndpoint.validateToken(token)){
+        if (!AuthenticationEndpoint.validateToken(token)) {
             throw new Exception("Invalid token");
         }
     }

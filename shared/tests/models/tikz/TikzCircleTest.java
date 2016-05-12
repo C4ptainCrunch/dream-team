@@ -2,11 +2,11 @@ package models.tikz;
 
 import static org.junit.Assert.assertEquals;
 
-import utils.SharedTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import utils.SharedTest;
 import constants.Models;
 
 /**

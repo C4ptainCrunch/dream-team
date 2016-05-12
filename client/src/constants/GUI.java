@@ -1,6 +1,5 @@
 package constants;
 
-
 import java.awt.*;
 import java.util.List;
 

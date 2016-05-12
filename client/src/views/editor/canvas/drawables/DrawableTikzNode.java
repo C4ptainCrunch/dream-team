@@ -26,8 +26,8 @@ public class DrawableTikzNode extends DrawableTikzComponent {
 
         TikzNode component = getComponent();
 
-        if(component.isShape()){
-            g.setColor(((TikzShape)component).getBackgroundColor());
+        if (component.isShape()) {
+            g.setColor(((TikzShape) component).getBackgroundColor());
         }
 
         for (Shape shape : getShapes()) {
@@ -35,7 +35,7 @@ public class DrawableTikzNode extends DrawableTikzComponent {
         }
 
         g.setColor(component.getStrokeColor());
-        for(Shape shape : getStrokes()) {
+        for (Shape shape : getStrokes()) {
             g.fill(shape);
         }
 

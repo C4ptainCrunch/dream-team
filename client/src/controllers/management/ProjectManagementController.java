@@ -1,7 +1,6 @@
 package controllers.management;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystemNotFoundException;
 import java.util.logging.Logger;
@@ -9,11 +8,9 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import misc.logic.CloudLogic;
-import models.project.Diagram;
 import models.project.Project;
 import utils.Log;
 import utils.RecentProjects;
-import views.editor.EditorView;
 import views.management.DiagramManagementView;
 import views.management.FileChooseView;
 import views.management.ProjectManagementView;
@@ -30,40 +27,44 @@ public class ProjectManagementController {
 
     /**
      * Creates a controller for the ProjectManagementView
-     * @param view The corresponding view, created elsewhere
+     *
+     * @param view
+     *            The corresponding view, created elsewhere
      */
-    public ProjectManagementController(ProjectManagementView view) {
+    public ProjectManagementController(final ProjectManagementView view) {
         this.view = view;
     }
 
     /**
      * Closes the current view and prompts the user to open a new diagram in the
      * current project.
-     * @param project The current project
+     *
+     * @param project
+     *            The current project
      * @throws IOException
      */
-    public void editProject(Project project) throws IOException {
+    public void editProject(final Project project) throws IOException {
         RecentProjects.addProject(project);
 
         new DiagramManagementView(project);
-        this.view. dispose();
+        this.view.dispose();
     }
 
-
     /**
-     * Updates the project description with the selected project
-     * Should be called when the dropdown is updated.
+     * Updates the project description with the selected project Should be
+     * called when the dropdown is updated.
+     *
      * @param selectedProject
      */
-    public void dropdownSelected(Project selectedProject) {
-        if(selectedProject == null){
+    public void dropdownSelected(final Project selectedProject) {
+        if (selectedProject == null) {
             return;
         }
 
         String text = null;
         try {
             text = String.format(ProjectManagement.BLANK_INFO_PANEL, selectedProject.getPath().toString(),
-                        selectedProject.getLastChange().toString());
+                    selectedProject.getLastChange().toString());
         } catch (FileSystemNotFoundException e) {
             logger.fine("Get last change from project failed");
         } catch (IOException e) {
@@ -87,7 +88,6 @@ public class ProjectManagementController {
             }
         }
     }
-
 
     /**
      * Renames and/or moves a project in the file system

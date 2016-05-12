@@ -24,7 +24,7 @@ import constants.GUI;
 
 public class TemplateIOManager {
 
-    private static void moveTemplateGraphToOrigin(TikzGraph g) {
+    private static void moveTemplateGraphToOrigin(final TikzGraph g) {
         List<TikzNode> comps = g.getNodes();
         TikzNode first_node = comps.get(0);
         float delta_x = new Double(first_node.getPosition().getX()).floatValue();
@@ -46,13 +46,13 @@ public class TemplateIOManager {
      *             thrown if an error occurred during the saving process.
      */
 
-    public static File exportGraphAsTemplate(Collection<TikzComponent> components) throws IOException {
+    public static File exportGraphAsTemplate(final Collection<TikzComponent> components) throws IOException {
         TikzGraph g = new TikzGraph();
         for (TikzComponent comp : components) {
             if (comp != null) {
                 if (comp.isNode()) {
                     g.add((TikzNode) comp);
-                } else if (comp.isEdge()){
+                } else if (comp.isEdge()) {
                     g.add((TikzEdge) comp);
                 }
             }
@@ -74,7 +74,7 @@ public class TemplateIOManager {
      *             thrown if the loading process failed.
      */
 
-    public static Template loadTemplate(File template_file) throws IOException {
+    public static Template loadTemplate(final File template_file) throws IOException {
         Template template = new Template();
         template.loadTemplate(template_file);
         return template;

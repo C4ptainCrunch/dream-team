@@ -38,6 +38,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
 
     /**
      * Constructs a graph from the source string.
+     *
      * @param source
      */
     public TikzGraph(String source) {
@@ -52,12 +53,12 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
 
     public TikzGraph(TikzGraph o_graph) {
         HashMap<TikzNode, TikzNode> origin_to_clone_map = new HashMap<>();
-        for (TikzNode node: o_graph.getNodes()){
+        for (TikzNode node : o_graph.getNodes()) {
             origin_to_clone_map.put(node, node.getClone());
             add(origin_to_clone_map.get(node));
         }
 
-        for (TikzEdge edge: o_graph.getEdges()){
+        for (TikzEdge edge : o_graph.getEdges()) {
             TikzEdge new_edge = edge.getClone();
             new_edge.setFirstNode(origin_to_clone_map.get(edge.getFirstNode()));
             new_edge.setSecondNode(origin_to_clone_map.get(edge.getSecondNode()));
@@ -79,25 +80,29 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
      *
      * @return true if size == 0 else false
      */
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return size() == 0;
     }
 
     /**
      * Check if the list of nodes contains the given node.
-     * @param node the node that is searched
+     *
+     * @param node
+     *            the node that is searched
      * @return boolean indicating if this graph contains the node
      */
-    public boolean contains(TikzNode node){
+    public boolean contains(TikzNode node) {
         return nodes.contains(node);
     }
 
     /**
      * Check if the list of edges contains the given edge.
-     * @param edge the edge that is searched
+     *
+     * @param edge
+     *            the edge that is searched
      * @return boolean indicating if this graph contains the edge
      */
-    public boolean contains(TikzEdge edge){
+    public boolean contains(TikzEdge edge) {
         return edges.contains(edge);
     }
 
@@ -138,6 +143,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
 
     /**
      * Add a node to this graph and notifies its observer if notify
+     *
      * @param node
      * @param notify
      */
@@ -147,7 +153,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
             node.addObserver(this);
             setChanged();
         }
-        if(notify) {
+        if (notify) {
             notifyObservers();
         }
     }
@@ -164,6 +170,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
 
     /**
      * Adds an edge to this graph and notifies its observers if notify
+     *
      * @param edge
      * @param notify
      */
@@ -175,7 +182,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
             edge.addObserver(this);
             setChanged();
         }
-        if(notify) {
+        if (notify) {
             notifyObservers();
         }
     }
@@ -203,13 +210,15 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
     }
 
     /**
-     * Adds a collection of edges to this graph and notifies its observers if notify
+     * Adds a collection of edges to this graph and notifies its observers if
+     * notify
+     *
      * @param edges
      * @param notify
      */
     public void addAllEdges(Collection<TikzEdge> edges, boolean notify) {
         edges.forEach(e -> this.add(e, false));
-        if(notify) {
+        if (notify) {
             notifyObservers();
         }
     }
@@ -225,13 +234,15 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
     }
 
     /**
-     * Adds a collection of nodes to this graph and notifies its observers if notify
+     * Adds a collection of nodes to this graph and notifies its observers if
+     * notify
+     *
      * @param nodes
      * @param notify
      */
     public void addAllNodes(Collection<TikzNode> nodes, boolean notify) {
         nodes.forEach(n -> this.add(n, false));
-        if(notify) {
+        if (notify) {
             notifyObservers();
         }
 
@@ -270,8 +281,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
      * @return the edges
      */
     public List<TikzEdge> get(TikzNode node) {
-        List<TikzEdge> edges = this.edges.stream()
-                .filter(edge -> node == edge.getFirstNode() || node == edge.getSecondNode())
+        List<TikzEdge> edges = this.edges.stream().filter(edge -> node == edge.getFirstNode() || node == edge.getSecondNode())
                 .collect(Collectors.toList());
         return edges;
     }
@@ -289,7 +299,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
         return res.toString();
     }
 
-    public String toLatex(){
+    public String toLatex() {
         return constants.Models.Graph.LATEX_PRELUDE + this.toString() + constants.Models.Graph.LATEX_POSTLUDE;
     }
 
@@ -305,13 +315,14 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
 
     /**
      * Removes the given edge from this graph and notify its observer if notify
+     *
      * @param edge
      * @param notify
      */
     public void remove(TikzEdge edge, boolean notify) {
         this.edges.remove(edge);
         setChanged();
-        if(notify) {
+        if (notify) {
             notifyObservers();
         }
         edge.deleteObserver(this);
@@ -332,6 +343,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
     /**
      * Removes the given node from this graph. If edges are linked to the node,
      * they are removed too and notify its observer if notify
+     *
      * @param node
      * @param notify
      * @return
@@ -348,7 +360,7 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
         }
         nodes.remove(node);
         setChanged();
-        if(notify) {
+        if (notify) {
             notifyObservers();
         }
         node.deleteObserver(this);
@@ -363,7 +375,8 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
 
     /**
      * Apply a translation with x and y as offset to all nodes in the graph
-     *  @param x
+     *
+     * @param x
      * @param y
      */
     public void translation(float x, float y) {
@@ -377,8 +390,10 @@ public class TikzGraph extends Observable implements Iterable<TikzNode>, Observe
     }
 
     public Optional<TikzNode> findByRef(String ref) {
-        for (TikzNode node: this){
-            if (ref.equals(node.getReference())) {return Optional.of(node);}
+        for (TikzNode node : this) {
+            if (ref.equals(node.getReference())) {
+                return Optional.of(node);
+            }
         }
         return Optional.empty();
     }

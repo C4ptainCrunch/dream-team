@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
@@ -31,7 +32,7 @@ public class HelpController {
      * @param view
      *            The HelpView which is associated with this controller
      */
-    public HelpController(HelpView view) {
+    public HelpController(final HelpView view) {
         this.view = view;
     }
 
@@ -42,7 +43,7 @@ public class HelpController {
      * @param ev
      *            The tree selection event
      */
-    public void treeClicked(TreeSelectionEvent ev) {
+    public void treeClicked(final TreeSelectionEvent ev) {
         TreePath clickedNode = ev.getPath();
 
         // This is a simple map : [x.to_string() for x in
@@ -85,26 +86,26 @@ class Filewalker {
      *            The path
      * @return The found tree node
      */
-    public static DefaultMutableTreeNode walkToTree(String path) {
+    public static DefaultMutableTreeNode walkToTree(final String path) {
         InputStream stream = HelpController.class.getClassLoader().getResourceAsStream(path);
         Scanner scanner = new Scanner(stream);
         scanner.useDelimiter("\\n");
         List<String> children = new ArrayList<>();
 
         String root = URLDecoder.decode(HelpController.class.getClassLoader().getResource(path).getFile());
-        int pos = root.lastIndexOf("/");
+        int pos = root.lastIndexOf('/');
         root = root.substring(pos + 1);
         DefaultMutableTreeNode out = new DefaultMutableTreeNode(root);
 
-        while (scanner.hasNext()){
+        while (scanner.hasNext()) {
             children.add(scanner.next());
         }
 
-        for (String child :children){
-            if(child.endsWith(".md")){
+        for (String child : children) {
+            if (child.endsWith(".md")) {
                 int dot = child.lastIndexOf('.');
                 String name = child.substring(0, dot);
-                if(!children.contains(name)) {
+                if (!children.contains(name)) {
                     out.add(new DefaultMutableTreeNode(name));
                 }
             } else {

@@ -16,11 +16,14 @@ import views.editor.canvas.drawables.DrawableTikzEdge;
 
 public class DirectedEdgeDrawer extends EdgeDrawer {
     /**
-     * Creates the drawable swing object for the given directed edge.
-     * First get the core line (with no arrow head) of the edge and add the line shape to the
-     * drawable. Then compute the arrow head by using polar coordinates.
-     * @param component the directed edge to create a drawable from
-     * @param panel the panel on which the edge needs to be drawn
+     * Creates the drawable swing object for the given directed edge. First get
+     * the core line (with no arrow head) of the edge and add the line shape to
+     * the drawable. Then compute the arrow head by using polar coordinates.
+     *
+     * @param component
+     *            the directed edge to create a drawable from
+     * @param panel
+     *            the panel on which the edge needs to be drawn
      * @return the drawable tikz directed edge
      */
     @Override

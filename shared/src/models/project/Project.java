@@ -5,6 +5,7 @@ import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 
 import java.io.*;
 import java.nio.file.*;
+import java.nio.file.FileSystem;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.zip.ZipOutputStream;
@@ -13,19 +14,21 @@ import utils.Dirs;
 import utils.Log;
 
 /**
- * A project represents a .crea file in a zip format.
- * It contains multiple diagrams stored on the disk as
- * files in the zip (diagram_name.tikz and diagram_name.diff).
- * All read and writes to the zip are synchronised to avoid race-conditions
+ * A project represents a .crea file in a zip format. It contains multiple
+ * diagrams stored on the disk as files in the zip (diagram_name.tikz and
+ * diagram_name.diff). All read and writes to the zip are synchronised to avoid
+ * race-conditions
  */
-public class Project extends Observable implements Comparable<Project>{
+public class Project extends Observable implements Comparable<Project> {
+    private final static Logger logger = Log.getLogger(Project.class);
     private Path path;
     private boolean isTemporary = false;
-    private final static Logger logger = Log.getLogger(Project.class);
 
     /**
      * Create a Project from a .crea file on the disk
-     * @param path path to the .crea file
+     *
+     * @param path
+     *            path to the .crea file
      * @throws IOException
      */
     public Project(Path path) throws IOException {
@@ -46,7 +49,6 @@ public class Project extends Observable implements Comparable<Project>{
         this.isTemporary = true;
     }
 
-
     private static Path createTempZip() throws IOException {
         Path p = File.createTempFile("creatikz-project", ".zip").toPath();
         ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(p.toString()));
@@ -60,6 +62,7 @@ public class Project extends Observable implements Comparable<Project>{
 
     /**
      * Get the directory where the .crea is located
+     *
      * @return the directory path
      */
     public Path getDirectory() {
@@ -68,7 +71,9 @@ public class Project extends Observable implements Comparable<Project>{
 
     /**
      * Get the tikz source of the diagram
-     * @param name the diagram name
+     *
+     * @param name
+     *            the diagram name
      * @return the source
      * @throws IOException
      */
@@ -80,7 +85,9 @@ public class Project extends Observable implements Comparable<Project>{
 
     /**
      * Get the tikz binary diff of the diagram
-     * @param name the diagram name
+     *
+     * @param name
+     *            the diagram name
      * @return the binary diff
      * @throws IOException
      */
@@ -92,7 +99,9 @@ public class Project extends Observable implements Comparable<Project>{
 
     /**
      * Instantiates a diagram from files contained in the .crea
-     * @param name the name of the diagram
+     *
+     * @param name
+     *            the name of the diagram
      * @return
      */
     public Diagram getDiagram(String name) {
@@ -101,6 +110,7 @@ public class Project extends Observable implements Comparable<Project>{
 
     /**
      * Renames a diagram in the .crea (moves the files)
+     *
      * @param oldName
      * @param newName
      * @throws IOException
@@ -132,6 +142,7 @@ public class Project extends Observable implements Comparable<Project>{
 
     /**
      * Get a set of all diagram names contained in the project
+     *
      * @return the set of names
      * @throws IOException
      */
@@ -144,9 +155,9 @@ public class Project extends Observable implements Comparable<Project>{
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(dirs.iterator().next())) {
                 for (Path file : stream) {
                     String name = file.getFileName().toString();
-                    if (!name.equals("metadata.properties")){
-                        if (name.indexOf(".") > 0) {
-                            name = name.substring(0, name.lastIndexOf("."));
+                    if (!name.equals("metadata.properties")) {
+                        if (name.indexOf('.') > 0) {
+                            name = name.substring(0, name.lastIndexOf('.'));
                         }
                         names.add(name);
                     }
@@ -191,7 +202,7 @@ public class Project extends Observable implements Comparable<Project>{
         Properties props = null;
         try {
             props = this.getProperties();
-            if(props.getProperty("name") == null){
+            if (props.getProperty("name") == null) {
                 String name = this.getPath().getFileName().toString();
                 this.setName(name);
                 return name;
@@ -222,13 +233,14 @@ public class Project extends Observable implements Comparable<Project>{
                     return null;
                 }
             }).filter(recent -> recent != null).max(Comparator.comparing(e -> e)).get();
-        } catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             return new Date(0);
         }
     }
 
     /**
      * Compare the project to another with their paths
+     *
      * @param other
      * @return standard Java comparison
      */
@@ -247,8 +259,11 @@ public class Project extends Observable implements Comparable<Project>{
 
     /**
      * Write the given bytes to the given project diff file
-     * @param name the project name
-     * @param bytes the given bytes
+     *
+     * @param name
+     *            the project name
+     * @param bytes
+     *            the given bytes
      * @throws IOException
      */
     synchronized public void writeDiff(String name, byte[] bytes) throws IOException {
@@ -261,8 +276,11 @@ public class Project extends Observable implements Comparable<Project>{
 
     /**
      * Write the given string to the given project tikz file
-     * @param name the diagram name
-     * @param tikz the tikz to write
+     *
+     * @param name
+     *            the diagram name
+     * @param tikz
+     *            the tikz to write
      * @throws IOException
      */
     synchronized public void writeSource(String name, String tikz) throws IOException {
@@ -313,15 +331,15 @@ public class Project extends Observable implements Comparable<Project>{
         this.setProperties(props);
     }
 
+    public String getUid() throws IOException {
+        Properties props = this.getProperties();
+        return props.getProperty("uid");
+    }
+
     public void setUid(String uid) throws IOException {
         Properties props = this.getProperties();
         props.setProperty("uid", uid);
         this.setProperties(props);
-    }
-
-    public String getUid() throws IOException {
-        Properties props = this.getProperties();
-        return props.getProperty("uid");
     }
 
     public boolean getWriteDefault() throws IOException {

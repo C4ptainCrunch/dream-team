@@ -1,15 +1,14 @@
 package utils;
 
-import constants.ProjectConflicts;
+import static org.junit.Assert.assertEquals;
+
+import java.io.File;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-
-
-import static org.junit.Assert.*;
-
+import constants.ProjectConflicts;
 
 public class ConflictResolverTest {
     ConflictResolver conflictResolver = new ConflictResolver();

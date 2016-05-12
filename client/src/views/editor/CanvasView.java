@@ -43,7 +43,7 @@ public class CanvasView extends JPanel {
      * @param graph
      *            The TikzGraph
      */
-    public CanvasView(EditorView parentView, TikzGraph graph) {
+    public CanvasView(final EditorView parentView, final TikzGraph graph) {
         this.parentView = parentView;
         this.graph = graph;
         this.controller = new CanvasController(this, graph);
@@ -68,8 +68,8 @@ public class CanvasView extends JPanel {
         return controller;
     }
 
-    private void highlightTextArea(MouseEvent e){
-        if (selection != null){
+    private void highlightTextArea() {
+        if (selection != null) {
             parentView.highlightTextZone(controller.getSelectedComponents(selection.getSelectionRectangle()));
         }
     }
@@ -78,7 +78,7 @@ public class CanvasView extends JPanel {
         this.addMouseListener(new MouseAdapter() {
 
             @Override
-            public void mousePressed(MouseEvent e) {
+            public void mousePressed(final MouseEvent e) {
                 if (SwingUtilities.isRightMouseButton(e)) {
                     requestFocusInWindow();
                     CanvasView view = (CanvasView) e.getSource();
@@ -103,8 +103,8 @@ public class CanvasView extends JPanel {
             }
 
             @Override
-            public void mouseReleased(MouseEvent e){
-                highlightTextArea(e);
+            public void mouseReleased(final MouseEvent e) {
+                highlightTextArea();
             }
         });
     }
@@ -112,9 +112,9 @@ public class CanvasView extends JPanel {
     private void addMouseMotionListener() {
         this.addMouseMotionListener(new MouseAdapter() {
             @Override
-            public void mouseDragged(MouseEvent e) {
+            public void mouseDragged(final MouseEvent e) {
                 CanvasView view = (CanvasView) e.getSource();
-                view.resizeSelection(new Point2D.Float(e.getX(),e.getY()));
+                view.resizeSelection(new Point2D.Float(e.getX(), e.getY()));
                 view.repaint();
             }
         });
@@ -123,12 +123,12 @@ public class CanvasView extends JPanel {
     private void addFocusListener() {
         this.addFocusListener(new FocusListener() {
             @Override
-            public void focusGained(FocusEvent focusEvent) {
+            public void focusGained(final FocusEvent focusEvent) {
                 controller.focusGained();
             }
 
             @Override
-            public void focusLost(FocusEvent focusEvent) {
+            public void focusLost(final FocusEvent focusEvent) {
                 controller.focusLost();
             }
         });
@@ -153,7 +153,7 @@ public class CanvasView extends JPanel {
      * @param g
      *            Graphics to be drawn
      */
-    public void paintComponent(Graphics g) {
+    public void paintComponent(final Graphics g) {
         super.paintComponent(g);
         controller.updateDrawables();
         for (DrawableTikzComponent drawable : controller.getDrawables()) {
@@ -191,7 +191,7 @@ public class CanvasView extends JPanel {
      * @param isFocused
      *            The boolean to set whether the view is focused or not
      */
-    public void setIsFocused(boolean isFocused) {
+    public void setIsFocused(final boolean isFocused) {
         this.isFocused = isFocused;
     }
 
@@ -209,7 +209,7 @@ public class CanvasView extends JPanel {
      *            The location where the component has been dropped
      */
 
-    public void dragEvent(TransferTikz transfer_data, Point2D.Float location) {
+    public void dragEvent(final TransferTikz transfer_data, final Point2D.Float location) {
         this.requestFocus();
         controller.mouseDropped(transfer_data, location);
     }
@@ -225,7 +225,7 @@ public class CanvasView extends JPanel {
      *            The bottom right corner of the selection rectangle.
      */
 
-    public void resizeSelection(Point2D.Float bottom_right) {
+    public void resizeSelection(final Point2D.Float bottom_right) {
         if (selection == null) {
             selection = new CanvasSelection(bottom_right);
             this.add(selection);
@@ -252,7 +252,7 @@ public class CanvasView extends JPanel {
         return selection;
     }
 
-    public void addTemplateToParentView(File file) {
+    public void addTemplateToParentView(final File file) {
         parentView.addTemplateToToolBox(file);
     }
 }

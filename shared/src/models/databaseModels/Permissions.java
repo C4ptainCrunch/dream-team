@@ -13,7 +13,8 @@ public class Permissions {
     private int userID;
     private boolean writable, readable;
 
-    public Permissions() {}
+    public Permissions() {
+    }
 
     public Permissions(String projectUID, int userID, boolean write, boolean read, String username) {
         this.projectUID = projectUID;
@@ -28,9 +29,17 @@ public class Permissions {
         return projectUID;
     }
 
+    public void setProjectUID(String projectUID) {
+        this.projectUID = projectUID;
+    }
+
     @XmlAttribute
     public int getUserID() {
         return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     @XmlAttribute
@@ -38,21 +47,13 @@ public class Permissions {
         return writable;
     }
 
+    public void setWritable(boolean writable) {
+        this.writable = writable;
+    }
+
     @XmlAttribute
     public boolean isReadable() {
         return readable;
-    }
-
-    public void setProjectUID(String projectUID) {
-        this.projectUID = projectUID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
-    public void setWritable(boolean writable) {
-        this.writable = writable;
     }
 
     public void setReadable(boolean readable) {

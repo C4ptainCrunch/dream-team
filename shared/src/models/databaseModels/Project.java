@@ -1,8 +1,9 @@
 package models.databaseModels;
 
+import java.io.IOException;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.IOException;
 
 @XmlRootElement
 public class Project {
@@ -18,7 +19,8 @@ public class Project {
     private boolean currentUserWritePerm = false;
     private boolean currentUserReadPerm = false;
 
-    public Project(){ }
+    public Project() {
+    }
 
     public Project(models.project.Project project) throws IOException {
         this.path = project.getPath().toString();
@@ -30,7 +32,8 @@ public class Project {
         this.name = project.getName();
     }
 
-    public Project(String uid, int user, String path, String last_modification, boolean write_default, boolean read_default, String name, String username) {
+    public Project(String uid, int user, String path, String last_modification, boolean write_default, boolean read_default, String name,
+            String username) {
         this.uid = uid;
         this.userID = user;
         this.path = path;
@@ -41,7 +44,7 @@ public class Project {
         this.username = username;
     }
 
-    public String toString(){
+    public String toString() {
         return this.getName();
     }
 
@@ -50,9 +53,17 @@ public class Project {
         return userID;
     }
 
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
     @XmlAttribute
     public String getUid() {
         return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     @XmlAttribute
@@ -60,9 +71,17 @@ public class Project {
         return path;
     }
 
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     @XmlAttribute
     public String getLast_modification() {
         return last_modification;
+    }
+
+    public void setLast_modification(String last_modification) {
+        this.last_modification = last_modification;
     }
 
     @XmlAttribute
@@ -70,37 +89,21 @@ public class Project {
         return write_default;
     }
 
+    public void setWrite_default(boolean write_default) {
+        this.write_default = write_default;
+    }
+
     @XmlAttribute
     public boolean isRead_default() {
         return read_default;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setUid(String uid){
-        this.uid = uid;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public void setLast_modification(String last_modification) {
-        this.last_modification = last_modification;
-    }
-
-    public void setWrite_default(boolean write_default) {
-        this.write_default = write_default;
-    }
-
     public void setRead_default(boolean read_default) {
         this.read_default = read_default;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {

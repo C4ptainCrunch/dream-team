@@ -1,29 +1,29 @@
 package controllers.editor;
 
-import misc.utils.ClientTest;
-import models.project.Diagram;
-import models.project.Project;
-import models.tikz.*;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import views.editor.CanvasView;
-import views.editor.EditorView;
-import views.editor.canvas.drawables.DrawableTikzComponent;
-import views.editor.canvas.drawers.Drawer;
+import static org.junit.Assert.*;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import misc.utils.ClientTest;
+import models.project.Diagram;
+import models.project.Project;
+import models.tikz.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import views.editor.CanvasView;
+import views.editor.EditorView;
+import views.editor.canvas.drawables.DrawableTikzComponent;
+import views.editor.canvas.drawers.Drawer;
 
 /**
  * Created by jhellinckx on 12/05/16.
  */
-public class CanvasControllerTest extends ClientTest{
+public class CanvasControllerTest extends ClientTest {
 
     private TikzGraph testedGraph;
     private CanvasView view;
@@ -32,7 +32,6 @@ public class CanvasControllerTest extends ClientTest{
     private Diagram diagram;
     private EditorView parentView;
     private boolean hasHead = true;
-
 
     @Before
     public void setUp() throws Exception {
@@ -43,14 +42,14 @@ public class CanvasControllerTest extends ClientTest{
             testedGraph = diagram.getGraph();
             view = parentView.getCanvasView();
             controller = view.getController();
-        }catch(HeadlessException e){
+        } catch (HeadlessException e) {
             hasHead = false;
         }
     }
 
-    private List<TikzComponent> drawablesToComponents(List<DrawableTikzComponent> drawables){
+    private List<TikzComponent> drawablesToComponents(List<DrawableTikzComponent> drawables) {
         List<TikzComponent> components = new ArrayList<>();
-        for(DrawableTikzComponent drawable : drawables){
+        for (DrawableTikzComponent drawable : drawables) {
             components.add(drawable.getComponent());
         }
         return components;
@@ -58,7 +57,7 @@ public class CanvasControllerTest extends ClientTest{
 
     @Test
     public void testUpdateDrawables() throws Exception {
-        if(hasHead){
+        if (hasHead) {
             testedGraph.add(new TikzCircle());
             assertNotEquals(drawablesToComponents(controller.getDrawables()), testedGraph.getComponents());
             controller.updateDrawables();
@@ -68,7 +67,7 @@ public class CanvasControllerTest extends ClientTest{
 
     @Test
     public void testAddDrawableComponent() throws Exception {
-        if(hasHead){
+        if (hasHead) {
             TikzComponent component = new TikzCircle();
             testedGraph.add((TikzNode) component);
             DrawableTikzComponent drawable = Drawer.toDrawable(component, view);
@@ -79,7 +78,7 @@ public class CanvasControllerTest extends ClientTest{
 
     @Test
     public void testDeleteItem() throws Exception {
-        if(hasHead){
+        if (hasHead) {
             TikzNode node = new TikzCircle();
             testedGraph.add(node);
             controller.deleteItem(node);
@@ -87,10 +86,9 @@ public class CanvasControllerTest extends ClientTest{
         }
     }
 
-
     @Test
     public void testAddNodeToGraph() throws Exception {
-        if(hasHead){
+        if (hasHead) {
             float testedX = 1993.0f;
             float testedY = 1991.0f;
             Point2D.Float testedPoint = new Point2D.Float(testedX, testedY);
@@ -103,7 +101,7 @@ public class CanvasControllerTest extends ClientTest{
 
     @Test
     public void testAddEdgeToGraph() throws Exception {
-        if(hasHead){
+        if (hasHead) {
             TikzNode firstNode = new TikzCircle();
             TikzNode secondNode = new TikzCircle();
             testedGraph.add(firstNode);
@@ -117,7 +115,7 @@ public class CanvasControllerTest extends ClientTest{
 
     @Test
     public void testAddGraph() throws Exception {
-        if(hasHead){
+        if (hasHead) {
             TikzGraph graph = new TikzGraph();
             TikzNode firstNode = new TikzCircle();
             TikzNode secondNode = new TikzPolygon();

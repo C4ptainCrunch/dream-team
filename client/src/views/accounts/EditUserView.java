@@ -1,17 +1,13 @@
 package views.accounts;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.*;
 
-import constants.GUI;
-import controllers.accounts.EditUserController;
 import models.databaseModels.User;
+import controllers.accounts.EditUserController;
 
-public class EditUserView extends JFrame{
+public class EditUserView extends JFrame {
 
     private EditUserController controller;
     private JTextField firstNameField;
@@ -21,7 +17,7 @@ public class EditUserView extends JFrame{
     private User user;
     private JPanel panel;
 
-    public EditUserView(User user) {
+    public EditUserView(final User user) {
         this.user = user;
         this.originalEmail = user.getEmail();
         this.controller = new EditUserController(this);
@@ -29,7 +25,7 @@ public class EditUserView extends JFrame{
     }
 
     public final void render() {
-        this.setSize(new Dimension(300,200));
+        this.setSize(new Dimension(300, 200));
 
         this.panel = new JPanel();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
@@ -42,7 +38,7 @@ public class EditUserView extends JFrame{
 
     private void initFields() {
         JPanel fieldsPanel = new JPanel();
-        fieldsPanel.setLayout(new GridLayout(0,2));
+        fieldsPanel.setLayout(new GridLayout(0, 2));
 
         JLabel firstNameLabel = new JLabel("First Name: ");
         this.firstNameField = new JTextField(this.user.getFirstName());
@@ -68,7 +64,6 @@ public class EditUserView extends JFrame{
         ok.addActionListener(actionEvent -> controller.submit());
         this.panel.add(ok);
     }
-
 
     public String getFirstName() {
         return this.firstNameField.getText();

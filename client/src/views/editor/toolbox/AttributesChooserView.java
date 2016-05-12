@@ -78,8 +78,7 @@ public class AttributesChooserView extends JPanel {
         color_chooser.addMouseListener(new MouseInputAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (SwingUtilities.isRightMouseButton(e)) {
-                } else {
+                if (!SwingUtilities.isRightMouseButton(e)) {
                     controller.chooseColor();
                 }
             }
@@ -111,6 +110,7 @@ public class AttributesChooserView extends JPanel {
     public String getLabel() {
         return label_field.getText();
     }
+
     public void setLabel(String text) {
         label_field.setText(text);
     }
@@ -140,7 +140,7 @@ public class AttributesChooserView extends JPanel {
     public int getStrokeWidth() {
         try {
             return Integer.parseInt(stroke_width_field.getText());
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return Models.DEFAULT.STROKE;
         }
     }

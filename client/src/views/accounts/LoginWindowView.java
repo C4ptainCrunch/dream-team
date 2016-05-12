@@ -1,7 +1,9 @@
 package views.accounts;
 
 import java.awt.*;
+
 import javax.swing.*;
+
 import constants.GUI.LoginWindow;
 import controllers.accounts.LoginWindowController;
 
@@ -30,7 +32,7 @@ public class LoginWindowView extends JFrame {
         this.setTitle("TikzCreator : Login or Sign Up");
 
         this.loginWindowPanel = new JPanel();
-        this.loginWindowPanel.setLayout(new BoxLayout(this.loginWindowPanel,BoxLayout.Y_AXIS));
+        this.loginWindowPanel.setLayout(new BoxLayout(this.loginWindowPanel, BoxLayout.Y_AXIS));
 
         createFirstButtonsPanel();
         createLoginInfoPanel();
@@ -49,27 +51,27 @@ public class LoginWindowView extends JFrame {
         createPasswordPanel();
         this.setFocusTraversalPolicy(new FocusTraversalPolicy() {
             @Override
-            public Component getComponentAfter(Container container, Component component) {
+            public Component getComponentAfter(final Container container, final Component component) {
                 return passwordText;
             }
 
             @Override
-            public Component getComponentBefore(Container container, Component component) {
+            public Component getComponentBefore(final Container container, final Component component) {
                 return usernameText;
             }
 
             @Override
-            public Component getFirstComponent(Container container) {
+            public Component getFirstComponent(final Container container) {
                 return usernameText;
             }
 
             @Override
-            public Component getLastComponent(Container container) {
+            public Component getLastComponent(final Container container) {
                 return passwordText;
             }
 
             @Override
-            public Component getDefaultComponent(Container container) {
+            public Component getDefaultComponent(final Container container) {
                 return usernameText;
             }
         });
@@ -77,7 +79,7 @@ public class LoginWindowView extends JFrame {
 
     private void createUsernamePanel() {
         JPanel usernamePanel = new JPanel();
-        usernamePanel.setLayout(new BoxLayout(usernamePanel,BoxLayout.X_AXIS));
+        usernamePanel.setLayout(new BoxLayout(usernamePanel, BoxLayout.X_AXIS));
 
         JLabel usernameLabel = new JLabel("Username: ");
         this.usernameText = new JTextField(20);
@@ -89,7 +91,7 @@ public class LoginWindowView extends JFrame {
 
     private void createPasswordPanel() {
         JPanel passwordPanel = new JPanel();
-        passwordPanel.setLayout(new BoxLayout(passwordPanel,BoxLayout.X_AXIS));
+        passwordPanel.setLayout(new BoxLayout(passwordPanel, BoxLayout.X_AXIS));
 
         JLabel passwordLabel = new JLabel("Password: ");
         this.passwordText = new JPasswordField(20);
@@ -118,8 +120,7 @@ public class LoginWindowView extends JFrame {
         JPanel buttons = new JPanel();
 
         JButton login = new JButton(LoginWindow.LOGIN_BUTTON);
-        login.addActionListener(e -> controller.login(this.usernameText.getText(),
-                this.passwordText.getText()));
+        login.addActionListener(e -> controller.login(this.usernameText.getText(), this.passwordText.getText()));
         this.getRootPane().setDefaultButton(login);
         buttons.add(login);
         this.loginWindowPanel.add(buttons);

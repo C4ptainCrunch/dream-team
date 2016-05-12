@@ -8,8 +8,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import constants.Models;
 import utils.SharedTest;
+import constants.Models;
 
 /**
  * Created by etnarek on 2/29/16.

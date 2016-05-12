@@ -24,7 +24,8 @@ public class TikzPolygon extends TikzShape {
 
     /**
      * Constructs a polygon with a given length and a given number of sides.
-     *  @param length
+     *
+     * @param length
      *            The length of one side
      * @param sides
      */
@@ -148,7 +149,7 @@ public class TikzPolygon extends TikzShape {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return TikzFormatter.format(this);
     }
 }

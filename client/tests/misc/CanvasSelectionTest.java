@@ -1,19 +1,19 @@
 package misc;
 
+import static org.junit.Assert.assertEquals;
+
+import java.awt.geom.Point2D;
+
 import misc.utils.ClientTest;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-
-import static org.junit.Assert.*;
-
 /**
  * Created by jhellinckx on 12/05/16.
  */
-public class CanvasSelectionTest extends ClientTest{
+public class CanvasSelectionTest extends ClientTest {
 
     private final float precision = 0.0001f;
 
@@ -23,9 +23,9 @@ public class CanvasSelectionTest extends ClientTest{
 
     @Before
     public void setUp() throws Exception {
-        up_left = new Point2D.Float(5f,5f);
+        up_left = new Point2D.Float(5f, 5f);
         selection = new CanvasSelection(up_left);
-        bottom_right = new Point2D.Float(15f,15f);
+        bottom_right = new Point2D.Float(15f, 15f);
     }
 
     @After

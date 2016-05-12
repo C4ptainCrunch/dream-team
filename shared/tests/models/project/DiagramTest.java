@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import utils.SharedTest;
 import models.tikz.TikzCircle;
 import models.tikz.TikzGraph;
 
@@ -23,41 +22,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import utils.SharedTest;
+
 public class DiagramTest extends SharedTest {
-    private Project project;
-
-    class ProjectMock extends Project {
-        public Path source;
-        public Path diff;
-
-        public ProjectMock() throws IOException {
-            this.source = File.createTempFile("source", null).toPath();
-            this.diff = File.createTempFile("diff", null).toPath();
-        }
-
-        synchronized public String getDiagramSource(String name) throws IOException {
-            return new String(Files.readAllBytes(this.source));
-        }
-
-        synchronized public byte[] getDiagramDiff(String name) throws IOException {
-            return Files.readAllBytes(this.diff);
-        }
-
-        synchronized public void writeDiff(String name, byte[] bytes) throws IOException {
-            Files.write(this.diff, bytes, TRUNCATE_EXISTING, CREATE);
-        }
-
-        synchronized public void writeSource(String name, String tikz) throws IOException {
-            Files.write(this.source, tikz.getBytes(), TRUNCATE_EXISTING, CREATE);
-        }
-
-        synchronized public void renameDiagram(String oldName, String newName) throws IOException {
-            // Do not perform any IO operations
-        }
-    }
-
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
+    private Project project;
 
     @Before
     public void setUp() throws Exception {
@@ -133,13 +103,13 @@ public class DiagramTest extends SharedTest {
     }
 
     @Test
-    public void testGetProject() throws Exception{
+    public void testGetProject() throws Exception {
         Diagram d = new Diagram("", project);
         assertEquals(d.getProject(), project);
     }
 
     @Test
-    public void testIsTemporary() throws Exception{
+    public void testIsTemporary() throws Exception {
         Diagram d = new Diagram("", project);
         assertEquals(d.isTemporary(), project.isTemporary());
     }
@@ -159,7 +129,6 @@ public class DiagramTest extends SharedTest {
 
         os.close();
         bs.close();
-
 
         List<Diff> readDiffs = d.getDiffs();
         assertEquals(readDiffs.get(0).getDate(), new Date(0));
@@ -190,7 +159,6 @@ public class DiagramTest extends SharedTest {
         assertEquals(writtenDiffs.get(0).getPatch(), "diff one");
     }
 
-
     @Test
     public void testUndoRedo() throws Exception {
         Diagram d = new Diagram("my-dia", project);
@@ -205,11 +173,41 @@ public class DiagramTest extends SharedTest {
 
         d.undo();
 
-        assertEquals(listDiff.size()-1, d.getDiffs().size());
+        assertEquals(listDiff.size() - 1, d.getDiffs().size());
         assertEquals(d.getGraph().size(), 0);
 
         d.redo();
         assertEquals(listDiff.size(), d.getDiffs().size());
         assertEquals(d.getGraph().size(), 1);
+    }
+
+    class ProjectMock extends Project {
+        public Path source;
+        public Path diff;
+
+        public ProjectMock() throws IOException {
+            this.source = File.createTempFile("source", null).toPath();
+            this.diff = File.createTempFile("diff", null).toPath();
         }
+
+        synchronized public String getDiagramSource(String name) throws IOException {
+            return new String(Files.readAllBytes(this.source));
+        }
+
+        synchronized public byte[] getDiagramDiff(String name) throws IOException {
+            return Files.readAllBytes(this.diff);
+        }
+
+        synchronized public void writeDiff(String name, byte[] bytes) throws IOException {
+            Files.write(this.diff, bytes, TRUNCATE_EXISTING, CREATE);
+        }
+
+        synchronized public void writeSource(String name, String tikz) throws IOException {
+            Files.write(this.source, tikz.getBytes(), TRUNCATE_EXISTING, CREATE);
+        }
+
+        synchronized public void renameDiagram(String oldName, String newName) throws IOException {
+            // Do not perform any IO operations
+        }
+    }
 }

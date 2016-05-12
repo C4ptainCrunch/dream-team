@@ -14,8 +14,7 @@ class Utils {
     private final static Set<String> colors = new HashSet<>(Arrays.asList("red", "green", "blue", "cyan ", "magenta", "yellow", "black",
             "gray", "darkgray", "lightgray", "brown", "lime", "olive", "orange", "pink", "purple", "teal", "violet", "white"));
 
-
-        /**
+    /**
      * private default constructor
      */
     private Utils() {
@@ -70,7 +69,7 @@ class Utils {
         return Optional.empty();
     }
 
-    private static Optional<String> getStrokeColorShape(Map<String, String> map){
+    private static Optional<String> getStrokeColorShape(Map<String, String> map) {
         if (map.containsKey("color")) {
             return Optional.of(map.get("color"));
         }
@@ -194,7 +193,6 @@ class Utils {
         return optionStroke.isPresent() ? optionStroke : getOptionStroke(m2);
     }
 
-
     /**
      * Creates a tikz node from a destructured node and a list of options
      * defining this node
@@ -208,8 +206,10 @@ class Utils {
      */
     public static TikzNode createNode(Map<String, String> defaultOptions, DestructuredNode node) {
         final String shape = getNodeShape(defaultOptions, node.getOptions()).orElse("void");
-        final String strokeColor = getStrokeColorShape(defaultOptions, node.getOptions()).orElse(TikzColors.ColorToString(Models.DEFAULT.COLOR));
-        final String backgroundColor = getBackgroundColorShape(defaultOptions, node.getOptions()).orElse(TikzColors.ColorToString(Models.DEFAULT.BACKGROUND_COLOR));
+        final String strokeColor = getStrokeColorShape(defaultOptions, node.getOptions())
+                .orElse(TikzColors.ColorToString(Models.DEFAULT.COLOR));
+        final String backgroundColor = getBackgroundColorShape(defaultOptions, node.getOptions())
+                .orElse(TikzColors.ColorToString(Models.DEFAULT.BACKGROUND_COLOR));
         final int stroke = getOptionStroke(defaultOptions, node.getOptions()).orElse(Models.DEFAULT.STROKE);
         TikzShape res;
         if (rectangles.contains(shape)) {
@@ -221,9 +221,10 @@ class Utils {
             res = new TikzCircle(radius);
         } else if (polygons.contains(shape)) {
             float size = getNumericOption("minimum size", defaultOptions, node.getOptions()).orElse(Models.DEFAULT.LENGTH);
-            int sides = getNumericOption("regular polygon sides", defaultOptions, node.getOptions()).orElse((float)Models.DEFAULT.SIDES).intValue();
+            int sides = getNumericOption("regular polygon sides", defaultOptions, node.getOptions()).orElse((float) Models.DEFAULT.SIDES)
+                    .intValue();
             res = new TikzPolygon(size, sides);
-        } else{
+        } else {
             return null;
         }
         res.setPosition(node.getCoordinates());
@@ -287,7 +288,7 @@ class Utils {
         }
     }
 
-private enum EDGEDIR {
+    private enum EDGEDIR {
         UNDIRECTED, RIGHTDIRECTED, LEFTDIRECTED
     }
 }

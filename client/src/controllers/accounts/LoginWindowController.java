@@ -1,5 +1,7 @@
 package controllers.accounts;
 
+import java.util.logging.Logger;
+
 import javax.swing.*;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
@@ -8,16 +10,11 @@ import misc.logic.CloudLogic;
 import misc.utils.RequestBuilder;
 import models.databaseModels.User;
 import utils.Log;
-import views.accounts.EditUserView;
 import views.accounts.LoginWindowView;
 import views.accounts.SignUpView;
 import views.accounts.TokenActivationView;
 import views.management.ManagementView;
-import views.management.ProjectManagementView;
 import constants.Errors;
-import constants.Network;
-
-import java.util.logging.Logger;
 
 /**
  * The controller related to the LoginWindowView.
@@ -25,25 +22,26 @@ import java.util.logging.Logger;
 
 public class LoginWindowController {
 
+    private final static Logger logger = Log.getLogger(LoginWindowController.class);
     private final LoginWindowView view;
     private final String BASE_PATH = "user/login/";
-    private final static Logger logger = Log.getLogger(LoginWindowController.class);
 
-    public LoginWindowController(LoginWindowView view) {
+    public LoginWindowController(final LoginWindowView view) {
         this.view = view;
     }
 
     public static boolean shouldSkipAuth() {
         Response r = RequestBuilder.get("/authentication/checktoken").invoke();
-
-        if(r.getStatus() == 200) {
+        Boolean shouldSkip;
+        if (r.getStatus() == 200) {
             logger.info("Token was good, skipping login");
             storeUsername();
-            return true;
+            shouldSkip = true;
         } else {
             logger.fine("Old token was invalid, " + Integer.toString(r.getStatus()));
-            return false;
+            shouldSkip = false;
         }
+        return shouldSkip;
 
     }
 
@@ -54,7 +52,7 @@ public class LoginWindowController {
         logger.info("Our username is " + username);
     }
 
-    private String getToken(String username, String password) {
+    private String getToken(final String username, final String password) {
         Form postForm = new Form();
         postForm.param("username", username);
         postForm.param("password", password);
@@ -65,23 +63,25 @@ public class LoginWindowController {
 
     /**
      * Launch the login process.
-     * @param username The user's username
-     * @param password The user's password
+     *
+     * @param username
+     *            The user's username
+     * @param password
+     *            The user's password
      */
-    public void login(String username, String password) {
+    public void login(final String username, final String password) {
 
-        String token = getToken(username,password);
+        String token = getToken(username, password);
 
-        if(!token.trim().equals("")){
+        if (!token.trim().equals("")) {
             this.view.dispose();
             RequestBuilder.setToken(token);
             storeUsername();
             new ManagementView();
-        }else {
+        } else {
             JOptionPane.showMessageDialog(this.view, Errors.LOGIN_FAILED, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
     /**
      * Launch the sign up process.

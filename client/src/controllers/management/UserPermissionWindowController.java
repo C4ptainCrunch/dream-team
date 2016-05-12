@@ -1,16 +1,15 @@
 package controllers.management;
 
+import java.util.logging.Logger;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
 
 import misc.utils.RequestBuilder;
 import models.databaseModels.Permissions;
 import models.databaseModels.Project;
-import models.databaseModels.User;
 import utils.Log;
 import views.management.UserPermissionWindowView;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
-import java.util.logging.Logger;
 
 public class UserPermissionWindowController {
 
@@ -28,8 +27,8 @@ public class UserPermissionWindowController {
     public Permissions getUserPerms() {
         Form postForm = new Form();
         postForm.param("userName", this.user);
-        Response r = RequestBuilder.post("/project/get_permission_for_user/"+this.currentProject.getUid(),postForm).invoke();
-        if( r.getStatus() == 200) {
+        Response r = RequestBuilder.post("/project/get_permission_for_user/" + this.currentProject.getUid(), postForm).invoke();
+        if (r.getStatus() == 200) {
             logger.info("Permission get");
         } else {
             logger.severe("Permission get failed " + r.getStatus());
@@ -44,7 +43,7 @@ public class UserPermissionWindowController {
         postForm.param("readPerm", Boolean.toString(readSelected));
         postForm.param("writePerm", Boolean.toString(writeSelected));
         postForm.param("userName", this.user);
-        Response r = RequestBuilder.post("/project/set_permission_for_user/"+this.currentProject.getUid(), postForm).invoke();
+        Response r = RequestBuilder.post("/project/set_permission_for_user/" + this.currentProject.getUid(), postForm).invoke();
         this.view.dispose();
         this.setParentViewVisible();
     }

@@ -26,10 +26,10 @@ public class CanvasSelection extends JPanel {
      *            The position where the selection will be displayed.
      */
 
-    public CanvasSelection(Point2D.Float pos) {
+    public CanvasSelection(final Point2D.Float pos) {
         this.setSize(new Dimension(0, 0));
         this.setBackground(GUI.Selection.BKG_COLOR);
-        this.setLocation(new Point((int)pos.x, (int)pos.y));
+        this.setLocation(new Point((int) pos.x, (int) pos.y));
         selection = new Rectangle2D.Float(this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 
@@ -41,27 +41,28 @@ public class CanvasSelection extends JPanel {
      *            rectangle.
      */
 
-    public void resize(Point2D.Float bottom_right) {
+    public void resize(final Point2D.Float bottom_right) {
         int delta_x = (int) bottom_right.getX() - this.getX();
         int delta_y = (int) bottom_right.getY() - this.getY();
         this.setSize(new Dimension(delta_x, delta_y));
     }
 
-    public boolean contains(Point2D.Float point) {
+    public boolean contains(final Point2D.Float point) {
         return selection.contains(point);
     }
 
     /**
      * Get the selection as an awt.Rectangle object.
+     *
      * @return the selection's rectangle
      */
 
-    public Rectangle2D getSelectionRectangle(){
+    public Rectangle2D getSelectionRectangle() {
         return this.selection;
     }
 
     @Override
-    public void paintComponent(Graphics g) {
+    public void paintComponent(final Graphics g) {
         super.paintComponent(g);
         selection.setRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }

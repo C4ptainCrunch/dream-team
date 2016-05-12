@@ -5,7 +5,6 @@ import static javax.swing.JOptionPane.showMessageDialog;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,7 +15,6 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
-import constants.ProjectConflicts;
 import misc.logic.CloudLogic;
 import models.project.Diagram;
 import models.project.Project;
@@ -27,8 +25,12 @@ import views.editor.EditorView;
 import views.editor.MenuView;
 import views.editor.SyncModeSelectionView;
 import views.help.HelpView;
-import views.management.*;
+import views.management.DiagramManagementView;
+import views.management.FileChooseView;
+import views.management.HistoryView;
+import views.management.ManagementView;
 import constants.Errors;
+import constants.ProjectConflicts;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the
@@ -48,7 +50,7 @@ public class MenuController implements Observer {
      * @param diagram
      *            The Diagram
      */
-    public MenuController(MenuView view, Diagram diagram) {
+    public MenuController(final MenuView view, final Diagram diagram) {
         this.view = view;
 
         this.diagram = diagram;
@@ -63,7 +65,7 @@ public class MenuController implements Observer {
      * @param arg
      *            The arguments given by the Observable
      */
-    public void update(Observable o, Object arg) {
+    public void update(final Observable o, final Object arg) {
         // this was left intentionally blank
     }
 
@@ -72,16 +74,16 @@ public class MenuController implements Observer {
      */
     public void save() {
         try {
-            if(this.diagram.isTemporary()){
+            if (this.diagram.isTemporary()) {
                 String diagramName = this.view.getDiagramName();
                 this.diagram.rename(diagramName);
                 this.diagram.save();
 
                 FileChooseView choose = new FileChooseView("Save diagram", JFileChooser.FILES_AND_DIRECTORIES);
-                choose.setFileRestriction("CreaTikz files","crea");
+                choose.setFileRestriction("CreaTikz files", "crea");
                 choose.setSelectedFile(new File(diagramName + ".crea"));
                 File newDir = choose.ask();
-                if(newDir != null){
+                if (newDir != null) {
                     Project p = this.diagram.getProject();
                     p.move(newDir);
                     p.rename(newDir.toPath().getFileName().toString());
@@ -90,7 +92,7 @@ public class MenuController implements Observer {
             }
             this.diagram.save();
         } catch (IOException | ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(view, Errors.SAVE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
+            showMessageDialog(view, Errors.SAVE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
             logger.severe("Diagram saved failed : " + e.toString());
             e.printStackTrace();
         }
@@ -102,7 +104,8 @@ public class MenuController implements Observer {
     public void compileAndOpen() {
         // TODO : should we move this to the model ?
         try {
-            PdfRenderer.compileAndOpen(new File(this.diagram.getProject().getDirectory() + "/" + this.diagram.getName() + ".pdf"), this.diagram.getGraph());
+            PdfRenderer.compileAndOpen(new File(this.diagram.getProject().getDirectory() + "/" + this.diagram.getName() + ".pdf"),
+                    this.diagram.getGraph());
         } catch (PdfCompilationError e) {
             showMessageDialog(null, "Error during compilation");
         }
@@ -124,27 +127,27 @@ public class MenuController implements Observer {
     }
 
     /**
-     * Saves the diagram and closes the editor window.
-     * If the diagram has no name/path, it asks the user if
-     * he wants to save the file to the disk.
-     * If the user cancels, no windows are closed and this
-     * method does nothing.
+     * Saves the diagram and closes the editor window. If the diagram has no
+     * name/path, it asks the user if he wants to save the file to the disk. If
+     * the user cancels, no windows are closed and this method does nothing.
      *
      * @param parentView
      *            The view in which the menu view associated with this
      *            controller is contained
      */
-    public void saveAndQuit(EditorView parentView) {
-        if(this.askToSave()){
+    public void saveAndQuit(final EditorView parentView) {
+        if (this.askToSave()) {
             parentView.dispose();
         }
     }
 
     /**
      * Sets the Color blind mode on or off
-     * @param stateChange State change
+     *
+     * @param stateChange
+     *            State change
      */
-    public void setColorBlindMode(int stateChange) {
+    public void setColorBlindMode(final int stateChange) {
         boolean set_mode = (stateChange == ItemEvent.SELECTED ? true : false);
         view.setBlindMode(set_mode);
     }
@@ -153,7 +156,7 @@ public class MenuController implements Observer {
      * Return to the ManagementView to open a new project
      */
     public void openNew() {
-        if(this.askToSave()){
+        if (this.askToSave()) {
             this.view.disposeParent();
             EventQueue.invokeLater(ManagementView::new);
         }
@@ -161,14 +164,14 @@ public class MenuController implements Observer {
 
     /**
      * Prompts the user to ask if he wants to save his diagram or not
+     *
      * @return The user's choice
      */
     private boolean askToSave() {
         boolean shouldQuit = true;
-        if(diagram.isTemporary()){
+        if (diagram.isTemporary()) {
             int r = JOptionPane.showConfirmDialog(this.view, "Would you like to save your diagram ?");
-            if(r == JOptionPane.NO_OPTION){
-            } else if (r == JOptionPane.CANCEL_OPTION){
+            if (r == JOptionPane.CANCEL_OPTION) {
                 shouldQuit = false;
             } else if (r == JOptionPane.YES_OPTION) {
                 save();
@@ -180,7 +183,8 @@ public class MenuController implements Observer {
     }
 
     /**
-     * Open the DiagramManagementView to choose another diagram in the current project
+     * Open the DiagramManagementView to choose another diagram in the current
+     * project
      */
     public void openDiagram() {
         this.view.disposeParent();
@@ -194,10 +198,10 @@ public class MenuController implements Observer {
     }
 
     /**
-     * Either notifies the user that the sync was successful, or launches a SyncModeSelectionView
-     * to ask the user which sync mode he desires.
+     * Either notifies the user that the sync was successful, or launches a
+     * SyncModeSelectionView to ask the user which sync mode he desires.
      */
-    public void syncProject(){
+    public void syncProject() {
         try {
             Project p = this.view.getDiagram().getProject();
             boolean hasConflicts = CloudLogic.AskForMerge(p);
@@ -233,7 +237,7 @@ public class MenuController implements Observer {
                     e.printStackTrace();
                 }
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         logger.warning("Merge failed");

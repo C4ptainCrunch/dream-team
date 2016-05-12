@@ -15,7 +15,6 @@ import javax.mail.internet.MimeMessage;
 
 import constants.Email;
 
-
 public class ConfirmationEmailSender {
     private final static Logger logger = Log.getLogger(ConfirmationEmailSender.class);
 
@@ -28,23 +27,23 @@ public class ConfirmationEmailSender {
             config.load(new FileInputStream("server/config.ini"));
 
             String from = (String) config.get("email_from");
-            if(from == null){
+            if (from == null) {
                 logger.severe("email_from not present in the config.ini file");
             }
             String smtpUsername = (String) config.get("smtp_username");
-            if(smtpUsername == null){
+            if (smtpUsername == null) {
                 logger.severe("smtp_username not present in the config.ini file");
             }
             String smtpPassword = (String) config.get("smtp_password");
-            if(smtpPassword == null){
+            if (smtpPassword == null) {
                 logger.severe("smtp_password not present in the config.ini file");
             }
             String smtpHost = (String) config.get("smtp_host");
-            if(smtpHost == null){
+            if (smtpHost == null) {
                 logger.severe("smtp_host not present in the config.ini file");
             }
 
-            if(from == null || smtpUsername == null || smtpPassword == null || smtpHost == null){
+            if (from == null || smtpUsername == null || smtpPassword == null || smtpHost == null) {
                 logger.severe("fallback to email logger mock");
                 throw new IOException();
             }
@@ -57,20 +56,16 @@ public class ConfirmationEmailSender {
             props.put("mail.smtp.port", "587");
 
             Thread thread = new Thread(() -> {
-                Session session = Session.getInstance(props,
-                        new javax.mail.Authenticator() {
-                            protected PasswordAuthentication getPasswordAuthentication() {
-                                return new PasswordAuthentication(smtpUsername, smtpPassword);
-                            }
-                        });
+                Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(smtpUsername, smtpPassword);
+                    }
+                });
 
                 MimeMessage message = new MimeMessage(session);
                 try {
                     message.setFrom(new InternetAddress(from));
-                    message.addRecipient(
-                            RecipientType.TO,
-                            new InternetAddress(recipient)
-                    );
+                    message.addRecipient(RecipientType.TO, new InternetAddress(recipient));
                     message.setSubject(Email.SUBJECT_LINE);
                     message.setText(Email.EMAIL_BODY_PART_ONE + token + Email.EMAIL_BODY_PART_TWO);
 
@@ -85,7 +80,6 @@ public class ConfirmationEmailSender {
         } catch (IOException e) {
             logger.info("No email configured. Mocking email to " + recipient + " : " + token);
         }
-
 
     }
 }

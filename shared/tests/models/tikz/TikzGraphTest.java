@@ -8,6 +8,7 @@ import java.util.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import utils.SharedTest;
 
 /**
@@ -334,18 +335,18 @@ public class TikzGraphTest extends SharedTest {
         graph.addAllNodes(nodes);
         graph.addAllEdges(edges);
 
-        String expectedString = "\\documentclass{article}\n" + "\\usepackage{tikz}\n" + "\\usetikzlibrary{shapes.geometric}\n" + "\\begin{document}\n"
-                + "\\begin{tikzpicture}\n" + "\\node[circle, draw](a) at (0.000,0.000){};\n"
-                + "\\node[circle, draw](b) at (0.000,1.000){};\n" + "\\node[circle, draw](c) at (0.000,2.000){};\n" + "\\node[circle, draw](d) at (0.000,3.000){};\n"
-                + "\\draw[] (a) -- (b);\n" + "\\draw[] (b) -- (c);\n" + "\\draw[] (c) -- (d);\n" + "\\end{tikzpicture}\n"
-                + "\\end{document}\n";
+        String expectedString = "\\documentclass{article}\n" + "\\usepackage{tikz}\n" + "\\usetikzlibrary{shapes.geometric}\n"
+                + "\\begin{document}\n" + "\\begin{tikzpicture}\n" + "\\node[circle, draw](a) at (0.000,0.000){};\n"
+                + "\\node[circle, draw](b) at (0.000,1.000){};\n" + "\\node[circle, draw](c) at (0.000,2.000){};\n"
+                + "\\node[circle, draw](d) at (0.000,3.000){};\n" + "\\draw[] (a) -- (b);\n" + "\\draw[] (b) -- (c);\n"
+                + "\\draw[] (c) -- (d);\n" + "\\end{tikzpicture}\n" + "\\end{document}\n";
 
         assertEquals(expectedString, graph.toLatex());
 
     }
 
     @Test
-    public void testContainsEdgeAndNode() throws Exception{
+    public void testContainsEdgeAndNode() throws Exception {
         TikzNode firstNode = new TikzCircle();
         TikzNode secondNode = new TikzRectangle();
         TikzEdge edge = new TikzUndirectedEdge(firstNode, secondNode);
@@ -358,7 +359,7 @@ public class TikzGraphTest extends SharedTest {
     }
 
     @Test
-    public void testIsEmpty() throws Exception{
+    public void testIsEmpty() throws Exception {
         assertTrue(graph.isEmpty());
         graph.add(new TikzCircle());
         assertFalse(graph.isEmpty());

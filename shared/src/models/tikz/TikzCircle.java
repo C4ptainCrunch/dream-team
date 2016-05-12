@@ -1,7 +1,7 @@
 package models.tikz;
 
-import constants.Models;
 import parser.TikzFormatter;
+import constants.Models;
 
 /**
  * Implementation of the Circle Model (from the MVC architectural pattern) This
@@ -108,12 +108,13 @@ public class TikzCircle extends TikzShape {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return TikzFormatter.format(this);
     }
 
     @Override
-    public boolean isCircle(){ return true; }
-
+    public boolean isCircle() {
+        return true;
+    }
 
 }

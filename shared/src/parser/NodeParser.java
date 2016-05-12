@@ -51,8 +51,7 @@ public class NodeParser {
      */
     public static Parser<Float> number() {
         return Parsers.sequence(Scanners.string("-").optional().source(),
-                MAYBEWHITESPACES.next(Terminals.DecimalLiteral.TOKENIZER).source(),
-                (minus, nums) -> Float.parseFloat(minus + nums));
+                MAYBEWHITESPACES.next(Terminals.DecimalLiteral.TOKENIZER).source(), (minus, nums) -> Float.parseFloat(minus + nums));
     }
 
     /**
@@ -108,11 +107,11 @@ public class NodeParser {
     /**
      * Parses a tikz coordinates. A coordinates is tikz code written between "("
      * and ")", containing two integer separated by commas In order to get the
-     * Point2D.Float object situated between the parentheses, one should call parse() on
-     * the returned parser.
+     * Point2D.Float object situated between the parentheses, one should call
+     * parse() on the returned parser.
      *
-     * @return a parser object that represents the Point2D.Float object between the
-     *         parentheses
+     * @return a parser object that represents the Point2D.Float object between
+     *         the parentheses
      */
     public static Parser<Point2D.Float> coordinates() {
         final Parser<Void> sep = Parsers.sequence(MAYBEWHITESPACES, Scanners.isChar(','), MAYBEWHITESPACES);
@@ -142,7 +141,9 @@ public class NodeParser {
                 Parsers.sequence(Scanners.WHITESPACES, Scanners.string("at"), Scanners.WHITESPACES, coordinates()),
                 Parsers.sequence(MAYBEWHITESPACES, maybeLabel), (options, ref, coord, label) -> {
                     TikzNode maybeNode = Utils.createNode(new DestructuredNode(options, ref, coord, label));
-                    if(maybeNode != null) {graph.add(maybeNode);}
+                    if (maybeNode != null) {
+                        graph.add(maybeNode);
+                    }
                     return null;
                 });
     }
@@ -163,11 +164,11 @@ public class NodeParser {
                     TikzNode previous;
                     TikzNode current;
                     previous = Utils.createNode(defaultOptions, firstNode);
-                    if(previous != null) {
+                    if (previous != null) {
                         graph.add(previous);
                         for (DestructuredNode destructuredNode : restNode) {
                             current = Utils.createNode(defaultOptions, destructuredNode);
-                            if(current != null) {
+                            if (current != null) {
                                 graph.add(current);
                                 graph.add(new TikzUndirectedEdge(previous,
                                         current)); /* TODO: parsing edges */
@@ -214,13 +215,16 @@ public class NodeParser {
      * @return a void parser object
      */
     public static Parser<Void> parseTexPrelude() {
-        return Parsers.sequence(Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(), Scanners.string("\\documentclass{article}\n"),
-                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES), Scanners.string("\\usepackage{tikz}\n"),
-                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES),
-                Parsers.sequence(Scanners.string("\\usetikzlibrary{"), Scanners.notChar('}').many(), Scanners.isChar('}')).optional(),
-                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES), Scanners.string("\\begin{document}\n"),
-                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES), Scanners.string("\\begin{tikzpicture}\n"),
-                Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES)).cast();
+        return Parsers
+                .sequence(Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES).many(), Scanners.string("\\documentclass{article}\n"),
+                        Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES), Scanners.string("\\usepackage{tikz}\n"),
+                        Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES),
+                        Parsers.sequence(Scanners.string("\\usetikzlibrary{"), Scanners.notChar('}').many(), Scanners.isChar('}'))
+                                .optional(),
+                        Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES), Scanners.string("\\begin{document}\n"),
+                        Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES), Scanners.string("\\begin{tikzpicture}\n"),
+                        Parsers.or(MAYBEWHITESPACES, MAYBENEWLINES))
+                .cast();
     }
 
     /**

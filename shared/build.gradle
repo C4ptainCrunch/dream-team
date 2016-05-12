@@ -37,14 +37,14 @@ sourceSets {
             srcDirs = ["tests/"]
         }
         resources {
-           srcDirs = ["resources/"]
+            srcDirs = ["resources/"]
         }
     }
     main {
         java {
             srcDir "src/"
         }
-        resources{
+        resources {
             srcDirs = ["resources/"]
         }
     }

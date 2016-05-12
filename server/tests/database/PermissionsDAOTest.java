@@ -1,17 +1,19 @@
 package database;
 
-import constants.Database;
-import models.databaseModels.Permissions;
-import models.databaseModels.User;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import utils.ServerTest;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import models.databaseModels.Permissions;
+import models.databaseModels.User;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import utils.ServerTest;
+import constants.Database;
 
 public class PermissionsDAOTest extends ServerTest {
 
@@ -33,7 +35,7 @@ public class PermissionsDAOTest extends ServerTest {
         this.dao = daoFactory.getPermissionsDAO();
         this.dao.create(new Permissions(project_id, user_id, write_perm, read_perm, username));
         this.usersDAO = daoFactory.getUsersDAO();
-        this.testUser = new User(user_id,username,"Test","User","testUser@gmail.com");
+        this.testUser = new User(user_id, username, "Test", "User", "testUser@gmail.com");
         this.usersDAO.create(this.testUser);
     }
 
@@ -41,7 +43,10 @@ public class PermissionsDAOTest extends ServerTest {
     public void tearDown() throws Exception {
         this.dao.deletePermissions(user_id, project_id);
         this.usersDAO.deleteUser(this.testUser);
-        /* To delete dirs made by the tests (because db creation depends on the actual path) */
+        /*
+         * To delete dirs made by the tests (because db creation depends on the
+         * actual path)
+         */
         File db = new File(Database.DB_FILE);
         db.delete();
         File db_dir = new File(Database.DB_DIR);

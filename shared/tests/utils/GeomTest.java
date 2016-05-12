@@ -1,10 +1,10 @@
 package utils;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.awt.geom.Point2D;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class GeomTest {
 

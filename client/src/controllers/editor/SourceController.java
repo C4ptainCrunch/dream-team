@@ -33,7 +33,7 @@ public class SourceController implements Observer {
      * @param graph
      *            The TikzGraph
      */
-    public SourceController(SourceView view, TikzGraph graph) {
+    public SourceController(final SourceView view, final TikzGraph graph) {
         this.view = view;
         this.graph = graph;
         this.graph.addObserver(this);
@@ -49,7 +49,7 @@ public class SourceController implements Observer {
      * @param arg
      *            The arguments given by the Observable
      */
-    public void update(Observable o, Object arg) {
+    public void update(final Observable o, final Object arg) {
         logger.finest("Got an update event");
         if (!view.getIsFocused()) {
             updateTikzText();
@@ -62,19 +62,19 @@ public class SourceController implements Observer {
      * @param raw_text
      *            The new Tikz text
      */
-    private void updateGraphFromText(String raw_text) {
+    private void updateGraphFromText(final String raw_text) {
         String text = raw_text.trim();
-            TikzGraph new_graph = new TikzGraph();
-            try {
-                NodeParser.parseDocument(new_graph).parse(text);
-                logger.fine("Valid graph from TikzSource");
-                SwingUtilities.invokeLater(() -> {
-                    graph.replace(new_graph);
-                });
+        TikzGraph new_graph = new TikzGraph();
+        try {
+            NodeParser.parseDocument(new_graph).parse(text);
+            logger.fine("Valid graph from TikzSource");
+            SwingUtilities.invokeLater(() -> {
+                graph.replace(new_graph);
+            });
 
-            } catch (ParserException e) {
-                logger.info("Error during TikZ parsing : " + e.getMessage());
-            }
+        } catch (ParserException e) {
+            logger.info("Error during TikZ parsing : " + e.getMessage());
+        }
 
     }
 
@@ -82,11 +82,11 @@ public class SourceController implements Observer {
      * Updates the map between a TikzComponent and a line.
      */
 
-    public void updateLineToComponent(){
+    public void updateLineToComponent() {
         line_to_component_map.clear();
         List<TikzComponent> components = graph.getComponents();
         int size = components.size();
-        for (int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             line_to_component_map.put(components.get(i), i);
         }
     }
@@ -131,17 +131,18 @@ public class SourceController implements Observer {
     /**
      * Getter for the line corresponding to a given component.
      *
-     * @param comp The given component.
+     * @param comp
+     *            The given component.
      * @return The index of the line corresponding to the component.
      */
 
-    public int getLine(TikzComponent comp) {
+    public int getLine(final TikzComponent comp) {
         return line_to_component_map.get(comp);
     }
 
-    public List<Integer> getLines(Set<TikzComponent> selectedComponents) {
+    public List<Integer> getLines(final Set<TikzComponent> selectedComponents) {
         List<Integer> lines = new ArrayList<>();
-        for (TikzComponent comp: selectedComponents){
+        for (TikzComponent comp : selectedComponents) {
             lines.add(getLine(comp));
         }
         return lines;

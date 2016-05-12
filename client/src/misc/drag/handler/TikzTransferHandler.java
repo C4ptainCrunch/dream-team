@@ -31,7 +31,7 @@ public abstract class TikzTransferHandler extends TransferHandler {
      *            transfer to be checked
      * @return true if the import can happen, false otherwise
      */
-    public boolean canImport(TransferHandler.TransferSupport info) {
+    public boolean canImport(final TransferHandler.TransferSupport info) {
         return info.isDataFlavorSupported(DataFlavor.stringFlavor);
     }
 
@@ -43,7 +43,7 @@ public abstract class TikzTransferHandler extends TransferHandler {
      *            transfer
      * @return true if the import has been successful
      */
-    public boolean importData(TransferHandler.TransferSupport support) {
+    public boolean importData(final TransferHandler.TransferSupport support) {
         if (!canImport(support)) {
             return false;
         }
@@ -86,7 +86,7 @@ public abstract class TikzTransferHandler extends TransferHandler {
      * @param action
      *            the actual action that was performed
      */
-    protected void exportDone(JComponent c, Transferable t, int action) {
+    protected void exportDone(final JComponent c, final Transferable t, final int action) {
         // this was left intentionally blank
     }
 
@@ -111,7 +111,7 @@ public abstract class TikzTransferHandler extends TransferHandler {
      *            enable sharing of TransferHandlers
      * @return MOVE
      */
-    public int getSourceActions(JComponent c) {
+    public int getSourceActions(final JComponent c) {
         return MOVE;
     }
 }

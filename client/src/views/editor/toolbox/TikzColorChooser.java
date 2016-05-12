@@ -9,12 +9,14 @@ public class TikzColorChooser {
 
     /**
      * Opens a color picker that only accepts valid tikz colors
-     * @param base the selected color on window opening
+     *
+     * @param base
+     *            the selected color on window opening
      * @return the selected color
      */
-    public static Color choose(Color base){
+    public static Color choose(Color base) {
         JColorChooser chooser = new JColorChooser(base);
-        AbstractColorChooserPanel[] panel = {new TikzColorChooserPanel()};
+        AbstractColorChooserPanel[] panel = { new TikzColorChooserPanel() };
         chooser.setChooserPanels(panel);
         JDialog dialog = JColorChooser.createDialog(null, "Chose your color", true, chooser, null, null);
         dialog.setVisible(true);

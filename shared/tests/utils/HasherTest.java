@@ -34,28 +34,17 @@ public class HasherTest extends SharedTest {
 
     @Test
     public void hash() throws Exception {
-        assertEquals(
-                Hasher.hash("My Passw0rd", "longlongsalt"),
-                HASH
-        );
+        assertEquals(Hasher.hash("My Passw0rd", "longlongsalt"), HASH);
     }
 
     @Test
     public void hashDifferentSalt() throws Exception {
-        assertNotEquals(
-                Hasher.hash("My Passw0rd", "longlongsalt"),
-                Hasher.hash("My Passw0rd", "shortsalt")
-        );
+        assertNotEquals(Hasher.hash("My Passw0rd", "longlongsalt"), Hasher.hash("My Passw0rd", "shortsalt"));
     }
 
     @Test
     public void hashDifferentPass() throws Exception {
-        assertNotEquals(
-                Hasher.hash("My Passw0rd", "longlongsalt"),
-                Hasher.hash("My Passw0rd1", "longlongsalt")
-        );
+        assertNotEquals(Hasher.hash("My Passw0rd", "longlongsalt"), Hasher.hash("My Passw0rd1", "longlongsalt"));
     }
-
-
 
 }

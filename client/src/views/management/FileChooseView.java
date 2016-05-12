@@ -15,15 +15,19 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import utils.Dirs;
 
 /**
- * FileChooseView is a generic File chooser with some small modifications
- * (for example: trying to show a recently opened directory by default)
+ * FileChooseView is a generic File chooser with some small modifications (for
+ * example: trying to show a recently opened directory by default)
  */
 public class FileChooseView extends JPanel {
     JFileChooser chooser;
 
-    /** Constructs a JFileChooser with a given title and selection mode.
-     * @param title Title for the JFileChooser
-     * @param selectionMode Selection mode for the JFileChooser
+    /**
+     * Constructs a JFileChooser with a given title and selection mode.
+     *
+     * @param title
+     *            Title for the JFileChooser
+     * @param selectionMode
+     *            Selection mode for the JFileChooser
      */
     public FileChooseView(String title, int selectionMode) {
         chooser = new JFileChooser();
@@ -36,8 +40,40 @@ public class FileChooseView extends JPanel {
         chooser.setFileSelectionMode(selectionMode);
     }
 
+    private static Path getRecentPath() {
+        return Dirs.getDataDir().resolve(Paths.get("last-save.path"));
+    }
+
+    /**
+     * Get the "recent" directory stored.
+     *
+     * @return Path to the last directory of the last file that was saved.
+     * @throws IOException
+     */
+    public static Path getRecent() throws IOException {
+        Path p = Paths.get(new String(Files.readAllBytes(getRecentPath())));
+        if (!p.toFile().exists()) {
+            throw new IOException("Recent path does not exist anymore");
+        }
+        return p;
+    }
+
+    /**
+     * Set a directory as "recent", storing it to open the JFileChooser there
+     * next time.
+     *
+     * @param fPath
+     *            Path to the last file that was saved
+     * @throws IOException
+     */
+    public static void setRecent(File fPath) throws IOException {
+        String line = fPath.toPath().getParent().toAbsolutePath().toString();
+        Files.write(getRecentPath(), line.getBytes(), TRUNCATE_EXISTING, CREATE);
+    }
+
     /**
      * Request a specific file
+     *
      * @return The requested file
      */
     public File ask() {
@@ -48,46 +84,27 @@ public class FileChooseView extends JPanel {
         }
     }
 
-    /** Sets a file type restriction for the JFileChooser, showing by default only files of
-     * "fileExtension" type.
-     * @param fileType Description of the file type
-     * @param fileExtension File extension to filter
+    /**
+     * Sets a file type restriction for the JFileChooser, showing by default
+     * only files of "fileExtension" type.
+     *
+     * @param fileType
+     *            Description of the file type
+     * @param fileExtension
+     *            File extension to filter
      */
     public void setFileRestriction(String fileType, String fileExtension) {
         FileNameExtensionFilter filter = new FileNameExtensionFilter(fileType, fileExtension);
         chooser.setFileFilter(filter);
     }
 
-    /** Sets the selected file in the JFileChosser
-     * @param f File to be selected
+    /**
+     * Sets the selected file in the JFileChosser
+     *
+     * @param f
+     *            File to be selected
      */
-    public void setSelectedFile(File f){
+    public void setSelectedFile(File f) {
         chooser.setSelectedFile(f);
-    }
-
-    private static Path getRecentPath() {
-        return Dirs.getDataDir().resolve(Paths.get("last-save.path"));
-    }
-
-    /** Set a directory as "recent", storing it to open the JFileChooser there
-     *  next time.
-     * @param fPath Path to the last file that was saved
-     * @throws IOException
-     */
-    public static void setRecent(File fPath) throws IOException {
-        String line = fPath.toPath().getParent().toAbsolutePath().toString();
-        Files.write(getRecentPath(), line.getBytes(), TRUNCATE_EXISTING, CREATE);
-    }
-
-    /** Get the "recent" directory stored.
-     * @return Path to the last directory of the last file that was saved.
-     * @throws IOException
-     */
-    public static Path getRecent() throws IOException {
-        Path p = Paths.get(new String(Files.readAllBytes(getRecentPath())));
-        if(!p.toFile().exists()) {
-            throw new IOException("Recent path does not exist anymore");
-        }
-        return p;
     }
 }

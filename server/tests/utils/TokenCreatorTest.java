@@ -12,7 +12,7 @@ import org.junit.Test;
 /**
  * Created by bambalaam on 25/04/16.
  */
-public class TokenCreatorTest extends ServerTest  {
+public class TokenCreatorTest extends ServerTest {
 
     ArrayList<String> tokens;
     TokenCreator tc;
@@ -20,7 +20,7 @@ public class TokenCreatorTest extends ServerTest  {
     @Before
     public void setUp() throws Exception {
         tokens = new ArrayList<>();
-        for(int i=0;i<200;i++){
+        for (int i = 0; i < 200; i++) {
             tokens.add(TokenCreator.newToken());
         }
     }

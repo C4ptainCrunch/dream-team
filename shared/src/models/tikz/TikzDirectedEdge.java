@@ -75,7 +75,6 @@ public class TikzDirectedEdge extends TikzEdge {
         return getSecondNode();
     }
 
-
     /**
      * Getter for a clone (ie. copy of the current directed edge)
      *
@@ -92,7 +91,7 @@ public class TikzDirectedEdge extends TikzEdge {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return TikzFormatter.format(this);
     }
 }

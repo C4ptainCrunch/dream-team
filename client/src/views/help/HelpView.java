@@ -1,10 +1,11 @@
 package views.help;
 
 import java.awt.*;
+
 import javax.swing.*;
-import javax.swing.tree.DefaultTreeCellRenderer;
 
 import org.pegdown.PegDownProcessor;
+
 import controllers.help.HelpController;
 
 /**
@@ -46,7 +47,7 @@ public class HelpView extends JFrame {
         UIManager.put("Tree.rendererFillBackground", false);
 
         this.tree = new JTree(controller.getTree());
-        this.tree.setSize(new Dimension(60,400));
+        this.tree.setSize(new Dimension(60, 400));
         this.tree.setOpaque(false);
         for (int i = 0; i < this.tree.getRowCount(); i++) {
             this.tree.expandRow(i);
@@ -54,12 +55,8 @@ public class HelpView extends JFrame {
         helpPanel.add(this.tree);
 
         this.htmlView = new JLabel();
-        this.htmlView.setSize(new Dimension(700,400));
-        helpPanel.add(new JScrollPane(
-                this.htmlView,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
-        ));
+        this.htmlView.setSize(new Dimension(700, 400));
+        helpPanel.add(new JScrollPane(this.htmlView, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
 
         this.add(helpPanel);
         this.pack();

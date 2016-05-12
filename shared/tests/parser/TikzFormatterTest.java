@@ -1,16 +1,18 @@
 package parser;
 
-import constants.Models;
+import static org.junit.Assert.assertEquals;
+
+import java.awt.*;
+import java.util.List;
+
 import models.tikz.*;
-import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import utils.SharedTest;
 
-import java.awt.*;
-import java.util.List;
+import utils.SharedTest;
+import constants.Models;
 
 /**
  * Created by jhellinckx on 26/04/16.
@@ -40,14 +42,14 @@ public class TikzFormatterTest extends SharedTest {
     }
 
     @Test
-    public void testStringBackgroundColor() throws Exception{
+    public void testStringBackgroundColor() throws Exception {
         final Color testedColor = Color.red;
         TikzCircle circle = new TikzCircle();
         circle.setBackgroundColor(testedColor);
         String tikzSource = circle.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzCircle parsedCircle = (TikzCircle) getFirstShape();
-        assertEquals(parsedCircle.getBackgroundColor(),testedColor);
+        assertEquals(parsedCircle.getBackgroundColor(), testedColor);
     }
 
     @Test
@@ -58,22 +60,22 @@ public class TikzFormatterTest extends SharedTest {
         String tikzSource = circle.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzCircle parsedCircle = (TikzCircle) getFirstShape();
-        assertEquals(parsedCircle.getStroke(),testedStroke);
+        assertEquals(parsedCircle.getStroke(), testedStroke);
     }
 
     @Test
-    public void testStringStrokeColor() throws Exception{
+    public void testStringStrokeColor() throws Exception {
         final Color testedStrokeColor = Color.blue;
         TikzCircle circle = new TikzCircle();
         circle.setStrokeColor(testedStrokeColor);
         String tikzSource = circle.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzCircle parsedCircle = (TikzCircle) getFirstShape();
-        assertEquals(parsedCircle.getStrokeColor(),testedStrokeColor);
+        assertEquals(parsedCircle.getStrokeColor(), testedStrokeColor);
     }
 
     @Test
-    public void testStringRectangleBounds() throws Exception{
+    public void testStringRectangleBounds() throws Exception {
         final int testeWidth = 10;
         final int testedHeight = 15;
         TikzRectangle rectangle = new TikzRectangle();
@@ -82,45 +84,45 @@ public class TikzFormatterTest extends SharedTest {
         String tikzSource = rectangle.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzRectangle parsedRectangle = (TikzRectangle) getFirstShape();
-        assertEquals(parsedRectangle.getWidth(),testeWidth, 0.01);
-        assertEquals(parsedRectangle.getLength(),testedHeight, 0.01);
+        assertEquals(parsedRectangle.getWidth(), testeWidth, 0.01);
+        assertEquals(parsedRectangle.getLength(), testedHeight, 0.01);
     }
 
     @Test
-    public void testStringCircleRadius() throws Exception{
+    public void testStringCircleRadius() throws Exception {
         final int testedRadius = 123;
         TikzCircle circle = new TikzCircle();
         circle.setRadius(testedRadius);
         String tikzSource = circle.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzCircle parsedCircle = (TikzCircle) getFirstShape();
-        assertEquals(parsedCircle.getRadius(),testedRadius, 0.01);
+        assertEquals(parsedCircle.getRadius(), testedRadius, 0.01);
     }
 
     @Test
-    public void testStringPolygonSides() throws Exception{
+    public void testStringPolygonSides() throws Exception {
         final int numSidesTested = 100;
         TikzPolygon polygon = new TikzPolygon();
         polygon.setSides(numSidesTested);
         String tikzSource = polygon.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzPolygon parsedPolygon = (TikzPolygon) getFirstShape();
-        assertEquals(parsedPolygon.getSides(),numSidesTested);
+        assertEquals(parsedPolygon.getSides(), numSidesTested);
     }
 
     @Test
-    public void testStringPolygonLength() throws Exception{
+    public void testStringPolygonLength() throws Exception {
         final int testedLength = 66;
         TikzPolygon polygon = new TikzPolygon();
         polygon.setLength(testedLength);
         String tikzSource = polygon.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
         TikzPolygon parsedPolygon = (TikzPolygon) getFirstShape();
-        assertEquals(parsedPolygon.getLength(),testedLength, 0.01);
+        assertEquals(parsedPolygon.getLength(), testedLength, 0.01);
     }
 
     @Test
-    public void testStringDefaultOptions() throws Exception{
+    public void testStringDefaultOptions() throws Exception {
         TikzCircle circle = new TikzCircle();
         String tikzSource = circle.toString();
         NodeParser.parseDocument(graph).parse(tikzSource);
@@ -132,7 +134,7 @@ public class TikzFormatterTest extends SharedTest {
     }
 
     @Test
-    public void testDirectedEdgeFormat() throws Exception{
+    public void testDirectedEdgeFormat() throws Exception {
         TikzCircle node1 = new TikzCircle();
         TikzCircle node2 = new TikzCircle();
         this.graph.add(node1);

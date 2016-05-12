@@ -1,15 +1,16 @@
 package controllers.management;
-import models.project.Project;
-import views.management.ImportProjectSelectorView;
 
 import java.io.IOException;
 import java.util.Set;
+
+import models.project.Project;
+import views.management.ImportProjectSelectorView;
 
 public class ImportProjectSelectorController {
 
     private ImportProjectSelectorView view;
 
-    public ImportProjectSelectorController(ImportProjectSelectorView view) {
+    public ImportProjectSelectorController(final ImportProjectSelectorView view) {
         this.view = view;
     }
 
@@ -17,8 +18,8 @@ public class ImportProjectSelectorController {
         Set<String> selection = this.view.getSelection();
         Project currentProject = this.view.getProject();
         try {
-            for(String diagram : currentProject.getDiagramNames()) {
-                if( ! selection.contains(diagram)) {
+            for (String diagram : currentProject.getDiagramNames()) {
+                if (!selection.contains(diagram)) {
                     currentProject.removeDiagram(diagram);
                 }
             }

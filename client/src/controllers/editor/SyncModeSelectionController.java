@@ -11,14 +11,17 @@ public class SyncModeSelectionController {
 
     /**
      * Creates a controller for the SyncModeSelectionView
-     * @param view The corresponding view, created elsewhere
+     *
+     * @param view
+     *            The corresponding view, created elsewhere
      */
-    public SyncModeSelectionController(SyncModeSelectionView view) {
+    public SyncModeSelectionController(final SyncModeSelectionView view) {
         this.view = view;
     }
 
     /**
-     * Activates several possible sync methods, depending on the user's selection in the view
+     * Activates several possible sync methods, depending on the user's
+     * selection in the view
      */
     public void choiceDone() {
         String selection = this.view.getSelection();

@@ -1,21 +1,17 @@
 package views.management;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Vector;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import models.project.Project;
 import controllers.management.DiagramManagementController;
 
 /**
- * JDialog that allows the user to either choose an existing diagram in a previously
- * selected project, or to create a new diagram
+ * JDialog that allows the user to either choose an existing diagram in a
+ * previously selected project, or to create a new diagram
  */
 public class DiagramManagementView extends JDialog {
 
@@ -25,8 +21,11 @@ public class DiagramManagementView extends JDialog {
     private JTextField newDiagramName;
     private JButton okButton;
 
-    /** Constructs the DiagramManagementView
-     * @param currentProject The project in which the diagrams are
+    /**
+     * Constructs the DiagramManagementView
+     *
+     * @param currentProject
+     *            The project in which the diagrams are
      * @throws IOException
      */
     public DiagramManagementView(Project currentProject) throws IOException {
@@ -40,7 +39,7 @@ public class DiagramManagementView extends JDialog {
     /**
      * Creates elements in the window and sets it as visible.
      */
-    public final void render(){
+    public final void render() {
         this.setTitle("TikzCreator : choose a diagram or create a new one");
         this.setPreferredSize(new Dimension(400, 250));
         this.setLocationRelativeTo(null);
@@ -64,7 +63,7 @@ public class DiagramManagementView extends JDialog {
         diagramList.setSelectedIndex(0);
 
         diagramList.addListSelectionListener(listSelectionEvent -> {
-            if(diagramList.getSelectedValue().equals("Create new diagram")) {
+            if (diagramList.getSelectedValue().equals("Create new diagram")) {
                 newDiagramName.setEditable(true);
                 okButton.setText("Create");
 
@@ -87,11 +86,10 @@ public class DiagramManagementView extends JDialog {
 
         this.newDiagramName = new JTextField();
         this.newDiagramName.setEditable(false);
-        this.newDiagramName.setPreferredSize(new Dimension(189,25));
+        this.newDiagramName.setPreferredSize(new Dimension(189, 25));
         this.okButton = new JButton("Open");
         this.getRootPane().setDefaultButton(this.okButton);
-        okButton.addActionListener(e -> controller.openDiagram(this.diagramList.getSelectedValue(),
-                                                               this.newDiagramName.getText()));
+        okButton.addActionListener(e -> controller.openDiagram(this.diagramList.getSelectedValue(), this.newDiagramName.getText()));
 
         JButton cancel = new JButton("Cancel");
         cancel.addActionListener(actionEvent -> {
@@ -107,12 +105,11 @@ public class DiagramManagementView extends JDialog {
 
     /**
      * Generates an alert with a given text
-     * @param alertText Text to be put in the alert box
+     *
+     * @param alertText
+     *            Text to be put in the alert box
      */
     public void showAlert(String alertText) {
-        JOptionPane.showMessageDialog(this,
-                alertText,
-                "Warning",
-                JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(this, alertText, "Warning", JOptionPane.WARNING_MESSAGE);
     }
 }

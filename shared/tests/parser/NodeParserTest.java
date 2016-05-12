@@ -22,12 +22,12 @@ public class NodeParserTest extends SharedTest {
         Assert.assertEquals(NodeParser.number().parse("457.97"), new Float(457.97));
     }
 
-    @org.junit.Test
+    @Test
     public void testReference() throws Exception {
         Assert.assertEquals(NodeParser.reference().parse("(hello_world)"), "hello_world");
     }
 
-    @org.junit.Test
+    @Test
     public void testLabel() throws Exception {
         Assert.assertEquals(NodeParser.label().parse("{Hello, my dear little world}"), "Hello, my dear little world");
     }

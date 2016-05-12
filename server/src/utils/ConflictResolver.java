@@ -92,7 +92,7 @@ public class ConflictResolver{
 
     public Project resolve(String userChoice) throws IOException, ClassNotFoundException {
         java.nio.file.Path tmpFile = File.createTempFile("project-final", ".crea").toPath();
-        this.finalProject = new models.project.Project(tmpFile);
+        this.finalProject = new Project(tmpFile);
         List<String> resolvedDiagrams = new ArrayList<>();
         Set<String> localDiagramNames = localProject.getDiagramNames();
         Set<String> serverDiagramNames = serverProject.getDiagramNames();

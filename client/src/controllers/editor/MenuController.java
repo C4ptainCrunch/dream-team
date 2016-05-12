@@ -90,7 +90,7 @@ public class MenuController implements Observer {
             }
             this.diagram.save();
         } catch (IOException | ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(view, Errors.SAVE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
+            showMessageDialog(view, Errors.SAVE_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
             logger.severe("Diagram saved failed : " + e.toString());
             e.printStackTrace();
         }

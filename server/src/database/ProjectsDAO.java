@@ -57,9 +57,9 @@ public class ProjectsDAO {
         ResultSet resultSet = null;
         Project project = null;
         try{
-            resultSet = DAOUtilities.executeQuery(daoFactorySingleton, connection, preparedStatement, resultSet, ProjectRequests.SQL_SELECT_PROJECT_BY_UID, uid);
+            resultSet = executeQuery(daoFactorySingleton, connection, preparedStatement, resultSet, ProjectRequests.SQL_SELECT_PROJECT_BY_UID, uid);
             if (resultSet.next()){
-                project = DAOUtilities.mapProject(resultSet);
+                project = mapProject(resultSet);
             }
         } finally {
             silentClosures(resultSet, preparedStatement, connection);
@@ -73,7 +73,7 @@ public class ProjectsDAO {
         ResultSet resultSet = null;
         boolean res = false;
         try{
-            resultSet = DAOUtilities.executeQuery(daoFactorySingleton, connection, preparedStatement, resultSet, query, uid);
+            resultSet = executeQuery(daoFactorySingleton, connection, preparedStatement, resultSet, query, uid);
             if (resultSet.next()){
                 res = resultSet.getBoolean(column);
             }
@@ -92,7 +92,7 @@ public class ProjectsDAO {
     }
 
     public void deleteProject(String uid) {
-        int statut = DAOUtilities.executeUpdate(daoFactorySingleton, ProjectRequests.SQL_PROJECT_DELETE, uid);
+        int statut = executeUpdate(daoFactorySingleton, ProjectRequests.SQL_PROJECT_DELETE, uid);
         if (statut == 0) {
             logger.severe("Failed to delete project " + uid);
         }
@@ -104,7 +104,7 @@ public class ProjectsDAO {
         ResultSet resultSet = null;
         List<Project> projects = new ArrayList<>();
         try {
-            resultSet = DAOUtilities.executeQuery(daoFactorySingleton, connection, preparedStatement, resultSet, ProjectRequests.SQL_PROJECT_GETALL);
+            resultSet = executeQuery(daoFactorySingleton, connection, preparedStatement, resultSet, ProjectRequests.SQL_PROJECT_GETALL);
             while (resultSet.next()){
                 projects.add(mapProject(resultSet));
             }
@@ -120,7 +120,7 @@ public class ProjectsDAO {
         ResultSet resultSet = null;
         ArrayList<Project> projects = new ArrayList<>();
         try {
-            resultSet = DAOUtilities.executeQuery(daoFactorySingleton, connection, preparedStatement, resultSet, ProjectRequests.SQL_PROJECT_GETALLREADABLES, userID);
+            resultSet = executeQuery(daoFactorySingleton, connection, preparedStatement, resultSet, ProjectRequests.SQL_PROJECT_GETALLREADABLES, userID);
             while (resultSet.next()) {
                 Project p = mapProject(resultSet);
                 projects.add(p);
@@ -132,6 +132,6 @@ public class ProjectsDAO {
     }
 
     public void update(Project dbProject) {
-        DAOUtilities.executeUpdate(daoFactorySingleton, ProjectRequests.SQL_UPDATE_PROJECT, dbProject.getPath(), dbProject.getLast_modification(), dbProject.isWrite_default(), dbProject.isRead_default(), dbProject.getName(), dbProject.getUid());
+        executeUpdate(daoFactorySingleton, ProjectRequests.SQL_UPDATE_PROJECT, dbProject.getPath(), dbProject.getLast_modification(), dbProject.isWrite_default(), dbProject.isRead_default(), dbProject.getName(), dbProject.getUid());
     }
 }

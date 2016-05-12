@@ -49,7 +49,7 @@ public class PermissionsDAO {
         try {
             resultSet = DAOUtilities.executeQuery(daoFactorySingleton, connection, preparedStatement, resultSet, PermissionsRequests.SQL_SELECT_PERMISSIONS, project_uid, user_id);
             if (resultSet.next()){
-                permissions = DAOUtilities.mapPermissions(resultSet);
+                permissions = mapPermissions(resultSet);
             }
         } finally {
             silentClosures(resultSet, preparedStatement, connection);

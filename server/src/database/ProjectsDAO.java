@@ -8,13 +8,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import static database.DAOUtilities.*;
 
 class ProjectRequests {
     public static final String SQL_INSERT_PROJECT = "INSERT INTO Projects(uid ,user_id, path, last_modification, default_perm_write, default_perm_read, name) VALUES (?, ?, ?, ?, ?, ?, ?);";
-    public static final String SQL_EDIT_PROJECT = "UPDATE Projects SET uid = ?, path = ?, last_modification = ?, default_perm_write = ?, default_perm_read = ?, name = ? WHERE path = ?";
+    public static final String SQL_UPDATE_PROJECT = "UPDATE Projects SET path = ?, last_modification = ?, default_perm_write = ?, default_perm_read = ?, name = ? WHERE uid = ?";
     public static final String SQL_SELECT_PROJECT_BY_UID = "SELECT uid, user_id, path, last_modification, default_perm_write, default_perm_read, name FROM Projects WHERE uid = ?";
     public static final String SQL_PROJECT_IS_READABLE = "SELECT default_perm_read FROM Projects WHERE uid = ?";
     public static final String SQL_PROJECT_IS_WRITABLE = "SELECT default_perm_write FROM Projects WHERE uid = ?";
@@ -66,7 +67,7 @@ public class ProjectsDAO {
         return project;
     }
 
-    private boolean isAbleByDefault(String query, String uid) throws SQLException {
+    private boolean isAbleByDefault(String query, String uid, String column) throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -74,7 +75,7 @@ public class ProjectsDAO {
         try{
             resultSet = DAOUtilities.executeQuery(daoFactorySingleton, connection, preparedStatement, resultSet, query, uid);
             if (resultSet.next()){
-                res = resultSet.getInt(0) == 1;
+                res = resultSet.getBoolean(column);
             }
         } finally {
             silentClosures(resultSet, preparedStatement, connection);
@@ -83,11 +84,11 @@ public class ProjectsDAO {
     }
 
     public boolean isReadableByDefault(String uid) throws SQLException {
-        return isAbleByDefault(ProjectRequests.SQL_PROJECT_IS_READABLE, uid);
+        return isAbleByDefault(ProjectRequests.SQL_PROJECT_IS_READABLE, uid, "default_perm_read");
     }
 
     public boolean isWritableByDefault(String uid) throws SQLException {
-        return isAbleByDefault(ProjectRequests.SQL_PROJECT_IS_WRITABLE, uid);
+        return isAbleByDefault(ProjectRequests.SQL_PROJECT_IS_WRITABLE, uid, "default_perm_write");
     }
 
     public void deleteProject(String uid) {
@@ -97,11 +98,11 @@ public class ProjectsDAO {
         }
     }
 
-    public ArrayList<Project> getAllProjects() throws SQLException {
+    public List<Project> getAllProjects() throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        ArrayList<Project> projects = new ArrayList<>();
+        List<Project> projects = new ArrayList<>();
         try {
             resultSet = DAOUtilities.executeQuery(daoFactorySingleton, connection, preparedStatement, resultSet, ProjectRequests.SQL_PROJECT_GETALL);
             while (resultSet.next()){
@@ -130,4 +131,7 @@ public class ProjectsDAO {
         return projects;
     }
 
+    public void update(Project dbProject) {
+        DAOUtilities.executeUpdate(daoFactorySingleton, ProjectRequests.SQL_UPDATE_PROJECT, dbProject.getPath(), dbProject.getLast_modification(), dbProject.isWrite_default(), dbProject.isRead_default(), dbProject.getName(), dbProject.getUid());
+    }
 }

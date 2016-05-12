@@ -1,9 +1,8 @@
 package constants;
 
-import java.awt.*;
-import java.util.ArrayList;
 
-import utils.Dirs;
+import java.awt.*;
+import java.util.List;
 
 public final class GUI {
     public static final class MenuBar {
@@ -58,9 +57,9 @@ public final class GUI {
     }
 
     public static final class SignUp {
-        public static ArrayList<String> FIELD_LABELS;
+        public static List<String> FIELD_LABELS;
 
-        public static ArrayList<Integer> FIELD_SIZES;
+        public static List<Integer> FIELD_SIZES;
 
         public static String PASSWORD_LABEL;
         public static String OK_BUTTON;

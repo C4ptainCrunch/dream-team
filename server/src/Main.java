@@ -32,6 +32,6 @@ public class Main {
         );
         JdkHttpServerFactory.createHttpServer(baseUri, config);
 
-        logger.info("Server started on" + Network.HOST.COMPLETE_HOSTNAME);
+        logger.info("Server started on : " + baseUri);
     }
 }

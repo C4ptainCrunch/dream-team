@@ -1,7 +1,7 @@
 package constants;
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 public final class Network {
 
@@ -24,7 +24,7 @@ public final class Network {
     public static final class Signup{
         public static String SIGN_UP_OK;
         public static String SIGN_UP_FAILED;
-        public static ArrayList<String> FIELDS_NAMES;
+        public static List<String> FIELDS_NAMES;
     }
 
 }

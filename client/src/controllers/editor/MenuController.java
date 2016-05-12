@@ -6,12 +6,16 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
 import javax.swing.*;
 
+import misc.logic.CloudLogic;
 import models.project.Diagram;
 import models.project.Project;
 import utils.Log;
@@ -188,25 +192,46 @@ public class MenuController implements Observer {
     }
 
     /**
-     * Request to the server if there are any conflicts between the local project and the
-     * server-side project
-     * @return One of three possible situations
-     */
-    public String hasConflicts() {
-        // REQUEST IF THERE ARE CONFLICTS
-        return "FUSION";
-    }
-
-    /**
      * Either notifies the user that the sync was successful, or launches a SyncModeSelectionView
      * to ask the user which sync mode he desires.
      */
     public void syncProject(){
-        String flag = hasConflicts();
-        if (flag.equals("OK")){
-            this.view.syncOKPopup();
+        Project p = this.view.getDiagram().getProject();
+        boolean hasConflicts = CloudLogic.AskForMerge(p);
+        String policy = null;
+        if (hasConflicts){
+            SyncModeSelectionView sv = new SyncModeSelectionView(p);
+            policy = sv.getMode();
         } else {
-            new SyncModeSelectionView(flag);
+            policy = "DEFAULT CHOICE";
         }
+
+        logger.info("Starting merge with policy: " + policy);
+
+        if(CloudLogic.Merge(p, policy)) {
+            try {
+                Path tmp = CloudLogic.getLocalCopy(p.getUid());
+                Files.move(tmp, p.getPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                this.view.disposeParent();
+                this.view.syncOKPopup();
+                java.awt.EventQueue.invokeLater(() -> {
+                    try {
+                        String oldDiagramName = this.view.getDiagram().getName();
+                        Project newProject = new Project(p.getPath());
+                        new EditorView(newProject.getDiagram(oldDiagramName));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                return;
+            } catch (IOException e) {
+                logger.warning("Merge with policy failed");
+                e.printStackTrace();
+            }
+        }
+
+        logger.warning("Merge failed");
+
     }
 }

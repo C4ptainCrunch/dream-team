@@ -10,15 +10,16 @@ import java.util.Properties;
 
 import static constants.Models.*;
 import static constants.Network.*;
+import static constants.ProjectConflicts.*;
+import static constants.SyncModeSelection.*;
 
-/**
- * Created by jhellinckx on 10/05/16.
- */
 
 public class PropertiesLoader {
     private static final String MODELS_PROPERTIES_FILENAME = "models.properties";
     private static final String NETWORK_PROPERTIES_FILENAME = "network.properties";
     private static final String UTILS_PROPERTIES_FILENAME = "utils.properties";
+    private static final String SYNCMODESELECTION_PROPERTIES_FILENAME = "syncmodeselection.properties";
+    private static final String PROJECTSCONFLICTS_PROPERTIES_FILENAME = "projectconflicts.properties";
 
     protected static void load(String filename, PropertiesReader reader){
         InputStream stream = PropertiesLoader.class.getClassLoader().getResourceAsStream(filename);
@@ -41,18 +42,21 @@ public class PropertiesLoader {
         loadModelsProperties();
         loadNetworkProperties();
         loadUtilsProperties();
+        loadsyncmodeselectionProperties();
+        loadProjectConflictsProperties();
     }
 
     public static void loadModelsProperties(){
         load(MODELS_PROPERTIES_FILENAME, new ModelsPropertiesReader());
     }
-
     public static void loadNetworkProperties(){
         load(NETWORK_PROPERTIES_FILENAME, new NetworkPropertiesReader());
     }
     public static void loadUtilsProperties(){
         load(UTILS_PROPERTIES_FILENAME, new UtilsPropertiesReader());
     }
+    public static void loadsyncmodeselectionProperties() { load(SYNCMODESELECTION_PROPERTIES_FILENAME, new SyncmodeSelectionPropertiesReader());}
+    public static void loadProjectConflictsProperties(){PropertiesLoader.load(PROJECTSCONFLICTS_PROPERTIES_FILENAME, new ProjectConflictsPropertiesReader());}
 }
 
 interface PropertiesReader{
@@ -109,5 +113,31 @@ class UtilsPropertiesReader implements  PropertiesReader{
         Utils.WINDOWS_PATH_ONE = properties.getProperty("WINDOWS_PATH_ONE");
         Utils.WINDOWS_PATH_TWO = properties.getProperty("WINDOWS_PATH_TWO");
         Utils.DATE_FORMAT = properties.getProperty("DATE_FORMAT");
+    }
+}
+
+class SyncmodeSelectionPropertiesReader implements  PropertiesReader {
+    @Override
+    public void read(Properties properties) {
+        Title.TITLE = properties.getProperty("TITLE");
+
+        Option.OPTION_OURS = properties.getProperty("OPTION_OURS");
+        Option.OPTION_THEIRS = properties.getProperty("OPTION_THEIRS");
+        Option.OPTION_OURS_MERGE = properties.getProperty("OPTION_OURS_MERGE");
+        Option.OPTION_THEIRS_MERGE = properties.getProperty("OPTION_THEIRS_MERGE");
+        Option.OPTION_FUSION = properties.getProperty("OPTION_FUSION");
+        Option.OPTION_NO_FUSION = properties.getProperty("OPTION_NO_FUSION");
+
+        Button.BUTTON_SYNC = properties.getProperty("BUTTON_SYNC");
+    }
+}
+
+class ProjectConflictsPropertiesReader implements  PropertiesReader{
+    @Override
+    public void read(Properties properties){
+        SAVE_USER_VERSION_ONLY = properties.getProperty("SAVE_USER_VERSION_ONLY");
+        SAVE_USER_VERSION = properties.getProperty("SAVE_USER_VERSION");
+        SAVE_SERVER_VERSION_ONLY = properties.getProperty("SAVE_SERVER_VERSION_ONLY");
+        SAVE_SERVER_VERSION = properties.getProperty("SAVE_SERVER_VERSIION");
     }
 }

@@ -115,7 +115,6 @@ public class Project extends Observable implements Comparable<Project>{
             Path oldDiff = fs.getPath("/" + oldName + ".diff");
             Files.move(oldDiff, newDiff);
 
-            RecentProjects.addProject(this);
             this.setChanged();
             this.notifyObservers();
         }
@@ -160,7 +159,6 @@ public class Project extends Observable implements Comparable<Project>{
         this.isTemporary = false;
         Files.move(this.path, newFile.toPath());
         this.path = newFile.toPath();
-        RecentProjects.addProject(this);
         this.setChanged();
         this.notifyObservers();
     }

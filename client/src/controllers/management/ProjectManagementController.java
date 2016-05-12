@@ -103,6 +103,7 @@ public class ProjectManagementController {
         if (path != null) {
             try {
                 project.move(path);
+                RecentProjects.addProject(project);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(view, Errors.RENAME_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
                 logger.severe("Failed to rename the diagram: " + e.getMessage());
@@ -118,6 +119,7 @@ public class ProjectManagementController {
 
         try {
             CloudLogic.cloudifyProject(project);
+            this.view.getParentView().refresh();
         } catch (IOException e) {
             e.printStackTrace();
         }

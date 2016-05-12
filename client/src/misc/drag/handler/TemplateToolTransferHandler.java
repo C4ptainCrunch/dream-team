@@ -10,11 +10,11 @@ import constants.GUI;
 
 public class TemplateToolTransferHandler extends TikzTransferHandler {
 
-    protected Transferable createTransferable(JComponent c) {
+    protected Transferable createTransferable(final JComponent c) {
         return new TemplateToolTransferable(((TemplateList) c).getSelectedTemplateGraphClone(), GUI.Drag.DropOptions.ADD);
     }
 
-    protected void exportDone(JComponent c, Transferable t, int action) {
+    protected void exportDone(final JComponent c, final Transferable t, final int action) {
         ((TemplateList) c).deselectTemplate();
     }
 }

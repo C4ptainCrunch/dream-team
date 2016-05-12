@@ -16,7 +16,7 @@ public class DiagramManagementController {
      * @param view The corresponding view, created elsewhere
      * @param currentProject The project in which the diagram is
      */
-    public DiagramManagementController(DiagramManagementView view, Project currentProject) {
+    public DiagramManagementController(final DiagramManagementView view, final Project currentProject) {
         this.view = view;
         this.currentProject = currentProject;
     }
@@ -25,7 +25,7 @@ public class DiagramManagementController {
      * @param selectedValue Selected diagram on a list (either an old one or the option to create a new one)
      * @param newName Name given in a text box for a new diagram
      */
-    public void openDiagram(String selectedValue, String newName) {
+    public void openDiagram(final String selectedValue, final String newName) {
         if(selectedValue.equals("Create new diagram")) {
             if (newName.equals("") ){
                 this.view.showAlert("Please set a name for your diagram");

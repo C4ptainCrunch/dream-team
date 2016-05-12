@@ -24,7 +24,7 @@ public class ManagementController {
     private final ManagementView view;
     private static final Logger logger = Log.getLogger(ManagementController.class);
 
-    public ManagementController(ManagementView view) {
+    public ManagementController(final ManagementView view) {
         this.view = view;
     }
 
@@ -65,7 +65,7 @@ public class ManagementController {
      * @param diagram The diagram to be edited
      * @throws IOException
      */
-    public void editDiagram(Diagram diagram) throws IOException {
+    public void editDiagram(final Diagram diagram) throws IOException {
         RecentProjects.addProject(diagram.getProject());
         java.awt.EventQueue.invokeLater(() -> new EditorView(diagram));
         this.view.dispose(); // Exit previous windows

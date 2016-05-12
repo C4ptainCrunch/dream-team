@@ -30,7 +30,7 @@ public class SignUpView extends JFrame {
      * @param loginView The parent view
      */
 
-    public SignUpView(LoginWindowView loginView) {
+    public SignUpView(final LoginWindowView loginView) {
         this.controller = new SignUpController(this);
         this.loginView = loginView;
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,7 +80,7 @@ public class SignUpView extends JFrame {
      * @param warningText The warning text displayed in the dialog
      */
 
-    public void initWarning(String warningText) {
+    public void initWarning(final String warningText) {
         JOptionPane.showMessageDialog(this, warningText, "Warning", JOptionPane.WARNING_MESSAGE);
     }
 
@@ -96,7 +96,7 @@ public class SignUpView extends JFrame {
         this.add(signUpPanel);
     }
 
-    private void initInformationPanel(JPanel signUpPanel) {
+    private void initInformationPanel(final JPanel signUpPanel) {
         JPanel informationPanel = new JPanel();
         informationPanel.setLayout(new BoxLayout(informationPanel, BoxLayout.Y_AXIS));
 
@@ -110,7 +110,7 @@ public class SignUpView extends JFrame {
         signUpPanel.add(informationPanel);
     }
 
-    private void initInfoPanelOptions(JPanel informationPanel) {
+    private void initInfoPanelOptions(final JPanel informationPanel) {
 
         for(int i=0; i< this.fields.size(); i++){
             JPanel newPanel = new JPanel();
@@ -140,7 +140,7 @@ public class SignUpView extends JFrame {
         informationPanel.add(passwordPanel);
     }
 
-    private void initButtonsPanel(JPanel signupPanel) {
+    private void initButtonsPanel(final JPanel signupPanel) {
         JPanel buttons = new JPanel();
         buttons.setAlignmentX(Component.CENTER_ALIGNMENT);
 

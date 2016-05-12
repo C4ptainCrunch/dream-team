@@ -6,7 +6,7 @@ import constants.GUI;
 
 public class TemplateToolTransferable extends TransferableTikz {
 
-    public TemplateToolTransferable(TikzGraph graph, GUI.Drag.DropOptions opt) {
+    public TemplateToolTransferable(final TikzGraph graph, final GUI.Drag.DropOptions opt) {
         try {
             initializeData();
             transfert_data = new TransferTikz(graph, opt);

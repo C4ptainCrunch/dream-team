@@ -34,7 +34,7 @@ public class HistoryController {
      * @param diagram
      *            The diagram
      */
-    public HistoryController(HistoryView view, Diagram diagram) {
+    public HistoryController(final HistoryView view, final Diagram diagram) {
         this.diagram = diagram;
         this.view = view;
     }
@@ -48,7 +48,7 @@ public class HistoryController {
      *            The string
      * @return Color The color
      */
-    private static Color colorHelper(String str) {
+    private static Color colorHelper(final String str) {
         if (str.isEmpty()) {
             return Color.BLACK;
         }
@@ -90,7 +90,7 @@ public class HistoryController {
      * @param color
      *            The color
      */
-    private void appendString(String str, Color color) {
+    private void appendString(final String str, final Color color) {
         StyledDocument document = (StyledDocument) view.getHistoryPane().getDocument();
         Style style = document.addStyle("color", null);
         StyleConstants.setForeground(style, color);

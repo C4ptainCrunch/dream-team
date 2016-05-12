@@ -31,7 +31,7 @@ public class HelpController {
      * @param view
      *            The HelpView which is associated with this controller
      */
-    public HelpController(HelpView view) {
+    public HelpController(final HelpView view) {
         this.view = view;
     }
 
@@ -42,7 +42,7 @@ public class HelpController {
      * @param ev
      *            The tree selection event
      */
-    public void treeClicked(TreeSelectionEvent ev) {
+    public void treeClicked(final TreeSelectionEvent ev) {
         TreePath clickedNode = ev.getPath();
 
         // This is a simple map : [x.to_string() for x in
@@ -85,7 +85,7 @@ class Filewalker {
      *            The path
      * @return The found tree node
      */
-    public static DefaultMutableTreeNode walkToTree(String path) {
+    public static DefaultMutableTreeNode walkToTree(final String path) {
         InputStream stream = HelpController.class.getClassLoader().getResourceAsStream(path);
         Scanner scanner = new Scanner(stream);
         scanner.useDelimiter("\\n");

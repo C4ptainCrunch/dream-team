@@ -51,7 +51,7 @@ public class SourceView extends JPanel {
      * @param graph
      *            The TikzGraph
      */
-    public SourceView(EditorView parentView, TikzGraph graph) {
+    public SourceView(final EditorView parentView, final TikzGraph graph) {
         this.parentView = parentView;
         this.graph = graph;
         this.controller = new SourceController(this, graph);
@@ -90,7 +90,7 @@ public class SourceView extends JPanel {
         this.controller.updateTikzText();
     }
 
-    private void applyTheme(String file_path){
+    private void applyTheme(final String file_path){
         try {
             InputStream stream = GUI.class.getClassLoader().getResourceAsStream(file_path);
             Theme theme = Theme.load(stream);
@@ -108,24 +108,24 @@ public class SourceView extends JPanel {
     private void addListeners() {
         textArea.addFocusListener(new FocusListener() {
             @Override
-            public void focusGained(FocusEvent focusEvent) {
+            public void focusGained(final FocusEvent focusEvent) {
                 controller.focusGained();
             }
 
             @Override
-            public void focusLost(FocusEvent focusEvent) {
+            public void focusLost(final FocusEvent focusEvent) {
                 controller.focusLost();
             }
         });
 
         textArea.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void insertUpdate(DocumentEvent documentEvent) {
+            public void insertUpdate(final DocumentEvent documentEvent) {
                 controller.updateGraphIfFocused();
             }
 
             @Override
-            public void removeUpdate(DocumentEvent documentEvent) {
+            public void removeUpdate(final DocumentEvent documentEvent) {
                 controller.updateGraphIfFocused();
             }
 

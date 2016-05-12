@@ -37,7 +37,7 @@ public class EditorView extends JFrame {
      * @param render
      *              Option to activate the render or not
      */
-    public EditorView(Diagram diagram, Boolean render) {
+    public EditorView(final Diagram diagram, final Boolean render) {
         TikzGraph graph = diagram.getGraph();
         this.diagram = diagram;
         this.controller = new EditorController(this, diagram);
@@ -57,7 +57,7 @@ public class EditorView extends JFrame {
      * @param diagram
      *            The diagram
      */
-    public EditorView(Diagram diagram){
+    public EditorView(final Diagram diagram){
         this(diagram, true);
     }
 
@@ -68,7 +68,7 @@ public class EditorView extends JFrame {
     public final void render() {
         this.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent windowEvent) {
+            public void windowClosing(final WindowEvent windowEvent) {
                 menuView.saveAndQuit();
                 super.windowClosing(windowEvent);
             }
@@ -130,15 +130,15 @@ public class EditorView extends JFrame {
         toolBoxView.resetTool();
     };
 
-    public final void addTemplateToToolBox(File file) {
+    public final void addTemplateToToolBox(final File file) {
         toolBoxView.addTemplateToView(file);
     }
 
-    public final void highlightTextLine(TikzComponent comp){
+    public final void highlightTextLine(final TikzComponent comp){
         sourceView.highlightCorrespondingLine(comp);
     }
 
-    public final void highlightTextZone(Set<TikzComponent> selectedComponents) {
+    public final void highlightTextZone(final Set<TikzComponent> selectedComponents) {
         sourceView.highlightCorrespondingZone(selectedComponents);
     }
 
@@ -146,7 +146,7 @@ public class EditorView extends JFrame {
         sourceView.removeHighlights();
     }
 
-    public final void setTextAreaColorBlindMode(boolean set_mode) {
+    public final void setTextAreaColorBlindMode(final boolean set_mode) {
         sourceView.setColorBlindMode(set_mode);
 
     }

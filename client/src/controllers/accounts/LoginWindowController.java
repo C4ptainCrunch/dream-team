@@ -23,7 +23,7 @@ public class LoginWindowController {
     private final String BASE_PATH = "user/login/";
     private final static Logger logger = Log.getLogger(LoginWindowController.class);
 
-    public LoginWindowController(LoginWindowView view) {
+    public LoginWindowController(final LoginWindowView view) {
         this.view = view;
     }
 
@@ -41,7 +41,7 @@ public class LoginWindowController {
 
     }
 
-    private String getToken(String username, String password) {
+    private String getToken(final String username, final String password) {
         Form postForm = new Form();
         postForm.param("username", username);
         postForm.param("password", password);
@@ -56,7 +56,7 @@ public class LoginWindowController {
      * @param username The user's username
      * @param password The user's password
      */
-    public void login(String username, String password) {
+    public void login(final String username, final String password) {
 
         String token = getToken(username, password);
 

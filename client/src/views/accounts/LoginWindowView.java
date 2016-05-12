@@ -49,27 +49,27 @@ public class LoginWindowView extends JFrame {
         createPasswordPanel();
         this.setFocusTraversalPolicy(new FocusTraversalPolicy() {
             @Override
-            public Component getComponentAfter(Container container, Component component) {
+            public Component getComponentAfter(final Container container, final Component component) {
                 return passwordText;
             }
 
             @Override
-            public Component getComponentBefore(Container container, Component component) {
+            public Component getComponentBefore(final Container container, final Component component) {
                 return usernameText;
             }
 
             @Override
-            public Component getFirstComponent(Container container) {
+            public Component getFirstComponent(final Container container) {
                 return usernameText;
             }
 
             @Override
-            public Component getLastComponent(Container container) {
+            public Component getLastComponent(final Container container) {
                 return passwordText;
             }
 
             @Override
-            public Component getDefaultComponent(Container container) {
+            public Component getDefaultComponent(final Container container) {
                 return usernameText;
             }
         });

@@ -24,14 +24,14 @@ public class MenuView extends JMenuBar {
      * @param diagram
      *            The Diagram
      */
-    public MenuView(EditorView parentView, Diagram diagram) {
+    public MenuView(final EditorView parentView, final Diagram diagram) {
         this.parentView = parentView;
         this.diagram = diagram;
         this.controller = new MenuController(this, diagram);
         this.render();
     }
 
-    private void addShortcutItem(JMenu menu, Action action, String label, String key, int shortcut_key, int key_mask){
+    private void addShortcutItem(final JMenu menu, final Action action, final String label, final String key, final int shortcut_key, final int key_mask){
         JMenuItem item = new JMenuItem(label);
         item.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(shortcut_key, key_mask),label);
         item.setAction(action);
@@ -39,57 +39,57 @@ public class MenuView extends JMenuBar {
         menu.add(item);
     }
 
-    private void addUndoItem(JMenu menu){
+    private void addUndoItem(final JMenu menu){
         String key = "Undo";
         Action action = new AbstractAction(key) {
             @Override
-            public void actionPerformed(ActionEvent actionEvent) {
+            public void actionPerformed(final ActionEvent actionEvent) {
                 diagram.undo();
             }
         };
         addShortcutItem(menu, action, GUI.MenuBar.UNDO, key, KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK);
     }
 
-    private void addRedoItem(JMenu menu){
+    private void addRedoItem(final JMenu menu){
         String key = "Redo";
         Action action = new AbstractAction(key) {
             @Override
-            public void actionPerformed(ActionEvent actionEvent) {
+            public void actionPerformed(final ActionEvent actionEvent) {
                 diagram.redo();
             }
         };
         addShortcutItem(menu, action, GUI.MenuBar.REDO, key, KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK);
     }
 
-    private void addSaveItem(JMenu menu){
+    private void addSaveItem(final JMenu menu){
         String key = "Save";
         Action action = new AbstractAction(key) {
             @Override
-            public void actionPerformed(ActionEvent actionEvent) {
+            public void actionPerformed(final ActionEvent actionEvent) {
                 controller.save();
             }
         };
         addShortcutItem(menu, action, GUI.MenuBar.SAVE, key, KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK);
     }
 
-    private void addOpenItem(JMenu menu) {
+    private void addOpenItem(final JMenu menu) {
         String key = "Open";
 
         Action action = new AbstractAction(key) {
             @Override
-            public void actionPerformed(ActionEvent actionEvent) {
+            public void actionPerformed(final ActionEvent actionEvent) {
                 controller.openNew();
             }
         };
         addShortcutItem(menu, action, GUI.MenuBar.OPEN, key, KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK);
     }
 
-    private void addOpenDiagramItem(JMenu menu) {
+    private void addOpenDiagramItem(final JMenu menu) {
         String key = "Open Diagram";
 
         Action action = new AbstractAction(key) {
             @Override
-            public void actionPerformed(ActionEvent actionEvent) {
+            public void actionPerformed(final ActionEvent actionEvent) {
                 controller.openDiagram();
             }
         };
@@ -175,7 +175,7 @@ public class MenuView extends JMenuBar {
      * Sets or unsets the colorblind mode
      * @param set_mode Boolean to set or unset
      */
-    public void setBlindMode(boolean set_mode) {
+    public void setBlindMode(final boolean set_mode) {
         parentView.setTextAreaColorBlindMode(set_mode);
     }
 

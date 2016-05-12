@@ -19,7 +19,7 @@ public class Project {
         this.uid = project.getID();
         this.last_modification = project.getLastChange().toString();
         this.write_default = project.getWriteDefault();
-        this.read_default = project.getReadDefaukt();
+        this.read_default = project.getReadDefault();
     }
 
     public Project(int user, String path, String last_modification, boolean write_default, boolean read_default) {

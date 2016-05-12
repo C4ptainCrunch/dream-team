@@ -1,9 +1,12 @@
 package database;
 
 import static database.DAOUtilities.initializationPreparedRequest;
+import static database.DAOUtilities.mapUser;
 import static database.DAOUtilities.silentClosures;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import models.databaseModels.User;
@@ -32,6 +35,7 @@ class UserRequests{
 
     public static final String SQL_SELECT_BY_ID = "SELECT id, first_name, last_name, username, email " +
             "FROM Users WHERE id = ?";
+    public static final String SQL_GET_ALL = "SELECT id, first_name, last_name, username, email FROM Users";
 }
 
 /**
@@ -224,5 +228,22 @@ public class UsersDAO {
             silentClosures( resultSet, preparedStatement, connection );
         }
         return user;
+    }
+
+    public List<User> getAll() throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<User> users = new ArrayList<>();
+        try {
+            resultSet = DAOUtilities.executeQuery(daoFactorySingleton, connection, preparedStatement, resultSet, UserRequests.SQL_GET_ALL);
+            while (resultSet.next()){
+                users.add(mapUser(resultSet));
+            }
+        } finally {
+            silentClosures(resultSet, preparedStatement, connection);
+        }
+        return users;
+
     }
 }

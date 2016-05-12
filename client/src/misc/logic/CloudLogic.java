@@ -38,7 +38,7 @@ public class CloudLogic {
             if(!cloudDir.toFile().exists()) {
                 Files.createDirectories(cloudDir);
             }
-            project.move(cloudDir.resolve(Paths.get(project.getName())).toFile());
+            project.move(cloudDir.resolve(Paths.get(project.getUid() + ".crea")).toFile());
         } else {
             logger.info("Unknown error while uploading: " + Integer.toString(r.getStatus()));
             // TODO : alert unknown error

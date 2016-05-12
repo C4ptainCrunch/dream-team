@@ -72,10 +72,7 @@ public class ProjectManagementView extends JPanel {
         this.chooserPanel = new JPanel();
         this.chooserPanel.setLayout(new BorderLayout());
 
-        Vector<Project> recentProjects = new Vector<>(RecentProjects.getRecentProjects());
-        Collections.reverse(recentProjects);
-
-        this.projectChooser = new JList<>(recentProjects);
+        this.projectChooser = new JList<>(this.getListModel());
         this.projectChooser.addListSelectionListener(e -> controller.dropdownSelected(projectChooser.getSelectedValue()));
         this.projectChooser.setSelectedIndex(0);
 
@@ -111,5 +108,21 @@ public class ProjectManagementView extends JPanel {
 
     public void dispose() {
         this.parentView.dispose();
+    }
+
+    public ManagementView getParentView() {
+        return parentView;
+    }
+
+    public void refresh() {
+        this.projectChooser.setModel(this.getListModel());
+    }
+
+    private DefaultListModel getListModel(){
+        DefaultListModel model = new DefaultListModel();
+        Vector<Project> recentProjects = new Vector<>(RecentProjects.getRecentProjects());
+        Collections.reverse(recentProjects);
+        recentProjects.forEach(model::addElement);
+        return model;
     }
 }

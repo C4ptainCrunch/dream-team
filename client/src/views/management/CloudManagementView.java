@@ -64,4 +64,7 @@ public class CloudManagementView extends JPanel {
         this.infoPanel.setPreferredSize(new Dimension(100,100));
     }
 
+    public void refresh() {
+        // TODO
+    }
 }

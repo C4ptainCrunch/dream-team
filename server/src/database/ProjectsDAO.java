@@ -23,6 +23,7 @@ class ProjectRequests {
     public static final String SQL_PROJECT_IS_WRITABLE = "SELECT default_perm_write FROM Projects WHERE id = ?";
     public static final String SQL_PROJECT_DELETE = "DELETE FROM Projects WHERE id = ?";
     public static final String SQL_PROJECT_GETALL = "SELECT id, user_id, path, last_modification, default_perm_write, default_perm_read FROM Projects";
+    public static final String SQL_PROJECT_GETALLREADABLES = "SELECT id, user_id, path, last_modification, default_perm_write, default_perm_read FROM Projects WHERE default_read_perm = 1";
 }
 
 public class ProjectsDAO {
@@ -143,25 +144,23 @@ public class ProjectsDAO {
     public ArrayList<Project> getAllReadableProject(int userID) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSetProjects = null;
-        ResultSet resultSetPerms = null;
+        ResultSet resultSet = null;
         ArrayList<Project> projects = new ArrayList<>();
         try {
-            resultSetProjects = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSetProjects, ProjectRequests.SQL_PROJECT_GETALL);
-            while (resultSetProjects.next()) {
-                Project p = mapProject(resultSetProjects);
+            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, ProjectRequests.SQL_PROJECT_GETALLREADABLES);
+            while (resultSet.next()) {
+                Project p = mapProject(resultSet);
                 Optional<Permissions> permissions = permissionsDAO.findPermissions(p.getId(), userID);
                 if (permissions.isPresent() && permissions.get().isReadable()) {
                     projects.add(p);
-                } else if (!permissions.isPresent() && p.readable()){
+                } else if (!permissions.isPresent()){
                     projects.add(p);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            silentClosures(resultSetProjects, preparedStatement, connection);
-            silentClosures(resultSetPerms, preparedStatement, connection);
+            silentClosures(resultSet, preparedStatement, connection);
         }
         return projects;
     }

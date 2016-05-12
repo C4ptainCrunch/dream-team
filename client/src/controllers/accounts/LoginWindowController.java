@@ -4,7 +4,9 @@ import javax.swing.*;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
 
+import misc.logic.CloudLogic;
 import misc.utils.RequestBuilder;
+import models.databaseModels.User;
 import utils.Log;
 import views.accounts.EditUserView;
 import views.accounts.LoginWindowView;
@@ -36,12 +38,20 @@ public class LoginWindowController {
 
         if(r.getStatus() == 200) {
             logger.info("Token was good, skipping login");
+            storeUsername();
             return true;
         } else {
             logger.fine("Old token was invalid, " + Integer.toString(r.getStatus()));
             return false;
         }
 
+    }
+
+    private static void storeUsername() {
+        Response r = RequestBuilder.get("/user/get").invoke();
+        String username = r.readEntity(User.class).getUsername();
+        CloudLogic.setUsername(username);
+        logger.info("Our username is " + username);
     }
 
     private String getToken(String username, String password) {
@@ -65,6 +75,7 @@ public class LoginWindowController {
         if(!token.trim().equals("")){
             this.view.dispose();
             RequestBuilder.setToken(token);
+            storeUsername();
             new ManagementView();
         }else {
             JOptionPane.showMessageDialog(this.view, Errors.LOGIN_FAILED, Errors.ERROR, JOptionPane.ERROR_MESSAGE);

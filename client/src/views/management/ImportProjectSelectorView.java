@@ -77,4 +77,8 @@ public class ImportProjectSelectorView extends JDialog {
         List<String> selection = this.diagramList.getSelectedValuesList();
         return new HashSet<>(selection);
     }
+
+    public Project getProject() {
+        return this.currentProject;
+    }
 }

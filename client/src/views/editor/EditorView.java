@@ -34,8 +34,10 @@ public class EditorView extends JFrame {
      *
      * @param diagram
      *            The diagram
+     * @param render
+     *              Option to activate the render or not
      */
-    public EditorView(Diagram diagram) {
+    public EditorView(Diagram diagram, Boolean render) {
         TikzGraph graph = diagram.getGraph();
         this.diagram = diagram;
         this.controller = new EditorController(this, diagram);
@@ -43,7 +45,20 @@ public class EditorView extends JFrame {
         this.sourceView = new SourceView(this, graph);
         this.menuView = new MenuView(this, diagram);
         this.toolBoxView = new ToolBoxView();
-        render();
+        if(render){
+            render();
+        }
+    }
+
+    /**
+     * Constructs a new View for the Editor, with a given Diagram. Creates all
+     * the views that are contained within this view.
+     *
+     * @param diagram
+     *            The diagram
+     */
+    public EditorView(Diagram diagram){
+        this(diagram, true);
     }
 
     /**

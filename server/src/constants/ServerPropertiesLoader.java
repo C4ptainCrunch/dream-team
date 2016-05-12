@@ -4,16 +4,12 @@ import java.util.Properties;
 import static constants.Database.*;
 import static constants.Email.*;
 import static constants.Tokens.*;
-import static constants.ProjectConflicts.*;
 
-/**
- * Created by jhellinckx on 10/05/16.
- */
+
 public class ServerPropertiesLoader extends PropertiesLoader {
     private static final String DATABASE_PROPERTIES_FILENAME = "database.properties";
     private static final String EMAIL_PROPERTIES_FILENAME = "email.properties";
     private static final String TOKENS_PROPERTIES_FILENAME = "tokens.properties";
-    private static final String PROJECTSCONFLICTS_PROPERTIES_FILENAME = "projectconflicts.properties";
 
     public static void loadAll(){
         PropertiesLoader.loadAll();
@@ -24,7 +20,6 @@ public class ServerPropertiesLoader extends PropertiesLoader {
         loadDatabaseProperties();
         loadEmailProperties();
         loadTokensProperties();
-        loadProjectConflictsProperties();
     }
 
     public static void loadDatabaseProperties(){
@@ -39,9 +34,7 @@ public class ServerPropertiesLoader extends PropertiesLoader {
         PropertiesLoader.load(TOKENS_PROPERTIES_FILENAME, new TokensPropertiesReader());
     }
 
-    public static void loadProjectConflictsProperties(){
-        PropertiesLoader.load(PROJECTSCONFLICTS_PROPERTIES_FILENAME, new ProjectConflictsPropertiesReader());
-    }
+
 }
 
 class DatabasePropertiesReader implements PropertiesReader{
@@ -68,18 +61,5 @@ class TokensPropertiesReader implements PropertiesReader{
     @Override
     public void read(Properties properties){
         TOKEN_ALPHABET = properties.getProperty("TOKEN_ALPHABET");
-    }
-}
-
-class ProjectConflictsPropertiesReader implements  PropertiesReader{
-    @Override
-    public void read(Properties properties){
-        SAVE_USER_VERSION_ONLY = properties.getProperty("SAVE_USER_VERSION_ONLY");
-        SAVE_USER_VERSION = properties.getProperty("SAVE_USER_VERSION");
-        SAVE_SERVER_VERSION_ONLY = properties.getProperty("SAVE_SERVER_VERSION_ONLY");
-        SAVE_SERVER_VERSION = properties.getProperty("SAVE_SERVER_VERSION");
-        MERGE_OK = properties.getProperty("MERGE_OK");
-        NO_LOCAL_MODIFICATION = properties.getProperty("NO_LOCAL_MODIFICATION");
-        MERGE_HAS_CONFLICTS = properties.getProperty("MERGE_HAS_CONFLICTS");
     }
 }

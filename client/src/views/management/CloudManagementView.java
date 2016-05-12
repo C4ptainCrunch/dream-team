@@ -7,6 +7,7 @@ import misc.logic.CloudLogic;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class CloudManagementView extends JPanel {
 
@@ -39,8 +40,11 @@ public class CloudManagementView extends JPanel {
     private void createChooserPanel() {
         this.chooserPanel = new JPanel();
         this.chooserPanel.setLayout(new BorderLayout());
-
-        Vector<models.databaseModels.Project> sharedProjects = new Vector<>(CloudLogic.getSharedProjects());
+        List<models.databaseModels.Project> projectsList = CloudLogic.getSharedProjects();
+        Vector<models.databaseModels.Project> sharedProjects = new Vector<>();
+        if(projectsList != null){
+            sharedProjects = new Vector<>(projectsList);
+        }
 
         this.projectChooser = new JList<>(sharedProjects);
         this.projectChooser.addListSelectionListener(e -> controller.dropdownSelected(projectChooser.getSelectedValue()));

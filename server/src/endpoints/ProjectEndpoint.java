@@ -51,7 +51,7 @@ public class ProjectEndpoint {
         models.project.Project p = new models.project.Project(tmpFile);
         p.move(new File("server/projects/" + p.getName()));
         Project dbProject = new Project(p);
-        if (projectsDAO.findByID(dbProject.getId()) != null){
+        if (projectsDAO.findByID(dbProject.getUid()) != null){
             throw new BadRequestException("Project already exist");
         }
         dbProject.setUserID(user.getId());

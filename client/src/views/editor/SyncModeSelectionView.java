@@ -2,6 +2,7 @@ package views.editor;
 
 import constants.SyncModeSelection;
 import controllers.editor.SyncModeSelectionController;
+import models.project.Project;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,22 +11,19 @@ import java.util.Vector;
 /**
  * Window that allows the user to select one of several possible sync modes for his diagram
  */
-public class SyncModeSelectionView extends JFrame {
+public class SyncModeSelectionView extends JDialog {
 
+    private String selection = null;
     private SyncModeSelectionController controller;
-    private String flag;
+    private Project project;
     private JList<String> optionsList;
     private Vector<String> optionNames;
     private JPanel syncPanel;
-    private Object selection;
 
-    /**
-     * Constructs the SyncModeSelectionView
-     * @param flag Flag to set if a fusion is possible or not
-     */
-    public SyncModeSelectionView(String flag) {
+    public SyncModeSelectionView(Project project) {
         this.controller = new SyncModeSelectionController(this);
-        this.flag = flag;
+        this.project = project;
+        this.setModal(true);
         this.render();
     }
 
@@ -48,12 +46,8 @@ public class SyncModeSelectionView extends JFrame {
 
     private void createSelectionList() {
         this.optionNames = new Vector<>();
-        this.optionNames.add(SyncModeSelection.Option.OPTION_OURS); this.optionNames.add(SyncModeSelection.Option.OPTION_THEIRS); this.optionNames.add(SyncModeSelection.Option.OPTION_OURS_MERGE);
-        this.optionNames.add(SyncModeSelection.Option.OPTION_THEIRS_MERGE); this.optionNames.add(SyncModeSelection.Option.OPTION_FUSION);
-
-        if(flag.equals(SyncModeSelection.Option.OPTION_NO_FUSION)) {
-            this.optionNames.remove(4);
-        }
+        this.optionNames.add(SyncModeSelection.Option.OPTION_OURS);
+        this.optionNames.add(SyncModeSelection.Option.OPTION_THEIRS);
 
         JPanel diagramPanel = new JPanel();
         this.optionsList = new JList(this.optionNames);
@@ -73,7 +67,7 @@ public class SyncModeSelectionView extends JFrame {
     private void createButton() {
         JButton syncButton = new JButton(SyncModeSelection.Button.BUTTON_SYNC);
         syncButton.addActionListener(actionEvent -> {
-            this.controller.activateSelection();
+            this.controller.choiceDone();
         });
         this.syncPanel.add(syncButton);
     }
@@ -85,4 +79,13 @@ public class SyncModeSelectionView extends JFrame {
     public String getSelection() {
         return this.optionsList.getSelectedValue();
     }
+
+    public void setSelection(String selection) {
+        this.selection = selection;
+    }
+
+    public String getMode() {
+        return this.selection;
+    }
+
 }

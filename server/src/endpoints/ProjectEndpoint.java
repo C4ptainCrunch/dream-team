@@ -1,6 +1,6 @@
 package endpoints;
 
-import database.DAOFactory;
+import database.DAOFactorySingleton;
 import database.PermissionsDAO;
 import database.ProjectsDAO;
 import database.UsersDAO;
@@ -27,9 +27,9 @@ import java.util.logging.Logger;
 
 @Path("project")
 public class ProjectEndpoint {
-    ProjectsDAO projectsDAO = DAOFactory.getInstance().getProjectDAO();
-    UsersDAO usersDAO = DAOFactory.getInstance().getUsersDAO();
-    PermissionsDAO permissionsDAO = DAOFactory.getInstance().getPermissionsDAO();
+    ProjectsDAO projectsDAO = DAOFactorySingleton.getInstance().getProjectDAO();
+    UsersDAO usersDAO = DAOFactorySingleton.getInstance().getUsersDAO();
+    PermissionsDAO permissionsDAO = DAOFactorySingleton.getInstance().getPermissionsDAO();
     private final static Logger logger = Log.getLogger(ProjectEndpoint.class);
 
     @GET

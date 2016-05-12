@@ -34,5 +34,4 @@ public class Main {
 
         logger.info("Server started on" + Network.HOST.COMPLETE_HOSTNAME);
     }
-
 }

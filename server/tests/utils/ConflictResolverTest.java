@@ -15,13 +15,14 @@ public class ConflictResolverTest {
     File baseFile;
     File localFile;
     File conflictFile;
+    File oneConflictOneSimpleAdd;
 
     @Before
     public void setUp() throws Exception {
         baseFile = new File("tests/utils/diffsFiles/base.diff");
         localFile = new File("tests/utils/diffsFiles/local.diff");
         conflictFile = new File("tests/utils/diffsFiles/conflict.diff");
-
+        oneConflictOneSimpleAdd = new File("tests/utils/diffsFiles/oneConflictOneSimpleAdd.diff");
     }
 
     @After
@@ -31,13 +32,13 @@ public class ConflictResolverTest {
 
     @Test
     public void testcheckHasConflict() throws Exception {
-        conflictResolver.update(baseFile, localFile, baseFile);
+        conflictResolver.update(localFile, baseFile);
         assertEquals(conflictResolver.checkHasConflict(), new Integer(0));
 
-        conflictResolver.update(baseFile, localFile, conflictFile);
-        assertEquals(conflictResolver.checkHasConflict(), new Integer(1));
-
-        conflictResolver.update(baseFile, baseFile, conflictFile);
+        conflictResolver.update(localFile, conflictFile);
         assertEquals(conflictResolver.checkHasConflict(), new Integer(2));
+
+        conflictResolver.update(localFile, oneConflictOneSimpleAdd);
+        assertEquals(conflictResolver.checkHasConflict(), new Integer(1));
     }
 }

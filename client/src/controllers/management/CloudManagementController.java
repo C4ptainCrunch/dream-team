@@ -2,9 +2,11 @@ package controllers.management;
 
 import misc.logic.CloudLogic;
 import models.project.Project;
+import utils.Dirs;
 import utils.RecentProjects;
 import views.editor.SyncModeSelectionView;
 import views.management.CloudManagementView;
+import views.management.DiagramManagementView;
 import views.management.FileChooseView;
 import views.management.ImportProjectSelectorView;
 
@@ -13,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class CloudManagementController {
 
@@ -27,6 +30,36 @@ public class CloudManagementController {
     }
 
     public void openSharedProject() {
+        models.databaseModels.Project dbProject = this.view.getSelectedProject();
+
+        Project project = null;
+        Path cloudDir = Dirs.getDataDir().resolve("cloud");
+        Path path = cloudDir.resolve(dbProject.getUid() + ".crea");
+        // TODO create dirs
+        try {
+            try {
+                project = new Project(path);
+                project.getName();
+            } catch (Exception e) {
+                Path localZip = CloudLogic.getLocalCopy(dbProject);
+                System.out.println(localZip);
+                System.out.println(path);
+                Files.move(localZip, path);
+                project = new Project(path);
+            }
+            Project finalProject = project;
+            java.awt.EventQueue.invokeLater(() -> {
+                try {
+                    new DiagramManagementView(finalProject);
+                    this.view.dispose();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 

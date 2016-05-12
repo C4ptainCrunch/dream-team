@@ -1,12 +1,14 @@
 package controllers.management;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystemNotFoundException;
 import java.util.logging.Logger;
 
 import javax.swing.*;
 
+import misc.logic.CloudLogic;
 import models.project.Diagram;
 import models.project.Project;
 import utils.Log;
@@ -114,6 +116,10 @@ public class ProjectManagementController {
             return;
         }
 
-        // TODO : upload project to server
+        try {
+            CloudLogic.cloudifyProject(project);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

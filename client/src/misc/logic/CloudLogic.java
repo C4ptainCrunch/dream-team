@@ -1,0 +1,40 @@
+package misc.logic;
+
+import misc.utils.RequestBuilder;
+import models.project.Project;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import utils.Dirs;
+import utils.Log;
+
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Paths;
+import java.util.logging.Logger;
+
+public class CloudLogic {
+    private static Logger logger = Log.getLogger(CloudLogic.class);
+
+    private CloudLogic() {
+    }
+
+    public static void cloudifyProject(Project project) throws IOException {
+        InputStream stream = new FileInputStream(project.getPath().toFile());
+        FormDataMultiPart form = new FormDataMultiPart()
+                .field("project", stream, MediaType.APPLICATION_OCTET_STREAM_TYPE);
+
+        Response r = RequestBuilder.put("/project/upload", form).invoke();
+
+        if(r.getStatus() == 400) {
+            logger.info("The project is already existing in the cloud");
+            // TODO alert : project is existing
+        } else if (r.getStatus() == 200){
+            project.move(Dirs.getDataDir().resolve(Paths.get("cloud/" + project.getName())).toFile());
+        } else {
+            logger.info("Unknown error while uploading");
+            // TODO : alert unknown error
+        }
+    }
+}

@@ -1,6 +1,8 @@
 package views.management;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Collections;
 import java.util.Vector;
 import javax.swing.*;
@@ -49,6 +51,15 @@ public class ProjectManagementView extends JPanel {
         this.projectChooser = new JList<>(this.getListModel());
         this.projectChooser.addListSelectionListener(e -> controller.dropdownSelected(projectChooser.getSelectedValue()));
         this.projectChooser.setSelectedIndex(0);
+
+        this.projectChooser.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    controller.openRecentProject();
+                }
+            }
+        });
 
         this.chooserPanel.add(new JLabel(GUI.ProjectManagement.DROPDOWN_HEADER), BorderLayout.NORTH);
 

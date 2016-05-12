@@ -44,7 +44,7 @@ public class UserPermissionWindowController {
         postForm.param("readPerm", Boolean.toString(readSelected));
         postForm.param("writePerm", Boolean.toString(writeSelected));
         postForm.param("userName", this.user);
-        Response r = RequestBuilder.post("/project/set_permissions_for_user/"+this.currentProject.getUid(), postForm).invoke();
+        Response r = RequestBuilder.post("/project/set_permission_for_user/"+this.currentProject.getUid(), postForm).invoke();
         this.view.dispose();
         this.setParentViewVisible();
     }

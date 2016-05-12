@@ -99,9 +99,9 @@ public class DAOUtilities {
         silentClosing( connection );
     }
 
-    public static ResultSet executeQuery(DAOFactory daoFactory, Connection connection, PreparedStatement preparedStatement, ResultSet resultSet, String sqlQuery, Object... objects) {
+    public static ResultSet executeQuery(DAOFactorySingleton daoFactorySingleton, Connection connection, PreparedStatement preparedStatement, ResultSet resultSet, String sqlQuery, Object... objects) {
         try {
-            connection = daoFactory.getConnection();
+            connection = daoFactorySingleton.getConnection();
             preparedStatement = initializationPreparedRequest(connection, sqlQuery, false, objects);
             resultSet = preparedStatement.executeQuery();
         } catch (SQLException e) {
@@ -110,12 +110,12 @@ public class DAOUtilities {
         return resultSet;
     }
 
-    public static int executeUpdate(DAOFactory daoFactory, String sqlQuery, Object... objects) {
+    public static int executeUpdate(DAOFactorySingleton daoFactorySingleton, String sqlQuery, Object... objects) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         int status = 0;
         try {
-            connection = daoFactory.getConnection();
+            connection = daoFactorySingleton.getConnection();
             preparedStatement = initializationPreparedRequest(connection, sqlQuery, false, objects);
             status = preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -143,7 +143,9 @@ public class DAOUtilities {
         boolean default_perm_write = resultSet.getInt("default_perm_write") == 1;
         boolean default_perm_read = resultSet.getInt("default_perm_read") == 1;
         String name = resultSet.getString("name");
-        return new Project(uid, user_id, path, last_modification, default_perm_write, default_perm_read, name);
+        UsersDAO usersDAO = DAOFactorySingleton.getInstance().getUsersDAO();
+        String username = usersDAO.findById(user_id).getUsername();
+        return new Project(uid, user_id, path, last_modification, default_perm_write, default_perm_read, name, username);
     }
 
     public static Permissions mapPermissions(ResultSet resultSet) throws SQLException{
@@ -151,6 +153,8 @@ public class DAOUtilities {
         String projectUID = resultSet.getString("project_uid");
         boolean readable = resultSet.getInt("read_perm") == 1;
         boolean writeable = resultSet.getInt("write_perm") == 1;
-        return new Permissions(projectUID, userID, writeable, readable);
+        UsersDAO usersDAO = DAOFactorySingleton.getInstance().getUsersDAO();
+        String username = usersDAO.findById(userID).getUsername();
+        return new Permissions(projectUID, userID, writeable, readable, username);
     }
 }

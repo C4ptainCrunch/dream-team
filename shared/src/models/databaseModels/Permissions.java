@@ -8,17 +8,19 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 public class Permissions {
+    private String username;
     private String projectUID;
     private int userID;
     private boolean writable, readable;
 
     public Permissions() {}
 
-    public Permissions(String projectUID, int userID, boolean write, boolean read) {
+    public Permissions(String projectUID, int userID, boolean write, boolean read, String username) {
         this.projectUID = projectUID;
         this.userID = userID;
         this.writable = write;
         this.readable = read;
+        this.username = username;
     }
 
     @XmlAttribute
@@ -55,5 +57,14 @@ public class Permissions {
 
     public void setReadable(boolean readable) {
         this.readable = readable;
+    }
+
+    @XmlAttribute
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

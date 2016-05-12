@@ -139,7 +139,7 @@ public class CanvasController implements Observer {
      *            The tikz position where the component will be added
      */
 
-    private void addNodeToGraph(TikzComponent component, Point2D.Float position) {
+    public void addNodeToGraph(TikzComponent component, Point2D.Float position) {
         TikzNode node = (TikzNode) component;
         node.setPosition(Converter.swing2tikz(position, view));
         graph.add(node);
@@ -156,7 +156,7 @@ public class CanvasController implements Observer {
      * @param destination
      *            The destination node to which the edge will end
      */
-    private void addEdgeToGraph(TikzEdge edge, TikzNode source, TikzNode destination) {
+    public void addEdgeToGraph(TikzEdge edge, TikzNode source, TikzNode destination) {
         if ((source != null) && (destination != null)) {
             edge.setFirstNode(source);
             edge.setSecondNode(destination);
@@ -173,7 +173,7 @@ public class CanvasController implements Observer {
      * @param position
      *            The position of the component to which the edge will end
      */
-    private void addEdgeToModel(TikzComponent component, Point2D.Float position) {
+    public void addEdgeToModel(TikzComponent component, Point2D.Float position) {
         TikzComponent clickedComponent = findComponentByPosition(position);
         if (clickedComponent != null && !clickedComponent.isEdge()) {
             if (state.initialized()) {
@@ -189,14 +189,14 @@ public class CanvasController implements Observer {
     }
 
     // Location has to be a swing position !
-    private void addGraph(TikzGraph g, Point2D.Float location) {
+    public void addGraph(TikzGraph g, Point2D.Float location) {
         location.setLocation(Converter.swing2tikz(location, view));
         g.translation(location.x, location.y);
         graph.add(g);
     }
 
     // Location has to be a swing position !!
-    private void moveComponent(TikzComponent comp, Point2D.Float location) {
+    public void moveComponent(TikzComponent comp, Point2D.Float location) {
         location.setLocation(Converter.swing2tikz(location, view));
         if (comp != null && comp.isNode()) {
             ((TikzNode) comp).setPosition(location);
@@ -306,7 +306,6 @@ public class CanvasController implements Observer {
      * will be directly saved in the file defined by the Template's File
      * attribute.
      */
-
     public void exportSelectionAsTemplate() {
         CanvasSelection selection = view.getSelection();
         if (selection != null) {

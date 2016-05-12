@@ -27,7 +27,7 @@ class DatabaseCreationRequests {
             "last_modification TEXT NOT NULL," +
             "default_perm_write INTEGER NOT NULL DEFAULT false," +
             "default_perm_read INTEGER NOT NULL DEFAULT false," +
-            "name VARCHAR (255) NOT NULL UNIQUE , "+
+            "name VARCHAR (255) NOT NULL, "+
             "FOREIGN KEY(user_id) REFERENCES Users(id) ON UPDATE CASCADE ON DELETE CASCADE);";
     public static final String SQLITE_CREATE_TABLE_PERMISSIONS = "CREATE TABLE Permissions("+
             "project_uid TEXT NOT NULL," +

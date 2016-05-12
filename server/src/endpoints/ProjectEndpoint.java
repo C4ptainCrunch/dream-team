@@ -89,23 +89,31 @@ public class ProjectEndpoint {
     @Consumes("application/octet-stream")
     public Response update(@PathParam("userChoice") String userChoice,
                            InputStream project,
-                           @Context SecurityContext securityContext) throws IOException, SQLException {
+                           @Context SecurityContext securityContext) throws IOException, SQLException, ClassNotFoundException {
         String username = securityContext.getUserPrincipal().getName();
         User user = usersDAO.findByUsername(username);
 
         java.nio.file.Path tmpFile = File.createTempFile("project-upload", ".crea").toPath();
 
-        models.project.Project p = new models.project.Project(tmpFile);
-        if (projectsDAO.findByUid(p.getUid()) == null){
+        models.project.Project clientProject = new models.project.Project(tmpFile);
+        Project dbServerProject = projectsDAO.findByUid(clientProject.getUid());
+        if (dbServerProject == null){
             throw new BadRequestException("Project does not exist");
         }
 
-        Project dbProject = new Project(p);
+        models.project.Project serverProject = new models.project.Project(Paths.get(dbServerProject.getPath()));
+        Project dbProject = new Project(clientProject);
         if(!hasWritePerm(dbProject, user)){
             throw new NotAuthorizedException("You can't edit this project");
         }
-        
 
+        ConflictResolver conflictResolver = new ConflictResolver(clientProject, serverProject);
+        models.project.Project finalProject = conflictResolver.resolve(userChoice);
+        finalProject.setUid(serverProject.getUid());
+        File initFile = new File(serverProject.getPath().toString());
+        initFile.delete();
+        java.nio.file.Path storageDir = Paths.get("server/projects/");
+        finalProject.move(storageDir.resolve(finalProject.getUid() + ".crea").toFile());
         return Response.ok().build();
     }
 

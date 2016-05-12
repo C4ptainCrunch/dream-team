@@ -19,21 +19,35 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
 
+/**
+ * Controller for the CloudManagementView
+ */
 public class CloudManagementController {
 
     private final CloudManagementView view;
     private Logger logger = Log.getLogger(CloudManagementController.class);
 
+    /**
+     * Creates a controller for the CloudManagementView
+     * @param cloudManagementView The corresponding view, created elsewhere
+     */
     public CloudManagementController(CloudManagementView cloudManagementView) {
         this.view = cloudManagementView;
     }
 
+    /**
+     * Creates the information to be set in the info panel
+     * @param selectedProject The project to get information from
+     */
     public void dropdownSelected(models.databaseModels.Project selectedProject) {
         String infoText = "INFORMATION ABOUT SELECTED PROJECT:\nCreator: PLACEHOLDER\nLast revision: "+
                           selectedProject.getLast_modification()+"\nWrite Permission: PLACEHOLDER";
         this.view.setInfoText(infoText);
     }
 
+    /**
+     * Opens the project that has been selected in the list
+     */
     public void openSharedProject() {
         try {
             models.databaseModels.Project dbProject = this.view.getSelectedProject();
@@ -63,10 +77,16 @@ public class CloudManagementController {
 
     }
 
+    /**
+     * Set permissions to the selected project
+     */
     public void setPermissionsToSelectedProject() {
 
     }
 
+    /**
+     * Download a local copy of a project that is in the cloud
+     */
     public void getLocalCopy() {
         models.databaseModels.Project project = view.getSelectedProject();
         if (project == null) {

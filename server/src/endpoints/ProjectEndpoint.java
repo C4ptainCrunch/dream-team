@@ -40,8 +40,8 @@ public class ProjectEndpoint {
     @PUT
     @Secured
     @Path("/upload")
-    @Consumes({MediaType.MULTIPART_FORM_DATA})
-    public Response upload(@FormDataParam("project")InputStream project,
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response upload(InputStream project,
                            @Context SecurityContext securityContext) throws IOException {
         String username = securityContext.getUserPrincipal().getName();
         User user = usersDAO.findByUsername(username);
@@ -67,8 +67,8 @@ public class ProjectEndpoint {
     @PUT
     @Secured
     @Path("/update")
-    @Consumes({MediaType.MULTIPART_FORM_DATA})
-    public Response update(@FormDataParam("project") InputStream project,
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response update(InputStream project,
                            @Context SecurityContext securityContext) throws IOException {
         String username = securityContext.getUserPrincipal().getName();
         User user = usersDAO.findByUsername(username);

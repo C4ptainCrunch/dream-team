@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 import javax.ws.rs.core.UriBuilder;
 
 import endpoints.AuthenticationEndpoint;
+import endpoints.ProjectEndpoint;
 import middleware.AuthenticationFilter;
 import constants.Network;
 import constants.ServerPropertiesLoader;
@@ -25,6 +26,7 @@ public class Main {
         URI baseUri = UriBuilder.fromUri(Network.HOST.HOSTNAME+"/").port(Network.HOST.PORT).build();
         ResourceConfig config = new ResourceConfig(
                 UserEndpoint.class,
+                ProjectEndpoint.class,
                 AuthenticationEndpoint.class,
                 AuthenticationFilter.class
         );

@@ -50,6 +50,9 @@ public class Project {
         return last_modification;
     }
 
+    public boolean readable() {return read_default;}
+    public boolean writeable() {return write_default;}
+
     @XmlAttribute
     public int isWrite_default() {
         return write_default ? 1 : 0;

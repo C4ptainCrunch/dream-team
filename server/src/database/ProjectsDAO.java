@@ -1,6 +1,7 @@
 package database;
 
 import constants.Database;
+import models.databaseModels.Permissions;
 import models.databaseModels.Project;
 import utils.Log;
 
@@ -11,6 +12,7 @@ import static database.DAOUtilities.silentClosures;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 class ProjectRequests {
@@ -25,6 +27,7 @@ class ProjectRequests {
 
 public class ProjectsDAO {
     private DAOFactory daoFactory;
+    private PermissionsDAO permissionsDAO = new PermissionsDAO(daoFactory);
 
     private static final Logger logger = Log.getLogger(UsersDAO.class);
 
@@ -131,6 +134,34 @@ public class ProjectsDAO {
             }
         } catch (SQLException e) {
             logger.severe("Counldn't retrieve all projects");
+        } finally {
+        silentClosures(resultSet, preparedStatement, connection);
+        }
+        return projects;
+    }
+
+    public ArrayList<Project> getAllReadableProject(int userID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSetProjects = null;
+        ResultSet resultSetPerms = null;
+        ArrayList<Project> projects = new ArrayList<>();
+        try {
+            resultSetProjects = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSetProjects, ProjectRequests.SQL_PROJECT_GETALL);
+            while (resultSetProjects.next()) {
+                Project p = mapProject(resultSetProjects);
+                Optional<Permissions> permissions = permissionsDAO.findPermissions(p.getId(), userID);
+                if (permissions.isPresent() && permissions.get().isReadable()) {
+                    projects.add(p);
+                } else if (!permissions.isPresent() && p.readable()){
+                    projects.add(p);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            silentClosures(resultSetProjects, preparedStatement, connection);
+            silentClosures(resultSetPerms, preparedStatement, connection);
         }
         return projects;
     }

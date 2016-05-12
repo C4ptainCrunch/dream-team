@@ -1,17 +1,19 @@
 package controllers.editor;
 
 import misc.utils.ClientTest;
-import models.tikz.TikzCircle;
-import models.tikz.TikzComponent;
-import models.tikz.TikzGraph;
-import models.tikz.TikzNode;
+import models.project.Diagram;
+import models.project.Project;
+import models.tikz.*;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import views.editor.CanvasView;
+import views.editor.EditorView;
 import views.editor.canvas.drawables.DrawableTikzComponent;
 import views.editor.canvas.drawers.Drawer;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,12 +27,18 @@ public class CanvasControllerTest extends ClientTest{
     private TikzGraph testedGraph;
     private CanvasView view;
     private CanvasController controller;
+    private Project project;
+    private Diagram diagram;
+    private EditorView parentView;
 
 
     @Before
     public void setUp() throws Exception {
-        testedGraph = new TikzGraph();
-        view = new CanvasView(null, testedGraph);
+        project = new Project();
+        diagram = new Diagram("slt", project);
+        parentView = new EditorView(diagram);
+        testedGraph = diagram.getGraph();
+        view = new CanvasView(parentView, testedGraph);
         controller = new CanvasController(view, testedGraph);
     }
 
@@ -70,18 +78,30 @@ public class CanvasControllerTest extends ClientTest{
 
     @Test
     public void testAddNodeToGraph() throws Exception {
+        float testedX = 1993.0f;
+        float testedY = 1991.0f;
+        Point2D.Float testedPoint = new Point2D.Float(testedX, testedY);
         TikzNode node = new TikzCircle();
-
+        assertFalse(testedGraph.contains(node));
+        controller.addNodeToGraph(node, testedPoint);
+        assertTrue(testedGraph.contains(node));
     }
 
     @Test
     public void testAddEdgeToGraph() throws Exception {
-
+        TikzNode firstNode = new TikzCircle();
+        TikzNode secondNode = new TikzCircle();
+        testedGraph.add(firstNode);
+        testedGraph.add(secondNode);
+        TikzEdge edge = new TikzDirectedEdge();
+        assertFalse(testedGraph.contains(edge));
+        controller.addEdgeToGraph(edge, firstNode, secondNode);
+        assertTrue(testedGraph.contains(edge));
     }
 
     @Test
     public void testAddGraph() throws Exception {
-
+        
     }
 
     @Test

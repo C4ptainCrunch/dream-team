@@ -19,7 +19,8 @@ public class Main {
             logger.info("Skip to the editor");
             java.awt.EventQueue.invokeLater(() -> {
                 try {
-                    new EditorView(new Project().getDiagram("unsaved"));
+                    EditorView mainView = new EditorView(new Project().getDiagram("unsaved"));
+                    mainView.render();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -54,7 +54,6 @@ public class EditorView extends JFrame {
             }
         });
 
-        this.render();
         this.setVisible(true);
         canvasView.repaint();
     }

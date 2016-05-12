@@ -43,8 +43,8 @@ public class CloudLogic {
         return r.readEntity(new GenericType<List<models.databaseModels.Project>>(){});
     }
 
-    public static Path getLocalCopy(models.databaseModels.Project project) throws IOException {
-        Response r = RequestBuilder.get("/project/" + project.getUid()).invoke();
+    public static Path getLocalCopy(String uid) throws IOException {
+        Response r = RequestBuilder.get("/project/" + uid).invoke();
         if(r.getStatus() != 200) {
             throw new IOException("Error while downloading project :" + r.getStatus());
         }
@@ -54,9 +54,14 @@ public class CloudLogic {
         return tmp;
     }
 
+    public static Path getLocalCopy(models.databaseModels.Project project) throws IOException {
+        return getLocalCopy(project.getUid());
+    }
+
+
     public static Path getLocalOrDistantCopy(models.databaseModels.Project project) throws IOException {
         Path cloudDir = Dirs.getDataDir().resolve("cloud");
-        if(!cloudDir.toFile().exists()) {
+        if (!cloudDir.toFile().exists()) {
             Files.createDirectories(cloudDir);
         }
         Path path = cloudDir.resolve(project.getUid() + ".crea");
@@ -65,13 +70,13 @@ public class CloudLogic {
                 logger.info("Project " + project.getUid() + " was not on disk");
                 return path;
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             logger.info("Project " + project.getUid() + " was not on disk");
         }
         logger.fine("Downloading project " + project.getUid());
         return CloudLogic.getLocalCopy(project);
     }
-
+    
     public static boolean AskForMerge(Project p) throws FileNotFoundException {
         InputStream stream = new FileInputStream(p.getPath().toFile());
         Response r = RequestBuilder

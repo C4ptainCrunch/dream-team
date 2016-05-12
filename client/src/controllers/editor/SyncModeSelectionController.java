@@ -20,8 +20,9 @@ public class SyncModeSelectionController {
     /**
      * Activates several possible sync methods, depending on the user's selection in the view
      */
-    public void activateSelection() {
+    public void choiceDone() {
         String selection = this.view.getSelection();
-        // TODO: Do something with this selection
+        this.view.setSelection(selection);
+        this.view.dispose();
     }
 }

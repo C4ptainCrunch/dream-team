@@ -145,12 +145,14 @@ public class MenuView extends JMenuBar {
         color_blind_mode_item.addItemListener(itemEvent -> controller.setColorBlindMode(itemEvent.getStateChange()));
         options_menu.add(color_blind_mode_item);
 
-        JMenu sync_menu = new JMenu(GUI.MenuBar.SYNC);
-        this.add(sync_menu);
+        if(this.getDiagram().getProject().isCloud()) {
+            JMenu sync_menu = new JMenu(GUI.MenuBar.SYNC);
+            this.add(sync_menu);
 
-        JMenuItem sync_item = new JMenuItem(GUI.MenuBar.SYNC + " Project");
-        sync_item.addActionListener(actionEvent -> controller.syncProject());
-        sync_menu.add(sync_item);
+            JMenuItem sync_item = new JMenuItem(GUI.MenuBar.SYNC + " Project");
+            sync_item.addActionListener(actionEvent -> controller.syncProject());
+            sync_menu.add(sync_item);
+        }
     }
 
     /**

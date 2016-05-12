@@ -1,9 +1,11 @@
 package endpoints;
 
 import database.DAOFactory;
+import database.PermissionsDAO;
 import database.ProjectsDAO;
 import database.UsersDAO;
 import middleware.Secured;
+import models.databaseModels.Permissions;
 import models.databaseModels.Project;
 import models.databaseModels.User;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -19,12 +21,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Path("project")
 public class ProjectEndpoint {
     ProjectsDAO projectsDAO = DAOFactory.getInstance().getProjectDAO();
     UsersDAO usersDAO = DAOFactory.getInstance().getUsersDAO();
+    PermissionsDAO permissionsDAO = DAOFactory.getInstance().getPermissionsDAO();
     private final static Logger logger = Log.getLogger(ProjectEndpoint.class);
 
     @GET
@@ -87,5 +91,13 @@ public class ProjectEndpoint {
         }
 
         return Response.ok().build();
+    }
+
+    private boolean hasWritePerm(Project project, User user){
+        Optional<Permissions> personnalWritePermissions = permissionsDAO.findPermissions(project.getUid(), user.getId());
+        if (personnalWritePermissions.isPresent()){
+            return personnalWritePermissions.get().isWritable();
+        }
+        return project.readable();
     }
 }

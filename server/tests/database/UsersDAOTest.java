@@ -14,9 +14,7 @@ import org.junit.Test;
 import constants.Database;
 import utils.ServerTest;
 
-/**
- * Created by mrmmtb on 27.04.16.
- */
+
 public class UsersDAOTest extends ServerTest {
 
     private DAOFactory daoFactory;

@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import models.project.Diagram;
+import models.project.Project;
 import utils.Log;
 import utils.PdfCompilationError;
 import utils.PdfRenderer;
@@ -75,7 +76,9 @@ public class MenuController implements Observer {
                 choose.setSelectedFile(new File(diagramName + ".crea"));
                 File newDir = choose.ask();
                 if(newDir != null){
-                    this.diagram.getProject().move(newDir);
+                    Project p = this.diagram.getProject();
+                    p.move(newDir);
+                    p.rename(newDir.toPath().getFileName().toString());
                     FileChooseView.setRecent(newDir);
                 }
             }

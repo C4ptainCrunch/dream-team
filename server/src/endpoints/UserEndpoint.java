@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import middleware.Secured;
@@ -48,24 +49,26 @@ public class UserEndpoint {
 
     @POST
     @Path("/signup/{user}")
-    @Produces("text/plain")
-    public String signUp(@FormParam("username") String username,
-                         @FormParam("firstname") String firstname,
-                         @FormParam("lastname") String lastname,
-                         @FormParam("email") String email,
-                         @FormParam("password") String password){
+    public Response signUp(@FormParam("username") String username,
+                           @FormParam("firstname") String firstname,
+                           @FormParam("lastname") String lastname,
+                           @FormParam("email") String email,
+                           @FormParam("password") String password){
         User user = new User(username, firstname, lastname, email);
-        boolean failed = this.usersDAO.create(user);
-        if (!failed){
+        this.usersDAO.create(user);
+        try {
             this.usersDAO.setPasswordToUser(user, password);
-            try{
-                ConfirmationEmailSender.send(email,this.usersDAO.getTokenOfUser(username));
+            try {
+                ConfirmationEmailSender.send(email, this.usersDAO.getTokenOfUser(username));
             } catch (MessagingException ex) {
                 logger.info("Email sending to " + email + " failed.");
             }
-            return Network.Signup.SIGN_UP_OK;
+            return Response.ok().build();
+        } catch (Exception e){
+            logger.warning("Error while signup");
+            e.printStackTrace();
+            throw new ServerErrorException("Error while signup", 500);
         }
-        return Network.Signup.SIGN_UP_FAILED;
     }
 
     @POST

@@ -12,6 +12,7 @@ public class Project {
     private String last_modification;
     private boolean write_default;
     private boolean read_default;
+    private String name;
 
     public Project(){}
 
@@ -22,25 +23,22 @@ public class Project {
         this.last_modification = project.getLastChange().toString();
         this.write_default = project.getWriteDefault();
         this.read_default = project.getReadDefault();
+        this.name = project.getName();
     }
 
-    public Project(int user, String path, String last_modification, boolean write_default, boolean read_default) {
-        this.userID = user;
-        this.path = path;
-        this.last_modification = last_modification;
-        this.write_default = write_default;
-        this.read_default = read_default;
-    }
-
-    public Project(String uid, int user, String path, String last_modification, boolean write_default, boolean read_default) {
+    public Project(String uid, int user, String path, String last_modification, boolean write_default, boolean read_default, String name) {
         this.uid = uid;
         this.userID = user;
         this.path = path;
         this.last_modification = last_modification;
         this.write_default = write_default;
         this.read_default = read_default;
+        this.name = name;
     }
 
+    public String toString(){
+        return this.getName();
+    }
 
     @XmlAttribute
     public int getUserID() {

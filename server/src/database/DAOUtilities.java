@@ -142,7 +142,8 @@ public class DAOUtilities {
         String last_modification = resultSet.getString("last_modification");
         boolean default_perm_write = resultSet.getInt("default_perm_write") == 1;
         boolean default_perm_read = resultSet.getInt("default_perm_read") == 1;
-        return new Project(uid, user_id, path, last_modification, default_perm_write, default_perm_read);
+        String name = resultSet.getString("name");
+        return new Project(uid, user_id, path, last_modification, default_perm_write, default_perm_read, name);
     }
 
     public static Permissions mapPermissions(ResultSet resultSet) throws SQLException{

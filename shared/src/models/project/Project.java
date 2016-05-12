@@ -22,6 +22,8 @@ public class Project extends Observable implements Comparable<Project>{
     private Path path;
     private boolean isTemporary = false;
     private final static Logger logger = Log.getLogger(Project.class);
+    private boolean readDefault;
+    private boolean writeDefault;
 
     /**
      * Create a Project from a .crea file on the disk
@@ -34,10 +36,14 @@ public class Project extends Observable implements Comparable<Project>{
 
     /**
      * Create a Project in a temporary (os-dependant) location
+     *
      * @throws IOException
      */
     public Project() throws IOException {
         this(createTempZip());
+        this.setUid(UUID.randomUUID().toString());
+        this.setWriteDefault(false);
+        this.setReadDefault(false);
         this.isTemporary = true;
     }
 
@@ -248,7 +254,9 @@ public class Project extends Observable implements Comparable<Project>{
         }
     }
 
-    synchronized private void Properties(Properties props) throws IOException {
+
+
+    synchronized private void setProperties(Properties props) throws IOException {
         try (FileSystem fs = getFs()) {
             Path propsPath = fs.getPath("/" + "metadata.properties");
             ByteArrayOutputStream bs = new ByteArrayOutputStream();
@@ -263,5 +271,44 @@ public class Project extends Observable implements Comparable<Project>{
      */
     public boolean exists() {
         return this.path.toFile().exists();
+    }
+
+    public void setUserName(String userName) throws IOException {
+        Properties props = this.getProperties();
+        props.setProperty("username", userName);
+        this.setProperties(props);
+    }
+
+    public void setUid(String uid) throws IOException {
+        Properties props = this.getProperties();
+        props.setProperty("uid", uid);
+        this.setProperties(props);
+    }
+
+    public String getUid() throws IOException {
+        Properties props = this.getProperties();
+        return props.getProperty("uid");
+    }
+
+    public boolean getWriteDefault() throws IOException {
+        Properties props = this.getProperties();
+        return props.getProperty("writedefault").equals("true");
+    }
+
+    public void setWriteDefault(boolean writeDefault) throws IOException {
+        Properties props = this.getProperties();
+        props.setProperty("writedefault", writeDefault ? "true" : "false");
+        this.setProperties(props);
+    }
+
+    public boolean getReadDefault() throws IOException {
+        Properties props = this.getProperties();
+        return props.getProperty("readdefault").equals("true");
+    }
+
+    public void setReadDefault(boolean readDefault) throws IOException {
+        Properties props = this.getProperties();
+        props.setProperty("readdefault", readDefault ? "true" : "false");
+        this.setProperties(props);
     }
 }

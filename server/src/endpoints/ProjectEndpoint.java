@@ -1,5 +1,6 @@
 package endpoints;
 
+import constants.ProjectConflicts;
 import database.DAOFactorySingleton;
 import database.PermissionsDAO;
 import database.ProjectsDAO;
@@ -106,7 +107,9 @@ public class ProjectEndpoint {
         if(!hasWritePerm(dbProject, user)){
             throw new NotAuthorizedException("You can't edit this project");
         }
-
+        if(userChoice == ProjectConflicts.PUSH){
+            userChoice = ProjectConflicts.SAVE_USER_VERSION;
+        }
         ConflictResolver conflictResolver = new ConflictResolver(clientProject, serverProject);
         models.project.Project finalProject = conflictResolver.resolve(userChoice);
         finalProject.setUid(serverProject.getUid());

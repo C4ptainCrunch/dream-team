@@ -143,6 +143,10 @@ public class MenuView extends JMenuBar {
         JMenuItem color_blind_mode_item = new JCheckBoxMenuItem(GUI.MenuBar.COLOR_BLIND);
         color_blind_mode_item.addItemListener(itemEvent -> controller.setColorBlindMode(itemEvent.getStateChange()));
         options_menu.add(color_blind_mode_item);
+
+        JMenuItem sync_item = new JMenuItem(GUI.MenuBar.SYNC);
+        sync_item.addActionListener(actionEvent -> controller.syncProject());
+        this.add(sync_item);
     }
 
     /**

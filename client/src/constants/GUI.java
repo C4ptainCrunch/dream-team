@@ -24,6 +24,7 @@ public final class GUI {
         public static String REDO;
         public static String OPEN;
         public static String OPEN_DIAGRAM;
+        public static String SYNC;
     }
 
     public static final class ProjectManagement {

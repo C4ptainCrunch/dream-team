@@ -21,6 +21,7 @@ dependencies {
 
     compile project(':shared')
     testCompile project(':shared')
+    testCompile project(':server')
 }
 
 repositories {

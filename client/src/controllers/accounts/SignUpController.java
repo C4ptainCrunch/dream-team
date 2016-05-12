@@ -89,8 +89,8 @@ public class SignUpController {
         NetworkRequest request = new NetworkRequest(Network.HOST.COMPLETE_HOSTNAME,BASE_PATH+fields.get(2), MediaType.TEXT_PLAIN_TYPE);
         request.post(postForm);
 
-        String response = request.getResponseAsString();
-        if(response.equals(Network.Signup.SIGN_UP_OK)){
+
+        if(request.getResponse().getStatus() == 200){
             new TokenActivationView();
             this.view.dispose();
         }else {

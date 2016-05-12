@@ -18,7 +18,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -41,18 +40,25 @@ public class ProjectEndpoint {
     @Secured
     @Path("/project/upload")
     @Consumes({MediaType.MULTIPART_FORM_DATA})
-    public Response upload(@FormDataParam("project")InputStream project) throws IOException {
+    public Response upload(@FormDataParam("project")InputStream project,
+                           @Context SecurityContext securityContext) throws IOException {
+        String username = securityContext.getUserPrincipal().getName();
+        User user = usersDAO.findByUsername(username);
+
         java.nio.file.Path tmpFile = File.createTempFile("project-upload", ".crea").toPath();
         Files.copy(project, tmpFile);
 
-        Project dbProject = new Project(new models.project.Project(tmpFile));
+        models.project.Project p = new models.project.Project(tmpFile);
+        p.move(new File("server/projects/" + p.getName()));
+        Project dbProject = new Project(p);
         if (projectsDAO.findByID(dbProject.getId()) != null){
             throw new BadRequestException("Project already exist");
         }
+        dbProject.setUserID(user.getId());
+
+        p.setUserName(user.getUsername());
 
         projectsDAO.create(dbProject);
-        java.nio.file.Path projectPath = Paths.get(dbProject.getPath());
-        Files.copy(project, projectPath);
         return Response.ok().build();
     }
 }

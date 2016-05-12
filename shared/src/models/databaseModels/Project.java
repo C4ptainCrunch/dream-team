@@ -1,9 +1,7 @@
 package models.databaseModels;
 
-import javax.swing.text.DateFormatter;
 import javax.xml.bind.annotation.XmlAttribute;
 import java.io.IOException;
-import java.util.Date;
 
 public class Project {
     private int id;
@@ -12,6 +10,7 @@ public class Project {
     private String last_modification;
     private boolean write_default;
     private boolean read_default;
+    private int userId;
 
     public Project(){}
 
@@ -77,5 +76,9 @@ public class Project {
 
     public void setId(int id){
         this.id = id;
+    }
+
+    public void setUserID(int userId) {
+        this.userId = userId;
     }
 }

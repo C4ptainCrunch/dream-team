@@ -3,6 +3,7 @@ package controllers.management;
 
 import models.databaseModels.Project;
 import views.management.PermissionWindowView;
+import views.management.UserPermissionWindowView;
 
 import javax.swing.*;
 import java.util.List;
@@ -39,6 +40,7 @@ public class PermissionWindowController {
     }
 
     public void setUserPermissions(Project currentProject, String user) {
-
+        this.view.dispose();
+        new UserPermissionWindowView(this.view, currentProject, user);
     }
 }

@@ -1,5 +1,6 @@
 package endpoints;
 
+import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import javax.mail.MessagingException;
@@ -26,7 +27,7 @@ public class UserEndpoint {
     @Secured
     @Path("/get")
     @Produces("application/xml")
-    public User getUserData(@Context SecurityContext securityContext){
+    public User getUserData(@Context SecurityContext securityContext) throws SQLException {
         String username = securityContext.getUserPrincipal().getName();
         User user = this.usersDAO.findByUsername(username);
         if(user == null){
@@ -38,7 +39,7 @@ public class UserEndpoint {
     @POST
     @Path("/activate/{username}")
     @Produces("text/plain")
-    public String validateToken(@PathParam("username") String username, @FormParam("token") String token){
+    public String validateToken(@PathParam("username") String username, @FormParam("token") String token) throws SQLException {
         if(this.usersDAO.getTokenOfUser(username).equals(token)){
             this.usersDAO.activateUser(username);
             return Network.Token.TOKEN_OK;
@@ -53,7 +54,7 @@ public class UserEndpoint {
                            @FormParam("firstname") String firstname,
                            @FormParam("lastname") String lastname,
                            @FormParam("email") String email,
-                           @FormParam("password") String password){
+                           @FormParam("password") String password) throws SQLException {
         User user = new User(username, firstname, lastname, email);
         this.usersDAO.create(user);
         try {
@@ -78,7 +79,7 @@ public class UserEndpoint {
     @Consumes("application/xml")
     public String editUser(
             User user,
-            @Context SecurityContext securityContext) {
+            @Context SecurityContext securityContext) throws SQLException {
         String username = securityContext.getUserPrincipal().getName();
         if(!user.getUsername().equals(username)){
             throw new BadRequestException("User username isn't the same as the db username");

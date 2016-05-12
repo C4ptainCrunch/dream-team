@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -34,7 +35,7 @@ public class ProjectEndpoint {
     @Secured
     @Path("/list")
     @Produces(MediaType.APPLICATION_XML)
-    public GenericEntity<List<Project>> getProjectList(@Context SecurityContext securityContext){
+    public GenericEntity<List<Project>> getProjectList(@Context SecurityContext securityContext) throws SQLException {
         String username = securityContext.getUserPrincipal().getName();
         User user = usersDAO.findByUsername(username);
         return new GenericEntity<List<Project>>(projectsDAO.getAllReadableProject(user.getId())) {};
@@ -45,7 +46,7 @@ public class ProjectEndpoint {
     @Path("/upload")
     @Consumes("application/octet-stream")
     public Response upload(InputStream project,
-                           @Context SecurityContext securityContext) throws IOException {
+                           @Context SecurityContext securityContext) throws Exception {
         String username = securityContext.getUserPrincipal().getName();
         User user = usersDAO.findByUsername(username);
 
@@ -77,7 +78,7 @@ public class ProjectEndpoint {
     @Path("/update")
     @Consumes("application/octet-stream")
     public Response update(InputStream project,
-                           @Context SecurityContext securityContext) throws IOException {
+                           @Context SecurityContext securityContext) throws IOException, SQLException {
         String username = securityContext.getUserPrincipal().getName();
         User user = usersDAO.findByUsername(username);
 
@@ -96,7 +97,7 @@ public class ProjectEndpoint {
         return Response.ok().build();
     }
 
-    private boolean hasWritePerm(Project project, User user){
+    private boolean hasWritePerm(Project project, User user) throws SQLException {
         Optional<Permissions> personnalWritePermissions = permissionsDAO.findPermissions(project.getUid(), user.getId());
         if (personnalWritePermissions.isPresent()){
             return personnalWritePermissions.get().isWritable();

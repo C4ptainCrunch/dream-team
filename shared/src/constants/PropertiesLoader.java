@@ -140,5 +140,8 @@ class ProjectConflictsPropertiesReader implements  PropertiesReader{
         SAVE_SERVER_VERSION_ONLY = properties.getProperty("SAVE_SERVER_VERSION_ONLY");
         SAVE_SERVER_VERSION = properties.getProperty("SAVE_SERVER_VERSION");
         PUSH = properties.getProperty("PUSH");
+        MERGE_OK = properties.getProperty("MERGE_OK");
+        NO_LOCAL_MODIFICATION = properties.getProperty("NO_LOCAL_MODIFICATION");
+        MERGE_HAS_CONFLICTS = properties.getProperty("MERGE_HAS_CONFLICTS");
     }
 }

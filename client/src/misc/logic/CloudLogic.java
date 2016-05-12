@@ -86,7 +86,7 @@ public class CloudLogic {
                 .invoke();
         String s=  r.readEntity(String.class);
         System.out.println(s);
-        return s.equals("1");
+        return s.equals("true");
     }
 
     public static boolean Merge(Project p, String policy) throws FileNotFoundException {

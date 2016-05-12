@@ -98,6 +98,7 @@ public class ProjectEndpoint {
         User user = usersDAO.findByUsername(username);
 
         java.nio.file.Path tmpFile = File.createTempFile("project-upload", ".crea").toPath();
+        Files.copy(project, tmpFile, StandardCopyOption.REPLACE_EXISTING);
 
         models.project.Project clientProject = new models.project.Project(tmpFile);
         Project dbServerProject = projectsDAO.findByUid(clientProject.getUid());
@@ -106,8 +107,7 @@ public class ProjectEndpoint {
         }
 
         models.project.Project serverProject = new models.project.Project(Paths.get(dbServerProject.getPath()));
-        Project dbProject = new Project(clientProject);
-        if(!hasWritePerm(dbProject, user)){
+        if(!hasWritePerm(dbServerProject, user)){
             throw new NotAuthorizedException("You can't edit this project");
         }
         if(userChoice == ProjectConflicts.PUSH){
@@ -132,6 +132,7 @@ public class ProjectEndpoint {
         User user = usersDAO.findByUsername(username);
 
         java.nio.file.Path tmpFile = File.createTempFile("project-upload", ".crea").toPath();
+        Files.copy(project, tmpFile, StandardCopyOption.REPLACE_EXISTING);
 
         models.project.Project clientProject = new models.project.Project(tmpFile);
         Project dbServerProject = projectsDAO.findByUid(clientProject.getUid());
@@ -139,12 +140,12 @@ public class ProjectEndpoint {
             throw new BadRequestException("Project does not exist");
         }
         models.project.Project serverProject = new models.project.Project(Paths.get(dbServerProject.getPath()));
-        Project dbProject = new Project(clientProject);
-        if(!hasWritePerm(dbProject, user)){
+        if(!hasWritePerm(dbServerProject, user)){
             throw new NotAuthorizedException("You can't edit this project");
         }
         ConflictResolver resolver = new ConflictResolver(clientProject, serverProject);
-        return resolver.checkHasConflict();
+        Boolean res=  resolver.checkHasConflict();
+        return res;
     }
 
     @GET

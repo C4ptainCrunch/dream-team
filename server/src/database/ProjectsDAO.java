@@ -58,11 +58,6 @@ public class ProjectsDAO {
         return error;
     }
 
-    public String edit(String uid, String path, String last_modification, boolean write_perm, boolean read_perm, String old_path){
-        int statut = DAOUtilities.executeUpdate(daoFactory, ProjectRequests.SQL_EDIT_PROJECT, uid, path, last_modification, write_perm ? 1 : 0, read_perm ? 1 : 0, old_path);
-        return statut == 0 ? "Error" : "OK";
-    }
-
     public Project findByUid(String uid) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -138,15 +133,16 @@ public class ProjectsDAO {
         ResultSet resultSet = null;
         ArrayList<Project> projects = new ArrayList<>();
         try {
-            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, ProjectRequests.SQL_PROJECT_GETALLREADABLES);
+            resultSet = DAOUtilities.executeQuery(daoFactory, connection, preparedStatement, resultSet, ProjectRequests.SQL_PROJECT_GETALLREADABLES, userID);
             while (resultSet.next()) {
                 Project p = mapProject(resultSet);
-                Optional<Permissions> permissions = permissionsDAO.findPermissions(p.getUid(), userID);
-                if (permissions.isPresent() && permissions.get().isReadable()) {
-                    projects.add(p);
-                } else if (!permissions.isPresent()){
-                    projects.add(p);
-                }
+                //Optional<Permissions> permissions = permissionsDAO.findPermissions(p.getUid(), userID);
+                //if (permissions.isPresent() && permissions.get().isReadable()) {
+                //    projects.add(p);
+                //} else if (!permissions.isPresent()){
+                //    projects.add(p);
+                //}
+                projects.add(p);
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -60,17 +60,18 @@ public class Project {
         return last_modification;
     }
 
-    public boolean readable() {return read_default;}
-    public boolean writeable() {return write_default;}
-
     @XmlAttribute
-    public int isWrite_default() {
-        return write_default ? 1 : 0;
+    public boolean isWrite_default() {
+        return write_default;
     }
 
     @XmlAttribute
-    public int isRead_default() {
-        return read_default ? 1 : 0;
+    public boolean isRead_default() {
+        return read_default;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setUid(String uid){
@@ -79,5 +80,25 @@ public class Project {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public void setLast_modification(String last_modification) {
+        this.last_modification = last_modification;
+    }
+
+    public void setWrite_default(boolean write_default) {
+        this.write_default = write_default;
+    }
+
+    public void setRead_default(boolean read_default) {
+        this.read_default = read_default;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

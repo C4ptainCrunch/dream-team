@@ -2,8 +2,10 @@ package controllers.management;
 
 import misc.logic.CloudLogic;
 import models.project.Project;
+import views.editor.SyncModeSelectionView;
 import views.management.CloudManagementView;
 import views.management.FileChooseView;
+import views.management.ImportProjectSelectorView;
 
 import javax.swing.*;
 import java.io.File;
@@ -38,7 +40,7 @@ public class CloudManagementController {
         }
         try {
             Path localZip = CloudLogic.getLocalCopy(project);
-
+            ImportProjectSelectorView view = new ImportProjectSelectorView(localZip);
             FileChooseView choose = new FileChooseView("Save local copy", JFileChooser.FILES_AND_DIRECTORIES);
             choose.setFileRestriction("CreaTikz files","crea");
             choose.setSelectedFile(new File(project.getName()));

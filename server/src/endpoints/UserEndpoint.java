@@ -56,8 +56,8 @@ public class UserEndpoint {
                            @FormParam("email") String email,
                            @FormParam("password") String password) throws SQLException {
         User user = new User(username, firstname, lastname, email);
-        this.usersDAO.create(user);
         try {
+            this.usersDAO.create(user);
             this.usersDAO.setPasswordToUser(user, password);
             try {
                 ConfirmationEmailSender.send(email, this.usersDAO.getTokenOfUser(username));

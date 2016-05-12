@@ -123,4 +123,8 @@ public class DAOFactory {
     public UsersDAO getUsersDAO() {
         return new UsersDAO(this);
     }
+
+    public ProjectsDAO getProjectDAO() {
+        return new ProjectsDAO(this);
+    }
 }

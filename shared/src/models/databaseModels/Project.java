@@ -1,6 +1,9 @@
 package models.databaseModels;
 
+import javax.swing.text.DateFormatter;
 import javax.xml.bind.annotation.XmlAttribute;
+import java.io.IOException;
+import java.util.Date;
 
 public class Project {
     private int id;
@@ -11,6 +14,15 @@ public class Project {
     private boolean read_default;
 
     public Project(){}
+
+    public Project(models.project.Project project) throws IOException {
+        this.path = project.getPath().toString();
+        this.userID = project.getUserID();
+        this.id = project.getID();
+        this.last_modification = project.getLastChange().toString();
+        this.write_default = project.getWriteDefault();
+        this.read_default = project.getReadDefaukt();
+    }
 
     public Project(int user, String path, String last_modification, boolean write_default, boolean read_default) {
         this.userID = user;

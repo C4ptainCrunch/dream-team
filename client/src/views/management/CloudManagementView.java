@@ -6,8 +6,15 @@ import models.project.Project;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
+/**
+ * Panel that allows the user to see which projects he has shared or have
+ * been shared with him. From here, he has several possible options to apply to these
+ * projects.
+ */
 public class CloudManagementView extends JPanel {
 
     private ManagementView parentView;
@@ -17,13 +24,18 @@ public class CloudManagementView extends JPanel {
     private JPanel chooserPanel;
     private JPanel buttons;
 
-
+    /** Constructs the CloudManagementView
+     * @param parentView The view from the parent
+     */
     public CloudManagementView(ManagementView parentView) {
         this.controller = new CloudManagementController(this);
         this.parentView = parentView;
         this.render();
     }
 
+    /**
+     * Render the main window and launch functions to build its' components.
+     */
     public void render() {
         this.setPreferredSize(new Dimension(600, 300));
         this.setSize(900, 200);
@@ -46,6 +58,15 @@ public class CloudManagementView extends JPanel {
         this.projectChooser = new JList<>(this.getListModel());
         this.projectChooser.addListSelectionListener(e -> controller.dropdownSelected(projectChooser.getSelectedValue()));
         this.projectChooser.setSelectedIndex(0);
+
+        this.projectChooser.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    controller.openSharedProject();
+                }
+            }
+        });
 
         this.chooserPanel.add(new JLabel("Choose a project that you shared or has been shared with you"), BorderLayout.NORTH);
 
@@ -81,6 +102,9 @@ public class CloudManagementView extends JPanel {
         this.buttons.add(local);
     }
 
+    /**
+     * Dispose of the parent view
+     */
     public void dispose() {
         this.parentView.dispose();
     }
@@ -98,10 +122,20 @@ public class CloudManagementView extends JPanel {
         return model;
     }
 
+    /**
+     * Sets the information from the selected project in the info panel
+     * @param infoText The selected project's information
+     */
+    public void setInfoText(String infoText) { this.infoPanel.setText(infoText); }
+
     public models.databaseModels.Project getSelectedProject() {
         return this.projectChooser.getSelectedValue();
     }
 
+    /**
+     * Get the view from the parent
+     * @return The parent view
+     */
     public ManagementView getParentView() {
         return parentView;
     }

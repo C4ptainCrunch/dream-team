@@ -150,8 +150,8 @@ public class ProjectEndpoint {
     @Secured
     @Path("/set_permissions/{projectUid}")
     public Response setPermissions(@PathParam("projectUid") String projectUid,
-                                   @FormParam("readPermission") boolean readPermission,
-                                   @FormParam("writePermission") boolean writePermission,
+                                   @FormParam("readPerm") boolean readPermission,
+                                   @FormParam("writePerm") boolean writePermission,
                                    @Context SecurityContext securityContext) throws SQLException {
         String username = securityContext.getUserPrincipal().getName();
         User user = this.usersDAO.findByUsername(username);

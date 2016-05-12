@@ -50,7 +50,6 @@ public class PermissionWindowController {
         postForm.param("readPerm", Boolean.toString(defaultReadPerm));
         postForm.param("writePerm", Boolean.toString(defaultWritePerm));
         Response r = RequestBuilder.post("/project/set_permissions/"+this.currentProject.getUid(), postForm).invoke();
-        System.out.println(r.getStatus());
     }
 
 

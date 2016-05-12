@@ -3,6 +3,7 @@ package misc.utils;
 import constants.Network;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import utils.Dirs;
+import utils.Log;
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -14,9 +15,11 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Logger;
 
 public class RequestBuilder {
     private static String token = getDiskToken();
+    private static final Logger logger = Log.getLogger(RequestBuilder.class);
 
     public static Invocation get(String path) {
         return getClient().path(path).request()
@@ -59,6 +62,7 @@ public class RequestBuilder {
         try {
             Files.write(getTokenPath(), token.trim().getBytes());
         } catch (IOException e) {
+            logger.fine("Failed to write set token in file");
         }
     }
 

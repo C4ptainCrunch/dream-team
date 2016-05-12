@@ -5,6 +5,7 @@ import misc.utils.RequestBuilder;
 import models.databaseModels.User;
 import models.project.Diagram;
 import models.project.Project;
+import utils.Log;
 import utils.RecentProjects;
 import views.accounts.EditUserView;
 import views.accounts.LoginWindowView;
@@ -17,9 +18,11 @@ import javax.swing.*;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class ManagementController {
     private final ManagementView view;
+    private static final Logger logger = Log.getLogger(ManagementController.class);
 
     public ManagementController(ManagementView view) {
         this.view = view;
@@ -51,7 +54,9 @@ public class ManagementController {
     public void createProject() {
         try {
             editDiagram(new Project().getDiagram("unsaved"));
-        } catch (IOException e) {}
+        } catch (IOException e) {
+            logger.fine("Failed to create new unsaved diagram");
+        }
     }
 
 

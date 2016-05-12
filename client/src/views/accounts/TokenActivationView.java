@@ -51,6 +51,9 @@ public class TokenActivationView extends JFrame {
         tokenPanel.add(tokenLabel);
         tokenPanel.add(tokenInput);
 
+        JButton cancel = new JButton("Cancel");
+        cancel.addActionListener(e -> controller.cancel());
+
         JButton okButton = new JButton(GUI.TokenWindow.OK_BUTTON);
         okButton.addActionListener(e -> controller.validateToken(tokenInput.getText(),
                                                                  usernameInput.getText()));
@@ -59,6 +62,7 @@ public class TokenActivationView extends JFrame {
         tokenConfirmationPanel.add(presentationText);
         tokenConfirmationPanel.add(usernamePanel);
         tokenConfirmationPanel.add(tokenPanel);
+        tokenConfirmationPanel.add(cancel);
         tokenConfirmationPanel.add(okButton);
 
         this.add(tokenConfirmationPanel);

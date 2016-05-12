@@ -43,4 +43,9 @@ public class TokenActivationController {
         }
 
     }
+
+    public void cancel() {
+        this.view.dispose();
+        java.awt.EventQueue.invokeLater(LoginWindowView::new);
+    }
 }

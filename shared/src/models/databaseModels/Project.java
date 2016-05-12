@@ -1,8 +1,10 @@
 package models.databaseModels;
 
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.IOException;
 
+@XmlRootElement
 public class Project {
     private String uid;
     private int userID;

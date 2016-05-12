@@ -131,11 +131,18 @@ public class MenuController implements Observer {
         }
     }
 
+    /**
+     * Sets the Color blind mode on or off
+     * @param stateChange State change
+     */
     public void setColorBlindMode(int stateChange) {
         boolean set_mode = (stateChange == ItemEvent.SELECTED ? true : false);
         view.setBlindMode(set_mode);
     }
 
+    /**
+     * Return to the ManagementView to open a new project
+     */
     public void openNew() {
         if(this.askToSave()){
             this.view.disposeParent();
@@ -143,6 +150,10 @@ public class MenuController implements Observer {
         }
     }
 
+    /**
+     * Prompts the user to ask if he wants to save his diagram or not
+     * @return The user's choice
+     */
     private boolean askToSave() {
         boolean shouldQuit = true;
         if(diagram.isTemporary()){
@@ -159,6 +170,9 @@ public class MenuController implements Observer {
         return shouldQuit;
     }
 
+    /**
+     * Open the DiagramManagementView to choose another diagram in the current project
+     */
     public void openDiagram() {
         this.view.disposeParent();
         EventQueue.invokeLater(() -> {
@@ -170,11 +184,20 @@ public class MenuController implements Observer {
         });
     }
 
+    /**
+     * Request to the server if there are any conflicts between the local project and the
+     * server-side project
+     * @return One of three possible situations
+     */
     public String hasConflicts() {
         // REQUEST IF THERE ARE CONFLICTS
         return "FUSION";
     }
 
+    /**
+     * Either notifies the user that the sync was successful, or launches a SyncModeSelectionView
+     * to ask the user which sync mode he desires.
+     */
     public void syncProject(){
         String flag = hasConflicts();
         if (flag.equals("OK")){

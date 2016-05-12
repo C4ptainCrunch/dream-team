@@ -1,13 +1,14 @@
 package views.editor;
 
-import constants.Errors;
 import controllers.editor.SyncModeSelectionController;
-import views.management.ManagementView;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 
+/**
+ * Window that allows the user to select one of several possible sync modes for his diagram
+ */
 public class SyncModeSelectionView extends JFrame {
 
     private SyncModeSelectionController controller;
@@ -17,6 +18,10 @@ public class SyncModeSelectionView extends JFrame {
     private JPanel syncPanel;
     private Object selection;
 
+    /**
+     * Constructs the SyncModeSelectionView
+     * @param flag Flag to set if a fusion is possible or not
+     */
     public SyncModeSelectionView(String flag) {
         this.controller = new SyncModeSelectionController(this);
         this.flag = flag;
@@ -74,6 +79,10 @@ public class SyncModeSelectionView extends JFrame {
         this.syncPanel.add(syncButton);
     }
 
+    /**
+     * Get the user's selection
+     * @return The user's selection
+     */
     public String getSelection() {
         return this.optionsList.getSelectedValue();
     }

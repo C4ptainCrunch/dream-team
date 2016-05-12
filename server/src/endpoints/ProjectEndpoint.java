@@ -33,6 +33,14 @@ public class ProjectEndpoint {
     PermissionsDAO permissionsDAO = DAOFactorySingleton.getInstance().getPermissionsDAO();
     private final static Logger logger = Log.getLogger(ProjectEndpoint.class);
 
+    private void moveProject(models.project.Project p) throws IOException{
+        java.nio.file.Path storageDir = Paths.get("server/projects/");
+        if(!storageDir.toFile().exists()){
+            Files.createDirectories(storageDir);
+        }
+        p.move(storageDir.resolve(p.getUid() + ".crea").toFile());
+    }
+
     @GET
     @Secured
     @Path("/list")
@@ -68,12 +76,7 @@ public class ProjectEndpoint {
         if (projectsDAO.findByUid(p.getUid()) != null){
             throw new BadRequestException("Project already exist");
         }
-
-        java.nio.file.Path storageDir = Paths.get("server/projects/");
-        if(!storageDir.toFile().exists()){
-            Files.createDirectories(storageDir);
-        }
-        p.move(storageDir.resolve(p.getUid() + ".crea").toFile());
+        moveProject(p);
 
         Project dbProject = new Project(p);
         dbProject.setUserID(user.getId());
@@ -115,8 +118,7 @@ public class ProjectEndpoint {
         finalProject.setUid(serverProject.getUid());
         File initFile = new File(serverProject.getPath().toString());
         initFile.delete();
-        java.nio.file.Path storageDir = Paths.get("server/projects/");
-        finalProject.move(storageDir.resolve(finalProject.getUid() + ".crea").toFile());
+        moveProject(finalProject);
         return Response.ok().build();
     }
 

@@ -135,10 +135,12 @@ public class Project extends Observable implements Comparable<Project>{
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(dirs.iterator().next())) {
                 for (Path file : stream) {
                     String name = file.getFileName().toString();
-                    if (name.indexOf(".") > 0) {
-                        name = name.substring(0, name.lastIndexOf("."));
+                    if (!name.equals("metadata.properties")){
+                        if (name.indexOf(".") > 0) {
+                            name = name.substring(0, name.lastIndexOf("."));
+                        }
+                        names.add(name);
                     }
-                    names.add(name);
                 }
             } catch (IOException | DirectoryIteratorException e) {
                 e.printStackTrace();

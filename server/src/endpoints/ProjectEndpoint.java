@@ -12,6 +12,7 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import utils.Log;
 
 import javax.ws.rs.*;
+import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -19,7 +20,7 @@ import javax.ws.rs.core.SecurityContext;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
+import java.nio.file.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -44,21 +45,26 @@ public class ProjectEndpoint {
     @PUT
     @Secured
     @Path("/upload")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Consumes("application/octet-stream")
     public Response upload(InputStream project,
                            @Context SecurityContext securityContext) throws IOException {
         String username = securityContext.getUserPrincipal().getName();
         User user = usersDAO.findByUsername(username);
 
         java.nio.file.Path tmpFile = File.createTempFile("project-upload", ".crea").toPath();
-        Files.copy(project, tmpFile);
+        Files.copy(project, tmpFile, StandardCopyOption.REPLACE_EXISTING);
 
         models.project.Project p = new models.project.Project(tmpFile);
         if (projectsDAO.findByUid(p.getUid()) != null){
             throw new BadRequestException("Project already exist");
         }
 
-        p.move(new File("server/projects/" + p.getUid()));
+        java.nio.file.Path storageDir = Paths.get("server/projects/");
+        if(!storageDir.toFile().exists()){
+            Files.createDirectories(storageDir);
+        }
+        p.move(storageDir.resolve(p.getUid() + ".crea").toFile());
+
         Project dbProject = new Project(p);
         dbProject.setUserID(user.getId());
 
@@ -71,14 +77,13 @@ public class ProjectEndpoint {
     @PUT
     @Secured
     @Path("/update")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Consumes("application/octet-stream")
     public Response update(InputStream project,
                            @Context SecurityContext securityContext) throws IOException {
         String username = securityContext.getUserPrincipal().getName();
         User user = usersDAO.findByUsername(username);
 
         java.nio.file.Path tmpFile = File.createTempFile("project-upload", ".crea").toPath();
-        Files.copy(project, tmpFile);
 
         models.project.Project p = new models.project.Project(tmpFile);
         if (projectsDAO.findByUid(p.getUid()) != null){

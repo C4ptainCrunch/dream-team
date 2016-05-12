@@ -35,4 +35,14 @@ task onejar {
             fileName.replace('-standalone', '')
         }
     }
+    copy{
+        dependsOn ":client:onejar"
+        dependsOn ":server:onejar"
+        from "server/build/libs/server-standalone.jar"
+        into "jar"
+
+        rename { String fileName ->
+            fileName.replace('-standalone', '')
+        }
+    }
 }

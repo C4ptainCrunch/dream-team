@@ -29,7 +29,7 @@ public class DiagramManagementController {
         if(selectedValue.equals("Create new diagram")) {
             if (newName.equals("") ){
                 this.view.showAlert("Please set a name for your diagram");
-                        // TO DO: move to constants when Jerome's branch works.
+                        // TODO: move to constants when Jerome's branch works.
             } else {
                 // Create new diagram an open editor
                 Diagram newDiagram = new Diagram(newName, this.currentProject);

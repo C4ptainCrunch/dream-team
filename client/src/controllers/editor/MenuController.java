@@ -29,6 +29,8 @@ import java.util.Observer;
 import java.util.logging.Logger;
 
 import static javax.swing.JOptionPane.showMessageDialog;
+import constants.ProjectConflicts;
+
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the
@@ -205,7 +207,7 @@ public class MenuController implements Observer {
                 SyncModeSelectionView sv = new SyncModeSelectionView(p);
                 policy = sv.getMode();
             } else {
-                policy = "DEFAULT CHOICE";
+                policy = ProjectConflicts.PUSH;
             }
 
             logger.info("Starting merge with policy: " + policy);

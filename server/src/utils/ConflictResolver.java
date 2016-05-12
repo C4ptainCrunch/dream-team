@@ -66,6 +66,7 @@ public class ConflictResolver{
     private void update(List<Diff> localDiffs, List<Diff> serverDiffs){
         this.localDiffs = localDiffs;
         this.serverDiffs = serverDiffs;
+        constructBaseDiffs();
         differenceDiffsBaseServer = getDifferenceDiffs(baseDiffs, serverDiffs);
         differenceDiffsBaseLocal = getDifferenceDiffs(baseDiffs, localDiffs);
     }
@@ -91,8 +92,8 @@ public class ConflictResolver{
      */
 
     public Project resolve(String userChoice) throws IOException, ClassNotFoundException {
-        java.nio.file.Path tmpFile = File.createTempFile("project-final", ".crea").toPath();
-        this.finalProject = new Project(tmpFile);
+
+        this.finalProject = new models.project.Project();
         List<String> resolvedDiagrams = new ArrayList<>();
         Set<String> localDiagramNames = localProject.getDiagramNames();
         Set<String> serverDiagramNames = serverProject.getDiagramNames();
@@ -120,7 +121,11 @@ public class ConflictResolver{
     }
 
     private void resolveLocalDiagrams(String localDiagram, Set<String> serverDiagramNames, String userChoice, List<String> resolvedDiagrams) {
-        Diagram resolvedDiagram = new Diagram(localDiagram, this.finalProject);
+        try {
+            Diagram resolvedDiagram = this.finalProject.getDiagram(localDiagram);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         List<Diff> finalDiagramDiffs;
         String tikZCode;
         try {
@@ -132,7 +137,7 @@ public class ConflictResolver{
                 finalDiagramDiffs = localProject.getDiagram(localDiagram).getDiffs();
                 tikZCode = localProject.getDiagram(localDiagram).getSource();
             }
-            resolvedDiagram.writeDiffs(finalDiagramDiffs);
+            //resolvedDiagram.writeDiffs(finalDiagramDiffs);
             this.finalProject.writeSource(localDiagram, tikZCode);
             resolvedDiagrams.add(localDiagram);
         }catch(IOException | ClassNotFoundException e){

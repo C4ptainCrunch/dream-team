@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 
 public class CloudLogic {
     private static Logger logger = Log.getLogger(CloudLogic.class);
+    private static String username = "";
 
     private CloudLogic() {
     }
@@ -56,12 +57,14 @@ public class CloudLogic {
     }
 
 
-    public static Path getLocalOrDistantCopy(final models.databaseModels.Project project) throws IOException {
-        Path cloudDir = Dirs.getDataDir().resolve("cloud");
-        if (!cloudDir.toFile().exists()) {
+
+    public static Path getLocalOrDistantCopy(models.databaseModels.Project project) throws IOException {
+        Path cloudDir = Dirs.getDataDir().resolve("cloud/" + CloudLogic.getUsername());
+        if(!cloudDir.toFile().exists()) {
             Files.createDirectories(cloudDir);
         }
         Path path = cloudDir.resolve(project.getUid() + ".crea");
+        logger.fine("Trying to open project at " + path.toString());
         try {
             if (new Project(path).getUid().equals(project.getUid())) {
                 logger.info("Project " + project.getUid() + " was not on disk");
@@ -81,7 +84,7 @@ public class CloudLogic {
                 .invoke();
         String s=  r.readEntity(String.class);
         System.out.println(s);
-        return s.equals("1");
+        return s.equals("true");
     }
 
     public static boolean Merge(final Project p, final String policy) throws FileNotFoundException {
@@ -90,5 +93,13 @@ public class CloudLogic {
                 .put("/project/update/" + policy, stream, MediaType.APPLICATION_OCTET_STREAM)
                 .invoke();
         return r.getStatus() == 200;
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static void setUsername(String username) {
+        CloudLogic.username = username;
     }
 }

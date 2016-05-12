@@ -46,6 +46,7 @@ public class Project extends Observable implements Comparable<Project>{
         this.isTemporary = true;
     }
 
+
     private static Path createTempZip() throws IOException {
         Path p = File.createTempFile("creatikz-project", ".zip").toPath();
         ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(p.toString()));

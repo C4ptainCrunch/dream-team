@@ -1,16 +1,19 @@
 package controllers.accounts;
 
 import constants.Errors;
+import javax.swing.*;
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
+
+import misc.logic.CloudLogic;
 import misc.utils.RequestBuilder;
+import models.databaseModels.User;
 import utils.Log;
 import views.accounts.LoginWindowView;
 import views.accounts.SignUpView;
 import views.accounts.TokenActivationView;
 import views.management.ManagementView;
 
-import javax.swing.*;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
 import java.util.logging.Logger;
 
 /**
@@ -33,6 +36,8 @@ public class LoginWindowController {
         if (r.getStatus() == 200) {
             logger.info("Token was good, skipping login");
             shouldSkip = true;
+            storeUsername();
+            return true;
         } else {
             logger.fine("Old token was invalid, " + Integer.toString(r.getStatus()));
             shouldSkip = false;
@@ -41,7 +46,14 @@ public class LoginWindowController {
 
     }
 
-    private String getToken(final String username, final String password) {
+    private static void storeUsername() {
+        Response r = RequestBuilder.get("/user/get").invoke();
+        String username = r.readEntity(User.class).getUsername();
+        CloudLogic.setUsername(username);
+        logger.info("Our username is " + username);
+    }
+
+    private String getToken(String username, String password) {
         Form postForm = new Form();
         postForm.param("username", username);
         postForm.param("password", password);
@@ -63,6 +75,7 @@ public class LoginWindowController {
         if (!token.trim().equals("")) {
             this.view.dispose();
             RequestBuilder.setToken(token);
+            storeUsername();
             new ManagementView();
         } else {
             JOptionPane.showMessageDialog(this.view, Errors.LOGIN_FAILED, Errors.ERROR, JOptionPane.ERROR_MESSAGE);

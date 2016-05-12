@@ -3,16 +3,14 @@ package models.project;
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.zip.ZipOutputStream;
 
+import utils.Dirs;
 import utils.Log;
-import utils.RecentProjects;
 
 /**
  * A project represents a .crea file in a zip format.
@@ -36,10 +34,15 @@ public class Project extends Observable implements Comparable<Project>{
 
     /**
      * Create a Project in a temporary (os-dependant) location
+     *
      * @throws IOException
      */
     public Project() throws IOException {
         this(createTempZip());
+        this.setUid(UUID.randomUUID().toString());
+        this.setWriteDefault(false);
+        this.setReadDefault(false);
+        this.setName("Unsaved project");
         this.isTemporary = true;
     }
 
@@ -112,7 +115,6 @@ public class Project extends Observable implements Comparable<Project>{
             Path oldDiff = fs.getPath("/" + oldName + ".diff");
             Files.move(oldDiff, newDiff);
 
-            RecentProjects.addProject(this);
             this.setChanged();
             this.notifyObservers();
         }
@@ -132,10 +134,12 @@ public class Project extends Observable implements Comparable<Project>{
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(dirs.iterator().next())) {
                 for (Path file : stream) {
                     String name = file.getFileName().toString();
-                    if (name.indexOf(".") > 0) {
-                        name = name.substring(0, name.lastIndexOf("."));
+                    if (!name.equals("metadata.properties")){
+                        if (name.indexOf(".") > 0) {
+                            name = name.substring(0, name.lastIndexOf("."));
+                        }
+                        names.add(name);
                     }
-                    names.add(name);
                 }
             } catch (IOException | DirectoryIteratorException e) {
                 e.printStackTrace();
@@ -155,9 +159,12 @@ public class Project extends Observable implements Comparable<Project>{
         this.isTemporary = false;
         Files.move(this.path, newFile.toPath());
         this.path = newFile.toPath();
-        RecentProjects.addProject(this);
         this.setChanged();
         this.notifyObservers();
+    }
+
+    public void rename(String name) throws IOException {
+        this.setName(name);
     }
 
     /**
@@ -171,7 +178,25 @@ public class Project extends Observable implements Comparable<Project>{
      * @return the name of .crea file (with the extension)
      */
     public String getName() {
-        return this.path.getFileName().toString();
+        Properties props = null;
+        try {
+            props = this.getProperties();
+            if(props.getProperty("name") == null){
+                String name = this.getPath().getFileName().toString();
+                this.setName(name);
+                return name;
+            } else {
+                return props.getProperty("name");
+            }
+        } catch (IOException e) {
+            return "Unknown name";
+        }
+    }
+
+    public void setName(String name) throws IOException {
+        Properties props = this.getProperties();
+        props.setProperty("name", name);
+        this.setProperties(props);
     }
 
     /**
@@ -238,10 +263,81 @@ public class Project extends Observable implements Comparable<Project>{
         }
     }
 
+    synchronized private Properties getProperties() throws IOException {
+        try (FileSystem fs = getFs()) {
+            Path propsPath = fs.getPath("/" + "metadata.properties");
+            Properties props = new Properties();
+            byte[] bytes;
+            try {
+                bytes = Files.readAllBytes(propsPath);
+            } catch (NoSuchFileException e) {
+                bytes = "".getBytes();
+            }
+            ByteArrayInputStream bs = new ByteArrayInputStream(bytes);
+            props.load(bs);
+            bs.close();
+            return props;
+        }
+    }
+
+    synchronized private void setProperties(Properties props) throws IOException {
+        try (FileSystem fs = getFs()) {
+            Path propsPath = fs.getPath("/" + "metadata.properties");
+            ByteArrayOutputStream bs = new ByteArrayOutputStream();
+            props.store(bs, null);
+            Files.write(propsPath, bs.toByteArray(), TRUNCATE_EXISTING, CREATE);
+            bs.close();
+        }
+    }
+
     /**
      * @return true if the project exists on the disk
      */
     public boolean exists() {
         return this.path.toFile().exists();
+    }
+
+    public void setUserName(String userName) throws IOException {
+        Properties props = this.getProperties();
+        props.setProperty("username", userName);
+        this.setProperties(props);
+    }
+
+    public void setUid(String uid) throws IOException {
+        Properties props = this.getProperties();
+        props.setProperty("uid", uid);
+        this.setProperties(props);
+    }
+
+    public String getUid() throws IOException {
+        Properties props = this.getProperties();
+        return props.getProperty("uid");
+    }
+
+    public boolean getWriteDefault() throws IOException {
+        Properties props = this.getProperties();
+        return props.getProperty("writedefault").equals("true");
+    }
+
+    public void setWriteDefault(boolean writeDefault) throws IOException {
+        Properties props = this.getProperties();
+        props.setProperty("writedefault", writeDefault ? "true" : "false");
+        this.setProperties(props);
+    }
+
+    public boolean getReadDefault() throws IOException {
+        Properties props = this.getProperties();
+        return props.getProperty("readdefault").equals("true");
+    }
+
+    public void setReadDefault(boolean readDefault) throws IOException {
+        Properties props = this.getProperties();
+        props.setProperty("readdefault", readDefault ? "true" : "false");
+        this.setProperties(props);
+    }
+
+    public boolean isCloud() {
+        Path cloudPath = Dirs.getDataDir().resolve(Paths.get("cloud"));
+        return this.getPath().startsWith(cloudPath);
     }
 }

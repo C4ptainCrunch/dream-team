@@ -1,12 +1,14 @@
 package controllers.management;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystemNotFoundException;
 import java.util.logging.Logger;
 
 import javax.swing.*;
 
+import misc.logic.CloudLogic;
 import models.project.Diagram;
 import models.project.Project;
 import utils.Log;
@@ -101,6 +103,9 @@ public class ProjectManagementController {
         if (path != null) {
             try {
                 project.move(path);
+                project.rename(path.toPath().getFileName().toString());
+                RecentProjects.addProject(project);
+                this.view.getParentView().refresh();
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(view, Errors.RENAME_ERROR, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
                 logger.severe("Failed to rename the diagram: " + e.getMessage());
@@ -114,6 +119,11 @@ public class ProjectManagementController {
             return;
         }
 
-        // TODO : upload project to server
+        try {
+            CloudLogic.cloudifyProject(project);
+            this.view.getParentView().refresh();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

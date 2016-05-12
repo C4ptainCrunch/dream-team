@@ -41,7 +41,7 @@ public class RecentProjects {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 Project p = new Project(Paths.get(line));
-                if(p.exists()) {
+                if(p.exists() && !p.isCloud()) {
                     projects.add(p);
                 } else {
                     logger.fine("Project " + line + " does not exist anymore");

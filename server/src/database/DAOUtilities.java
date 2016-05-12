@@ -136,13 +136,14 @@ public class DAOUtilities {
     }
 
     public static Project mapProject(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt("id");
+        String uid = resultSet.getString("uid");
         int user_id = resultSet.getInt("user_id");
         String path = resultSet.getString("path");
         String last_modification = resultSet.getString("last_modification");
         boolean default_perm_write = resultSet.getInt("default_perm_write") == 1;
         boolean default_perm_read = resultSet.getInt("default_perm_read") == 1;
-        return new Project(id, user_id, path, last_modification, default_perm_write, default_perm_read);
+        String name = resultSet.getString("name");
+        return new Project(uid, user_id, path, last_modification, default_perm_write, default_perm_read, name);
     }
 
     public static Permissions mapPermissions(ResultSet resultSet) throws SQLException{

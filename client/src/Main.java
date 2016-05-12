@@ -1,13 +1,13 @@
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import controllers.accounts.LoginWindowController;
-import constants.ClientPropertiesLoader;
 import models.project.Project;
 import utils.Log;
 import views.accounts.LoginWindowView;
 import views.editor.EditorView;
 import views.management.ManagementView;
+import constants.ClientPropertiesLoader;
+import controllers.accounts.LoginWindowController;
 
 public class Main {
     private static final Logger logger = Log.getLogger(Main.class);

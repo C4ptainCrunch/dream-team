@@ -37,15 +37,13 @@ public class ConflictResolver{
             localDiffs = getDiffs(localDiffFile);
             serverDiffs = getDiffs(serverDiffFile);
             constructBaseDiffs();
-            System.out.println(baseDiffs.size());
         }catch(ClassNotFoundException | IOException e){
             logger.severe("Error while reading diff file: " + e.toString());
         }
 
         differenceDiffsBaseServer = getDifferenceDiffs(baseDiffs, serverDiffs);
         differenceDiffsBaseLocal = getDifferenceDiffs(baseDiffs, localDiffs);
-        System.out.println("local:"+differenceDiffsBaseLocal.size());
-        System.out.println("serv:"+differenceDiffsBaseServer.size());
+
     }
 
     private void constructBaseDiffs(){

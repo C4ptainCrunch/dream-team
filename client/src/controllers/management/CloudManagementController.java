@@ -6,10 +6,7 @@ import utils.Dirs;
 import utils.Log;
 import utils.RecentProjects;
 import views.editor.SyncModeSelectionView;
-import views.management.CloudManagementView;
-import views.management.DiagramManagementView;
-import views.management.FileChooseView;
-import views.management.ImportProjectSelectorView;
+import views.management.*;
 
 import javax.swing.*;
 import java.io.File;
@@ -81,7 +78,11 @@ public class CloudManagementController {
      * Set permissions to the selected project
      */
     public void setPermissionsToSelectedProject() {
-
+        java.awt.EventQueue.invokeLater(() -> {
+            new PermissionWindowView(this.view.getSelectedProject());
+            this.view.dispose();
+        });
+        this.view.setVisible(true);
     }
 
     /**

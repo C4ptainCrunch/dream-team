@@ -38,9 +38,11 @@ public class EditorView extends JFrame {
     public EditorView(Diagram diagram) {
         TikzGraph graph = diagram.getGraph();
         this.diagram = diagram;
+        System.out.println("GOT DIAGRAM");
         this.controller = new EditorController(this, diagram);
-
+        System.out.println("GOT CONTROLLER");
         this.canvasView = new CanvasView(this, graph);
+        System.out.println("GOT CANVAS VIEW");
         this.sourceView = new SourceView(this, graph);
         this.menuView = new MenuView(this, diagram);
         this.toolBoxView = new ToolBoxView();
@@ -56,7 +58,7 @@ public class EditorView extends JFrame {
             public void windowClosing(WindowEvent windowEvent) {
                 menuView.saveAndQuit();
                 super.windowClosing(windowEvent);
-            }   
+            }
         });
         this.controller.setTitle();
 
@@ -76,6 +78,26 @@ public class EditorView extends JFrame {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setVisible(true);
         canvasView.repaint();
+    }
+
+    public CanvasView getCanvasView() {
+        return canvasView;
+    }
+
+    public SourceView getSourceView() {
+        return sourceView;
+    }
+
+    public MenuView getMenuView() {
+        return menuView;
+    }
+
+    public ToolBoxView getToolBoxView() {
+        return toolBoxView;
+    }
+
+    public Diagram getDiagram() {
+        return diagram;
     }
 
     public final Map<String, Object> getCurrentToolProperties() {

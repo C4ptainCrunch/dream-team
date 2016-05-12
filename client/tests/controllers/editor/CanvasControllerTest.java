@@ -38,8 +38,8 @@ public class CanvasControllerTest extends ClientTest{
         diagram = new Diagram("slt", project);
         parentView = new EditorView(diagram);
         testedGraph = diagram.getGraph();
-        view = new CanvasView(parentView, testedGraph);
-        controller = new CanvasController(view, testedGraph);
+        view = parentView.getCanvasView();
+        controller = view.getController();
     }
 
     private List<TikzComponent> drawablesToComponents(List<DrawableTikzComponent> drawables){

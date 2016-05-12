@@ -2,6 +2,7 @@ package controllers.management;
 
 import misc.logic.CloudLogic;
 import models.project.Project;
+import utils.RecentProjects;
 import views.editor.SyncModeSelectionView;
 import views.management.CloudManagementView;
 import views.management.FileChooseView;
@@ -40,13 +41,17 @@ public class CloudManagementController {
         }
         try {
             Path localZip = CloudLogic.getLocalCopy(project);
+
             ImportProjectSelectorView view = new ImportProjectSelectorView(localZip);
             FileChooseView choose = new FileChooseView("Save local copy", JFileChooser.FILES_AND_DIRECTORIES);
             choose.setFileRestriction("CreaTikz files","crea");
             choose.setSelectedFile(new File(project.getName()));
             File destination = choose.ask();
+
             if(destination != null) {
                 Files.move(localZip, destination.toPath());
+                RecentProjects.addProject(new Project(destination.toPath()));
+                this.view.getParentView().refresh();
             }
         } catch (IOException e) {
             e.printStackTrace();

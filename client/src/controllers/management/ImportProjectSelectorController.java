@@ -8,4 +8,11 @@ public class ImportProjectSelectorController {
     public ImportProjectSelectorController(ImportProjectSelectorView view) {
         this.view = view;
     }
+
+    public void ok() {
+    }
+
+    public void all() {
+        this.view.dispose();
+    }
 }

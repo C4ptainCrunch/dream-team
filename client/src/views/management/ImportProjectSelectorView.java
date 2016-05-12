@@ -4,20 +4,24 @@ import models.project.Project;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Vector;
+import java.util.*;
+import java.util.List;
 
 public class ImportProjectSelectorView extends JDialog {
 
-    private ImportProjectSelectorController contoller;
+    private ImportProjectSelectorController controller;
     private Vector diagramNames;
     private Project currentProject;
     private JList diagramList;
+    private JButton okButton;
 
 
     public ImportProjectSelectorView(Path pathToProject) throws IOException {
-        this.contoller = new ImportProjectSelectorController(this);
+        this.controller = new ImportProjectSelectorController(this);
         this.currentProject = new Project(pathToProject);
         this.diagramNames = new Vector<>(currentProject.getDiagramNames());
         this.setSize(new Dimension(400, 300));
@@ -29,8 +33,10 @@ public class ImportProjectSelectorView extends JDialog {
         this.setPreferredSize(new Dimension(400, 250));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
+        this.setModal(true);
 
         createDiagramsList();
+        createNewDiagramDialog();
 
         this.pack();
         this.setVisible(true);
@@ -40,7 +46,7 @@ public class ImportProjectSelectorView extends JDialog {
         JPanel diagramPanel = new JPanel();
 
         this.diagramList = new JList(this.diagramNames);
-        this.diagramList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.diagramList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         this.diagramList.setLayoutOrientation(JList.VERTICAL);
         this.diagramList.setVisibleRowCount(-1);
         this.diagramList.setSelectedIndex(0);
@@ -50,5 +56,25 @@ public class ImportProjectSelectorView extends JDialog {
 
         diagramPanel.add(listScroller);
         this.add(diagramPanel, BorderLayout.NORTH);
+    }
+
+    private void createNewDiagramDialog() {
+        JPanel buttonPanel = new JPanel();
+
+        this.okButton = new JButton("Selection");
+        this.getRootPane().setDefaultButton(this.okButton);
+        okButton.addActionListener(e -> controller.ok());
+
+        JButton all = new JButton("All");
+        okButton.addActionListener(e -> controller.all());
+
+        buttonPanel.add(this.okButton);
+        buttonPanel.add(all);
+        this.add(buttonPanel, BorderLayout.CENTER);
+    }
+
+    public Set<String> getSelection() {
+        List<String> selection = this.diagramList.getSelectedValuesList();
+        return new HashSet<>(selection);
     }
 }

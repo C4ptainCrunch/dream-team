@@ -49,7 +49,7 @@ public class CloudLogic {
     public static Path getLocalCopy(models.databaseModels.Project project) throws IOException {
         Response r = RequestBuilder.get("/project/" + project.getUid()).invoke();
         if(r.getStatus() != 200) {
-            throw new IOException("Error while downloading project");
+            throw new IOException("Error while downloading project :" + r.getStatus());
         }
         InputStream is = r.readEntity(InputStream.class);
         Path tmp = File.createTempFile("local-copy", ".crea").toPath();

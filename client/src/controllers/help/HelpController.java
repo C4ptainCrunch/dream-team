@@ -92,7 +92,7 @@ class Filewalker {
         List<String> children = new ArrayList<>();
 
         String root = URLDecoder.decode(HelpController.class.getClassLoader().getResource(path).getFile());
-        int pos = root.lastIndexOf("/");
+        int pos = root.lastIndexOf('/');
         root = root.substring(pos + 1);
         DefaultMutableTreeNode out = new DefaultMutableTreeNode(root);
 

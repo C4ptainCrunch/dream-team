@@ -26,7 +26,7 @@ public class DiagramManagementController {
      * @param newName Name given in a text box for a new diagram
      */
     public void openDiagram(String selectedValue, String newName) {
-        if(selectedValue == "Create new diagram") {
+        if(selectedValue.equals("Create new diagram")) {
             if (newName.equals("") ){
                 this.view.showAlert("Please set a name for your diagram");
                         // TO DO: move to constants when Jerome's branch works.

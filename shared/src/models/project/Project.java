@@ -144,8 +144,8 @@ public class Project extends Observable implements Comparable<Project>{
                 for (Path file : stream) {
                     String name = file.getFileName().toString();
                     if (!name.equals("metadata.properties")){
-                        if (name.indexOf(".") > 0) {
-                            name = name.substring(0, name.lastIndexOf("."));
+                        if (name.indexOf('.') > 0) {
+                            name = name.substring(0, name.lastIndexOf('.'));
                         }
                         names.add(name);
                     }

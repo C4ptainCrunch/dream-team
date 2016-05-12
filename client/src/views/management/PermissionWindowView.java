@@ -19,7 +19,7 @@ public class PermissionWindowView extends JDialog {
     private JButton userPermsButton;
 
     public PermissionWindowView(Project project) {
-        this.controller = new PermissionWindowController(this);
+        this.controller = new PermissionWindowController(this, project);
         this.project = project;
         this.setSize(new Dimension(400, 300));
         this.render();
@@ -51,7 +51,6 @@ public class PermissionWindowView extends JDialog {
         this.defaultPermsButton = new JButton("Set default perms");
         this.defaultPermsButton.addActionListener(
                 e -> controller.setDefaultPermissions(
-                        this.project,
                         defaultRead.isSelected(),
                         defaultWrite.isSelected())
                 );

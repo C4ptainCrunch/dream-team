@@ -11,10 +11,7 @@ import javax.swing.*;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -73,5 +70,21 @@ public class CloudLogic {
         }
         logger.fine("Downloading project " + project.getUid());
         return CloudLogic.getLocalCopy(project);
+    }
+
+    public static boolean AskForMerge(Project p) throws FileNotFoundException {
+        InputStream stream = new FileInputStream(p.getPath().toFile());
+        Response r = RequestBuilder
+                .put("/project/checkConflicts", stream, MediaType.APPLICATION_OCTET_STREAM)
+                .invoke();
+        return r.readEntity(Boolean.class);
+    }
+
+    public static boolean Merge(Project p, String policy) throws FileNotFoundException {
+        InputStream stream = new FileInputStream(p.getPath().toFile());
+        Response r = RequestBuilder
+                .put("/project/update/" + policy, stream, MediaType.APPLICATION_OCTET_STREAM)
+                .invoke();
+        return r.getStatus() == 200;
     }
 }

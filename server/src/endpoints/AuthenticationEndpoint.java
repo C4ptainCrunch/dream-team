@@ -6,15 +6,15 @@ import java.util.Map;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
+import database.DAOFactorySingleton;
 import middleware.Secured;
 import models.databaseModels.User;
 import utils.TokenCreator;
-import database.DAOFactory;
 import database.UsersDAO;
 
 @Path("/authentication")
 public class AuthenticationEndpoint {
-    UsersDAO usersDAO = DAOFactory.getInstance().getUsersDAO();
+    UsersDAO usersDAO = DAOFactorySingleton.getInstance().getUsersDAO();
     final static Map<String, String> tokens = new HashMap<>();
 
     @POST

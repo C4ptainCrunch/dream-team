@@ -2,6 +2,7 @@ package database;
 
 import constants.Database;
 import models.databaseModels.Project;
+import models.databaseModels.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,23 +23,30 @@ public class ProjectsDAOTest extends ServerTest {
     private final boolean write_default = false;
     private final boolean read_default = true;
     private final String name = "project";
+    private final String username = "c4";
 
     private ProjectsDAO dao;
-    private DAOFactory daoFactory;
+    private DAOFactorySingleton daoFactory;
     private Project project;
+    private UsersDAO usersDAO;
+    private User testUser;
 
     @Before
     public void setUp() throws Exception {
         CreateDatabase.createDatabaseIfDoesntExists();
-        this.daoFactory = DAOFactory.getInstance();
-        project = new Project(project_uid, user_id, path, last_modification, write_default, read_default, name);
+        this.daoFactory = DAOFactorySingleton.getInstance();
+        project = new Project(project_uid, user_id, path, last_modification, write_default, read_default, name, username);
         this.dao = daoFactory.getProjectDAO();
+        this.usersDAO = this.daoFactory.getUsersDAO();
+        this.testUser = new User(user_id,username,"Test","User","testUser@gmail.com");
+        this.usersDAO.create(this.testUser);
         this.dao.create(project);
     }
 
     @After
     public void tearDown() throws Exception {
         this.dao.deleteProject(project_uid);
+        this.usersDAO.deleteUser(this.testUser);
         /* To delete dirs made by the tests (because db creation depends on the actual path) */
         File db = new File(Database.DB_FILE);
         db.delete();

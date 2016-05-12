@@ -17,15 +17,15 @@ import utils.ServerTest;
 
 public class UsersDAOTest extends ServerTest {
 
-    private DAOFactory daoFactory;
+    private DAOFactorySingleton daoFactorySingleton;
     private UsersDAO usersDAO;
     private User testUser;
 
     @Before
     public void setup() throws Exception {
         CreateDatabase.createDatabaseIfDoesntExists();
-        this.daoFactory = DAOFactory.getInstance();
-        this.usersDAO = this.daoFactory.getUsersDAO();
+        this.daoFactorySingleton = DAOFactorySingleton.getInstance();
+        this.usersDAO = this.daoFactorySingleton.getUsersDAO();
         this.testUser = new User(0,"testUser","Test","User","testUser@gmail.com");
         this.usersDAO.create(this.testUser);
 

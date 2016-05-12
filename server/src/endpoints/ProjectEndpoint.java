@@ -201,8 +201,29 @@ public class ProjectEndpoint {
         } else {
             permissionsDAO.create(perm);
         }
+        return Response.ok().build();
     }
 
+    @GET
+    @Secured
+    @Path("/list_permissions/{projectUid}")
+    public GenericEntity<List<Permissions>> listPermissions(@PathParam("projectUid") String projectUid,
+                                                            @Context SecurityContext securityContext) throws SQLException {
+        String username = securityContext.getUserPrincipal().getName();
+        User user = this.usersDAO.findByUsername(username);
+
+        Project dbProject = this.projectsDAO.findByUid(projectUid);
+
+        if(dbProject == null){
+            throw new NotFoundException("Project not found");
+        }
+        if(!hasReadPerm(dbProject, user)){
+            throw new NotAuthorizedException("You can't read this project");
+        }
+
+        List<Permissions> permissions = permissionsDAO.findAllPermissions(projectUid);
+        return new  GenericEntity<List<Permissions>> (permissions) {};
+    }
 
     private boolean hasWritePerm(Project project, User user) throws SQLException {
         if(user.getId() == project.getUserID()){

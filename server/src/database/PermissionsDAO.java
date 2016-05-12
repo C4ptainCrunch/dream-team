@@ -4,9 +4,12 @@ import models.databaseModels.Permissions;
 import utils.Log;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import static database.DAOUtilities.initializationPreparedRequest;
+import static database.DAOUtilities.mapPermissions;
 import static database.DAOUtilities.silentClosures;
 
 class PermissionsRequests {
@@ -14,6 +17,7 @@ class PermissionsRequests {
     public static final String SQL_SELECT_PERMISSIONS = "SELECT * FROM Permissions WHERE project_uid = ? AND user_id = ? ;";
     public static final String SQL_CHANGE_PERMISSIONS = "UPDATE Permissions SET read_perm = ?, write_perm = ? WHERE project_uid = ? AND user_id = ? ;";
     public static final String SQL_PERMISSINOS_DELETE = "DELETE FROM Permissions WHERE project_uid = ? AND user_id = ? ;";
+    public static final String SQL_GET_BY_PROJECT = "SELECT * from Permissions WHERE project_uid = ?;";
 }
 
 public class PermissionsDAO {
@@ -65,5 +69,21 @@ public class PermissionsDAO {
         if (status == 0) {
             throw  new  Exception(String.format("Failed to delete permissions for User %d in Project %d", user_id, project_uid));
         }
+    }
+
+    public List<Permissions> findAllPermissions(String projectUid) throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        ArrayList<Permissions> permissions = new ArrayList<>();
+        try {
+            resultSet = DAOUtilities.executeQuery(daoFactorySingleton, connection, preparedStatement, resultSet, PermissionsRequests.SQL_GET_BY_PROJECT, projectUid);
+            while (resultSet.next()) {
+                permissions.add(mapPermissions(resultSet));
+            }
+        } finally {
+            silentClosures(resultSet, preparedStatement, connection);
+        }
+        return permissions;
     }
 }

@@ -1,10 +1,7 @@
 package views.accounts;
 
 import java.awt.*;
-
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-
 import constants.GUI.LoginWindow;
 import controllers.accounts.LoginWindowController;
 
@@ -16,7 +13,6 @@ public class LoginWindowView extends JFrame {
 
     private LoginWindowController controller = new LoginWindowController(this);
     private JPanel loginWindowPanel;
-    private GridBagConstraints constraints;
     private JTextField usernameText;
     private JTextField passwordText;
 
@@ -34,13 +30,11 @@ public class LoginWindowView extends JFrame {
         this.setTitle("TikzCreator : Login or Sign Up");
 
         this.loginWindowPanel = new JPanel();
-        this.loginWindowPanel.setLayout(new GridBagLayout());
-        this.constraints = new GridBagConstraints();
-        this.constraints.fill = GridBagConstraints.HORIZONTAL;
+        this.loginWindowPanel.setLayout(new BoxLayout(this.loginWindowPanel,BoxLayout.Y_AXIS));
 
+        createFirstButtonsPanel();
         createLoginInfoPanel();
-        this.loginWindowPanel.setBorder(new LineBorder(Color.GRAY));
-        createButtonsPanel();
+        createLoginButtonPanel();
 
         this.add(this.loginWindowPanel);
 
@@ -82,41 +76,31 @@ public class LoginWindowView extends JFrame {
     }
 
     private void createUsernamePanel() {
-        JLabel usernameLabel = new JLabel("Username: ");
-        this.constraints.gridx = 0;
-        this.constraints.gridy = 0;
-        this.constraints.gridwidth = 1;
-        this.loginWindowPanel.add(usernameLabel, this.constraints);
+        JPanel usernamePanel = new JPanel();
+        usernamePanel.setLayout(new BoxLayout(usernamePanel,BoxLayout.X_AXIS));
 
+        JLabel usernameLabel = new JLabel("Username: ");
         this.usernameText = new JTextField(20);
-        this.constraints.gridx = 1;
-        this.constraints.gridy = 0;
-        this.constraints.gridwidth = 2;
-        this.loginWindowPanel.add(this.usernameText, this.constraints);
+        usernamePanel.add(usernameLabel);
+        usernamePanel.add(this.usernameText);
+
+        this.loginWindowPanel.add(usernamePanel);
     }
 
     private void createPasswordPanel() {
-        JLabel passwordLabel = new JLabel("Password: ");
-        this.constraints.gridx = 0;
-        this.constraints.gridy = 1;
-        this.constraints.gridwidth = 1;
-        this.loginWindowPanel.add(passwordLabel, this.constraints);
+        JPanel passwordPanel = new JPanel();
+        passwordPanel.setLayout(new BoxLayout(passwordPanel,BoxLayout.X_AXIS));
 
+        JLabel passwordLabel = new JLabel("Password: ");
         this.passwordText = new JPasswordField(20);
-        this.constraints.gridx = 1;
-        this.constraints.gridy = 1;
-        this.constraints.gridwidth = 2;
-        this.loginWindowPanel.add(this.passwordText, this.constraints);
+        passwordPanel.add(passwordLabel);
+        passwordPanel.add(this.passwordText);
+
+        this.loginWindowPanel.add(passwordPanel);
     }
 
-    private void createButtonsPanel() {
+    private void createFirstButtonsPanel() {
         JPanel buttons = new JPanel();
-
-        JButton login = new JButton(LoginWindow.LOGIN_BUTTON);
-        login.addActionListener(e -> controller.login(this.usernameText.getText(),
-                                                      this.passwordText.getText()));
-        this.getRootPane().setDefaultButton(login);
-        buttons.add(login);
 
         JButton signUp = new JButton(LoginWindow.SIGNUP_BUTTON);
         signUp.addActionListener(e -> controller.signUp());
@@ -127,5 +111,18 @@ public class LoginWindowView extends JFrame {
         buttons.add(tokenActivation);
 
         this.loginWindowPanel.add(buttons);
+    }
+
+    private void createLoginButtonPanel() {
+
+        JPanel buttons = new JPanel();
+
+        JButton login = new JButton(LoginWindow.LOGIN_BUTTON);
+        login.addActionListener(e -> controller.login(this.usernameText.getText(),
+                this.passwordText.getText()));
+        this.getRootPane().setDefaultButton(login);
+        buttons.add(login);
+        this.loginWindowPanel.add(buttons);
+
     }
 }

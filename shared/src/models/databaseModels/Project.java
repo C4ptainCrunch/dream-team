@@ -80,8 +80,4 @@ public class Project {
     public void setUserID(int userID) {
         this.userID = userID;
     }
-
-    public boolean hasWritePerm(User user){
-        return true; //TODO
-    }
 }

@@ -127,4 +127,8 @@ public class DAOFactory {
     public ProjectsDAO getProjectDAO() {
         return new ProjectsDAO(this);
     }
+
+    public PermissionsDAO getPermissionsDAO() {
+        return new PermissionsDAO(this);
+    }
 }

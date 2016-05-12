@@ -1,20 +1,17 @@
 package views.management;
 
-import constants.GUI;
 import controllers.management.CloudManagementController;
-import misc.utils.CloudHelper;
-import models.project.Project;
+import misc.logic.CloudLogic;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Collections;
-import java.util.Vector;
+import java.util.List;
 
 public class CloudManagementView extends JPanel {
 
     private ManagementView parentView;
     private CloudManagementController controller = new CloudManagementController();
-    private JList<String> projectChooser;
+    private JList<models.databaseModels.Project> projectChooser;
     private JTextPane infoPanel;
     private JPanel chooserPanel;
     private JPanel buttons;
@@ -44,9 +41,7 @@ public class CloudManagementView extends JPanel {
         this.chooserPanel.setPreferredSize(new Dimension(300,100));
         this.chooserPanel.setLayout(new BorderLayout());
 
-        Vector<String> sharedProjects = CloudHelper.getSharedProjects();
-
-        this.projectChooser = new JList<>(sharedProjects);
+        this.projectChooser = new JList<>(this.getListModel());
         this.projectChooser.addListSelectionListener(e -> controller.dropdownSelected(projectChooser.getSelectedValue()));
         this.projectChooser.setSelectedIndex(0);
 
@@ -64,6 +59,7 @@ public class CloudManagementView extends JPanel {
         this.infoPanel.setDisabledTextColor(Color.BLACK);
         this.infoPanel.setPreferredSize(new Dimension(100,100));
     }
+
 
     private void createButtonsPanel() {
         // TODO: Use constants!
@@ -83,4 +79,16 @@ public class CloudManagementView extends JPanel {
         this.parentView.dispose();
     }
 
+    public void refresh() {
+        this.projectChooser.setModel(this.getListModel());
+    }
+
+    private DefaultListModel getListModel(){
+        DefaultListModel model = new DefaultListModel();
+        List<models.databaseModels.Project> projectsList = CloudLogic.getSharedProjects();
+        if(projectsList != null) {
+            projectsList.forEach(model::addElement);
+        }
+        return model;
+    }
 }

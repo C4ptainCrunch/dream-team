@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.logging.Logger;
 
 
-
 /**
  * Implementation of a Data Access Objects (DAO) Factory, which will be used to let the server communicate with the database
  */
@@ -53,5 +52,13 @@ public class DAOFactory {
      */
     public UsersDAO getUsersDAO() {
         return new UsersDAO(this);
+    }
+
+    public ProjectsDAO getProjectDAO() {
+        return new ProjectsDAO(this);
+    }
+
+    public PermissionsDAO getPermissionsDAO() {
+        return new PermissionsDAO(this);
     }
 }

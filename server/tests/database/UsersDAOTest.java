@@ -3,6 +3,7 @@ package database;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.sql.SQLException;
 
 import models.databaseModels.User;
 
@@ -46,20 +47,20 @@ public class UsersDAOTest extends ServerTest {
 
 
     @Test
-    public void testRetrieveUsers() {
+    public void testRetrieveUsers() throws SQLException {
         User resultUser = this.usersDAO.findByUsername("testUser");
         assertNotNull(resultUser);
         assertEquals(this.testUser.getUsername(),resultUser.getUsername());
     }
 
     @Test
-    public void testActivateUser() {
+    public void testActivateUser() throws SQLException {
         this.usersDAO.activateUser(this.testUser.getUsername());
         assertTrue(this.usersDAO.isActivated(this.testUser));
     }
 
     @Test
-    public void testSetPassword() {
+    public void testSetPassword() throws SQLException {
         this.usersDAO.setPasswordToUser(this.testUser, "pw");
         User user = this.usersDAO.findByUsernameAndPassword("testUser", "pw");
         assertNotNull(user);

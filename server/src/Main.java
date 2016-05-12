@@ -3,7 +3,6 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.core.UriBuilder;
 
-import database.CreateDatabase;
 import middleware.AuthenticationFilter;
 
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
@@ -12,7 +11,9 @@ import org.glassfish.jersey.server.ResourceConfig;
 import utils.Log;
 import constants.Network;
 import constants.ServerPropertiesLoader;
+import database.CreateDatabase;
 import endpoints.AuthenticationEndpoint;
+import endpoints.ProjectEndpoint;
 import endpoints.UserEndpoint;
 
 public class Main {
@@ -25,6 +26,7 @@ public class Main {
         URI baseUri = UriBuilder.fromUri(Network.HOST.HOSTNAME+"/").port(Network.HOST.PORT).build();
         ResourceConfig config = new ResourceConfig(
                 UserEndpoint.class,
+                ProjectEndpoint.class,
                 AuthenticationEndpoint.class,
                 AuthenticationFilter.class
         );

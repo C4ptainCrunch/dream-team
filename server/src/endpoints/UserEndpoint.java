@@ -1,10 +1,12 @@
 package endpoints;
 
+import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import javax.mail.MessagingException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import middleware.Secured;
@@ -25,7 +27,7 @@ public class UserEndpoint {
     @Secured
     @Path("/get")
     @Produces("application/xml")
-    public User getUserData(@Context SecurityContext securityContext){
+    public User getUserData(@Context SecurityContext securityContext) throws SQLException {
         String username = securityContext.getUserPrincipal().getName();
         User user = this.usersDAO.findByUsername(username);
         if(user == null){
@@ -37,7 +39,7 @@ public class UserEndpoint {
     @POST
     @Path("/activate/{username}")
     @Produces("text/plain")
-    public String validateToken(@PathParam("username") String username, @FormParam("token") String token){
+    public String validateToken(@PathParam("username") String username, @FormParam("token") String token) throws SQLException {
         if(this.usersDAO.getTokenOfUser(username).equals(token)){
             this.usersDAO.activateUser(username);
             return Network.Token.TOKEN_OK;
@@ -48,24 +50,26 @@ public class UserEndpoint {
 
     @POST
     @Path("/signup/{user}")
-    @Produces("text/plain")
-    public String signUp(@FormParam("username") String username,
-                         @FormParam("firstname") String firstname,
-                         @FormParam("lastname") String lastname,
-                         @FormParam("email") String email,
-                         @FormParam("password") String password){
+    public Response signUp(@FormParam("username") String username,
+                           @FormParam("firstname") String firstname,
+                           @FormParam("lastname") String lastname,
+                           @FormParam("email") String email,
+                           @FormParam("password") String password) throws SQLException {
         User user = new User(username, firstname, lastname, email);
-        boolean failed = this.usersDAO.create(user);
-        if (!failed){
+        try {
+            this.usersDAO.create(user);
             this.usersDAO.setPasswordToUser(user, password);
-            try{
-                ConfirmationEmailSender.send(email,this.usersDAO.getTokenOfUser(username));
+            try {
+                ConfirmationEmailSender.send(email, this.usersDAO.getTokenOfUser(username));
             } catch (MessagingException ex) {
                 logger.info("Email sending to " + email + " failed.");
             }
-            return Network.Signup.SIGN_UP_OK;
+            return Response.ok().build();
+        } catch (Exception e){
+            logger.warning("Error while signup");
+            e.printStackTrace();
+            throw new ServerErrorException("Error while signup", 500);
         }
-        return Network.Signup.SIGN_UP_FAILED;
     }
 
     @POST
@@ -75,7 +79,7 @@ public class UserEndpoint {
     @Consumes("application/xml")
     public String editUser(
             User user,
-            @Context SecurityContext securityContext) {
+            @Context SecurityContext securityContext) throws SQLException {
         String username = securityContext.getUserPrincipal().getName();
         if(!user.getUsername().equals(username)){
             throw new BadRequestException("User username isn't the same as the db username");

@@ -1,7 +1,7 @@
 server/config.ini
 assets/launcher/CreaTikz.desktop
 server/emailpassword.ini
-
+server/projects/
 *.class
 zip/
 jar/

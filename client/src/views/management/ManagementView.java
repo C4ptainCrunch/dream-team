@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 
 public class ManagementView extends JFrame {
     private final ManagementController controller;
+    ProjectManagementView pmv;
+    CloudManagementView cmv;
 
     public ManagementView() {
         this.controller = new ManagementController(this);
@@ -56,11 +58,16 @@ public class ManagementView extends JFrame {
     public void render() {
         this.addMenubar();
 
-        ProjectManagementView pmv = new ProjectManagementView(this);
-        CloudManagementView cmv = new CloudManagementView(this);
+        this.pmv = new ProjectManagementView(this);
+        this.cmv = new CloudManagementView(this);
 
         this.add(pmv);
         this.add(cmv);
 
+    }
+
+    public void refresh() {
+        this.pmv.refresh();
+        this.cmv.refresh();
     }
 }

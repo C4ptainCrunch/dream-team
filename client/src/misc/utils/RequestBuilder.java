@@ -1,13 +1,15 @@
 package misc.utils;
 
 import constants.Network;
+import org.glassfish.jersey.media.multipart.MultiPart;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import utils.Dirs;
 
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,9 +19,8 @@ public class RequestBuilder {
     private static String token = getDiskToken();
 
     public static Invocation get(String path) {
-        return ClientBuilder.newClient()
-                .target(Network.HOST.COMPLETE_HOSTNAME).path(path)
-                .request().header("Authorization", "Bearer " + token)
+        return getClient().path(path).request()
+                .header("Authorization", "Bearer " + token)
                 .buildGet();
     }
 
@@ -28,12 +29,22 @@ public class RequestBuilder {
     }
 
     public static Invocation post(String path, Entity entity) {
-        return ClientBuilder.newClient()
-                .target(Network.HOST.COMPLETE_HOSTNAME).path(path)
-                .request().header("Authorization", "Bearer " + token)
+        return getClient().path(path).request()
+                .header("Authorization", "Bearer " + token)
                 .buildPost(entity);
     }
 
+    public static Invocation put(String path, InputStream stream, String type) {
+        return  getClient().path(path).request()
+                .header("Authorization", "Bearer " + token)
+                .buildPut(Entity.entity(stream, type));
+    }
+
+    private static WebTarget getClient(){
+        return  ClientBuilder.newClient()
+                .target(Network.HOST.COMPLETE_HOSTNAME)
+                .register(MultiPartFeature.class);
+    }
 
     private static String getDiskToken() {
         try {

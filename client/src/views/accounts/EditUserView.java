@@ -1,15 +1,10 @@
 package views.accounts;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
-import javax.swing.*;
-
-import constants.GUI;
 import controllers.accounts.EditUserController;
 import models.databaseModels.User;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class EditUserView extends JFrame{
 

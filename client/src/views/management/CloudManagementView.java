@@ -2,7 +2,6 @@ package views.management;
 
 import controllers.management.CloudManagementController;
 import misc.logic.CloudLogic;
-import models.project.Project;
 
 import javax.swing.*;
 import java.awt.*;

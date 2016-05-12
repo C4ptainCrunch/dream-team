@@ -1,24 +1,20 @@
 package controllers.management;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.FileSystemNotFoundException;
-import java.util.logging.Logger;
-
-import javax.swing.*;
-
+import constants.Errors;
+import constants.GUI.ProjectManagement;
 import misc.logic.CloudLogic;
-import models.project.Diagram;
 import models.project.Project;
 import utils.Log;
 import utils.RecentProjects;
-import views.editor.EditorView;
 import views.management.DiagramManagementView;
 import views.management.FileChooseView;
 import views.management.ProjectManagementView;
-import constants.Errors;
-import constants.GUI.ProjectManagement;
+
+import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystemNotFoundException;
+import java.util.logging.Logger;
 
 /**
  * Controller for the ProjectManagementView

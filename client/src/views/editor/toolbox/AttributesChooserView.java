@@ -78,8 +78,7 @@ public class AttributesChooserView extends JPanel {
         color_chooser.addMouseListener(new MouseInputAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (SwingUtilities.isRightMouseButton(e)) {
-                } else {
+                if (!SwingUtilities.isRightMouseButton(e)) {
                     controller.chooseColor();
                 }
             }

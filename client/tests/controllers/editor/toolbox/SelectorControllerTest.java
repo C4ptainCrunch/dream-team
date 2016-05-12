@@ -5,7 +5,6 @@ import models.ToolModel;
 import models.tikz.TikzCircle;
 import models.tikz.TikzComponent;
 import models.tikz.TikzNode;
-import models.tikz.TikzRectangle;
 import org.junit.Before;
 import org.junit.Test;
 import views.editor.toolbox.SelectorView;
@@ -13,7 +12,7 @@ import views.editor.toolbox.ToolView;
 
 import java.awt.*;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by jhellinckx on 12/05/16.

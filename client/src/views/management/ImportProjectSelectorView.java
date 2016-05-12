@@ -1,15 +1,16 @@
 package views.management;
+
 import controllers.management.ImportProjectSelectorController;
 import models.project.Project;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.Vector;
 
 public class ImportProjectSelectorView extends JDialog {
 

@@ -1,21 +1,6 @@
 package controllers.editor;
 
-import static javax.swing.JOptionPane.showMessageDialog;
-
-import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.logging.Logger;
-
-import javax.swing.*;
-
+import constants.Errors;
 import misc.logic.CloudLogic;
 import models.project.Diagram;
 import models.project.Project;
@@ -26,8 +11,24 @@ import views.editor.EditorView;
 import views.editor.MenuView;
 import views.editor.SyncModeSelectionView;
 import views.help.HelpView;
-import views.management.*;
-import constants.Errors;
+import views.management.DiagramManagementView;
+import views.management.FileChooseView;
+import views.management.HistoryView;
+import views.management.ManagementView;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.logging.Logger;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * Implementation of the Controller (from the MVC architectural pattern) for the
@@ -166,8 +167,7 @@ public class MenuController implements Observer {
         boolean shouldQuit = true;
         if(diagram.isTemporary()){
             int r = JOptionPane.showConfirmDialog(this.view, "Would you like to save your diagram ?");
-            if(r == JOptionPane.NO_OPTION){
-            } else if (r == JOptionPane.CANCEL_OPTION){
+            if (r == JOptionPane.CANCEL_OPTION){
                 shouldQuit = false;
             } else if (r == JOptionPane.YES_OPTION) {
                 save();

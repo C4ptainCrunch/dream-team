@@ -1,17 +1,12 @@
 package views.management;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.Vector;
+import controllers.management.DiagramManagementController;
+import models.project.Project;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import models.project.Project;
-import controllers.management.DiagramManagementController;
+import java.awt.*;
+import java.io.IOException;
+import java.util.Vector;
 
 /**
  * JDialog that allows the user to either choose an existing diagram in a previously

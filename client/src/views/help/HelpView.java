@@ -1,11 +1,10 @@
 package views.help;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.tree.DefaultTreeCellRenderer;
-
-import org.pegdown.PegDownProcessor;
 import controllers.help.HelpController;
+import org.pegdown.PegDownProcessor;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Implementation of the View (from the MVC architectural pattern) for the Help.

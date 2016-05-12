@@ -5,7 +5,6 @@ import models.project.Project;
 import utils.Dirs;
 import utils.Log;
 import utils.RecentProjects;
-import views.editor.SyncModeSelectionView;
 import views.management.CloudManagementView;
 import views.management.DiagramManagementView;
 import views.management.FileChooseView;
@@ -16,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 /**

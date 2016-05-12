@@ -2,12 +2,9 @@ package misc.logic;
 
 import misc.utils.RequestBuilder;
 import models.project.Project;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import utils.Dirs;
 import utils.Log;
-import views.management.FileChooseView;
 
-import javax.swing.*;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

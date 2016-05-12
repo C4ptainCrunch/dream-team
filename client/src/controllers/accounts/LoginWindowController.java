@@ -1,20 +1,16 @@
 package controllers.accounts;
 
-import javax.swing.*;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
-
+import constants.Errors;
 import misc.utils.RequestBuilder;
 import utils.Log;
-import views.accounts.EditUserView;
 import views.accounts.LoginWindowView;
 import views.accounts.SignUpView;
 import views.accounts.TokenActivationView;
 import views.management.ManagementView;
-import views.management.ProjectManagementView;
-import constants.Errors;
-import constants.Network;
 
+import javax.swing.*;
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
 import java.util.logging.Logger;
 
 /**
@@ -34,7 +30,7 @@ public class LoginWindowController {
     public static boolean shouldSkipAuth() {
         Response r = RequestBuilder.get("/authentication/checktoken").invoke();
 
-        if(r.getStatus() == 200) {
+        if (r.getStatus() == 200) {
             logger.info("Token was good, skipping login");
             return true;
         } else {
@@ -55,18 +51,19 @@ public class LoginWindowController {
 
     /**
      * Launch the login process.
+     *
      * @param username The user's username
      * @param password The user's password
      */
     public void login(String username, String password) {
 
-        String token = getToken(username,password);
+        String token = getToken(username, password);
 
-        if(!token.trim().equals("")){
+        if (!token.trim().equals("")) {
             this.view.dispose();
             RequestBuilder.setToken(token);
             new ManagementView();
-        }else {
+        } else {
             JOptionPane.showMessageDialog(this.view, Errors.LOGIN_FAILED, Errors.ERROR, JOptionPane.ERROR_MESSAGE);
         }
     }

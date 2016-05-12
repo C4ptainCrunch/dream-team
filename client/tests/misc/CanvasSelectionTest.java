@@ -6,9 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by jhellinckx on 12/05/16.

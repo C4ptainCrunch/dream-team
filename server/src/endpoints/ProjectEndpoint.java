@@ -9,7 +9,6 @@ import middleware.Secured;
 import models.databaseModels.Permissions;
 import models.databaseModels.Project;
 import models.databaseModels.User;
-import org.glassfish.jersey.media.multipart.FormDataParam;
 import utils.ConflictResolver;
 import utils.Log;
 

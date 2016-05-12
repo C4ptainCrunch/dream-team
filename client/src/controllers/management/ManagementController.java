@@ -1,12 +1,10 @@
 package controllers.management;
 
 
-import constants.Errors;
-import constants.Network;
 import misc.utils.RequestBuilder;
+import models.databaseModels.User;
 import models.project.Diagram;
 import models.project.Project;
-import models.databaseModels.User;
 import utils.RecentProjects;
 import views.accounts.EditUserView;
 import views.accounts.LoginWindowView;

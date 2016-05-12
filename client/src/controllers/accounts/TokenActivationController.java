@@ -1,14 +1,12 @@
 package controllers.accounts;
 
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
+import constants.Network;
 import misc.utils.RequestBuilder;
-import models.NetworkRequest;
 import views.accounts.LoginWindowView;
 import views.accounts.TokenActivationView;
-import constants.Network;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
 
 /**
  * The controller related to the TokenActivationView.

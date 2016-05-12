@@ -18,6 +18,7 @@ import utils.PdfCompilationError;
 import utils.PdfRenderer;
 import views.editor.EditorView;
 import views.editor.MenuView;
+import views.editor.SyncModeSelectionView;
 import views.help.HelpView;
 import views.management.*;
 import constants.Errors;
@@ -169,8 +170,17 @@ public class MenuController implements Observer {
         });
     }
 
+    public String hasConflicts() {
+        // REQUEST IF THERE ARE CONFLICTS
+        return "FUSION";
+    }
+
     public void syncProject(){
-        System.out.println("SYNCING");
-        //TODO
+        String flag = hasConflicts();
+        if (flag.equals("OK")){
+            this.view.syncOKPopup();
+        } else {
+            new SyncModeSelectionView(flag);
+        }
     }
 }

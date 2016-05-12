@@ -206,9 +206,7 @@ public class ConflictResolver{
         Set<String> serverDiagramNames = serverProject.getDiagramNames();
         Boolean conflicts = checkListConflicts(localDiagramNames, serverDiagramNames, checkedDiagram);
         if(!conflicts){
-            System.out.println("Other clonfict");
             conflicts = checkListConflicts(serverDiagramNames, localDiagramNames, checkedDiagram);
-            System.out.println("AFter");
         }
         return conflicts;
     }
@@ -219,26 +217,17 @@ public class ConflictResolver{
             if(! checkedDiagram.contains(diagram)) {
                 if (otherDiagramList.contains(diagram)) {
                     update(localProject.getDiagram(diagram).getDiffs(), serverProject.getDiagram(diagram).getDiffs());
-                    System.out.println("Before check");
                     String conflict = checkDiagramHasConflict();
-                    System.out.println(conflict);
-                    System.out.println("After Check");
                     if (conflict.equals(ProjectConflicts.MERGE_HAS_CONFLICTS)) {
-                        System.out.println("Don't please");
                         conflicts = true;
                         break;
                     }
-                    System.out.println("Before add");
                     checkedDiagram.add(diagram);
-                    System.out.println("after add");
                 } else {
-                    System.out.println("beforeadd");
                     checkedDiagram.add(diagram);
-                    System.out.println("after add");
                 }
             }
         }
-        System.out.println(conflicts);
         return conflicts;
     }
 
@@ -253,9 +242,7 @@ public class ConflictResolver{
             if (differenceDiffsBaseLocal.size() == 0) {
                 return ProjectConflicts.NO_LOCAL_MODIFICATION;
             } else {
-                System.out.println("Before conflix index");
                 List<List<Integer>> hasConflict = getConflictsIndexes(differenceDiffsBaseLocal, differenceDiffsBaseServer,true);
-                System.out.println("After conflix index");
                 if(hasConflict.size() == 1){
                     return ProjectConflicts.MERGE_HAS_CONFLICTS;
                 }else{
@@ -332,7 +319,6 @@ public class ConflictResolver{
             List<String> localReferences = DiffParser.reference(localDiff.getPatch());
             for(String localReference : localReferences){
                 if (! checkedReferences.contains(localReference)){
-                    System.out.println("Before checkifreferenceisconflict");
                     Boolean hasConflict = checkIfReferenceIsConflict(server, localReference, conflictsReferences, serverConflictsIndexes, localConflictsIndexes, i, checkedReferences, checkOnly);
                     if(checkOnly && hasConflict){
                         List<List<Integer>> emptyList = new ArrayList<>();

@@ -168,4 +168,9 @@ public class MenuController implements Observer {
             }
         });
     }
+
+    public void syncProject(){
+        System.out.println("SYNCING");
+        //TODO
+    }
 }

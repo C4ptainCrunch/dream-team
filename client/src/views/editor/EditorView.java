@@ -44,12 +44,6 @@ public class EditorView extends JFrame {
         this.sourceView = new SourceView(this, graph);
         this.menuView = new MenuView(this, diagram);
         this.toolBoxView = new ToolBoxView();
-
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
-
-        this.setVisible(true);
-        canvasView.repaint();
     }
 
     /**
@@ -62,7 +56,7 @@ public class EditorView extends JFrame {
             public void windowClosing(WindowEvent windowEvent) {
                 menuView.saveAndQuit();
                 super.windowClosing(windowEvent);
-            }
+            }   
         });
         this.controller.setTitle();
 
@@ -79,6 +73,9 @@ public class EditorView extends JFrame {
         pane.add(this.sourceView, BorderLayout.EAST);
 
         this.setJMenuBar(menuView);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setVisible(true);
+        canvasView.repaint();
     }
 
     public final Map<String, Object> getCurrentToolProperties() {

@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 public class ConflictResolver{
     private final static Logger logger = Log.getLogger(ConflictResolver.class);
-    private List<Diff> baseDiffs = new ArrayList<>();
+    private List<Diff> baseDiffs;
     private List<Diff> localDiffs = new ArrayList<>();
     private List<Diff> serverDiffs = new ArrayList<>();
     private List<Diff> differenceDiffsBaseServer = new ArrayList<>();
@@ -23,30 +23,38 @@ public class ConflictResolver{
 
 
     public ConflictResolver(){
-
     }
 
     /**
      * Initializes the diffs lists to compare
-     * @param baseDiffFile
-     *          File containing the diffs of the original project
      * @param localDiffFile
      *          File containing the diffs of the local project
      * @param serverDiffFile
      *          File containing the diffs of the server project
      */
-    public void update(File baseDiffFile, File localDiffFile, File serverDiffFile){
+    public void update(File localDiffFile, File serverDiffFile){
         try{
-            baseDiffs = getDiffs(baseDiffFile);
             localDiffs = getDiffs(localDiffFile);
             serverDiffs = getDiffs(serverDiffFile);
+            constructBaseDiffs();
         }catch(ClassNotFoundException | IOException e){
             logger.severe("Error while reading diff file: " + e.toString());
         }
 
         differenceDiffsBaseServer = getDifferenceDiffs(baseDiffs, serverDiffs);
-
         differenceDiffsBaseLocal = getDifferenceDiffs(baseDiffs, localDiffs);
+
+    }
+
+    private void constructBaseDiffs(){
+        baseDiffs = new ArrayList<>();
+        for(int i = 0 ; i< Math.min(localDiffs.size(),serverDiffs.size());i++){
+            if(localDiffs.get(i).getPatch().equals(serverDiffs.get(i).getPatch())){
+                baseDiffs.add(localDiffs.get(i));
+            }else{
+                break;
+            }
+        }
     }
 
     /**

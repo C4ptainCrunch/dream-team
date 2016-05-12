@@ -23,7 +23,7 @@ class FactoryRequests {
             "activated INTEGER(1) NOT NULL,"+
             "password TEXT);";
     public static final String SQLITE_CREATE_TABLE_PROJECTS = "CREATE TABLE Projects("+
-            "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "uid TEXT NOT NULL PRIMARY KEY," +
             "user_id INTEGER NOT NULL," +
             "path VARCHAR(1023) NOT NULL UNIQUE," +
             "last_modification TEXT NOT NULL," +
@@ -31,13 +31,13 @@ class FactoryRequests {
             "default_perm_read INTEGER NOT NULL DEFAULT false," +
             "FOREIGN KEY(user_id) REFERENCES Users(id) ON UPDATE CASCADE ON DELETE CASCADE);";
     public static final String SQLITE_CREATE_TABLE_PERMISSIONS = "CREATE TABLE Permissions("+
-            "project_id INTEGER NOT NULL," +
+            "project_uid TEXT NOT NULL," +
             "user_id INTEGER NOT NULL," +
             "write_perm INTEGER NOT NULL," +
             "read_perm INTEGER NOT NULL," +
-            "FOREIGN KEY(project_id) REFERENCES Projects(id) ON UPDATE CASCADE ON DELETE CASCADE," +
+            "FOREIGN KEY(project_uid) REFERENCES Projects(uid) ON UPDATE CASCADE ON DELETE CASCADE," +
             "FOREIGN KEY(user_id) REFERENCES Users(id) ON UPDATE CASCADE ON DELETE CASCADE," +
-            "PRIMARY KEY (project_id, user_id));";
+            "PRIMARY KEY (project_uid, user_id));";
 }
 
 /**

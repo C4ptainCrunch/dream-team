@@ -50,7 +50,7 @@ public class ProjectEndpoint {
         Files.copy(project, tmpFile);
 
         models.project.Project p = new models.project.Project(tmpFile);
-        if (projectsDAO.findByID(p.getUid()) != null){
+        if (projectsDAO.findByUid(p.getUid()) != null){
             throw new BadRequestException("Project already exist");
         }
 
@@ -77,12 +77,13 @@ public class ProjectEndpoint {
         Files.copy(project, tmpFile);
 
         models.project.Project p = new models.project.Project(tmpFile);
-        if (projectsDAO.findByID(p.getUid()) != null){
+        if (projectsDAO.findByUid(p.getUid()) != null){
             throw new BadRequestException("Project does not exist");
         }
 
         Project dbProject = new Project(p);
         if(!dbProject.hasWritePerm(user)){
+            throw new NotAuthorizedException("You can't edit this project");
         }
 
         return Response.ok().build();

@@ -192,7 +192,7 @@ public class ProjectEndpoint {
         }
 
         if(user == null){
-            throw  new NotFoundException("this user doesn't exist")
+            throw  new NotFoundException("this user doesn't exist");
         }
 
         if(!hasReadPerm(dbProject, userEditor)){

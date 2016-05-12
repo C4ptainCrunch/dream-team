@@ -1,10 +1,12 @@
 package views.management;
 
 import controllers.management.UserPermissionWindowController;
+import models.databaseModels.Permissions;
 import models.databaseModels.Project;
 
 import javax.swing.*;
 import java.awt.*;
+import java.security.Permission;
 
 public class UserPermissionWindowView extends JDialog {
 
@@ -17,7 +19,7 @@ public class UserPermissionWindowView extends JDialog {
     private JButton permsButton;
 
     public UserPermissionWindowView(PermissionWindowView parentView, Project currentProject, String user) {
-        this.controller = new UserPermissionWindowController(this);
+        this.controller = new UserPermissionWindowController(this, currentProject, user);
         this.currentProject = currentProject;
         this.user = user;
         this.parentView = parentView;
@@ -38,8 +40,9 @@ public class UserPermissionWindowView extends JDialog {
 
     private void createPermsPanel() {
         this.permsPanel = new JPanel();
-        boolean readPerm = this.controller.getUserReadPerm();
-        boolean writePerm = this.controller.getUserWritePerm();
+        Permissions perms = this.controller.getUserPerms();
+        boolean readPerm = perms.isReadable();
+        boolean writePerm = perms.isWritable();
         JCheckBox read = new JCheckBox("Read permission", readPerm);
         JCheckBox write = new JCheckBox("Write permission", writePerm);
         this.permsPanel.add(read);
@@ -47,11 +50,7 @@ public class UserPermissionWindowView extends JDialog {
 
         this.permsButton = new JButton("Set permissions for project");
         this.permsButton.addActionListener(
-                e -> controller.setPermissions(
-                        this.currentProject,
-                        this.user,
-                        read.isSelected(),
-                        write.isSelected())
+                e -> controller.setPermissions(read.isSelected(), write.isSelected())
         );
 
         this.permsPanel.add(this.permsButton);

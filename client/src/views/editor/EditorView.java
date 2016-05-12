@@ -39,24 +39,10 @@ public class EditorView extends JFrame {
         TikzGraph graph = diagram.getGraph();
         this.diagram = diagram;
         this.controller = new EditorController(this, diagram);
-
         this.canvasView = new CanvasView(this, graph);
         this.sourceView = new SourceView(this, graph);
         this.menuView = new MenuView(this, diagram);
         this.toolBoxView = new ToolBoxView();
-
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent windowEvent) {
-                menuView.saveAndQuit();
-                super.windowClosing(windowEvent);
-            }
-        });
-
-        this.render();
-        this.setVisible(true);
-        canvasView.repaint();
     }
 
     /**
@@ -64,6 +50,13 @@ public class EditorView extends JFrame {
      * views that are contained within this view
      */
     public final void render() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                menuView.saveAndQuit();
+                super.windowClosing(windowEvent);
+            }
+        });
         this.controller.setTitle();
 
         DisplayMode gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
@@ -79,6 +72,29 @@ public class EditorView extends JFrame {
         pane.add(this.sourceView, BorderLayout.EAST);
 
         this.setJMenuBar(menuView);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setVisible(true);
+        canvasView.repaint();
+    }
+
+    public CanvasView getCanvasView() {
+        return canvasView;
+    }
+
+    public SourceView getSourceView() {
+        return sourceView;
+    }
+
+    public MenuView getMenuView() {
+        return menuView;
+    }
+
+    public ToolBoxView getToolBoxView() {
+        return toolBoxView;
+    }
+
+    public Diagram getDiagram() {
+        return diagram;
     }
 
     public final Map<String, Object> getCurrentToolProperties() {
